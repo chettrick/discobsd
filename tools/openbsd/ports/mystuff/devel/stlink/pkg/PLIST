@@ -1,0 +1,8 @@
+@comment $OpenBSD: PLIST,v$
+@bin bin/st-flash
+@bin bin/st-info
+@bin bin/st-term
+@bin bin/st-util
+share/doc/stlink/
+share/doc/stlink/README
+share/doc/stlink/tutorial.pdf

@@ -1,0 +1,75 @@
+@comment $OpenBSD: PLIST,v 1.43 2019/08/18 06:56:07 ajacoutot Exp $
+@conflict kqemu-*
+@conflict qemu-*
+@pkgpath emulators/kqemu
+@pkgpath emulators/qemu,kqemu
+@pkgpath emulators/qemu-old[,no_x11]
+@bin bin/qemu-system-gnuarmeclipse
+@man man/man1/qemu.1
+share/doc/qemu/
+share/doc/qemu/qemu-doc.html
+share/doc/qemu/qmp-commands.txt
+share/qemu/
+share/qemu/devices/
+share/qemu/devices/README.md
+share/qemu/devices/STM32F0x1-qemu.json
+share/qemu/devices/STM32F0x2-qemu.json
+share/qemu/devices/STM32F103xx-qemu.json
+share/qemu/devices/STM32F107xx-qemu.json
+share/qemu/devices/STM32F40x-qemu.json
+share/qemu/devices/STM32F411xx-qemu.json
+share/qemu/devices/STM32F429x-qemu.json
+share/qemu/graphics/
+share/qemu/graphics/Maple.jpg
+share/qemu/graphics/NUCLEO-F072RB.jpg
+share/qemu/graphics/NUCLEO-F103RB.jpg
+share/qemu/graphics/NUCLEO-F411RE.jpg
+share/qemu/graphics/NetduinoGo.jpg
+share/qemu/graphics/NetduinoPlus2.jpg
+share/qemu/graphics/OLIMEXINO-STM32.jpg
+share/qemu/graphics/STM32-E407.jpg
+share/qemu/graphics/STM32-H103.jpg
+share/qemu/graphics/STM32-P103.jpg
+share/qemu/graphics/STM32-P107.jpg
+share/qemu/graphics/STM32F0-Discovery.jpg
+share/qemu/graphics/STM32F4-Discovery.jpg
+share/qemu/graphics/STM32F429I-Discovery.jpg
+share/qemu/keymaps/
+share/qemu/keymaps/ar
+share/qemu/keymaps/bepo
+share/qemu/keymaps/common
+share/qemu/keymaps/cz
+share/qemu/keymaps/da
+share/qemu/keymaps/de
+share/qemu/keymaps/de-ch
+share/qemu/keymaps/en-gb
+share/qemu/keymaps/en-us
+share/qemu/keymaps/es
+share/qemu/keymaps/et
+share/qemu/keymaps/fi
+share/qemu/keymaps/fo
+share/qemu/keymaps/fr
+share/qemu/keymaps/fr-be
+share/qemu/keymaps/fr-ca
+share/qemu/keymaps/fr-ch
+share/qemu/keymaps/hr
+share/qemu/keymaps/hu
+share/qemu/keymaps/is
+share/qemu/keymaps/it
+share/qemu/keymaps/ja
+share/qemu/keymaps/lt
+share/qemu/keymaps/lv
+share/qemu/keymaps/mk
+share/qemu/keymaps/modifiers
+share/qemu/keymaps/nl
+share/qemu/keymaps/nl-be
+share/qemu/keymaps/no
+share/qemu/keymaps/pl
+share/qemu/keymaps/pt
+share/qemu/keymaps/pt-br
+share/qemu/keymaps/ru
+share/qemu/keymaps/sl
+share/qemu/keymaps/sv
+share/qemu/keymaps/th
+share/qemu/keymaps/tr
+share/qemu/trace-events-all

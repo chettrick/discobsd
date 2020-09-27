@@ -18,6 +18,9 @@ all:
 	@echo "" 1>&2
 	@echo "Run 'make flash' to upload binary to board" 1>&2
 
+${PROG}.bin: ${PROG}.elf
+	arm-none-eabi-objcopy -O binary ${PROG}.elf ${PROG}.bin
+
 flash: ${PROG}.bin
 	st-flash --reset write ${PROG}.bin 0x08000000
 

@@ -3,7 +3,8 @@
 This is the directory that maintains the development environment on OpenBSD
 for this Directed Study.
 It consists of a binary flash downloader, a circuit board emulator, and
-a compiler, an assembler. a C library, and a source-level debugger.
+a compiler, an assembler. a C library, and a source-level debugger,
+as well as an on-chip debugger.
 
 ## Setting up the Development Environment
 
@@ -70,3 +71,8 @@ https://www.openbsd.org/faq/ports/ports.html
 
 Note that this version of gdb conflicts with the normal gdb package.
 Only one version of gdb may be installed at any time.
+
+### On-Chip Debugger, Package: OpenOCD V0.10.0
+```sh
+  $ sudo pkg_add openocd
+```

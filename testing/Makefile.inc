@@ -13,17 +13,26 @@ QEMUOPTS+=	-S			# Do not start CPU at startup (for gdb)
 all: target_info
 
 target_info:
-	@echo "Targets are: build, qemu, gdb, flash, clean" 1>&2
+	@echo "Targets are:" 1>&2
+	@echo "    build, clean, flash, qemu, gdb-qemu, ocd, gdb-ocd" 1>&2
 	@echo "" 1>&2
 	@echo "Run 'make build' to compile binary" 1>&2
 	@echo "" 1>&2
-	@echo "Run 'make qemu' in one terminal" 1>&2
-	@echo "Run 'make gdb' in another terminal" 1>&2
-	@echo "Press 'c' in gdb to run the binary" 1>&2
+	@echo "Run 'make clean' to delete binary" 1>&2
 	@echo "" 1>&2
 	@echo "Run 'make flash' to upload binary to board" 1>&2
 	@echo "" 1>&2
-	@echo "Run 'make clean' to delete binary" 1>&2
+	@echo "=== Debugging binary in Emulator ===" 1>&2
+	@echo "Run 'make qemu' in one terminal" 1>&2
+	@echo "Run 'make gdb-qemu' in another terminal" 1>&2
+	@echo "Enter 'c' in gdb to run the binary" 1>&2
+	@echo "" 1>&2
+	@echo "=== Debugging binary on Circuit Board ===" 1>&2
+	@echo "Run 'make ocd' in one terminal" 1>&2
+	@echo "Run 'make gdb-ocd' in another terminal" 1>&2
+	@echo "Enter 'mon reset halt' in gdb to reset the cpu" 1>&2
+	@echo "Enter 'load' in gdb to upload the elf file" 1>&2
+	@echo "Enter 'c' in gdb to run the elf file" 1>&2
 
 build: ${PROG}.elf
 
@@ -36,13 +45,19 @@ ${PROG}.bin: ${PROG}.elf
 flash: ${PROG}.bin
 	st-flash --reset write ${PROG}.bin 0x08000000
 
-gdb: ${PROG}.elf
-	arm-none-eabi-gdb -q -ex 'target remote :1234' ${PROG}.elf
+ocd:
+	openocd -f "board/stm32f4discovery.cfg"
+
+gdb-ocd: ${PROG}.elf
+	arm-none-eabi-gdb -q -ex 'target remote :3333' ${PROG}.elf
 
 qemu: ${PROG}.elf
 	qemu-system-gnuarmeclipse ${QEMUOPTS} -image ${PROG}.elf
 
+gdb-qemu: ${PROG}.elf
+	arm-none-eabi-gdb -q -ex 'target remote :1234' ${PROG}.elf
+
 clean:
 	rm -f ${PROG}.bin ${PROG}.elf ${PROG}.map *.o *.core
 
-.PHONY: all flash qemu gdb clean target_info
+.PHONY: all flash ocd gdb-ocd qemu gdb-qemu clean target_info

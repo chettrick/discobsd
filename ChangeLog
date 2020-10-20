@@ -1,0 +1,38 @@
+===========================================================================
+2020-10-20
+Tuesday, October 20, 2020
+
+Started a ChangeLog file to keep track of my daily progress. I will need to
+add in issues I have previously come up with and that which are not yet
+included here.
+
+I pushed a commit today of GPIO toggling (for the onboard LEDs) which goes
+into great detail of each required part.
+There are four registers to configure, in addition to configuring the RCC
+clock. There are two ways to set or reset a GPIO pin once it is all set up:
+by a read/modify/write dance, or with an atomic bit set or reset operation.
+
+For setting up the GPIO (for port D, for the LEDs), this needs to be done:
+ Set up the gpio:
+1. clock through the RCC_AHB1ENR register.
+2. mode through the GPIOD_MODER register.
+3. output as push-pull or open-drain through the GPIOD_OTYPER register.
+4. port speed through the GPIOD_OSPEEDR register.
+5. pull-up or pull-down resistors through the GPIOD_PUPDR register.
+
+For actually using the GPIO as an output there are two ways:
+1. Read/modify/write of the GPIOD_ODR Output Data Register
+2. Writing to the GPIOD_BSRR Bit Set/Reset Register
+
+Whichever one is used (or available) is chip vendor dependent. These are
+both available for STM32F4 chips.
+
+I put the linker script in the testing base directory (with Makefile.inc)
+so that all testing programs can use it, instead of having each program
+duplicating the linker script.
+
+The program I finished today has links to all the documentation I have used
+to make that program. I will end up putting them in this repository.
+
+I added a .gitignore to the testing directory. Not sure if it is best to
+use a global one yet, so just this local one for now.

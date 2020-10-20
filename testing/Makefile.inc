@@ -8,7 +8,7 @@ QEMUOPTS+=	--semihosting-config enable=on,target=native	# Semihosting
 QEMUOPTS+=	-verbose -verbose	# Show info about CPU and board used
 QEMUOPTS+=	-s			# Shorthand for '-gdb tcp::1234'
 QEMUOPTS+=	-S			# Do not start CPU at startup (for gdb)
-#QEMUOPTS+=	--nographic		# Do not show circuit board
+QEMUOPTS+=	--nographic		# Do not show circuit board
 
 all: target_info
 
@@ -37,7 +37,7 @@ target_info:
 build: ${PROG}.elf
 
 ${PROG}.elf: ${PROG}.S
-	arm-none-eabi-gcc -g -x assembler-with-cpp -Wall -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork --specs=nosys.specs -nostdlib -mfloat-abi=soft -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -Wl,-gc-sections -Wl,-Map,${PROG}.map -Tstm32f407vg.ld ${PROG}.S -o $@
+	arm-none-eabi-gcc -g -x assembler-with-cpp -Wall -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork --specs=nosys.specs -nostdlib -mfloat-abi=soft -mfpu=fpv4-sp-d16 -ffunction-sections -fdata-sections -Wl,-gc-sections -Wl,-Map,${PROG}.map -T../stm32f407vg.ld ${PROG}.S -o $@
 
 ${PROG}.bin: ${PROG}.elf
 	arm-none-eabi-objcopy -O binary ${PROG}.elf ${PROG}.bin

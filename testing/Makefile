@@ -1,10 +1,12 @@
 #SUBDIR+=	000_blinky
 SUBDIR+=	001_reg
+SUBDIR+=	002_led
 
 all: targets
 
 targets:
-	@echo "Targets are: build, clean" 1>&2
+	@echo "Targets are:" 1>&2
+	@echo "    build, clean" 1>&2
 
 build:
 	@for dir in ${SUBDIR}; do \

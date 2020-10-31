@@ -1,0 +1,66 @@
+#
+# Microchip Explorer16 board with SD card expansion module
+# ========================================================
+# Console on UART2.
+#
+# To build the kernel, use:
+#   cd sys/pic32/explorer16
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "EXPLORER16"                # Board type
+ldscript        "baremetal/script.ld"       # Linker script
+
+# Standard system options
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+
+# LEDs
+signal          "LED_DISK"      pin RA0     # disk activity indicator
+signal          "LED_KERNEL"    pin RA1     # kernel activity indicator
+signal          "LED_TTY"       pin RA2     # tty activity indicator
+signal          "LED_SWAP"      pin RA3     # swap activity indicator
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+device          uart2
+
+# Console options
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=1"              # /dev/tty1
+
+# SPI ports
+controller      spi1                        # SD card
+
+# SD card
+device          sd0     at spi1 pin RB1     # select pin
+options         "SD_MHZ=10"                 # speed 10 MHz
+
+# General purpose I/O ports
+# Flags define a mask of available pins
+# The following pins excluded:
+#   RF4, RF5            - uart2
+#   RC4, RD0, RD10, RB1 - spi1, SD card
+device          gpio0   flags 0xc6ff    # port A
+device          gpio1   flags 0xfffd    # port B
+device          gpio2   flags 0xf00e    # port C
+device          gpio3   flags 0xfbfe    # port D
+device          gpio4   flags 0x03ff    # port E
+device          gpio5   flags 0x310f    # port F
+device          gpio6   flags 0xf3cf    # port G
+
+# ADC driver
+device          adc
+
+# PWM driver
+device          pwm

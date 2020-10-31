@@ -1,0 +1,67 @@
+#
+# 32MXSDRAM board PCB v1.0 with UART console
+# ===========================================
+# Console on UART3.
+#
+# To build the kernel, use:
+#   cd sys/pic32/32mxsdram
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "CUSTOM_32MXSDRAM"          # Board type
+ldscript        "32mxsdram/bootloader.ld"   # Linker script
+
+# Standard system options
+options         "HZ=1000"                   # Rate of timer interrupt
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+#options         "NPROC=20"
+
+# LEDs
+signal          "LED_KERNEL"    pin RA15    # kernel activity indicator
+signal          "LED_DISK"      pin RC13    # disk activity indicator
+signal          "LED_SWAP"      pin RC14    # swap activity indicator
+signal          "LED_TTY"       pin RA14    # tty activity indicator
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on dr0b        # swap on SDRAM
+
+# Serial UART ports
+device          uart3
+
+# Console options
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=2"              # /dev/tty2
+
+# SPI ports
+controller      spi4                        # SD card
+
+# sdcard's definition for the SPI port, sdcard's chipselect and high-side power switch
+# because of a mod on the board we use power=B13, otherwise it shall be D12
+device          sd0     at spi4
+                        pins RF3, RB13      # select pin, enable pin
+options         "SD_MHZ=10"                 # speed 10 MHz
+signal          "SD_ENA"        pin RB13    # SD enable signal
+
+# ADC driver
+device          adc
+
+# PWM driver
+device          pwm
+
+# Use SDRAM driver for the external ramdisk.
+# The volume is divided into two partitions: A and B.
+# Size of partition B is specified as option SDR_SWAP_KBYTES.
+# The rest is partition A.
+device          dr0                         # SDRAM on external memory bus
+options         "SDR_SWAP_KBYTES=2048"      # size of partition B
+options         "KERNEL_EXECUTABLE_RAM"     # allow kernel code in RAM area
+options         "NMOUNT=3"

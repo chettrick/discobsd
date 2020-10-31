@@ -1,0 +1,70 @@
+#
+# 4D Systems Picadillo-35T board with SPI RAM disk
+# ================================================
+# Console on TFT display.
+# For details, see http://www.4dsystems.com.au/product/Picadillo_35T/
+#
+# To build the kernel, use:
+#   cd sys/pic32/picadillo
+#   kconfig Config-rambo
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "PICADILLO_35T"             # Board type
+ldscript        "max32/bootloader.ld"       # Linker script
+
+# Standard system options
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sr0         # Swap on SPI RAM
+
+# Serial UART ports
+device          uart1                       # Serial-to-USB converter
+
+# Console options
+options         "CONS_MAJOR=HXTFT_MAJOR"    # HXTFT device
+
+# SPI ports
+controller      spi2                        # SD card
+controller      spi4                        # RAM disk: spirams
+
+# microSD card
+device          sd0     at spi2 pin RG9     # select pin
+options         "SD0_MHZ=10"                # speed 10 MHz
+
+# General purpose I/O ports
+# Flags define a mask of available pins
+device          gpio0   flags 0xc608        # port A
+device          gpio1   flags 0x0fff        # port B
+device          gpio2   flags 0x0010        # port C
+device          gpio3   flags 0x8e09        # port D
+device          gpio4   flags 0x0300        # port E
+device          gpio5   flags 0x110c        # port F
+device          gpio6   flags 0x8000        # port G
+
+# ADC driver
+device          adc
+
+# PWM driver
+device          pwm
+
+# HX8357 TFT display driver
+device          hxtft
+
+# spirams - SPI block device
+device          sr0 at spi4
+                pins RA0,  RA1,  RA4,  RA5, # chip select signals
+                     RA2,  RD1,  RD2,  RB14,
+                     RD14, RD8,  RA6,  RA7,
+                     RG14, RG12, RG13, RF5
+options         "SPIRAMS_CHIPSIZE=128"      # chip size in kbytes
+options         "SPIRAMS_CHIPS=16"          # number of chips

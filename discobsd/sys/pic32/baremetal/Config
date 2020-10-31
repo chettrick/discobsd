@@ -1,0 +1,46 @@
+#
+# Custom board with UART console
+# ==============================
+# Console on UART1.
+#
+# To build the kernel, use:
+#   cd sys/pic32/baremetal
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "BAREMETAL"                 # Board type
+ldscript        "baremetal/script.ld"       # Linker script
+
+# Standard system options
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+
+# LEDs
+signal          "LED_KERNEL"    pin RD3     # kernel activity indicator
+signal          "LED_DISK"      pin RD2     # disk activity indicator
+signal          "LED_TTY"       pin RD12    # tty activity indicator
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+device          uart1
+
+# Console options
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=0"              # /dev/tty0
+
+# SPI ports
+controller      spi2                        # SD card
+
+# SD card
+device          sd0     at spi2 pin RD1     # select pin
+options         "SD_MHZ=16"                 # speed 16 MHz

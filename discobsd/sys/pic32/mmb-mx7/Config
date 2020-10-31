@@ -1,0 +1,70 @@
+#
+# Board: MMB for PIC32MX7, by MikroElektronika
+# ==================================
+# Console on USB.
+#
+# To build the kernel, use:
+#   cd sys/pic32/mmb-mx7
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "MMB_MX7"                   # Board type
+ldscript        "mmb-mx7/bootloader.ld"     # Linker script
+
+# Standard system options
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+
+# LEDs
+signal          "LED_KERNEL" pin RA0 invert # kernel activity indicator
+signal          "LED_SWAP"   pin RD9 invert # swap activity indicator
+signal          "LED_TTY"    pin RA1 invert # tty activity indicator
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Console options
+options         "CONS_MAJOR=UARTUSB_MAJOR"  # UARTUSB device
+
+# Virtual UART on USB
+device          uartusb
+options         "USB_MAX_EP_NUMBER=3"
+options         "USB_NUM_STRING_DESCRIPTORS=3"
+
+# Serial UART ports
+device          uart1                       # RS-232 port
+
+# SPI ports
+controller      spi1                        # SD card
+
+# microSD card
+device          sd0     at spi1 pin RA9     # select pin
+options         "SD_MHZ=8"                  # speed 8 MHz
+
+# General purpose I/O ports
+# Flags define a mask of available pins
+# The following pins excluded:
+#   RF2, RF8            - uart1
+#   RC4, RD0, RD10, RA9 - spi1, SD card
+device          gpio0   flags 0xc4ff        # port A
+device          gpio1   flags 0xffff        # port B
+device          gpio2   flags 0xf00e        # port C
+device          gpio3   flags 0xfbfe        # port D
+device          gpio4   flags 0x03ff        # port E
+device          gpio5   flags 0x303b        # port F
+device          gpio6   flags 0xf3cf        # port G
+signal          "GPIO_CLEAR"    pin RD2     # clear on startup
+
+# ADC driver
+device          adc
+
+# PWM driver
+device          pwm

@@ -1,0 +1,54 @@
+$OpenBSD$
+
+Index: libssp/ssp.c
+--- libssp/ssp.c.orig
++++ libssp/ssp.c
+@@ -33,24 +33,24 @@ see the files COPYING3 and COPYING.RUNTIME respectivel
+ 
+ 
+ #include "config.h"
+-#ifdef HAVE_ALLOCA_H
++//#ifdef HAVE_ALLOCA_H
+ # include <alloca.h>
+-#endif
+-#ifdef HAVE_MALLOC_H
++//#endif
++//#ifdef HAVE_MALLOC_H
+ # include <malloc.h>
+-#endif
+-#ifdef HAVE_STRING_H
++//#endif
++//#ifdef HAVE_STRING_H
+ # include <string.h>
+-#endif
+-#ifdef HAVE_UNISTD_H
++//#endif
++//#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+-#endif
+-#ifdef HAVE_FCNTL_H
++//#endif
++//#ifdef HAVE_FCNTL_H
+ # include <fcntl.h>
+-#endif
+-#ifdef HAVE_PATHS_H
++//#endif
++//#ifdef HAVE_PATHS_H
+ # include <paths.h>
+-#endif
++//#endif
+ #ifndef _PATH_TTY
+ /* Native win32 apps don't know about /dev/tty but can print directly
+    to the console using  "CONOUT$"   */
+@@ -60,9 +60,9 @@ see the files COPYING3 and COPYING.RUNTIME respectivel
+ # define _PATH_TTY "/dev/tty"
+ #endif
+ #endif
+-#ifdef HAVE_SYSLOG_H
++//#ifdef HAVE_SYSLOG_H
+ # include <syslog.h>
+-#endif
++//#endif
+ 
+ void *__stack_chk_guard = 0;
+ 

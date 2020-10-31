@@ -1,0 +1,248 @@
+@comment $OpenBSD: PLIST,v 1.2 2018/10/27 05:48:32 bentley Exp $
+@bin bin/mips-elf-cpp
+@bin bin/mips-elf-gcc
+@bin bin/mips-elf-gcc-${VERSION}
+@bin bin/mips-elf-gcc-ar
+@bin bin/mips-elf-gcc-nm
+@bin bin/mips-elf-gcc-ranlib
+@bin bin/mips-elf-gcov
+@comment @info info/cpp.info
+@comment @info info/cppinternals.info
+@comment @info info/gcc.info
+@comment @info info/gccinstall.info
+@comment @info info/gccint.info
+@comment @info info/libquadmath.info
+lib/gcc/
+lib/gcc/mips-elf/
+lib/gcc/mips-elf/${VERSION}/
+lib/gcc/mips-elf/${VERSION}/crtbegin.o
+lib/gcc/mips-elf/${VERSION}/crtend.o
+lib/gcc/mips-elf/${VERSION}/crti.o
+lib/gcc/mips-elf/${VERSION}/crtn.o
+lib/gcc/mips-elf/${VERSION}/el/
+lib/gcc/mips-elf/${VERSION}/el/crtbegin.o
+lib/gcc/mips-elf/${VERSION}/el/crtend.o
+lib/gcc/mips-elf/${VERSION}/el/crti.o
+lib/gcc/mips-elf/${VERSION}/el/crtn.o
+lib/gcc/mips-elf/${VERSION}/el/libgcc.a
+lib/gcc/mips-elf/${VERSION}/el/libgcov.a
+lib/gcc/mips-elf/${VERSION}/include/
+lib/gcc/mips-elf/${VERSION}/include-fixed/
+lib/gcc/mips-elf/${VERSION}/include-fixed/README
+lib/gcc/mips-elf/${VERSION}/include-fixed/limits.h
+lib/gcc/mips-elf/${VERSION}/include-fixed/syslimits.h
+lib/gcc/mips-elf/${VERSION}/include/float.h
+lib/gcc/mips-elf/${VERSION}/include/iso646.h
+lib/gcc/mips-elf/${VERSION}/include/loongson.h
+lib/gcc/mips-elf/${VERSION}/include/stdalign.h
+lib/gcc/mips-elf/${VERSION}/include/stdarg.h
+lib/gcc/mips-elf/${VERSION}/include/stdbool.h
+lib/gcc/mips-elf/${VERSION}/include/stddef.h
+lib/gcc/mips-elf/${VERSION}/include/stdfix.h
+lib/gcc/mips-elf/${VERSION}/include/stdint-gcc.h
+lib/gcc/mips-elf/${VERSION}/include/stdint.h
+lib/gcc/mips-elf/${VERSION}/include/stdnoreturn.h
+lib/gcc/mips-elf/${VERSION}/include/tgmath.h
+lib/gcc/mips-elf/${VERSION}/include/unwind.h
+lib/gcc/mips-elf/${VERSION}/include/varargs.h
+lib/gcc/mips-elf/${VERSION}/install-tools/
+lib/gcc/mips-elf/${VERSION}/install-tools/fixinc_list
+lib/gcc/mips-elf/${VERSION}/install-tools/gsyslimits.h
+lib/gcc/mips-elf/${VERSION}/install-tools/include/
+lib/gcc/mips-elf/${VERSION}/install-tools/include/README
+lib/gcc/mips-elf/${VERSION}/install-tools/include/limits.h
+lib/gcc/mips-elf/${VERSION}/install-tools/macro_list
+lib/gcc/mips-elf/${VERSION}/install-tools/mkheaders.conf
+lib/gcc/mips-elf/${VERSION}/libgcc.a
+lib/gcc/mips-elf/${VERSION}/libgcov.a
+lib/gcc/mips-elf/${VERSION}/plugin/
+lib/gcc/mips-elf/${VERSION}/plugin/gtype.state
+lib/gcc/mips-elf/${VERSION}/plugin/include/
+lib/gcc/mips-elf/${VERSION}/plugin/include/ada/
+lib/gcc/mips-elf/${VERSION}/plugin/include/ada/gcc-interface/
+lib/gcc/mips-elf/${VERSION}/plugin/include/ada/gcc-interface/ada-tree.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/alias.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/all-tree.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/alloc-pool.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ansidecl.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/auto-host.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/b-header-vars
+lib/gcc/mips-elf/${VERSION}/plugin/include/basic-block.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/bitmap.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/builtins.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/bversion.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-family/
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-family/c-common.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-family/c-common.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-family/c-objc.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-family/c-pragma.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-family/c-pretty-print.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/c-tree.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/cfg-flags.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/cfghooks.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/cfgloop.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/cgraph.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/cif-code.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/
+lib/gcc/mips-elf/${VERSION}/plugin/include/config.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/elfos.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/initfini-array.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/mips/
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/mips/elf.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/mips/mips-opts.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/mips/mips-protos.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/mips/mips.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/newlib-stdint.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/config/vxworks-dummy.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/configargs.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/coretypes.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/cp/
+lib/gcc/mips-elf/${VERSION}/plugin/include/cp/cp-tree.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/cppdefault.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/cpplib.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/debug.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/defaults.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/diagnostic-core.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/diagnostic.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/diagnostic.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/double-int.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/dumpfile.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/emit-rtl.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/except.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/filenames.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/fixed-value.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/flag-types.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/flags.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/function.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/gcc-plugin.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/genrtl.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ggc.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/gimple-pretty-print.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/gimple.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/gimple.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/gsstruct.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/gtm-builtins.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/gtype-desc.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/hard-reg-set.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/hashtab.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/highlev-plugin-common.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/hwint.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/incpath.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/input.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/insn-constants.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/insn-flags.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/insn-modes.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/insn-notes.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/internal-fn.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/internal-fn.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/intl.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ipa-prop.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ipa-ref-inline.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ipa-ref.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ipa-reference.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/ipa-utils.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/is-a.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/java/
+lib/gcc/mips-elf/${VERSION}/plugin/include/java/java-tree.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/langhooks.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/libiberty.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/line-map.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/machmode.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/md5.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/mode-classes.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/objc/
+lib/gcc/mips-elf/${VERSION}/plugin/include/objc/objc-tree.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/obstack.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/omp-builtins.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/options.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/opts.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/output.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/params.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/params.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/plugin-api.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/plugin-version.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/plugin.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/plugin.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/pointer-set.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/predict.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/predict.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/prefix.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/pretty-print.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/real.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/realmpfr.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/reg-notes.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/rtl.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/rtl.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/safe-ctype.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/sanitizer.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/sbitmap.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/splay-tree.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/statistics.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/symtab.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/sync-builtins.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/system.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/target-hooks-macros.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/target.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/target.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/timevar.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/timevar.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tm-preds.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tm.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tm_p.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/toplev.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-check.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-dump.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-flow-inline.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-flow.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-inline.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-iterator.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-pass.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-pretty-print.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-ssa-alias.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-ssa-operands.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree-ssa-sccvn.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/tree.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/treestruct.def
+lib/gcc/mips-elf/${VERSION}/plugin/include/vec.h
+lib/gcc/mips-elf/${VERSION}/plugin/include/version.h
+lib/gcc/mips-elf/${VERSION}/soft-float/
+lib/gcc/mips-elf/${VERSION}/soft-float/crtbegin.o
+lib/gcc/mips-elf/${VERSION}/soft-float/crtend.o
+lib/gcc/mips-elf/${VERSION}/soft-float/crti.o
+lib/gcc/mips-elf/${VERSION}/soft-float/crtn.o
+lib/gcc/mips-elf/${VERSION}/soft-float/el/
+lib/gcc/mips-elf/${VERSION}/soft-float/el/crtbegin.o
+lib/gcc/mips-elf/${VERSION}/soft-float/el/crtend.o
+lib/gcc/mips-elf/${VERSION}/soft-float/el/crti.o
+lib/gcc/mips-elf/${VERSION}/soft-float/el/crtn.o
+lib/gcc/mips-elf/${VERSION}/soft-float/el/libgcc.a
+lib/gcc/mips-elf/${VERSION}/soft-float/el/libgcov.a
+lib/gcc/mips-elf/${VERSION}/soft-float/libgcc.a
+lib/gcc/mips-elf/${VERSION}/soft-float/libgcov.a
+lib/libiberty.a
+libexec/gcc/
+libexec/gcc/mips-elf/
+libexec/gcc/mips-elf/${VERSION}/
+@bin libexec/gcc/mips-elf/${VERSION}/cc1
+@bin libexec/gcc/mips-elf/${VERSION}/collect2
+libexec/gcc/mips-elf/${VERSION}/install-tools/
+libexec/gcc/mips-elf/${VERSION}/install-tools/fixinc.sh
+@bin libexec/gcc/mips-elf/${VERSION}/install-tools/fixincl
+libexec/gcc/mips-elf/${VERSION}/install-tools/mkheaders
+libexec/gcc/mips-elf/${VERSION}/install-tools/mkinstalldirs
+libexec/gcc/mips-elf/${VERSION}/liblto_plugin.la
+libexec/gcc/mips-elf/${VERSION}/liblto_plugin.so
+@bin libexec/gcc/mips-elf/${VERSION}/lto-wrapper
+@bin libexec/gcc/mips-elf/${VERSION}/lto1
+libexec/gcc/mips-elf/${VERSION}/plugin/
+@bin libexec/gcc/mips-elf/${VERSION}/plugin/gengtype
+@man man/man1/mips-elf-cpp.1
+@man man/man1/mips-elf-gcc.1
+@man man/man1/mips-elf-gcov.1
+@comment @man man/man7/fsf-funding.7
+@comment @man man/man7/gfdl.7
+@comment @man man/man7/gpl.7
+mips-elf/lib/el/
+mips-elf/lib/soft-float/
+mips-elf/lib/soft-float/el/

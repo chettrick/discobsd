@@ -36,3 +36,45 @@ to make that program. I will end up putting them in this repository.
 
 I added a .gitignore to the testing directory. Not sure if it is best to
 use a global one yet, so just this local one for now.
+
+===========================================================================
+2020-10-31
+Saturday, October 31, 2020
+
+Pushed two commits that import the RetroBSD repo into this project repo.
+I also included the zip from the autobuilder so that there is some starting
+point that is easily referenced (instead of just a commit id).
+
+
+The last while I've been trying to get a mips-elf port of gcc, binutils,
+and gdb to build the RetroBSD repo (which is mips-based). I had already got
+it to work on Ubuntu (through the Windows Subsystem for Linux) by following
+the instructions at http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
+which took quite a bit of time to go through.
+
+Also, these instructions are made for an old version of gcc, compiled with
+another old version of gcc. The newer gcc's are way more pedantic and find
+so many more bugs, even small ones, so it has been a challenge. For
+instance, one bug I came across was that glibc changed the location of some
+defines into a different header, so I had to find out which one it was and
+make a patch for it. It's not hard, just tedious and unfulfilling work.
+
+
+Get first crack at a devel/mips-elf OpenBSD port done. It has gcc 4.8.1 and
+binutils 2.27. Many patches were made. 8 for binutils, 19 for gcc.
+I based this port on the ports devel/xtensa-elf and devel/arm-none-eabi.
+gdb and newlib are not done yet (and maybe never will be).
+binutils was the first I got working. It took a while to get gcc to work.
+
+This port is for compiling the original code of RetroBSD on OpenBSD. The
+original code targets the PIC32 MIPS-based microcontroller, thus mips-elf.
+
+There are two or three segfaults in the process of building gcc. I have no
+reason why, and I haven't investigated. Starting the build over again
+allows a bit more progress until there is another segfault. I just kept
+restarting it until the build is complete. The segfaults could be due to
+running out of memory or something like that. Who knows. gcc is complex.
+
+There are some post-patch and post-install fixes in the devel/avr/gcc
+Makefile that need to be used. This will get rid of all the ridiculous
+patches for the single space character needed by c++11 for variables.

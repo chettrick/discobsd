@@ -1,0 +1,81 @@
+#
+# Duinomite and Duinomite-Mega boards
+# ===================================
+# Console on USB.
+# For details, see https://github.com/RetroBSD/retrobsd/wiki/Board-Olimex-Duinomite
+#
+# To build the kernel, use:
+#   cd sys/pic32/duinomite
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "DUINOMITE"                 # Board type
+ldscript        "maximite/bootloader.ld"    # Linker script
+
+# Standard system options
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+
+# LEDs
+signal          "LED_KERNEL"    pin RB15    # kernel activity indicator
+signal          "LED_DISK"      pin RB12    # disk activity indicator
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Console options
+options         "CONS_MAJOR=UARTUSB_MAJOR"  # USB device
+
+# Virtual UART on USB
+device          uartusb
+options         "USB_MAX_EP_NUMBER=3"
+options         "USB_NUM_STRING_DESCRIPTORS=3"
+
+# SPI ports
+controller      spi3                        # SD card
+
+# microSD card
+device          sd0     at spi3 pin RD5     # select pin
+signal          "SD0_ENA"       pin RB13    # SD card enable
+
+# General purpose I/O ports
+# Flags define a mask of available pins
+# The following pins excluded:
+#   RD1, RD2, RD3, RD5, RB13 - spi3, SD card
+device          gpio1   flags 0xdfff    # port B
+device          gpio2   flags 0xf000    # port C
+device          gpio3   flags 0x0fd1    # port D
+device          gpio4   flags 0x00ff    # port E
+device          gpio5   flags 0x003b    # port F
+device          gpio6   flags 0x03cc    # port G
+
+# ADC driver
+device          adc
+
+# PWM driver
+device          pwm
+
+# TFT display driver with 8-bit parallel interface.
+# Supported controllers: ST7781, ILI9341, NT35702
+device          gpanel
+signal          "LCD_RST"   pin RB9     # arduino A4
+signal          "LCD_CS"    pin RB7     # arduino A3
+signal          "LCD_RS"    pin RB6     # arduino A2
+signal          "LCD_WR"    pin RB4     # arduino A1
+signal          "LCD_RD"    pin RB3     # arduino A0
+signal          "LCD_D2"    pin RE2     # arduino D2
+signal          "LCD_D3"    pin RE3     # arduino D3
+signal          "LCD_D4"    pin RE4     # arduino D4
+signal          "LCD_D5"    pin RE5     # arduino D5
+signal          "LCD_D6"    pin RE6     # arduino D6
+signal          "LCD_D7"    pin RE7     # arduino D7
+signal          "LCD_D0"    pin RB11    # arduino D8
+signal          "LCD_D1"    pin RB12    # arduino D9

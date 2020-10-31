@@ -1,0 +1,68 @@
+#
+# UBW32 board with two SD card slots
+# ==================================
+# For details, see https://github.com/RetroBSD/retrobsd/wiki/Board-Sparkfun-UBW32
+# Console on USB.
+# For Windows, use the driver: http://www.schmalzhaus.com/UBW32/FW/UBW32inf.zip
+#
+# To build the kernel, use:
+#   cd sys/pic32/ubw32
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "pic32"
+cpu             "PIC32MX7"                  # Processor variant
+board           "UBW32"                     # Board type
+ldscript        "ubw32/bootloader.ld"       # Linker script
+
+# Standard system options
+options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
+options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+
+# LEDs
+signal          "LED_KERNEL" pin RE2 invert # kernel activity indicator
+signal          "LED_DISK"   pin RE1 invert # disk activity indicator
+signal          "LED_SWAP"   pin RE0 invert # swap activity indicator
+signal          "LED_TTY"    pin RE3 invert # tty activity indicator
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Console options
+options         "CONS_MAJOR=UARTUSB_MAJOR"  # UARTUSB device
+
+# Virtual UART on USB
+device          uartusb
+options         "USB_MAX_EP_NUMBER=3"
+options         "USB_NUM_STRING_DESCRIPTORS=3"
+
+# SPI ports
+controller      spi1                        # SD card
+
+# microSD card
+device          sd0     at spi1 pin RA9     # select pin
+device          sd1     at spi1 pin RA10    # select pin
+
+# General purpose I/O ports
+# Flags define a mask of available pins
+# The following pins excluded:
+#   RC4, RD0, RD10, RA9, RA10 - spi1, SD card
+device          gpio0   flags 0xc0ff        # port A
+device          gpio1   flags 0xffff        # port B
+device          gpio2   flags 0xf00e        # port C
+device          gpio3   flags 0xfbfe        # port D
+device          gpio4   flags 0x03ff        # port E
+device          gpio5   flags 0x313f        # port F
+device          gpio6   flags 0xf3cf        # port G
+
+# ADC driver
+device          adc
+
+# PWM driver
+device          pwm

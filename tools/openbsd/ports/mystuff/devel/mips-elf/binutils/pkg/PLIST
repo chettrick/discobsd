@@ -1,0 +1,65 @@
+@comment $OpenBSD: PLIST,v 1.1.1.1 2017/11/02 18:30:57 bentley Exp $
+@comment @info info/bfd.info
+@comment @info info/binutils.info
+@comment @info info/gprof.info
+@comment @info info/ld.info
+@bin bin/${CONFIG}-addr2line
+@bin bin/${CONFIG}-ar
+@bin bin/${CONFIG}-as
+@bin bin/${CONFIG}-c++filt
+@bin bin/${CONFIG}-elfedit
+@bin bin/${CONFIG}-ld
+@bin bin/${CONFIG}-ld.bfd
+@bin bin/${CONFIG}-nm
+@bin bin/${CONFIG}-objcopy
+@bin bin/${CONFIG}-objdump
+@bin bin/${CONFIG}-ranlib
+@bin bin/${CONFIG}-readelf
+@bin bin/${CONFIG}-size
+@bin bin/${CONFIG}-strings
+@bin bin/${CONFIG}-strip
+@man man/man1/${CONFIG}-addr2line.1
+@man man/man1/${CONFIG}-ar.1
+@man man/man1/${CONFIG}-as.1
+@man man/man1/${CONFIG}-c++filt.1
+@man man/man1/${CONFIG}-dlltool.1
+@man man/man1/${CONFIG}-elfedit.1
+@man man/man1/${CONFIG}-ld.1
+@man man/man1/${CONFIG}-nlmconv.1
+@man man/man1/${CONFIG}-nm.1
+@man man/man1/${CONFIG}-objcopy.1
+@man man/man1/${CONFIG}-objdump.1
+@man man/man1/${CONFIG}-ranlib.1
+@man man/man1/${CONFIG}-readelf.1
+@man man/man1/${CONFIG}-size.1
+@man man/man1/${CONFIG}-strings.1
+@man man/man1/${CONFIG}-strip.1
+@man man/man1/${CONFIG}-windmc.1
+@man man/man1/${CONFIG}-windres.1
+${CONFIG}/
+${CONFIG}/bin/
+@bin ${CONFIG}/bin/ar
+@bin ${CONFIG}/bin/as
+@bin ${CONFIG}/bin/ld
+@bin ${CONFIG}/bin/ld.bfd
+@bin ${CONFIG}/bin/nm
+@bin ${CONFIG}/bin/objcopy
+@bin ${CONFIG}/bin/objdump
+@bin ${CONFIG}/bin/ranlib
+@bin ${CONFIG}/bin/readelf
+@bin ${CONFIG}/bin/strip
+${CONFIG}/lib/
+${CONFIG}/lib/ldscripts/
+${CONFIG}/lib/ldscripts/elf32ebmip.x
+${CONFIG}/lib/ldscripts/elf32ebmip.xbn
+${CONFIG}/lib/ldscripts/elf32ebmip.xc
+${CONFIG}/lib/ldscripts/elf32ebmip.xd
+${CONFIG}/lib/ldscripts/elf32ebmip.xdc
+${CONFIG}/lib/ldscripts/elf32ebmip.xdw
+${CONFIG}/lib/ldscripts/elf32ebmip.xn
+${CONFIG}/lib/ldscripts/elf32ebmip.xr
+${CONFIG}/lib/ldscripts/elf32ebmip.xs
+${CONFIG}/lib/ldscripts/elf32ebmip.xsc
+${CONFIG}/lib/ldscripts/elf32ebmip.xsw
+${CONFIG}/lib/ldscripts/elf32ebmip.xu
+${CONFIG}/lib/ldscripts/elf32ebmip.xw

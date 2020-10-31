@@ -1,0 +1,18 @@
+$OpenBSD$
+
+Index: libstdc++-v3/configure.ac
+--- libstdc++-v3/configure.ac.orig
++++ libstdc++-v3/configure.ac
+@@ -89,9 +89,9 @@ CXXFLAGS="$save_CXXFLAGS"
+ GLIBCXX_CONFIGURE
+ 
+ # Libtool setup.
+-if test "x${with_newlib}" != "xyes"; then
+-  AC_LIBTOOL_DLOPEN
+-fi
++# XXX if test "x${with_newlib}" != "xyes"; then
++# XXX   AC_LIBTOOL_DLOPEN
++# XXX fi
+ AM_PROG_LIBTOOL
+ ACX_LT_HOST_FLAGS
+ AC_SUBST(enable_shared)

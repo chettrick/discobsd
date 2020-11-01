@@ -35,7 +35,7 @@ ifndef MIPS_GCC_PREFIX
     endif
 endif
 
-# Generic MIPS toolchain on *BSD
+# Generic MIPS toolchain on FreeBSD
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # You can build it from sources, as described on page
 # http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
@@ -43,6 +43,14 @@ endif
 ifndef MIPS_GCC_PREFIX
     ifeq (/usr/local/mips-elf/bin/mips-elf-gcc,$(wildcard /usr/local/mips-elf/bin/mips-elf-gcc))
         MIPS_GCC_PREFIX = /usr/local/mips-elf/bin/mips-elf-
+    endif
+endif
+
+# Generic MIPS toolchain on OpenBSD
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ifndef MIPS_GCC_PREFIX
+    ifeq (/usr/local/bin/mips-elf-gcc,$(wildcard /usr/local/bin/mips-elf-gcc))
+        MIPS_GCC_PREFIX = /usr/local/bin/mips-elf-
     endif
 endif
 

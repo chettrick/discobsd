@@ -138,3 +138,16 @@ ELF toolchain is available as a package on OpenBSD. I updated the README.
 For VirtualMIPS, I initially put the pthreads header include into many,
 many files. I then figured out that I only needed to have it in the mips.h
 file, which is included in all those files. Seems like a better solution.
+
+
+I got the build system so that it is possible to build RetroBSD (MIPS) on
+OpenBSD. The changes were to update byacc to yacc, and add a check for the
+mips-elf tools to the build Makefiles. OpenBSD has them installed in the
+third-party location /usr/local/bin/mips-elf- .
+
+Note that when I say "RetroBSD" I am talking about the original MIPS code.
+"DiscoBSD" will refer to the Arm code/port I am writing.
+
+I found that there is something wrong with elf2aout in that it fails on an
+ELF section of type 70000003 in program header 1, from the error message.
+I need to learn about the ELF executable file type and the a.out type.

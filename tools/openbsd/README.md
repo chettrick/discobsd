@@ -84,7 +84,6 @@ Note: these steps assume that all previous steps have been completed.
 ### Meta-package Toolchain, Package: mips-elf-{binutils,gcc}
 
 #### Assembler: Binutils V2.27, Configured for mips-elf
-
 ```sh
   $ cd /usr/ports/mystuff/devel/mips-elf/binutils
   $ sudo make
@@ -92,7 +91,6 @@ Note: these steps assume that all previous steps have been completed.
 ```
 
 #### Compiler: GCC V4.8.1, Configured for mips-elf
-
 ```sh
   $ cd /usr/ports/mystuff/devel/mips-elf/gcc
   $ sudo make
@@ -100,9 +98,13 @@ Note: these steps assume that all previous steps have been completed.
 ```
 
 Note: the whole meta-package can be compiled and installed by one command:
-
 ```sh
   $ cd /usr/ports/mystuff/devel/mips-elf
   $ sudo make
   $ sudo make install
+```
+
+### ELF Compilation Tools, Package: ELF Toolchain V0.7.1
+```sh
+  $ sudo pkg_add elftoolchain
 ```

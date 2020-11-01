@@ -106,3 +106,35 @@ reduce/reduce conflicts, install not working.
 
 I updated the README.md file for tools/openbsd to include how to get
 binutils and gcc for the MIPS target.
+
+
+Now I am trying to get VirtualMIPS to work. Most errors are about specific
+types used. I am guessing they are defined in the libelf code.
+
+I have had to (temporarily) hard-code some directory paths in the Makefile
+for VirtualMIPS to what OpenBSD uses, such as /usr/local/include instead of
+/opt/local/include on Linux.
+
+
+Some cool things about the name DiscoBSD:
+First, 'disco' is Latin for 'I learn' or 'to learn' or 'become aquainted
+with' or 'I study, practice'. All of these definitions are quite in line
+with the whole purpose of this directed study, which is to do a heck of a
+lot of learning about Arm and about Unix and about early BSD.
+
+Second, STM has a 'Discovery' line of demonstration and evauation circuit
+boards with STM32F4 microcontrollers. I am targeting the STM32F4DISCOVERY
+board with an STM32F407 chip (which does not have an MMU).
+
+Third, it is just a great name. There is a nice ring to it. It has five
+letters like 'Retro', and it gives you feelings of the old days in the 70s
+when BSD had its beginnings.
+
+
+Okay, ELF toolchain is needed to get VirtualMIPS to work. It can be used
+instead of libelf. I am so glad I do not need to port another library.
+ELF toolchain is available as a package on OpenBSD. I updated the README.
+
+For VirtualMIPS, I initially put the pthreads header include into many,
+many files. I then figured out that I only needed to have it in the mips.h
+file, which is included in all those files. Seems like a better solution.

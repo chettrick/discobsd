@@ -151,3 +151,49 @@ Note that when I say "RetroBSD" I am talking about the original MIPS code.
 I found that there is something wrong with elf2aout in that it fails on an
 ELF section of type 70000003 in program header 1, from the error message.
 I need to learn about the ELF executable file type and the a.out type.
+
+
+I read about the ELF executable file type in the book Learning Linux Binary
+Analysis and in the elf(3) and elf(5) manpages. There is not a lot of info
+on it. All my C and Unix books don't really mention anything about it.
+
+I am looking at the differences between the "adb" executables compiled on
+OpenBSD, and on Linux (Winbuntu). This is one of the programs that fail to
+convert from ELF to a.out by the elf2aout program, with this error:
+elf2aout: Program header 1 type 70000003 can't be converted.
+The program output of "readelf -aW adb.elf" is what is used to look at elf.
+
+I determined, through using the readelf tool from binutils, that the MIPS
+toolchain I made to work on OpenBSD adds a section to the executable called
+.MIPS.abiflags, which is not made on the Winbuntu system. I believe this
+section is made by the linker. I don't know for sure, but I believe that
+this is due to my toolchain using modern versions of the depended-on
+libraries, perhaps the BFD library. I found a post on a Clang/LLVM mailing
+list that said they needed to add that particular section to MIPS exes.
+
+What I did to fix this problem was add that section to the /DISCARD/ part
+at the end of the linker script elf32-mips.ld . The line is:
+  /DISCARD/ : { *(.MIPS.abiflags) }
+inside the SECTIONS curly braces near the end of the file.
+
+A small diff to fix a big problem.
+
+Now, I am able to build the whole system, and actually run it on OpenBSD!
+How I do it is, after the system is built, I go into the tools/virtualmips
+directory and run ./pic32 and I get a shell, and I can log in as root
+(without a password) and then run any command.
+
+I included a screenshot of RetroBSD booting in the new 'report' directory.
+
+I also noticed that this problem was happening with all linker scripts.
+Bootloaders were having problems with overlapping sections due to the
+addition of the .MIPS.abiflags section to the executable. I removed that
+section from any binary made, by adding the /DISCARD/ line to all linker
+scripts.
+
+Found that seven of the target platforms for RetroBSD segfault upon
+building init_main.c at the very last line. I can't get a stack trace as
+libunwind isn't a part of the mips-elf gcc port I created. These target
+platforms are not the popular ones for the MIPS port, so I am going to
+leave them alone. The max32 port works, and that is what also works with
+the VirtualMIPS simulator, so I will leave it for now.

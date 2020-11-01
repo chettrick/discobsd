@@ -295,6 +295,7 @@ SECTIONS
   .mdebug.abiO64 : { KEEP(*(.mdebug.abiO64)) }
   .mdebug.eabi32 : { KEEP(*(.mdebug.eabi32)) }
   .mdebug.eabi64 : { KEEP(*(.mdebug.eabi64)) }
+  /DISCARD/ : { *(.MIPS.abiflags) }
   /DISCARD/ : { *(.rel.dyn) }
   /DISCARD/ : { *(.note.GNU-stack) *(.gnu_debuglink) *(.gnu.lto_*) }
 }

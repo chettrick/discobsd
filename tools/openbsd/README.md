@@ -3,10 +3,10 @@
 This is the directory that maintains the development environment on OpenBSD
 for this Directed Study.
 It consists of a binary flash downloader, a circuit board emulator, and
-a compiler, an assembler. a C library, and a source-level debugger,
+a compiler, an assembler, a C library, and a source-level debugger,
 as well as an on-chip debugger.
 
-## Setting up the Development Environment
+## Setting up the Development Environment for Arm target
 
 All components of the development environment are available as an OpenBSD
 package, or as a user-compiled OpenBSD port in the `mystuff` directory subtree.
@@ -69,10 +69,40 @@ https://www.openbsd.org/faq/ports/ports.html
   $ sudo pkg_add arm-none-eabi-gdb
 ```
 
-Note that this version of gdb conflicts with the normal gdb package.
+Note: this version of gdb conflicts with the normal gdb package.
 Only one version of gdb may be installed at any time.
 
 ### On-Chip Debugger, Package: OpenOCD V0.10.0
 ```sh
   $ sudo pkg_add openocd
+```
+
+## Setting up the Development Environment for MIPS target
+
+Note: these steps assume that all previous steps have been completed.
+
+### Meta-package Toolchain, Package: mips-elf-{binutils,gcc}
+
+#### Assembler: Binutils V2.27, Configured for mips-elf
+
+```sh
+  $ cd /usr/ports/mystuff/devel/mips-elf/binutils
+  $ sudo make
+  $ sudo make install
+```
+
+#### Compiler: GCC V4.8.1, Configured for mips-elf
+
+```sh
+  $ cd /usr/ports/mystuff/devel/mips-elf/gcc
+  $ sudo make
+  $ sudo make install
+```
+
+Note: the whole meta-package can be compiled and installed by one command:
+
+```sh
+  $ cd /usr/ports/mystuff/devel/mips-elf
+  $ sudo make
+  $ sudo make install
 ```

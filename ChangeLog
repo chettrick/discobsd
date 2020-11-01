@@ -78,3 +78,31 @@ running out of memory or something like that. Who knows. gcc is complex.
 There are some post-patch and post-install fixes in the devel/avr/gcc
 Makefile that need to be used. This will get rid of all the ridiculous
 patches for the single space character needed by c++11 for variables.
+
+===========================================================================
+2020-11-01
+Sunday, November 01, 2020
+
+I started to build DiscoBSD with my new toolchain, but there are quite a
+few errors. The main one is (after much investigation into the cause) due
+to gcc not passing -msoft-float to the assembler. This caused the assembler
+to assemble as -mhard-float. The linker wasn't able to link these two
+separate types of objects.
+
+I fixed this by getting a patchset from gcc, which I had to modify, as it
+was meant for some newer version of gcc (5?).
+
+I made 4 new patches, and added some more changes to an already existing
+patch. That fixed the whole floating-point issue. The userland programs can
+be built now. The kernel builds, too. There still is a problem with the
+linker overlaying sections of the executable. I haven't researched it yet,
+though.
+
+The VirtualMIPS simulator isn't building. Probably due to not having the
+libelf package on OpenBSD. I may need to port that library, too. Who knows.
+
+Other problems are: elf2aout, manpages, init_main.c, expr, yacc kconfig
+reduce/reduce conflicts, install not working.
+
+I updated the README.md file for tools/openbsd to include how to get
+binutils and gcc for the MIPS target.

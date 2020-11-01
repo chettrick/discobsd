@@ -43,7 +43,7 @@ ifeq (/usr/local/mips-gcc-4.8.1/bin/mips-elf-gcc,$(wildcard /usr/local/mips-gcc-
 endif
 endif
 
-# Generic MIPS toolchain on *BSD
+# Generic MIPS toolchain on FreeBSD
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # You can build it from sources, as described on page
 # http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
@@ -51,6 +51,16 @@ endif
 ifndef GCCPREFIX
 ifeq (/usr/local/mips-elf/bin/mips-elf-gcc,$(wildcard /usr/local/mips-elf/bin/mips-elf-gcc))
     GCCPREFIX   = /usr/local/mips-elf/bin/mips-elf-
+    LDFLAGS     =
+    INCLUDES    =
+endif
+endif
+
+# Generic MIPS toolchain on OpenBSD
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ifndef GCCPREFIX
+ifeq (/usr/local/bin/mips-elf-gcc,$(wildcard /usr/local/bin/mips-elf-gcc))
+    GCCPREFIX   = /usr/local/bin/mips-elf-
     LDFLAGS     =
     INCLUDES    =
 endif
@@ -87,7 +97,8 @@ RANLIB          = $(GCCPREFIX)ranlib
 SIZE            = $(GCCPREFIX)size
 OBJDUMP         = $(GCCPREFIX)objdump -mmips:isa32r2
 AS		= $(CC) -x assembler-with-cpp -c
-YACC            = byacc
+#YACC            = byacc
+YACC            = yacc
 LEX             = flex
 INSTALL		= install -m 644
 INSTALLDIR	= install -m 755 -d

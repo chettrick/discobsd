@@ -13,6 +13,9 @@
 
 #ifndef __MIPS_H__
 #define __MIPS_H__
+
+#include <pthread.h>
+
 #include "system.h"
 #include "utils.h"
 

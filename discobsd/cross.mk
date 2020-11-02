@@ -1,5 +1,6 @@
 DESTDIR		= /usr/local/retrobsd
-MACHINE		= mips
+MACHINE		?= pic32
+MACHINE_ARCH	?= mips
 
 CC		= gcc -m32
 

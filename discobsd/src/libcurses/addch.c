@@ -12,7 +12,7 @@
 static void
 set_ch(win, y, x, ch)
         WINDOW	*win;
-        int	y, x;
+        int	y, x, ch;
 {
 # ifdef	FULLDEBUG
 	fprintf(outf, "SET_CH(%0.2o, %d, %d)\n", win, y, x);

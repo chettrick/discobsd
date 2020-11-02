@@ -2,20 +2,22 @@ TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
 LIBCDIR          = $(TOPSRC)/src/libc
-vpath %.S $(LIBCDIR)/mips/sys $(LIBCDIR)/mips/string $(LIBCDIR)/mips/gen \
-          $(LIBCDIR)/runtime
-vpath %.c $(LIBCDIR)/mips/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
+vpath %.S $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/$(MACHINE_ARCH)/string \
+          $(LIBCDIR)/$(MACHINE_ARCH)/gen $(LIBCDIR)/runtime
+vpath %.c $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
           $(LIBCDIR)/stdlib $(LIBCDIR)/string $(LIBCDIR)/inet \
           $(LIBCDIR)/compat $(LIBCDIR)/runtime
 
-CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
-ASFLAGS		+= -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -I$(LIBCDIR)/mips/sys
+# XXX CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
+CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall
+ASFLAGS		+= -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x \
+		   -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
 
 # modules which can not use SYSCALL and must be assembled from sources.  The
 # rest of the system calls are generated with printf(1) and do not have
 # source files associated with them.
 
-# libc/mips/sys
+# libc/mips/sys XXX MACHINE_ARCH?
 SYSOBJS		= __sysctl.o accept.o access.o adjtime.o bind.o chdir.o \
 		  chflags.o chmod.o chown.o chroot.o close.o connect.o dup.o \
 		  dup2.o execve.o fchdir.o fchflags.o fchmod.o fchown.o \
@@ -40,12 +42,12 @@ SYSOBJS		= __sysctl.o accept.o access.o adjtime.o bind.o chdir.o \
 OBJS		= $(SYSOBJS) sbrk.o execl.o execle.o execv.o \
 		  _exit.o _brk.o pipe.o ptrace.o sigaction.o
 
-# libc/mips/string
+# libc/mips/string XXX MACHINE_ARCH?
 ASFLAGS         += -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl
 OBJS            += bcopy.o bzero.o ffs.o memcpy.o memmove.o memset.o \
                    strlen.o bcmp.o index.o rindex.o strcmp.o
 
-# libc/mips/gen
+# libc/mips/gen XXX MACHINE_ARCH?
 OBJS            += _setjmp.o htonl.o htons.o
 
 # libc/gen
@@ -104,7 +106,7 @@ all:            ../libc.a
 		../ar rc $@ $(OBJS)
 		../ranlib $@
 
-$(SYSOBJS):	$(LIBCDIR)/mips/sys/SYS.h
+$(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 		@echo creating $*.o
 		@printf '#include "SYS.h"\nSYS($*)\n' | $(AS) $(ASFLAGS) - -c -o $*.o
 

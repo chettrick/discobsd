@@ -1,8 +1,11 @@
-MACHINE     = mips
-DESTDIR     ?= $(TOPSRC)
-RELEASE     = 0.0
-BUILD       = $(shell git rev-list HEAD --count)
-VERSION     = $(RELEASE)-$(BUILD)
+MACHINE		?= pic32
+MACHINE_ARCH	?= mips
+DESTDIR		?= $(TOPSRC)
+RELEASE		= 0.0
+BUILD		= $(shell git rev-list HEAD --count)
+VERSION		= $(RELEASE)-$(BUILD)
+
+ifeq ($(MACHINE_ARCH), mips)
 
 # chipKIT PIC32 compiler from UECIDE
 ifdef UECIDE
@@ -85,17 +88,54 @@ ifeq (/usr/local/mips-2014.05/bin/mips-sde-elf-gcc,$(wildcard /usr/local/mips-20
 endif
 endif
 
+endif # MACHINE_ARCH == mips
+ifeq ($(MACHINE_ARCH), arm)
+
+# Generic ARM toolchain on OpenBSD
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ifndef GCCPREFIX
-    $(error Unable to locate any GCC MIPS toolchain!)
+ifeq (/usr/local/bin/arm-none-eabi-gcc,$(wildcard /usr/local/bin/arm-none-eabi-gcc))
+    GCCPREFIX   = /usr/local/bin/arm-none-eabi-
+    LDFLAGS     =
+    INCLUDES    =
 endif
+endif
+
+endif # MACHINE_ARCH == arm
+
+ifndef GCCPREFIX
+   $(error Unable to locate any GCC $(MACHINE_ARCH) toolchain!)
+endif
+
+CFLAGS		= -Os
+
+LIBS		= -lc
+
+ifeq ($(MACHINE_ARCH), mips)
 
 CC		= $(GCCPREFIX)gcc -mips32r2 -EL -msoft-float -nostdinc -fshort-double -I$(TOPSRC)/include $(INCLUDES)
 CXX             = $(GCCPREFIX)g++ -mips32r2 -EL -msoft-float -nostdinc -fshort-double -I$(TOPSRC)/include $(INCLUDES)
+OBJDUMP         = $(GCCPREFIX)objdump -mmips:isa32r2
+LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/src/elf32-mips.ld \
+		   $(TOPSRC)/src/crt0.o -L$(TOPSRC)/src
+# Enable mips16e instruction set by default
+CFLAGS		+= -mips16
+
+endif # MACHINE_ARCH == mips
+ifeq ($(MACHINE_ARCH), arm)
+
+CC		= $(GCCPREFIX)gcc -mcpu=cortex-m4 -mlittle-endian -mthumb -mthumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -msoft-float -nostdinc -I$(TOPSRC)/include $(INCLUDES)
+CXX             = $(GCCPREFIX)g++ -mcpu=cortex-m4 -mlittle-endian -mthumb -mthumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -msoft-float -nostdinc -I$(TOPSRC)/include $(INCLUDES)
+OBJDUMP         = $(GCCPREFIX)objdump -marm -M force-thumb # XXX not sure about force-thumb
+LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/src/elf32-arm.ld \
+		   $(TOPSRC)/src/crt0.o -L$(TOPSRC)/src
+
+endif # MACHINE_ARCH == arm
+
 LD		= $(GCCPREFIX)ld
 AR		= $(GCCPREFIX)ar
 RANLIB          = $(GCCPREFIX)ranlib
 SIZE            = $(GCCPREFIX)size
-OBJDUMP         = $(GCCPREFIX)objdump -mmips:isa32r2
 AS		= $(CC) -x assembler-with-cpp -c
 #YACC            = byacc
 YACC            = yacc
@@ -105,12 +145,3 @@ INSTALLDIR	= install -m 755 -d
 TAGSFILE	= tags
 MANROFF		= nroff -man -h -Tascii
 ELF2AOUT	= $(TOPSRC)/tools/elf2aout/elf2aout
-
-CFLAGS		= -Os
-
-LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/src/elf32-mips.ld \
-		   $(TOPSRC)/src/crt0.o -L$(TOPSRC)/src
-LIBS		= -lc
-
-# Enable mips16e instruction set by default
-CFLAGS		+= -mips16

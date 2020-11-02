@@ -31,6 +31,9 @@ endif
 ifneq ($(wildcard /opt/local/lib/libintl.a),)
 LIBS		+= -L/opt/local/lib -lintl          # Mac OS X
 endif
+ifneq ($(wildcard /usr/local/lib/libintl.a),)
+LIBS		+= -L/usr/local/lib -lintl          # OpenBSD
+endif
 
 # Optimization.
 CFLAGS		+= -O

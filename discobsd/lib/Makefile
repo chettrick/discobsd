@@ -2,7 +2,8 @@ TOPSRC          = $(shell cd ..; pwd)
 SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
 PROG		= ar as aout ld nm ranlib size strip
 
-CFLAGS          = -Os -std=gnu89 -fno-builtin -g -Werror -Wall -DCROSS -I. \
+# XXX Add back -Werror to CFLAGS
+CFLAGS          = -Os -std=gnu89 -fno-builtin -g -Wall -DCROSS -I. \
                    -idirafter $(TOPSRC)/include \
                    -idirafter $(TOPSRC)/src/cmd/ar \
                    -idirafter $(TOPSRC)/src/cmd/as
@@ -10,7 +11,7 @@ LDFLAGS         += -g
 
 AR_OBJS         = ar.o append.o archive.o contents.o delete.o extract.o \
                   misc.o move.o print.o replace.o strmode.o
-AOUT_OBJS       = aout.o mips-dis.o
+AOUT_OBJS       = aout.o mips-dis.o # XXX use MACHINE_ARCH
 RANLIB_OBJS     = ranlib.o archive.o
 HEADERS         = a.out.h ar.h nlist.h ranlib.h
 

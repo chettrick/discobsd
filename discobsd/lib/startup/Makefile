@@ -7,7 +7,7 @@
 #
 TOPSRC          = $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
-vpath %.c $(TOPSRC)/src/startup-mips
+vpath %.c $(TOPSRC)/src/startup-$(MACHINE_ARCH)
 
 CFLAGS          = -Os -B$(TOPSRC)/lib/ -Wa,-x $(DEFS)
 

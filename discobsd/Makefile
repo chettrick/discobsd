@@ -8,6 +8,9 @@
 # The `make' will compile everything, including a kernel, utilities
 # and a root filesystem image.
 
+MACHINE		?= pic32
+MACHINE_ARCH	?= mips
+
 # Filesystem and swap sizes.
 FS_MBYTES       = 100
 U_MBYTES        = 100
@@ -40,7 +43,7 @@ all:
 		$(MAKE) fs
 
 kernel:         $(CONFIG)
-		$(MAKE) -C sys/pic32 all
+		$(MAKE) -C sys/$(MACHINE) all
 
 fs:             sdcard.img
 

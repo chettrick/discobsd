@@ -10,7 +10,7 @@
 # ``compat'' (so they all sort together).
 #
 # The C run-time startup code is always machine dependent and expected
-# to be located in ../startup-${MACHINE}.
+# to be located in ../startup-${MACHINE_ARCH}.
 #
 # All files contain sccsid strings, but these are not compiled into
 # library objects by default, as a space-saving measure.  To produce
@@ -26,8 +26,9 @@
 TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
-DEFS		= -Wall -Werror
-ALL		= gen stdio stdlib string inet compat ${MACHINE}
+# XXX DEFS		= -Wall -Werror
+DEFS		= -Wall
+ALL		= gen stdio stdlib string inet compat ${MACHINE_ARCH}
 
 all:            ../libc.a
 

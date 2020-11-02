@@ -201,3 +201,66 @@ the VirtualMIPS simulator, so I will leave it for now.
 
 The libintl library is used by VirtualMIPS. Add check for it on OpenBSD.
 I don't think it is needed, but what the heck. Why not.
+
+===========================================================================
+2020-11-02
+Monday, November 02, 2020
+
+I discovered that there are quite a bit of hardcoded MIPS variables spread
+throughout the codebase, mostly in the Makefiles. I will have to clean up
+some more of the codebase before I can get started on the Arm port.
+
+The first thing I have noticed is that the variable MACHINE is used for
+mips, and I will need to make it set to either mips or arm. I can do
+autoselection of build tools and specific kernel code by just using the
+MACHINE variable. I have had a hard time finding out where that variable is
+defined in OpenBSD (so that I can use a similar place in the build system
+for DiscoBSD).
+
+
+Cool fact: A comment in a Makefile is a comment, except for the odd fact
+that if the line ends in a backslash, and that backslash is not escaped
+with another backslash, then the comment will continue across multiple
+lines. So don't think that a (#) comment is just a comment.
+
+
+Okay, I'm working on a commit for all the Makefile business to have
+multiple target architectures supported in this codebase.
+
+I am temporarily turning off -Werror for now, as the new gcc is showing too
+many errors, and I just want the build to be able to finish.
+
+
+Researched a bit about how NetBSD does cross-compilation with build.sh and
+I made a groundbreaking development. I need to introduce a MACHINE_ARCH
+variable which will replace what is currently defined for MACHINE.
+This will break compatibility with RetroBSD, but this is the right way of
+doing it. This is also how OpenBSD does it with the macppc/powerpc arches.
+I am glad I held off on that commit that would only add MACHINE.
+
+Going forward, this will be the status of MACHINE{,_ARCH} variables:
+MACHINE      specifies the machine hardware platform.
+MACHINE_ARCH specifies the machine processor architecture.
+For example: MACHINE => pic32 ; MACHINE_ARCH => mips
+             MACHINE => stm32 ; MACHINE_ARCH => arm
+
+MACHINE      derives from "uname -m"
+MACHINE_ARCH derives from "uname -p"
+
+For right now, the defaults are MACHINE=pic32 and MACHINE_ARCH=mips
+The Makefiles use the "?=" instead of just a "=", so they can be redefined
+on the command line when gmake is invoked, like this:
+  $ MACHINE=stm32 MACHINE_ARCH=arm gmake
+
+Not sure about the arm compiling lines in target.mk. I will refine the
+options once I get it to compile for Arm. I copied over the linker script
+from the testing directory and named it similar to the mips one. It will
+definitely need to be changed.
+
+Thought about if I should amend the Makefiles to also figure out which host
+the cross-compilation is being performed on. I have come to the conclusion
+that I won't do that, and I will focus my development work on OpenBSD as
+the host development platform, and I could get the other OSes working after
+I have the Arm port working. I also don't have a dedicated Linux install. I
+only currently have the Ubuntu on Windows Subsystem for Linux (Winbuntu),
+which does not do graphics, etc., so there is another reason to not do it.

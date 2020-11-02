@@ -197,3 +197,7 @@ libunwind isn't a part of the mips-elf gcc port I created. These target
 platforms are not the popular ones for the MIPS port, so I am going to
 leave them alone. The max32 port works, and that is what also works with
 the VirtualMIPS simulator, so I will leave it for now.
+
+
+The libintl library is used by VirtualMIPS. Add check for it on OpenBSD.
+I don't think it is needed, but what the heck. Why not.

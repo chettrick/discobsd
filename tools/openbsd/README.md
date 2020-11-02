@@ -108,3 +108,8 @@ Note: the whole meta-package can be compiled and installed by one command:
 ```sh
   $ sudo pkg_add elftoolchain
 ```
+
+### Internationalization Library, Package: GetText V0.20.1
+```sh
+  $ sudo pkg_add gettext-runtime
+```

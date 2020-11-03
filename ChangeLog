@@ -264,3 +264,25 @@ the host development platform, and I could get the other OSes working after
 I have the Arm port working. I also don't have a dedicated Linux install. I
 only currently have the Ubuntu on Windows Subsystem for Linux (Winbuntu),
 which does not do graphics, etc., so there is another reason to not do it.
+
+===========================================================================
+2020-11-03
+Tuesday, November 03, 2020
+
+The segfaults when compiling the mips kernel happens for any platform. It
+seems like it is some sort of gcc error, not an error with this codebase.
+If the build is restarted, then it will make more progress and end up built
+eventually.
+
+
+Copied over the sys/pic32 directory to sys/stm32. Only kept the max32
+platform directory, as that one is proven with VirtualMIPS. I am aiming to
+make a minimal kernel with this, that still works on VirtualMIPS. From
+there I will make changes to get it to compile for Arm. Note that this is
+just a copy of what is already there.
+
+I am just working on the kernel right now. The userland will have to wait.
+This makes the whole MACHINE{,_ARCH} stuff not work properly (until I get
+all the arm-specific directories made). The way around this is to make a
+mips userland, and then cd into the kernel build directory and compile a
+kernel from there.

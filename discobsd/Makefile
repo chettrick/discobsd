@@ -60,15 +60,15 @@ $(FSUTIL):
 		cd tools/fsutil; $(MAKE)
 
 $(CONFIG):
-		make -C tools/configsys
+		$(MAKE) -C tools/configsys
 
 clean:
 		rm -f *~
-		for dir in tools lib src sys/pic32; do $(MAKE) -C $$dir -k clean; done
+		for dir in tools lib src sys/$(MACHINE); do $(MAKE) -C $$dir -k clean; done
 
 cleanall:       clean
 		$(MAKE) -C lib clean
-		rm -f sys/pic32/*/unix.hex bin/* sbin/* libexec/*
+		rm -f sys/$(MACHINE)/*/unix.hex bin/* sbin/* libexec/*
 		rm -f games/[a-k]* games/[m-z]* share/man/cat*/*
 		rm -f games/lib/adventure.dat games/lib/cfscores
 		rm -f share/re.help share/emg.keys share/misc/more.help

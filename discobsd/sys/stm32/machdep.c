@@ -22,8 +22,8 @@
 #include <sys/kconfig.h>
 #include <sys/tty.h>
 #include <machine/uart.h>
-#include <machine/usb_uart.h>
 #ifdef UARTUSB_ENABLED
+#   include <machine/usb_uart.h>
 #   include <machine/usb_device.h>
 #   include <machine/usb_function_cdc.h>
 #endif

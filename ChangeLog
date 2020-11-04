@@ -299,3 +299,46 @@ references to max32 to now use f4discovery. I also temporarily changed the
 config file for VirtualMIPS to now use the f4discovery kernel, just so I
 can get a minimal kernel made. After that I will switch it back to max32.
 I got to get qemu-arm to work with booting an Arm kernel once I'm there.
+
+
+I figured out (by reading old RetroBSD commits) that the tools/configsys
+program is no longer used. This is a good thing since it is the only C++
+code in the tree. I may remove it later on. Since tools/configsys isn't
+used, then that means that tools/kconfig is the kernel configurator.
+
+I have noticed that compiling the kernel is much more involved than I
+initially expected. The program kconfig is used to generate the Makefile
+and other build files used in the kernel compilation process. There is a
+document at http://retrobsd.org/wiki/doku.php/doc/kconfig that describes
+the process somewhat. It seems to be flatout copy-pasted from the original
+version for 4.4BSD, with a hacked up search and replace to add in the PIC32
+and MIPS stuff. I will have to figure out if it is good information, or out
+of date. I may need to modify kconfig for stm32 and arm. Hopefully not.
+
+
+Okay, the kernel is configured by the file Config in the build directory.
+
+
+I'm working on building the kernel, and trying to change the Config file
+and have it still work. Trying to find a minimum file that still works and
+runs on the VirtualMIPS simulator.
+
+BUG: Not specifying a 'board' in Config causes kconfig to segfault.
+
+I am focusing on the files Config, Makefile.kconf, devices.kconf,
+files.kconf, and possibly others.
+
+Working on a commit that removes many drivers that are not needed to make a
+minimal kernel in the sys/stm32 directory. Some config lines in Config have
+the words "optional" for them (such as sd or uart), but you have to have
+them or else the kernel won't compile. I'll have to look into that more.
+
+I put the machine/usb_uart.h include inside the UARTUSB_ENABLED ifdef, so
+that it isn't a dependency.
+
+I got rid of these drivers for a minimal kernel:
+adc, glcd, gpanel*, gpio, kbd, machdep, mrams, picga, pwm, sdram, sramc,
+sdramp, skel, spirams, usb, usbuart, and probably more.
+
+Note that this is temporary. It will be nice to have common drivers for all
+these devices, but right now I am focusing on getting an Arm kernel to run.

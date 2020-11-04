@@ -1,10 +1,9 @@
 #
-# chipKIT Max32 board with SD card shield
-# =======================================
-# For details, see https://github.com/RetroBSD/retrobsd/wiki/Board-chipKIT-Max32
+# STM32F4DISCOVERY board
+# ======================
 #
 # To build the kernel, use:
-#   cd sys/pic32/max32
+#   cd sys/stm32/f4discovery
 #   kconfig Config
 #   make clean
 #   make
@@ -15,25 +14,19 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "MAX32"                     # Board type
-ldscript        "max32/bootloader.ld"       # Linker script
+ldscript        "f4discovery/bootloader.ld" # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
 options         "BUS_KHZ=80000"             # Frequency of peripheral bus
 options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
 
-# LED
-signal          "LED_KERNEL"    pin RA3     # kernel activity indicator
-
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b
 config          unix    root on sd0a
                         swap on sd0b
 
 # Serial UART ports
-# Cannot use uart3, as it conflicts with spi2
-device          uart1                       # Serial-to-USB converter
-device          uart2
-device          uart4
+device          uart1
 
 # Use UART1 as console
 options         "CONS_MAJOR=UART_MAJOR"     # UART device
@@ -45,27 +38,3 @@ controller      spi2                        # SD card
 # microSD card
 device          sd0     at spi2 pin RC14    # select pin
 options         "SD_MHZ=10"                 # speed 10 MHz
-
-# General purpose I/O ports
-# Flags define a mask of available pins
-# The following pins excluded:
-#   RF2, RF8            - uart1
-#   RF4, RF5            - uart2
-#   RD14, RD15          - uart4
-#   RG6, RG7, RG8, RC14 - spi2, SD card
-device          gpio0   flags 0xc6ff    # port A
-device          gpio1   flags 0xffff    # port B
-device          gpio2   flags 0xb01e    # port C
-device          gpio3   flags 0x3fff    # port D
-device          gpio4   flags 0x03ff    # port E
-device          gpio5   flags 0x300b    # port F
-device          gpio6   flags 0xf20f    # port G
-
-# ADC driver
-device          adc
-
-# PWM driver
-device          pwm
-
-# Skeleton driver
-#device         skel

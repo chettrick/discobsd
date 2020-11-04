@@ -11,7 +11,9 @@
 #include <sys/vm.h>
 #include <sys/tty.h>
 #include <machine/uart.h>
-#include <machine/usb_uart.h>
+#ifdef UARTUSB_ENABLED
+#   include <machine/usb_uart.h>
+#endif
 
 //#define TRACE_EXCEPTIONS
 

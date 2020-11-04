@@ -12,7 +12,9 @@
 #include <sys/tty.h>
 #include <sys/systm.h>
 #include <machine/uart.h>
-#include <machine/usb_uart.h>
+#ifdef UARTUSB_ENABLED
+#   include <machine/usb_uart.h>
+#endif
 
 struct tty cnttys [1];
 

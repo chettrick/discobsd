@@ -1,20 +1,8 @@
 PARAM = -DMAX32
 PARAM += -DPIC32MX7
 PARAM += -DUART1_ENABLED
-PARAM += -DUART2_ENABLED
-PARAM += -DUART4_ENABLED
 PARAM += -DSPI2_ENABLED
 PARAM += -DSD_ENABLED
-PARAM += -DGPIO_ENABLED
-PARAM += -DGPIO1_ENABLED
-PARAM += -DGPIO2_ENABLED
-PARAM += -DGPIO3_ENABLED
-PARAM += -DGPIO4_ENABLED
-PARAM += -DGPIO5_ENABLED
-PARAM += -DGPIO6_ENABLED
-PARAM += -DADC_ENABLED
-PARAM += -DPWM_ENABLED
-PARAM += -DLED_KERNEL_PORT=TRISA -DLED_KERNEL_PIN=3
 PARAM += -DSD_MHZ=10
 PARAM += -DCONS_MINOR=0
 PARAM += -DCONS_MAJOR=UART_MAJOR
@@ -65,8 +53,8 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
-	exception.o machdep.o mem.o signal.o swap.o sysctl.o adc.o \
-	gpio.o pwm.o sd.o spi.o spi_bus.o uart.o 
+	exception.o machdep.o mem.o signal.o swap.o sysctl.o sd.o spi.o \
+	spi_bus.o uart.o 
 
 CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/kernel/exec_script.c $S/kernel/exec_subr.c \
@@ -88,12 +76,11 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/kernel/ufs_namei.c $S/kernel/ufs_subr.c \
 	$S/kernel/ufs_syscalls.c $S/kernel/ufs_syscalls2.c \
 	$S/kernel/vfs_vnops.c $S/kernel/vm_sched.c $S/kernel/vm_swap.c \
-	$S/kernel/vm_swp.c $S/pic32/clock.c $S/pic32/cons.c \
-	$S/pic32/devsw.c $S/pic32/exception.c $S/pic32/machdep.c \
-	$S/pic32/mem.c $S/pic32/signal.c $S/pic32/swap.c \
-	$S/pic32/sysctl.c $S/pic32/adc.c $S/pic32/gpio.c $S/pic32/pwm.c \
-	$S/pic32/sd.c $S/pic32/spi.c $S/pic32/spi_bus.c $S/pic32/uart.c \
-	swapunix.c 
+	$S/kernel/vm_swp.c $S/stm32/clock.c $S/stm32/cons.c \
+	$S/stm32/devsw.c $S/stm32/exception.c $S/stm32/machdep.c \
+	$S/stm32/mem.c $S/stm32/signal.c $S/stm32/swap.c \
+	$S/stm32/sysctl.c $S/stm32/sd.c $S/stm32/spi.c \
+	$S/stm32/spi_bus.c $S/stm32/uart.c swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -298,52 +285,43 @@ vm_swap.o: $S/kernel/vm_swap.c
 vm_swp.o: $S/kernel/vm_swp.c
 	${COMPILE_C}
 
-clock.o: $S/pic32/clock.c
+clock.o: $S/stm32/clock.c
 	${COMPILE_C}
 
-cons.o: $S/pic32/cons.c
+cons.o: $S/stm32/cons.c
 	${COMPILE_C}
 
-devsw.o: $S/pic32/devsw.c
+devsw.o: $S/stm32/devsw.c
 	${COMPILE_C}
 
-exception.o: $S/pic32/exception.c
+exception.o: $S/stm32/exception.c
 	${COMPILE_C}
 
-machdep.o: $S/pic32/machdep.c
+machdep.o: $S/stm32/machdep.c
 	${COMPILE_C}
 
-mem.o: $S/pic32/mem.c
+mem.o: $S/stm32/mem.c
 	${COMPILE_C}
 
-signal.o: $S/pic32/signal.c
+signal.o: $S/stm32/signal.c
 	${COMPILE_C}
 
-swap.o: $S/pic32/swap.c
+swap.o: $S/stm32/swap.c
 	${COMPILE_C}
 
-sysctl.o: $S/pic32/sysctl.c
+sysctl.o: $S/stm32/sysctl.c
 	${COMPILE_C}
 
-adc.o: $S/pic32/adc.c
+sd.o: $S/stm32/sd.c
 	${COMPILE_C}
 
-gpio.o: $S/pic32/gpio.c
+spi.o: $S/stm32/spi.c
 	${COMPILE_C}
 
-pwm.o: $S/pic32/pwm.c
+spi_bus.o: $S/stm32/spi_bus.c
 	${COMPILE_C}
 
-sd.o: $S/pic32/sd.c
-	${COMPILE_C}
-
-spi.o: $S/pic32/spi.c
-	${COMPILE_C}
-
-spi_bus.o: $S/pic32/spi_bus.c
-	${COMPILE_C}
-
-uart.o: $S/pic32/uart.c
+uart.o: $S/stm32/uart.c
 	${COMPILE_C}
 
 

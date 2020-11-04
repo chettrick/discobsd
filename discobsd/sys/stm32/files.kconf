@@ -53,45 +53,22 @@ kernel/vm_swap.c                standard
 kernel/vm_swp.c                 standard
 
 #
-# PIC32 platform.
+# STM32 platform.
 #
-pic32/clock.c                   standard
-pic32/cons.c                    standard
-pic32/devsw.c                   standard
-pic32/exception.c               standard
-pic32/machdep.c                 standard
-pic32/mem.c                     standard
-pic32/signal.c                  standard
-pic32/swap.c                    standard
-pic32/sysctl.c                  standard
+stm32/clock.c                   standard
+stm32/cons.c                    standard
+stm32/devsw.c                   standard
+stm32/exception.c               standard
+stm32/machdep.c                 standard
+stm32/mem.c                     standard
+stm32/signal.c                  standard
+stm32/swap.c                    standard
+stm32/sysctl.c                  standard
 
 #
-# PIC32 drivers.
+# STM32 drivers.
 #
-pic32/adc.c                     optional adc
-pic32/glcd.c                    optional glcd
-pic32/gpanel.c                  optional gpanel
-pic32/gpanel-ili9341.c          optional gpanel
-pic32/gpanel-nt35702.c          optional gpanel
-#pic32/gpanel-s6d04h0.c          optional gpanel
-pic32/gpanel-st7781.c           optional gpanel
-pic32/gpanel-spi.c              optional sgpanel
-pic32/gpanel-spi-ili9341.c      optional sgpanel
-pic32/gpio.c                    optional gpio
-pic32/hx8357.c                  optional hxtft
-pic32/picga.c                   optional picga
-pic32/power_control.c           optional power
-pic32/pwm.c                     optional pwm
-pic32/mrams.c                   optional mr
-pic32/sd.c                      optional sd
-pic32/sdramp.c                  optional dr
-pic32/sdram.S                   optional dr
-pic32/spirams.c                 optional sr
-pic32/sramc.c                   optional rc
-pic32/skel.c                    optional skel
-pic32/spi.c                     optional spi
-pic32/spi_bus.c                 optional spi
-pic32/uart.c                    optional uart
-pic32/usb_device.c              optional uartusb
-pic32/usb_function_cdc.c        optional uartusb
-pic32/usb_uart.c                optional uartusb
+stm32/sd.c                      optional sd
+stm32/spi.c                     optional spi
+stm32/spi_bus.c                 optional spi
+stm32/uart.c                    optional uart

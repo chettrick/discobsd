@@ -531,7 +531,7 @@ remrq (p)
                 q->p_link = p->p_link;
                 goto done;
             }
-            panic("remrq");
+        panic("remrq");
     }
 done:
     splx(s);

@@ -344,7 +344,7 @@ Note that this is temporary. It will be nice to have common drivers for all
 these devices, but right now I am focusing on getting an Arm kernel to run.
 
 ===========================================================================
-2020-11-03
+2020-11-07
 Saturday, November 07, 2020
 
 I have tried to get gdb to work with VirtualMIPS to step through init code,
@@ -368,3 +368,14 @@ or some other thing, such as init_main.c, kern_sig2.c, sys_pipe.c,
 vm_sched.c, and spi_bus.c.
 
 Linking has not yet been tried.
+
+===========================================================================
+2020-11-08
+Sunday, November 08, 2020
+
+Did some cleaning up of warnings in the kernel code. The BSD developers
+have used the term Kernel Normal Form, or knf, for specifying the style of
+kernel code. The manpage style(9) on OpenBSD has all the specifics.
+
+Fixed some indentation, added some ints for implicit ints, and replaced
+some utf-8 characters with ascii ones.

@@ -593,6 +593,7 @@ ino_unlock(fp, kind)
 int
 openi (ip, mode)
     register struct inode *ip;
+    int mode;
 {
     register dev_t dev = ip->i_rdev;
     register int maj = major(dev);

@@ -65,6 +65,7 @@ int
 q_to_b (q, cp, cc)
     register struct clist *q;
     char *cp;
+    int cc;
 {
     register struct cblock *bp;
     register int nc;
@@ -128,6 +129,7 @@ q_to_b (q, cp, cc)
  */
 int ndqb (q, flag)
     register struct clist *q;
+    int flag;
 {
     int cc;
     int s;
@@ -223,6 +225,7 @@ out:
  */
 int
 putc (c, p)
+    int c;
     register struct clist *p;
 {
     register struct cblock *bp;

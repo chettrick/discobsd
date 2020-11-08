@@ -269,6 +269,7 @@ uartioctl (dev, cmd, addr, flag)
     dev_t dev;
     register u_int cmd;
     caddr_t addr;
+    int flag;
 {
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];

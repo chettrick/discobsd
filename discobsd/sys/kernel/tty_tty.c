@@ -45,6 +45,7 @@ int
 sywrite (dev, uio, flag)
     dev_t dev;
     struct uio *uio;
+    int flag;
 {
     if (u.u_ttyp == NULL)
         return (ENXIO);

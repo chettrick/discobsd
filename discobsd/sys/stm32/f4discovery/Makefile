@@ -11,24 +11,20 @@ PARAM += -DBUS_KHZ=80000
 PARAM += -DCPU_KHZ=80000
 LDSCRIPT = "f4discovery/bootloader.ld"
 #
-# Makefile for RetroBSD, pic32 target
+# Makefile for DiscoBSD, stm32 target
 #
 # DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
 #
 include ../gcc-config.mk
 
-AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
-CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -Werror -Wall
-CPP             = ${MIPS_GCC_PREFIX}cpp
-LD              = ${MIPS_GCC_PREFIX}gcc -mips32r2 -EL
+AS              = ${ARM_GCC_PREFIX}as ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16
+CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -fno-builtin -Wall
+CPP             = ${ARM_GCC_PREFIX}cpp
+LD              = ${ARM_GCC_PREFIX}gcc -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16
 LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$(basename $@).map
-SIZE            = ${MIPS_GCC_PREFIX}size
-OBJCOPY         = ${MIPS_GCC_PREFIX}objcopy
-OBJDUMP         = ${MIPS_GCC_PREFIX}objdump
-
-ifneq (${MIPS_GCC_FORMAT},)
-    LDFLAGS     += -Wl,--oformat=${MIPS_GCC_FORMAT}
-endif
+SIZE            = ${ARM_GCC_PREFIX}size
+OBJCOPY         = ${ARM_GCC_PREFIX}objcopy
+OBJDUMP         = ${ARM_GCC_PREFIX}objdump
 
 # sources are located via $S relative to the compilation directory
 S               = ../..

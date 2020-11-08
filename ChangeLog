@@ -337,8 +337,34 @@ I put the machine/usb_uart.h include inside the UARTUSB_ENABLED ifdef, so
 that it isn't a dependency.
 
 I got rid of these drivers for a minimal kernel:
-adc, glcd, gpanel*, gpio, kbd, machdep, mrams, picga, pwm, sdram, sramc,
-sdramp, skel, spirams, usb, usbuart, and probably more.
+adc, glcd, gpanel*, gpio, kbd, mrams, picga, pwm, sdram, sramc, sdramp,
+skel, spirams, usb, usbuart, and probably more.
 
 Note that this is temporary. It will be nice to have common drivers for all
 these devices, but right now I am focusing on getting an Arm kernel to run.
+
+===========================================================================
+2020-11-03
+Saturday, November 07, 2020
+
+I have tried to get gdb to work with VirtualMIPS to step through init code,
+but I haven't had any luck. VirtualMIPS forever loops waiting for gdb, but
+never connects. I also have not been able to make a mips-elf-gdb, so that
+could also be a reason (I'm using the regular gdb, which is for amd64).
+
+
+Making a commit that makes the stm32 port to compile with the arm-none-eabi
+toolchain.
+I converted the MIPS_GCC_PREFIX variable to ARM_GCC_PREFIX.
+Trying out these arm compile options.
+
+Building the kernel currently fails, as it is trying to build MIPS assembly
+code in files such as startup.S.
+
+The current options used allows many of the kernel files to compile. There
+are a few that cannot compile, due to MIPS assembly code in machine/io.h.
+Also, some other files cannot compile due to assembly inside their C code
+or some other thing, such as init_main.c, kern_sig2.c, sys_pipe.c,
+vm_sched.c, and spi_bus.c.
+
+Linking has not yet been tried.

@@ -248,6 +248,7 @@ ttyunblock (tp)
  */
 void ttyflush (tp, rw)
     register struct tty *tp;
+    int rw;
 {
     register int s;
 
@@ -1339,6 +1340,7 @@ int
 ttread (tp, uio, flag)
     register struct tty *tp;
     struct uio *uio;
+    int flag;
 {
     register struct clist *qp;
     register int c;
@@ -1537,6 +1539,7 @@ int
 ttwrite (tp, uio, flag)
     register struct tty *tp;
     register struct uio *uio;
+    int flag;
 {
     char *cp;
     register int cc, ce;

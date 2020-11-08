@@ -21,7 +21,7 @@
  * var a:
  * USER_DATA_END: !----------!
  *                ! +P_ssize ! stack
- * p_saddr ->     ¡----------!
+ * p_saddr ->     !----------!
  *
  *                !----------!
  *                ! +P_dsize ! .data + .bss + heap
@@ -31,7 +31,7 @@
  *
  * USER_DATA_END: !--------!
  *                ! +ssize ! stack
- * saddr ->       ¡--------!
+ * saddr ->       !--------!
  *                ! +hsize ! heap
  * haddr ->       !--------!
  *                ! +dsize ! .data + .bss
@@ -45,7 +45,7 @@
  *                ! +tsize ! .text (read only section)
  * taddr ->       !--------!
  *                ! +ssize ! stack
- * saddr ->       ¡--------!
+ * saddr ->       !--------!
  *                ! +hsize ! heap
  * haddr ->       !--------!
  *                ! +dsize ! .data + .bss

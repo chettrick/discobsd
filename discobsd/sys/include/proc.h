@@ -274,7 +274,7 @@ int procxmt (void);
 
 void execsigs(register struct proc *p);
 
-#endif /* KERMEL */
+#endif /* KERNEL */
 
 /* stat codes */
 #define SSLEEP      1       /* awaiting an event */
@@ -291,6 +291,7 @@ void execsigs(register struct proc *p);
 #define SSWAP       0x0008  /* save area flag */
 #define P_TRACED    0x0010  /* process is being traced */
 #define P_WAITED    0x0020  /* another tracing flag */
+                 /* 0x0040     unused */
 #define P_SINTR     0x0080  /* sleeping interruptibly */
 #define SVFORK      0x0100  /* process resulted from vfork() */
 #define SVFPRNT     0x0200  /* parent in vfork, waiting for child */

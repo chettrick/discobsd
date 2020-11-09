@@ -379,3 +379,208 @@ kernel code. The manpage style(9) on OpenBSD has all the specifics.
 
 Fixed some indentation, added some ints for implicit ints, and replaced
 some utf-8 characters with ascii ones.
+
+
+label_t needs to be defined for arm. Building the kernel keeps erroring on
+needing a label_t. I think this is for setjmp() and longjmp(), which will
+need to be written in arm assembly.
+
+I edited sys/include/types.h to have an arm-specific typedef of label_t
+(#ifdef __arm__ is what I used to guard it). It is currently an unsigned
+val[11], based on what the mips one is, and what NetBSD, and other code,
+has. But they have it as an int, not as an unsigned, so I will have to
+research a bit more about what label_t is used for. Also, the mips version
+shows the registers it uses, so I can go from there. There is a comment
+that label_t is used by setjmp and longjmp.
+
+Spent some time looking at how OpenBSD and NetBSD deal with setjmp() and
+longjmp() in assembly. This spills over into the label_t struct and the
+size of it, and which registers need to be saved and restored for setjmp()
+and longjmp(), but also in general for all calling conventions.
+This has led me to find the Arm document about Procedure Call Standard for
+the Arm Architecture (AAPCS). There are a couple other documents I need to
+read as well, such as the ELF for the Arm Architecture (AAELF) and the ABI
+for the Arm Architecture Base Standard (BSABI). I don't think I need to
+concern myself yet about the C++ ABI for the Arm Architecture (CPPABI), as
+running C++ code on DiscoBSD would be a long term project. I may need to
+read the Arm Architecture Reference Manual (ARMARM), but I am not sure if
+this applies to Arm v7-m for Cortex or not.
+This is all very confusing at the moment.
+
+Read first half and skimmed through the AAPCS document. I think it is meant
+more for assembler and complier writers than for those implementing an OS.
+I have started to read RM0090, the 1749-page reference manual for STM32F407
+devices (among others). Woof.
+
+
+Okay, I made a small discovery about syscalls in Unix and how Arm deals
+with them.
+There are two types of calling conventions for Arm: APCS and TPCS.
+These stand for "Arm Procedure Call Standard" for Arm calls, and "Thumb
+Procedure Call Standard" for the 16-bit Thumb assembly language commands
+that are exclusively used on the Cortex-M4 chips (among others).
+
+I was looking at OpenBSD and NetBSD Arm code as a reference for the whole
+label_t type for setjmp()/longjmp(), but that code is for Arm Mode assembly
+language, not Thumb Mode assembly language. Even code that is for Cortex-A
+chips uses Arm Mode, so none of that code can be directly used for insights
+or ideas.
+
+I still do not know if it is correct to use the Thumb Mode registers list
+for label_t for setjmp()/longjmp(), but I am thinking that it is what is
+right to do. I will have to look into it more, though.
+
+
+For reference, here are the APCS and TPCS:
+
+APCS - Arm Procedure Call Standard
+============================================================
+Reg | Name  | APCS Role
+------------------------------------------------------------
+r0  | a1    | Argument 1 / Scratch Register / Result
+r1  | a2    | Argument 2 / Scratch Register / Result
+r2  | a3    | Argument 3 / Scratch Register / Result
+r3  | a4    | Argument 4 / Scratch Register / Result
+r4  | v1    | Register Variable
+r5  | v2    | Register Variable
+r6  | v3    | Register Variable
+r7  | v4    | Register Variable
+r8  | v5    | Register Variable
+r9  | sb/v6 | Static Base / Register Variable
+r10 | sl/v7 | Stack Limit / Stack Chunk Handle / Reg. Var.
+r11 | fp/v8 | Frame Pointer / Register Variable
+r12 | ip    | Scratch Reg. / New-sb in inter-link-unit calls
+r13 | sp    | Lower end of the current stack frame
+r14 | lr    | Link Register / Scratch Register
+r15 | pc    | Program Counter
+------------------------------------------------------------
+
+Note that for APCS OpenBSD saves r4-r14 for setjmp() and longjmp(), so
+label_t is a "long val[11];" for 11 registers.
+
+
+TPCS - Thumb Procedure Call Standard
+============================================================
+Reg | Name    | TPCS Role
+------------------------------------------------------------
+r0  | * a1    | Argument 1 / Scratch Register / Result
+r1  | * a2    | Argument 2 / Scratch Register / Result
+r2  | * a3    | Argument 3 / Scratch Register / Result
+r3  | * a4    | Argument 4 / Scratch Register / Result
+r4  | * v1    | Register Variable
+r5  | * v2    | Register Variable
+r6  | * v3    | Register Variable
+r7  | * v4/wr | Reg. Var. / Work Reg. in func. Entry/Exit
+r8  | (v5)    | (ARM v5 register, no defined role in Thumb)
+r9  | (v6)    | (ARM v6 register, no defined role in Thumb)
+r10 | sl(v7)  | Stack Limit
+r11 | fp(v8)  | Frame Pointer (Usu. not used in Thumb state)
+r12 | (ip)    | (ARM ip register, no defined role in Thumb)
+r13 | * sp    | Stack pointer (full descending stack)
+r14 | * lr    | Link Register
+r15 | * pc    | Program Counter
+------------------------------------------------------------
+
+Registers r0 to r7 are named the Low Registers.
+Registers r13 to r15 are named the High Registers.
+(Some references name r8 - r15 as the High Registers).
+
+Note that r12 may be used as a temporary register on Thumb function
+Entry/Exit.
+
+
+Comparing the TPCS to the APCS, I reckon that label_t should be a
+"long val[6];" for r4-r7, r13, r14. Or maybe it will be an unsigned int;
+whichever can hold a 32-bit register value.
+
+
+Looked into how Newlib does setjmp()/longjmp() and that they use an int
+array (called jmp_buf) by default, so I will too.
+They also preserve many registers for arm: 23 ints in an array.
+The registers are: v1-v7, fp, ip, sp, lr, f4, f5, f6, f7 which are callee
+preserved registers. I was only saving six registers: v1-v4, sp, lr
+(r4-r7, r13, r14), but I might end up changing my mind.
+
+Looks like there is no code in RetroBSD that uses wchar_t, except in the
+compiler (and other tools), so I won't need to worry about those floating
+point registers (f4-f7) for now. I am fine with that, as top priority is to
+just get it to work at all. Getting those applications to work is very far
+down on the list, especially as they are MIPS-specific tools.
+
+
+Thinking some more, I came up against the whole APCS vs TPCS issue again.
+Previously I had determined that I need to follow the TPCS as far as any
+assembly language goes and for setjmp()/longjmp(). I was reading a bit from
+the book ARM Assembly for Embedded Applications, 5E by Daniel W Lewis who
+is a professor at Santa Clara University in the School of Engineering. In
+the book he says to use AAPCS. The book is written with a focus on an
+STMF429I-DISC1 board, which is a Cortex-M4F processor (that does not
+support ARM assembly; only supports thumb/thumb-2 instructions). I
+purchased the book.
+
+Looking at the APCS and TPCS, the registers overlap, so it can't hurt that
+much if I just follow the APCS (at least for setjmp()/longjmp()) as it is a
+superset of the registers used for TPCS.
+
+
+Big discovery here.
+I have come to the conclusion that the *AAPCS* is the current and only
+Procedure Call Standard for ARM processors, and all previous standards are
+obsolete. Note the difference between AAPCS, APCS, and TPCS. I was mixing
+up APCS and AAPCS. If you look in the Terms and Abbreviations section in
+the AAPCS it states that APCS and TPCS are "obsolete" and AAPCS is "this
+standard", which is the current standard. Also a ATPCS (Arm-Thumb Procedure
+Call Standard) is the "precursor to this standard" (meaning AAPCS) is also
+*another* standard they came up with. I believe this is all due to changing
+and improving Arm cores over its long lifespan.
+It has been quite confusing sifting through all the Arm documents and which
+standards are obsolete and which are current, and the crazy and almost
+identical naming of each. Arm is quite a mess, to be honest.
+
+In a way, this makes things easier and simpler for me. I can reference some
+previous Arm code that also follows the AAPCS when I am looking for some
+prior set precedent.
+
+
+For reference, here is the AAPCS:
+
+AAPCS - Procedure Call Standard for the Arm Architecture
+============================================================
+Reg | Synonym  | AAPCS Role
+------------------------------------------------------------
+r0  |   a1     | Argument 1 / Scratch Register / Result
+r1  |   a2     | Argument 2 / Scratch Register / Result
+r2  |   a3     | Argument 3 / Scratch Register
+r3  |   a4     | Argument 4 / Scratch Register
+r4  | * v1     | Variable Register 1
+r5  | * v2     | Variable Register 2
+r6  | * v3     | Variable Register 3
+r7  | * v4     | Variable Register 4
+r8  | * v5     | Variable Register 5
+r9  | v6/SB/TR | Platform Register, defined by platform standard
+r10 | * v7     | Variable Register 7
+r11 | * FP/v8  | Frame Pointer or Variable Register 8
+r12 |   IP     | The Intra-Procedure-Call Scratch Register
+r13 | * SP     | The Stack pointer (full descending stack)
+r14 |   LR     | The Link Register (Return Address)
+r15 |   PC     | The Program Counter (Current Instruction)
+------------------------------------------------------------
+
+Uppercase register names are when they have a fixed role, else lowercase.
+
+Registers r0 to r7 are named the Low Registers.
+Registers r13 to r15 are named the High Registers.
+(Some references name r8 - r15 as the High Registers).
+
+A subroutine must preserve the contents of the registers r4-r8, r10, r11,
+and SP (and r9 in PCS variants that designate r9 as v6).
+
+So I have determined to use an array of eleven longs for label_t, for the
+registers r4-r14 (v1-v8, IP, SP, LR). If this is wrong, then I will adjust
+later on. More is better than less.
+
+I have stumbled upon issues to deal with for exception handling, in regards
+to which registers to save. That will be dealt with later on.
+
+I will commit this for now. I have also added the AAPCS to a new "arm"
+resources directory.

@@ -14,7 +14,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "MAX32"                     # Board type
-ldscript        "f4discovery/bootloader.ld" # Linker script
+ldscript        "f4discovery/stm32f407vg.ld" # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

@@ -9,7 +9,8 @@ PARAM += -DCONS_MAJOR=UART_MAJOR
 PARAM += -DBUS_DIV=1
 PARAM += -DBUS_KHZ=80000
 PARAM += -DCPU_KHZ=80000
-LDSCRIPT = "f4discovery/bootloader.ld"
+LDSCRIPT = "f4discovery/stm32f407vg.ld"
+DEBUG = -g
 #
 # Makefile for DiscoBSD, stm32 target
 #
@@ -83,7 +84,8 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = startup.o ${OBJS} ioconf.o
+# SYSTEM_OBJ      = startup.o ${OBJS} ioconf.o
+SYSTEM_OBJ      = 002_led.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
     SYSTEM_OBJ  += devcfg.o
 endif
@@ -130,6 +132,9 @@ sys:
 
 .deps:
 	mkdir .deps
+
+002_led.o: ../002_led.S
+	${COMPILE_S}
 
 startup.o: ../startup.S
 	${COMPILE_S}

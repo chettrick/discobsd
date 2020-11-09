@@ -584,3 +584,14 @@ to which registers to save. That will be dealt with later on.
 
 I will commit this for now. I have also added the AAPCS to a new "arm"
 resources directory.
+
+===========================================================================
+2020-11-09
+Monday, November 09, 2020
+
+Copied over 002_led code from testing directory and put it into the kernel.
+Got it to assemble, etc, and get a unix.elf and unix.bin file out of it. It
+is able to run in the emulator and on the physical board. The linker script
+was also copied over.
+
+This is the first step into getting an Arm kernel to boot and run.

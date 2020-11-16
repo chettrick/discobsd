@@ -3,3 +3,4 @@
 *.bin
 *.elf
 *.map
+*.hex

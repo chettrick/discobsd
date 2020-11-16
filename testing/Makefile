@@ -1,6 +1,7 @@
 #SUBDIR+=	000_blinky
 SUBDIR+=	001_reg
 SUBDIR+=	002_led
+SUBDIR+=	003_cmsis
 
 all: targets
 

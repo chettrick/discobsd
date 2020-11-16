@@ -595,3 +595,228 @@ is able to run in the emulator and on the physical board. The linker script
 was also copied over.
 
 This is the first step into getting an Arm kernel to boot and run.
+
+===========================================================================
+2020-11-10
+Tuesday, November 10, 2020
+
+I had a meeting with Bill today about the progress of the directed study
+and some steps for the future.
+
+I need to specifically research how far an absolute jump can go, to be able
+to determine if it is possible to run code from flash and have data in ram,
+or have to have the whole kernel in ram (both .text and .data sections in
+executable).
+This information is required to make a proper memory map of the kernel and
+where each section will go on the chip.
+
+
+Learned that ARM has two stacks: one for the kernel and one for user
+processes. This seems neat.
+
+===========================================================================
+2020-11-11
+Wednesday, November 11, 2020
+
+Still not sure if I have to use the CMSIS code/library or not. I would like
+to use it initially, and then phase it out (if that is possible).
+
+I have determined that at specific times STM or Arm released code with a
+3-clause BSD license, but then changed it to either a 5-clause license or
+the Apache 2.0 license. Also, the supplied linker scripts have an extremely
+unacceptable license of two flavours: one flavor is where you must only use
+it with the Atollic TrueSTUDIO product, and the other flavour where it flat
+out restricts distribution of the file (how is it included with the STM
+code packages then?) and that only registered System Workbench for MCU
+users may distribute build outputs that use the linker script only if it
+was built with forementioned toolchain.
+Seems like some digital archaeology will be required to sort this all out.
+It would be best to keep all of the codebase using the same permissive
+BSD-style license.
+
+I am thinking that I need two separate linker files: one for the kernel
+(inside the kernel configuration directory), and one for userland programs
+(inside the src directory). I will have to research this more. I am not
+focusing on userland at the moment, in any case.
+
+
+Started working on a new testing directory for 003_cmsis, which is to get a
+basic executable to work with the Arm CMSIS headers, namely core_cm4.h, and
+all the supporting headers like cmsis_gcc.h, etc. It has been hard to get
+any of the template code from STM to work without using the bloated HAL
+library. There *has* to be a way to have a minimal example without using
+50 or more library files.
+
+===========================================================================
+2020-11-12
+Thursday, November 12, 2020
+
+STM vendor-supplied code is a bit of a disaster. Not as bad as Arm's very
+disorganized technical documentation, though.
+I have been keeping a personal public GitHub repo of all of the STM32F4
+code that STM has released in the Cube package. This allows me to easily
+sift through what has changed between releases with 'git diff'.
+
+===========================================================================
+2020-11-13
+Friday, November 13, 2020
+
+In a really old thread on the RetroBSD forums someone proposed the idea for
+RetroBSD on STM32F4DISCOVERY, which is what I am doing. I found no evidence
+of anyone actually making a port to ARM, though. Serge (lead developer of
+RetroBSD) made a list of about a dozen items that he says that would need
+to be done to port to the STM32.
+
+This is the list of items to be done for an ARM port, from Serge V:
+- Most of kernel is arch-independent (sys/kernel, sys/include) ==> There is
+  a small number of places where a saved stack frame is directly referenced
+  (look for u.u_frame), it needs #ifdef guards.
+- Make sys/stm32 like sys/pic32.
+- Use sys/pic32/baremetal/Makefile config as starting point.
+- Make copies of arch-dependent files from sys/pic32 to sys/stm32 and
+  modify them:
+    cpu.h, io.h, limits.h, machparam.h, startup.S, clock.c, cons.c,
+    devsw.c, exception.c, machdep.c, mem.c, signal.c, sysctl.c.
+- Design memory map and linker script.
+- Design user/kernel API: how to pass args to syscalls and get returned
+  data. ==> Build syscall library at src/libc/thumb2/sys (maybe arm instead
+  of thumb2).
+- Port assembler files from NetBSD or OpenBSD.
+- MPU used to protect kernel data region from user programs.
+
+Some of these things I have already done, and some I am working on. This is
+a good list to use as a guide.
+
+===========================================================================
+2020-11-14
+Saturday, November 14, 2020
+
+The stm32f407 memory organization is as follows (datasheet):
+* Program memory, data memory, registers and I/O ports are organized within
+  the same linear 4 Gbyte address space.
+* The bytes are coded in memory in little endian format. The lowest
+  numbered byte in a word is considered the word's least significant byte
+  and the highest numbered byte, the word's most significant.
+* 192KB total SRAM:
+    112KB main internal SRAM1. I-bus, D-bus, S-bus.
+    16KB auxiliary internal SRAM2. S-bus.
+    64KB CCM (core coupled memory) data RAM. D-bus.
+* 1MB of flash memory. I-bus, D-bus.
+
+Different busses:
+* I-bus: Instruction bus. Used to fetch instructions. The target of this
+         bus is a memory containing code.
+         (Internal Flash memory ICODE / SRAM1).
+* D-bus: Data bus. Used for literal load. The target of this bus is a
+         memory containing code or data.
+         (Internal Flash memory DCODE / SRAM1).
+* S-bus: System bus. Used to access data located in a peripheral or in
+         SRAM. The targets of this bus are the internal SRAM1 and SRAM2,
+         and peripherals.
+         (SRAM1, SRAM2).
+
+The SRAM1 and SRAM2 are aliased by bit-banding. I will need to investigate
+this, since I do not understand it yet.
+
+The 64KB CCM data RAM is *not* part of the AHB bus matrix, and can only be
+accessed through the CPU (via the D-bus, but not through the bus matrix).
+
+STM32F407VG memory map:
+
+  1MB Flash:    0x0800 0000 - 0x080F FFFF
+
+ 64KB CCM SRAM: 0x1000 0000 - 0x1000 FFFF
+112KB SRAM1:    0x2000 0000 - 0x2001 BFFF
+ 16KB SRAM2:    0x2001 C000 - 0x2001 FFFF
+
+Note that 0x0000 0000-0x000F FFFF is aliased to Flash depending on the
+BOOT pins. All the linker scripts I have found use 0x0800 0000-0x080F FFFF
+as the Flash section.
+
+Boot pins on the STM32F4DISCOVERY board (from board datasheet) are:
+BOOT0: ON  (held low by a 510 ohm pull-down resistor)
+BOOT1: OFF (held high by a 10 Kohm pull-up resistor)
+This selects the main flash memory as the boot space.
+
+The CPU fetches the top-of-stack value from address 0x0000 0000, it then
+starts code execution from the boot memory starting from 0x0000 0004.
+
+There is an embedded bootloader inside the STM32 chip, which will load the
+hex or binary file into the flash of the chip. I do not need to concern
+myself with how the bootloader does its work. It doesn't apply to DiscoBSD.
+
+I do not know 100% about this yet, but I am suspecting that having kernel
+ram in the 64KB CCM data ram is best, and use the 112KB SRAM1 for
+applications. Perhaps there is not a use for the 16KB SRAM2 at the moment
+(it only uses the S-bus).
+
+Note that the CCM is not executable data memory. SRAM must be used for
+that. If I end up getting a Hard Fault with the IBUSERR flag set, then
+trying to execute from CCM is why.
+
+The PIC32 that RetroBSD uses has only 128KB of ram and 512KB of flash.
+There is no kernel executable ram.  All user ram is executable.
+  192KB Kernel Flash
+  320KB User Flash
+  32KB Kernel RAM
+  96KB User RAM
+
+Those specs seem to fit really well with the STM32F4 that I am using for
+DiscoBSD. Excellent.
+Looks like I will use something like the following:
+    1MB Kernel Flash
+   ??KB User   Flash (Not sure what this is used for)
+   64KB Kernel RAM
+  112KB User   RAM
+
+I may set up the flash following the situation with RetroBSD and have 192KB
+for the kernel, and the rest for user flash. I wonder if I will need to set
+up virtual addresses, in addition to the physical addresses. I need to
+think about it.
+
+===========================================================================
+2020-11-15
+Sunday, November 15, 2020
+
+I spent most of the day working through all the sample project code from
+STM or Arm.
+
+I checked over all of the startup code for STM32F407 from ST and they are
+all the same (file name startup_stm32f407xx.s).
+The only difference is with ones that have some external RAM or other
+external devices, then the startup code initializes them. I will reach that
+point if/when I get there. No external devices yet.
+
+The question now is "Do I use the ST code or the ARM code?". The startup
+code requires that the linker script also be on the same wavelength,
+insofar as the naming of ELF sections.
+
+I am using the Makefile I made for an example project from a few years back
+and I have modified it to work with the 003_cmsis code. Eventually I will
+tie all the Makefiles together, once I know all the proper options, etc.
+
+I have made a Frankenstein project out of 003_cmsis. I have used a template
+code set from the Templates_LL for STM32F411RE-Nucleo in an older commit
+from 2017-02-17 for STM32Cube_FW_F4_V1.15.0 in my repo for stm32cubef4
+and I have an LED toggling inspired by the GPIO_InfiniteLedToggling_Init
+Example Project for the same board. I have ported it to the board I am
+using, which is the STM32F4-Discovery.
+
+This code came with one of those encumbered linker scripts, so I got one
+from the Arm Mbed OS project. I am not sure of its status, since it does
+not have a license in the file. It may be the same 3-clause BSD-style
+license as the assembly code and C code that comes with it, or in any of
+its parent directories have. Or it may have the Mbed license, which is
+Apache 2.0. Either way, I need to get on with it.
+I edited the linker script a bit for consistency, information, and knf.
+
+I changed all the files in testing/003_cmsis to Unix line endings by running
+them through dos2unix.
+
+The built executable (that is using the STM HAL LL low level library) can
+run on the board through openocd and debugged with gdb. It blinks an LED.
+The executable is 11440 bytes, which seems rather large for a blinking LED.
+
+I will make notes about the low level library once I use it some more.
+
+I added *.hex files to .gitignore for the testing directories.

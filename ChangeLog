@@ -810,8 +810,8 @@ its parent directories have. Or it may have the Mbed license, which is
 Apache 2.0. Either way, I need to get on with it.
 I edited the linker script a bit for consistency, information, and knf.
 
-I changed all the files in testing/003_cmsis to Unix line endings by running
-them through dos2unix.
+I changed all the files in testing/003_cmsis to Unix line endings by
+running them through dos2unix.
 
 The built executable (that is using the STM HAL LL low level library) can
 run on the board through openocd and debugged with gdb. It blinks an LED.
@@ -820,3 +820,73 @@ The executable is 11440 bytes, which seems rather large for a blinking LED.
 I will make notes about the low level library once I use it some more.
 
 I added *.hex files to .gitignore for the testing directories.
+
+===========================================================================
+2020-11-16
+Monday, November 16, 2020
+
+I made a new testing directory called 004_nolibs, which will have as much
+as a minimal example as I can make that is still useful. These means
+blinking an LED. I have tried to not use the LL library (as can be guessed
+with the directory name) but there is too much setup for the SysTick to not
+use it.
+
+It currently requires 25 files for a minimal example. Some of these could
+be collapsed into one file (for example, main.h could be put in main.c) but
+that makes them significantly different than what STM releases. This is
+important, as if STM releases bug fixes, it would be nice to make straight-
+forward patches. I might change my mind in the future, though.
+
+It looks like a minimal example that uses the LL library needs to include,
+at least, stm32f4xx_ll_{bus,rcc,system,utils}.h while ...pwr.h may or may
+not be a fundamental header, and stm32_assert.h if you turn on assertions.
+
+For STM- and Arm-specific files you have core_cm*.h, cmsis_gcc.h, the
+startup_stm32f407xx.s assembly file (which requires a matching linker
+script, i.e., STM32F407XG.ld), the standard STM include file stm32f4xx.h,
+which includes stm32f407xx.h via build option -DSTM32F407xx, the system
+files system_stm32f4xx.{c,h} that define the Arm-required SystemInit()
+function among others, and lastly the files stm32f4xx_it.{c,h} that define
+exception handlers and interrupt service routines.
+
+To be concrete, here is the list of files for this testing code:
+  Makefile
+  STM32F407XG.ld
+  cmsis_gcc.h
+  core_cm4.h
+  core_cmFunc.h
+  core_cmInstr.h
+  core_cmSimd.h
+  main.c
+  main.h
+  startup_stm32f407xx.s
+  stm32_assert.h
+  stm32f407xx.h
+  stm32f4xx.h
+  stm32f4xx_it.c
+  stm32f4xx_it.h
+  stm32f4xx_ll_bus.h
+  stm32f4xx_ll_gpio.h
+  stm32f4xx_ll_pwr.h
+  stm32f4xx_ll_rcc.h
+  stm32f4xx_ll_system.h
+  stm32f4xx_ll_utils.c
+  stm32f4xx_ll_utils.h
+  system_stm32f4xx.c
+  system_stm32f4xx.h
+
+Now, a more interesting part of this testing code is that it does not
+include libc (which I reckon is newlib) by using the -nostdlib flag. This
+brings the binary size down from 11440 bytes to 1712 bytes. Static
+constructors (I imagine are for C++) must not be called, so I commented out
+this line:
+  bl __libc_init_array
+in the startup assembly code in the startup_stm32f407xx.s file.
+The testing code runs fine on the hardware. I have yet to test it in the
+emulator, though. I am not sure if I need to keep the libc around for qemu
+to work or not. I don't think I need to worry about a semihosted
+environment right now.
+
+I will be incorporating this testing code into the startup of the kernel. I
+feel like this is a good start, and that I can start filling in the Unix
+startup sequence from there.

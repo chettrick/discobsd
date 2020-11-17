@@ -890,3 +890,19 @@ environment right now.
 I will be incorporating this testing code into the startup of the kernel. I
 feel like this is a good start, and that I can start filling in the Unix
 startup sequence from there.
+
+===========================================================================
+2020-11-17
+Tuesday, November 17, 2020
+
+I imported the testing/004_nolibs files into the sys/stm32 directory, and
+edited the build Makefile to compile these files via the kernel build
+facilities. I am able to build the blink example, and have it run on the
+board through openocd and gdb. The Config file is still mainly for pic32,
+as kconfig will need to be edited so that it can create stm32-specific
+files, i.e., ioconf.c and those files need to be modified for stm32.
+
+The Makefile does not yet use the -nostdinc flag, but it uses -nostdlib.
+The files core_cm4.h and stm32f407xx.h include stdint.h, which is not
+available if the -nostdinc flag is used. I'll have to think about the right
+way to solve this.

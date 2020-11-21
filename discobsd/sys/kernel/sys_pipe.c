@@ -293,6 +293,8 @@ pipe()
 #ifdef __mips__
     /* Move a secondary return value to register $v1. */
     u.u_frame [FRAME_R3] = u.u_rval;
+#elif __arm__
+    /* XXX */
 #else
 #error "pipe return value for unknown architecture"
 #endif

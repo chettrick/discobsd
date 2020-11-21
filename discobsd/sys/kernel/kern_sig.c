@@ -197,6 +197,7 @@ stop(p)
 void
 gsignal (pgrp, sig)
     register int pgrp;
+    register int sig;
 {
     register struct proc *p;
 

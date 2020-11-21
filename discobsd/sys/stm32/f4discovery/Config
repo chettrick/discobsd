@@ -13,6 +13,7 @@
 #
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
+cpu             "STM32F407xx"               # Processor variant XXX
 board           "MAX32"                     # Board type
 ldscript        "f4discovery/STM32F407XG.ld" # Linker script
 

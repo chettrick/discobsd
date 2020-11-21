@@ -97,9 +97,9 @@ unsigned ucall (int priority, void *address, int arg1, int arg2);
 static void inline __attribute__ ((always_inline))
 mips_set_stack_pointer (void *x)
 {
-    asm volatile (
-    "move   $sp, %0"
-    : : "r" (x) : "sp");
+// XXX    asm volatile (
+// XXX    "move   $sp, %0"
+// XXX    : : "r" (x) : "sp");
 }
 
 /*
@@ -110,9 +110,9 @@ void *mips_get_stack_pointer ()
 {
     void *x;
 
-    asm volatile (
-    "move   %0, $sp"
-    : "=r" (x));
+// XXX    asm volatile (
+// XXX    "move   %0, $sp"
+// XXX    : "=r" (x));
     return x;
 }
 
@@ -120,22 +120,28 @@ void *mips_get_stack_pointer ()
  * Read C0 coprocessor register.
  */
 #define mips_read_c0_register(reg,sel) \
+(0)
+/* XXX
     ({  int __value; \
         asm volatile ( \
         "mfc0   %0, $%1, %2" \
         : "=r" (__value) : "K" (reg), "K" (sel)); \
         __value; \
     })
+XXX */
 
 /*
  * Write C0 coprocessor register.
  */
 #define mips_write_c0_register(reg, sel, value) \
+(0)
+/* XXX
     do { \
         asm volatile ( \
         "mtc0   %z0, $%1, %2 \n ehb" \
         : : "r" ((unsigned int) (value)), "K" (reg), "K" (sel)); \
     } while (0)
+XXX */
 
 /*
  * Disable the hardware interrupts,
@@ -145,7 +151,7 @@ static int inline __attribute__ ((always_inline))
 mips_intr_disable ()
 {
     int status;
-    asm volatile ("di   %0" : "=r" (status));
+// XXX    asm volatile ("di   %0" : "=r" (status));
     return status;
 }
 
@@ -165,7 +171,7 @@ mips_intr_restore (int x)
 static void inline __attribute__ ((always_inline))
 mips_ehb()
 {
-    asm volatile ("ehb");
+// XXX    asm volatile ("ehb");
 }
 
 /*
@@ -175,7 +181,7 @@ static int inline __attribute__ ((always_inline))
 mips_intr_enable ()
 {
     int status;
-    asm volatile ("ei   %0" : "=r" (status));
+// XXX    asm volatile ("ei   %0" : "=r" (status));
     return status;
 }
 
@@ -187,8 +193,8 @@ mips_clz (unsigned x)
 {
     int n;
 
-    asm volatile ("clz  %0, %1"
-        : "=r" (n) : "r" (x));
+// XXX    asm volatile ("clz  %0, %1"
+// XXX        : "=r" (n) : "r" (x));
     return n;
 }
 
@@ -200,10 +206,10 @@ mips_bswap (unsigned x)
 {
     int n;
 
-    asm volatile (
-    "wsbh   %0, %1 \n"
-    "rotr   %0, 16"
-        : "=r" (n) : "r" (x));
+// XXX    asm volatile (
+// XXX    "wsbh   %0, %1 \n"
+// XXX    "rotr   %0, 16"
+// XXX        : "=r" (n) : "r" (x));
     return n;
 }
 #endif /* __ASSEMBLER__ */

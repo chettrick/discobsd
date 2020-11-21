@@ -357,7 +357,7 @@
 #define ODCDSET         PIC32_R (0x860F8)
 #define ODCDINV         PIC32_R (0x860FC)
 
-#define TRISE           PIC32_R (0x86100) /* Port E: mask of inputs */
+#define TRISPORTE       PIC32_R (0x86100) /* XXX Port E: mask of inputs */
 #define TRISECLR        PIC32_R (0x86104)
 #define TRISESET        PIC32_R (0x86108)
 #define TRISEINV        PIC32_R (0x8610C)
@@ -903,7 +903,7 @@ struct spireg {
 #define OSCCONINV       PIC32_R (0xf00C)
 #define OSCTUN          PIC32_R (0xf010)
 #define DDPCON          PIC32_R (0xf200)        /* Debug Data Port Control */
-#define DEVID           PIC32_R (0xf220)
+#define DEVICEID        PIC32_R (0xf220)
 #define SYSKEY          PIC32_R (0xf230)
 #define RCON            PIC32_R (0xf600)
 #define RCONCLR         PIC32_R (0xf604)

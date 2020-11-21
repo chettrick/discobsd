@@ -906,3 +906,115 @@ The Makefile does not yet use the -nostdinc flag, but it uses -nostdlib.
 The files core_cm4.h and stm32f407xx.h include stdint.h, which is not
 available if the -nostdinc flag is used. I'll have to think about the right
 way to solve this.
+
+===========================================================================
+2020-11-18
+Wednesday, November 18, 2020
+
+I see that newlib and OpenBSD kernel have quite the rigamarole to get to
+the actual fixed-width types for stdint.h and so I think it is not that
+important to get -nostdinc working right now. Having the compiler pull from
+newlib is fine enough for me at the moment.
+
+===========================================================================
+2020-11-19
+Thursday, November 19, 2020
+
+Just some notes about executable startup running directly on hardware:
+* All execution starts at ENTRY(label) in the linker script. "label" is the
+  assembly language label or function name that is where you start from a
+  reset event.
+* In Arm Cortex-M4 (and maybe others) the first 32 bits (first word) of the
+  executable is actually the address of the stack pointer, and the second
+  word is the address of the "label" label. This is handled by the linker.
+* The default label in the vendor-supplied startup code is "Reset_Handler".
+  The RetroBSD mips code has "_reset_vector_". OpenBSD Arm code has
+  "bootstrap_start". Normally this label is called "start" or "_start" if
+  the CPU is already set up. It is done in the assembly code file locore.S
+  or locore0.S in OpenBSD.
+* The next step is to copy the .data segment from the flash into RAM. This
+  is the area between the symbols _sidata (start address for initialization
+  values of the .data section) and _edata (end address for .data section).
+  The .data segment is for initialized data.
+* Next step is to zero out the .bss segment, by filling it with zeros.
+  The .bss segment is for uninitialized variables/data.
+* In the vendor-supplied code the next step is to call SystemInit, which is
+  a default part of Arm CMSIS. It is defined in system_stm32f4xx.c and its
+  main purpose is to set up the CPU clock. The variable SystemCoreClock is
+  set to the CPU frequency, which can be used in user application code for
+  the SysTick timer.
+* The next call in the vendor-supplied code is to call __libc_init_array,
+  which is for C++ ctors/dtors, which is none of our concern. I have that
+  call commented out in startup_stm32f407xx.s, but I have yet to remove the
+  matching symbols in the linker script (all the init / fini symbols).
+* The final part of the startup sequence is the call to main() from the
+  startup_stm32f407xx.s file. The main() function is in kernel/init_main.c
+  and is the start of execution of the Unix kernel proper.
+
+* Once init_main.c is running, then machine-dependent (MD) startup is run
+  via the call to startup(), which is defined in the stm32/machdep.c file.
+* After this, we are now in Unix kernel territory. kconfig() is run to
+  configure machine-dependent (MD) peripherals that are specified in the
+  kernel configuration file Config.
+* I will go into depth later on how the kernel gets set up to run multi-
+  process. But to make it quick, process 0 (the swapper) is handmade, but
+  it is not called until later. First, all the machine-independent (MI)
+  code will run, which consists of setting up signals, queues, the kernel
+  clock, mounting the root filesystem, setting up the swap file, and
+  setting up the root filesystem.
+* Now process 1 (init) is made via the kernel-specific fork called newproc.
+  The parent of the fork is pid 0 (the swapper) and the child is pid 1 (the
+  init process). The swapper calls sched(), which never returns. sched() is
+  defined in kernel/vm_sched.c and is the main loop of the scheduling
+  process. The init process is not started yet from the newproc() fork; it
+  is just continuing execution in main(). It sets up the process struct for
+  init, copies it from icode into RAM at USER_DATA_START location (defined
+  in the file stm32/machparam.h and seems to be located right after the
+  kernel ram), and then finally main() returns, which goes to location 0 of
+  user init code that was just copied out. Now we have got to user-land.
+
+* I am having a hard time finding exactly where and/or how /sbin/init is
+  started. Wait, I have found some information on it, but it is still not
+  totally clear. In the RetroBSD mips code, the file startup.S has some
+  assembly code that hardcodes the string "/sbin/init\0" as well as its
+  options, and there is a syscall to 11, which I believe is SYS_execv.
+  This whole thing comes about due to the bcopy(src, dst, nbytes) code in
+  main(), which is bcopy(icode, USER_DATA_START, icodeend - icode). There
+  is an extern const char icode[] in systm.h, which I am understanding is
+  basically the argv for /sbin/init, and it is populated in startup.S.
+* Note that the init process struct is still there in ram after the bcopy()
+  and this is not a brand new process. Unix is interesting in how they have
+  separated fork and exec from each other. Just to recap, the init process
+  is as follows: pid 0 forked by calling newproc(), then the child process
+  pid 1 (for init) sets up its process struct p, then bcopy() itself to the
+  user ram area at USER_DATA_START with a specially crafted argv (icode),
+  then main() returns 0 which goes to USER_DATA_START and we are running in
+  user-land now. (I am not really sure about how the return 0 from main()
+  gets you to user data start area in ram, but I will figure it out later).
+
+===========================================================================
+2020-11-20
+Friday, November 20, 2020
+
+I have been working on a significant commit for the last few days. Its
+purpose is to transition from the blinky code running with using the kernel
+build functions to where that code is a part of the kernel proper.
+This commit is quite dirty, with many lines commented out with XXX. These
+lines are mostly the mips assembly code in stm32/io.h. I also incorporated
+the clock setup code from main.c into stm32/machdep.c. Some mips symbols
+were conflicting with the STM vendor-supplied code, so I renamed the mips
+symbols to something else (as it will all be stripped out eventually
+anyways). These symbols were DEVID and TRISE.
+
+I edited Config and Makefile.kconf to generate a proper build Makefile that
+will use these new stm32 files. A hack in the Config file is to have two
+"cpu" config lines; one for PIC32MX7 and one for STM32F407xx, as both of
+these -D defines are needed to build the code.
+
+All in all, I can fully build all the kernel code and the vendor-supplied
+startup code. This code does *not* work right now, as it will not link.
+There is much work to be done to get proper symbols in place for linking to
+work. Namely, u and u0 defined symbols and ram area in the linker script.
+
+I also added a missing int parameter for gsignal in kern_sig.c, and an Arm
+define in sys_pipe.c. The define is XXX'd out right now. Hacky, for sure.

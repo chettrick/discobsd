@@ -112,7 +112,7 @@ int spidev_ioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
     unsigned char *cval = (unsigned char *)addr;
     int nelem;
     static unsigned volatile *const tris[8] = {
-        0, &TRISA,&TRISB,&TRISC,&TRISD,&TRISE,&TRISF,&TRISG,
+        0, &TRISA,&TRISB,&TRISC,&TRISD,&TRISPORTE,&TRISF,&TRISG, // XXX
     };
     int portnum;
 

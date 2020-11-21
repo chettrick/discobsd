@@ -28,6 +28,10 @@
 #   include <machine/usb_function_cdc.h>
 #endif
 
+#include "main.h"
+
+void     SystemClock_Config(void); // XXX
+
 #ifdef POWER_ENABLED
 extern void power_init();
 extern void power_off();
@@ -187,6 +191,27 @@ button1_pressed()
  */
 void
 startup()
+{
+
+  /* Configure the system clock to 168 MHz */
+  SystemClock_Config();
+
+  /* Add your application code here */
+  LED4_GPIO_CLK_ENABLE();
+
+  LL_GPIO_SetPinMode(LED4_GPIO_PORT, LED4_PIN, LL_GPIO_MODE_OUTPUT);
+
+  /* Infinite loop */
+  while (1)
+  {
+    LL_GPIO_TogglePin(LED4_GPIO_PORT, LED4_PIN);
+
+    LL_mDelay(250);
+  }
+}
+
+
+#if 0 // XXX
 {
     extern void _etext(), _exception_base_();
     extern unsigned __data_start;
@@ -412,10 +437,48 @@ startup()
         boothowto |= RB_SINGLE;
     }
 }
+#endif // XXX
+
+void SystemClock_Config(void)
+{
+  /* Enable HSE oscillator */
+  LL_RCC_HSE_Enable();
+  while(LL_RCC_HSE_IsReady() != 1)
+  {
+  };
+
+  /* Set FLASH latency */
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
+
+  /* Main PLL configuration and activation */
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+  LL_RCC_PLL_Enable();
+  while(LL_RCC_PLL_IsReady() != 1)
+  {
+  };
+
+  /* Sysclk activation on the main PLL */
+  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+  {
+  };
+
+  /* Set APB1 & APB2 prescaler */
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
+  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+
+  /* Set systick to 1ms */
+  SysTick_Config(168000000 / 1000);
+
+  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+  SystemCoreClock = 168000000;
+}
+
 
 static void cpuidentify()
 {
-    unsigned devid = DEVID, osccon = OSCCON;
+    unsigned devid = DEVICEID, osccon = OSCCON;
     static const char pllmult[]  = { 15, 16, 17, 18, 19, 20, 21, 24 };
     static const char plldiv[]   = { 1, 2, 3, 4, 5, 6, 10, 12 };
     static const char *poscmod[] = { "external", "XT crystal",
@@ -545,7 +608,7 @@ idle()
     int x = spl0();
 
     /* Wait for something to happen. */
-    asm volatile ("wait");
+// XXX    asm volatile ("wait");
 
     /* Restore previous SPL. */
     splx(x);
@@ -659,7 +722,7 @@ boot(dev, howto)
         if (howto & RB_POWEROFF)
             power_off();
 #endif
-        asm volatile ("wait");
+// XXX        asm volatile ("wait");
 #endif
     }
     /*NOTREACHED*/

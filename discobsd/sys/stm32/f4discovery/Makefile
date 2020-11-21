@@ -1,4 +1,5 @@
 PARAM = -DMAX32
+PARAM += -DSTM32F407xx
 PARAM += -DPIC32MX7
 PARAM += -DUART1_ENABLED
 PARAM += -DSPI2_ENABLED
@@ -9,7 +10,6 @@ PARAM += -DCONS_MAJOR=UART_MAJOR
 PARAM += -DBUS_DIV=1
 PARAM += -DBUS_KHZ=80000
 PARAM += -DCPU_KHZ=80000
-PARAM += -DSTM32F407xx
 LDSCRIPT = "f4discovery/STM32F407XG.ld"
 #DEBUG = -g
 #
@@ -21,7 +21,7 @@ include ../gcc-config.mk
 
 AS              = ${ARM_GCC_PREFIX}as ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16
 # CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -fno-builtin -Wall
-CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdlib -fno-builtin -Wall
+CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdlib -fno-builtin -Wall -Wno-unused-value -Wno-uninitialized
 CPP             = ${ARM_GCC_PREFIX}cpp
 LD              = ${ARM_GCC_PREFIX}gcc -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16
 LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$(basename $@).map
@@ -86,8 +86,7 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-# SYSTEM_OBJ      = startup.o ${OBJS} ioconf.o
-SYSTEM_OBJ      = main.o startup_stm32f407xx.o stm32f4xx_it.o system_stm32f4xx.o stm32f4xx_ll_utils.o
+SYSTEM_OBJ      = startup_stm32f407xx.o stm32f4xx_it.o system_stm32f4xx.o stm32f4xx_ll_utils.o ${OBJS} ioconf.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
     SYSTEM_OBJ  += devcfg.o
 endif
@@ -135,10 +134,6 @@ sys:
 .deps:
 	mkdir .deps
 
-
-main.o: ../main.c
-	${COMPILE_C}
-
 startup_stm32f407xx.o: ../startup_stm32f407xx.s
 	${COMPILE_S}
 
@@ -150,10 +145,6 @@ system_stm32f4xx.o: ../system_stm32f4xx.c
 
 stm32f4xx_ll_utils.o: ../stm32f4xx_ll_utils.c
 	${COMPILE_C}
-
-
-startup.o: ../startup.S
-	${COMPILE_S}
 
 ioconf.o: ioconf.c
 	${COMPILE_C}

@@ -539,7 +539,7 @@ char spi_csname(struct spiio *io)
     case (unsigned)&TRISB: return 'B';
     case (unsigned)&TRISC: return 'C';
     case (unsigned)&TRISD: return 'D';
-    case (unsigned)&TRISE: return 'E';
+    case (unsigned)&TRISPORTE: return 'E'; // XXX
     case (unsigned)&TRISF: return 'F';
     case (unsigned)&TRISG: return 'G';
     }

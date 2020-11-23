@@ -38,7 +38,7 @@ typedef struct  label_t {
 #endif
 #ifdef __arm__
 typedef struct  label_t {
-    long val[11];                   /* regs v1-v8, IP, SP, LR (r4-r14) */
+    long val[10];                   /* regs v1-v7, FP, IP/SP, LR (r4-r10,r11,r12,r14) */
 } label_t;
 #endif
 typedef long    daddr_t;

@@ -18,8 +18,16 @@ MEMORY
 {
     FLASH (r x) : ORIGIN = 0x08000000, LENGTH = 1024K
     CCM   (rwx) : ORIGIN = 0x10000000, LENGTH = 64K
-    RAM   (rwx) : ORIGIN = 0x20000188, LENGTH = 128k - 0x188
+/*    RAM   (rwx) : ORIGIN = 0x20000188, LENGTH = 128k - 0x188 */
+    RAM   (rwx) : ORIGIN = 0x20000188, LENGTH = 32k - 0x188
+    U0AREA(rw!x) : ORIGIN = 0x20008000, LENGTH = 3k
+    UAREA (rw!x) : ORIGIN = 0x20008C00, LENGTH = 3k
 }
+
+/* higher address of the user mode stack */
+u0    = ORIGIN(U0AREA);
+u     = ORIGIN(UAREA);
+u_end = ORIGIN(UAREA) + LENGTH(UAREA);
 
 /* Linker script to place sections and symbol values. Should be used together
  * with other linker script that defines memory regions FLASH and RAM.

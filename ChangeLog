@@ -1121,3 +1121,6 @@ bit long already.
 
 Added Linux-specific prefixes for Arm toolchain, which is at /usr/bin,
 whereas OpenBSD has it at /usr/local/bin.
+
+
+Missed one use of byacc/yacc in tools/kconfig. Push a commit for that.

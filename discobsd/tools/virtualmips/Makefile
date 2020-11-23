@@ -17,7 +17,7 @@ CFLAGS		= -DSIM_PIC32 -DPIC32MX7 -DMAX32
 
 CC          = gcc -g
 #CFLAGS		+= -Wall -Werror -MT $@ -MD -MP -MF .deps/$*.dep -I/opt/local/include -I/opt/local/include/libelf
-CFLAGS		+= -Wall -Werror -MT $@ -MD -MP -MF .deps/$*.dep -I/usr/local/include -I/usr/local/include/elftoolchain
+CFLAGS		+= -Wall -Werror -Wno-format-truncation -MT $@ -MD -MP -MF .deps/$*.dep -I/usr/local/include -I/usr/local/include/elftoolchain
 LIBS		= -lpthread -lelf
 
 LIBS		+= -L/usr/local/lib/elftoolchain

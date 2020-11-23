@@ -193,7 +193,7 @@ static inline u_int normalize_size (u_int val, u_int nb, int shift)
     return (((val + nb - 1) & ~(nb - 1)) >> shift);
 }
 
-#if 0 // XXX
+#if __linux__   /* Use builtin swapxx() on OS other than Linux. */
 /* Convert a 16-bit number between little and big endian */
 static forced_inline m_uint16_t swap16 (m_uint16_t value)
 {
@@ -221,7 +221,7 @@ static forced_inline m_uint64_t swap64 (m_uint64_t value)
     result |= swap32 (value >> 32);
     return (result);
 }
-#endif // XXX
+#endif /* __linux__ */
 
 /* Get current time in number of msec since epoch */
 static inline m_tmcnt_t m_gettime (void)

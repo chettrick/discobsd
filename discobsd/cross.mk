@@ -1,6 +1,8 @@
 DESTDIR		= /usr/local/retrobsd
-MACHINE		?= pic32
-MACHINE_ARCH	?= mips
+MACHINE		?= stm32
+MACHINE_ARCH	?= arm
+
+UNAME_S		= $(shell uname -s)
 
 CC		= gcc -m32
 
@@ -8,8 +10,13 @@ AS		= $(CC) -x assembler-with-cpp
 LD		= ld
 AR		= ar
 RANLIB		= ranlib
-#YACC            = byacc
+
+ifeq ($(UNAME_S), Linux)
+YACC            = byacc
+else
 YACC            = yacc
+endif
+
 LEX             = flex
 SIZE		= size
 #OBJDUMP		= objdump

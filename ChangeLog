@@ -1071,3 +1071,49 @@ the f4discovery directory was regenerated. -g is for debugging symbols in
 the executable, which helps greatly when using gdb.
 
 It has been a good day. A great milestone has been achieved.
+
+===========================================================================
+2020-11-23
+Monday, November 23, 2020
+
+Here is an interesting morsel of information: if you create a variable in a
+Makefile and add a comment at the end of it, then that variable *includes*
+the space between the variable and the comment hash #. For example:
+  MACHINE_ARCH		?= arm    # 'arm' or 'mips'
+will include the four spaces after arm in the variable MACHINE. It will
+end up as "arm    " for MACHINE_ARCH. So when you do something like:
+  ifeq ($(MACHINE_ARCH), arm)
+    ...
+  endif
+it will never match. Ask me how I know! (I spent at least an hour on this).
+I used that idiom in all the Makefiles and the *.mk included Makefiles. It
+is fixed now in the next commit.
+
+The build now defaults to MACHINE=stm32 and MACHINE_ARCH=arm. This can be
+selectively chosen on the command line when you invoke make, like this:
+  $ cd discobsd
+  $ MACHINE=pic32 MACHINE_ARCH=mips gmake
+and that will build the original mips code (which still works).
+
+I have also selectively picked which version of yacc is used, depending on
+the host OS. This information is obtained from "uname -s", which prints the
+operating system's name. The version of yacc needed to compile the sources
+is the BSD version. On BSD-style operating systems, this is just "yacc" but
+it is called "byacc" on Linux (and maybe others). Normally yacc is actually
+bison on Linux, which is incompatible with old BSD yacc.
+
+I returned the file for VirtualMIPS to the default pic32/max32/unix.bin, as
+I am now compiling the kernel for Arm, not for mips (as I did initially to
+get a minimal set of drivers for a working kernel).
+
+This commit is the start of working on userland. There still are many
+issues to deal with, namely the required Arm-specific directories for
+src/libc/arm and src/startup-arm and all the subdirectories there. Mainly,
+crt0.c, and the rest of MD libc.
+
+I will be going through lots of the code in src/ and cleanup implicit int
+and other basic fixes that the newer version of gcc picks up (7.4.1 for Arm
+gcc vs 4.8.1 for mips).
+
+I also need to start on the report here soon. The biblography is getting a
+bit long already.

@@ -8,8 +8,8 @@
 # The `make' will compile everything, including a kernel, utilities
 # and a root filesystem image.
 
-MACHINE		?= pic32
-MACHINE_ARCH	?= mips
+MACHINE		?= stm32
+MACHINE_ARCH	?= arm
 
 # Filesystem and swap sizes.
 FS_MBYTES       = 100

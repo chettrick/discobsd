@@ -1018,3 +1018,56 @@ work. Namely, u and u0 defined symbols and ram area in the linker script.
 
 I also added a missing int parameter for gsignal in kern_sig.c, and an Arm
 define in sys_pipe.c. The define is XXX'd out right now. Hacky, for sure.
+
+===========================================================================
+2020-11-21
+Saturday, November 21, 2020
+
+These are the current "undefined references" that are stopping the kernel
+from linking: u, u0, icode, icodeend, initflags, setjmp, longjmp
+These symbols seem to only be present in the linker script in the mips code
+so I can assume I need to get them into my linker script.
+
+===========================================================================
+2020-11-22
+Sunday, November 22, 2020
+
+Interesting thing I discovered about setjmp()/longjmp() and the label_t and
+the jmp_buf. I previously neglected to understand that there is a setjmp()
+in the standard C library, and a different setjmp() in the kernel.
+longjmp() in the kernel was previously called resume() in 2.9BSD. Looks
+like the 2.11BSD sources have the ENTRY(resume) label right after the
+ENTRY(longjmp) label in the sys/pdp/mch_xxx.s file.
+
+So I have determined to use an array of ten longs for label_t, for the
+registers r4-r10, r11, r12, r14 (v1-v7, FP, IP/SP, LR). This may be wrong,
+but it is what newlib does. Note that SP is copied into IP before IP is
+saved. Who knows if this is correct, but I am running with it. Newlib is
+the only precedent here.
+
+So I have made incredible progress today. I now actually, truly, have code
+running in the kernel. I have blinky code inside the startup() function,
+which is called from main(), to run. I have it running through gdb on the
+dev board.
+
+The locations and sizes of u0, u, and RAM in the linker script will need to
+be adjusted. I used the numbers that the mips port uses (32k RAM, 3K for
+each of u0 and u).
+
+A new setjmp.S file is made, which is the setjmp.S from newlib. I will
+clean this up later, or just rewrite it altogether. At the end of this file
+I have added the handwritten startup icode code for /sbin/init. It is not
+working at the moment since the old mips code is commented out. I cannot
+test this until I get an SD card driver to work, and a userspace with a
+file system. The icode code is present mainly to get to the symbols so that
+the kernel can link.
+
+Current size of the executable is:
+   text    data     bss     dec     hex filename
+  82380     296   24016  106692   1a0c4 unix.elf
+
+setjmp.S and "kconfig -g" was added to Makefile.kconf, and the Makefile in
+the f4discovery directory was regenerated. -g is for debugging symbols in
+the executable, which helps greatly when using gdb.
+
+It has been a good day. A great milestone has been achieved.

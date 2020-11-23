@@ -11,7 +11,7 @@ PARAM += -DBUS_DIV=1
 PARAM += -DBUS_KHZ=80000
 PARAM += -DCPU_KHZ=80000
 LDSCRIPT = "f4discovery/STM32F407XG.ld"
-#DEBUG = -g
+DEBUG = -g
 #
 # Makefile for DiscoBSD, stm32 target
 #
@@ -86,7 +86,7 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = startup_stm32f407xx.o stm32f4xx_it.o system_stm32f4xx.o stm32f4xx_ll_utils.o ${OBJS} ioconf.o
+SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o stm32f4xx_it.o system_stm32f4xx.o stm32f4xx_ll_utils.o ${OBJS} ioconf.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
     SYSTEM_OBJ  += devcfg.o
 endif
@@ -118,7 +118,7 @@ clean-all: clean
 	rm -f *.h *.hex ioconf.c swap*.c vers.c
 
 reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
-	../../../tools/kconfig/kconfig Config
+	../../../tools/kconfig/kconfig -g Config
 	$(MAKE) clean
 	rm -f *.hex
 
@@ -133,6 +133,9 @@ sys:
 
 .deps:
 	mkdir .deps
+
+setjmp.o: ../setjmp.S
+	${COMPILE_S}
 
 startup_stm32f407xx.o: ../startup_stm32f407xx.s
 	${COMPILE_S}

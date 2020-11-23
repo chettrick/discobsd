@@ -36,6 +36,9 @@
 /*
  * Config.
  */
+#ifdef __linux__
+#include <sys/sysmacros.h>
+#endif
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>

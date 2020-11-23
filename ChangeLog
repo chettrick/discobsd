@@ -1117,3 +1117,7 @@ gcc vs 4.8.1 for mips).
 
 I also need to start on the report here soon. The biblography is getting a
 bit long already.
+
+
+Added Linux-specific prefixes for Arm toolchain, which is at /usr/bin,
+whereas OpenBSD has it at /usr/local/bin.

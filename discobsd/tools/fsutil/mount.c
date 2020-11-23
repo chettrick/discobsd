@@ -21,6 +21,9 @@
  * arising out of or in connection with the use or performance of
  * this software.
  */
+#ifdef __linux__
+#include <sys/sysmacros.h>
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

@@ -1124,3 +1124,55 @@ whereas OpenBSD has it at /usr/local/bin.
 
 
 Missed one use of byacc/yacc in tools/kconfig. Push a commit for that.
+
+===========================================================================
+2020-11-24
+Tuesday, November 24, 2020
+
+I emailed Bill about steps forward. I think I should get the report done,
+and then write and test as much code as I can with the time remaining. It
+does feel a bit lackluster as I have not "ported the Unix kernel" yet, in
+the strictest sense.
+
+I am building the userland and will document here all code that does not
+build due to errors (I am turning off -Werror where I can, since there are
+many implicit-int warnings, promoted to errors, in the build).
+- startup-arm directory => startup directory
+- src/libc/arm directory
+- libcurses: scanw.c: _doscan() arg 3 incompatible type
+- src/cmd/*: won't link
+- src/games/adventure: init.c: linkdata function undefined behaviour
+- src/games/*: won't link
+- ./lib/crt0.o:
+- ./lib/libc.a:
+- ./lib/libm.a:
+- ./lib/libcurses.a:
+- ./lib/libgpanel.a:
+- ./lib/libreadline.a:
+- ./lib/libtermlib.a:
+- ./lib/libwiznet.a:
+- ./lib/retroImage:
+
+So linking is the big deal so far with all the libraries. I need to get a
+crt0.c or crt0.S working, as well as a userland linker script.
+
+===========================================================================
+2020-11-25
+Wednesday, November 25, 2020
+
+I feel like it is apt to write my report in troff. Well, I'll be using
+groff. It just feels right,
+
+===========================================================================
+2020-11-26
+Thursday, November 26, 2020
+
+Looking up some resources on how to write reports with groff. I think I
+will be using the ms macros.
+
+===========================================================================
+2020-11-28
+Saturday, November 28, 2020
+
+Added a bunch of resources for text processing in Unix. Mainly troff/groff
+resources. There really isn't that much information on these tools.

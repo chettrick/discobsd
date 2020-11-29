@@ -3,11 +3,12 @@
 #
 
 REPORT=	Porting_the_Unix_Kernel-CSC490-Christopher_Hettrick
+BIB=	bib.refer
 
 SRCS=	${REPORT}.ms
 
 ${REPORT}.pdf: ${REPORT}.ms
-	pdfroff -mspdf ${REPORT}.ms > $@
+	refer -p ${BIB} ${REPORT}.ms | pdfroff -mspdf - > $@
 
 clean:
 	rm ${REPORT}.pdf

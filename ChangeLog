@@ -1176,3 +1176,34 @@ Saturday, November 28, 2020
 
 Added a bunch of resources for text processing in Unix. Mainly troff/groff
 resources. There really isn't that much information on these tools.
+
+Pushed a commit for the start of the report.
+
+===========================================================================
+2020-11-29
+Sunday, November 29, 2020
+
+Okay, getting a bibliography working with groff by using refer. I was using
+some command line options, but I have added them to the troff file inside
+the .R1 and .R2 macros at the top of the file.
+
+The Makefile has been updated with the new build pipeline. This is it:
+  $ refer -p ${BIB} ${REPORT}.ms | pdfroff -mspdf - > ${REPORT}.pdf
+
+The setup for the report is kind of disgusting, and I am not really
+satisfied with what I got. The main gripe is that the Table of Contents is
+the first page of the PDF. It can only be first or last page (without some
+sort of mangling by ghostscript). The good thing is that the TOC has links
+to section headings. That is a nice touch. The TOC also does not show the
+References page, which is a shame. I don't think I can fix that without
+writing my own ms macros.
+The order of the report is TOC, cover page, first page (with report info
+from cover page), pages of the report, References page.
+To get this, it requires .R1 .R2 macros at the start of the report (with
+any options needed), .NH then .XN "Section title" for each section for the
+linking to work. The end of the report needs to have these macros, in
+order, for everything to work right: .bp .R1 .R2 .TC
+The .bp is required to put the References on its own page.
+The .R1 .R2 macros force the references to be written out at that moment.
+The .TC at the end puts the TOC at the end of the report, but pdfroff moves
+it to the start of the report.

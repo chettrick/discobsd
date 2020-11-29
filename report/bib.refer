@@ -1,0 +1,35 @@
+%K RetroBSD.org
+%A Serge Vakulenko
+%T Homepage of RetroBSD
+%I http://retrobsd.org
+%D Last updated August 28, 2015
+%O Accessed November 28, 2020
+
+%K PUPS
+%Q The PDP Unix Preservation Society
+%A Warren Toomey, (ed)
+%T Details of the PUPS Archive
+%I https://minnie.tuhs.org/PUPS/archive_details.html
+%D Last updated February 21, 1996
+%O Accessed November 28, 2020
+
+%K 2.11BSD
+%A Steven M. Schultz
+%T Announcement of Second Distribution of Berkeley PDP-11 Software for UNIX Release 2.11
+%I https://www.krsaborio.net/bsd/research/1991/0314.htm
+%D January 1991
+%O Accessed November 28, 2020
+
+%K 469.patch
+%A Steven M. Schultz
+%T Patch level 469 for 2.11BSD Distribution
+%I https://www.tuhs.org/Archive/Distributions/UCB/2.11BSD/Patches/469
+%D April 14, 2020
+%O Accessed November 28, 2020
+
+%K RetroBSD_rev506
+%A RetroBSD
+%T RetroBSD Autobuilder Revision 506
+%I http://retrobsd.org/wiki/autobuild.php?rev=506
+%D February 17, 2019
+%O Accessed October 31, 2020

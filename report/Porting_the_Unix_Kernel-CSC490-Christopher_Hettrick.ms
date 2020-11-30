@@ -38,27 +38,40 @@ Arm\(rg Cortex\(rg-M4 architecture.
 RetroBSD is a semi-modernized version of 2.11BSD targeted to the
 PIC32MX7 MIPS-based microcontroller.
 .[
-RetroBSD.org
+Homepage of RetroBSD
 .]
 The early history of RetroBSD has been lost.
 It can only be concluded that RetroBSD was started some time in 2011,
 or perhaps some time even before that.
 The earliest post on the RetroBSD forum was from August 15, 2011.
 The project could have started much earlier than the creation of the forum.
+The project was started and lead by Serge Vakulenko,
+a systems programmer who started working at MIPS Technologies in 2011.
+.[
+HomepageSerge
+.]
 .PP
+2BSD is a family of operating systems for the DEC\(tm PDP-11 derived from
+Research UNIX and developed at the University of California at Berkeley.
 2.11BSD has a long lineage going back to the first release of
 2BSD on May 10, 1979.
 .[
 PUPS
 .]
-The 2BSD line of software distributions for the DEC\(tm PDP-11
+2BSD is a direct descendant of the Sixth Edition of Research UNIX,
+commonly known as V6 UNIX.
+2.8BSD incorporated features from the Seventh Editition of Research UNIX,
+32V UNIX, and 4.1BSD.
+.\" XXX Add reference to UNIX system family tree, pages 5-6 of D&I 4.4BSD OS.
+The 2BSD line of software distributions
 continued on until the most recent release of 2.11BSD in 1991.
 .[
-2.11BSD
+Announcement of Second Distribution of Berkeley PDP-11 Software
 .]
 This release was a celebration of the 20\*{th\*} anniversary of the PDP-11.
-It is the culmination of the efforts to port 4.3BSD features
-\*- which runs on the DEC VAX \*- to the PDP-11.
+It is the culmination of the many efforts to port features from
+4.3BSD and 4.3BSD-Tahoe
+\*- which run on the DEC VAX \*- to the PDP-11.
 Patches to 2.11BSD have been sporadically available since the initial
 release in 1991 from the long-time maintainer Steven Schultz.
 The most recent patch level is 469 and was released on April 14, 2020.
@@ -78,7 +91,8 @@ RetroBSD_rev506
 .XN "Hardware"
 .PP
 The defining features of the target hardware for RetroBSD and DiscoBSD are that
-they are RAM-constrained, 32-bit, and do not have a memory management unit.
+they are RAM-constrained, have 32-bit processors,
+and do not have a memory management unit.
 The lack of an MMU rules out any possibility of virtual memory,
 which is a critical component in most major operating systems.
 A secondary feature of the target hardware is that their processors have the
@@ -114,17 +128,95 @@ but is a viable focus of additional study.
 .NH
 .XN "Kernel Operation Overview"
 .PP
+Coverage of the kernel operation will be limited to the relevant issues
+for this project. For example, signals, communication facilities,
+and the filesystem will not be covered, but are, nonetheless,
+important facilities of any kernel.
+System startup, process creation, and process management
+will be covered in outline in this section.
+.PP
+The kernel gets loaded into RAM by reset and bootstrap code
+in the system startup sequence, and then execution is passed to it.
+It sets up the
+.I swapper
+process (PID 0) which the kernel will eventually become.
+The kernel then hand-crafts the first new process (PID 1) which will be the
+.I init
+process.
+The
+.I init
+process is the ancestor, and parent process,
+of all future processes in the system.
+Once
+.I init
+is created by a kernel-specific form of
+.CW fork() ,
+then the kernel becomes the
+.I swapper
+and manages scheduling system processes.
+.PP
+In a roundabout and convoluted way, the
+.I init
+process loads the program
+.CW /sbin/init
+from the filesystem and it is set executing.
+The
+.I swapper
+process eventually schedules the
+.I init
+process and runs it, which runs the
+.CW /sbin/init
+executable.
+.CW /sbin/init
+spawns a shell to interpret the commands in
+.CW /etc/rc ,
+then forks a copy of itself to invoke
+.CW /libexec/getty ,
+which further invokes
+.CW /bin/login
+to log a user on.
+Upon a successful login,
+.CW /bin/login
+uses a call to
+.CW exec()
+to overlay itself with the user's shell.
+The system is now in the position that general
+.I "user mode"
+programs can now be run by users through their shell,
+and they will be scheduled and executed by the kernel
+.I swapper
+process.
+.PP
+The kernel uses a full swap policy wherein there can only be
+one process running in RAM at a time,
+in addition to the always-present kernel
+.I swapper
+process.
+The processes not currently running will be swapped out to the
+.I "swap area"
+on the disk,
+which in this case is a filesystem partition on the mounted SD card.
+The reasoning for this policy is that the available RAM to the system
+is not large enough to support multiple in-core processes.
+This is a defining feature of DiscoBSD.
 .NH
 .XN "System Startup"
 .PP
+After a system reset, the kernel gets loaded into RAM by initial reset code
+and execution begins at the kernel's entry point,
+which eventually arrives at the kernel's
+.CW main()
+function.
+The kernel's various data structures are initialized.
+Machine dependent (MD) peripherals are set up and initialized.
 .NH 2
 .XN "Linker Script and Bootstrapping"
 .PP
 .NH 2
-.XN "Kernel Initialization"
+.XN "Assembly Language Startup"
 .PP
-.NH 3
-.XN "Assembly-language Startup"
+.NH 2
+.XN "Kernel Initialization"
 .PP
 .NH 2
 .XN "Kernel Configuration"
@@ -135,8 +227,20 @@ but is a viable focus of additional study.
 .NH 2
 .XN "Getting to /sbin/init"
 .PP
+.NH 2
+.XN "Getting to the User's Shell"
+.PP
 .NH
 .XN "Userland"
+.PP
+.NH
+.XN "Build System"
+.PP
+.NH 2
+.XN "Multi-Architecture Features"
+.PP
+.NH
+.XN "Project Difficulties"
 .PP
 .NH
 .XN "Future Work"

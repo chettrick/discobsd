@@ -1207,3 +1207,7 @@ The .bp is required to put the References on its own page.
 The .R1 .R2 macros force the references to be written out at that moment.
 The .TC at the end puts the TOC at the end of the report, but pdfroff moves
 it to the start of the report.
+
+Added the section on the Kernel Operation Overview to the report. It may be
+too technical for the section. It may also be not deep enough to put in
+other sections. We will see.

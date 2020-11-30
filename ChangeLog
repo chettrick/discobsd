@@ -1211,3 +1211,10 @@ it to the start of the report.
 Added the section on the Kernel Operation Overview to the report. It may be
 too technical for the section. It may also be not deep enough to put in
 other sections. We will see.
+
+===========================================================================
+2020-11-30
+Monday, November 30, 2020
+
+Fleshed out more of the System Startup section and the Bootstrapping and
+Linker Script section. A trimmed down linker script is added in a code box.

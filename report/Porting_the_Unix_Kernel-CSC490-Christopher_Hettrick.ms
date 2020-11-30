@@ -17,7 +17,7 @@ Supervised by Dr. Bill Bird
 This report describes the process of porting a variant of the Unix kernel
 from the MIPS architecture to the Arm architecture.
 A heavily modified 2.11BSD version of the Unix kernel called RetroBSD is used
-as the basis for this development.
+as a case study, and is the basis of this development.
 The goal of this project is to run this ported kernel on both a simulator
 and on a physical embedded development board.
 An additional portion of this work is devoted to adapting
@@ -32,6 +32,7 @@ other platforms and architectures.
 Porting the MIPS32\(rg M4K\(rg architecture to the
 Arm\(rg Cortex\(rg-M4 architecture.
 .\" XXX Fill out this section.
+.\" XXX Add specifics about DiscoBSD, so future references are understandable.
 .NH
 .XN "Relevant History of BSD"
 .PP
@@ -139,7 +140,7 @@ The kernel gets loaded into RAM by reset and bootstrap code
 in the system startup sequence, and then execution is passed to it.
 It sets up the
 .I swapper
-process (PID 0) which the kernel will eventually become.
+process (PID 0), which the kernel will eventually become.
 The kernel then hand-crafts the first new process (PID 1) which will be the
 .I init
 process.
@@ -153,7 +154,7 @@ is created by a kernel-specific form of
 .CW fork() ,
 then the kernel becomes the
 .I swapper
-and manages scheduling system processes.
+and manages scheduling processes.
 .PP
 In a roundabout and convoluted way, the
 .I init
@@ -198,20 +199,126 @@ on the disk,
 which in this case is a filesystem partition on the mounted SD card.
 The reasoning for this policy is that the available RAM to the system
 is not large enough to support multiple in-core processes.
-This is a defining feature of DiscoBSD.
+This is a defining, and unavoidable, constraint of DiscoBSD.
 .NH
 .XN "System Startup"
 .PP
-After a system reset, the kernel gets loaded into RAM by initial reset code
-and execution begins at the kernel's entry point,
+After a system reset, the kernel gets loaded into RAM from Flash by
+initial reset code and execution begins at the kernel's entry point,
 which eventually arrives at the kernel's
 .CW main()
 function.
 The kernel's various data structures are initialized.
 Machine dependent (MD) peripherals are set up and initialized.
+Machine independent (MI) peripherals are set up and initialized.
+The filesystem is mounted and set up.
+The
+.I init
+process is created and forked.
+The kernel process becomes the
+.I swapper
+to schedule all system processes.
+The code for
+.CW /sbin/init
+is loaded from the filesystem into user memory and the
+.I init
+process "returns" to location zero of the code in user memory to execute it.
+The specifics of how all this happens is covered in the following subsections.
 .NH 2
-.XN "Linker Script and Bootstrapping"
+.XN "Bootstrapping and Linker Script"
 .PP
+The default bootloader in STM32F4xx microcontrollers is set by the
+.CW BOOT0
+(held low by default) and
+.CW BOOT1
+(held high by default) pins.
+This selects the main Flash memory as the boot space,
+starting at address
+.CW 0x00000000 .
+.PP
+There are two linker scripts that concern this operating system:
+one for the kernel and one for user executables.
+The former will be discussed in this section.
+.PP
+A linker script is a specifically formatted file that instructs the linker
+\*- as the last step of the compilation process \*-
+on how to lay out the various sections of the executable.
+This amounts to placing kernel code in the read-only
+.I .text
+section,
+initialized data in the read and write
+.I .data
+section, and
+specifying where the
+.I .bss
+section is located for uninitialized data and variables.
+The stack pointer is also placed accordingly,
+normally at the end of RAM for the full-decending stack on the Arm Cortex-M4.
+The stack pointer is defined by the label
+.I _estack
+and it is located at the end of RAM at address
+.CW 0x20020000 .
+.KS
+.LP
+A trimmed down version of the kernel's linker script is as follows:
+.PP
+.DS L
+.B1
+.CW ""
+.CW "\tMEMORY {"
+.CW "\t    FLASH (r x) : ORIGIN = 0x08000000, LENGTH = 1024K"
+.CW "\t    RAM   (rwx) : ORIGIN = 0x20000188, LENGTH = 32k - 0x188"
+.CW "\t}"
+.CW ""
+.CW "\tENTRY(Reset_Handler)"
+.CW ""
+.CW "\t_estack = 0x20020000;"
+.CW ""
+.CW "\tSECTIONS {"
+.CW "\t    .text : {"
+.CW "\t        KEEP(*(.isr_vector))"
+.CW "\t        *(.text*)"
+.CW "\t        *(.rodata*)"
+.CW "\t    } > FLASH"
+.CW "\t    _etext = .;"
+.CW ""
+.CW "\t    .data : AT (_etext) {"
+.CW "\t        _sdata = .;"
+.CW "\t        *(.data*)"
+.CW "\t        . = ALIGN(8);"
+.CW "\t        _edata = .;"
+.CW "\t    } > RAM"
+.CW ""
+.CW "\t    .bss : {"
+.CW "\t        . = ALIGN(8);"
+.CW "\t        _sbss = .;"
+.CW "\t        *(.bss*)"
+.CW "\t        *(COMMON)"
+.CW "\t        . = ALIGN(8);"
+.CW "\t        _ebss = .;"
+.CW "\t    } > RAM"
+.CW "\t}"
+.CW ""
+.B2
+.DE
+.KE
+.PP
+All execution starts at
+.CW ENTRY(\fIlabel\fP) where
+.I label
+is
+.I Reset_Handler
+on DiscoBSD (historically
+.I start ).
+In Arm Cortex-M4, the first 32 bits (first word) of the executable is
+actually the address of the stack pointer,
+and the second word is the address of
+.I label .
+.\" XXX Add reference to Arm documentation.
+This is handled by the linker.
+.I label
+refers to a label in the architecture-specific assembly language startup code.
+This code will be covered in the next section.
 .NH 2
 .XN "Assembly Language Startup"
 .PP
@@ -227,6 +334,21 @@ Machine dependent (MD) peripherals are set up and initialized.
 .NH 2
 .XN "Getting to /sbin/init"
 .PP
+.\" XXX Add reference to page 405 in D&I 4.3BSD OS
+.DS L
+.B1
+.CW ""
+.CW "\tmain()"
+.CW "\t{"
+.CW "\t\tchar *argv[2];"
+.CW ""
+.CW "\t\targv[0] = \(dqinit\(dq;"
+.CW "\t\targv[1] = 0;"
+.CW "\t\texit(execv(\(dq/sbin/init\(dq, argv));"
+.CW "\t}"
+.CW ""
+.B2
+.DE
 .NH 2
 .XN "Getting to the User's Shell"
 .PP

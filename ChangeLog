@@ -1218,3 +1218,20 @@ Monday, November 30, 2020
 
 Fleshed out more of the System Startup section and the Bootstrapping and
 Linker Script section. A trimmed down linker script is added in a code box.
+
+===========================================================================
+2020-12-05
+Saturday, December 05, 2020
+
+Lots has happened the last few days, but I have not documented all of it.
+I am pushing a commit for .gitignore files that were somehow missed with
+the initial commit of the RetroBSD repository. These are for the presence
+of build directories where binaries are placed. The directories are:
+/bin
+/games
+/games/lib
+/libexec
+/sbin
+
+and each of these directories has a .gitignore that was missed. This
+problem arised due to a fresh checkout of the repo on Winbuntu.

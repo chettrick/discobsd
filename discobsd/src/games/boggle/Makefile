@@ -32,7 +32,7 @@ ${MAN}:         ${MANSRC}
 		${MANROFF} $< > $@
 
 clean:
-		rm -f *.o core boggle comp bogdict
+		rm -f *.o *.0 *.dis core boggle comp bogdict
 
 install:
 		install boggle $(DESTDIR)/games/

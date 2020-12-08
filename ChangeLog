@@ -1235,3 +1235,35 @@ of build directories where binaries are placed. The directories are:
 
 and each of these directories has a .gitignore that was missed. This
 problem arised due to a fresh checkout of the repo on Winbuntu.
+
+===========================================================================
+2020-12-06
+Sunday, December 06, 2020
+
+I worked on an OpenBSD VirtualBox virtual machine for Bill to use to
+evaluate this project. It came apparent quite fast that there is an issue
+with my DiscoBSD repository. The specific problem is that the file expr.c
+is not in my repository (as a file for certain programs, such as adb), but
+it is in the RetroBSD repository. I will have to figure this out tomorrow.
+
+The default install for OpenBSD is not sufficent for building gcc with the
+Ports Collection. I should have made a separate /usr/ports partition for
+building the ports, as the /usr partition was maxed out when compiling gcc.
+I got it to compile and install, in any case, but it was not fun.
+
+===========================================================================
+2020-12-07
+Monday, December 07, 2020
+
+Ah yes, I found the culprits. Some .gitignore files in parent directories
+have ignores that inadvertently trickled down to legitimate files in some
+subdirectories. These include files: called expr.c; end in *.0 that are not
+compiled man pages; named the same as a binary (morse).
+I amended or added the .gitignore files to address this problem.
+I still have the problem of the configsys program does not clean up from
+the top-level Makefile. I do not believe that this program is used anyway,
+so I will leave it for now.
+
+The way I was able to find these missing/incorrect files is with:
+  $ git status --ignored
+It works pretty good.

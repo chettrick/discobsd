@@ -16,7 +16,7 @@ btlgammon:      ${OBJS}
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
 clean:
-		rm -f *.o core btlgammon
+		rm -f *.o *.dis core btlgammon
 
 install:
 		install btlgammon $(DESTDIR)/games/

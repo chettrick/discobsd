@@ -17,7 +17,7 @@ echo
 ed
 egrep
 expr
-expr.c
+/expr.c
 false
 fgrep
 file
@@ -30,6 +30,7 @@ kill
 last
 ln
 mail
+makedep
 mesg
 mkdir
 mv

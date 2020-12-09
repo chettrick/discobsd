@@ -28,7 +28,7 @@ void    _id_subwins (WINDOW *);
 void    gettmode (void);
 void    tstp (int);
 int     _sprintw (WINDOW *, char *, va_list);
-int     _sscans (WINDOW *, char *, int *);
+int     _sscans (WINDOW *, char *, va_list); /* XXX */
 void    _swflags_ (WINDOW *);
 void    _set_subwin_ (WINDOW *, WINDOW *);
 void    mvcur (int, int, int, int);

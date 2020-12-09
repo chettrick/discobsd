@@ -13,9 +13,9 @@ int
 mvscanw(y, x, fmt, args)
         int	y, x;
         char	*fmt;
-        int	args;
+        va_list	args; /* XXX */
 {
-	return move(y, x) == OK ? _sscans(stdscr, fmt, &args) : ERR;
+	return move(y, x) == OK ? _sscans(stdscr, fmt, args) : ERR; /* XXX */
 }
 
 int
@@ -23,7 +23,7 @@ mvwscanw(win, y, x, fmt, args)
         WINDOW	*win;
         int	y, x;
         char	*fmt;
-        int	args;
+        va_list	args; /* XXX */
 {
-	return wmove(win, y, x) == OK ? _sscans(win, fmt, &args) : ERR;
+	return wmove(win, y, x) == OK ? _sscans(win, fmt, args) : ERR; /* XXX */
 }

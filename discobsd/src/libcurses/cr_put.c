@@ -37,6 +37,7 @@ static int plodcnt, plodflg;
 
 static int
 plodput(c)
+	int	c;
 {
 	if (plodflg) {
 		plodcnt--;
@@ -67,6 +68,7 @@ tabcol(col, ts)
 
 static int
 plod(cnt)
+	int	cnt;
 {
 	register int i, j, k;
 	register int soutcol, soutline;

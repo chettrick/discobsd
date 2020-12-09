@@ -509,6 +509,7 @@ multiple()
 
 int
 main(argc, argv)
+	int argc;
 	char **argv;
 {
 #if 0

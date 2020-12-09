@@ -7,7 +7,8 @@ OBJS            = message.o access.o command.o expr.o findfn.o format.o input.o 
                   main.o opset.o output.o pcs.o print.o \
                   runpcs.o setup.o sym.o
 
-CFLAGS		+= -DNUM_SYMS_CACHE=50 -Wall -Werror
+# XXX CFLAGS		+= -DNUM_SYMS_CACHE=50 -Wall -Werror
+CFLAGS		+= -DNUM_SYMS_CACHE=50 -Wall
 
 all:            adb
 

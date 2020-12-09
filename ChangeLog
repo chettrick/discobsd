@@ -1267,3 +1267,31 @@ so I will leave it for now.
 The way I was able to find these missing/incorrect files is with:
   $ git status --ignored
 It works pretty good.
+
+
+If I compile with a command such as:
+  $ MACHINE=pic32 MACHINE_ARCH=mips gmake -s >/dev/null
+I am able to only see the errors of the build. These are:
+* shift/reduce and reduce/reduce yacc errors
+* on a fresh clone of repo, errors that files don't exist, like .oldversion
+  which are files for the kernel. After the first build they are created.
+* Segmentation faults in kernel/init_main.c that are from the mips gcc
+  compiler. I won't address these anytime soon. Recompiling normally makes
+  the compilation eventually complete. Note that the mips version is
+  compiling a separate kernel for each target mips board. The only one I
+  care about is the max32 board, as that is what runs with VirtualMIPS.
+
+===========================================================================
+2020-12-08
+Tuesday, December 08, 2020
+
+Worked on libcurses a bit, so that it would compile with arm-none-eabi-gcc.
+Some implicit ints needed for K&R style function definitions. I had to do a
+widesweeping change to the declaration of _sscans(). The last parameter was
+an 'int *', but gcc said that it should be a 'va_list', so I changed it,
+which forced me to change all the calls to it. I did not test the curses
+code (I don't even know if it works at all), but it now compiles cleanly
+with both the mips and arm gcc compilers.
+
+Implicit int for cmd/init/init.c, and turn off -Werror in compiling adb and
+adventure (too many warnings that are not relevant to fix).

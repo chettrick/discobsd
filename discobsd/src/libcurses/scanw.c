@@ -17,9 +17,9 @@
 int
 scanw(fmt, args)
         char	*fmt;
-        int	args;
+        va_list	args; /* XXX */
 {
-	return _sscans(stdscr, fmt, &args);
+	return _sscans(stdscr, fmt, args); /* XXX */
 }
 /*
  *	This routine implements a scanf on the given window.
@@ -28,9 +28,9 @@ int
 wscanw(win, fmt, args)
         WINDOW	*win;
         char	*fmt;
-        int	args;
+        va_list	args; /* XXX */
 {
-	return _sscans(win, fmt, &args);
+	return _sscans(win, fmt, args); /* XXX */
 }
 
 /*
@@ -46,7 +46,7 @@ int
 _sscans(win, fmt, args)
         WINDOW	*win;
         char	*fmt;
-        int	*args;
+        va_list	args; /* XXX */
 {
 	char	buf[100];
 	FILE	junk;
@@ -56,5 +56,5 @@ _sscans(win, fmt, args)
 	if (wgetstr(win, buf) == ERR)
 		return ERR;
 	junk._cnt = strlen(buf);
-	return _doscan(&junk, fmt, args);
+	return _doscan(&junk, fmt, args); /* XXX */
 }

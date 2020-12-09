@@ -52,7 +52,7 @@ int wprintw (WINDOW *win, char *fmt, ...)
         int ret;
 
 	va_start (args, fmt);
-	ret = _sprintw (win, fmt, &args);
+	ret = _sprintw (win, fmt, args); /* XXX */
 	va_end (args);
 	return ret;
 }

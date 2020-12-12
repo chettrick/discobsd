@@ -87,6 +87,7 @@ void putstr(ss)
 }
 
 int main(argc, argv)
+        int argc;
         char *argv[];
 {
 	char *spp;

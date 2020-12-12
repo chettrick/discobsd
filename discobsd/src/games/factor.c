@@ -83,6 +83,7 @@ void printfactors(n)
 }
 
 int main(argc, argv)
+        int	argc;
         char	*argv[];
 {
 	int	n;

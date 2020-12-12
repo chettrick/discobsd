@@ -413,6 +413,7 @@ fixtty (mode)
 
 void
 getout (sig)
+	int	sig;
 {
 	/* go to bottom of screen */
 	if (tflag)  {

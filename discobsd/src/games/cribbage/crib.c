@@ -50,6 +50,7 @@ void makeboard()
  * deal cards to both players from deck
  */
 int deal( mycrib )
+BOOLEAN		mycrib;
 {
 	register  int		i, j;
 

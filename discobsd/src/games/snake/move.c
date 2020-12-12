@@ -76,6 +76,7 @@ static char str[80];
 
 int
 outch(c)
+int c;
 {
 	return putchar(c);
 }
@@ -297,6 +298,7 @@ struct point *sp;
 
 void
 pch(c)
+int c;
 {
 	outch(c);
 	if (++cursor.col >= COLUMNS) {

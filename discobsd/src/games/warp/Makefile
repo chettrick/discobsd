@@ -2,7 +2,8 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Os -mips16 -Werror #-Wall
+#CFLAGS		+= -Os -mips16 -Werror #-Wall
+CFLAGS		+= -Os -Wall
 
 OBJS            = bang.o init.o intrp.o move.o \
                   object.o play.o score.o \

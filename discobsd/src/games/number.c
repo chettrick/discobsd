@@ -84,6 +84,7 @@ void print(s)
 }
 
 void ones(d)
+        int d;
 {
 	if(d=='0')
 		return;
@@ -108,6 +109,7 @@ void tens(p)
 }
 
 int digit(c)
+        int c;
 {
 	if(c < '0' || c > '9')
 		return(0);
@@ -130,6 +132,7 @@ void cprint(s)
 
 void conv(p, c)
         char *p;
+        int c;
 {
 
 	if(c > max) {

@@ -75,6 +75,7 @@ char c;
 int
 eat(s,c)
 char c;
+int s;
 {
 	if(*ev!=c)
 		return(2);
@@ -91,6 +92,7 @@ char c;
 
 int
 disj(s)
+int s;
 {
 	int t, x;
 	char *u;
@@ -131,6 +133,7 @@ disj(s)
 
 int
 string(s)
+int s;
 {
 	int x;
 	for(;;) {
@@ -189,6 +192,7 @@ char *u,*v;
 
 void
 pub1(s)
+int s;
 {
 	for(;;ev++){
 		switch(*ev) {
@@ -262,6 +266,7 @@ badinfo(){
 
 int
 perm(u,m,v,n,p)
+int m, n;
 int p[];
 char *u[], *v[];
 {
@@ -285,6 +290,7 @@ uloop:		;
 int
 find(u,m)
 char *u[];
+int m;
 {
 	int n;
 	while(readline()){
@@ -411,6 +417,7 @@ char *r;
 
 int
 main(argc,argv)
+int argc;
 char *argv[];
 {
 	int j, i, x, z, count;

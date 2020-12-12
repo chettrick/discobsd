@@ -22,6 +22,7 @@
 int
 error(str, arg)
 char	*str;
+int	arg;
 {
 	stdscr = Score;
 	mvprintw(ERR_Y, ERR_X, str, arg);

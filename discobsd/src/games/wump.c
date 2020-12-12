@@ -99,6 +99,7 @@ int	wloc;
 int	tchar;
 
 int rnum(n)
+        int n;
 {
 	static time_t first;
 
@@ -110,6 +111,7 @@ int rnum(n)
 }
 
 int tunnel(i)
+        int i;
 {
 	register struct room *p;
 	register int n, j;
@@ -168,6 +170,7 @@ int rin()
 
 int near(ap, ahaz)
         struct room *ap;
+        int ahaz;
 {
 	register struct room *p;
 	register int haz, i;

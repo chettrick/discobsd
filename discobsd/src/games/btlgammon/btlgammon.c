@@ -480,6 +480,7 @@ void pmoves()
 }
 
 void roll(who)
+int who;
 {
 	register int n;
 	char	 s[10];

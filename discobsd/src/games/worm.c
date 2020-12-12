@@ -124,6 +124,7 @@ void crash()
 }
 
 int rnd(range)
+        int range;
 {
 	return abs((rand()>>5)+(rand()>>5)) % range;
 }
@@ -214,6 +215,7 @@ void wake()
 }
 
 int main(argc, argv)
+        int argc;
         char **argv;
 {
 	char ch;

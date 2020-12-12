@@ -60,6 +60,7 @@
 
 double dtor(), potm(), adj360();
 
+int
 main()
 {
 	extern int errno;

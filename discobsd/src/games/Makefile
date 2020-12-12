@@ -7,7 +7,8 @@ TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS          += -Werror -Wall -Os
+# XXX CFLAGS          += -Werror -Wall -Os
+CFLAGS          += -Wall -Os
 
 # Programs that live in subdirectories, and have makefiles of their own.
 #

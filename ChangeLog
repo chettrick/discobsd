@@ -1295,3 +1295,34 @@ with both the mips and arm gcc compilers.
 
 Implicit int for cmd/init/init.c, and turn off -Werror in compiling adb and
 adventure (too many warnings that are not relevant to fix).
+
+
+libcurses compiles cleanly.
+libc has warnings: implicit int, unused-value, int-in-bool-context.
+libgpanel compiles cleanly.
+libicache is only for MIPS, and not compiled by default.
+libm compiles cleanly.
+libreadline compiles cleanly.
+libtcl does not compile by mips or arm, and is not compiled by default.
+libtermlib compiles cleanly.
+libutil has many warnings: implicit-function-declaration, implicit-int,
+                           return with no value. Only from arm compiler.
+libvmf has warnings: implicit-function-declaration from arm compiler.
+libwiznet compiles cleanly.
+share compiles cleanly.
+
+Added -ansi CFLAG for games/atc. It stops lex/gcc from trying to find the
+inttypes.h header, which is not present in DiscoBSD. It also silences some
+of the warnings, but that was not my intention.
+
+Removed -mips16 CFLAG from the specific Makefiles for src programs, such as
+those in games and cmd. -mips16 is available via target.mk when you define
+MACHINE_ARCH=mips either in a Makefile or on the command line when invoking
+gmake.
+
+===========================================================================
+2020-12-08
+Tuesday, December 08, 2020
+
+Going to push the commit to src/games. Lots of small fixes to implicit ints
+and turning off -Werror, -mips16 in the Makefiles when compiling for Arm.

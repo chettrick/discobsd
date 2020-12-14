@@ -1321,8 +1321,35 @@ MACHINE_ARCH=mips either in a Makefile or on the command line when invoking
 gmake.
 
 ===========================================================================
-2020-12-08
-Tuesday, December 08, 2020
+2020-12-12
+Saturday, December 12, 2020
 
 Going to push the commit to src/games. Lots of small fixes to implicit ints
 and turning off -Werror, -mips16 in the Makefiles when compiling for Arm.
+
+
+Spent some time writing the report.
+
+===========================================================================
+2020-12-13
+Sunday, December 13, 2020
+
+Worked on the report in the Assembly Language Startup section.
+I just noticed some difficult to understand aspects of how the kernel
+actually starts up. Even Lions' Commentary book says that this part is
+"therefore somewhat enigmatic", which is secondary only to the classic line
+"You are not expected to understand this." in swtch() on line 2238.
+What I am talking about is what the "return" from main() in the kernel
+actually does. It actually returns to the assembly code that branched to
+main(), and there is a few more lines of assembly after the branch to main.
+These lines set the user stack pointer to the user stack and then jumps to
+"zero", which is where the small icode program is sitting, and will load
+and exec /sbin/init from the file system via syscalls.
+Note that all this part I just figured out today (and some of it is still
+hazy), and so the code is not written for this. I am running out of time.
+
+===========================================================================
+2020-12-14
+Monday, December 14, 2020
+
+Added section on Kernel Configuration with kconfig.

@@ -203,14 +203,14 @@ This is a defining, and unavoidable, constraint of DiscoBSD.
 .NH
 .XN "System Startup"
 .PP
-After a system reset, the kernel gets loaded into RAM from Flash by
+After a system hardware reset, the kernel gets loaded into RAM from Flash by
 initial reset code and execution begins at the kernel's entry point,
 which eventually arrives at the kernel's
 .CW main()
 function.
 The kernel's various data structures are initialized.
 Machine dependent (MD) peripherals are set up and initialized.
-Machine independent (MI) peripherals are set up and initialized.
+Machine independent (MI) peripherals are also set up and initialized.
 The filesystem is mounted and set up.
 The
 .I init
@@ -259,16 +259,23 @@ The stack pointer is defined by the label
 and it is located at the end of RAM at address
 .CW 0x20020000 .
 .KS
-.LP
+.PP
 A trimmed down version of the kernel's linker script is as follows:
 .PP
 .DS L
 .B1
 .CW ""
 .CW "\tMEMORY {"
-.CW "\t    FLASH (r x) : ORIGIN = 0x08000000, LENGTH = 1024K"
-.CW "\t    RAM   (rwx) : ORIGIN = 0x20000188, LENGTH = 32k - 0x188"
+.CW "\t    FLASH (r x)  : ORIGIN = 0x08000000, LENGTH = 1024K"
+.CW "\t    RAM   (rwx)  : ORIGIN = 0x20000188, LENGTH = 32K - 0x188"
+.CW "\t    U0AREA(rw!x) : ORIGIN = 0x20008000, LENGTH = 3K"
+.CW "\t    UAREA (rw!x) : ORIGIN = 0x20008C00, LENGTH = 3K"
 .CW "\t}"
+.CW ""
+.CW "\t/* Higher addresses of the user mode stacks. */"
+.CW "\tu0    = ORIGIN(U0AREA);"
+.CW "\tu     = ORIGIN(UAREA);"
+.CW "\tu_end = ORIGIN(UAREA) + LENGTH(UAREA);"
 .CW ""
 .CW "\tENTRY(Reset_Handler)"
 .CW ""
@@ -322,11 +329,188 @@ This code will be covered in the next section.
 .NH 2
 .XN "Assembly Language Startup"
 .PP
+The assembly language startup code differs greatly between MIPS and Arm.
+The MIPS startup code is entirely contained in the file
+.CW /sys/pic32/startup.S ,
+whereas Arm and STM has standardized on an elaborate set of files that are
+common amongst each family of microcontrollers.
+These standardized files are available from STMicroelectronics,
+.\" XXX Add reference to file availability from ST website.
+the microcontroller vendor for STM32F407xx devices.
+.PP
+The following files are required by Arm for CMSIS functions:
+.RS
+.RS
+.IP \(bu 4
+.CW cmsis_gcc.h
+.IP \(bu 4
+.CW core_cm4.h
+.IP \(bu 4
+.CW core_cmFunc.h
+.IP \(bu 4
+.CW core_cmInstr.h
+.IP \(bu 4
+.CW core_cmSimd.h
+.RE
+.RE
+.PP
+The following files are required by STM for
+processor and SysTick initialization:
+.RS
+.RS
+.IP \(bu 4
+.CW startup_stm32f407xx.s
+.IP \(bu 4
+.CW stm32_assert.h
+.IP \(bu 4
+.CW stm32f407xx.h
+.IP \(bu 4
+.CW stm32f4xx.h
+.IP \(bu 4
+.CW stm32f4xx_it.c
+.IP \(bu 4
+.CW stm32f4xx_it.h
+.IP \(bu 4
+.CW system_stm32f4xx.c
+.IP \(bu 4
+.CW system_stm32f4xx.h
+.RE
+.RE
+.PP
+The Arm file that contains the label
+.I Reset_Handler
+is
+.CW /sys/stm32/startup_stm32f407.s
+and is the file that starts all execution.
+This file is specific to STM32F407xx microcontrollers.
+Other microcontrollers in the STM32F4xx family have similar startup files,
+named in a comparable way.
+.PP
+The startup code in
+.CW startup_stm32f407xx.s
+has the following structure (shortened for brevity):
+.PP
+.DS L
+.B1
+.CW ""
+.CW "\t.global Reset_Handler"
+.CW ""
+.CW "\tReset_Handler:"
+.CW "\t\tldr\tsp, =_estack\t\t/* Set stack pointer. */"
+.\" XXX This is what the code from Arm does,
+.\" XXX but it doesn't make sense for setting up u0 and u.
+.CW ""
+.CW "\t\t/* Code to copy .data segment from flash to SRAM. */"
+.CW ""
+.CW "\t\t/* Code to fill .bss segment with zeros. */"
+.CW ""
+.CW "\t\tbl SystemInit\t\t/* Init system clock. */"
+.CW ""
+.CW "\t\tbl main\t\t\t\t/* Call main() in kernel. */"
+.CW ""
+.CW "\t\t/* Once main() returns here as PID 1: */"
+.\" XXX This part of the code in DiscoBSD has not been written.
+.CW "\t\t/*   enter user mode, */"
+.CW "\t\t/*   run icode at address zero (to exec /sbin/init). */"
+.CW "\t\t/* This is described in Section 7.6. */"
+.CW ""
+.B2
+.DE
+.PP
+Exception handlers and interrupt service routines are defined and handled in
+.CW stm32f4xx_it.c .
+The Arm-required
+.CW SystemInit()
+function,
+which is called from the startup assembly code shown above,
+is defined in
+.CW system_stm32f4xx.c .
+The various header files have defines for the standard Arm environment.
+.PP
 .NH 2
 .XN "Kernel Initialization"
 .PP
 .NH 2
 .XN "Kernel Configuration"
+.PP
+The kernel configuration program
+.CW /tools/kconfig/kconfig
+is used to configure a kernel,
+based on the
+.CW Config
+file in the build directory, namely
+.CW /sys/stm32/f4discovery/Config .
+The support files
+.CW Makefile.kconf ,
+.CW devices.kconf ,
+and
+.CW files.kconf
+in the
+.CW /sys/stm32
+directory are used in the configuration process.
+Cursory coverage of
+.CW kconfig
+will be outlined below,
+while detailed information is available from the
+.CW kconfig
+documentation.
+.\" XXX Add reference to kconfig RetrobSD webpage.
+.\" XXX http://retrobsd.org/wiki/doku.php/doc/kconfig
+.PP
+The purpose of
+.CW kconfig
+is to generate a
+.CW Makefile ,
+which is used to compile a specific kernel.
+.CW Makefile.kconf
+is a template
+.CW Makefile
+that has default build rules and directives,
+as well as anchors to attach generated build rules.
+The specific source files used to build the kernel are retrieved from the file
+.CW files.kconf
+by matching both standard kernel files and optional device drivers.
+.CW devices.kconf
+contains a list of block devices and their major numbers for the filesystem.
+A basic kernel configuration is possible with the following
+.CW Config
+configuration file:
+.PP
+.DS L
+.B1
+.CW ""
+.CW "\tarchitecture\t\t\(dqstm32\(dq\t\t\t\t\t# Processor architecture"
+.CW "\tcpu\t\t\t\t\(dqSTM32F407xx\(dq\t\t\t# Processor variant"
+.CW "\tboard\t\t\t\(dqF4DISCOVERY\(dq\t\t\t# Board type"
+.CW "\tldscript\t\t\t\(dqf4discovery/STM32F407XG.ld\(dq\t# Linker script"
+.CW ""
+.CW "\toptions\t\t\t\(dqCPU_KHZ=80000\(dq\t\t\t# CPU core osc freq"
+.CW "\toptions\t\t\t\(dqBUS_KHZ=80000\(dq\t\t\t# Peripheral bus freq"
+.CW "\toptions\t\t\t\(dqBUS_DIV=1\(dq\t\t\t\t# Bus clock divisor"
+.CW ""
+.CW "\tconfig\t\t\tunix\t\troot on sd0a\t\t# Root filesystem"
+.CW "\t\t\t\t\t\t\tswap on sd0b\t\t# Swap partition"
+.CW ""
+.CW "\tdevice\t\t\tuart1\t\t\t\t\t# Serial UART port 1"
+.CW "\toptions\t\t\t\(dqCONS_MAJOR=UART_MAJOR\(dq\t# UART1 as console"
+.CW "\toptions\t\t\t\(dqCONS_MINOR=0\(dq\t\t\t# /dev/tty0"
+.CW ""
+.CW "\tcontroller\t\tspi2\t\t\t\t\t\t# SD card"
+.CW ""
+.CW "\tdevice\t\t\tsd0\t\tat spi2 pic RC14\t# SD card select pin"
+.CW "\toptions\t\t\t\(dqSD_MHZ=10\(dq\t\t\t\t# SD card speed 10 MHz"
+.CW ""
+.B2
+.DE
+.PP
+Note that the full functionality of STM32-specific configuration
+has not yet been added to
+.CW kconfig .
+A fully working
+.CW Makefile
+that is able to compile the DiscoBSD kernel,
+using the above configuration defines,
+has been created by hand.
 .PP
 .NH 2
 .XN "Getting to main()"
@@ -335,6 +519,7 @@ This code will be covered in the next section.
 .XN "Getting to /sbin/init"
 .PP
 .\" XXX Add reference to page 405 in D&I 4.3BSD OS
+.PP
 .DS L
 .B1
 .CW ""

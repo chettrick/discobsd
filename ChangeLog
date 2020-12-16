@@ -1362,6 +1362,10 @@ robust.
 I put Kernel Configuration section as its own top-level section. It doesn't
 belong with the System Startup section.
 
+===========================================================================
+2020-12-15
+Tuesday, December 15, 2020
+
 I got the embedded images to work. I am using pdftk to cut them out. This
 causes the bookmark metadata to be lost, but that is okay for now. I can
 add that back in manually with pdftk.
@@ -1379,3 +1383,5 @@ Added sections for:
 
 I added vertical space (by using "XXX Words" lines) to each section to get
 a estimated size of the report. It is looking pretty good so far.
+
+Fleshed out section on STM32 Development Board.

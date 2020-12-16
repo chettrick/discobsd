@@ -30,7 +30,8 @@ An additional portion of this work is devoted to adapting
 the large-scale codebase of RetroBSD to more modern and
 sustainable development standards that will facilitate future ports to
 other platforms and architectures.
-.\" XXX Talk about the host environment, and how it works on Linux and OpenBSD.
+The host development environment is supported on both OpenBSD and Linux
+as host operating systems for cross compilation to MIPS and Arm targets.
 .AE
 .NH
 .XN "Introduction"
@@ -50,7 +51,7 @@ XXX Words
 .\" XXX Fill out this section.
 .\" XXX Add specifics about DiscoBSD, so future references are understandable.
 .NH
-.XN "Relevant History of BSD"
+.XN "Relevant History of Unix and BSD"
 .PP
 RetroBSD is a semi-modernized version of 2.11BSD targeted to the
 PIC32MX7 MIPS-based microcontroller.
@@ -139,7 +140,7 @@ but they have no relevance to this project.
 Programming and debugging of the board is achieved through the use of the
 PICkit3 in-system programmer/debugger and the connected USB cable.
 The MPLAB IDE software is used on a Windows system
-to load the firmware into the flash memory in the microcontroller.
+to load firmware into the flash memory of the microcontroller.
 .KS
 .PP
 An image of the Max32 development board is shown below:
@@ -154,20 +155,39 @@ of DiscoBSD is the STM32F4Discovery board,
 produced by STMicroelectronics.
 A fully compatible revised edition of the board has been
 released under the model name STM32F407G-DISC1.
+.\" XXX Add reference to stm32f4discovery.pdf spec sheet.
+All revisions of the boards employ an STM32F407VGT6 32-bit Arm Cortex-M4
+microcontroller with a single-precision floating-point unit.
+The processor runs at a max speed of 168 MHz,
+has 1MB of flash program memory, and
+192KB of SRAM data memory.
+It is powered through the onboard USB connector.
+A UART terminal is achieved through the USB connection.
+This board does not have an onboard SD card,
+but one can be made available through a connection to
+the I/O pins on the extension headers.
+The SD card connects to one of the microcontroller's SPI ports.
+80 general purpose I/O (GPIO) pins, one User button,
+and four onboard LEDs are available for use.
+The board offers many more peripherals than outlined here,
+but they have no relevance to this project.
 .PP
-XXX Words
+Programming and debugging of the board is achieved through the use of the
+onboard ST-LINK/V2-A in-system programmer/debugger and the connected USB cable.
+The STLink software is used to load firmware
+into the flash memory of the microcontroller.
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+A unique aspect of this microcontroller is that 64KB of its 192KB of SRAM is
+Core Coupled Memory (CCM), which is only available to the processor's data bus.
+This area of RAM is suitable for kernel data structures,
+as it does not go through the Multi-AHB bus matrix,
+thus has zero wait states and no contention for bus access.
+SRAM1 has 112KB of the total 192KB of SRAM,
+which is suitable for either user or kernel processes.
+SRAM2 has the remaining 16KB of the total 192KB of SRAM,
+which is tied to the System-bus and only available for
+peripheral data transfers, i.e., USB, ethernet, or DMA data transfers.
+The SRAM2 is not used in the DiscoBSD kernel.
 .KS
 .PP
 An image of the STM32F4Discovery development board is shown below:
@@ -297,7 +317,6 @@ XXX Words
 .NH
 .XN "Kernel Operation Overview"
 .PP
-.\" XXX Fix for flow. What we are covering and then what *not* covering.
 Coverage of the kernel operation will be limited to the relevant issues
 for this project.
 System startup, process creation, and process management

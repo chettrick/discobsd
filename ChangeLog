@@ -1353,3 +1353,29 @@ hazy), and so the code is not written for this. I am running out of time.
 Monday, December 14, 2020
 
 Added section on Kernel Configuration with kconfig.
+
+I also tried to embed images in the final PDF, but they are being added to
+both the proper section and the first page of the report. It is most likely
+something to do with the Table of Contents macros for PDF. They are not
+robust.
+
+I put Kernel Configuration section as its own top-level section. It doesn't
+belong with the System Startup section.
+
+I got the embedded images to work. I am using pdftk to cut them out. This
+causes the bookmark metadata to be lost, but that is okay for now. I can
+add that back in manually with pdftk.
+
+I got pdftk to switch the table of contents and the cover page, so now they
+are in the correct order: cover page, TOC, remainder of report.
+
+Added sections for:
+- PIC32 Development Board, and board image
+- Some of the STM32 Development Board, and board image
+- Image of booting RetroBSD on VirtualMIPS
+- Kernel Initialization
+- Getting to /sbin/init
+- Getting to the User's Shell
+
+I added vertical space (by using "XXX Words" lines) to each section to get
+a estimated size of the report. It is looking pretty good so far.

@@ -1,3 +1,9 @@
+.\" XXX .de ref*biblio-start-hook
+.\" XXX .  SH
+.\" XXX .  XN "\\*[REFERENCES]"
+.\" XXX .  nop \&\\*[REFERENCES]
+.\" XXX .  par@reset
+.\" XXX ..
 .R1
 label-in-reference
 accumulate
@@ -31,6 +37,16 @@ other platforms and architectures.
 .PP
 Porting the MIPS32\(rg M4K\(rg architecture to the
 Arm\(rg Cortex\(rg-M4 architecture.
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .\" XXX Fill out this section.
 .\" XXX Add specifics about DiscoBSD, so future references are understandable.
 .NH
@@ -93,7 +109,7 @@ RetroBSD_rev506
 .PP
 The defining features of the target hardware for RetroBSD and DiscoBSD are that
 they are RAM-constrained, have 32-bit processors,
-and do not have a memory management unit.
+and do not have a memory management unit (MMU).
 The lack of an MMU rules out any possibility of virtual memory,
 which is a critical component in most major operating systems.
 A secondary feature of the target hardware is that their processors have the
@@ -103,38 +119,192 @@ but is a viable focus of additional study.
 .NH 2
 .XN "PIC32 Development Board"
 .PP
-.\" XXX Insert image of MAX32 development board.
+The default development board that was used for the design and development
+of RetroBSD is the Max32 board,
+produced by Diligent.
+It employs a PIC32MX795F512 32-bit MIPS-based microcontroller.
+The processor runs at 80 MHz,
+has 512KB of flash program memory, and
+128KB of SRAM data memory.
+It is powered either through the external power connector
+or the onboard USB connector.
+A UART terminal is achieved through the USB connection.
+This board does not have an onboard SD card,
+but one can be made available through an external Arduino-compatible shield.
+The SD card connects to the SPI2 port of the microcontroller.
+83 general purpose I/O (GPIO) pins and some onboard LEDs are available.
+The board offers many more peripherals than outlined here,
+but they have no relevance to this project.
+.PP
+Programming and debugging of the board is achieved through the use of the
+PICkit3 in-system programmer/debugger and the connected USB cable.
+The MPLAB IDE software is used on a Windows system
+to load the firmware into the flash memory in the microcontroller.
+.KS
+.PP
+An image of the Max32 development board is shown below:
+.PSPIC max32.eps 5
+.KE
+.PP
 .NH 2
 .XN "STM32 Development Board"
 .PP
-.\" XXX Insert image of STM32F4-Discovery development board.
+The default development board that is used for the design and development
+of DiscoBSD is the STM32F4Discovery board,
+produced by STMicroelectronics.
+A fully compatible revised edition of the board has been
+released under the model name STM32F407G-DISC1.
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.KS
+.PP
+An image of the STM32F4Discovery development board is shown below:
+.PSPIC stm32.eps 5
+.KE
+.PP
 .NH
 .XN "Simulators and Emulators"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH 2
 .XN "PIC32 VirtualMIPS Simulator"
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.KS
+.PP
+An image of RetroBSD booting in the VirtualMIPS simulator is shown below:
+.PSPIC RetroBSD_boot_on_VirtualMIPS.eps 5
+.KE
 .PP
 .NH 2
 .XN "QEMU-based Arm Cortex-M Emulator"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH
 .XN "Host Development Environment"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH 2
 .XN "Development Tools on OpenBSD"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH 2
 .XN "Development Tools on Linux"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH
 .XN "Kernel Operation Overview"
 .PP
+.\" XXX Fix for flow. What we are covering and then what *not* covering.
 Coverage of the kernel operation will be limited to the relevant issues
-for this project. For example, signals, communication facilities,
-and the filesystem will not be covered, but are, nonetheless,
-important facilities of any kernel.
+for this project.
 System startup, process creation, and process management
 will be covered in outline in this section.
+For example, signals, communication facilities,
+and the filesystem will not be covered, but are, nonetheless,
+important facilities of any kernel.
 .PP
 The kernel gets loaded into RAM by reset and bootstrap code
 in the system startup sequence, and then execution is passed to it.
@@ -203,14 +373,15 @@ This is a defining, and unavoidable, constraint of DiscoBSD.
 .NH
 .XN "System Startup"
 .PP
+.\" XXX Put this into a numbered list.
 After a system hardware reset, the kernel gets loaded into RAM from Flash by
 initial reset code and execution begins at the kernel's entry point,
 which eventually arrives at the kernel's
 .CW main()
 function.
-The kernel's various data structures are initialized.
 Machine dependent (MD) peripherals are set up and initialized.
-Machine independent (MI) peripherals are also set up and initialized.
+The kernel's various data structures and services are initialized.
+.\" XXX Machine independent (MI) peripherals are also set up and initialized.
 The filesystem is mounted and set up.
 The
 .I init
@@ -277,9 +448,9 @@ A trimmed down version of the kernel's linker script is as follows:
 .CW "\tu     = ORIGIN(UAREA);"
 .CW "\tu_end = ORIGIN(UAREA) + LENGTH(UAREA);"
 .CW ""
-.CW "\tENTRY(Reset_Handler)"
-.CW ""
 .CW "\t_estack = 0x20020000;"
+.CW ""
+.CW "\tENTRY(Reset_Handler)"
 .CW ""
 .CW "\tSECTIONS {"
 .CW "\t    .text : {"
@@ -326,6 +497,7 @@ This is handled by the linker.
 .I label
 refers to a label in the architecture-specific assembly language startup code.
 This code will be covered in the next section.
+.\" XXX Mention about User Structure here? See page 77 in D&I 4.3BSD.
 .NH 2
 .XN "Assembly Language Startup"
 .PP
@@ -385,10 +557,11 @@ and is the file that starts all execution.
 This file is specific to STM32F407xx microcontrollers.
 Other microcontrollers in the STM32F4xx family have similar startup files,
 named in a comparable way.
+.KS
 .PP
-The startup code in
+The structure of the code in
 .CW startup_stm32f407xx.s
-has the following structure (shortened for brevity):
+is as follows (shortened for brevity):
 .PP
 .DS L
 .B1
@@ -412,10 +585,11 @@ has the following structure (shortened for brevity):
 .\" XXX This part of the code in DiscoBSD has not been written.
 .CW "\t\t/*   enter user mode, */"
 .CW "\t\t/*   run icode at address zero (to exec /sbin/init). */"
-.CW "\t\t/* This is described in Section 7.6. */"
+.CW "\t\t/* This is described in Section 7.4. */"
 .CW ""
 .B2
 .DE
+.KE
 .PP
 Exception handlers and interrupt service routines are defined and handled in
 .CW stm32f4xx_it.c .
@@ -426,11 +600,225 @@ which is called from the startup assembly code shown above,
 is defined in
 .CW system_stm32f4xx.c .
 The various header files have defines for the standard Arm environment.
-.PP
+Once the startup assembly code calls the
+.CW main()
+routine,
+the kernel proper is running C code and
+will start the kernel initialization process.
 .NH 2
 .XN "Kernel Initialization"
 .PP
+Kernel initialization is completely contained in the file
+.CW init_main.c ,
+which is where the
+.CW main()
+routine is located.
+The kernel starts in
+.I "kernel mode" .
+.PP
+The
+.CW startup()
+routine initializes machine dependent (MD) peripherals.
+.CW startup()
+is defined in
+.CW /sys/stm32/machdep.c
+and is highly specific to the processor architecture and
+the available peripherals on the target board.
+For example,
+this is where LEDs and GPIO pins are initialized.
+.PP
+Kernel autoconfiguration is performed with a call to
+.CW kconfig() ,
+which probes for all the devices available to the system at boot time.
+This is a dynamic process, and as such,
+allows flexibility in the presence of optional devices.
+The absense of any required standard device will cause the kernel to panic.
+Kernel configuration is explained in more detail in Section 8.
+.PP
+The system process structure
+.I "struct proc" ) (
+for PID 0 is set up.
+Each process in the system has an entry in the process table in the kernel.
+The process table is implemented as an array of
+.I "struct proc"
+entries.
+The process structure must always remain in main memory,
+no matter what state the process is currently in.
+.\" XXX Add reference D&I 4.3BSD page 72
+.PP
+The init user structure
+.I "struct user" ) (
+is set up.
+The user structure is quite unique.
+There are two instances of the user structure:
+.I u0
+and
+.I u ,
+which are declared in the linker script.
+.I u0
+is dedicated to PID 0, the
+.I swapper
+process.
+.I u
+is the user structure of the in-core active process.
+.\" XXX Add reference D&I 4.3BSD pages 77-78
+The user structure of any process not currently in a
+.I runnable
+state is swapped out.
+.PP
+Next, signals are initialized.
+The kernel's various data structures, tables, and
+protocols are initialized.
+Well-known inodes are set up.
+The kernel clock is set up.
+Services are attached to the kernel.
+.\" XXX Machine independent (MI) peripherals are also set up and initialized.
+Detailed coverage of these topics is beyond the scope of this report.
+.PP
+The root filesystem is mounted.
+If no root filesystem is found, the kernel will panic.
+The swap file on the root filesystem is opened and cleared.
+If no swap file is found, the kernel will also panic.
+Timeout driven kernel events are started.
+Finally, the root filesystem is set up.
+.PP
+The next section will continue the kernel initialization
+with the final task of setting up a working kernel:
+getting
+.CW /sbin/init
+to run.
 .NH 2
+.XN "Getting to /sbin/init"
+.PP
+Continuing on in the
+.CW main()
+routine,
+and following the set up of the root filesystem,
+the
+.I init
+process is created by the kernel-specific version of
+.CW fork()
+called
+.CW newproc() .
+The kernel process (as the parent process) officially becomes the
+.I swapper
+to schedule all system processes by calling the
+.CW sched()
+routine,
+which never returns.
+The child process of the fork
+is the
+.I init
+process.
+In the
+.I init
+process,
+the code for a small assembly language routine called
+.CW icode
+is copied from the kernel image to the start of user memory.
+.KS
+.PP
+The routine is effectively the same as the following program:
+.\" XXX Add reference to page 405 in D&I 4.3BSD OS
+.PP
+.DS L
+.B1
+.CW ""
+.CW "\tmain()"
+.CW "\t{"
+.CW "\t\tchar *argv[2];"
+.CW ""
+.CW "\t\targv[0] = \(dqinit\(dq;"
+.CW "\t\targv[1] = 0;"
+.CW "\t\texit(execv(\(dq/sbin/init\(dq, argv));"
+.CW "\t}"
+.CW ""
+.B2
+.DE
+.KE
+.PP
+The last task in the
+.CW main()
+routine is for the
+.I init
+process to "return" to location zero of the code in user memory and execute it.
+In effect, the return is from the branch to
+.CW main()
+in the startup assembly code,
+and is a
+.I thunk
+to run the
+.CW icode
+just copied out.
+This process has been been, rightly so,
+described as "somewhat enigmatic" by John Lions
+in his famous Commentary on UNIX 6th Edition.
+.\" XXX Add reference to page 6-2 in Lions' Commentary
+The call to
+.CW execv()
+replaces the image of the
+.I init
+process with the userland image of
+.CW /sbin/init ,
+which is loaded from the mounted root filesystem.
+It is especially important to understand that
+.CW /sbin/init
+is running in
+.I "user mode" ,
+not in
+.I "kernel mode" ,
+as a regular user process.
+.NH 2
+.XN "Getting to the User's Shell"
+.PP
+As shown in the previous section,
+the
+.I init
+process starts up the
+.CW /sbin/init
+userland program,
+and exits if the call to
+.CW execv()
+fails.
+This makes the presence of
+.CW /sbin/init
+vital to the system bootstrapping procedure.
+.\" XXX Add reference to page 405-406 in D&I 4.3BSD OS
+.PP
+.CW /sbin/init
+forks itself and spawns a shell to interpret the commands in
+.CW /etc/rc ,
+which performs various tasks such as filesystem consistency checks,
+and starting up daemon processes like
+.CW /sbin/cron
+and
+.CW /etc/update .
+.CW /sbin/init
+then forks a copy of itself for each terminal device that is marked
+for use in the file
+.CW /etc/ttys .
+Each copy of
+.CW /sbin/init
+invokes
+.CW /libexec/getty
+to manage signing on to the system.
+.CW /libexec/getty
+eventually reads in a user's login name from its terminal and invokes
+.CW /bin/login
+to complete the login sequence.
+Once the user password check is complete,
+.CW /bin/login
+uses an
+.CW exec()
+call to overlay itself with the user's shell
+(normally
+.CW /bin/sh ,
+the standard Bourne shell).
+.PP
+The system is now, finally,
+in a state to be commanded by users in the usual way.
+.\" XXX Add reference to pages 406-407 in D&I 4.3BSD OS
+.NH
 .XN "Kernel Configuration"
 .PP
 The kernel configuration program
@@ -472,6 +860,8 @@ The specific source files used to build the kernel are retrieved from the file
 by matching both standard kernel files and optional device drivers.
 .CW devices.kconf
 contains a list of block devices and their major numbers for the filesystem.
+.KS
+.PP
 A basic kernel configuration is possible with the following
 .CW Config
 configuration file:
@@ -479,6 +869,8 @@ configuration file:
 .DS L
 .B1
 .CW ""
+.\" XXX This should really be called machine, for 'stm32'.
+.\" XXX And maybe architecture should be 'arm'.
 .CW "\tarchitecture\t\t\(dqstm32\(dq\t\t\t\t\t# Processor architecture"
 .CW "\tcpu\t\t\t\t\(dqSTM32F407xx\(dq\t\t\t# Processor variant"
 .CW "\tboard\t\t\t\(dqF4DISCOVERY\(dq\t\t\t# Board type"
@@ -502,6 +894,7 @@ configuration file:
 .CW ""
 .B2
 .DE
+.KE
 .PP
 Note that the full functionality of STM32-specific configuration
 has not yet been added to
@@ -511,50 +904,126 @@ A fully working
 that is able to compile the DiscoBSD kernel,
 using the above configuration defines,
 has been created by hand.
-.PP
-.NH 2
-.XN "Getting to main()"
-.PP
-.NH 2
-.XN "Getting to /sbin/init"
-.PP
-.\" XXX Add reference to page 405 in D&I 4.3BSD OS
-.PP
-.DS L
-.B1
-.CW ""
-.CW "\tmain()"
-.CW "\t{"
-.CW "\t\tchar *argv[2];"
-.CW ""
-.CW "\t\targv[0] = \(dqinit\(dq;"
-.CW "\t\targv[1] = 0;"
-.CW "\t\texit(execv(\(dq/sbin/init\(dq, argv));"
-.CW "\t}"
-.CW ""
-.B2
-.DE
-.NH 2
-.XN "Getting to the User's Shell"
-.PP
 .NH
 .XN "Userland"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH
 .XN "Build System"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH 2
 .XN "Multi-Architecture Features"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH
 .XN "Project Difficulties"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH
 .XN "Future Work"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .NH
 .XN "Conclusion"
 .PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
+.PP
+XXX Words
 .bp
 .R1
 .R2

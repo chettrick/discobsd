@@ -8,7 +8,9 @@ BIB=	bib.refer
 SRCS=	${REPORT}.ms
 
 ${REPORT}.pdf: ${REPORT}.ms
-	refer -p ${BIB} ${REPORT}.ms | pdfroff -mspdf - > $@
+	refer -p ${BIB} ${REPORT}.ms |\
+	pdfroff -mspdf - |\
+	pdftk - cat 5 4 6-end output $@
 
 clean:
 	rm ${REPORT}.pdf

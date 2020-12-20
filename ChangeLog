@@ -1392,3 +1392,23 @@ Saturday, December 19, 2020
 
 Added sections for 4 and 4.1. 4.2 (qemu-arm) will come later, as I need to
 firstly get a way to run it from DiscoBSD, perferably from the Makefile.
+
+
+Added Makefile.inc to the root directory of discobsd. This Makefile has
+targets for running OpenOCD, gdb, qemu, and flashing the board.
+Makefile.inc is included at the bottom of Makefile.
+
+So now this is how to run the emulator and debugger for DiscoBSD:
+  In one terminal, type:
+    $ cd the/path/to/discobsd
+    $ gmake qemu
+
+  In another terminal, type:
+    $ cd the/path/to/discobsd
+    $ gmake gdb-qemu
+  now type at the gdb prompt:
+    (gdb) c
+  which will run the binary on qemu (in the other terminal).
+The command line switch --nographic can choose between showing a picture of
+the stm32f4-discovery board or not. If the picture is shown, then blinking
+an LED will show up on the picture.

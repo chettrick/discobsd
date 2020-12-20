@@ -34,6 +34,7 @@ FSUTIL		= tools/fsutil/fsutil
 
 TOPSRC       = $(shell pwd)
 CONFIG       = $(TOPSRC)/tools/configsys/config
+KCONFIG      = $(TOPSRC)/tools/kconfig/kconfig
 
 all:
 		$(MAKE) -C tools
@@ -42,7 +43,8 @@ all:
 		$(MAKE) kernel
 		$(MAKE) fs
 
-kernel:         $(CONFIG)
+# XXX kernel:         $(CONFIG)
+kernel:         $(KCONFIG)
 		$(MAKE) -C sys/$(MACHINE) all
 
 fs:             sdcard.img
@@ -61,6 +63,9 @@ $(FSUTIL):
 
 $(CONFIG):
 		$(MAKE) -C tools/configsys
+
+$(KCONFIG):
+		$(MAKE) -C tools/kconfig
 
 clean:
 		rm -f *~
@@ -92,3 +97,6 @@ installflash:
 # TODO: make it relative to Target
 installboot:
 		sudo pic32prog sys/pic32/fubarino/bootloader.hex
+
+# STM32-specific emulator and debugger.
+-include Makefile.inc

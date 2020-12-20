@@ -174,7 +174,8 @@ but they have no relevance to this project.
 .PP
 Programming and debugging of the board is achieved through the use of the
 onboard ST-LINK/V2-A in-system programmer/debugger and the connected USB cable.
-The STLink software is used to load firmware
+The STLink software is used to load firmware,
+such as the DiscoBSD kernel,
 into the flash memory of the microcontroller.
 .PP
 A unique aspect of this microcontroller is that 64KB of its 192KB of SRAM is
@@ -197,39 +198,62 @@ An image of the STM32F4Discovery development board is shown below:
 .NH
 .XN "Simulators and Emulators"
 .PP
-XXX Words
+Employing either a simulator or an emulator for the development of
+an embedded system is an efficient use of limited resources and
+reduces unproductive time during the
+code-compile-load-debug development cycle.
+They are also valuable in enabling system development
+during a lack of availability, or access, to the physical hardware.
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+Simulators and emulators are cycle-accurate representations of
+the physical hardware.
+They are computer programs that offer the same processor and
+common peripherals as available on target development boards.
+The development process amounts to loading a compiled binary firmware file,
+an
+.I "Intel Hex"
+formatted file,
+or an
+.I ELF
+formatted file into the simulator or emulator.
+A debugger, such as the GNU debugger,
+is attached and used to run and interrogate the system-under-test.
 .NH 2
 .XN "PIC32 VirtualMIPS Simulator"
 .PP
-XXX Words
+The VirtualMIPS simulator is used to boot and run
+the RetroBSD MIPS-based kernel and userland.
+It is bundled with the RetroBSD codebase,
+and is available in the
+.CW /tools/virtualmips
+directory.
+The simulator executable is named
+.CW pic32 .
+RetroBSD compiles separate kernels for each of the
+various PIC32-based development boards.
+By default, VirtualMIPS is configured to simulate a
+Digilent Max32 board and runs the
+.CW /sys/pic32/max32
+kernel along with the common MIPS-based userland.
+The kernel,
+named
+.CW unix.bin ,
+is provided as a binary firmware file.
+The simulator provides virtual peripheral devices
+such as an SPI port for the SD card interface,
+a UART for the console terminal,
+and GPIO pins for toggling LEDs.
+Pulse width modulation and analog to digital coverter peripherals
+are also simulated.
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+VirtualMIPS compiles and runs on Mac OSX, OpenBSD, and Linux,
+although only OpenBSD and Linux have been tested.
+Debugging a RetroBSD kernel with the GNU debugger
+through VirtualMIPS was not attempted,
+but by all indications it is possible,
+as the developers of RetroBSD debugged and developed in this manner
+on Mac OSX and Linux.
+.\" XXX Add reference to this? Perhaps as a thread on the forum?
 .KS
 .PP
 An image of RetroBSD booting in the VirtualMIPS simulator is shown below:

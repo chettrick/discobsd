@@ -1385,3 +1385,10 @@ I added vertical space (by using "XXX Words" lines) to each section to get
 a estimated size of the report. It is looking pretty good so far.
 
 Fleshed out section on STM32 Development Board.
+
+===========================================================================
+2020-12-19
+Saturday, December 19, 2020
+
+Added sections for 4 and 4.1. 4.2 (qemu-arm) will come later, as I need to
+firstly get a way to run it from DiscoBSD, perferably from the Makefile.

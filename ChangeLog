@@ -1412,3 +1412,16 @@ So now this is how to run the emulator and debugger for DiscoBSD:
 The command line switch --nographic can choose between showing a picture of
 the stm32f4-discovery board or not. If the picture is shown, then blinking
 an LED will show up on the picture.
+
+===========================================================================
+2020-12-21
+Sunday, December 21, 2020
+
+Finished off section 4.2 of the report. Added a paragraph about OpenOCD to
+section 3.2 for STM32 development.
+
+I came up with a good idea. I want to get the blinking assembly code to run
+as 'icode', which is branched to after main(). That will show that the
+kernel starts (even with other things not set up, such as file system). I
+will probably have to #if 0 out sections of code that has not been ported
+yet, such as file system and printf().

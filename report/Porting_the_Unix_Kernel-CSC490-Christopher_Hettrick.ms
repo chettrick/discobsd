@@ -172,12 +172,6 @@ and four onboard LEDs are available for use.
 The board offers many more peripherals than outlined here,
 but they have no relevance to this project.
 .PP
-Programming and debugging of the board is achieved through the use of the
-onboard ST-LINK/V2-A in-system programmer/debugger and the connected USB cable.
-The STLink software is used to load firmware,
-such as the DiscoBSD kernel,
-into the flash memory of the microcontroller.
-.PP
 A unique aspect of this microcontroller is that 64KB of its 192KB of SRAM is
 Core Coupled Memory (CCM), which is only available to the processor's data bus.
 This area of RAM is suitable for kernel data structures,
@@ -189,6 +183,19 @@ SRAM2 has the remaining 16KB of the total 192KB of SRAM,
 which is tied to the System-bus and only available for
 peripheral data transfers, i.e., USB, ethernet, or DMA data transfers.
 The SRAM2 is not used in the DiscoBSD kernel.
+.\" XXX This .bp pushes the next paragraph to the next page.
+.bp
+.PP
+Programming and debugging of the board is achieved through the use of the
+onboard ST-LINK/V2-A in-system programmer/debugger and the connected USB cable.
+The STLink software is used to load firmware,
+such as the DiscoBSD kernel,
+into the flash memory of the microcontroller.
+Remote debugging of firmware running on the physical board is possible
+through the GNU debugger, used as a remote protocol server,
+paired with the OpenOCD on-chip debugger to access on-chip debug facilities.
+The project's top-level Makefile has targets for
+running OpenOCD in connection with the GNU debugger.
 .KS
 .PP
 An image of the STM32F4Discovery development board is shown below:
@@ -263,21 +270,39 @@ An image of RetroBSD booting in the VirtualMIPS simulator is shown below:
 .NH 2
 .XN "QEMU-based Arm Cortex-M Emulator"
 .PP
-XXX Words
+The QEMU-based Arm Cortex-M emulator (hereafter called qemu-arm) is used
+to boot and run the DiscoBSD Arm-based kernel and userland.
+It is available through the various package managers on Linux and
+as a custom user-compiled port on OpenBSD.
+.\" XXX Add reference to port in project repo.
+.CW qemu-system-gnuarmeclipse
+is the name of the emulator executable.
+DiscoBSD currently compiles a single kernel,
+targeting the STM32F4-Discovery development board.
+qemu-arm is configured on the command line to emulate a
+STMicroelectronics STM32F4-Discovery board and run the
+.CW /sys/stm32/f4discovery
+kernel along with the Arm-based userland.
+Note that the Arm-based userland is not yet complete.
+The kernel,
+named
+.CW unix.elf ,
+is provided as an
+.I ELF
+formatted firmware file.
+The emulator provides virtual peripheral devices
+such as a USART for the console terminal,
+and GPIO pins for toggling the four onboard LEDs
+and reading from the user button.
+The many other services afforded by the standard QEMU are present in
+qemu-arm but have not been explored in this project.
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+The qemu-arm emulator runs on OpenBSD and Linux,
+although only OpenBSD has been used for development.
+Debugging a DiscoBSD kernel running on qemu-arm with the GNU debugger
+is possible and is integrated into the codebase.
+The project's top-level Makefile has targets for both
+running qemu-arm and running the GNU debugger with qemu-arm as the target.
 .NH
 .XN "Host Development Environment"
 .PP
@@ -298,12 +323,6 @@ XXX Words
 XXX Words
 .NH 2
 .XN "Development Tools on OpenBSD"
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
 .PP
 XXX Words
 .PP

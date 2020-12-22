@@ -296,6 +296,11 @@ and GPIO pins for toggling the four onboard LEDs
 and reading from the user button.
 The many other services afforded by the standard QEMU are present in
 qemu-arm but have not been explored in this project.
+.KS
+.PP
+An image of DiscoBSD booting in the qemu-arm emulator is shown below:
+.PSPIC DiscoBSD_boot_on_QEMU.eps 5
+.KE
 .PP
 The qemu-arm emulator runs on OpenBSD and Linux,
 although only OpenBSD has been used for development.
@@ -306,45 +311,54 @@ running qemu-arm and running the GNU debugger with qemu-arm as the target.
 .NH
 .XN "Host Development Environment"
 .PP
-XXX Words
+This project was developed on Unix-based host operating systems.
+Development was mainly on the OpenBSD operating system,
+while compatability and portability testing was performed on Linux as a host.
+The original RetroBSD project was developed primarily on Mac OSX and Linux,
+with support of FreeBSD as a host near the end of RetroBSD's timeline.
 .PP
-XXX Words
+The host development environment consists of
+a number of main development tools:
+.RS
+.RS
+.IP \(bu 4
+a binary flash downloader
+.IP \(bu 4
+a circuit board simulator or emulator
+.IP \(bu 4
+a compiler, assembler, and C library
+.IP \(bu 4
+a source-level debugger
+.IP \(bu 4
+an on-chip debugger
+.RE
+.RE
 .PP
-XXX Words
+As supporting tools,
+these commonly-present Unix programs are also required:
+.RS
+.RS
+awk, bison, byacc, gmake, sed, shell (either Bourne or Bash)
+.RE
+.RE
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+The host development environment created for this project is
+targeted to build and develop for both
+the MIPS-based RetroBSD kernel
+and the Arm-based DiscoBSD kernel.
+A specific aim of this project is for the codebase to
+concurrently support many architectures,
+starting with the original MIPS code and then
+expanded with the new Arm code developed for this project as DiscoBSD.
 .NH 2
 .XN "Development Tools on OpenBSD"
 .PP
 XXX Words
 .PP
 XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+.\" XXX Add reference to this?
 .NH 2
 .XN "Development Tools on Linux"
-.PP
-XXX Words
-.PP
-XXX Words
 .PP
 XXX Words
 .PP
@@ -667,6 +681,7 @@ Once the startup assembly code calls the
 routine,
 the kernel proper is running C code and
 will start the kernel initialization process.
+.bp
 .NH 2
 .XN "Kernel Initialization"
 .PP

@@ -1425,3 +1425,18 @@ as 'icode', which is branched to after main(). That will show that the
 kernel starts (even with other things not set up, such as file system). I
 will probably have to #if 0 out sections of code that has not been ported
 yet, such as file system and printf().
+
+
+I will need to add in the /src/libc/arm directory with all its subdirs and
+/src/startup-arm and I am thinking that just putting stubs for now will be
+the best thing. Some of the assembly code for these directories will need
+to follow the AAPCS.
+
+Added Section 5 to the report.
+
+Added the DiscoBSD boot on QEMU. For future reference, the command is:
+  $ convert file.png eps2:file.eps
+to get an embeddedable eps PostScript file for Groff to put in the report
+from a PNG file. The convert program is a part of ImageMagick.
+Because of the new image added to the report, the command for pdftk had to
+be modified to cut out that doubled image at the start of the report.

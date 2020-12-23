@@ -24,7 +24,7 @@ This report describes the process of porting a variant of the Unix kernel
 from the MIPS architecture to the Arm architecture.
 A heavily modified 2.11BSD version of the Unix kernel called RetroBSD is used
 as a case study, and is the basis of this development.
-The goal of this project is to run this ported kernel on both a simulator
+The goal of this project is to run this ported kernel on both an emulator
 and on a physical embedded development board.
 An additional portion of this work is devoted to adapting
 the large-scale codebase of RetroBSD to more modern and
@@ -962,7 +962,8 @@ is a template
 .CW Makefile
 that has default build rules and directives,
 as well as anchors to attach generated build rules.
-The specific source files used to build the kernel are retrieved from the file
+The names of specific source files used to build the kernel
+are retrieved from the file
 .CW files.kconf
 by matching both standard kernel files and optional device drivers.
 .CW devices.kconf
@@ -1014,35 +1015,54 @@ has been created by hand.
 .NH
 .XN "Userland"
 .PP
-XXX Words
+The userland consists of all parts of an operating system that
+are not part of the system kernel proper.
+Specifically, the shell, editors, the various system libraries,
+and other user programs constitute the userland.
+These programs interact with the kernel through
+.I "system calls" ,
+which are well-defined entry points into the kernel
+.\" XXX Add reference for APUE page 20.
+that request specific kernel services,
+such as reading or writing to a file.
+This affords a separation of interests between user applications
+and the system and hardware management tasks of the kernel.
+.KS
 .PP
-XXX Words
+An image of the architecture of a Unix system is shown below:
+.\" XXX Add reference to Design of Unix System page 5.
+.PSPIC Unix_Shell.eps 4
+.KE
 .PP
-XXX Words
+A defining difference between Linux-based and BSD-based operating systems
+is that BSD-based systems are unified and complete,
+composed of a kernel and a userland.
+Linux is the kernel proper of a Linux-based system
+and distribution creators pair the Linux kernel
+with a userland of their choice, most commonly the GNU system.
 .PP
-XXX Words
+The userland of DiscoBSD is not the focus of this project
+but it deserves cursory attention in regards to the kernel porting effort.
+The major areas of consideration are the C runtime startup code,
+low-level assembly language routines in the C library for
+various tasks such as string manipulations,
+and the linker script for the memory layout of user executables.
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+Userland code is completely contained in the
+.CW /src
+directory.
+An Arm-specific directory for the C runtime startup code has been created at
+.CW /src/startup-arm
+and the Arm-specific directory tree for the various C library
+low-level assembly language routines has been created at
+.CW /src/libc/arm .
+The linker script for Arm executables is
+.CW /src/elf32-arm.ld .
+The selection of Arm-specific or MIPS-specific code is dependent
+on specific build variables,
+covered in the following two sections.
 .NH
 .XN "Build System"
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
 .PP
 XXX Words
 .PP
@@ -1053,38 +1073,8 @@ XXX Words
 XXX Words
 .PP
 XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
 .NH
 .XN "Project Difficulties"
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
 .PP
 XXX Words
 .PP
@@ -1095,38 +1085,8 @@ XXX Words
 XXX Words
 .PP
 XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
 .NH
 .XN "Conclusion"
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
 .PP
 XXX Words
 .PP

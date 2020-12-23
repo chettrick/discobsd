@@ -1447,3 +1447,13 @@ Tuesday, December 22, 2020
 
 Filled in section 5.1 for OpenBSD development tools.
 Filled in section 5.2 for Linux development tools.
+
+===========================================================================
+2020-12-23
+Wednesday, December 23, 2020
+
+Filled in section 9 for Userland. I added an image of the Unix Shell to the
+report.
+
+I need to fix the Makefile in /src/libc/arm to not build mips.a archive. It
+needs to be named arm.a for Arm. Could do a selection on MACHINE_ARCH.

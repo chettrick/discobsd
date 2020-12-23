@@ -10,7 +10,7 @@ SRCS=	${REPORT}.ms
 ${REPORT}.pdf: ${REPORT}.ms
 	refer -p ${BIB} ${REPORT}.ms |\
 	pdfroff -mspdf - |\
-	pdftk - cat 6 5 7-end output $@
+	pdftk - cat 7 6 8-end output $@
 
 clean:
 	rm ${REPORT}.pdf

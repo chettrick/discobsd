@@ -314,10 +314,10 @@ running qemu-arm and running the GNU debugger with qemu-arm as the target.
 This project was developed on Unix-based host operating systems.
 Development was mainly on the OpenBSD operating system,
 while compatability and portability testing was performed on Linux as a host.
-The original RetroBSD project was developed primarily on Mac OSX and Linux,
-with support of FreeBSD as a host near the end of RetroBSD's timeline.
+The original RetroBSD project was developed on Mac OSX and Linux,
+with support for FreeBSD as a host near the end of RetroBSD's timeline.
 .PP
-The host development environment consists of
+The DiscoBSD host development environment consists of
 a number of main development tools:
 .RS
 .RS
@@ -353,24 +353,54 @@ expanded with the new Arm code developed for this project as DiscoBSD.
 .NH 2
 .XN "Development Tools on OpenBSD"
 .PP
-XXX Words
+Significant resources were allocated to the construction of a
+suitable development environment for both MIPS and Arm targets
+on a Unix-based operating system, as an alternative and addition
+to the well-established Linux operating system.
+OpenBSD was chosen for this task,
+as it is dissimilar in many ways to Linux,
+while still maintaining Posix compliance.
+This satisfies an aim of this project for the development and testing
+of portability between various host development systems.
 .PP
-XXX Words
-.\" XXX Add reference to this?
+Using the OpenBSD Ports Collection,
+.\" XXX Add reference to OpenBSD ports collection in the OpenBSD FAQ.
+custom user-compiled ports of third-party software was developed.
+These include the mips-elf targeted GCC toolchain,
+the STLink binary flash downloader for STM32 devices,
+and the qemu-arm circuit board emulator.
+The remaining software packages needed for development are available
+as an OpenBSD package through the pkg_add system.
+These packages include the OpenOCD on-chip debugger,
+and the Linaro version of GCC targeted to arm-none-eabi,
+with the associated Binutils, Newlib, and GNU debugger.
+.\" XXX Add reference to tools/openbsd/README.md
 .NH 2
 .XN "Development Tools on Linux"
 .PP
-XXX Words
+The Linux development environment has proven to be less of a challenge
+in regards to the custom compiling and patching of development tools.
+This is mainly due to many of the tools used in this project
+to have originally been developed on Linux.
+Note that Linux was not used for the bulk of the development of DiscoBSD;
+portability in compiling and running of the project was the main focus.
 .PP
-XXX Words
+The tools required for the MIPS-based RetroBSD are available in the
+documentation that comes with RetroBSD,
+notably, a user-compiled version of GCC targeted to mips-elf
+and the supporting Binutils are obtained by running the supplied build script.
+.\" XXX Add reference to MIPS toolchain documentation on RetroBSD.org
+Supporting tools are either default programs on the operating system
+or are added via the particular Linux package manager.
+The BSD version of yacc, called byacc,
+is a required program that is available on OpenBSD by default but not on Linux.
 .PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
+All of the main and supporting tools, outlined in Section 5,
+that are required to compile and develop DiscoBSD
+are available as packages through the particular Linux's package manager.
+This includes GCC targeted to arm-none-eabi,
+and the associated Binutils, Newlib, and GNU debugger.
+.bp
 .NH
 .XN "Kernel Operation Overview"
 .PP

@@ -1457,3 +1457,7 @@ report.
 
 I need to fix the Makefile in /src/libc/arm to not build mips.a archive. It
 needs to be named arm.a for Arm. Could do a selection on MACHINE_ARCH.
+
+
+Filled in section 10 for the Build System.
+Filled in section 10.1 for the Multi-Architecture Features.

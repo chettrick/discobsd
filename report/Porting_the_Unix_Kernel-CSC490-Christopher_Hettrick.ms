@@ -1064,15 +1064,113 @@ covered in the following two sections.
 .NH
 .XN "Build System"
 .PP
-XXX Words
+Through the use of the previously covered host development environment,
+a complete RetroBSD, and mostly complete DiscoBSD,
+operating system can be built
+using the standard build features included in the codebase.
+The build system is structured as a collection of build variables
+and a heirarchy of Makefiles.
+The
+.CW make
+build software (specifically
+.CW gmake )
+manages build relations between all source files and their dependencies.
+The top-level Makefile orchestrates the compilation of build system tools,
+system libraries, userland programs and their associated manual pages,
+and the system kernel.
+The final step in the build process is the creation of a filesystem image
+for installation onto an SD card.
+The executables, libraries, and supporting documentation are installed
+into the root filesystem according to the configuration in the
+.CW rootfs.manifest
+filesystem manifest file.
+The kernel is not installed into the filesystem,
+rather it is installed into the flash memory of the microcontroller.
+This procedure is performed via the specific tools associated with
+the microcontroller.
 .PP
-XXX Words
+The top-level Makefile has targets
+for all the previously outlined build steps.
+The standard process for building the system is to invoke
+.CW gmake
+from the root directory of the codebase,
+which follows the creation of all dependencies
+until the whole system is built.
+Specific targets may be invoked by appending the target name after
+.CW gmake
+on the command line.
 .NH 2
 .XN "Multi-Architecture Features"
 .PP
-XXX Words
+DiscoBSD's build system and its hierarchy of Makefiles have been amended to
+support the ability to host multiple architectures under one unified codebase.
+This development towards the concurrent support of many architectures
+is a major aim of this project.
+Two architectures are currently supported.
 .PP
-XXX Words
+Compulsory environment variables is the method used to
+achieve support for multiple architectures.
+This simple method has historically been used to great success,
+and is exemplified in the highly portable
+NetBSD and OpenBSD operating systems.
+.\" XXX Add references for NetBSD and OpenBSD using environment variables?
+The compulsory environment variables
+.CW MACHINE
+and
+.CW MACHINE_ARCH
+choose which hardware platform and processor architecture, respectively,
+to use in compiling the system.
+.CW MACHINE
+derives from the command
+.CW "uname -m" \*[U] \*[Q]
+while
+.CW MACHINE_ARCH
+derives from the command
+.CW "uname -p" \*[U] \*[Q]
+on all Unix systems.
+This structure enables the possibility of future ports to other architectures.
+.KS
+.PP
+The default platform and architecture for DiscoBSD are
+.I stm32
+and
+.I arm ,
+respectively.
+To target the MIPS-based RetroBSD,
+define
+.CW MACHINE
+as
+.I pic32
+and
+.CW MACHINE_ARCH
+as
+.I mips .
+This can be performed either by setting the environment variables
+through the shell's functionality or by setting the environment variables
+on the command line, as shown below:
+.PP
+.DS L
+.CW "\t$ MACHINE=pic32 MACHINE_ARCH=mips gmake"
+.DE
+.KE
+.PP
+Another multi-architecture feature enabled in DiscoBSD,
+and alluded to in Section 5,
+is the ability of the build system to detect the host operating system and
+choose build and support tools that are specific to each operating system.
+This process is automatic and developer input is not required.
+The supporting Makefiles
+.CW /target.mk ,
+.CW /sys/stm32/gcc-config.mk ,
+and
+.CW /sys/pic32/gcc-config.mk
+are responsible to selectively choose build and support tools
+based on present operating system features.
+The currently supported and tested host operating systems are
+Linux and OpenBSD.
+Although support for Mac OSX and FreeBSD was previously added to RetroBSD,
+these systems have not been tested,
+so their status is indeterminate.
 .NH
 .XN "Project Difficulties"
 .PP

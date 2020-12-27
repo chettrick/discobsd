@@ -122,7 +122,7 @@ but is a viable focus of additional study.
 .PP
 The default development board that was used for the design and development
 of RetroBSD is the Max32 board,
-produced by Diligent.
+produced by Digilent.
 It employs a PIC32MX795F512 32-bit MIPS-based microcontroller.
 The processor runs at 80 MHz,
 has 512KB of flash program memory, and
@@ -1128,7 +1128,8 @@ while
 derives from the command
 .CW "uname -p" \*[U] \*[Q]
 on all Unix systems.
-This structure enables the possibility of future ports to other architectures.
+This structure enables the possibility of future ports
+to other platforms and architectures.
 .KS
 .PP
 The default platform and architecture for DiscoBSD are
@@ -1147,10 +1148,12 @@ as
 .I mips .
 This can be performed either by setting the environment variables
 through the shell's functionality or by setting the environment variables
-on the command line, as shown below:
+on the command line when invoking
+.CW gmake ,
+as shown below:
 .PP
 .DS L
-.CW "\t$ MACHINE=pic32 MACHINE_ARCH=mips gmake"
+.CW "\t $ MACHINE=pic32 MACHINE_ARCH=mips gmake"
 .DE
 .KE
 .PP
@@ -1174,9 +1177,69 @@ so their status is indeterminate.
 .NH
 .XN "Project Difficulties"
 .PP
-XXX Words
+This project has been riddled with challenges and difficulties;
+some small, while others were quite substantial.
+The na\[:i]vet\['e] of thinking that a 50 year old codebase,
+crafted over many tens of thousands of hours by
+some of the world's best computer scientists,
+could be fully ported with a complete kernel,
+in a four month semester,
+cannot be underestimated.
+The project is comprised of two overarching themes,
+wherein each theme had their own particular difficulties:
+a case study of the kernel of the RetroBSD operating system and
+the development of the Arm-based DiscoBSD kernel.
+The difficulties encountered and overcome in each of these themes will be
+explored in turn in the following sections.
+.NH 2
+.XN "Case Study of Kernel Operation"
 .PP
-XXX Words
+As RetroBSD derives from 2.11BSD,
+which derives directly from Sixth Edition Unix and
+indirectly from Seventh Edition and 32V Unix,
+the vast historical literature of Unix development was
+interrogated for knowledge of the system's operation.
+Although there are books written specifically for
+4.4BSD, 4.3BSD, Unix System V Release 2, and Unix Sixth Edition,
+.\" XXX Add references to each book.
+there are no definitive works that cover 2.11BSD.
+The closest is the coverage of 4.3BSD,
+which has part of the system ported to 2.10BSD,
+combined with the Commentary on Unix Sixth Edition.
+This made understanding the RetroBSD kernel quite challenging.
+Synthesizing this disparate information,
+in addition to effective code tracing and single-stepping,
+allowed for a sufficent level of understanding of kernel operation and,
+in turn, enabled and initiated the code-level porting process.
+.NH 2
+.XN "Development of Arm-based Kernel"
+.PP
+Before work on the kernel could begin,
+a host development environment that targets Arm processors
+needed to be designed and validated for efficacy.
+As detailed in Section 5,
+many different tools were required for this development effort.
+Of note, the QEMU-based Arm Cortex-M emulator was a
+challenge to port to the development environment.
+In addition,
+the older MIPS-based GCC compiler proved to be
+of considerable difficulty to port,
+and required custom patches to GCC to enable passing floating-point options
+between the compiler and the assembler.
+The modern version of the Arm-targeted GCC compiler exposed many bugs and
+non-critical compiler warnings.
+These issues needed to be fixed before development on the kernel could begin.
+All this work has been a part of the additional goals of the project to
+adapt the large-scale codebase of RetroBSD to
+modern and sustainable development standards.
+.PP
+Arm uses a standardized set of initialization and configuration files
+across all microcontrollers with a Cortex-M processor core.
+Integrating these files into the codebase of DiscoBSD proved challenging,
+in particular,
+in finding a compromise between the imposed structure of the Arm files and
+the historically validated structure of DiscoBSD.
+More work in this area may reveal an optimal and symbiotic solution.
 .NH
 .XN "Future Work"
 .PP

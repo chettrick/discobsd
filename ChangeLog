@@ -1461,3 +1461,11 @@ needs to be named arm.a for Arm. Could do a selection on MACHINE_ARCH.
 
 Filled in section 10 for the Build System.
 Filled in section 10.1 for the Multi-Architecture Features.
+
+===========================================================================
+2020-12-26
+Saturday, December 26, 2020
+
+Filled in section 11 for Project Difficulties.
+Filled in section 11.1 for Case Study of Kernel Operation.
+Filled in section 11.2 for Development of Arm-based Kernel.

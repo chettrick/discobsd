@@ -1243,9 +1243,32 @@ More work in this area may reveal an optimal and symbiotic solution.
 .NH
 .XN "Future Work"
 .PP
-XXX Words
+Even with the work completed throughout this project,
+there remains a few significant barriers to a full Arm-based DiscoBSD kernel.
+First, a user/kernel syscall API needs to be devised and validated.
+The Procedure Call Standard for the Arm Architecture
+.\" XXX Add reference to the standard.
+could be a starting point for this work.
+Userland and the C library code for user executables needs to be
+completed and validated for proper function.
+This would be a long-term task,
+as there are potentially many difficulties
+that may emerge throughout this work.
 .PP
-XXX Words
+Kernel drivers for useful peripherals need to be written.
+A UART driver and an SPI-based SD card driver would be enough
+for the system to stand on its own and be commanded by a user.
+These could be based off the embedded systems drivers supplied
+by STMicroelectronics.
+A GPIO driver would enable more fuctionality in the system
+with minimal implementation effort.
+.PP
+The implementation of kernel memory protection from user processes
+is a potential long-term goal.
+The STM32F4xx family of microcontrollers is endowed with
+a memory protection unit that is dedicated to this function.
+A system that offers reliable service must guarantee
+some sort of memory protection.
 .NH
 .XN "Conclusion"
 .PP

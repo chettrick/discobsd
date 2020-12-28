@@ -1445,33 +1445,49 @@ be modified to cut out that doubled image at the start of the report.
 2020-12-22
 Tuesday, December 22, 2020
 
-Filled in section 5.1 for OpenBSD development tools.
-Filled in section 5.2 for Linux development tools.
+Filled in Section 5.1 for OpenBSD development tools.
+Filled in Section 5.2 for Linux development tools.
 
 ===========================================================================
 2020-12-23
 Wednesday, December 23, 2020
 
-Filled in section 9 for Userland. I added an image of the Unix Shell to the
+Filled in Section 9 for Userland. I added an image of the Unix Shell to the
 report.
 
 I need to fix the Makefile in /src/libc/arm to not build mips.a archive. It
 needs to be named arm.a for Arm. Could do a selection on MACHINE_ARCH.
 
 
-Filled in section 10 for the Build System.
-Filled in section 10.1 for the Multi-Architecture Features.
+Filled in Section 10 for the Build System.
+Filled in Section 10.1 for the Multi-Architecture Features.
 
 ===========================================================================
 2020-12-26
 Saturday, December 26, 2020
 
-Filled in section 11 for Project Difficulties.
-Filled in section 11.1 for Case Study of Kernel Operation.
-Filled in section 11.2 for Development of Arm-based Kernel.
+Filled in Section 11 for Project Difficulties.
+Filled in Section 11.1 for Case Study of Kernel Operation.
+Filled in Section 11.2 for Development of Arm-based Kernel.
 
 ===========================================================================
 2020-12-27
 Sunday, December 27, 2020
 
-Filled in section 12 for Future Work.
+Filled in Section 12 for Future Work.
+
+===========================================================================
+2020-12-28
+Monday, December 28, 2020
+
+Filled in Section 1 for Introduction.
+Filled in Section 13 for Conclusion.
+
+There is some problem with the Table of Contents and Section 3 for Hardware
+in that it is on the wrong page (shows page 2 instead of page 1). I have no
+idea why this is.
+
+Also, the references do not show up in the Table of Contents, nor is it
+numbered as number 14. I also have no idea why this is.
+
+The report is now good to go, except the references need to be finished.

@@ -15,13 +15,15 @@ Porting the Unix Kernel
 .AU
 Christopher K. Hettrick
 .AI
-University of Victoria
+CSC 490
 Department of Computer Science
-CSC490
+University of Victoria
+Victoria, British Columbia
+
 Supervised by Dr. Bill Bird
 .AB
 This report describes the process of porting a variant of the Unix kernel
-from the MIPS architecture to the Arm architecture.
+from the MIPS processor architecture to the Arm processor architecture.
 A heavily modified 2.11BSD version of the Unix kernel called RetroBSD is used
 as a case study, and is the basis of this development.
 The goal of this project is to run this ported kernel on both an emulator
@@ -36,20 +38,23 @@ as host operating systems for cross compilation to MIPS and Arm targets.
 .NH
 .XN "Introduction"
 .PP
-Porting the MIPS32\(rg M4K\(rg architecture to the
-Arm\(rg Cortex\(rg-M4 architecture.
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.PP
-XXX Words
-.\" XXX Fill out this section.
-.\" XXX Add specifics about DiscoBSD, so future references are understandable.
+This report is a case study of the relevant operation of the Unix kernel,
+as exemplified in the kernel of the RetroBSD operating system.
+RetroBSD was chosen for this project as
+it is able to run on embedded system microcontrollers with
+extremely low resources and no memory management unit,
+hence no virtual memory.
+Additionally, this report covers the technical considerations,
+the development environment,
+the hardware platform and software emulator,
+and the many and varied issues and compromises
+that occured during the process of
+porting the MIPS32 M4K-based RetroBSD kernel to
+include support for the Arm Cortex-M4 processor architecture,
+hereafter refered to as DiscoBSD.
+The kernel of DiscoBSD is targeted to run on the
+STM32F4-Discovery development hardware
+available from STMicroelectronics.
 .NH
 .XN "Relevant History of Unix and BSD"
 .PP
@@ -63,13 +68,13 @@ It can only be concluded that RetroBSD was started some time in 2011,
 or perhaps some time even before that.
 The earliest post on the RetroBSD forum was from August 15, 2011.
 The project could have started much earlier than the creation of the forum.
-The project was started and lead by Serge Vakulenko,
+The project was started and lead by Sergey (Serge) Vakulenko,
 a systems programmer who started working at MIPS Technologies in 2011.
 .[
 HomepageSerge
 .]
 .PP
-2BSD is a family of operating systems for the DEC\(tm PDP-11 derived from
+2BSD is a family of operating systems for the DEC PDP-11 derived from
 Research UNIX and developed at the University of California at Berkeley.
 2.11BSD has a long lineage going back to the first release of
 2BSD on May 10, 1979.
@@ -99,7 +104,6 @@ The most recent patch level is 469 and was released on April 14, 2020.
 RetroBSD was started from patch level 431,
 which was released on April 21, 2000.
 It is from this version that all RetroBSD development began.
-.PP
 DiscoBSD derives from the most recent commit to the RetroBSD codebase,
 which is revision 506 from February 17, 2019.
 .[
@@ -107,9 +111,10 @@ RetroBSD_rev506
 .]
 .NH
 .XN "Hardware"
+.\" XXX For some reason, this section shows up as pg 2 in the TOC, not pg 1.
 .PP
-The defining features of the target hardware for RetroBSD and DiscoBSD are that
-they are RAM-constrained, have 32-bit processors,
+The defining features of the target hardware for RetroBSD and DiscoBSD are
+that they are RAM-constrained, have 32-bit processors,
 and do not have a memory management unit (MMU).
 The lack of an MMU rules out any possibility of virtual memory,
 which is a critical component in most major operating systems.
@@ -117,6 +122,7 @@ A secondary feature of the target hardware is that their processors have the
 ability to protect kernel code from user code with a memory protection unit.
 This feature was not explored in this project,
 but is a viable focus of additional study.
+.bp 2
 .NH 2
 .XN "PIC32 Development Board"
 .PP
@@ -184,7 +190,7 @@ which is tied to the System-bus and only available for
 peripheral data transfers, i.e., USB, ethernet, or DMA data transfers.
 The SRAM2 is not used in the DiscoBSD kernel.
 .\" XXX This .bp pushes the next paragraph to the next page.
-.bp
+.bp 3
 .PP
 Programming and debugging of the board is achieved through the use of the
 onboard ST-LINK/V2-A in-system programmer/debugger and the connected USB cable.
@@ -400,7 +406,8 @@ that are required to compile and develop DiscoBSD
 are available as packages through the particular Linux's package manager.
 This includes GCC targeted to arm-none-eabi,
 and the associated Binutils, Newlib, and GNU debugger.
-.bp
+.\" XXX This .bp pushes the next section to the next page.
+.bp 7
 .NH
 .XN "Kernel Operation Overview"
 .PP
@@ -711,7 +718,8 @@ Once the startup assembly code calls the
 routine,
 the kernel proper is running C code and
 will start the kernel initialization process.
-.bp
+.\" XXX This .bp pushes the next section to the next page.
+.bp 10
 .NH 2
 .XN "Kernel Initialization"
 .PP
@@ -1272,9 +1280,29 @@ some sort of memory protection.
 .NH
 .XN "Conclusion"
 .PP
-XXX Words
+This report surveyed the relevant operation of the Unix kernel
+in a case study of an MMU-less operating system
+targeted to low resource microcontrollers,
+and the effort to port this kernel to the Arm Cortex-M4 architecture.
+RetroBSD was chosen for this project,
+as it is itself a port of 2.11BSD from the PDP-11 to
+the MIPS-based PIC32 microcontroller.
+The specific areas of focus in this study were
+the technical considerations,
+the host development environment,
+the hardware platform,
+and the software emulator.
+Many and varied issues and compromises were experienced and settled
+during the process of porting the RetroBSD kernel to DiscoBSD.
+Additionally, the build system was updated to facilitate and
+enable future ports to processor architectures beyond MIPS and Arm.
 .PP
-XXX Words
+There remains much work to be done to achieve the lofty,
+but attainable,
+goal of a fully self-hosted DiscoBSD operating system running on
+an Arm Cortex-M4 processor.
+In continuing and building on the work completed in this project,
+that possibility will one day become reality.
 .bp
 .R1
 .R2

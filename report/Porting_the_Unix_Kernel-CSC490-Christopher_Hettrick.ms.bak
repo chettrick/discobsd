@@ -48,10 +48,10 @@ Additionally, this report covers the technical considerations,
 the development environment,
 the hardware platform and software emulator,
 and the many and varied issues and compromises
-that occurred during the process of
+that occured during the process of
 porting the MIPS32 M4K-based RetroBSD kernel to
 include support for the Arm Cortex-M4 processor architecture,
-hereafter referred to as DiscoBSD.
+hereafter refered to as DiscoBSD.
 The kernel of DiscoBSD is targeted to run on the
 STM32F4-Discovery development hardware
 available from STMicroelectronics.
@@ -83,7 +83,7 @@ PUPS
 .]
 2BSD is a direct descendant of the Sixth Edition of Research UNIX,
 commonly known as V6 UNIX.
-2.8BSD incorporated features from the Seventh Edition of Research UNIX,
+2.8BSD incorporated features from the Seventh Editition of Research UNIX,
 32V UNIX, and 4.1BSD.
 .[
 DI44BSDOSpg5to6
@@ -193,7 +193,7 @@ SRAM1 has 112KB of the total 192KB of SRAM,
 which is suitable for either user or kernel processes.
 SRAM2 has the remaining 16KB of the total 192KB of SRAM,
 which is tied to the System-bus and only available for
-peripheral data transfers, i.e., USB, Ethernet, or DMA data transfers.
+peripheral data transfers, i.e., USB, ethernet, or DMA data transfers.
 The SRAM2 is not used in the DiscoBSD kernel.
 .\" XXX This .bp pushes the next paragraph to the next page.
 .bp 3
@@ -262,7 +262,7 @@ The simulator provides virtual peripheral devices
 such as an SPI port for the SD card interface,
 a UART for the console terminal,
 and GPIO pins for toggling LEDs.
-Pulse width modulation and analog to digital converter peripherals
+Pulse width modulation and analog to digital coverter peripherals
 are also simulated.
 .PP
 VirtualMIPS compiles and runs on Mac OSX, OpenBSD, and Linux,
@@ -327,7 +327,7 @@ running qemu-arm and running the GNU debugger with qemu-arm as the target.
 .PP
 This project was developed on Unix-based host operating systems.
 Development was mainly on the OpenBSD operating system,
-while compatibility and portability testing was performed on Linux as a host.
+while compatability and portability testing was performed on Linux as a host.
 The original RetroBSD project was developed on Mac OSX and Linux,
 with support for FreeBSD as a host near the end of RetroBSD's timeline.
 .PP
@@ -556,7 +556,7 @@ specifying where the
 .I .bss
 section is located for uninitialized data and variables.
 The stack pointer is also placed accordingly,
-normally at the end of RAM for the full-descending stack on the Arm Cortex-M4.
+normally at the end of RAM for the full-decending stack on the Arm Cortex-M4.
 The stack pointer is defined by the label
 .I _estack
 and it is located at the end of RAM at address
@@ -768,7 +768,7 @@ Kernel autoconfiguration is performed with a call to
 which probes for all the devices available to the system at boot time.
 This is a dynamic process, and as such,
 allows flexibility in the presence of optional devices.
-The absence of any required standard device will cause the kernel to panic.
+The absense of any required standard device will cause the kernel to panic.
 Kernel configuration is explained in more detail in Section 8.
 .PP
 The system process structure
@@ -999,7 +999,7 @@ documentation.
 .[
 RetroBSDkconfig
 .]
-.\" Reference to kconfig RetroBSD webpage.
+.\" Reference to kconfig RetrobSD webpage.
 .PP
 The purpose of
 .CW kconfig
@@ -1123,7 +1123,7 @@ a complete RetroBSD, and mostly complete DiscoBSD,
 operating system can be built
 using the standard build features included in the codebase.
 The build system is structured as a collection of build variables
-and a hierarchy of Makefiles.
+and a heirarchy of Makefiles.
 The
 .CW make
 build software (specifically
@@ -1280,7 +1280,7 @@ combined with the Commentary on Unix Sixth Edition.
 This made understanding the RetroBSD kernel quite challenging.
 Synthesizing this disparate information,
 in addition to effective code tracing and debug single-stepping,
-allowed for a sufficient level of understanding of kernel operation and,
+allowed for a sufficent level of understanding of kernel operation and,
 in turn, enabled and initiated the code-level porting process.
 .NH 2
 .XN "Development of Arm-based Kernel"
@@ -1333,7 +1333,7 @@ A UART driver and an SPI-based SD card driver would be enough
 for the system to stand on its own and be commanded by a user.
 These could be based off the embedded systems drivers supplied
 by STMicroelectronics.
-A GPIO driver would enable more functionality in the system
+A GPIO driver would enable more fuctionality in the system
 with minimal implementation effort.
 .PP
 The implementation of kernel memory protection from user processes

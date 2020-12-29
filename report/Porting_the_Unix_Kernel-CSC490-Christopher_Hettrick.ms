@@ -38,7 +38,7 @@ as host operating systems for cross compilation to MIPS and Arm targets.
 .NH
 .XN "Introduction"
 .PP
-This report is a case study of the relevant operation of the Unix kernel,
+This report is a case study of the relevant operation of the Unix kernel
 as exemplified in the kernel of the RetroBSD operating system.
 RetroBSD was chosen for this project as
 it is able to run on embedded system microcontrollers with
@@ -138,11 +138,11 @@ has 512KB of flash program memory, and
 128KB of SRAM data memory.
 It is powered either through the external power connector
 or the onboard USB connector.
-A UART terminal is achieved through the USB connection.
+A serial port (UART) terminal is achieved through the USB connection.
 This board does not have an onboard SD card,
 but one can be made available through an external Arduino-compatible shield.
 The SD card connects to the SPI2 port of the microcontroller.
-83 general purpose I/O (GPIO) pins and some onboard LEDs are available.
+83 general purpose I/O (GPIO) pins and onboard LEDs are available.
 The board offers many more peripherals than outlined here,
 but they have no relevance to this project.
 .PP
@@ -1119,9 +1119,9 @@ covered in the following two sections.
 .XN "Build System"
 .PP
 Through the use of the previously covered host development environment,
-a complete RetroBSD, and mostly complete DiscoBSD,
-operating system can be built
-using the standard build features included in the codebase.
+a complete RetroBSD operating system
+\*- and mostly complete DiscoBSD operating system \*-
+can be constructed with the standard build features included in the codebase.
 The build system is structured as a collection of build variables
 and a hierarchy of Makefiles.
 The
@@ -1162,8 +1162,8 @@ This development towards the concurrent support of many architectures
 is a major aim of this project.
 Two architectures are currently supported.
 .PP
-Compulsory environment variables is the method used to
-achieve support for multiple architectures.
+.I "Compulsory environment variables"
+is the method used to achieve support for multiple architectures.
 This simple method has historically been used to great success,
 and is exemplified in the highly portable
 NetBSD
@@ -1239,9 +1239,8 @@ some small, while others were quite substantial.
 The na\[:i]vet\['e] of thinking that a 50 year old codebase,
 crafted over many tens of thousands of hours by
 some of the world's best computer scientists,
-could be fully ported with a complete kernel,
-in a four month semester,
-cannot be underestimated.
+could be fully ported with a complete kernel
+in a four month semester cannot be underestimated.
 The project is comprised of two overarching themes,
 wherein each theme had their own particular difficulties:
 a case study of the kernel of the RetroBSD operating system and
@@ -1274,10 +1273,12 @@ and Unix Sixth Edition,
 LionsCommentaryUnix
 .]
 there are no definitive works that cover 2.11BSD.
-The closest is the coverage of 4.3BSD,
-which has part of the system ported to 2.10BSD,
-combined with the Commentary on Unix Sixth Edition.
+The combination of the Commentary on Unix Sixth Edition
+combined with the coverage of 4.3BSD
+is the closest there is to an authoritative reference on
+2.11BSD system internals.
 This made understanding the RetroBSD kernel quite challenging.
+.\" XXX fix this sentence.
 Synthesizing this disparate information,
 in addition to effective code tracing and debug single-stepping,
 allowed for a sufficient level of understanding of kernel operation and,
@@ -1348,7 +1349,8 @@ some sort of memory protection.
 This report surveyed the relevant operation of the Unix kernel
 in a case study of an MMU-less operating system
 targeted to low resource microcontrollers,
-and the effort to port this kernel to the Arm Cortex-M4 architecture.
+and documented the process of porting the kernel
+to the Arm Cortex-M4 architecture.
 RetroBSD was chosen for this project,
 as it is itself a port of 2.11BSD from the PDP-11 to
 the MIPS-based PIC32 microcontroller.

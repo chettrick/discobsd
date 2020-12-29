@@ -1,13 +1,13 @@
 %K RetroBSD.org
-%A Serge Vakulenko
+%A Sergey Vakulenko
 %T Homepage of RetroBSD
 %I http://retrobsd.org
 %D Last updated August 28, 2015
 %O Accessed November 28, 2020
 
 %K HomepageSerge
-%A Serge Vakulenko
-%T Homepage of Serge Vakulenko
+%A Sergey Vakulenko
+%T Homepage of Sergey Vakulenko
 %I http://vak.ru
 %D Last updated April 12, 2017
 %O Accessed November 29, 2020
@@ -40,3 +40,179 @@
 %I http://retrobsd.org/wiki/autobuild.php?rev=506
 %D February 17, 2019
 %O Accessed October 31, 2020
+
+%K DI44BSDOSpg5to6
+%T The Design and Implementation of the 4.4BSD Operating System
+%A Marshall Kirk McKusick
+%A Keith Bostic
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1996
+%I Addison-Wesley Longman, Inc.
+%P 5-6
+
+%K DI43BSDOSpg72
+%T The Design and Implementation of the 4.3BSD UNIX Operating System
+%A Samuel J. Leffler
+%A Marshall Kirk McKusick
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1989
+%I Addison-Wesley Publishing Company, Inc.
+%P 72
+
+%K DI43BSDOSpg77to78
+%T The Design and Implementation of the 4.3BSD UNIX Operating System
+%A Samuel J. Leffler
+%A Marshall Kirk McKusick
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1989
+%I Addison-Wesley Publishing Company, Inc.
+%P 77-78
+
+%K DI43BSDOSpage405
+%T The Design and Implementation of the 4.3BSD UNIX Operating System
+%A Samuel J. Leffler
+%A Marshall Kirk McKusick
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1989
+%I Addison-Wesley Publishing Company, Inc.
+%P 405
+
+%K LionsUnixpg6dash2
+%T Lions' Commentary on UNIX 6th Edition with Source Code
+%A John Lions
+%E Peter H. Salus
+%D 1996
+%I Peer-to-Peer Communications LLC
+%P 6.2
+
+%K DI43BSDOSpg405to406
+%T The Design and Implementation of the 4.3BSD UNIX Operating System
+%A Samuel J. Leffler
+%A Marshall Kirk McKusick
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1989
+%I Addison-Wesley Publishing Company, Inc.
+%P 405-406
+
+%K DI43BSDOSpg406to407
+%T The Design and Implementation of the 4.3BSD UNIX Operating System
+%A Samuel J. Leffler
+%A Marshall Kirk McKusick
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1989
+%I Addison-Wesley Publishing Company, Inc.
+%P 406-407
+
+%K TheDI44BSDOS
+%T The Design and Implementation of the 4.4BSD Operating System
+%A Marshall Kirk McKusick
+%A Keith Bostic
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1996
+%I Addison-Wesley Longman, Inc.
+
+%K DI43BSDUNIXOS
+%T The Design and Implementation of the 4.3BSD UNIX Operating System
+%A Samuel J. Leffler
+%A Marshall Kirk McKusick
+%A Michael J. Karels
+%A John S. Quarterman
+%D 1989
+%I Addison-Wesley Publishing Company, Inc.
+
+%K TheDUNIXOS
+%T The Design of the UNIX Operating System
+%A Maurice J. Bach
+%D 1986
+%I P T R Prentice-Hall
+
+%K LionsCommentaryUnix
+%T Lions' Commentary on UNIX 6th Edition with Source Code
+%A John Lions
+%E Peter H. Salus
+%D 1996
+%I Peer-to-Peer Communications LLC
+
+%K AAPCS
+%A Arm Limited
+%T Procedure Call Standard for the Arm Architecture - ABI 2020Q2 Documentation
+%I https://developer.arm.com/documentation/ihi0042
+%D 2020Q2 (j)
+%O Accessed December 16, 2020
+
+%K NetBSDbuildsh
+%A NetBSD
+%T Crosscompiling NetBSD with build.sh
+%I https://www.netbsd.org/docs/guide/en/chap-build.html
+%D January 3, 2020
+%O Accessed November 2, 2020
+
+%K DB1421
+%A STMicroelectronics
+%T Discovery kit with STM32F407VG MCU Data Brief
+%I https://www.st.com/resource/en/data_brief/stm32f4discovery.pdf
+%D October 2020
+%O Accessed October 20, 2020
+
+%K qemuarm
+%A Christopher K. Hettrick
+%T QEMU Machine Emulator for Arm Cortex-M Devices
+%I https://github.com/chettrick/CSC490/tree/master/tools/openbsd/ports/mystuff/emulators/qemu-arm
+%D September 24, 2020
+%O Accessed September 24, 2020
+
+%K OpenBSDPorts
+%A OpenBSD Ports Collection
+%T OpenBSD Porter's Handbook - Working with Ports
+%I https://www.openbsd.org/faq/ports/ports.html
+%D May 27, 2019
+%O Accessed September 24, 2020
+
+%K OpenBSDDevEnv
+%A Christopher K. Hettrick
+%T OpenBSD Development Environment
+%I https://github.com/chettrick/CSC490/blob/master/tools/openbsd/README.md
+%D November 1, 2020
+%O Accessed November 1, 2020
+
+%K MIPSGCCRetroBSD
+%A RetroBSD
+%T GCC Toolchain for MIPS
+%I http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
+%D Last updated May 14, 2015
+%O Accessed September 27, 2020
+
+%K STM32F4Cube
+%A STMicroelectronics
+%T STM32CubeF4 Firmware Package V1.15.0
+%I https://www.st.com/en/embedded-software/stm32cubef4.html
+%D February 17, 2017
+%O Accessed November 16, 2020
+
+%K RetroBSDkconfig
+%A RetroBSD
+%T Building RetroBSD Kernels with kconfig
+%I http://retrobsd.org/wiki/doku.php/doc/kconfig
+%D Last updated September 8, 2015
+%O Accessed November 3, 2020
+
+%K APUEpg20
+%T Advanced Programming in the UNIX Environment
+%A W. Richard Stevens
+%D 1993
+%I Addison-Wesley Professional
+%P 20
+
+%K DUNIXOSpg5
+%T The Design of the UNIX Operating System
+%A Maurice J. Bach
+%D 1986
+%I P T R Prentice-Hall
+%P 5

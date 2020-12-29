@@ -85,7 +85,10 @@ PUPS
 commonly known as V6 UNIX.
 2.8BSD incorporated features from the Seventh Editition of Research UNIX,
 32V UNIX, and 4.1BSD.
-.\" XXX Add reference to UNIX system family tree, pages 5-6 of D&I 4.4BSD OS.
+.[
+DI44BSDOSpg5to6
+.]
+.\" Reference to UNIX system family tree, pages 5-6 of D&I 4.4BSD OS.
 The 2BSD line of software distributions
 continued on until the most recent release of 2.11BSD in 1991.
 .[
@@ -158,10 +161,13 @@ An image of the Max32 development board is shown below:
 .PP
 The default development board that is used for the design and development
 of DiscoBSD is the STM32F4Discovery board,
+.[
+DB1421
+.]
+.\" Reference to stm32f4discovery.pdf spec sheet.
 produced by STMicroelectronics.
 A fully compatible revised edition of the board has been
 released under the model name STM32F407G-DISC1.
-.\" XXX Add reference to stm32f4discovery.pdf spec sheet.
 All revisions of the boards employ an STM32F407VGT6 32-bit Arm Cortex-M4
 microcontroller with a single-precision floating-point unit.
 The processor runs at a max speed of 168 MHz,
@@ -266,7 +272,6 @@ through VirtualMIPS was not attempted,
 but by all indications it is possible,
 as the developers of RetroBSD debugged and developed in this manner
 on Mac OSX and Linux.
-.\" XXX Add reference to this? Perhaps as a thread on the forum?
 .KS
 .PP
 An image of RetroBSD booting in the VirtualMIPS simulator is shown below:
@@ -280,7 +285,10 @@ The QEMU-based Arm Cortex-M emulator (hereafter called qemu-arm) is used
 to boot and run the DiscoBSD Arm-based kernel and userland.
 It is available through the various package managers on Linux and
 as a custom user-compiled port on OpenBSD.
-.\" XXX Add reference to port in project repo.
+.[
+qemuarm
+.]
+.\" Reference to port in project repo.
 .CW qemu-system-gnuarmeclipse
 is the name of the emulator executable.
 DiscoBSD currently compiles a single kernel,
@@ -370,7 +378,10 @@ This satisfies an aim of this project for the development and testing
 of portability between various host development systems.
 .PP
 Using the OpenBSD Ports Collection,
-.\" XXX Add reference to OpenBSD ports collection in the OpenBSD FAQ.
+.[
+OpenBSDPorts
+.]
+.\" Reference to OpenBSD ports collection in the OpenBSD FAQ.
 custom user-compiled ports of third-party software was developed.
 These include the mips-elf targeted GCC toolchain,
 the STLink binary flash downloader for STM32 devices,
@@ -380,7 +391,10 @@ as an OpenBSD package through the pkg_add system.
 These packages include the OpenOCD on-chip debugger,
 and the Linaro version of GCC targeted to arm-none-eabi,
 with the associated Binutils, Newlib, and GNU debugger.
-.\" XXX Add reference to tools/openbsd/README.md
+.[
+OpenBSDDevEnv
+.]
+.\" Reference to tools/openbsd/README.md
 .NH 2
 .XN "Development Tools on Linux"
 .PP
@@ -391,11 +405,16 @@ to have originally been developed on Linux.
 Note that Linux was not used for the bulk of the development of DiscoBSD;
 portability in compiling and running of the project was the main focus.
 .PP
-The tools required for the MIPS-based RetroBSD are available in the
-documentation that comes with RetroBSD,
-notably, a user-compiled version of GCC targeted to mips-elf
-and the supporting Binutils are obtained by running the supplied build script.
-.\" XXX Add reference to MIPS toolchain documentation on RetroBSD.org
+The development tools required for the MIPS-based RetroBSD are
+available in the documentation that comes with RetroBSD.
+A user-compiled version of GCC targeted to mips-elf,
+and the supporting Binutils,
+can be obtained by running the supplied build script or
+by using the pre-built binaries available with the documentation.
+.[
+MIPSGCCRetroBSD
+.]
+.\" Reference to MIPS toolchain documentation on RetroBSD.org
 Supporting tools are either default programs on the operating system
 or are added via the particular Linux package manager.
 The BSD version of yacc, called byacc,
@@ -605,7 +624,6 @@ In Arm Cortex-M4, the first 32 bits (first word) of the executable is
 actually the address of the stack pointer,
 and the second word is the address of
 .I label .
-.\" XXX Add reference to Arm documentation.
 This is handled by the linker.
 .I label
 refers to a label in the architecture-specific assembly language startup code.
@@ -620,7 +638,10 @@ The MIPS startup code is entirely contained in the file
 whereas Arm and STM has standardized on an elaborate set of files that are
 common amongst each family of microcontrollers.
 These standardized files are available from STMicroelectronics,
-.\" XXX Add reference to file availability from ST website.
+.[
+STM32F4Cube
+.]
+.\" Reference to file availability from ST website.
 the microcontroller vendor for STM32F407xx devices.
 .PP
 The following files are required by Arm for CMSIS functions:
@@ -758,8 +779,11 @@ The process table is implemented as an array of
 .I "struct proc"
 entries.
 The process structure must always remain in main memory,
-no matter what state the process is currently in.
-.\" XXX Add reference D&I 4.3BSD page 72
+no matter the current state of the process.
+.[
+DI43BSDOSpg72
+.]
+.\" Reference to D&I 4.3BSD page 72
 .PP
 The init user structure
 .I "struct user" ) (
@@ -776,7 +800,10 @@ is dedicated to PID 0, the
 process.
 .I u
 is the user structure of the in-core active process.
-.\" XXX Add reference D&I 4.3BSD pages 77-78
+.[
+DI43BSDOSpg77to78
+.]
+.\" Reference to D&I 4.3BSD pages 77-78
 The user structure of any process not currently in a
 .I runnable
 state is swapped out.
@@ -834,7 +861,10 @@ is copied from the kernel image to the start of user memory.
 .KS
 .PP
 The routine is effectively the same as the following program:
-.\" XXX Add reference to page 405 in D&I 4.3BSD OS
+.[
+DI43BSDOSpage405
+.]
+.\" Reference to page 405 in D&I 4.3BSD OS
 .PP
 .DS L
 .B1
@@ -868,7 +898,10 @@ just copied out.
 This process has been been, rightly so,
 described as "somewhat enigmatic" by John Lions
 in his famous Commentary on UNIX 6th Edition.
-.\" XXX Add reference to page 6-2 in Lions' Commentary
+.[
+LionsUnixpg6dash2
+.]
+.\" Reference to page 6-2 in Lions' Commentary.
 The call to
 .CW execv()
 replaces the image of the
@@ -898,7 +931,10 @@ fails.
 This makes the presence of
 .CW /sbin/init
 vital to the system bootstrapping procedure.
-.\" XXX Add reference to page 405-406 in D&I 4.3BSD OS
+.[
+DI43BSDOSpg405to406
+.]
+.\" Reference to page 405-406 in D&I 4.3BSD OS.
 .PP
 .CW /sbin/init
 forks itself and spawns a shell to interpret the commands in
@@ -932,7 +968,10 @@ the standard Bourne shell).
 .PP
 The system is now, finally,
 in a state to be commanded by users in the usual way.
-.\" XXX Add reference to pages 406-407 in D&I 4.3BSD OS
+.[
+DI43BSDOSpg406to407
+.]
+.\" Reference to pages 406-407 in D&I 4.3BSD OS.
 .NH
 .XN "Kernel Configuration"
 .PP
@@ -957,8 +996,10 @@ will be outlined below,
 while detailed information is available from the
 .CW kconfig
 documentation.
-.\" XXX Add reference to kconfig RetrobSD webpage.
-.\" XXX http://retrobsd.org/wiki/doku.php/doc/kconfig
+.[
+RetroBSDkconfig
+.]
+.\" Reference to kconfig RetrobSD webpage.
 .PP
 The purpose of
 .CW kconfig
@@ -1030,7 +1071,9 @@ and other user programs constitute the userland.
 These programs interact with the kernel through
 .I "system calls" ,
 which are well-defined entry points into the kernel
-.\" XXX Add reference for APUE page 20.
+.[
+APUEpg20
+.]
 that request specific kernel services,
 such as reading or writing to a file.
 This affords a separation of interests between user applications
@@ -1038,7 +1081,10 @@ and the system and hardware management tasks of the kernel.
 .KS
 .PP
 An image of the architecture of a Unix system is shown below:
-.\" XXX Add reference to Design of Unix System page 5.
+.[
+DUNIXOSpg5
+.]
+.\" Reference to Design of Unix System page 5.
 .PSPIC Unix_Shell.eps 4
 .KE
 .PP
@@ -1120,8 +1166,11 @@ Compulsory environment variables is the method used to
 achieve support for multiple architectures.
 This simple method has historically been used to great success,
 and is exemplified in the highly portable
-NetBSD and OpenBSD operating systems.
-.\" XXX Add references for NetBSD and OpenBSD using environment variables?
+NetBSD
+.[
+NetBSDbuildsh
+.]
+and OpenBSD operating systems.
 The compulsory environment variables
 .CW MACHINE
 and
@@ -1207,16 +1256,30 @@ which derives directly from Sixth Edition Unix and
 indirectly from Seventh Edition and 32V Unix,
 the vast historical literature of Unix development was
 interrogated for knowledge of the system's operation.
-Although there are books written specifically for
-4.4BSD, 4.3BSD, Unix System V Release 2, and Unix Sixth Edition,
-.\" XXX Add references to each book.
+Although there are books written specifically targeted to
+4.4BSD,
+.[
+TheDI44BSDOS
+.]
+4.3BSD,
+.[
+DI43BSDUNIXOS
+.]
+Unix System V Release 2,
+.[
+TheDUNIXOS
+.]
+and Unix Sixth Edition,
+.[
+LionsCommentaryUnix
+.]
 there are no definitive works that cover 2.11BSD.
 The closest is the coverage of 4.3BSD,
 which has part of the system ported to 2.10BSD,
 combined with the Commentary on Unix Sixth Edition.
 This made understanding the RetroBSD kernel quite challenging.
 Synthesizing this disparate information,
-in addition to effective code tracing and single-stepping,
+in addition to effective code tracing and debug single-stepping,
 allowed for a sufficent level of understanding of kernel operation and,
 in turn, enabled and initiated the code-level porting process.
 .NH 2
@@ -1255,7 +1318,9 @@ Even with the work completed throughout this project,
 there remains a few significant barriers to a full Arm-based DiscoBSD kernel.
 First, a user/kernel syscall API needs to be devised and validated.
 The Procedure Call Standard for the Arm Architecture
-.\" XXX Add reference to the standard.
+.[
+AAPCS
+.]
 could be a starting point for this work.
 Userland and the C library code for user executables needs to be
 completed and validated for proper function.

@@ -216,3 +216,17 @@
 %D 1986
 %I P T R Prentice-Hall
 %P 5
+
+%K max32eps
+%A Digilent, Inc.
+%T Max32 Board Reference Manual
+%I https://reference.digilentinc.com/reference/microprocessor/max32/reference-manual
+%D June 29, 2017
+%O Accessed December 15, 2020
+
+%K stm32eps
+%A STMicroelectronics
+%T Discovery kit with STM32F407VG MCU
+%I https://www.st.com/en/evaluation-tools/stm32f4discovery.html
+%D September 1, 2019
+%O Accessed December 15, 2020

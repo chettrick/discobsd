@@ -1499,3 +1499,20 @@ This version will be submitted to Bill for feedback (after a spell check).
 Okay, did a spell check (with aspell) and found some errors.
 
 Edited the report for some clearer wording.
+
+===========================================================================
+2020-12-29
+Tuesday, December 29, 2020
+
+Added inline citations for circuit board images.
+
+Used italics for two locations of the name of Lions' book.
+
+Added a Glossary to the report. Modified pdftk to get the right pages to
+make the final report. Needed to use the macro ".ds CH -ii-" to get the
+proper page number (ii) for the Glossary.
+
+Will add definitions in next commit.
+
+Made all references to UNIX as Unix, except where UNIX is in the name of a
+book.

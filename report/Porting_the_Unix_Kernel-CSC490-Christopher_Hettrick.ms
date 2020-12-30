@@ -75,20 +75,20 @@ HomepageSerge
 .]
 .PP
 2BSD is a family of operating systems for the DEC PDP-11 derived from
-Research UNIX and developed at the University of California at Berkeley.
+Research Unix and developed at the University of California at Berkeley.
 2.11BSD has a long lineage going back to the first release of
 2BSD on May 10, 1979.
 .[
 PUPS
 .]
-2BSD is a direct descendant of the Sixth Edition of Research UNIX,
-commonly known as V6 UNIX.
-2.8BSD incorporated features from the Seventh Edition of Research UNIX,
-32V UNIX, and 4.1BSD.
+2BSD is a direct descendant of the Sixth Edition of Research Unix,
+commonly known as V6 Unix.
+2.8BSD incorporated features from the Seventh Edition of Research Unix,
+32V Unix, and 4.1BSD.
 .[
 DI44BSDOSpg5to6
 .]
-.\" Reference to UNIX system family tree, pages 5-6 of D&I 4.4BSD OS.
+.\" Reference to Unix system family tree, pages 5-6 of D&I 4.4BSD OS.
 The 2BSD line of software distributions
 continued on until the most recent release of 2.11BSD in 1991.
 .[
@@ -153,6 +153,9 @@ to load firmware into the flash memory of the microcontroller.
 .KS
 .PP
 An image of the Max32 development board is shown below:
+.[
+max32eps
+.]
 .PSPIC max32.eps 5
 .KE
 .PP
@@ -160,7 +163,7 @@ An image of the Max32 development board is shown below:
 .XN "STM32 Development Board"
 .PP
 The default development board that is used for the design and development
-of DiscoBSD is the STM32F4Discovery board,
+of DiscoBSD is the STM32F4-Discovery board,
 .[
 DB1421
 .]
@@ -210,7 +213,10 @@ The project's top-level Makefile has targets for
 running OpenOCD in connection with the GNU debugger.
 .KS
 .PP
-An image of the STM32F4Discovery development board is shown below:
+An image of the STM32F4-Discovery development board is shown below:
+.[
+stm32eps
+.]
 .PSPIC stm32.eps 5
 .KE
 .PP
@@ -373,7 +379,7 @@ on a Unix-based operating system, as an alternative and addition
 to the well-established Linux operating system.
 OpenBSD was chosen for this task,
 as it is dissimilar in many ways to Linux,
-while still maintaining Posix compliance.
+while still maintaining POSIX compliance.
 This satisfies an aim of this project for the development and testing
 of portability between various host development systems.
 .PP
@@ -387,7 +393,9 @@ These include the mips-elf targeted GCC toolchain,
 the STLink binary flash downloader for STM32 devices,
 and the qemu-arm circuit board emulator.
 The remaining software packages needed for development are available
-as an OpenBSD package through the pkg_add system.
+as an OpenBSD package through the
+.I pkg_add
+system.
 These packages include the OpenOCD on-chip debugger,
 and the Linaro version of GCC targeted to arm-none-eabi,
 with the associated Binutils, Newlib, and GNU debugger.
@@ -897,7 +905,8 @@ to run the
 just copied out.
 This process has been been, rightly so,
 described as "somewhat enigmatic" by John Lions
-in his famous Commentary on UNIX 6th Edition.
+in his famous
+.I "Commentary on UNIX 6th Edition" .
 .[
 LionsUnixpg6dash2
 .]
@@ -1222,8 +1231,9 @@ This process is automatic and developer input is not required.
 The supporting Makefiles
 .CW /target.mk ,
 .CW /sys/stm32/gcc-config.mk ,
+.CW /sys/pic32/gcc-config.mk ,
 and
-.CW /sys/pic32/gcc-config.mk
+.CW /Makefile.inc
 are responsible to selectively choose build and support tools
 based on present operating system features.
 The currently supported and tested host operating systems are
@@ -1273,8 +1283,10 @@ and Unix Sixth Edition,
 LionsCommentaryUnix
 .]
 there are no definitive works that cover 2.11BSD.
-The combination of the Commentary on Unix Sixth Edition
-combined with the coverage of 4.3BSD
+The combination of the
+.I "Commentary on UNIX 6th Edition"
+combined with the coverage of 4.3BSD in
+.I "The Design and Implementation of the 4.3BSD UNIX Operating System"
 is the closest there is to an authoritative reference on
 2.11BSD system internals.
 This made understanding the RetroBSD kernel quite challenging.
@@ -1374,3 +1386,113 @@ that possibility will one day become reality.
 .R1
 .R2
 .TC
+.bp
+.\" XXX Force the page to be numbered as ii.
+.ds CH -ii-
+.SH
+.XN "Glossary"
+.\" XXX Force the next page to be numbered as iii.
+.LP
+.ds CH -iii-
+.IP AAPCS
+.br
+XXX Stuff about Arm Architecture Procedure Call Standard
+.IP API
+.br
+XXX About the Application programming interface for the user/kernel syscalls.
+.IP Arm
+.br
+XXX Stuff about Arm
+.IP BSD
+.br
+XXX About the berkley software distribution
+XXX Add in all the different versions. Namely 2.11BSD.
+.IP CCM
+.br
+XXX About the core coupled memory
+.IP CMSIS
+.br
+XXX Stuff about Arm CMSIS standard
+.IP Cortex-M4
+.br
+XXX About the Cortex for microcontrollers
+.IP DEC
+.br
+XXX About digital equipment corp
+.IP DiscoBSD
+.br
+XXX About the DiscoBSD OS
+.IP DMA
+.br
+XXX About the direct memory access.
+.IP "ELF format"
+.br
+XXX About the ELF formatted file
+.IP GPIO
+.br
+XXX About the general purpose ios.
+.IP "Intel Hex format"
+.br
+XXX About the Intel Hex formatted file
+.IP "Kernel mode"
+.br
+XXX Stuff about Kernel mode.
+.IP LED
+.br
+XXX About the light emiting diodes
+.IP MIPS
+.br
+XXX About the MIPS architecture.
+.IP MMU
+.br
+XXX About the memory management unit
+.IP "PDP-11"
+.br
+XXX About the pdp
+.IP PIC32
+.br
+XXX About the PIC32 chip from Microchip.
+.IP PID
+.br
+XXX About the process identifier
+.IP POSIX
+.br
+XXX About the POSIX standard.
+.IP QEMU
+.br
+XXX About the QEMU emulator
+.IP RAM
+.br
+XXX About the random access memory
+.IP RetroBSD
+.br
+XXX About the RetroBSD OS
+.IP "SD Card"
+.br
+XXX About the SD card for file system.
+.IP SPI
+.br
+XXX About the serial communication port
+.IP SRAM
+.br
+XXX About the sram
+.IP STM
+.br
+XXX Stuff about STMicro, or STM32F4 for family.
+.IP SysTick
+.br
+XXX Stuff about the SysTick that is for all Arm chips.
+.IP UART
+.br
+XXX Universal Asynchronous Reciever Transmitter
+.IP USART
+.br
+XXX About the Universal Synchronous Asynchronous Reciever Transmitter
+.IP "User mode"
+.br
+XXX Stuff about User mode.
+.IP VAX
+.br
+XXX About the dec vax
+.\" Return to regular page numbering.
+.ds CH -\En[PN]-

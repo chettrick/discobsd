@@ -1283,8 +1283,8 @@ and Unix Sixth Edition,
 LionsCommentaryUnix
 .]
 there are no definitive works that cover 2.11BSD.
-The combination of the
-.I "Commentary on UNIX 6th Edition"
+The combination of
+.I "Lions' Commentary on UNIX 6th Edition"
 combined with the coverage of 4.3BSD in
 .I "The Design and Implementation of the 4.3BSD UNIX Operating System"
 is the closest there is to an authoritative reference on
@@ -1392,107 +1392,160 @@ that possibility will one day become reality.
 .SH
 .XN "Glossary"
 .\" XXX Force the next page to be numbered as iii.
-.LP
 .ds CH -iii-
-.IP AAPCS
+.LP
+.IP "AAPCS (Procedure Call Standard for the Arm Architecture)"
 .br
-XXX Stuff about Arm Architecture Procedure Call Standard
-.IP API
+A calling convention that defines how subroutines can be separately written,
+separately compiled, and separately assembled to work together.
+.IP "API (Application Programming Interface)"
 .br
-XXX About the Application programming interface for the user/kernel syscalls.
-.IP Arm
+A software interface between a user application and the operating system.
+.IP "Arm"
 .br
-XXX Stuff about Arm
-.IP BSD
+A family of reduced instruction set computing architectures
+for computer processors.
+.IP "BSD (Berkeley Software Distribution)"
 .br
-XXX About the berkley software distribution
-XXX Add in all the different versions. Namely 2.11BSD.
-.IP CCM
+Family of research versions of the Unix system developed at the
+University of California at Berkeley
+and released by the Computer Systems Research Group.
+.IP "2BSD"
 .br
-XXX About the core coupled memory
-.IP CMSIS
+The Berkeley PDP-11 system, first released May 10, 1979.
+.IP "2.11BSD"
 .br
-XXX Stuff about Arm CMSIS standard
-.IP Cortex-M4
+The final release of the Berkeley PDP-11 system in 1991.
+RetroBSD derives from 2.11BSD.
+.IP "4.3BSD"
 .br
-XXX About the Cortex for microcontrollers
-.IP DEC
+The last major Berkeley VAX system, released in June 1986.
+Includes the TCP/IP networking suite and
+many bug fixes and efficiency improvements over 4.2BSD.
+.IP "CCM (Core Coupled Memory)"
 .br
-XXX About digital equipment corp
-.IP DiscoBSD
+System RAM that has direct access to the processor via the D-bus data bus.
+.IP "CMSIS (Cortex Microcontroller Software Interface Standard)"
 .br
-XXX About the DiscoBSD OS
-.IP DMA
+A vendor-independent hardware abstraction layer for microcontrollers
+that are based on Arm Cortex processors.
+.IP "Cortex-M4"
 .br
-XXX About the direct memory access.
-.IP "ELF format"
+A highly-efficient processor for microcontrollers that satisfies the needs
+of digital signal processing combined with low power usage.
+Cortex-M4 processors use the ARMv7E-M architecture.
+.IP "DEC (Digital Equipment Corporation)"
 .br
-XXX About the ELF formatted file
-.IP GPIO
+Makers of the 16-bit PDP-11 minicomputers and
+the 32-bit VAX superminicomputers.
+.IP "DiscoBSD"
 .br
-XXX About the general purpose ios.
+A port of the RetroBSD kernel to the Arm-based STM32F4-Discovery
+development board produced by STMicroelectronics.
+.IP "DMA (Direct Memory Access)"
+.br
+A facility where a peripheral can access
+main memory without the assistance of the processor.
+.IP "ELF (Executable and Linkable Format)"
+.br
+A file format for executable files and object code that
+replaces older executable formats such as
+.I a.out .
+DiscoBSD builds ELF-formatted executables.
+.IP "GPIO (General-Purpose Input/Output)"
+.br
+Digital microcontroller pins that may perform multiple input or output tasks,
+such as reading from a button press or controlling an LED indicator.
 .IP "Intel Hex format"
 .br
-XXX About the Intel Hex formatted file
+A common file format that conveys binary information in an ASCII text form.
 .IP "Kernel mode"
 .br
-XXX Stuff about Kernel mode.
-.IP LED
+The most privileged processor-access mode.
+The Unix kernel operates in kernel mode.
+.IP "LED (Light-Emitting Diode)"
 .br
-XXX About the light emiting diodes
-.IP MIPS
+A semiconductor light source commonly used as a status indicator.
+.IP "MIPS"
 .br
-XXX About the MIPS architecture.
-.IP MMU
+A family of 32-bit reduced instruction set architecture processors.
+RetroBSD was written for the MIPS32 M4K core.
+.IP "MMU (Memory Management Unit)"
 .br
-XXX About the memory management unit
+A hardware device that enables a translation between the
+physical memory space and a virtual memory space abstraction.
 .IP "PDP-11"
 .br
-XXX About the pdp
-.IP PIC32
+A family of 16-bit minicomputers produced by Digital Equipment Corporation
+between 1970 and 1990.
+Early Unix releases targeted the PDP-11,
+which was a significant influence on the design of the operating system.
+.IP "PIC32"
 .br
-XXX About the PIC32 chip from Microchip.
-.IP PID
+A family of 32-bit MIPS-based microcontrollers produced by Microchip.
+RetroBSD targets the PIC32MX7.
+.IP "PID (Process Identifier)"
 .br
-XXX About the process identifier
-.IP POSIX
+A nonnegative integer used to
+uniquely identify each active process in the system.
+.IP "POSIX (Portable Operating System Interface)"
 .br
-XXX About the POSIX standard.
-.IP QEMU
+IEEE and ISO standard for the interface to a Unix-like system.
+.IP "QEMU"
 .br
-XXX About the QEMU emulator
-.IP RAM
+A generic and open source machine emulator.
+A Cortex-M version is used to host DiscoBSD.
+.IP "RAM (Random-Access Memory)"
 .br
-XXX About the random access memory
-.IP RetroBSD
+A form of volatile computer memory that can be read and written in any order.
+.IP "RetroBSD"
 .br
-XXX About the RetroBSD OS
+A 2.11BSD-derived Unix operating system intended for
+embedded systems with fixed memory mapping,
+such as the PIC32MX7 microcontroller.
 .IP "SD Card"
 .br
-XXX About the SD card for file system.
-.IP SPI
+A non-volatile memory card used as a hard drive for the DiscoBSD filesystem.
+.IP "SPI (Serial Peripheral Interface)"
 .br
-XXX About the serial communication port
-.IP SRAM
+A synchronous serial communication interface used in embedded systems.
+The SD card is connected to the microcontroller through an SPI connection.
+.IP "SRAM (Static Random-Access Memory)"
 .br
-XXX About the sram
-.IP STM
+A form of RAM that does not require to be periodically refreshed.
+.IP "STM (STMicroelectronics)"
 .br
-XXX Stuff about STMicro, or STM32F4 for family.
-.IP SysTick
+Semiconductor producer of the STM32F407VG microcontroller
+that DiscoBSD targets.
+.IP "SysTick"
 .br
-XXX Stuff about the SysTick that is for all Arm chips.
-.IP UART
+The Arm Cortex-M System Tick Timer generates periodic interrupt
+requests to facilitate operating system context switching,
+which enables multitasking.
+.IP "UART (Universal Asynchronous Receiver/Transmitter)"
 .br
-XXX Universal Asynchronous Reciever Transmitter
-.IP USART
+A converter of data between a microcontroller and a serial interface.
+RS-232 is a common serial port standard.
+Used as a terminal command line interface on Unix systems.
+.IP "Unix"
 .br
-XXX About the Universal Synchronous Asynchronous Reciever Transmitter
+The Unix Time-sharing System was developed in 1969 at Bell Laboratories
+and spawned many derivatives.
+The most applicable to this report is the
+2BSD line of research operating systems.
+.IP "USART (Universal Synchronous/Asynchronous Receiver/Transmitter)"
+.br
+A UART that also works in synchronous mode,
+thereby facilitating higher data rates than a UART.
 .IP "User mode"
 .br
-XXX Stuff about User mode.
-.IP VAX
+The least privileged processor-access mode.
+User processes run in user mode.
+.IP "VAX"
 .br
-XXX About the dec vax
+A family of 32-bit superminicomputers produced by
+Digital Equipment Corporation between 1977 and 2005.
+The Unix 32V release targeted the VAX,
+which was modified into 3BSD and then into the 4BSD line of releases.
 .\" Return to regular page numbering.
 .ds CH -\En[PN]-

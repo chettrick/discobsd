@@ -185,6 +185,9 @@ char *cppadd[] = { "-D__LCC__", "-D__unix__", "-D__BSD__", "-D__RETROBSD__", NUL
 #ifdef __i386__
 #   define	CPPMDADD { "-D__i386__", NULL, }
 #endif
+#ifdef __arm__
+#   define	CPPMDADD { "-D__arm__", NULL, }
+#endif
 
 #ifdef DYNLINKER
 char *dynlinker[] = DYNLINKER;

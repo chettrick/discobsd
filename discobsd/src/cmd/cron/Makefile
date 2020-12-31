@@ -48,7 +48,8 @@
 TOPSRC          = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -Werror -I.
+# XXX CFLAGS          += -Werror -I.
+CFLAGS          += -I.
 
 
 DESTROOT	=	$(DESTDIR)

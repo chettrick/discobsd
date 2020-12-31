@@ -5,13 +5,16 @@ TOPSRC =	$(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
 # Some basic CFLAGS.
-CFLAGS =	-Os -Wall -Werror
+# XXX CFLAGS =	-Os -Wall -Werror
+CFLAGS =	-Os -Wall
 
 # With the extra LDFLAGS, save some bytes.
 CFLAGS +=	-ffunction-sections -fdata-sections
 
 # This reduces code size significantly.
+ifeq ($(MACHINE_ARCH), mips)
 CFLAGS +=	-mips16
+endif
 
 # with CFLAGS+=	-ffunction-sections -fdata-sections
 LDFLAGS +=	-Wl,--gc-sections

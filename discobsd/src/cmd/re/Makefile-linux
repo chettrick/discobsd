@@ -5,7 +5,8 @@
 #
 # Alex P. Roudnev, Moscow, KIAE, 1984
 #
-CFLAGS          = -Os -g -Wall -Werror -DDEBUG -DMULTIWIN=0
+# XXX CFLAGS          = -Os -g -Wall -Werror -DDEBUG -DMULTIWIN=0
+CFLAGS          = -Os -g -Wall -DDEBUG -DMULTIWIN=0
 
 # For Linux and Mac OS X
 CFLAGS          += -DTERMIOS

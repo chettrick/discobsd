@@ -9,7 +9,8 @@ MANSRC          = cpp.1
 
 LDFLAGS         += -g
 
-CFLAGS		+= -Werror -Wall -Os
+# XXX CFLAGS		+= -Werror -Wall -Os
+CFLAGS		+= -Wall -Os
 #CFLAGS          += -DCPP_DEBUG -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC
 CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC
 

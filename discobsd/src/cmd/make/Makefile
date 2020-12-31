@@ -4,7 +4,8 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Werror -Wall -I../ar -g
+# XXX CFLAGS		+= -Werror -Wall -I../ar -g
+CFLAGS		+= -Wall -I../ar -g
 LDFLAGS         += -g
 
 OBJS            = main.o doname.o misc.o files.o dosys.o gram.o

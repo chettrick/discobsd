@@ -4,7 +4,13 @@ include $(TOPSRC)/target.mk
 #CC=gcc
 CFLAGS          += -g -DUNIX_HOST -DVER='"1.0"' -DFILENAME_MAX=64 \
                    -DL_tmpnam=30 -DCLOCKS_PER_SEC=80000000 -DPATH_MAX=200 \
-                   -DNO_FP -Os -Werror -mips16
+                   -DNO_FP -Os
+# XXX                   -DNO_FP -Os -Werror -mips16
+
+ifeq ($(MACHINE_ARCH), mips)
+CFLAGS          += -mips16
+endif
+
 LIBS            = -lm -lc
 
 TARGET          = picoc

@@ -1,7 +1,8 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror -Os
+# XXX CFLAGS		+= -Werror -Os
+CFLAGS		+= -Os -ansi
 
 YACC            = bison -y
 YFLAGS          = -d
@@ -37,7 +38,8 @@ lint:
 			egrep -v '^(error|free|malloc)'
 
 proctab.c:	proc.c token.h awk.h
-		cc -std=gnu89 -Wall -Werror -o proc proc.c
+		cc -std=gnu89 -Wall -o proc proc.c
+# XXX		cc -std=gnu89 -Wall -Werror -o proc proc.c
 		./proc > proctab.c
 
 clean:

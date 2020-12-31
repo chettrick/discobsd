@@ -201,6 +201,9 @@ startup()
 
   LL_GPIO_SetPinMode(LED4_GPIO_PORT, LED4_PIN, LL_GPIO_MODE_OUTPUT);
 
+  LL_GPIO_SetOutputPin(LED4_GPIO_PORT, LED4_PIN);
+
+#if 0 /* XXX */
   /* Infinite loop */
   while (1)
   {
@@ -208,6 +211,7 @@ startup()
 
     LL_mDelay(250);
   }
+#endif /* XXX */
 }
 
 

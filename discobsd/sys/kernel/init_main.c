@@ -106,8 +106,10 @@ main()
     int s __attribute__((unused));
 
     startup();
+#if __mips__ /* XXX Don't compile for Arm, yet.*/
     printf ("\n%s", version);
     kconfig();
+#endif /* XXX __mips__ */
 
     /*
      * Set up system process 0 (swapper).
@@ -127,6 +129,7 @@ main()
         u.u_rlimit[i].rlim_cur = u.u_rlimit[i].rlim_max =
             RLIM_INFINITY;
 
+#if __mips__ /* XXX Don't compile for Arm, yet.*/
     /* Initialize signal state for process 0 */
     siginit (p);
 
@@ -198,6 +201,7 @@ main()
 
     /* Child process with pid 1: init. */
     s = splhigh();
+#endif /* XXX __mips__ */
     p = u.u_procp;
     p->p_dsize = icodeend - icode;
     p->p_daddr = USER_DATA_START;

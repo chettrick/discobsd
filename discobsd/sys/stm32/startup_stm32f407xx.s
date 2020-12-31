@@ -113,6 +113,7 @@ LoopFillZerobss:
 // XXX  bl __libc_init_array
 /* Call the application's entry point.*/
   bl  main
+  bl  icode /* XXX force code at icode to run. */
   bx  lr    
 .size  Reset_Handler, .-Reset_Handler
 

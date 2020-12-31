@@ -93,6 +93,7 @@ extern void _keram_start(), _keram_end();
 #define KERNEL_DATA_START       0x80000000
 #define KERNEL_DATA_END         (KERNEL_DATA_START + KERNEL_DATA_SIZE)
 
+#if 0 /* XXX */
 #ifdef KERNEL_EXECUTABLE_RAM
 #define USER_DATA_START         (0x7f000000 + KERNEL_DATA_SIZE+KERAM_SIZE)
 #else
@@ -100,6 +101,9 @@ extern void _keram_start(), _keram_end();
 #endif
 
 #define USER_DATA_END           (0x7f000000 + DATA_SIZE)
+#endif /* XXX */
+#define USER_DATA_START         (0x20010000)
+#define USER_DATA_END           (0x2001B000)
 
 #define stacktop(siz)           (USER_DATA_END)
 #define stackbas(siz)           (USER_DATA_END-(siz))

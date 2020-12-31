@@ -2,7 +2,7 @@
 
    Nick Clifton, Cygnus Solutions, 13 June 1997.  */
 
-#define UBASE   0x7f008000      /* XXX User space base address */
+#define UBASE   0x20010000      /* XXX User space base address */
 
 /* ANSI concatenation macros.  */
 #define CONCAT(a, b)  CONCAT2(a, b)
@@ -229,6 +229,18 @@ SYM (\name):
 	.globl	icode
 	.type	icode, %function
 icode:
+        /* Atomic manipulation of GPIOs. */
+        /* Use GPIOD_BSRR register to atomically set and clear GPIO pins. */
+        ldr     r0, =0x40020c18 /* GPIOD_BSRR Bit set/reset register. S8.4.7 */
+        ldr     r1, =0x0000f000 /* BS12 to BS15, so set (1) bits 12 to 15. */
+        ldr     r2, =0xf0000000 /* BR12 to BR15, so set (1) bits 28 to 31. */
+
+blink:
+        str     r1, [r0]        /* Atomically set GPIO outputs high to turn on LEDs. */
+        str     r2, [r0]        /* Atomically clear GPIO outputs low to turn off LEDs. */
+
+        b       blink
+
 #if 0 /* XXX */
 	la	$a0, UBASE
 	move	$a1, $a0

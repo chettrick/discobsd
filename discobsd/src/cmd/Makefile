@@ -6,8 +6,9 @@
 TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -Werror
+# XXX CFLAGS          += -Werror
 
+# XXX removed smlrc temporarily
 # Programs that live in subdirectories, and have makefiles of their own.
 # /bin
 SUBDIR		= adb adc-demo aout ar as awk basic calendar cc chflags \
@@ -15,7 +16,7 @@ SUBDIR		= adb adc-demo aout ar as awk basic calendar cc chflags \
                   fstat glcdtest hostname id la lcc lcpp ld ls login make \
                   man md5 med more nm passwd pdc picoc portio printf pwm \
                   ranlib re renice retroforth scm sed setty sh sl smallc \
-                  smlrc smux stty sysctl test uname wiznet xargs \
+                  smux stty sysctl test uname wiznet xargs \
                   zmodem gtest msec cron compress date2 tip \
                   talloc uucp yacc
 

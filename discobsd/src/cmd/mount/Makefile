@@ -4,7 +4,7 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror
+# XXX CFLAGS		+= -Werror
 
 SRCS            = mount.c getmntopts.c mount_ufs.c
 OBJS            = mount.o getmntopts.o mount_ufs.o

@@ -1,7 +1,7 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror
+# XXX CFLAGS		+= -Werror
 
 SRCS		= sed0.c sed1.c
 OBJS		= sed0.o sed1.o

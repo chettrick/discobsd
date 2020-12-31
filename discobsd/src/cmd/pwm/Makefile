@@ -4,7 +4,8 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Wall -Werror -I../../../sys/include
+# XXX CFLAGS		+= -Wall -Werror -I../../../sys/include
+CFLAGS		+= -Wall -I../../../sys/include
 
 SRCS            = pwm.c
 OBJS            = pwm.o

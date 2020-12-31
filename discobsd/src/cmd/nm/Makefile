@@ -2,7 +2,8 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Werror -Wall -I../ar
+# XXX CFLAGS		+= -Werror -Wall -I../ar
+CFLAGS		+= -Wall -I../ar
 
 SRCS		= nm.c
 OBJS		= nm.o

@@ -1,7 +1,8 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror -Wall
+# XXX CFLAGS		+= -Werror -Wall
+CFLAGS		+= -Wall
 
 SRCS		= portio.c
 OBJS		= portio.o

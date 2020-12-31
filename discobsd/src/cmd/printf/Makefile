@@ -4,7 +4,8 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror -DNOFPU
+# XXX CFLAGS		+= -Werror -DNOFPU
+CFLAGS		+= -DNOFPU
 
 SRCS		= printf.c
 OBJS		= printf.o

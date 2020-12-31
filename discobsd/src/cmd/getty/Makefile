@@ -6,7 +6,7 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror
+# XXX CFLAGS		+= -Werror
 
 OBJS		= main.o init.o subr.o gettytab.o get_date.o
 

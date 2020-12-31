@@ -7,7 +7,8 @@ OBJS            = pdc.o
 
 LDFLAGS         += -g
 
-CFLAGS		+= -Werror -Wall -Os
+# XXX CFLAGS		+= -Werror -Wall -Os
+CFLAGS		+= -Wall -Os
 CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC -DHAVE_READLINE
 LIBS            = -lreadline -lc
 

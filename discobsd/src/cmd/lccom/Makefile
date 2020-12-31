@@ -6,7 +6,8 @@ include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 #CFLAGS		= -O0 -g -DCROSS
 
-CFLAGS		+= -Wall -Werror -DNDEBUG
+# XXX CFLAGS		+= -Wall -Werror -DNDEBUG
+CFLAGS		+= -Wall -DNDEBUG
 LDFLAGS		+= -g
 
 OBJS            = $Balloc.o $Bbind.o $Bdag.o $Bdagcheck.o $Bdecl.o $Benode.o \

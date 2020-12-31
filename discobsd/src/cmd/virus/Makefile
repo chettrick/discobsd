@@ -1,7 +1,8 @@
 TOPSRC          = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -Wall -Werror -Os
+# XXX CFLAGS          += -Wall -Werror -Os
+CFLAGS          += -Wall -Os
 
 virus:          virus.c
 		$(CC) $(LDFLAGS) -o virus.elf virus.c $(LIBS) -ltermcap

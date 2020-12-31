@@ -7,7 +7,8 @@ OBJS            = cpp.o lex.o nlist.o tokens.o macro.o eval.o \
 
 LDFLAGS         += -g
 
-CFLAGS		+= -Werror -Wall -Os
+# XXX CFLAGS		+= -Werror -Wall -Os
+CFLAGS		+= -Wall -Os
 
 all:            lcpp
 

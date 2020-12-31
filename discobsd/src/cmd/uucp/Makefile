@@ -17,14 +17,19 @@ LIBOBJ  = logent.o ulockf.o uucpdefs.o subdir.o gename.o assert.o expfile.o \
           mailst.o systat.o cntrl.o imsg.o gio.o sysacct.o pk0.o pk1.o \
           conn.o condevs.o chksum.o setline.o gnsys.o
 
+ifeq ($(MACHINE_ARCH), mips)
 CC      = $(GCCPREFIX)gcc -mips16 -EL -msoft-float -nostdinc -fshort-double -I$(TOPSRC)/include $(INCLUDES)
+else
+CC      = $(GCCPREFIX)gcc -msoft-float -nostdinc -I$(TOPSRC)/include $(INCLUDES)
+endif
 
 
 
 OWNER=	uucp
 GROUP=	daemon
 
-CFLAGS += -Os -Werror
+# XXX CFLAGS += -Os -Werror
+CFLAGS += -Os
 
 SBINDIR=	${DESTDIR}/usr/sbin
 LIBEXECDIR=	${DESTDIR}/usr/libexec

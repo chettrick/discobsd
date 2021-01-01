@@ -112,7 +112,7 @@ endif
 # Generic ARM toolchain on Linux
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ifeq (/usr/bin/arm-none-eabi-gcc,$(wildcard /usr/bin/arm-none-eabi-gcc))
-    GCCPREFIX   = /usr/local/bin/arm-none-eabi-
+    GCCPREFIX   = /usr/bin/arm-none-eabi-
     LDFLAGS     =
     INCLUDES    =
 endif

@@ -49,7 +49,11 @@ ocd:
 	openocd -f "board/stm32f4discovery.cfg"
 
 gdb-ocd: ${PROG}.elf
-	arm-none-eabi-gdb -q -ex 'target remote :3333' ${PROG}.elf
+	arm-none-eabi-gdb -q \
+		-ex 'target remote :3333' \
+		-ex 'mon reset halt' \
+		-ex 'load' \
+		${PROG}.elf
 
 qemu: ${PROG}.elf
 	qemu-system-gnuarmeclipse ${QEMUOPTS} -image ${PROG}.elf

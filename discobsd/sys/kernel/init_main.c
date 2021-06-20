@@ -111,6 +111,8 @@ main()
     kconfig();
 #endif /* XXX __mips__ */
 
+    BufferTransfer(); // XXX
+
     /*
      * Set up system process 0 (swapper).
      */

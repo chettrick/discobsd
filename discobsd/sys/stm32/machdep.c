@@ -31,6 +31,8 @@
 #include "main.h"
 
 void     SystemClock_Config(void); // XXX
+void     Configure_USART(void); // XXX
+void     BufferTransfer(void); // XXX
 
 #ifdef POWER_ENABLED
 extern void power_init();
@@ -202,6 +204,8 @@ startup()
   LL_GPIO_SetPinMode(LED4_GPIO_PORT, LED4_PIN, LL_GPIO_MODE_OUTPUT);
 
   LL_GPIO_SetOutputPin(LED4_GPIO_PORT, LED4_PIN);
+
+  Configure_USART(); // XXX
 
 #if 0 /* XXX */
   /* Infinite loop */
@@ -479,6 +483,56 @@ void SystemClock_Config(void)
   SystemCoreClock = 168000000;
 }
 
+void
+Configure_USART(void)
+{
+  USARTx_GPIO_CLK_ENABLE();
+
+  /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
+  LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
+  USARTx_SET_TX_GPIO_AF();
+  LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+  LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+  LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
+
+  /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
+  LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
+  USARTx_SET_RX_GPIO_AF();
+  LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+  LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+  LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
+
+  USARTx_CLK_ENABLE();
+
+  LL_USART_SetTransferDirection(USARTx_INSTANCE, LL_USART_DIRECTION_TX_RX);
+
+  /* 8 data bit, 1 start bit, 1 stop bit, no parity */
+  LL_USART_ConfigCharacter(USARTx_INSTANCE, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
+
+  LL_USART_SetBaudRate(USARTx_INSTANCE, SystemCoreClock/APB_Div, LL_USART_OVERSAMPLING_16, 115200);
+
+  LL_USART_Enable(USARTx_INSTANCE);
+}
+
+uint8_t ubSend = 0;
+const uint8_t aStringToSend[] = "STM32F4xx USART LL API Example : TX in Polling mode\r\nConfiguration UART 115200 bps, 8 data bit/1 stop bit/No parity/No HW flow control\r\n";
+
+void
+BufferTransfer(void)
+{
+  while (ubSend < sizeof(aStringToSend)) {
+    while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE)) { }
+
+    if (ubSend == (sizeof(aStringToSend) - 1)) {
+      LL_USART_ClearFlag_TC(USARTx_INSTANCE);
+    }
+
+    LL_USART_TransmitData8(USARTx_INSTANCE, aStringToSend[ubSend++]);
+  }
+
+  /* Wait for TC flag to be raised for last char */
+  while (!LL_USART_IsActiveFlag_TC(USARTx_INSTANCE)) { }
+}
 
 static void cpuidentify()
 {

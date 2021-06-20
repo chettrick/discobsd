@@ -52,8 +52,9 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
-	exception.o machdep.o mem.o signal.o swap.o sysctl.o sd.o spi.o \
-	spi_bus.o uart.o 
+	exception.o machdep.o mem.o signal.o swap.o sysctl.o \
+	system_stm32f4xx.o stm32f4xx_it.o stm32f4xx_ll_utils.o sd.o \
+	spi.o spi_bus.o uart.o stm32f4xx_ll_usart.o 
 
 CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/kernel/exec_script.c $S/kernel/exec_subr.c \
@@ -78,15 +79,17 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/kernel/vm_swp.c $S/stm32/clock.c $S/stm32/cons.c \
 	$S/stm32/devsw.c $S/stm32/exception.c $S/stm32/machdep.c \
 	$S/stm32/mem.c $S/stm32/signal.c $S/stm32/swap.c \
-	$S/stm32/sysctl.c $S/stm32/sd.c $S/stm32/spi.c \
-	$S/stm32/spi_bus.c $S/stm32/uart.c swapunix.c 
+	$S/stm32/sysctl.c $S/stm32/system_stm32f4xx.c \
+	$S/stm32/stm32f4xx_it.c $S/stm32/stm32f4xx_ll_utils.c \
+	$S/stm32/sd.c $S/stm32/spi.c $S/stm32/spi_bus.c $S/stm32/uart.c \
+	$S/stm32/stm32f4xx_ll_usart.c swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o stm32f4xx_it.o system_stm32f4xx.o stm32f4xx_ll_utils.o ${OBJS} ioconf.o
+SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o ${OBJS} ioconf.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
     SYSTEM_OBJ  += devcfg.o
 endif
@@ -139,15 +142,6 @@ setjmp.o: ../setjmp.S
 
 startup_stm32f407xx.o: ../startup_stm32f407xx.s
 	${COMPILE_S}
-
-stm32f4xx_it.o: ../stm32f4xx_it.c
-	${COMPILE_C}
-
-system_stm32f4xx.o: ../system_stm32f4xx.c
-	${COMPILE_C}
-
-stm32f4xx_ll_utils.o: ../stm32f4xx_ll_utils.c
-	${COMPILE_C}
 
 ioconf.o: ioconf.c
 	${COMPILE_C}
@@ -323,6 +317,15 @@ swap.o: $S/stm32/swap.c
 sysctl.o: $S/stm32/sysctl.c
 	${COMPILE_C}
 
+system_stm32f4xx.o: $S/stm32/system_stm32f4xx.c
+	${COMPILE_C}
+
+stm32f4xx_it.o: $S/stm32/stm32f4xx_it.c
+	${COMPILE_C}
+
+stm32f4xx_ll_utils.o: $S/stm32/stm32f4xx_ll_utils.c
+	${COMPILE_C}
+
 sd.o: $S/stm32/sd.c
 	${COMPILE_C}
 
@@ -333,6 +336,9 @@ spi_bus.o: $S/stm32/spi_bus.c
 	${COMPILE_C}
 
 uart.o: $S/stm32/uart.c
+	${COMPILE_C}
+
+stm32f4xx_ll_usart.o: $S/stm32/stm32f4xx_ll_usart.c
 	${COMPILE_C}
 
 

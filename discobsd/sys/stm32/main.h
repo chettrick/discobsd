@@ -60,7 +60,7 @@
 //#include "stm32f4xx_ll_rtc.h"
 //#include "stm32f4xx_ll_spi.h"
 //#include "stm32f4xx_ll_tim.h"
-//#include "stm32f4xx_ll_usart.h"
+#include "stm32f4xx_ll_usart.h"
 //#include "stm32f4xx_ll_wwdg.h"
 //#include "stm32f4xx_ll_rng.h"
 //#include "stm32f4xx_ll_lptim.h"
@@ -73,29 +73,46 @@
 /* Exported constants --------------------------------------------------------*/
 
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE BEGIN    ============== */
+
+/* USART2 instance is used. (TX on PA.02, RX on PA.03)
+   (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled
+    on HW board in order to support Virtual Com Port) */
+#define USARTx_INSTANCE               USART2
+#define USARTx_CLK_ENABLE()           LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2)
+
+#define USARTx_GPIO_CLK_ENABLE()      LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)   /* Enable the peripheral clock of GPIOA */
+#define USARTx_TX_PIN                 LL_GPIO_PIN_2
+#define USARTx_TX_GPIO_PORT           GPIOA
+#define USARTx_SET_TX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_7)
+#define USARTx_RX_PIN                 LL_GPIO_PIN_3
+#define USARTx_RX_GPIO_PORT           GPIOA
+#define USARTx_SET_RX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_3, LL_GPIO_AF_7)
+// XXX #define APB_Div 2
+#define APB_Div 4
+
 /**
-  * @brief LED3 
+  * @brief LED3
   */
 #define LED3_PIN                           LL_GPIO_PIN_13
 #define LED3_GPIO_PORT                     GPIOD
 #define LED3_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
 
 /**
-  * @brief LED4 
+  * @brief LED4
   */
 #define LED4_PIN                           LL_GPIO_PIN_12
 #define LED4_GPIO_PORT                     GPIOD
 #define LED4_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
 
 /**
-  * @brief LED5 
+  * @brief LED5
   */
 #define LED5_PIN                           LL_GPIO_PIN_14
 #define LED5_GPIO_PORT                     GPIOD
 #define LED5_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
 
 /**
-  * @brief LED6 
+  * @brief LED6
   */
 #define LED6_PIN                           LL_GPIO_PIN_15
 #define LED6_GPIO_PORT                     GPIOD
@@ -106,11 +123,11 @@
   */
 #define USER_BUTTON_PIN                         LL_GPIO_PIN_0
 #define USER_BUTTON_GPIO_PORT                   GPIOA
-#define USER_BUTTON_GPIO_CLK_ENABLE()           LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)   
+#define USER_BUTTON_GPIO_CLK_ENABLE()           LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define USER_BUTTON_EXTI_LINE                   LL_EXTI_LINE_0
 #define USER_BUTTON_EXTI_IRQn                   EXTI0_IRQn
-#define USER_BUTTON_EXTI_LINE_ENABLE()          LL_EXTI_EnableIT_0_31(USER_BUTTON_EXTI_LINE)   
-#define USER_BUTTON_EXTI_FALLING_TRIG_ENABLE()  LL_EXTI_EnableFallingTrig_0_31(USER_BUTTON_EXTI_LINE)   
+#define USER_BUTTON_EXTI_LINE_ENABLE()          LL_EXTI_EnableIT_0_31(USER_BUTTON_EXTI_LINE)
+#define USER_BUTTON_EXTI_FALLING_TRIG_ENABLE()  LL_EXTI_EnableFallingTrig_0_31(USER_BUTTON_EXTI_LINE)
 #define USER_BUTTON_SYSCFG_SET_EXTI()           do {                                                                     \
                                                   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);                  \
                                                   LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTA, LL_SYSCFG_EXTI_LINE0);  \
@@ -124,7 +141,7 @@
 #define LED_BLINK_FAST  200
 #define LED_BLINK_SLOW  500
 #define LED_BLINK_ERROR 1000
-  
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 

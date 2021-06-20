@@ -37,7 +37,7 @@ COMPILE_S       = ${CC} -c ${DEFS} $<
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o stm32f4xx_it.o system_stm32f4xx.o stm32f4xx_ll_utils.o ${OBJS} ioconf.o
+SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o ${OBJS} ioconf.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
     SYSTEM_OBJ  += devcfg.o
 endif
@@ -80,15 +80,6 @@ setjmp.o: ../setjmp.S
 
 startup_stm32f407xx.o: ../startup_stm32f407xx.s
 	${COMPILE_S}
-
-stm32f4xx_it.o: ../stm32f4xx_it.c
-	${COMPILE_C}
-
-system_stm32f4xx.o: ../system_stm32f4xx.c
-	${COMPILE_C}
-
-stm32f4xx_ll_utils.o: ../stm32f4xx_ll_utils.c
-	${COMPILE_C}
 
 ioconf.o: ioconf.c
 	${COMPILE_C}

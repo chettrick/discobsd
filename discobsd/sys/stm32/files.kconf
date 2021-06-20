@@ -64,6 +64,9 @@ stm32/mem.c                     standard
 stm32/signal.c                  standard
 stm32/swap.c                    standard
 stm32/sysctl.c                  standard
+stm32/system_stm32f4xx.c        standard
+stm32/stm32f4xx_it.c            standard
+stm32/stm32f4xx_ll_utils.c      standard
 
 #
 # STM32 drivers.
@@ -72,3 +75,4 @@ stm32/sd.c                      optional sd
 stm32/spi.c                     optional spi
 stm32/spi_bus.c                 optional spi
 stm32/uart.c                    optional uart
+stm32/stm32f4xx_ll_usart.c      optional uart

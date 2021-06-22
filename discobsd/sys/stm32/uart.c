@@ -13,6 +13,9 @@
 #include <sys/systm.h>
 #include <sys/kconfig.h>
 #include <machine/uart.h>
+#include <machine/stm32f4xx_ll_bus.h>
+#include <machine/stm32f4xx_ll_gpio.h>
+#include <machine/stm32f4xx_ll_usart.h>
 
 #define CONCAT(x,y) x ## y
 #define BBAUD(x) CONCAT(B,x)
@@ -83,7 +86,25 @@ static unsigned speed_bps [NSPEEDS] = {
     2000000, 2500000, 3000000, 3500000, 4000000
 };
 
-void cnstart (struct tty *tp);
+
+/* XXX USART2 instance is used. (TX on PA.02, RX on PA.03)
+   (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled
+    on HW board in order to support Virtual Com Port) */
+#define USARTx_INSTANCE               USART2
+#define USARTx_CLK_ENABLE()           LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2)
+
+#define USARTx_GPIO_CLK_ENABLE()      LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)   /* Enable the peripheral clock of GPIOA */
+#define USARTx_TX_PIN                 LL_GPIO_PIN_2
+#define USARTx_TX_GPIO_PORT           GPIOA
+#define USARTx_SET_TX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_7)
+#define USARTx_RX_PIN                 LL_GPIO_PIN_3
+#define USARTx_RX_GPIO_PORT           GPIOA
+#define USARTx_SET_RX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_3, LL_GPIO_AF_7)
+// XXX #define APB_Div 2
+#define APB_Div 4
+
+
+void cnstart(struct tty *tp);
 
 /*
  * Setup UART registers.
@@ -91,6 +112,36 @@ void cnstart (struct tty *tp);
  */
 void uartinit(int unit)
 {
+    /* XXX Configure_USART */
+    USARTx_GPIO_CLK_ENABLE();
+
+    /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
+    USARTx_SET_TX_GPIO_AF();
+    LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
+
+    /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
+    USARTx_SET_RX_GPIO_AF();
+    LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
+
+    USARTx_CLK_ENABLE();
+
+    LL_USART_SetTransferDirection(USARTx_INSTANCE, LL_USART_DIRECTION_TX_RX);
+
+    /* 8 data bit, 1 start bit, 1 stop bit, no parity */
+    LL_USART_ConfigCharacter(USARTx_INSTANCE, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
+
+    LL_USART_SetBaudRate(USARTx_INSTANCE, SystemCoreClock/APB_Div, LL_USART_OVERSAMPLING_16, 115200);
+
+    LL_USART_Enable(USARTx_INSTANCE);
+
+
+#if 0 /* XXX */
     register struct uartreg *reg;
 
     if (unit >= NUART)
@@ -156,6 +207,7 @@ void uartinit(int unit)
     reg->staset =
         PIC32_USTA_URXEN |          /* Receiver Enable */
         PIC32_USTA_UTXEN;           /* Transmit Enable */
+#endif /* XXX */
 }
 
 int uartopen(dev_t dev, int flag, int mode)
@@ -372,7 +424,8 @@ out:    /* Disable transmit_interrupt. */
     splx (s);
 }
 
-void uartputc(dev_t dev, char c)
+void
+uartputc(dev_t dev, char c)
 {
     int unit = minor(dev);
     struct tty *tp = &uartttys[unit];
@@ -386,7 +439,8 @@ again:
      * otherwise give up after a reasonable time.
      */
     timo = 30000;
-    while ((reg->sta & PIC32_USTA_TRMT) == 0)
+// XXX    while ((reg->sta & PIC32_USTA_TRMT) == 0)
+    while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE))
         if (--timo == 0)
             break;
 
@@ -395,13 +449,17 @@ again:
         goto again;
     }
     led_control (LED_TTY, 1);
-    reg->txreg = c;
+// XXX    reg->txreg = c;
+    LL_USART_ClearFlag_TC(USARTx_INSTANCE);
+    LL_USART_TransmitData8(USARTx_INSTANCE, c);
 
     timo = 30000;
-    while ((reg->sta & PIC32_USTA_TRMT) == 0)
+// XXX    while ((reg->sta & PIC32_USTA_TRMT) == 0)
+    while (!LL_USART_IsActiveFlag_TC(USARTx_INSTANCE))
         if (--timo == 0)
             break;
 
+#if 0 /* XXX */
     /* Clear TX interrupt. */
     if (uirq[unit].tx < 32) {
         IECCLR(0) = 1 << uirq[unit].tx;
@@ -410,6 +468,7 @@ again:
     } else {
         IECCLR(2) = 1 << (uirq[unit].tx - 64);
     }
+#endif /* XXX */
     led_control(LED_TTY, 0);
     splx(s);
 }

@@ -29,7 +29,7 @@ awk ' {
     date = $4;
     host = $5;
     cv = $6;
-    printf "const char version[] = \"2.11 BSD Unix for PIC32, revision G%s build %d:\\n", version, cv;
+    printf "const char version[] = \"2.11 BSD Unix for STM32, revision G%s build %d:\\n", version, cv;
     printf "     Compiled %s by %s@%s:\\n", date, user, host;
     printf "     %s\\n\";\n", dir;
 }'

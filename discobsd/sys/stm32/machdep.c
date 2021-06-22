@@ -27,12 +27,14 @@
 #   include <machine/usb_device.h>
 #   include <machine/usb_function_cdc.h>
 #endif
+#include <machine/stm32f4xx_ll_bus.h>
+#include <machine/stm32f4xx_ll_gpio.h>
+#include <machine/stm32f4xx_ll_rcc.h>
+#include <machine/stm32f4xx_ll_system.h>
 
-#include "main.h"
-
-void     SystemClock_Config(void); // XXX
-void     Configure_USART(void); // XXX
-void     BufferTransfer(void); // XXX
+#define LED4_PIN                           LL_GPIO_PIN_12
+#define LED4_GPIO_PORT                     GPIOD
+#define LED4_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
 
 #ifdef POWER_ENABLED
 extern void power_init();
@@ -168,6 +170,43 @@ dev_t   dumpdev = NODEV;
 dev_t   pipedev;
 daddr_t dumplo = (daddr_t) 1024;
 
+static void
+SystemClock_Config(void)
+{
+    /* Enable HSE oscillator */
+    LL_RCC_HSE_Enable();
+    while(LL_RCC_HSE_IsReady() != 1)
+    {
+    };
+
+    /* Set FLASH latency */
+    LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
+
+    /* Main PLL configuration and activation */
+    LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+    LL_RCC_PLL_Enable();
+    while(LL_RCC_PLL_IsReady() != 1)
+    {
+    };
+
+    /* Sysclk activation on the main PLL */
+    LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+    LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+    while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+    {
+    };
+
+    /* Set APB1 & APB2 prescaler */
+    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
+    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+
+    /* Set systick to 1ms */
+    SysTick_Config(168000000 / 1000);
+
+    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+    SystemCoreClock = 168000000;
+}
+
 /*
  * Check whether button 1 is pressed.
  */
@@ -194,33 +233,17 @@ button1_pressed()
 void
 startup()
 {
+    /* Configure the system clock to 168 MHz */
+    SystemClock_Config();
 
-  /* Configure the system clock to 168 MHz */
-  SystemClock_Config();
+    /* Add your application code here */
+    LED4_GPIO_CLK_ENABLE();
 
-  /* Add your application code here */
-  LED4_GPIO_CLK_ENABLE();
+    LL_GPIO_SetPinMode(LED4_GPIO_PORT, LED4_PIN, LL_GPIO_MODE_OUTPUT);
 
-  LL_GPIO_SetPinMode(LED4_GPIO_PORT, LED4_PIN, LL_GPIO_MODE_OUTPUT);
-
-  LL_GPIO_SetOutputPin(LED4_GPIO_PORT, LED4_PIN);
-
-  Configure_USART(); // XXX
-
-#if 0 /* XXX */
-  /* Infinite loop */
-  while (1)
-  {
-    LL_GPIO_TogglePin(LED4_GPIO_PORT, LED4_PIN);
-
-    LL_mDelay(250);
-  }
-#endif /* XXX */
-}
-
+    LL_GPIO_SetOutputPin(LED4_GPIO_PORT, LED4_PIN);
 
 #if 0 // XXX
-{
     extern void _etext(), _exception_base_();
     extern unsigned __data_start;
 
@@ -423,6 +446,7 @@ startup()
     SYSKEY = 0x556699aa;
 
     OSCCON = osccon;
+#endif // XXX
 
     /*
      * Early setup for console devices.
@@ -434,6 +458,7 @@ startup()
     usbinit();
 #endif
 
+#if 0 // XXX
     /* Get total RAM size. */
     physmem = BMXDRMSZ;
 
@@ -444,97 +469,11 @@ startup()
     if (button1_pressed()) {
         boothowto |= RB_SINGLE;
     }
-}
 #endif // XXX
-
-void SystemClock_Config(void)
-{
-  /* Enable HSE oscillator */
-  LL_RCC_HSE_Enable();
-  while(LL_RCC_HSE_IsReady() != 1)
-  {
-  };
-
-  /* Set FLASH latency */
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
-
-  /* Main PLL configuration and activation */
-  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
-  LL_RCC_PLL_Enable();
-  while(LL_RCC_PLL_IsReady() != 1)
-  {
-  };
-
-  /* Sysclk activation on the main PLL */
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
-  {
-  };
-
-  /* Set APB1 & APB2 prescaler */
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
-
-  /* Set systick to 1ms */
-  SysTick_Config(168000000 / 1000);
-
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  SystemCoreClock = 168000000;
 }
 
-void
-Configure_USART(void)
-{
-  USARTx_GPIO_CLK_ENABLE();
-
-  /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
-  LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
-  USARTx_SET_TX_GPIO_AF();
-  LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
-
-  /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
-  LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
-  USARTx_SET_RX_GPIO_AF();
-  LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
-
-  USARTx_CLK_ENABLE();
-
-  LL_USART_SetTransferDirection(USARTx_INSTANCE, LL_USART_DIRECTION_TX_RX);
-
-  /* 8 data bit, 1 start bit, 1 stop bit, no parity */
-  LL_USART_ConfigCharacter(USARTx_INSTANCE, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
-
-  LL_USART_SetBaudRate(USARTx_INSTANCE, SystemCoreClock/APB_Div, LL_USART_OVERSAMPLING_16, 115200);
-
-  LL_USART_Enable(USARTx_INSTANCE);
-}
-
-uint8_t ubSend = 0;
-const uint8_t aStringToSend[] = "STM32F4xx USART LL API Example : TX in Polling mode\r\nConfiguration UART 115200 bps, 8 data bit/1 stop bit/No parity/No HW flow control\r\n";
-
-void
-BufferTransfer(void)
-{
-  while (ubSend < sizeof(aStringToSend)) {
-    while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE)) { }
-
-    if (ubSend == (sizeof(aStringToSend) - 1)) {
-      LL_USART_ClearFlag_TC(USARTx_INSTANCE);
-    }
-
-    LL_USART_TransmitData8(USARTx_INSTANCE, aStringToSend[ubSend++]);
-  }
-
-  /* Wait for TC flag to be raised for last char */
-  while (!LL_USART_IsActiveFlag_TC(USARTx_INSTANCE)) { }
-}
-
-static void cpuidentify()
+static void
+cpuidentify()
 {
     unsigned devid = DEVICEID, osccon = OSCCON;
     static const char pllmult[]  = { 15, 16, 17, 18, 19, 20, 21, 24 };
@@ -629,7 +568,8 @@ is_controller_alive(driver, unit)
  * Configure all controllers and devices as specified
  * in the kernel configuration file.
  */
-void kconfig()
+void
+kconfig()
 {
     struct conf_ctlr *ctlr;
     struct conf_device *dev;

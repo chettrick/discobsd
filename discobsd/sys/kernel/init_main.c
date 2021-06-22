@@ -106,12 +106,10 @@ main()
     int s __attribute__((unused));
 
     startup();
-#if __mips__ /* XXX Don't compile for Arm, yet.*/
     printf ("\n%s", version);
+#if __mips__ /* XXX Don't compile for Arm, yet.*/
     kconfig();
 #endif /* XXX __mips__ */
-
-    BufferTransfer(); // XXX
 
     /*
      * Set up system process 0 (swapper).
@@ -174,6 +172,7 @@ main()
     if (nswap <= 0)
         panic ("zero swap size");   /* don't want to panic, but what ? */
     mfree (swapmap, nswap, swapstart);
+#endif /* XXX __mips__ */
 
     printf ("phys mem  = %u kbytes\n", physmem / 1024);
     printf ("user mem  = %u kbytes\n", MAXMEM / 1024);
@@ -182,6 +181,7 @@ main()
     printf ("root size = %u kbytes\n", fs->fs_fsize * DEV_BSIZE / 1024);
     printf ("swap size = %u kbytes\n", nswap * DEV_BSIZE / 1024);
 
+#if __mips__ /* XXX Don't compile for Arm, yet.*/
     /* Kick off timeout driven events by calling first time. */
     schedcpu (0);
 

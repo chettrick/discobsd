@@ -22,11 +22,6 @@
 #include <sys/kconfig.h>
 #include <sys/tty.h>
 #include <machine/uart.h>
-#ifdef UARTUSB_ENABLED
-#   include <machine/usb_uart.h>
-#   include <machine/usb_device.h>
-#   include <machine/usb_function_cdc.h>
-#endif
 #include <machine/stm32f4xx_ll_bus.h>
 #include <machine/stm32f4xx_ll_gpio.h>
 #include <machine/stm32f4xx_ll_rcc.h>
@@ -454,9 +449,6 @@ startup()
 #if CONS_MAJOR == UART_MAJOR
     uartinit(CONS_MINOR);
 #endif
-#if CONS_MAJOR == UARTUSB_MAJOR
-    usbinit();
-#endif
 
 #if 0 // XXX
     /* Get total RAM size. */
@@ -658,20 +650,6 @@ boot(dev, howto)
             (*dump)(dumpdev);
         }
         /* Restart from dev, howto */
-#ifdef UARTUSB_ENABLED
-        /* Disable USB module, and wait awhile for the USB cable
-         * capacitance to discharge down to disconnected (SE0) state.
-         */
-        U1CON = 0x0000;
-        udelay(1000);
-
-        /* Stop DMA */
-        if (! (DMACON & 0x1000)) {
-            DMACONSET = 0x1000;
-            while (DMACON & 0x800)
-                continue;
-        }
-#endif
         /* Unlock access to reset register */
         SYSKEY = 0;
         SYSKEY = 0xaa996655;
@@ -711,17 +689,11 @@ boot(dev, howto)
 #endif
 
     for (;;) {
-#ifdef UARTUSB_ENABLED
-        usb_device_tasks();
-        cdc_consume(0);
-        cdc_tx_service();
-#else
 #ifdef POWER_ENABLED
         if (howto & RB_POWEROFF)
             power_off();
 #endif
 // XXX        asm volatile ("wait");
-#endif
     }
     /*NOTREACHED*/
 }

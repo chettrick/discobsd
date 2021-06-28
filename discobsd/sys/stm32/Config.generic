@@ -57,13 +57,6 @@ device          uart4
 options         "UART_BAUD=115200"          # default speed
 signal          "UART4_ENA"     pin RB13    # power enable signal
 
-# USB UART ports
-device          uartusb                     # USB device mode, CDC function
-options         "UARTUSB_BAUD=115200"       # default speed
-options         "USB_AUTOBOOT=YES"          # don't wait for <Enter> on boot
-options         "USB_MAX_EP_NUMBER=3"       # parameters of USB device...
-options         "USB_NUM_STRING_DESCRIPTORS=3" # ...specific for CDC function
-
 # Console options
 options         "CONS_MAJOR=UART_MAJOR"     # use UART device as console
 options         "CONS_MINOR=0"              # uart1 is /dev/tty0

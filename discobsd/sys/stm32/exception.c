@@ -11,9 +11,6 @@
 #include <sys/vm.h>
 #include <sys/tty.h>
 #include <machine/uart.h>
-#ifdef UARTUSB_ENABLED
-#   include <machine/usb_uart.h>
-#endif
 
 //#define TRACE_EXCEPTIONS
 
@@ -344,11 +341,6 @@ exception(frame)
 #ifdef POWER_ENABLED
             power_switch_check();
 #endif
-
-#ifdef UARTUSB_ENABLED
-            /* Poll USB on every timer tick. */
-            usbintr(0);
-#endif
             break;
 #ifdef UART1_ENABLED
         case PIC32_VECT_U1:     /* UART1 */
@@ -378,12 +370,6 @@ exception(frame)
 #ifdef UART6_ENABLED
         case PIC32_VECT_U6:     /* UART6 */
             uartintr(makedev(UART_MAJOR, 5));
-            break;
-#endif
-#ifdef UARTUSB_ENABLED
-        case PIC32_VECT_USB:    /* USB */
-            IFSCLR(1) = 1 << (PIC32_IRQ_USB - 32);
-            usbintr(0);
             break;
 #endif
 

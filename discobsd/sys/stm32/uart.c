@@ -1,5 +1,5 @@
 /*
- * UART driver for PIC32.
+ * UART driver for STM32.
  *
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement

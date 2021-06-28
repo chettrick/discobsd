@@ -39,9 +39,6 @@ extern int strcmp(char *s1, char *s2);
 #ifdef SR_ENABLED
 #   include <machine/spirams.h>
 #endif
-#ifdef UARTUSB_ENABLED
-#   include <machine/usb_uart.h>
-#endif
 #ifdef ADC_ENABLED
 #   include <machine/adc.h>
 #endif
@@ -229,16 +226,7 @@ const struct cdevsw cdevsw[] = {
 #endif
 },
 {   /* 7 - tty usb */
-#if UARTUSB_MAJOR != 7
-#   error Wrong UARTUSB_MAJOR value!
-#endif
-#ifdef UARTUSB_ENABLED
-    usbopen,        usbclose,       usbread,        usbwrite,
-    usbioctl,       nulldev,        usbttys,        usbselect,
-    nostrategy,     usbgetc,        usbputc,
-#else
     NOCDEV
-#endif
 },
 {   /* 8, 9 - pty */
 #ifdef PTY_ENABLED

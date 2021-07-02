@@ -107,9 +107,7 @@ main()
 
     startup();
     printf ("\n%s", version);
-#if __mips__ /* XXX Don't compile for Arm, yet.*/
     kconfig();
-#endif /* XXX __mips__ */
 
     /*
      * Set up system process 0 (swapper).

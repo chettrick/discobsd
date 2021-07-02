@@ -52,8 +52,8 @@ int spi_setup(struct spiio *io, int channel, int cs)
 
     if (tris) {
         // Configure the CS pin
-        LAT_SET(*tris) = 1<<pin;
-        TRIS_CLR(*tris) = 1<<pin;
+// XXX        LAT_SET(*tris) = 1<<pin; // XXX Crashing here on this line.
+// XXX        TRIS_CLR(*tris) = 1<<pin; // XXX Crashing here on this line.
     }
     return 0;
 }

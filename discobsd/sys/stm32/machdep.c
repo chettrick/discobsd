@@ -566,7 +566,7 @@ kconfig()
     struct conf_ctlr *ctlr;
     struct conf_device *dev;
 
-    cpuidentify();
+// XXX    cpuidentify();
 
     /* Probe and initialize controllers first. */
     for (ctlr = conf_ctlr_init; ctlr->ctlr_driver; ctlr++) {
@@ -770,18 +770,19 @@ void addupc(caddr_t pc, struct uprof *pbuf, int ticks)
 }
 
 /*
- * Find the index of the least significant set bit in the 32-bit word.
- * If LSB bit is set - return 1.
- * If only MSB bit is set - return 32.
- * Return 0 when no bit is set.
+ * ffs -- vax ffs instruction
  */
 int
-ffs(i)
-    u_long i;
+ffs(mask)
+    register u_long mask;
 {
-    if (i != 0)
-        i = 32 - mips_clz(i & -i);
-    return i;
+    register int cnt;
+
+    if (mask == 0)
+        return (0);
+    for (cnt = 1; !(mask&1); cnt++)
+        mask >>= 1;
+    return (cnt);
 }
 
 /*
@@ -1120,5 +1121,5 @@ char gpio_portname(int pin)
 
 int gpio_pinno(int pin)
 {
-    return pin & 15;
+    return (ffs(pin) - 1);
 }

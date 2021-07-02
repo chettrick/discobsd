@@ -955,6 +955,7 @@ sd_probe(config)
     printf("sd%u: port SPI%d, pin cs=R%c%d\n", unit,
         config->dev_ctlr, gpio_portname(cs), gpio_pinno(cs));
 
+// XXX Crashing here with spi_setup().
     if (spi_setup(io, config->dev_ctlr, cs) != 0) {
         printf("sd%u: cannot open SPI%u port\n", unit, config->dev_ctlr);
         return 0;

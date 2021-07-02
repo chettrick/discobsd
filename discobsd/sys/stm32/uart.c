@@ -25,56 +25,38 @@
 #endif
 
 /*
- * PIC32 UART registers.
+ * STM32 USART/UART port.
  */
-struct uartreg {
-    volatile unsigned mode;     /* Mode */
-    volatile unsigned modeclr;
-    volatile unsigned modeset;
-    volatile unsigned modeinv;
-    volatile unsigned sta;      /* Status and control */
-    volatile unsigned staclr;
-    volatile unsigned staset;
-    volatile unsigned stainv;
-    volatile unsigned txreg;    /* Transmit */
-    volatile unsigned unused1;
-    volatile unsigned unused2;
-    volatile unsigned unused3;
-    volatile unsigned rxreg;    /* Receive */
-    volatile unsigned unused4;
-    volatile unsigned unused5;
-    volatile unsigned unused6;
-    volatile unsigned brg;      /* Baud rate */
-    volatile unsigned brgclr;
-    volatile unsigned brgset;
-    volatile unsigned brginv;
-};
-
-static struct uartreg *const uart[NUART] = {
-    (struct uartreg*) &U1MODE,
-    (struct uartreg*) &U2MODE,
-    (struct uartreg*) &U3MODE,
-    (struct uartreg*) &U4MODE,
-    (struct uartreg*) &U5MODE,
-    (struct uartreg*) &U6MODE
+struct uart_port {
+    GPIO_TypeDef        *port;
+    char                 port_name;
+    u_long                pin;
 };
 
 /*
- * UART interrupt numbers.
+ * STM32 USART/UART instance.
  */
-struct uart_irq {
-    int     er;
-    int     rx;
-    int     tx;
+struct uart_inst {
+    USART_TypeDef       *inst;
+    struct               uart_port tx;
+    struct               uart_port rx;
+    u_int                apb_div;
+    u_int                af;
 };
 
-static const struct uart_irq uirq[NUART] = {
-    { PIC32_IRQ_U1E, PIC32_IRQ_U1RX, PIC32_IRQ_U1TX },
-    { PIC32_IRQ_U2E, PIC32_IRQ_U2RX, PIC32_IRQ_U2TX },
-    { PIC32_IRQ_U3E, PIC32_IRQ_U3RX, PIC32_IRQ_U3TX },
-    { PIC32_IRQ_U4E, PIC32_IRQ_U4RX, PIC32_IRQ_U4TX },
-    { PIC32_IRQ_U5E, PIC32_IRQ_U5RX, PIC32_IRQ_U5TX },
-    { PIC32_IRQ_U6E, PIC32_IRQ_U6RX, PIC32_IRQ_U6TX },
+/*
+ * STM32 USART/UART.
+ */
+static const struct uart_inst uart[NUART] = {
+#define PIN2             LL_GPIO_PIN_2
+#define PIN3             LL_GPIO_PIN_3
+#define AF7              LL_GPIO_AF_7
+    { USART1, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
+    { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 },
+    { USART3, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
+    { UART4,  { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
+    { UART5,  { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
+    { USART6, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }  // XXX
 };
 
 struct tty uartttys[NUART];
@@ -86,128 +68,86 @@ static unsigned speed_bps [NSPEEDS] = {
     2000000, 2500000, 3000000, 3500000, 4000000
 };
 
-
-/* XXX USART2 instance is used. (TX on PA.02, RX on PA.03)
-   (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled
-    on HW board in order to support Virtual Com Port) */
-#define USARTx_INSTANCE               USART2
-#define USARTx_CLK_ENABLE()           LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2)
-
-#define USARTx_GPIO_CLK_ENABLE()      LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)   /* Enable the peripheral clock of GPIOA */
-#define USARTx_TX_PIN                 LL_GPIO_PIN_2
-#define USARTx_TX_GPIO_PORT           GPIOA
-#define USARTx_SET_TX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_7)
-#define USARTx_RX_PIN                 LL_GPIO_PIN_3
-#define USARTx_RX_GPIO_PORT           GPIOA
-#define USARTx_SET_RX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_3, LL_GPIO_AF_7)
-// XXX #define APB_Div 2
-#define APB_Div 4
-
-
 void cnstart(struct tty *tp);
 
+// USART1: APB2 84 MHz AF7: TX on PA.09<-USED, RX on PA.10<-free BAD
+//                     AF7: TX on PB.06<-USED, RX on PB.07<-free BAD
+// USART2: APB1 42 MHz AF7: TX on PA.02<-free, RX on PA.03<-free GOOD
+//                     AF7: TX on PD.05<-USED, RX on PD.06<-free BAD
+// USART3: APB1 42 MHZ AF7: TX on PB.10<-USED, RX on PB.11<-free BAD
+//                     AF7: TX on PD.08<-free, RX on PD.09<-free GOOD
+//                     AF7: TX on PC.10<-USED, RX on PC.11<-free BAD
+// UART4:  APB1 42 MHz AF8: TX on PA.00<-USED, RX on PA.01<-free BAD
+//                     AF8: TX on PC.10<-USED, RX on PC.11<-free BAD
+// UART5:  APB1 42 MHz AF8: TX on PC.12<-USED, RX on PD.02<-free BAD
+// USART6: APB2 84 MHz AF8: TX on PC.06<-free, RX on PC.07<-USED BAD
+
 /*
- * Setup UART registers.
- * Compute the divisor for 115.2 kbaud.
+ * Setup USART/UART.
  */
-void uartinit(int unit)
+void
+uartinit(int unit)
 {
-    /* XXX Configure_USART */
-    USARTx_GPIO_CLK_ENABLE();
+    register USART_TypeDef      *inst;
+    register GPIO_TypeDef       *tx_port;
+    register u_int               tx_pin;
+    register GPIO_TypeDef       *rx_port;
+    register u_int               rx_pin;
+    register u_int               apb_div;
+    register u_int               af;
 
-    /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
-    LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
-    USARTx_SET_TX_GPIO_AF();
-    LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-    LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-    LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
-
-    /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
-    LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
-    USARTx_SET_RX_GPIO_AF();
-    LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-    LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-    LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
-
-    USARTx_CLK_ENABLE();
-
-    LL_USART_SetTransferDirection(USARTx_INSTANCE, LL_USART_DIRECTION_TX_RX);
-
-    /* 8 data bit, 1 start bit, 1 stop bit, no parity */
-    LL_USART_ConfigCharacter(USARTx_INSTANCE, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
-
-    LL_USART_SetBaudRate(USARTx_INSTANCE, SystemCoreClock/APB_Div, LL_USART_OVERSAMPLING_16, 115200);
-
-    LL_USART_Enable(USARTx_INSTANCE);
-
-
-#if 0 /* XXX */
-    register struct uartreg *reg;
-
-    if (unit >= NUART)
+    if (unit < 0 || unit >= NUART)
         return;
 
-    switch(unit) {
+    inst    = uart[unit].inst;
+    tx_port = uart[unit].tx.port;
+    tx_pin  = uart[unit].tx.pin;
+    rx_port = uart[unit].rx.port;
+    rx_pin  = uart[unit].rx.pin;
+    apb_div = uart[unit].apb_div;
+    af      = uart[unit].af;
+
+    switch (unit) {
     case 0:
-#ifdef UART1_ENA_PORT
-        /* Enable UART1 phy - pin is assumed to be active low */
-        TRIS_CLR(UART1_ENA_PORT) = 1 << UART1_ENA_PIN;
-        LAT_CLR(UART1_ENA_PORT) = 1 << UART1_ENA_PIN;
-        udelay(2500);
-#endif
         break;
-    case 1:
-#ifdef UART2_ENA_PORT
-        /* Enable UART2 phy - pin is assumed to be active low */
-        TRIS_CLR(UART2_ENA_PORT) = 1 << UART2_ENA_PIN;
-        LAT_CLR(UART2_ENA_PORT) = 1 << UART2_ENA_PIN;
-        udelay(2500);
-#endif
+    case 1:     /* USART2: APB1 42 MHz AF7: TX on PA.02, RX on PA.03 */
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+
         break;
     case 2:
-#ifdef UART3_ENA_PORT
-        /* Enable UART3 phy - pin is assumed to be active low */
-        TRIS_CLR(UART3_ENA_PORT) = 1 << UART3_ENA_PIN;
-        LAT_CLR(UART3_ENA_PORT) = 1 << UART3_ENA_PIN;
-        udelay(2500);
-#endif
         break;
     case 3:
-#ifdef UART4_ENA_PORT
-        /* Enable UART4 phy - pin is assumed to be active low */
-        TRIS_CLR(UART4_ENA_PORT) = 1 << UART4_ENA_PIN;
-        LAT_CLR(UART4_ENA_PORT) = 1 << UART4_ENA_PIN;
-        udelay(2500);
-#endif
         break;
     case 4:
-#ifdef UART5_ENA_PORT
-        /* Enable UART5 phy - pin is assumed to be active low */
-        TRIS_CLR(UART5_ENA_PORT) = 1 << UART5_ENA_PIN;
-        LAT_CLR(UART5_ENA_PORT) = 1 << UART5_ENA_PIN;
-        udelay(2500);
-#endif
         break;
     case 5:
-#ifdef UART6_ENA_PORT
-        /* Enable UART6 phy - pin is assumed to be active low */
-        TRIS_CLR(UART6_ENA_PORT) = 1 << UART6_ENA_PIN;
-        LAT_CLR(UART6_ENA_PORT) = 1 << UART6_ENA_PIN;
-        udelay(2500);
-#endif
+        break;
+    default:
         break;
     }
 
-    reg = uart[unit];
-    reg->brg = PIC32_BRG_BAUD (BUS_KHZ * 1000, UART_BAUD);
-    reg->sta = 0;
-    reg->mode =
-        PIC32_UMODE_PDSEL_8NPAR |   /* 8-bit data, no parity */
-        PIC32_UMODE_ON;             /* UART Enable */
-    reg->staset =
-        PIC32_USTA_URXEN |          /* Receiver Enable */
-        PIC32_USTA_UTXEN;           /* Transmit Enable */
-#endif /* XXX */
+    /* Config Tx Pin as: Alt func, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode(tx_port, tx_pin, LL_GPIO_MODE_ALTERNATE);
+    LL_GPIO_SetAFPin_0_7(tx_port, tx_pin, af);
+    LL_GPIO_SetPinSpeed(tx_port, tx_pin, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinOutputType(tx_port, tx_pin, LL_GPIO_OUTPUT_PUSHPULL);
+    LL_GPIO_SetPinPull(tx_port, tx_pin, LL_GPIO_PULL_UP);
+
+    /* Config Rx Pin as: Alt func, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode(rx_port, rx_pin, LL_GPIO_MODE_ALTERNATE);
+    LL_GPIO_SetAFPin_0_7(rx_port, rx_pin, af);
+    LL_GPIO_SetPinSpeed(rx_port, rx_pin, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinOutputType(rx_port, rx_pin, LL_GPIO_OUTPUT_PUSHPULL);
+    LL_GPIO_SetPinPull(rx_port, rx_pin, LL_GPIO_PULL_UP);
+
+    /* Transmit/Receive, 8 data bit, 1 start bit, 1 stop bit, no parity. */
+    LL_USART_SetTransferDirection(inst, LL_USART_DIRECTION_TX_RX);
+    LL_USART_ConfigCharacter(inst,
+        LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
+    LL_USART_SetBaudRate(inst,
+        SystemCoreClock/apb_div, LL_USART_OVERSAMPLING_16, UART_BAUD);
+    LL_USART_Enable(inst);
 }
 
 int uartopen(dev_t dev, int flag, int mode)
@@ -216,7 +156,7 @@ int uartopen(dev_t dev, int flag, int mode)
     register struct tty *tp;
     register int unit = minor(dev);
 
-    if (unit >= NUART)
+    if (unit < 0 || unit >= NUART)
         return (ENXIO);
 
     tp = &uartttys[unit];
@@ -237,6 +177,7 @@ int uartopen(dev_t dev, int flag, int mode)
     if ((tp->t_state & TS_XCLUDE) && u.u_uid != 0)
         return (EBUSY);
 
+#if 0 // XXX
     reg->sta = 0;
     reg->brg = PIC32_BRG_BAUD (BUS_KHZ * 1000, speed_bps [tp->t_ospeed]);
     reg->mode = PIC32_UMODE_PDSEL_8NPAR |
@@ -251,6 +192,7 @@ int uartopen(dev_t dev, int flag, int mode)
     } else {
             IECSET(2) = 1 << (uirq[unit].rx-64);
     }
+#endif // XXX
     return ttyopen(dev, tp);
 }
 
@@ -348,6 +290,7 @@ uartintr (dev)
     if (! tp->t_addr)
         return;
 
+#if 0 // XXX
     /* Receive */
     while (reg->sta & PIC32_USTA_URXDA) {
         c = reg->rxreg;
@@ -384,6 +327,7 @@ uartintr (dev)
             ttstart(tp);
         }
     }
+#endif // XXX
 }
 
 void uartstart (register struct tty *tp)
@@ -406,6 +350,7 @@ out:    /* Disable transmit_interrupt. */
     if (tp->t_outq.c_cc == 0)
         goto out;
 
+#if 0 // XXX
     if (reg->sta & PIC32_USTA_TRMT) {
         c = getc(&tp->t_outq);
         reg->txreg = c & 0xff;
@@ -420,6 +365,7 @@ out:    /* Disable transmit_interrupt. */
     } else {
         IECSET(2) = 1 << (uirq[unit].tx - 64);
     }
+#endif // XXX
     led_control (LED_TTY, 1);
     splx (s);
 }
@@ -429,7 +375,7 @@ uartputc(dev_t dev, char c)
 {
     int unit = minor(dev);
     struct tty *tp = &uartttys[unit];
-    register struct uartreg *reg = uart[unit];
+    register USART_TypeDef *inst = uart[unit].inst;
     register int s, timo;
 
     s = spltty();
@@ -439,8 +385,7 @@ again:
      * otherwise give up after a reasonable time.
      */
     timo = 30000;
-// XXX    while ((reg->sta & PIC32_USTA_TRMT) == 0)
-    while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE))
+    while (!LL_USART_IsActiveFlag_TXE(inst))
         if (--timo == 0)
             break;
 
@@ -449,13 +394,11 @@ again:
         goto again;
     }
     led_control (LED_TTY, 1);
-// XXX    reg->txreg = c;
-    LL_USART_ClearFlag_TC(USARTx_INSTANCE);
-    LL_USART_TransmitData8(USARTx_INSTANCE, c);
+    LL_USART_ClearFlag_TC(inst);
+    LL_USART_TransmitData8(inst, c);
 
     timo = 30000;
-// XXX    while ((reg->sta & PIC32_USTA_TRMT) == 0)
-    while (!LL_USART_IsActiveFlag_TC(USARTx_INSTANCE))
+    while (!LL_USART_IsActiveFlag_TC(inst))
         if (--timo == 0)
             break;
 
@@ -476,10 +419,11 @@ again:
 char uartgetc(dev_t dev)
 {
     int unit = minor(dev);
-    register struct uartreg *reg = uart[unit];
+// XXX    register struct uartreg *reg = uart[unit];
     int s, c;
 
     s = spltty();
+#if 0 // XXX
     for (;;) {
         /* Wait for key pressed. */
         if (reg->sta & PIC32_USTA_URXDA) {
@@ -495,6 +439,7 @@ char uartgetc(dev_t dev)
     } else {
         IFSCLR(2) = (1 << (uirq[unit].rx-64)) | (1 << (uirq[unit].er-64));
     }
+#endif // XXX
     splx(s);
     return (unsigned char) c;
 }
@@ -510,58 +455,24 @@ uartprobe(config)
     int unit = config->dev_unit - 1;
     int is_console = (CONS_MAJOR == UART_MAJOR &&
                       CONS_MINOR == unit);
-    int rx, tx;
-    static const int rx_tab[NUART] = {
-        GPIO_PIN('D',2),    /* U1RX: 64pin - RD2, 100pin - RF2 */
-        GPIO_PIN('F',4),    /* U2RX */
-        GPIO_PIN('G',7),    /* U3RX */
-        GPIO_PIN('D',9),    /* U4RX: 64pin - RD9, 100pin - RD14 */
-        GPIO_PIN('B',8),    /* U5RX: 64pin - RB8, 100pin - RF12 */
-        GPIO_PIN('G',9),    /* U6RX */
-    };
-    static const int tx_tab[NUART] = {
-        GPIO_PIN('D',3),    /* U1TX: 64pin - RD3, 100pin - RF8 */
-        GPIO_PIN('F',5),    /* U2TX */
-        GPIO_PIN('G',8),    /* U3TX */
-        GPIO_PIN('D',1),    /* U4TX: 64pin - RD1, 100pin - RD15 */
-        GPIO_PIN('B',14),   /* U5TX: 64pin - RB14, 100pin - RF13 */
-        GPIO_PIN('G',6),    /* U6TX */
-    };
 
     if (unit < 0 || unit >= NUART)
         return 0;
-    rx = rx_tab[unit];
-    tx = tx_tab[unit];
-    if (cpu_pins > 64) {
-        /* Ports UART1, UART4 and UART5 have different pin assignments
-         * for 100-pin packages. */
-        switch (unit + 1) {
-        case 1:
-            rx = GPIO_PIN('F',2);
-            tx = GPIO_PIN('F',8);
-            break;
-        case 4:
-            rx = GPIO_PIN('D',14);
-            tx = GPIO_PIN('D',15);
-            break;
-        case 5:
-            rx = GPIO_PIN('F',12);
-            tx = GPIO_PIN('F',13);
-            break;
-        }
-    }
-    printf("uart%d: pins rx=R%c%d/tx=R%c%d, interrupts %u/%u/%u", unit+1,
-        gpio_portname(rx), gpio_pinno(rx),
-        gpio_portname(tx), gpio_pinno(tx),
-        uirq[unit].er, uirq[unit].rx, uirq[unit].tx);
+
+    printf("uart%d: pins tx=P%c%d/rx=P%c%d, af=%d", unit+1,
+        uart[unit].tx.port_name, gpio_pinno(uart[unit].tx.pin),
+        uart[unit].rx.port_name, gpio_pinno(uart[unit].rx.pin),
+        uart[unit].af);
+
     if (is_console)
         printf(", console");
     printf("\n");
 
     /* Initialize the device. */
-    uartttys[unit].t_addr = (caddr_t) uart[unit];
+    uartttys[unit].t_addr = (caddr_t) &uart[unit];
     if (! is_console)
         uartinit(unit);
+
     return 1;
 }
 

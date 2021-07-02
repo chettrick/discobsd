@@ -27,11 +27,17 @@ config          unix    root on sd0a
                         swap on sd0b
 
 # Serial UART ports
-device          uart1
+#device          uart1                       # USART1
+device          uart2                       # USART2 as console
+#device          uart3                       # USART3
+#device          uart4                       # UART4
+#device          uart5                       # UART5
+#device          uart6                       # USART6
+options         "UART_BAUD=115200"          # default speed
 
-# Use UART1 as console
+# Use USART2 as console
 options         "CONS_MAJOR=UART_MAJOR"     # UART device
-options         "CONS_MINOR=0"              # /dev/tty0
+options         "CONS_MINOR=1"              # uart2 is /dev/tty1
 
 # SPI ports
 controller      spi2                        # SD card

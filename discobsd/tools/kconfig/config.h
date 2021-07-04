@@ -131,6 +131,7 @@ struct config {
 int     arch;
 char    *archname;
 #define ARCH_PIC32      1
+#define ARCH_STM32      2
 
 /*
  * For each architecture, a set of CPU's may be specified as supported.

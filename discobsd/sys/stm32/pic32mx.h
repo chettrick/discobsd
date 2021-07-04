@@ -136,23 +136,6 @@
 #define U1BRGSET        PIC32_R (0x6048)
 #define U1BRGINV        PIC32_R (0x604C)
 
-#ifdef PIC32MX4
-#define U2MODE          PIC32_R (0x6200) /* Mode */
-#define U2MODECLR       PIC32_R (0x6204)
-#define U2MODESET       PIC32_R (0x6208)
-#define U2MODEINV       PIC32_R (0x620C)
-#define U2STA           PIC32_R (0x6210) /* Status and control */
-#define U2STACLR        PIC32_R (0x6214)
-#define U2STASET        PIC32_R (0x6218)
-#define U2STAINV        PIC32_R (0x621C)
-#define U2TXREG         PIC32_R (0x6220) /* Transmit */
-#define U2RXREG         PIC32_R (0x6230) /* Receive */
-#define U2BRG           PIC32_R (0x6240) /* Baud rate */
-#define U2BRGCLR        PIC32_R (0x6244)
-#define U2BRGSET        PIC32_R (0x6248)
-#define U2BRGINV        PIC32_R (0x624C)
-#endif
-#ifdef PIC32MX7
 #define U4MODE          PIC32_R (0x6200) /* Mode */
 #define U4MODECLR       PIC32_R (0x6204)
 #define U4MODESET       PIC32_R (0x6208)
@@ -227,7 +210,6 @@
 #define U5BRGCLR        PIC32_R (0x6A44)
 #define U5BRGSET        PIC32_R (0x6A48)
 #define U5BRGINV        PIC32_R (0x6A4C)
-#endif
 
 /*
  * UART Mode register.
@@ -755,22 +737,6 @@ struct gpioreg {
 /*--------------------------------------
  * SPI registers.
  */
-#ifdef PIC32MX4
-#define SPI1CON         PIC32_R (0x5800) /* Control */
-#define SPI1CONCLR      PIC32_R (0x5804)
-#define SPI1CONSET      PIC32_R (0x5808)
-#define SPI1CONINV      PIC32_R (0x580C)
-#define SPI1STAT        PIC32_R (0x5810) /* Status */
-#define SPI1STATCLR     PIC32_R (0x5814)
-#define SPI1STATSET     PIC32_R (0x5818)
-#define SPI1STATINV     PIC32_R (0x581C)
-#define SPI1BUF         PIC32_R (0x5820) /* Transmit and receive buffer */
-#define SPI1BRG         PIC32_R (0x5830) /* Baud rate generator */
-#define SPI1BRGCLR      PIC32_R (0x5834)
-#define SPI1BRGSET      PIC32_R (0x5838)
-#define SPI1BRGINV      PIC32_R (0x583C)
-#endif
-#ifdef PIC32MX7
 #define SPI3CON         PIC32_R (0x5800) /* Control */
 #define SPI3CONCLR      PIC32_R (0x5804)
 #define SPI3CONSET      PIC32_R (0x5808)
@@ -812,7 +778,6 @@ struct gpioreg {
 #define SPI1BRGCLR      PIC32_R (0x5E34)
 #define SPI1BRGSET      PIC32_R (0x5E38)
 #define SPI1BRGINV      PIC32_R (0x5E3C)
-#endif
 
 #define SPI2CON         PIC32_R (0x5A00) /* Control */
 #define SPI2CONCLR      PIC32_R (0x5A04)

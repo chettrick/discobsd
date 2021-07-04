@@ -63,7 +63,8 @@ static char *wnum(int num)
     return (errbuf);
 }
 
-#if ARCH_PIC32
+/* XXX Need an STM32 specific ioconf() function. */
+#if ARCH_PIC32 || ARCH_STM32
 void pic32_ioconf()
 {
     register struct device *dp, *mp;

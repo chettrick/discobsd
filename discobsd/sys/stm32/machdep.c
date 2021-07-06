@@ -141,9 +141,6 @@ struct map  swapmap[1] = {
 
 int waittime = -1;
 
-/* CPU package type: 64 pins or 100 pins. */
-int cpu_pins;
-
 static int
 nodump(dev)
     dev_t dev;
@@ -196,10 +193,10 @@ SystemClock_Config(void)
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 
     /* Set systick to 1ms */
-    SysTick_Config(168000000 / 1000);
+    SysTick_Config(CPU_KHZ);
 
-    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-    SystemCoreClock = 168000000;
+    /* Update CMSIS variable (or through SystemCoreClockUpdate()) */
+    SystemCoreClock = CPU_KHZ * 1000;
 }
 
 /*
@@ -467,66 +464,53 @@ startup()
 static void
 cpuidentify()
 {
-    unsigned devid = DEVICEID, osccon = OSCCON;
-    static const char pllmult[]  = { 15, 16, 17, 18, 19, 20, 21, 24 };
-    static const char plldiv[]   = { 1, 2, 3, 4, 5, 6, 10, 12 };
-    static const char *poscmod[] = { "external", "XT crystal",
-                                     "HS crystal", "(disabled)" };
+    unsigned devid  = LL_DBGMCU_GetDeviceID();
+    unsigned revid  = LL_DBGMCU_GetRevisionID();
 
     printf("cpu: ");
-    switch (devid & 0x0fffffff) {
-    case 0x04307053:
-        cpu_pins = 100;
-        printf("795F512L");
-        break;
-    case 0x0430E053:
-        cpu_pins = 64;
-        printf("795F512H");
-        break;
-    case 0x04341053:
-        cpu_pins = 100;
-        printf("695F512L");
-        break;
-    case 0x04325053:
-        cpu_pins = 64;
-        printf("695F512H");
+    switch (devid) {
+    case 0x0411:
+        printf("STM32F407xx");
         break;
     default:
-        /* Assume 100-pin package. */
-        cpu_pins = 100;
-        printf("DevID %08x", devid);
+        printf("device unknown 0x%03x", devid);
     }
-    printf(" %u MHz, bus %u MHz\n", CPU_KHZ/1000, BUS_KHZ/1000);
+    printf(" rev ");
+    switch (revid) {
+    case 0x2000:
+        printf("A");
+        break;
+    default:
+        printf("unknown 0x%04x", revid);
+        break;
+    }
+    printf(", %u MHz, bus %u MHz\n", CPU_KHZ/1000, BUS_KHZ/1000);
 
-    /* COSC: current oscillator selection bits */
     printf("oscillator: ");
-    switch (osccon >> 12 & 7) {
-    case 0:
-        printf("internal Fast RC\n");
+    switch (LL_RCC_GetSysClkSource()) {
+    case LL_RCC_SYS_CLKSOURCE_STATUS_HSI:
+        printf("high speed internal\n");
         break;
-    case 1:
-        printf("internal Fast RC, PLL div 1:%d mult x%d\n",
-            plldiv [DEVCFG2 & 7], pllmult [osccon >> 16 & 7]);
+    case LL_RCC_SYS_CLKSOURCE_STATUS_HSE:
+        printf("high speed external\n");
         break;
-    case 2:
-        printf("%s\n", poscmod [DEVCFG1 >> 8 & 3]);
+    case LL_RCC_SYS_CLKSOURCE_STATUS_PLL:
+        printf("phase-locked loop, source: ");
+
+        switch (LL_RCC_PLL_GetMainSource()) {
+        case LL_RCC_PLLSOURCE_HSI:
+            printf("high speed internal\n");
+            break;
+        case LL_RCC_PLLSOURCE_HSE:
+            printf("high speed external\n");
+            break;
+        default:
+            printf("unknown\n");
+            break;
+        }
         break;
-    case 3:
-        printf("%s, PLL div 1:%d mult x%d\n",
-            poscmod [DEVCFG1 >> 8 & 3],
-            plldiv [DEVCFG2 & 7], pllmult [osccon >> 16 & 7]);
-        break;
-    case 4:
-        printf("secondary\n");
-        break;
-    case 5:
-        printf("internal Low-Power RC\n");
-        break;
-    case 6:
-        printf("internal Fast RC, divided 1:16\n");
-        break;
-    case 7:
-        printf("internal Fast RC, divided\n");
+    default:
+        printf("unknown\n");
         break;
     }
 }
@@ -566,7 +550,7 @@ kconfig()
     struct conf_ctlr *ctlr;
     struct conf_device *dev;
 
-// XXX    cpuidentify();
+    cpuidentify();
 
     /* Probe and initialize controllers first. */
     for (ctlr = conf_ctlr_init; ctlr->ctlr_driver; ctlr++) {

@@ -17,8 +17,8 @@ board           "F4DISCOVERY"               # Board type
 ldscript        "f4discovery/STM32F407XG.ld" # Linker script
 
 # Standard system options
-options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
-options         "BUS_KHZ=80000"             # Frequency of peripheral bus
+options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=48000"             # Frequency of peripheral bus
 options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
 
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b

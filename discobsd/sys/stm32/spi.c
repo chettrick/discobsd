@@ -306,12 +306,6 @@ spiprobe(config)
     sdi = sdi_tab[channel];
     sdo = sdo_tab[channel];
     sck = sck_tab[channel];
-    if (channel+1 == 3 && cpu_pins > 64) {
-        /* Port SPI3 has different pin assignment for 100-pin packages. */
-        sdi = GPIO_PIN('F',2);
-        sdo = GPIO_PIN('F',8);
-        sck = GPIO_PIN('D',15);
-    }
     printf("spi%u: pins sdi=R%c%d/sdo=R%c%d/sck=R%c%d\n", channel+1,
         gpio_portname(sdi), gpio_pinno(sdi),
         gpio_portname(sdo), gpio_pinno(sdo),

@@ -222,11 +222,6 @@ int gpio_pinno(int pin);
 /* Convert port name/signal into a pin number. */
 #define GPIO_PIN(x,n) (((x)-'A'+1) << 4 | (n))
 
-/*
- * CPU package type: 64 pins or 100 pins.
- */
-extern int cpu_pins;
-
 #endif /* KERNEL */
 
 #endif /* ENDIAN */

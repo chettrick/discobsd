@@ -948,7 +948,7 @@ file /libexec/code
 file /libexec/diffh
 file /libexec/getty
 file /libexec/smallc
-file /libexec/smlrc
+# XXX file /libexec/smlrc
 
 #
 # Files: /share

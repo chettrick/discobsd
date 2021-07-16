@@ -231,14 +231,15 @@ SYM (\name):
 icode:
         /* Atomic manipulation of GPIOs. */
         /* Use GPIOD_BSRR register to atomically set and clear GPIO pins. */
-        ldr     r0, =0x40020c18 /* GPIOD_BSRR Bit set/reset register. S8.4.7 */
-        ldr     r1, =0x0000f000 /* BS12 to BS15, so set (1) bits 12 to 15. */
-        ldr     r2, =0xf0000000 /* BR12 to BR15, so set (1) bits 28 to 31. */
+// XXX        ldr     r0, =0x40020c18 /* GPIOD_BSRR Bit set/reset register. S8.4.7 */
+// XXX        ldr     r1, =0x0000f000 /* BS12 to BS15, so set (1) bits 12 to 15. */
+// XXX        ldr     r2, =0xf0000000 /* BR12 to BR15, so set (1) bits 28 to 31. */
 
 blink:
-        str     r1, [r0]        /* Atomically set GPIO outputs high to turn on LEDs. */
-        str     r2, [r0]        /* Atomically clear GPIO outputs low to turn off LEDs. */
+// XXX        str     r1, [r0]        /* Atomically set GPIO outputs high to turn on LEDs. */
+// XXX        str     r2, [r0]        /* Atomically clear GPIO outputs low to turn off LEDs. */
 
+        nop
         b       blink
 
 #if 0 /* XXX */

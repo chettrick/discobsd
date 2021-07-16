@@ -1,0 +1,49 @@
+#
+# STM32F469IDISCO board
+# =====================
+#
+# To build the kernel, use:
+#   cd sys/stm32/f469idisco
+#   kconfig Config
+#   make clean
+#   make
+#
+# Format of this file is described on page:
+# http://retrobsd.org/wiki/doku.php/doc/kconfig
+#
+architecture    "stm32"
+cpu             "STM32F469xx"               # Processor variant
+board           "F469IDISCO"                # Board type
+ldscript        "f469idisco/STM32F469NIHX.ld" # Linker script
+
+# Standard system options
+options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=90000"             # Frequency of peripheral bus
+options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+#options         "USE_FULL_LL_DRIVER=1"      # Use full low-level driver
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+#device          uart1                       # USART1
+#device          uart2                       # USART2
+device          uart3                       # USART3 as console
+#device          uart4                       # UART4
+#device          uart5                       # UART5
+device          uart6                       # USART6
+#device          uart7                       # UART7
+#device          uart8                       # UART8
+options         "UART_BAUD=115200"          # default speed
+
+# Use USART3 Virtual Com Port as serial console
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=2"              # uart3 is /dev/tty2
+
+# SPI ports
+controller      spi2                        # SD card
+
+# microSD card
+device          sd0     at spi2 pin RC14    # select pin
+options         "SD_MHZ=10"                 # speed 10 MHz

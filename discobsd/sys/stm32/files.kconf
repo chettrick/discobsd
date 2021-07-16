@@ -66,6 +66,7 @@ stm32/swap.c                    standard
 stm32/sysctl.c                  standard
 stm32/system_stm32f4xx.c        standard
 stm32/stm32f4xx_it.c            standard
+stm32/stm32f4xx_ll_rcc.c        standard
 stm32/stm32f4xx_ll_utils.c      standard
 
 #

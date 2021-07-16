@@ -175,7 +175,13 @@ SystemClock_Config(void)
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 
     /* Main PLL configuration and activation */
+#ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+#endif /* STM32F407xx */
+#ifdef STM32F469xx      /* 180 MHz */
+    LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 360, LL_RCC_PLLP_DIV_2);
+#endif /* STM32F469xx */
+
     LL_RCC_PLL_Enable();
     while(LL_RCC_PLL_IsReady() != 1)
     {
@@ -189,7 +195,12 @@ SystemClock_Config(void)
     };
 
     /* Set APB1 & APB2 prescaler */
+#ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
+#endif /* STM32F407xx */
+#ifdef STM32F469xx      /* 180 MHz */
+    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+#endif /* STM32F469xx */
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 
     /* Set systick to 1ms */
@@ -225,15 +236,8 @@ button1_pressed()
 void
 startup()
 {
-    /* Configure the system clock to 168 MHz */
+    /* Configure the system clock. */
     SystemClock_Config();
-
-    /* Add your application code here */
-    LED4_GPIO_CLK_ENABLE();
-
-    LL_GPIO_SetPinMode(LED4_GPIO_PORT, LED4_PIN, LL_GPIO_MODE_OUTPUT);
-
-    LL_GPIO_SetOutputPin(LED4_GPIO_PORT, LED4_PIN);
 
 #if 0 // XXX
     extern void _etext(), _exception_base_();
@@ -471,17 +475,31 @@ cpuidentify()
     switch (devid) {
     case 0x0411:
         printf("STM32F407xx");
+        printf(" rev ");
+        switch (revid) {
+        case 0x2000:
+            printf("A");
+            break;
+        default:
+            printf("unknown 0x%04x", revid);
+            break;
+        }
+        break;
+    case 0x0434:
+        printf("STM32F469xx");
+        printf(" rev ");
+        switch (revid) {
+        case 0x1000:
+            printf("A");
+            break;
+        default:
+            printf("unknown 0x%04x", revid);
+            break;
+        }
         break;
     default:
         printf("device unknown 0x%03x", devid);
-    }
-    printf(" rev ");
-    switch (revid) {
-    case 0x2000:
-        printf("A");
-        break;
-    default:
-        printf("unknown 0x%04x", revid);
+        printf(" rev unknown 0x%04x", revid);
         break;
     }
     printf(", %u MHz, bus %u MHz\n", CPU_KHZ/1000, BUS_KHZ/1000);
@@ -495,8 +513,7 @@ cpuidentify()
         printf("high speed external\n");
         break;
     case LL_RCC_SYS_CLKSOURCE_STATUS_PLL:
-        printf("phase-locked loop, source: ");
-
+        printf("phase-locked loop, clock source: ");
         switch (LL_RCC_PLL_GetMainSource()) {
         case LL_RCC_PLLSOURCE_HSI:
             printf("high speed internal\n");

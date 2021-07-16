@@ -30,7 +30,7 @@
 struct uart_port {
     GPIO_TypeDef        *port;
     char                 port_name;
-    u_long                pin;
+    u_long               pin;
 };
 
 /*
@@ -48,15 +48,33 @@ struct uart_inst {
  * STM32 USART/UART.
  */
 static const struct uart_inst uart[NUART] = {
+#define PIN0             LL_GPIO_PIN_0
 #define PIN2             LL_GPIO_PIN_2
 #define PIN3             LL_GPIO_PIN_3
+#define PIN6             LL_GPIO_PIN_6
+#define PIN7             LL_GPIO_PIN_7
+#define PIN10            LL_GPIO_PIN_10
+#define PIN11            LL_GPIO_PIN_11
 #define AF7              LL_GPIO_AF_7
+#define AF8              LL_GPIO_AF_8
+#ifdef STM32F407xx
     { USART1, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
     { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 },
     { USART3, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
     { UART4,  { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
     { UART5,  { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
     { USART6, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }  // XXX
+#endif /* STM32F407xx */
+#ifdef STM32F469xx
+    { USART1, { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
+    { USART2, { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
+    { USART3, { GPIOB, 'B', PIN10 }, { GPIOB, 'B', PIN11 }, 2, AF7 },
+    { UART4,  { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
+    { UART5,  { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
+    { USART6, { GPIOC, 'C', PIN6  }, { GPIOC, 'C', PIN7  }, 2, AF8 },
+// XXX    { UART7,  { GPIOC, 'C', PIN6  }, { GPIOC, 'C', PIN7  }, 2, AF8 }, // XXX
+// XXX    { UART8,  { GPIOC, 'C', PIN6  }, { GPIOC, 'C', PIN7  }, 2, AF8 }  // XXX
+#endif /* STM32F469xx */
 };
 
 struct tty uartttys[NUART];
@@ -70,6 +88,7 @@ static unsigned speed_bps [NSPEEDS] = {
 
 void cnstart(struct tty *tp);
 
+// STM32F4-Discovery board
 // USART1: APB2 84 MHz AF7: TX on PA.09<-USED, RX on PA.10<-free BAD
 //                     AF7: TX on PB.06<-USED, RX on PB.07<-free BAD
 // USART2: APB1 42 MHz AF7: TX on PA.02<-free, RX on PA.03<-free GOOD
@@ -108,20 +127,35 @@ uartinit(int unit)
     af      = uart[unit].af;
 
     switch (unit) {
-    case 0:
+    case 0:     /* UART1 */
         break;
-    case 1:     /* USART2: APB1 42 MHz AF7: TX on PA.02, RX on PA.03 */
+    case 1:     /* UART2 */
+#ifdef STM32F407xx
+        /* USART2: APB1 42 MHz AF7: TX on PA.02, RX on PA.03 */
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+#endif /* STM32F407xx */
 
         break;
-    case 2:
+    case 2:     /* UART3 */
+#ifdef STM32F469xx
+        /* USART3: AHB1/APB1, 45 MHz, AF7, TX on PB.10, RX on PB.11 */
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3);
+#endif /* STM32F469xx */
+
         break;
-    case 3:
+    case 3:     /* UART4 */
         break;
-    case 4:
+    case 4:     /* UART5 */
         break;
-    case 5:
+    case 5:     /* UART6 */
+#ifdef STM32F469xx
+        /* USART6: AHB1/APB2, 90 MHz, AF8, TX on PC.06, RX on PC.07 */
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART6);
+#endif /* STM32F469xx */
+
         break;
     default:
         break;
@@ -129,14 +163,22 @@ uartinit(int unit)
 
     /* Config Tx Pin as: Alt func, High Speed, Push pull, Pull up */
     LL_GPIO_SetPinMode(tx_port, tx_pin, LL_GPIO_MODE_ALTERNATE);
-    LL_GPIO_SetAFPin_0_7(tx_port, tx_pin, af);
+    if (tx_pin >= PIN0 && tx_pin <= PIN7) {
+        LL_GPIO_SetAFPin_0_7(tx_port, tx_pin, af);
+    } else {
+        LL_GPIO_SetAFPin_8_15(tx_port, tx_pin, af);
+    }
     LL_GPIO_SetPinSpeed(tx_port, tx_pin, LL_GPIO_SPEED_FREQ_HIGH);
     LL_GPIO_SetPinOutputType(tx_port, tx_pin, LL_GPIO_OUTPUT_PUSHPULL);
     LL_GPIO_SetPinPull(tx_port, tx_pin, LL_GPIO_PULL_UP);
 
     /* Config Rx Pin as: Alt func, High Speed, Push pull, Pull up */
     LL_GPIO_SetPinMode(rx_port, rx_pin, LL_GPIO_MODE_ALTERNATE);
-    LL_GPIO_SetAFPin_0_7(rx_port, rx_pin, af);
+    if (rx_pin >= PIN0 && rx_pin <= PIN7) {
+        LL_GPIO_SetAFPin_0_7(rx_port, rx_pin, af);
+    } else {
+        LL_GPIO_SetAFPin_8_15(rx_port, rx_pin, af);
+    }
     LL_GPIO_SetPinSpeed(rx_port, rx_pin, LL_GPIO_SPEED_FREQ_HIGH);
     LL_GPIO_SetPinOutputType(rx_port, rx_pin, LL_GPIO_OUTPUT_PUSHPULL);
     LL_GPIO_SetPinPull(rx_port, rx_pin, LL_GPIO_PULL_UP);

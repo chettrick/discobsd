@@ -1,4 +1,6 @@
-KERNDIR=	$(TOPSRC)/sys/stm32/f4discovery
+BOARD?=		f469idisco
+#BOARD?=		f4discovery
+KERNDIR=	$(TOPSRC)/sys/stm32/$(BOARD)
 KERN=		unix
 
 help:
@@ -23,6 +25,7 @@ flash: kernel
 	st-flash --reset write ${KERNDIR}/${KERN}.bin 0x08000000
 
 qemu: kernel
+ifeq ($(BOARD), f4discovery)
 	cd ${KERNDIR}
 	qemu-system-gnuarmeclipse \
 		-board STM32F4-Discovery \
@@ -34,7 +37,10 @@ qemu: kernel
 		-s \
 		-S \
 		-image ${KERNDIR}/${KERN}.elf
-#		--nographic \
+#		--nographic
+else
+	@echo "Board ${BOARD} is not supported by qemu" 1>&2
+endif
 
 gdb-qemu: kernel
 	cd ${KERNDIR}
@@ -45,7 +51,12 @@ gdb-qemu: kernel
 
 ocd: kernel
 	cd ${KERNDIR}
+ifeq ($(BOARD), f469idisco)
+	openocd -f "board/stm32f469discovery.cfg"
+endif
+ifeq ($(BOARD), f4discovery)
 	openocd -f "board/stm32f4discovery.cfg"
+endif
 
 gdb-ocd: kernel
 	cd ${KERNDIR}

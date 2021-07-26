@@ -66,13 +66,19 @@ stm32/swap.c                    standard
 stm32/sysctl.c                  standard
 stm32/system_stm32f4xx.c        standard
 stm32/stm32f4xx_it.c            standard
+stm32/stm32f4xx_hal.c           standard
+stm32/stm32f4xx_hal_cortex.c    standard
 stm32/stm32f4xx_ll_rcc.c        standard
 stm32/stm32f4xx_ll_utils.c      standard
+stm32/stm32469i_discovery.c     standard
 
 #
 # STM32 drivers.
 #
 stm32/sd.c                      optional sd
+stm32/stm32469i_discovery_sd.c  optional sd
+stm32/stm32f4xx_hal_sd.c        optional sd
+stm32/stm32f4xx_ll_sdmmc.c      optional sd
 stm32/spi.c                     optional spi
 stm32/spi_bus.c                 optional spi
 stm32/uart.c                    optional uart

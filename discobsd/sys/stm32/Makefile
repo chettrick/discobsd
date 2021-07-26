@@ -1,7 +1,8 @@
 
 # Programs that live in subdirectories, and have makefiles of their own.
 #
-SUBDIR		= f469idisco f4discovery
+#SUBDIR		= f469idisco f4discovery
+SUBDIR		= f469idisco
 
 default:
 

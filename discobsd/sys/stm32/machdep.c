@@ -24,12 +24,28 @@
 #include <machine/uart.h>
 #include <machine/stm32f4xx_ll_bus.h>
 #include <machine/stm32f4xx_ll_gpio.h>
+#include <machine/stm32f4xx_ll_pwr.h>
 #include <machine/stm32f4xx_ll_rcc.h>
 #include <machine/stm32f4xx_ll_system.h>
+#include <machine/stm32f4xx_hal.h>
+#include <machine/stm32469i_discovery_sd.h>
 
+#define BLOCK_START_ADDR         0     /* Block start address      */
+#define NUM_OF_BLOCKS            5     /* Total number of blocks   */
+#define BUFFER_WORDS_SIZE        ((BLOCKSIZE * NUM_OF_BLOCKS) >> 2) /* Total data size in bytes */
+
+uint32_t aTxBuffer[BUFFER_WORDS_SIZE];
+uint32_t aRxBuffer[BUFFER_WORDS_SIZE];
+
+static void SD_demo(void);
+static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLength, uint32_t uwOffset);
+static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength);
+
+#if 0 // XXX Duplicates
 #define LED4_PIN                           LL_GPIO_PIN_12
 #define LED4_GPIO_PORT                     GPIOD
 #define LED4_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
+#endif // XXX Duplicates
 
 #ifdef POWER_ENABLED
 extern void power_init();
@@ -174,6 +190,28 @@ SystemClock_Config(void)
     /* Set FLASH latency */
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 
+#ifdef STM32F469xx
+    /* Enable PWR clock */
+    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet. */
+    LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
+
+    /* Activation OverDrive Mode */
+    LL_PWR_EnableOverDriveMode();
+    while(LL_PWR_IsActiveFlag_OD() != 1)
+    {
+    };
+
+    /* Activation OverDrive Switching */
+    LL_PWR_EnableOverDriveSwitching();
+    while(LL_PWR_IsActiveFlag_ODSW() != 1)
+    {
+    };
+#endif /* STM32F469xx */
+
     /* Main PLL configuration and activation */
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
@@ -236,8 +274,18 @@ button1_pressed()
 void
 startup()
 {
-    /* Configure the system clock. */
+    HAL_Init();
+
     SystemClock_Config();
+
+    BSP_LED_Init(LED1); // Green.
+    BSP_LED_Init(LED2); // Orange.
+    BSP_LED_Init(LED3); // Red.
+    BSP_LED_Init(LED4); // Blue.
+
+    BSP_LED_On(LED_ORANGE);
+    SD_demo();
+    BSP_LED_On(LED_BLUE);
 
 #if 0 // XXX
     extern void _etext(), _exception_base_();
@@ -1123,4 +1171,97 @@ char gpio_portname(int pin)
 int gpio_pinno(int pin)
 {
     return (ffs(pin) - 1);
+}
+
+static void
+SD_demo(void)
+{
+    uint8_t SD_state = MSD_OK;
+
+    SD_state = BSP_SD_Init();
+    BSP_LED_Off(LED_ORANGE);
+
+    if (SD_state != MSD_OK) {
+        if (SD_state == MSD_ERROR_SD_NOT_PRESENT) {
+            // No SD card inserted.
+            BSP_LED_On(LED_RED);
+        } else {
+            // Some other error. Init failed.
+            BSP_LED_On(LED_RED);
+        }
+    } else {
+        // SD Init OK.
+        BSP_LED_Toggle(LED_ORANGE);
+        SD_state = BSP_SD_Erase(BLOCK_START_ADDR, NUM_OF_BLOCKS);
+        /* Wait until SD cards are ready to use for new operation */
+        while ((BSP_SD_GetCardState() != SD_TRANSFER_OK))
+        {
+        };
+        BSP_LED_Toggle(LED_ORANGE);
+
+        if (SD_state != MSD_OK) {
+            // SD Erase failed.
+            BSP_LED_On(LED_RED);
+        } else {
+            // SD Erase OK.
+            BSP_LED_Toggle(LED_ORANGE);
+            /* Fill the buffer to write */
+            Fill_Buffer(aTxBuffer, BUFFER_WORDS_SIZE, 0x22FF);
+            SD_state = BSP_SD_WriteBlocks(aTxBuffer, BLOCK_START_ADDR, NUM_OF_BLOCKS, SD_DATATIMEOUT);
+            /* Wait until SD cards are ready to use for new operation */
+            while ((BSP_SD_GetCardState() != SD_TRANSFER_OK))
+            {
+            };
+            BSP_LED_Toggle(LED_ORANGE);
+
+            if (SD_state != MSD_OK) {
+                // SD Write failed.
+                BSP_LED_On(LED_RED);
+            } else {
+                // SD Write OK.
+                BSP_LED_Toggle(LED_ORANGE);
+                SD_state = BSP_SD_ReadBlocks(aRxBuffer, BLOCK_START_ADDR, NUM_OF_BLOCKS, SD_DATATIMEOUT);
+                BSP_LED_Toggle(LED_ORANGE);
+                if (SD_state != MSD_OK) {
+                    // SD Read failed.
+                    BSP_LED_On(LED_RED);
+                } else {
+                    // SD Read OK.
+                    BSP_LED_Toggle(LED_ORANGE);
+                    if (Buffercmp(aTxBuffer, aRxBuffer, BUFFER_WORDS_SIZE) > 0) {
+                        // SD Compare failed.
+                        BSP_LED_On(LED_RED);
+                    } else {
+                        BSP_LED_Toggle(LED_ORANGE);
+                        // SD Compare OK. SD Test passed.
+                        BSP_LED_On(LED_GREEN);
+                    }
+                }
+            }
+        }
+    }
+    BSP_SD_DeInit();
+}
+
+static void
+Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLength, uint32_t uwOffset)
+{
+    uint32_t tmpIndex = 0;
+
+    for (tmpIndex = 0; tmpIndex < uwBufferLength; tmpIndex++) {
+        pBuffer[tmpIndex] = tmpIndex + uwOffset;
+    }
+}
+
+static uint8_t
+Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength)
+{
+    while (BufferLength--) {
+        if (*pBuffer1 != *pBuffer2) {
+            return 1;
+        }
+        pBuffer1++;
+        pBuffer2++;
+    }
+    return 0;
 }

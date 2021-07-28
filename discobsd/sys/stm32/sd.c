@@ -44,9 +44,9 @@
 #include <sys/errno.h>
 #include <sys/dk.h>
 #include <sys/disk.h>
-#include <sys/spi.h>
 #include <sys/kconfig.h>
 #include <machine/sd.h>
+#include <machine/sdio.h>
 
 /*
  * Two SD/MMC disks on SPI.
@@ -100,7 +100,7 @@ struct disk {
 #define TYPE_SD_II      2
 #define TYPE_SDHC       3
 
-    struct spiio spiio;         /* interface to SPI port */
+// XXXSPI    struct spiio spiio;         /* interface to SPI port */
     int     label_writable;     /* is sector 0 writable? */
     int     dkindex;            /* disk index for statistics */
     u_int   openpart;           /* all partitions open on this drive */
@@ -148,6 +148,7 @@ int sd_timo_wait_widle;
 #define STOP_TRAN_TOKEN         0xFD    /* stop token for write multiple */
 #define WRITE_MULTIPLE_TOKEN    0xFC    /* start data for write multiple */
 
+#ifdef XXXSPI // XXX
 /*
  * Release the card's /CS signal.
  * Add extra clocks after a deselect.
@@ -157,12 +158,14 @@ static void card_release(struct spiio *io)
     spi_deselect(io);
     spi_transfer(io, 0xFF);
 }
+#endif // XXX SPI
 
 /*
  * Wait while busy, up to 300 msec.
  */
 static void card_wait_ready(int unit, int limit, int *maxcount)
 {
+#ifdef XXXSPI // XXX
     int i;
     struct spiio *io = &sddrives[unit].spiio;
 
@@ -177,6 +180,7 @@ static void card_wait_ready(int unit, int limit, int *maxcount)
         }
     }
     printf("sd%d: wait_ready(%d) failed\n", unit, limit);
+#endif // XXX SPI
 }
 
 /*
@@ -198,6 +202,7 @@ static void card_wait_ready(int unit, int limit, int *maxcount)
  */
 static int card_cmd(unsigned int unit, unsigned int cmd, unsigned int addr)
 {
+#ifdef XXXSPI // XXX
     int i, reply;
     struct spiio *io = &sddrives[unit].spiio;
 
@@ -238,6 +243,8 @@ static int card_cmd(unsigned int unit, unsigned int cmd, unsigned int addr)
             unit, cmd, addr, reply);
     }
     return reply;
+#endif // XXX SPI
+    return 0; // XXX
 }
 
 /*
@@ -246,6 +253,7 @@ static int card_cmd(unsigned int unit, unsigned int cmd, unsigned int addr)
  */
 static int card_init(int unit)
 {
+#ifdef XXXSPI // XXX
     int i, reply;
     int timeout = 4;
     struct spiio *io = &sddrives[unit].spiio;
@@ -344,6 +352,7 @@ static int card_init(int unit)
     }
     /* Fast speed. */
     spi_brg(io, SD_MHZ * 1000);
+#endif // XXX SPI
     return 1;
 }
 
@@ -353,6 +362,7 @@ static int card_init(int unit)
  */
 static int card_size(int unit)
 {
+#ifdef XXXSPI // XXX
     unsigned csize, n;
     int reply, i;
     int nsectors;
@@ -412,6 +422,8 @@ static int card_size(int unit)
         return 0;
     }
     return nsectors;
+#endif // XXX SPI
+    return 1; // XXX
 }
 
 /*
@@ -419,6 +431,7 @@ static int card_size(int unit)
  */
 static void card_high_speed(int unit)
 {
+#ifdef XXXSPI // XXX
     int reply, i;
     struct spiio *io = &sddrives[unit].spiio;
     struct disk *du = &sddrives[unit];
@@ -474,6 +487,7 @@ static void card_high_speed(int unit)
     if (du->ma > 0)
         printf(", max current %u mA", du->ma);
     printf("\n");
+#endif // XXX SPI
 }
 
 /*
@@ -482,6 +496,7 @@ static void card_high_speed(int unit)
  */
 static int card_read(int unit, unsigned int offset, char *data, unsigned int bcount)
 {
+#ifdef XXXSPI // XXX
     int reply, i;
     struct spiio *io = &sddrives[unit].spiio;
     struct disk *du = &sddrives[unit];
@@ -546,6 +561,7 @@ again:
     /* Stop a read-multiple sequence. */
     card_cmd(unit, CMD_STOP, 0);
     card_release(io);
+#endif // XXX SPI
     return 1;
 }
 
@@ -555,6 +571,7 @@ again:
  */
 static int card_write(int unit, unsigned offset, char *data, unsigned bcount)
 {
+#ifdef XXXSPI // XXX
     unsigned reply, i;
     struct spiio *io = &sddrives[unit].spiio;
     struct disk *du = &sddrives[unit];
@@ -634,6 +651,7 @@ again:
     spi_transfer(io, STOP_TRAN_TOKEN);
     card_wait_ready(unit, TIMO_WAIT_WIDLE, &sd_timo_wait_widle);
     card_release(io);
+#endif // XXX SPI
     return 1;
 }
 
@@ -642,6 +660,7 @@ again:
  */
 static int sd_setup(int unit)
 {
+#ifdef XXXSPI // XXX
     struct spiio *io = &sddrives[unit].spiio;
     struct disk *du = &sddrives[unit];
     u_short buf[256];
@@ -710,6 +729,7 @@ static int sd_setup(int unit)
         }
 #endif
     }
+#endif // XXX SPI
     return 1;
 }
 
@@ -718,6 +738,7 @@ static int sd_setup(int unit)
  */
 static void sd_release(int unit)
 {
+#ifdef XXXSPI // XXX
     struct disk *du = &sddrives[unit];
 
     /* Forget the partition table. */
@@ -744,10 +765,12 @@ static void sd_release(int unit)
         udelay(1000);
     }
 #endif
+#endif // XXX SPI
 }
 
 int sdopen(dev_t dev, int flags, int mode)
 {
+#ifdef XXXSPI // XXX
     int unit = sdunit(dev);
     int part = sdpart(dev);
     struct disk *du = &sddrives[unit];
@@ -793,11 +816,13 @@ int sdopen(dev_t dev, int flags, int mode)
         }
     }
     du->openpart |= mask;
+#endif // XXX SPI
     return 0;
 }
 
 int sdclose(dev_t dev, int mode, int flag)
 {
+#ifdef XXXSPI // XXX
     int unit = sdunit(dev);
     int part = sdpart(dev);
     struct disk *du = &sddrives[unit];
@@ -811,6 +836,7 @@ int sdclose(dev_t dev, int mode, int flag)
          * Release the SD card. */
         sd_release(unit);
     }
+#endif // XXX SPI
     return 0;
 }
 
@@ -946,6 +972,7 @@ static int
 sd_probe(config)
     struct conf_device *config;
 {
+#ifdef XXXSPI // XXX
     int unit = config->dev_unit;
     int cs = config->dev_pins[0];
     struct spiio *io = &sddrives[unit].spiio;
@@ -955,7 +982,6 @@ sd_probe(config)
     printf("sd%u: port SPI%d, pin cs=R%c%d\n", unit,
         config->dev_ctlr, gpio_portname(cs), gpio_pinno(cs));
 
-// XXX Crashing here with spi_setup().
     if (spi_setup(io, config->dev_ctlr, cs) != 0) {
         printf("sd%u: cannot open SPI%u port\n", unit, config->dev_ctlr);
         return 0;
@@ -970,6 +996,7 @@ sd_probe(config)
 #ifdef UCB_METER
     dk_alloc(&sddrives[unit].dkindex, 1, (unit == 0) ? "sd0" : "sd1");
 #endif
+#endif // XXX SPI
     return 1;
 }
 

@@ -24,6 +24,8 @@
 #ifndef _SYS_DISK_H_
 #define _SYS_DISK_H_
 
+#include <sys/ioctl.h>
+
 /*
  * IBM PC compatible partition table.
  */

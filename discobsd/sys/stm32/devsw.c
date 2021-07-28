@@ -57,6 +57,9 @@ extern int strcmp(char *s1, char *s2);
 #ifdef SKEL_ENABLED
 #   include <sys/skel.h>
 #endif
+#ifdef SDIO_ENABLED
+#   include <machine/sdio.h>
+#endif
 
 /*
  * Null routine; placed in insignificant entries
@@ -318,6 +321,15 @@ const struct cdevsw cdevsw[] = {
 #ifdef SKEL_ENABLED
     skeldev_open,   skeldev_close,  skeldev_read,   skeldev_write,
     skeldev_ioctl,  nulldev,        0,              seltrue,
+    nostrategy,     0,              0,
+#else
+    NOCDEV
+#endif
+},
+{   /* 18 - sdio */
+#ifdef SDIO_ENABLED
+    sdio_open,      sdio_close,     sdio_read,      sdio_write,
+    sdio_ioctl,     nulldev,        0,              seltrue,
     nostrategy,     0,              0,
 #else
     NOCDEV

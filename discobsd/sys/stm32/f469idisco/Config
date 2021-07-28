@@ -41,9 +41,9 @@ options         "UART_BAUD=115200"          # default speed
 options         "CONS_MAJOR=UART_MAJOR"     # UART device
 options         "CONS_MINOR=2"              # uart3 is /dev/tty2
 
-# SPI ports
-controller      spi2                        # SD card
+# SDIO port
+controller      sdio0                       # SDIO port
 
-# microSD card
-device          sd0     at spi2 pin RC14    # select pin
+# MicroSD card
+device          sd0     at sdio0            # SD card uses SDIO port
 options         "SD_MHZ=10"                 # speed 10 MHz

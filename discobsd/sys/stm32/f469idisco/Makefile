@@ -2,7 +2,7 @@ PARAM = -DF469IDISCO
 PARAM += -DSTM32F469xx
 PARAM += -DUART3_ENABLED
 PARAM += -DUART6_ENABLED
-PARAM += -DSPI2_ENABLED
+PARAM += -DSDIO_ENABLED
 PARAM += -DSD_ENABLED
 PARAM += -DSD_MHZ=10
 PARAM += -DCONS_MINOR=2
@@ -56,9 +56,9 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	exception.o machdep.o mem.o signal.o swap.o sysctl.o \
 	system_stm32f4xx.o stm32f4xx_it.o stm32f4xx_hal.o \
 	stm32f4xx_hal_cortex.o stm32f4xx_ll_rcc.o stm32f4xx_ll_utils.o \
-	stm32469i_discovery.o sd.o stm32469i_discovery_sd.o \
-	stm32f4xx_hal_sd.o stm32f4xx_ll_sdmmc.o spi.o spi_bus.o uart.o \
-	stm32f4xx_ll_usart.o 
+	sd.o stm32f4xx_hal_sd.o stm32f4xx_ll_sdmmc.o sdio.o uart.o \
+	stm32f4xx_ll_usart.o stm32469i_discovery.o \
+	stm32469i_discovery_sd.o 
 
 CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/kernel/exec_script.c $S/kernel/exec_subr.c \
@@ -86,11 +86,11 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/stm32/sysctl.c $S/stm32/system_stm32f4xx.c \
 	$S/stm32/stm32f4xx_it.c $S/stm32/stm32f4xx_hal.c \
 	$S/stm32/stm32f4xx_hal_cortex.c $S/stm32/stm32f4xx_ll_rcc.c \
-	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/stm32469i_discovery.c \
-	$S/stm32/sd.c $S/stm32/stm32469i_discovery_sd.c \
+	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c \
 	$S/stm32/stm32f4xx_hal_sd.c $S/stm32/stm32f4xx_ll_sdmmc.c \
-	$S/stm32/spi.c $S/stm32/spi_bus.c $S/stm32/uart.c \
-	$S/stm32/stm32f4xx_ll_usart.c swapunix.c 
+	$S/stm32/sdio.c $S/stm32/uart.c $S/stm32/stm32f4xx_ll_usart.c \
+	$S/stm32/stm32469i_discovery.c $S/stm32/stm32469i_discovery_sd.c \
+	swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -343,13 +343,7 @@ stm32f4xx_ll_rcc.o: $S/stm32/stm32f4xx_ll_rcc.c
 stm32f4xx_ll_utils.o: $S/stm32/stm32f4xx_ll_utils.c
 	${COMPILE_C}
 
-stm32469i_discovery.o: $S/stm32/stm32469i_discovery.c
-	${COMPILE_C}
-
 sd.o: $S/stm32/sd.c
-	${COMPILE_C}
-
-stm32469i_discovery_sd.o: $S/stm32/stm32469i_discovery_sd.c
 	${COMPILE_C}
 
 stm32f4xx_hal_sd.o: $S/stm32/stm32f4xx_hal_sd.c
@@ -358,16 +352,19 @@ stm32f4xx_hal_sd.o: $S/stm32/stm32f4xx_hal_sd.c
 stm32f4xx_ll_sdmmc.o: $S/stm32/stm32f4xx_ll_sdmmc.c
 	${COMPILE_C}
 
-spi.o: $S/stm32/spi.c
-	${COMPILE_C}
-
-spi_bus.o: $S/stm32/spi_bus.c
+sdio.o: $S/stm32/sdio.c
 	${COMPILE_C}
 
 uart.o: $S/stm32/uart.c
 	${COMPILE_C}
 
 stm32f4xx_ll_usart.o: $S/stm32/stm32f4xx_ll_usart.c
+	${COMPILE_C}
+
+stm32469i_discovery.o: $S/stm32/stm32469i_discovery.c
+	${COMPILE_C}
+
+stm32469i_discovery_sd.o: $S/stm32/stm32469i_discovery_sd.c
 	${COMPILE_C}
 
 

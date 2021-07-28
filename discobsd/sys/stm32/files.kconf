@@ -70,16 +70,20 @@ stm32/stm32f4xx_hal.c           standard
 stm32/stm32f4xx_hal_cortex.c    standard
 stm32/stm32f4xx_ll_rcc.c        standard
 stm32/stm32f4xx_ll_utils.c      standard
-stm32/stm32469i_discovery.c     standard
 
 #
 # STM32 drivers.
 #
 stm32/sd.c                      optional sd
-stm32/stm32469i_discovery_sd.c  optional sd
 stm32/stm32f4xx_hal_sd.c        optional sd
 stm32/stm32f4xx_ll_sdmmc.c      optional sd
-stm32/spi.c                     optional spi
-stm32/spi_bus.c                 optional spi
+stm32/sdio.c                    optional sdio
 stm32/uart.c                    optional uart
 stm32/stm32f4xx_ll_usart.c      optional uart
+
+#
+# STM32 drivers for F469IDISCO board.
+#
+stm32/stm32469i_discovery.c     optional gpio
+stm32/stm32469i_discovery.c     optional sd
+stm32/stm32469i_discovery_sd.c  optional sd

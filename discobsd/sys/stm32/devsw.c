@@ -16,9 +16,6 @@
 #include <sys/systm.h>
 #include <sys/errno.h>
 #include <machine/uart.h>
-#include <sys/gpanel.h>
-#include <sys/spi.h>
-#include <sys/gpio.h>
 
 #include <sys/swap.h>
 
@@ -27,35 +24,8 @@ extern int strcmp(char *s1, char *s2);
 #ifdef SD_ENABLED
 #   include <machine/sd.h>
 #endif
-#ifdef RC_ENABLED
-#   include <machine/sramc.h>
-#endif
-#ifdef DR_ENABLED
-#   include <machine/sdramp.h>
-#endif
-#ifdef MR_ENABLED
-#   include <machine/mrams.h>
-#endif
-#ifdef SR_ENABLED
-#   include <machine/spirams.h>
-#endif
-#ifdef ADC_ENABLED
-#   include <machine/adc.h>
-#endif
-#ifdef GLCD_ENABLED
-#   include <sys/glcd.h>
-#endif
-#ifdef PWM_ENABLED
-#   include <sys/pwm.h>
-#endif
-#ifdef PICGA_ENABLED
-#   include <sys/picga.h>
-#endif
 #ifdef PTY_ENABLED
 #   include <sys/pty.h>
-#endif
-#ifdef SKEL_ENABLED
-#   include <sys/skel.h>
 #endif
 #ifdef SDIO_ENABLED
 #   include <machine/sdio.h>
@@ -122,40 +92,20 @@ const struct bdevsw bdevsw[] = {
 #endif
 },
 {   /* 1 - sramc */
-#ifdef RC_ENABLED
-    sramc_open,     sramc_close,    sramc_strategy,
-    sramc_size,     sramc_ioctl,
-#else
     NOBDEV
-#endif
 },
 {   /* 2 - sdramp */
-#ifdef DR_ENABLED
-    sdramp_open,    sdramp_close,   sdramp_strategy,
-    sdramp_size,    sdramp_ioctl,
-#else
     NOBDEV
-#endif
 },
 {   /* 3 - mrams */
-#ifdef MR_ENABLED
-    mrams_open,     mrams_close,    mrams_strategy,
-    mrams_size,     mrams_ioctl,
-#else
     NOBDEV
-#endif
 },
 {   /* 4 - swap */
     swopen,         swclose,        swstrategy,
     swsize,         swcioctl,
 },
 {   /* 5 - spirams */
-#ifdef SR_ENABLED
-    spirams_open,   spirams_close,  spirams_strategy,
-    spirams_size,   spirams_ioctl,
-#else
     NOBDEV
-#endif
 },
 
 { 0 },
@@ -245,86 +195,28 @@ const struct cdevsw cdevsw[] = {
 #endif
 },
 {   /* 10 - gpio */
-#if defined(GPIO_ENABLED) || defined(GPIO1_ENABLED) || \
-    defined(GPIO2_ENABLED) || defined(GPIO3_ENABLED) || \
-    defined(GPIO4_ENABLED) || defined(GPIO5_ENABLED) || \
-    defined(GPIO6_ENABLED)
-    gpioopen,       gpioclose,      gpioread,       gpiowrite,
-    gpioioctl,      nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
 {   /* 11 - adc */
-#ifdef ADC_ENABLED
-    adc_open,       adc_close,      adc_read,       adc_write,
-    adc_ioctl,      nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
 {   /* 12 - spi */
-#if defined(SPI1_ENABLED) || defined(SPI2_ENABLED) || \
-    defined(SPI3_ENABLED) || defined(SPI4_ENABLED)
-    spidev_open,    spidev_close,   spidev_read,    spidev_write,
-    spidev_ioctl,   nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
 {   /* 13 - glcd */
-#ifdef GLCD_ENABLED
-    glcd_open,      glcd_close,     glcd_read,      glcd_write,
-    glcd_ioctl,     nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
 {   /* 14 - pwm */
-#ifdef PWM_ENABLED
-    pwm_open,       pwm_close,      pwm_read,       pwm_write,
-    pwm_ioctl,      nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
 {   /* 15 - picga */            // Ignore this for now - it's WIP.
-#ifdef PICGA_ENABLED
-    picga_open,     picga_close,    picga_read,     picga_write,
-    picga_ioctl,    nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
-{   /* 16 - hxtft or .
-     * All LCD display drivers share the same device.
-     * Only one such driver can be present in the kernel.  */
-#if GPANEL_MAJOR != 16
-#   error Wrong GPANEL_MAJOR value!
-#endif
-#if defined(HXTFT_ENABLED) || defined(GPANEL_ENABLED) || \
-    defined(SGPANEL_ENABLED)
-    gpanel_open,    gpanel_close,   gpanel_read,    gpanel_write,
-    gpanel_ioctl,   nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
+{   /* 16 - hxtft */
     NOCDEV
-#endif
 },
 {   /* 17 - skel */
-#ifdef SKEL_ENABLED
-    skeldev_open,   skeldev_close,  skeldev_read,   skeldev_write,
-    skeldev_ioctl,  nulldev,        0,              seltrue,
-    nostrategy,     0,              0,
-#else
     NOCDEV
-#endif
 },
 {   /* 18 - sdio */
 #ifdef SDIO_ENABLED

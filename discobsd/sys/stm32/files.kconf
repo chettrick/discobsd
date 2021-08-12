@@ -75,6 +75,7 @@ stm32/stm32f4xx_ll_utils.c      standard
 # STM32 drivers.
 #
 stm32/sd.c                      optional sd
+stm32/sdio_card.c               optional sd
 stm32/stm32f4xx_hal_sd.c        optional sd
 stm32/stm32f4xx_ll_sdmmc.c      optional sd
 stm32/sdio.c                    optional sdio

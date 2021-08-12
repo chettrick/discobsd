@@ -127,7 +127,6 @@ main()
         u.u_rlimit[i].rlim_cur = u.u_rlimit[i].rlim_max =
             RLIM_INFINITY;
 
-#if __mips__ /* XXX Don't compile for Arm, yet.*/
     /* Initialize signal state for process 0 */
     siginit (p);
 
@@ -170,7 +169,6 @@ main()
     if (nswap <= 0)
         panic ("zero swap size");   /* don't want to panic, but what ? */
     mfree (swapmap, nswap, swapstart);
-#endif /* XXX __mips__ */
 
     printf ("phys mem  = %u kbytes\n", physmem / 1024);
     printf ("user mem  = %u kbytes\n", MAXMEM / 1024);
@@ -179,7 +177,6 @@ main()
     printf ("root size = %u kbytes\n", fs->fs_fsize * DEV_BSIZE / 1024);
     printf ("swap size = %u kbytes\n", nswap * DEV_BSIZE / 1024);
 
-#if __mips__ /* XXX Don't compile for Arm, yet.*/
     /* Kick off timeout driven events by calling first time. */
     schedcpu (0);
 
@@ -193,15 +190,16 @@ main()
     /*
      * Make init process.
      */
+#if __mips__ /* XXX Don't compile for Arm, yet.*/
     if (newproc (0) == 0) {
         /* Parent process with pid 0: swapper.
          * No return from sched. */
         sched();
     }
+#endif /* XXX __mips__ */
 
     /* Child process with pid 1: init. */
     s = splhigh();
-#endif /* XXX __mips__ */
     p = u.u_procp;
     p->p_dsize = icodeend - icode;
     p->p_daddr = USER_DATA_START;

@@ -47,3 +47,4 @@ controller      sdio0                       # SDIO port
 # MicroSD card
 device          sd0     at sdio0            # SD card uses SDIO port
 options         "SD_MHZ=10"                 # speed 10 MHz
+options         "NSD=1"                     # One disk on SDIO.

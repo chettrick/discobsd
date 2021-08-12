@@ -4,6 +4,7 @@ PARAM += -DUART3_ENABLED
 PARAM += -DUART6_ENABLED
 PARAM += -DSDIO_ENABLED
 PARAM += -DSD_ENABLED
+PARAM += -DNSD=1
 PARAM += -DSD_MHZ=10
 PARAM += -DCONS_MINOR=2
 PARAM += -DCONS_MAJOR=UART_MAJOR
@@ -56,8 +57,8 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	exception.o machdep.o mem.o signal.o swap.o sysctl.o \
 	system_stm32f4xx.o stm32f4xx_it.o stm32f4xx_hal.o \
 	stm32f4xx_hal_cortex.o stm32f4xx_ll_rcc.o stm32f4xx_ll_utils.o \
-	sd.o stm32f4xx_hal_sd.o stm32f4xx_ll_sdmmc.o sdio.o uart.o \
-	stm32f4xx_ll_usart.o stm32469i_discovery.o \
+	sd.o sdio_card.o stm32f4xx_hal_sd.o stm32f4xx_ll_sdmmc.o sdio.o \
+	uart.o stm32f4xx_ll_usart.o stm32469i_discovery.o \
 	stm32469i_discovery_sd.o 
 
 CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
@@ -86,7 +87,7 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/stm32/sysctl.c $S/stm32/system_stm32f4xx.c \
 	$S/stm32/stm32f4xx_it.c $S/stm32/stm32f4xx_hal.c \
 	$S/stm32/stm32f4xx_hal_cortex.c $S/stm32/stm32f4xx_ll_rcc.c \
-	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c \
+	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c $S/stm32/sdio_card.c \
 	$S/stm32/stm32f4xx_hal_sd.c $S/stm32/stm32f4xx_ll_sdmmc.c \
 	$S/stm32/sdio.c $S/stm32/uart.c $S/stm32/stm32f4xx_ll_usart.c \
 	$S/stm32/stm32469i_discovery.c $S/stm32/stm32469i_discovery_sd.c \
@@ -344,6 +345,9 @@ stm32f4xx_ll_utils.o: $S/stm32/stm32f4xx_ll_utils.c
 	${COMPILE_C}
 
 sd.o: $S/stm32/sd.c
+	${COMPILE_C}
+
+sdio_card.o: $S/stm32/sdio_card.c
 	${COMPILE_C}
 
 stm32f4xx_hal_sd.o: $S/stm32/stm32f4xx_hal_sd.c

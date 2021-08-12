@@ -338,25 +338,6 @@ cpu_sysctl (name, namelen, oldp, oldlenp, newp, newlen)
         }
         return EOPNOTSUPP;
 
-    case CPU_TIMO_CMD:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_cmd);
-    case CPU_TIMO_SEND_OP:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_send_op);
-    case CPU_TIMO_SEND_CSD:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_send_csd);
-    case CPU_TIMO_READ:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_read);
-    case CPU_TIMO_WAIT_CMD:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_wait_cmd);
-    case CPU_TIMO_WAIT_WDATA:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_wait_wdata);
-    case CPU_TIMO_WAIT_WDONE:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_wait_wdone);
-    case CPU_TIMO_WAIT_WSTOP:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_wait_wstop);
-    case CPU_TIMO_WAIT_WIDLE:
-        return sysctl_int(oldp, oldlenp, newp, newlen, &sd_timo_wait_widle);
-
     case CPU_FREQ_KHZ:
         if (namelen != 1)
             return ENOTDIR;

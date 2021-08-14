@@ -7,6 +7,7 @@
 char *
 gcvt(number, ndigit, buf)
 double number;
+int ndigit;
 char *buf;
 {
 	int sign, decpt;

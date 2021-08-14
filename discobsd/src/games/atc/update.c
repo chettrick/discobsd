@@ -24,8 +24,8 @@ void update(int sig)
 	PLANE	*pp, *p1, *p2;
 	sigset_t set, oset;
 
-	sigemptyset(&set);
-	sigaddset(&set, SIGINT);
+	(void)sigemptyset(&set);
+	(void)sigaddset(&set, SIGINT);
 	(void)sigprocmask(SIG_BLOCK, &set, &oset);
 
 	clocktick++;

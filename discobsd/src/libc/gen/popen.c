@@ -119,10 +119,10 @@ pclose(iop)
 	if (pids == NULL || pids[fdes = fileno(iop)] == 0)
 		return (-1);
 	(void) fclose(iop);
-	sigemptyset(&nmask);
-	sigaddset(&nmask, SIGINT);
-	sigaddset(&nmask, SIGQUIT);
-	sigaddset(&nmask, SIGHUP);
+	(void) sigemptyset(&nmask);
+	(void) sigaddset(&nmask, SIGINT);
+	(void) sigaddset(&nmask, SIGQUIT);
+	(void) sigaddset(&nmask, SIGHUP);
 	(void) sigprocmask(SIG_BLOCK, &nmask, &omask);
 	do {
 		pid = waitpid(pids[fdes], (int *) &pstat, 0);

@@ -47,10 +47,10 @@ siginterrupt(sig, flag)
 	if ((ret = sigaction(sig, (struct sigaction *)0, &sa)) < 0)
 		return (ret);
 	if (flag) {
-		sigaddset(&_sigintr, sig);
+		(void)sigaddset(&_sigintr, sig);
 		sa.sa_flags &= ~SA_RESTART;
 	} else {
-		sigdelset(&_sigintr, sig);
+		(void)sigdelset(&_sigintr, sig);
 		sa.sa_flags |= SA_RESTART;
 	}
 	return (sigaction(sig, &sa, (struct sigaction *)0));

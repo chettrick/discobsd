@@ -6,6 +6,7 @@ _strout(count, string, adjust, file, fillch)
         register int count;
         int adjust;
         register FILE *file;
+	int fillch;
 {
 	while (adjust < 0) {
 		if (*string=='-' && fillch=='0') {

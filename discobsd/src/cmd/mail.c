@@ -294,10 +294,10 @@ copyback()
     int fd, new = 0;
     struct stat stbuf;
 
-    sigemptyset(&set);
-    sigaddset(&set, SIGINT);
-    sigaddset(&set, SIGHUP);
-    sigaddset(&set, SIGQUIT);
+    (void)sigemptyset(&set);
+    (void)sigaddset(&set, SIGINT);
+    (void)sigaddset(&set, SIGHUP);
+    (void)sigaddset(&set, SIGQUIT);
     (void)sigprocmask(SIG_BLOCK, &set, NULL);
     fd = open(mailfile, O_RDWR | O_CREAT, MAILMODE);
     if (fd >= 0) {
@@ -622,9 +622,9 @@ delex(i)
 
     if (i != SIGINT) {
         setsig(i, SIG_DFL);
-        sigemptyset(&sigt);
-        sigaddset(&sigt, i);
-        sigprocmask(SIG_UNBLOCK, &sigt, NULL);
+        (void)sigemptyset(&sigt);
+        (void)sigaddset(&sigt, i);
+        (void)sigprocmask(SIG_UNBLOCK, &sigt, NULL);
     }
     putc('\n', stderr);
     if (delflg)

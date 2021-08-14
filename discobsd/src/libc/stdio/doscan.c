@@ -27,6 +27,7 @@ static char _sctab[256] = {
 static int
 _instr (ptr, type, len, iop, eofptr)
 	register char *ptr;
+	int type, len;
 	register FILE *iop;
 	int *eofptr;
 {
@@ -72,6 +73,7 @@ _instr (ptr, type, len, iop, eofptr)
 static int
 _innum (ptr, type, len, size, iop, eofptr)
 	int *ptr, *eofptr;
+	int type, len, size;
 	FILE *iop;
 {
 	register char *np;

@@ -156,11 +156,11 @@ cron_pclose(iop)
 	if (pids == 0 || pids[fdes = fileno(iop)] == 0)
 		return(-1);
 	(void)fclose(iop);
-	sigemptyset(&nmask);
-	sigaddset(&nmask, SIGINT);
-	sigaddset(&nmask, SIGQUIT);
-	sigaddset(&nmask, SIGHUP);
-	sigprocmask(SIG_BLOCK, &nmask, &omask);
+	(void)sigemptyset(&nmask);
+	(void)sigaddset(&nmask, SIGINT);
+	(void)sigaddset(&nmask, SIGQUIT);
+	(void)sigaddset(&nmask, SIGHUP);
+	(void)sigprocmask(SIG_BLOCK, &nmask, &omask);
 	do	{
 		pid = waitpid(pids[fdes], &stat_loc, NULL);
 		} while (pid == -1 && errno == EINTR);

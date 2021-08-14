@@ -210,8 +210,8 @@ stop_catcher()
 	    write(2,"stop_catcher\r\n",13);
 #endif
 	sigset(SIGTSTP,SIG_DFL);	/* enable stop */
-	sigemptyset(&set);
-	sigaddset(&set, SIGTSTP);
+	(void)sigemptyset(&set);
+	(void)sigaddset(&set, SIGTSTP);
 	(void)sigprocmask(SIG_UNBLOCK, &set, NULL);
 	kill(0,SIGTSTP);		/* and do the stop */
     }

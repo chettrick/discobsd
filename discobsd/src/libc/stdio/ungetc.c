@@ -2,6 +2,7 @@
 
 int
 ungetc(c, iop)
+	int c;
 	register FILE *iop;
 {
 	if (c == EOF || (iop->_flag & (_IOREAD|_IORW)) == 0 ||

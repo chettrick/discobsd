@@ -62,7 +62,7 @@ gdb-ocd: kernel
 	cd ${KERNDIR}
 	arm-none-eabi-gdb -q \
 		-ex 'cd ${KERNDIR}' \
-		-ex 'target remote :3333' \
+		-ex 'target extended-remote :3333' \
 		-ex 'mon reset halt' \
 		-ex 'load' \
 		${KERNDIR}/${KERN}.elf

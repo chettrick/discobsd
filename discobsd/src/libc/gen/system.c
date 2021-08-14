@@ -48,8 +48,8 @@ system(command)
 	if (!command)		/* just checking... */
 		return(1);
 
-	sigemptyset(&nmask);
-	sigaddset(&nmask, SIGCHLD);
+	(void)sigemptyset(&nmask);
+	(void)sigaddset(&nmask, SIGCHLD);
 	(void)sigprocmask(SIG_BLOCK, &nmask, &omask);
 	switch(pid = vfork()) {
 	case -1:			/* error */

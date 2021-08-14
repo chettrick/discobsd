@@ -180,7 +180,7 @@ setmode(p)
 	 * the caller is opening files inside a signal handler, protect them
 	 * as best we can.
 	 */
-	sigfillset(&sigset);
+	(void)sigfillset(&sigset);
         (void)sigprocmask(SIG_BLOCK, &sigset, &sigoset);
 #endif
 	(void)umask(mask = umask(0));

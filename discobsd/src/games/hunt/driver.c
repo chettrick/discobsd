@@ -62,8 +62,8 @@ main()
 # endif INTERNET
 
 # ifdef CONSTANT_MOVE
-	sigemptyset(&alarm_sigset);
-	sigaddset(&alarm_sigset, SIGALRM);
+	(void) sigemptyset(&alarm_sigset);
+	(void) sigaddset(&alarm_sigset, SIGALRM);
 	(void) sigprocmask(SIG_BLOCK, &alarm_sigset, NULL);
 	(void) signal(SIGALRM, moveshots);
 # endif CONSTANT_MOVE

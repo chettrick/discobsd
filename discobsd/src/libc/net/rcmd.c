@@ -55,8 +55,8 @@ rcmd(ahost, rport, locuser, remuser, cmd, fd2p)
 		return (-1);
 	}
 	*ahost = hp->h_name;
-	sigemptyset(&nmask);
-	sigaddset(&nmask, SIGURG);
+	(void)sigemptyset(&nmask);
+	(void)sigaddset(&nmask, SIGURG);
 	(void)sigprocmask(SIG_BLOCK, &nmask, &oldmask);
 
 	for (;;) {

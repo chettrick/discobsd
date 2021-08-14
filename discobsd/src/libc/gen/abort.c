@@ -39,12 +39,12 @@ abort()
 {
 	sigset_t mask;
 
-	sigfillset(&mask);
+	(void)sigfillset(&mask);
 	/*
 	 * don't block SIGABRT to give any handler a chance; we ignore
 	 * any errors -- X311J doesn't allow abort to return anyway.
 	 */
-	sigdelset(&mask, SIGABRT);
+	(void)sigdelset(&mask, SIGABRT);
 	(void)sigprocmask(SIG_SETMASK, &mask, (sigset_t *)NULL);
 	(void)kill(getpid(), SIGABRT);
 

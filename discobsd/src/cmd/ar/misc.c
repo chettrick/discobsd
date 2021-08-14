@@ -85,7 +85,7 @@ tmp()
 		strcpy(path, artmp);
         }
 #ifndef CROSS
-	sigfillset(&set);
+	(void)sigfillset(&set);
 	(void)sigprocmask(SIG_BLOCK, &set,  &oset);
 #endif
 	fd = mkstemp(path);

@@ -73,6 +73,7 @@ dcalchash(item)
 static datum
 makdatum(buf, n)
 	char buf[PBLKSIZ];
+	int n;
 {
 	register short *sp;
 	register int t;
@@ -249,6 +250,7 @@ err:
 static int
 delitem(buf, n)
 	char buf[PBLKSIZ];
+	int n;
 {
 	register short *sp, *sp1;
 	register int i1, i2;

@@ -237,6 +237,7 @@ static	char	preS[48];
 void
 encrypt(block, edflag)
 char *block;
+int edflag;
 {
 	int i, ii;
 	register int t, j, k;

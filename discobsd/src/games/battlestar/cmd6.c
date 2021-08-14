@@ -57,8 +57,8 @@ post(ch)
 	char *date;
 	sigset_t s, oset;
 
-	sigemptyset(&s);
-	sigaddset(&s, SIGINT);
+	(void)sigemptyset(&s);
+	(void)sigaddset(&s, SIGINT);
 	(void)sigprocmask(SIG_BLOCK, &s, &oset);
 	gettimeofday(&tv, (struct timezone *)0);
 	date = ctime(&tv.tv_sec);

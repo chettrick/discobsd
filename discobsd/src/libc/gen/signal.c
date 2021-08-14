@@ -46,7 +46,7 @@ signal(s, a)
 	struct sigaction sa, osa;
 
 	sa.sa_handler = a;
-	sigemptyset(&sa.sa_mask);
+	(void)sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	if (!sigismember(&_sigintr, s))
 		sa.sa_flags |= SA_RESTART;

@@ -2,6 +2,7 @@
 
 int
 putw(w, iop)
+	int w;
         register FILE *iop;
 {
 	register char *p;

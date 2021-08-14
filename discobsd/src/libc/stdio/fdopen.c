@@ -16,6 +16,7 @@
 
 FILE *
 fdopen(fd, mode)
+	int fd;
 	register const char *mode;
 {
 	static int nofile = -1;

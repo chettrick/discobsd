@@ -85,8 +85,8 @@ blockalarm()
 {
 	sigset_t set;
 
-	sigemptyset(&set);
-	sigaddset(&set, SIGALRM);
+	(void)sigemptyset(&set);
+	(void)sigaddset(&set, SIGALRM);
 
 	(void)sigprocmask(SIG_BLOCK, &set, NULL);
 }
@@ -96,7 +96,7 @@ unblockalarm()
 {
 	sigset_t set;
 
-	sigemptyset(&set);
-	sigaddset(&set, SIGALRM);
+	(void)sigemptyset(&set);
+	(void)sigaddset(&set, SIGALRM);
 	(void)sigprocmask(SIG_UNBLOCK, &set, NULL);
 }

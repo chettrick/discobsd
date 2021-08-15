@@ -80,7 +80,6 @@
 #define RAWPART         0               /* 'x' partition */
 
 #define NPARTITIONS     4
-#define MBR_MAGIC       0xaa55
 
 /*
  * Driver's data per disk drive.

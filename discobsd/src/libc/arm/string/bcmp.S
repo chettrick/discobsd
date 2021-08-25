@@ -32,8 +32,9 @@
 
 /* bcmp(s1, s2, n) */
 
-	.type	bcmp, @function
+	.type	bcmp, %function
 bcmp:	.globl  bcmp
+#if 0 // XXX Arm ASM
 	.set	noreorder
 	.set	noat
 
@@ -111,3 +112,4 @@ match:
 nomatch:
 	j	$ra
 	li	$v0, 1
+#endif // XXX Arm ASM

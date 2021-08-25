@@ -37,11 +37,12 @@
 #
 # a0 = 0x11223344, return 0x44332211
 #
-		.type	htonl, @function
+		.type	htonl, %function
 htonl:		.globl 	htonl
-		.type	ntohl, @function
+		.type	ntohl, %function
 ntohl:		.globl 	ntohl
 
+#if 0 // XXX Arm ASM
 #ifdef __MIPSEB__
 		move	$v0, $a0
 #else
@@ -56,3 +57,4 @@ ntohl:		.globl 	ntohl
 		or      $v0, $v0, $v1
 #endif
 		j       $ra
+#endif // XXX Arm ASM

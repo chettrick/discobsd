@@ -40,11 +40,11 @@
  * by restoring registers from the stack,
  * The previous signal state is NOT restored.
  */
-		.set	noreorder
 
-		.type	_setjmp, @function
+		.type	_setjmp, %function
 _setjmp:	.globl 	_setjmp
 
+#if 0 // XXX Arm ASM
 		sw	$s0, (0 * 4) ($a0)	# save register variables s0-s8
 		sw	$s1, (1 * 4) ($a0)
 		sw	$s2, (2 * 4) ($a0)
@@ -64,10 +64,12 @@ _setjmp:	.globl 	_setjmp
 
 		j	$ra
 		move	$v0, $zero		# return a zero for the setjmp call
+#endif // XXX Arm ASM
 
-		.type	_longjmp, @function
+		.type	_longjmp, %function
 _longjmp:	.globl	_longjmp
 
+#if 0 // XXX Arm ASM
 		lw	$s0, (0 * 4) ($a0)	# restore register variables s0-s8
 		lw	$s1, (1 * 4) ($a0)
 		lw	$s2, (2 * 4) ($a0)
@@ -83,3 +85,4 @@ _longjmp:	.globl	_longjmp
 
 		j	$ra			# transfer back to setjmp()
 		move	$v0, $a1		# get return value in 1st arg
+#endif // XXX Arm ASM

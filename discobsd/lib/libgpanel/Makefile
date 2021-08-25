@@ -3,7 +3,11 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/libgpanel
 
+ifeq ($(MACHINE_ARCH), mips)
 CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
+else
+CFLAGS		= -Os $(DEFS) -Wall -Werror
+endif
 
 OBJS            = open.o clear.o pixel.o line.o rect.o fill.o fill_triangle.o \
                   circle.o image.o char.o text.o text_width.o

@@ -6,6 +6,7 @@
 #include "SYS.h"
 
 ENTRY(ptrace)
+#if 0 // XXX Arm ASM
 		# -1 is a legitimate return
 		# value so we must clear errno
 		# so the caller may disambiguate
@@ -19,3 +20,4 @@ ENTRY(ptrace)
 
 		.set	reorder
 		jr	$ra			# return here on success
+#endif // XXX Arm ASM

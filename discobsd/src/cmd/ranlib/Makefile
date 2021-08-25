@@ -4,7 +4,6 @@ include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		+= -Werror -Wall -g -I. -I../ar
 CFLAGS		+= -Wall -g -I. -I../ar
-LDFLAGS		+= -g
 
 SRCS            = ../ar/archive.c ranlib.c
 OBJS            = archive.o ranlib.o

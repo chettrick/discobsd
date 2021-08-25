@@ -29,9 +29,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-        .set    reorder
-	.type	index, @function
+	.type	index, %function
 index:	.globl  index
+#if 0 // XXX Arm ASM
 1:
 	lbu	$a2, 0($a0)		# get a byte
 	addiu	$a0, $a0, 1
@@ -43,3 +43,4 @@ notfnd:
 fnd:
 	addiu	$v0, $a0, -1
 	j	$ra
+#endif // XXX Arm ASM

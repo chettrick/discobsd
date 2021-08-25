@@ -6,6 +6,7 @@
 #include "SYS.h"
 
 ENTRY(pipe)
+#if 0 // XXX Arm ASM
 		.set	noreorder
 		syscall	SYS_pipe
 		j	1f		# return here on error
@@ -20,3 +21,4 @@ ENTRY(pipe)
 		lui	$t1, %hi(errno)
 		sw      $t0, %lo(errno)($t1)
 		jr	$ra
+#endif // XXX Arm ASM

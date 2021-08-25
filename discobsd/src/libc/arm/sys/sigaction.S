@@ -20,6 +20,7 @@
 #include "SYS.h"
 
 ENTRY(sigaction)
+#if 0 // XXX Arm ASM
                 la      $a3, sigtramp           # arg4: address of sigtramp
 
 		.set	noreorder
@@ -29,6 +30,7 @@ ENTRY(sigaction)
 		.set	reorder
 
 		jr	$ra			# return here on success
+#endif // XXX Arm ASM
 
 /*
  * sigtramp - Signal "Trampoline Code"
@@ -73,5 +75,7 @@ ENTRY(sigaction)
  * sigcontext structure changes.
  */
 sigtramp:
+#if 0 // XXX Arm ASM
                 syscall	SYS_sigreturn		# attempt the sigreturn
                 syscall	SYS_exit		# die if the sigreturn fails ...
+#endif // XXX Arm ASM

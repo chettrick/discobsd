@@ -33,9 +33,9 @@
 #
 # NOTE: this version assumes unsigned chars in order to be "8 bit clean".
 #
-        .set    reorder
-	.type	strcmp, @function
+	.type	strcmp, %function
 strcmp:	.globl  strcmp
+#if 0 // XXX Arm ASM
 1:
 	lbu	$t0, 0($a0)		# get two bytes and compare them
 	lbu	$t1, 0($a1)
@@ -53,3 +53,4 @@ NotEq:
 LessOrEq:
 	subu	$v0, $zero, $t1
 	j	$ra
+#endif // XXX Arm ASM

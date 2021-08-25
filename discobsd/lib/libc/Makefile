@@ -8,10 +8,15 @@ vpath %.c $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
           $(LIBCDIR)/stdlib $(LIBCDIR)/string $(LIBCDIR)/inet \
           $(LIBCDIR)/compat $(LIBCDIR)/runtime
 
+ifeq ($(MACHINE_ARCH), mips)
 # XXX CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
 CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall
 ASFLAGS		+= -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x \
 		   -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
+else
+CFLAGS		= -Os $(DEFS) -Wall
+ASFLAGS		+= $(DEFS) -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
+endif
 
 # modules which can not use SYSCALL and must be assembled from sources.  The
 # rest of the system calls are generated with printf(1) and do not have

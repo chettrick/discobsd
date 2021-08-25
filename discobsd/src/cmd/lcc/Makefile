@@ -6,7 +6,6 @@ OBJS            = lcc.o retrobsd.o
 MAN             = lcc.0
 MANSRC          = lcc.1
 
-LDFLAGS         += -g
 CFLAGS		+= -Wall -Os
 # XXX CFLAGS		+= -Werror -Wall -Os
 

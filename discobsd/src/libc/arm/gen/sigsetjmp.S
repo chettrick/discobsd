@@ -43,21 +43,23 @@
  *
  * From: Chris Dearman <cjwdearman@gmail.com>
  */
-		.set	noreorder
 
-		.type	sigsetjmp, @function
+		.type	sigsetjmp, %function
 sigsetjmp:	.globl 	sigsetjmp
 
+#if 0 // XXX Arm ASM
 		bne	$a1, 0x0, 1f		# do saving of signal mask?
 		nop
 		j	_setjmp
 		nop
 1:		j	setjmp
 		nop
+#endif // XXX Arm ASM
 
-		.type	siglongjmp, @function
+		.type	siglongjmp, %function
 siglongjmp:	.globl 	siglongjmp
 
+#if 0 // XXX Arm ASM
 		lw	$t0, (12 * 4)($a0)
 		bnez	$t0, 1f
 		nop
@@ -65,3 +67,4 @@ siglongjmp:	.globl 	siglongjmp
 		nop
 1:		j	longjmp
 		nop
+#endif // XXX Arm ASM

@@ -51,8 +51,9 @@
 #define	SIZEREG		$a2
 
 	.globl  FUNCTION
-	.type	FUNCTION, @function
+	.type	FUNCTION, %function
 FUNCTION:
+#if 0 // XXX Arm ASM
 	.set	noat
 	.set	noreorder
 
@@ -268,3 +269,4 @@ FUNCTION:
 
 	.set	reorder
 	.set	at
+#endif // XXX Arm ASM

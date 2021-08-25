@@ -9,7 +9,11 @@ TOPSRC          = $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 vpath %.c $(TOPSRC)/src/startup-$(MACHINE_ARCH)
 
+ifeq ($(MACHINE_ARCH), mips)
 CFLAGS          = -Os -B$(TOPSRC)/lib/ -Wa,-x $(DEFS)
+else
+CFLAGS          = -Os $(DEFS) -Wall -Werror
+endif
 
 OBJS		= ../crt0.o
 

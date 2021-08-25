@@ -8,7 +8,6 @@ include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		+= -Wall -Werror -DNDEBUG
 CFLAGS		+= -Wall -DNDEBUG
-LDFLAGS		+= -g
 
 OBJS            = $Balloc.o $Bbind.o $Bdag.o $Bdagcheck.o $Bdecl.o $Benode.o \
 		  $Berror.o $Bexpr.o $Bevent.o $Binit.o $Binits.o $Binput.o \

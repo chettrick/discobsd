@@ -3,7 +3,11 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/libm
 
+ifeq ($(MACHINE_ARCH), mips)
 CFLAGS          = -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
+else
+CFLAGS          = -Os $(DEFS) -Wall -Werror
+endif
 
 OBJS            = asin.o atan.o exp.o erf.o floor.o fmod.o hypot.o j0.o j1.o \
                   jn.o log.o pow.o sin.o sinh.o sqrt.o tan.o tanh.o

@@ -7,8 +7,6 @@ OBJS            = cpp.o cpy.o token.o compat.o doprnt.o
 MAN             = cpp.0
 MANSRC          = cpp.1
 
-LDFLAGS         += -g
-
 # XXX CFLAGS		+= -Werror -Wall -Os
 CFLAGS		+= -Wall -Os
 #CFLAGS          += -DCPP_DEBUG -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC

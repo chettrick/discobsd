@@ -1,4 +1,6 @@
+#if __mips__ /* XXX */
         .set reorder
+#endif /* __mips__ XXX */
 	.text
 #
 # $v0 = value to switch on
@@ -13,6 +15,7 @@
 #
         .globl  __sc_case
 __sc_case:
+#if __mips__ /* XXX */
 	lw	$t1, 16($sp)	# t1=pointer to list of value/ptr pairs
 	addiu	$sp, $sp, 4	# pop stack that held pointer
 1:
@@ -32,3 +35,4 @@ __sc_case:
 	and	$t2, $t2, $ra
         or      $t3, $t3, $t2
 	jr	$t3
+#endif /* __mips__ XXX */

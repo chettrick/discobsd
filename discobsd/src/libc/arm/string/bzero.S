@@ -34,8 +34,9 @@
 
 #define SZREG 4
 
-	.type	bzero, @function
+	.type	bzero, %function
 bzero:	.globl  bzero
+#if 0 // XXX Arm ASM
 	.set	noreorder
 	.set	noat
 
@@ -66,3 +67,4 @@ smallclr:
 2:
 	j	$ra
 	nop
+#endif // XXX Arm ASM

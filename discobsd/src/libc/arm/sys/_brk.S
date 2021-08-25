@@ -6,6 +6,7 @@
 #include "SYS.h"
 
 ENTRY(_brk)
+#if 0 // XXX Arm ASM
 		.set	noreorder
 		syscall	SYS_sbrk
 		lui	$t1, %hi(errno)		# return here on error
@@ -13,3 +14,4 @@ ENTRY(_brk)
 		.set	reorder
 
 		jr	$ra			# return here on success
+#endif // XXX Arm ASM

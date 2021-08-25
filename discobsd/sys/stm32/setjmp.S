@@ -229,6 +229,7 @@ SYM (\name):
 	.globl	icode
 	.type	icode, %function
 icode:
+#if 0 /* XXX */
         /* Atomic manipulation of GPIOs. */
         /* Use GPIOD_BSRR register to atomically set and clear GPIO pins. */
 // XXX        ldr     r0, =0x40020c18 /* GPIOD_BSRR Bit set/reset register. S8.4.7 */
@@ -242,15 +243,16 @@ blink:
         nop
         b       blink
 
-#if 0 /* XXX */
-	la	$a0, UBASE
-	move	$a1, $a0
-	addi	$a0, sbininit - icode
-	addi	$a1, argv - icode
-	syscall	11			/* SYS_execv */
-	move	$a0, $v0
-	syscall	1			/* SYS_exit */
 #endif /* XXX */
+.equ UINIT, UBASE + sbininit - icode
+.equ UARGV, UBASE + argv - icode
+
+	ldr	r0, =UINIT
+	ldr	r1, =UARGV
+	ldr	r7, =11			/* SYS_execv */
+	swi	0x0			/* syscall */
+	ldr	r7, =1			/* SYS_exit */
+	swi	0x0			/* syscall */
 
 	.type	sbininit, %object
 sbininit:

@@ -34,10 +34,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-		.type	htons, @function
+		.type	htons, %function
 htons:		.globl 	htons
-		.type	ntohs, @function
+		.type	ntohs, %function
 ntohs:		.globl 	ntohs
+#if 0 // XXX Arm ASM
 #ifdef __MIPSEB__
 		move    $v0, $a0
 #else
@@ -48,3 +49,4 @@ ntohs:		.globl 	ntohs
 		or	$v0, $v0, $v1
 #endif
 		j	$ra
+#endif // XXX Arm ASM

@@ -31,10 +31,10 @@
  */
 
 /* bit = ffs(value) */
-        .set    reorder
-	.type	ffs, @function
+	.type	ffs, %function
 ffs:	.globl  ffs
 
+#if 0 // XXX Arm ASM
 	move	$v0, $zero
 	beq	$a0, $zero, done
 1:
@@ -44,3 +44,4 @@ ffs:	.globl  ffs
 	beq	$v1, $zero, 1b		# no, continue
 done:
 	j	$ra
+#endif // XXX Arm ASM

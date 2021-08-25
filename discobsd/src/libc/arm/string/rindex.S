@@ -29,9 +29,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-        .set    reorder
-	.type	rindex, @function
+	.type	rindex, %function
 rindex:	.globl  rindex
+#if 0 // XXX Arm ASM
 
 	move	$v0, $zero		# default if not found
 1:
@@ -42,3 +42,4 @@ rindex:	.globl  rindex
 2:
 	bnez	$a3, 1b		# continue if not end
 	j	$ra
+#endif // XXX Arm ASM

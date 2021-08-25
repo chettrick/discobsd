@@ -11,7 +11,6 @@ MIPDIR          = mip
 CFLAGS          += -DGCC_COMPAT -DPCC_DEBUG -D_ISOC99_SOURCE -DYY_NO_INPUT -Dmach_mips -I. -I${MIPDIR} -I${ARCHDIR}
 # XXX CFLAGS		+= -g -Werror -Wall
 CFLAGS		+= -g -Wall
-LDFLAGS		+= -g
 
 OBJS1           = optim.o pftn.o scan.o trees.o cgram.o inline.o symtabs.o \
                   gcc_compat.o init.o local.o code.o stabs.o builtins.o

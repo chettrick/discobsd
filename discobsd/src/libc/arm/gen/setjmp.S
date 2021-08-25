@@ -42,11 +42,11 @@
  *
  * From: Chris Dearman <cjwdearman@gmail.com>
  */
-		.set	noreorder
 
-		.type	setjmp, @function
+		.type	setjmp, %function
 setjmp:		.globl 	setjmp
 
+#if 0 // XXX Arm ASM
 		subu	$sp, 24
 		sw	$ra, 20($sp)
 		sw	$a0, 24($sp)
@@ -79,11 +79,13 @@ setjmp:		.globl 	setjmp
 
 		j	$ra
 		move	$v0, $zero		# BDS: return a zero for the setjmp call
+#endif // XXX Arm ASM
 
 
-		.type	longjmp, @function
+		.type	longjmp, %function
 longjmp:	.globl	longjmp
 
+#if 0 // XXX Arm ASM
 		subu	$sp, 24
 		sw	$ra, 20($sp)
 		sw	$a0, 24($sp)
@@ -115,3 +117,4 @@ longjmp:	.globl	longjmp
 
 		j	$ra
 		move	$v0, $a1		# BDS: return value from longjmp
+#endif // XXX Arm ASM

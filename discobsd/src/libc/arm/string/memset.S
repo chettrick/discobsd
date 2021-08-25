@@ -1,8 +1,9 @@
 #
 # memset(void *s1, int c, int len)
 #
-	.type	memset, @function
+	.type	memset, %function
 memset:	.globl  memset
+#if 0 // XXX Arm ASM
 	.set	noreorder
 	.set	noat
 
@@ -41,3 +42,4 @@ smallclr:
 2:
 	j	$ra
 	nop
+#endif // XXX Arm ASM

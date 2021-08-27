@@ -17,7 +17,7 @@ void
 linkdata()                              /*  secondary data manipulation */
 {       register int i,j;
 	/*      array linkages          */
-	for (i=1; i<=LOCSIZ; i++)
+	for (i=1; i<LOCSIZ; i++)
 		if (ltext[i].seekadr!=0 && travel[i] != 0)
 			if ((travel[i]->tverb)==1) cond[i]=2;
 	for (j=100; j>0; j--)
@@ -130,7 +130,7 @@ linkdata()                              /*  secondary data manipulation */
 }
 
 void
-trapdel(sig)                            /* come here if he hits a del   */
+trapdel(int sig)                        /* come here if he hits a del   */
 {	delhit++;			/* main checks, treats as QUIT  */
 	signal(2,trapdel);		/* catch subsequent DELs        */
 }

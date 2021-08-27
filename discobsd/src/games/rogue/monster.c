@@ -805,7 +805,8 @@ aggravate()
 
 boolean
 mon_sees(monster, row, col)
-        object *monster;
+	object *monster;
+	short row, col;
 {
 	int rn, rdif, cdif, retval;
 

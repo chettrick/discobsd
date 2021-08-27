@@ -20,7 +20,7 @@ OBJS		= bcopy.o bzero.o ffs.o memcpy.o memmove.o memset.o \
                   strlen.o bcmp.o index.o rindex.o strcmp.o
 
 string.a:	${OBJS}
-		@echo "buiding string.a"
+		@echo "building string.a"
 		@$(AR) cru string.a ${OBJS}
 
 tags:

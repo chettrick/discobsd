@@ -322,7 +322,7 @@ movcmp ()
 		for (i = 1; i < 25; i++)  {
 			if (board[i] == cturn)
 				ch = canhit (i,1);
-				op += abs (bar-i);
+			op += abs (bar-i);
 		}
 		for (i = bar+cturn; i != home; i += cturn)
 			if (board[i]*cturn > 1)

@@ -21,6 +21,7 @@ char *strange_feeling = "you have a strange feeling for a moment, then it passes
 
 static void
 potion_heal(extra)
+	int extra;
 {
 	float ratio;
 	int add;

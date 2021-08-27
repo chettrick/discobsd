@@ -18,7 +18,7 @@ OBJS		= creat.o ftime.o gethostid.o memccpy.o memchr.o memcmp.o \
 		  strchr.o strrchr.o times.o tmpnam.o utime.o
 
 compat.a:	${OBJS}
-		@echo "buiding compat.a"
+		@echo "building compat.a"
 		@$(AR) cru compat.a ${OBJS}
 
 tags:

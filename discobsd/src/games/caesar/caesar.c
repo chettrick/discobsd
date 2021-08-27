@@ -43,6 +43,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <string.h>
 
 #define	LINELENGTH	2048
 #define	ROTATE(ch, perm) \
@@ -59,6 +60,9 @@ double stdf[26] = {
 	2.62, 0.81, 1.88, 0.23,  2.07, 0.06,
 };
 
+void printit(char *arg);
+
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -128,6 +132,7 @@ main(argc, argv)
 	exit(0);
 }
 
+void
 printit(arg)
 	char *arg;
 {

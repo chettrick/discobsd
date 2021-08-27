@@ -265,6 +265,7 @@ insert_score(scores, n_names, n_name, rank, n, monster, other)
         char *n_name;
         int rank, n;
         object *monster;
+        int other;
 {
 	int i;
 	char buf[128];

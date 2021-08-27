@@ -27,6 +27,7 @@ makesignal(from, fmt, ship, a, b, c)
 	struct ship *from;
 	char *fmt;
 	register struct ship *ship;
+	int a, b, c;
 {
 	char message[80];
 
@@ -41,6 +42,7 @@ makesignal(from, fmt, ship, a, b, c)
 
 int
 sync_exists(game)
+	int game;
 {
 	char buf[sizeof sync_file];
 	struct stat s;

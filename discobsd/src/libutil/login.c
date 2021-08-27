@@ -16,6 +16,9 @@
  */
 #include <sys/types.h>
 #include <sys/file.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <utmp.h>
 #include <stdio.h>
 #include <paths.h>

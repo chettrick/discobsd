@@ -12,7 +12,7 @@ SRCS		= _setjmp.S htonl.S htons.S setjmp.S sigsetjmp.S
 OBJS		= _setjmp.o htonl.o htons.o setjmp.o sigsetjmp.o
 
 gen.a:		${OBJS}
-		@echo "buiding gen.a"
+		@echo "building gen.a"
 		@$(AR) cru gen.a ${OBJS}
 
 tags:

@@ -195,16 +195,16 @@ rmend(str)
 static void
 try(command, temp, ma, ta, af, vma, dir, f, t, high, rakeme)
         register struct ship *f, *t;
-        int ma, ta, af, *high, rakeme;
+        int ma, ta, af, vma, dir, *high, rakeme;
         char command[], temp[];
 {
 	register int new, n;
-	char st[4];
+	char st[11];
 #define rakeyou (gunsbear(f, t) && !gunsbear(t, f))
 
 	if ((n = strend(temp)) < '1' || n > '9')
 		for (n = 1; vma - n >= 0; n++) {
-			(void) sprintf(st, "%d", n);
+			(void) snprintf(st, sizeof(st), "%d", n);
 			(void) strcat(temp, st);
 			new = score(temp, f, t, rakeme);
 			if (new > *high && (!rakeme || rakeyou)) {

@@ -48,6 +48,7 @@ wizard()                /* not as complex as advent/10 (for now)        */
 
 void
 start(n)
+int n;
 {
         int d, t, delay;
 

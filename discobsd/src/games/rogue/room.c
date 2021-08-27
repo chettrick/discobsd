@@ -81,6 +81,7 @@ light_up_room(rn)
 
 void
 light_passage(row, col)
+	short row, col;
 {
 	int i, j, i_end, j_end;
 
@@ -237,6 +238,7 @@ gr_room()
 
 int
 party_objects(rn)
+	int rn;
 {
 	int i, j, nf = 0;
 	object *obj;

@@ -70,7 +70,8 @@ check_duplicate(obj, pack)
 
 object *
 add_to_pack(obj, pack, condense)
-        object *obj, *pack;
+	object *obj, *pack;
+	int condense;
 {
 	object *op;
 
@@ -112,7 +113,8 @@ take_from_pack(obj, pack)
  */
 object *
 pick_up(row, col, status)
-        int *status;
+	int row, col;
+	int *status;
 {
 	object *obj;
 

@@ -205,7 +205,8 @@ put_objects()
 
 void
 place_at(obj, row, col)
-        object *obj;
+	object *obj;
+	short row, col;
 {
 	obj->row = row;
 	obj->col = col;
@@ -235,6 +236,7 @@ object_at(pack, row, col)
 
 object *
 get_letter_object(ch)
+	int ch;
 {
 	object *obj;
 

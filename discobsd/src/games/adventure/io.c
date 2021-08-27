@@ -190,7 +190,8 @@ char **wrd1, **wrd2;                    /* no prompt, usually           */
 				break;
 			}
 			else            /* finished 2nd word            */
-			{       FLUSHLINE;
+			{
+				FLUSHLINE;
 				*s=0;
 				return;
 			}
@@ -339,7 +340,8 @@ char *infile, *outfile;                 /* datfile we were called with  */
 	{       sect=next()-'0';        /* 1st digit of section number  */
 		//printf("Section %c",sect+'0');
 		if ((ch=next())!=LF)    /* is there a second digit?     */
-		{       FLUSHLF;
+		{
+			FLUSHLF;
 			//putchar(ch);
 			sect=10*sect+ch-'0';
 		}

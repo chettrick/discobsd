@@ -49,6 +49,7 @@ void error(s)
 
 int choose(a, n)
         char a[];
+        int n;
 {
 	/* pick and return one at random from the n choices in a */
 	/* The last one is moved to replace the one chosen */
@@ -101,6 +102,7 @@ int empty(h)
 
 int mark(hand, cd)
         HAND hand;
+        int cd;
 {
 	if (cd != NOMORE) {
 		++hand[cd];
@@ -113,6 +115,7 @@ int mark(hand, cd)
 
 void deal(hand, n)
         HAND hand;
+        int n;
 {
 	while(n--) {
 		if (mark(hand, draw()) == NOMORE)
@@ -268,16 +271,19 @@ void score()
 }
 
 void heguessed(d)
+        int d;
 {
 	++hehas[d];
 }
 
 void madebook(x)
+        int x;
 {
 	printf("Made a book of %s's\n", cname[x]);
 }
 
 void hedrew(d)
+        int d;
 {
 	++hehas[d];
 }
@@ -286,6 +292,7 @@ void hedrew(d)
 
 int move(hs, ht, g, v)
         HAND hs, ht;
+        int g, v;
 {
 	/* hand hs has made a guess, g, directed towards ht */
 	/* v on indicates that the guess was made by the machine */
@@ -531,6 +538,7 @@ void game()
 }
 
 int main(argc, argv)
+        int argc;
         char * argv[];
 {
 	/* initialize shuffling, ask for instructions, play game, die */

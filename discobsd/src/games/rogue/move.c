@@ -329,6 +329,7 @@ is_passable(row, col)
 
 int
 can_move(row1, col1, row2, col2)
+	short row1, col1, row2, col2;
 {
 	if (!is_passable(row2, col2)) {
 		return(0);
@@ -595,6 +596,7 @@ reg_move()
 
 void
 rest(count)
+	int count;
 {
 	int i;
 

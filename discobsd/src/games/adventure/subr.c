@@ -34,6 +34,7 @@ int pbotl;
 
 int
 liq(foo)
+int foo;
 {       register int i;
 	i=prop[bottle];
 	if (i>-1-i) return(liq2(i));
@@ -67,6 +68,7 @@ int locc;
 
 int
 dark(foo)
+int foo;
 {       if ((cond[loc]%2)==0 && (prop[lamp]==0 || !here(lamp)))
 		return(TRUE);
 	return(FALSE);

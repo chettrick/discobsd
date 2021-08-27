@@ -38,6 +38,7 @@ void score()
 }
 
 void delete(sig)
+	int sig;
 {
 	if(rights + wrongs == 0.) {
 		printf("\n");
@@ -63,6 +64,7 @@ int getnum(s)
 int arand;
 
 void srand13(n)
+	int n;
 {
 	arand = (n & 077774) | 01;
 }
@@ -80,11 +82,13 @@ int rand13()		/*uniform on 0 to 2**13-1*/
  *  assembler language subroutine. -- dks.
  */
 int hmul(a, b)
+	int a, b;
 {
         return (long)a*b >> 16;
 }
 
 int skrand(range)
+	int range;
 {
         int temp;
 
@@ -95,6 +99,7 @@ int skrand(range)
 }
 
 int rrandom(range)
+	int range;
 {
 	return(hmul(rand13(), 8*range));
 }
@@ -122,7 +127,8 @@ void getln(s)
 }
 
 int main(argc, argv)
-        char	*argv[];
+	int	 argc;
+	char	*argv[];
 {
 	int range, k, dif, l;
 	char line[100];

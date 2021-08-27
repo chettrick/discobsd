@@ -305,12 +305,14 @@ mix_random_rooms()
 
 static int
 same_row(room1, room2)
+	int room1, room2;
 {
 	return((room1 / 3) == (room2 / 3));
 }
 
 static int
 same_col(room1, room2)
+	int room1, room2;
 {
 	return((room1 % 3) == (room2 % 3));
 }

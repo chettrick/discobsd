@@ -382,6 +382,7 @@ void clearstat()
  * procedure to remove the card from the board
  */
 void removecard(a, b)
+	int a, b;
 {
 	move(b, a);
 	printw("   ");
@@ -495,6 +496,7 @@ void shuffle(deck)
  * procedure to print the cards on the board
  */
 void printrank(a, b, cp, inverse)
+	int a, b;
 	struct cardtype *cp;
 	bool inverse;
 {
@@ -606,6 +608,7 @@ void usedstock()
  */
 void fndbase(cp, column, row)
 	struct cardtype **cp;
+	int column, row;
 {
 	bool nomore;
 
@@ -980,6 +983,7 @@ bool diffcolor(cp1, cp2)
  */
 bool tabok(cp, des)
 	struct cardtype *cp;
+	int des;
 {
 	if ((cp == stock) && (tableau[des] == NIL))
 		return (TRUE);
@@ -1123,6 +1127,7 @@ void showcards()
  */
 void simpletableau(cp, des)
         struct cardtype **cp;
+	int des;
 {
 	int origin;
 
@@ -1154,6 +1159,7 @@ void simpletableau(cp, des)
  * print the tableau
  */
 void tabprint(sour, des)
+	int sour, des;
 {
 	int dlength, slength, i;
 	struct cardtype *tempcard;
@@ -1206,6 +1212,7 @@ void tabtotab(sour, des)
  */
 bool rankhigher(cp, let)
 	struct cardtype *cp;
+	int let;
 {
 	if (found[let]->rank == King)
 		if (cp->rank == Ace)
@@ -1223,6 +1230,7 @@ bool rankhigher(cp, let)
  */
 bool samesuit(cp, let)
 	struct cardtype *cp;
+	int let;
 {
 	if (cp->suit == found[let]->suit)
 		return (TRUE);
@@ -1235,6 +1243,7 @@ bool samesuit(cp, let)
  */
 void movetofound(cp, source)
 	struct cardtype **cp;
+	int source;
 {
 	tempbase = 0;
 	mtfdone = FALSE;

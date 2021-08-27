@@ -18,9 +18,13 @@
 #include <sys/file.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
 #include <utmp.h>
 #include <paths.h>
 
+void
 logwtmp(line, name, host)
 	char *line, *name, *host;
 {

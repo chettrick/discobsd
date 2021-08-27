@@ -102,4 +102,6 @@ char    *ecvt (double, int, int *, int *);
 char    *fcvt (double, int, int *, int *);
 char    *gcvt (double, int, char *);
 
+int	ttyslot (void);
+
 #endif /* _STDLIB_H_ */

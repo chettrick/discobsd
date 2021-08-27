@@ -15,11 +15,13 @@
 
 #include <vmf.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <sys/file.h>
 #include <stdlib.h>
 #include <strings.h>
 #include <string.h>
+#include <unistd.h>
 
 /*
  * Choose ONE and only one of the following swap policies

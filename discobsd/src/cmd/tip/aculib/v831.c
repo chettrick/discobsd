@@ -219,7 +219,7 @@ void v831_abort()
         kill(child, SIGKILL);
     if (AC > 0)
         ioctl(FD, TIOCNXCL, (struct sgttyb *)NULL);
-    close(AC); /* XXX had misleading indentation. */
+    close(AC);
     if (FD > 0)
         ioctl(FD, TIOCCDTR, 0);
     close(FD);

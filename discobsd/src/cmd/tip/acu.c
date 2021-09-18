@@ -59,7 +59,7 @@ connect()
         printf("\ncall aborted\n");
         logent(value(HOST), "", "", "call aborted");
         if (acu != NOACU) {
-            boolean(value(VERBOSE)) = FALSE;
+            setboolean(value(VERBOSE), FALSE);
             if (conflag)
                 disconnect(NOSTR);
             else

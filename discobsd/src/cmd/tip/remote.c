@@ -82,29 +82,29 @@ getremcap(host)
      * see if uppercase mode should be turned on initially
      */
     if (rgetflag("ra"))
-        boolean(value(RAISE)) = 1;
+        setboolean(value(RAISE), 1);
     if (rgetflag("ec"))
-        boolean(value(ECHOCHECK)) = 1;
+        setboolean(value(ECHOCHECK), 1);
     if (rgetflag("be"))
-        boolean(value(BEAUTIFY)) = 1;
+        setboolean(value(BEAUTIFY), 1);
     if (rgetflag("nb"))
-        boolean(value(BEAUTIFY)) = 0;
+        setboolean(value(BEAUTIFY), 0);
     if (rgetflag("sc"))
-        boolean(value(SCRIPT)) = 1;
+        setboolean(value(SCRIPT), 1);
     if (rgetflag("tb"))
-        boolean(value(TABEXPAND)) = 1;
+        setboolean(value(TABEXPAND), 1);
     if (rgetflag("vb"))
-        boolean(value(VERBOSE)) = 1;
+        setboolean(value(VERBOSE), 1);
     if (rgetflag("nv"))
-        boolean(value(VERBOSE)) = 0;
+        setboolean(value(VERBOSE), 0);
     if (rgetflag("ta"))
-        boolean(value(TAND)) = 1;
+        setboolean(value(TAND), 1);
     if (rgetflag("nt"))
-        boolean(value(TAND)) = 0;
+        setboolean(value(TAND), 0);
     if (rgetflag("rw"))
-        boolean(value(RAWFTP)) = 1;
+        setboolean(value(RAWFTP), 1);
     if (rgetflag("hd"))
-        boolean(value(HALFDUPLEX)) = 1;
+        setboolean(value(HALFDUPLEX), 1);
     if (RE == NOSTR)
         RE = (char *)"tip.record";
     if (EX == NOSTR)

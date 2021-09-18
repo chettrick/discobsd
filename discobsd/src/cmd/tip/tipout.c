@@ -44,14 +44,14 @@ void intEMT(int sig)
     if (boolean(value(SCRIPT)) && fscript != NULL)
         fclose(fscript);
     if (pline == line) {
-        boolean(value(SCRIPT)) = FALSE;
+        setboolean(value(SCRIPT), FALSE);
         reply = 'y';
     } else {
         if ((fscript = fopen(line, "a")) == NULL)
             reply = 'n';
         else {
             reply = 'y';
-            boolean(value(SCRIPT)) = TRUE;
+            setboolean(value(SCRIPT), TRUE);
         }
     }
     write(repdes[1], &reply, 1);
@@ -67,7 +67,7 @@ void intTERM(int sig)
 
 void intSYS(int sig)
 {
-    boolean(value(BEAUTIFY)) = !boolean(value(BEAUTIFY));
+    setboolean(value(BEAUTIFY), !boolean(value(BEAUTIFY)));
     longjmp(sigbuf, 1);
 }
 

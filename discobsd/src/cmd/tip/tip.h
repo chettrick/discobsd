@@ -107,25 +107,17 @@ typedef struct {
 
 #define equal(a, b) (strcmp(a,b)==0)/* A nice function to string compare */
 
-/*
- * variable manipulation stuff --
- *   if we defined the value entry in value_t, then we couldn't
- *   initialize it in vars.c, so we cast it as needed to keep lint
- *   happy.
- */
-typedef union {
-    int zz_number;
-    short   zz_boolean;
-    char    zz_character;
-    int *zz_address;
-} zzhack;
-
 #define value(v)        vtable[v].v_value
 
-#define boolean(v)      ((((zzhack *)(&(v))))->zz_boolean)
-#define number(v)       ((((zzhack *)(&(v))))->zz_number)
-#define character(v)    ((((zzhack *)(&(v))))->zz_character)
-#define address(v)      ((((zzhack *)(&(v))))->zz_address)
+#define boolean(v)      ((short)(long)(v))
+#define number(v)       ((long)(v))
+#define character(v)    ((char)(long)(v))
+#define address(v)      ((long *)(v))
+
+#define setboolean(v, n)    do { (v) = (char *)(long)(n); } while (0)
+#define setnumber(v, n)     do { (v) = (char *)(long)(n); } while (0)
+#define setcharacter(v, n)  do { (v) = (char *)(long)(n); } while (0)
+#define setaddress(v, n)    do { (v) = (char *)(n); } while (0)
 
 /*
  * Escape command table definitions --

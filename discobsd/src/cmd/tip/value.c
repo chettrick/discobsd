@@ -26,7 +26,7 @@ void vinit()
                 p->v_value = cp;
         }
         if (p->v_type&IREMOTE)
-            number(p->v_value) = *address(p->v_value);
+            setnumber(p->v_value, *address(p->v_value));
     }
     /*
      * Read the .tiprc file in the HOME directory
@@ -91,19 +91,19 @@ void vassign(p, v)
     case NUMBER:
         if (number(p->v_value) == number(v))
             return;
-        number(p->v_value) = number(v);
+        setnumber(p->v_value, number(v));
         break;
 
     case BOOL:
         if (boolean(p->v_value) == (*v != '!'))
             return;
-        boolean(p->v_value) = (*v != '!');
+        setboolean(p->v_value, (*v != '!'));
         break;
 
     case CHAR:
         if (character(p->v_value) == *v)
             return;
-        character(p->v_value) = *v;
+        setcharacter(p->v_value, *v);
     }
     p->v_access |= CHANGED;
 }
@@ -194,7 +194,7 @@ vprint(p)
 
     case NUMBER:
         col += 6;
-        printf("%s=%-5d", p->v_name, number(p->v_value));
+        printf("%s=%-5d", p->v_name, (int)number(p->v_value));
         break;
 
     case CHAR:

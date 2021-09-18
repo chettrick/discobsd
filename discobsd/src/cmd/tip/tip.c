@@ -59,7 +59,7 @@ static void tipin()
             if (!(gch = escape()))
                 continue;
         } else if (!cumode && gch == character(value(RAISECHAR))) {
-            boolean(value(RAISE)) = !boolean(value(RAISE));
+            setboolean(value(RAISE), !boolean(value(RAISE)));
             continue;
         } else if (gch == '\r') {
             bol = 1;
@@ -174,7 +174,7 @@ notnumber:
     vinit();                /* init variables */
     setparity("even");          /* set the parity table */
     if ((i = speed(number(value(BAUDRATE)))) == NULL) {
-        printf("tip: bad baud rate %d\n", number(value(BAUDRATE)));
+        printf("tip: bad baud rate %d\n", (int)number(value(BAUDRATE)));
         delock(uucplock);
         exit(3);
     }

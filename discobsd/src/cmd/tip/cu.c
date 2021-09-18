@@ -88,7 +88,7 @@ void cumain(argc, argv)
     user_uid();
     vinit();
     setparity("none");
-    boolean(value(VERBOSE)) = 0;
+    setboolean(value(VERBOSE), 0);
     if (HW)
         ttysetup(speed(BR));
     if (connect()) {

@@ -9,6 +9,17 @@
 #include <a.out.h>
 #include <errno.h>
 #include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+void    type(char *);
+int     troffint(char *, int);
+int     lookup(char **);
+int     ccom();
+int     ascom();
+int     english(char *, int);
+int     shellscript(char *, struct stat *);
+int     shell(char *, int, char **);
 
 int in;
 int i  = 0;
@@ -32,7 +43,9 @@ char *csh[] = {
     "repeat", "setenv", "source", "path", "home", 0 };
 int ifile;
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     register FILE *fl;
@@ -72,6 +85,7 @@ char **argv;
     exit(0);
 }
 
+void
 type(file)
 char *file;
 {
@@ -327,6 +341,7 @@ outa:
     printf("\n");
 }
 
+int
 troffint(bp, n)
 char *bp;
 int n;
@@ -347,6 +362,7 @@ int n;
     return(1);
 }
 
+int
 lookup(tab)
 char *tab[];
 {
@@ -366,6 +382,7 @@ char *tab[];
     return(0);
 }
 
+int
 ccom()
 {
     char cc;
@@ -383,6 +400,7 @@ ccom()
     return(1);
 }
 
+int
 ascom()
 {
     while(buf[i] == '/'){
@@ -393,8 +411,10 @@ ascom()
     return(1);
 }
 
-english (bp, n)
+int
+english(bp, n)
 char *bp;
+int n;
 {
 #define NASC 128
     int ct[NASC], j, vow, freq, rare;
@@ -432,6 +452,7 @@ char *bp;
     return (vow*5 >= n-ct[' '] && freq >= 10*rare);
 }
 
+int
 shellscript(buf, sb)
     char buf[];
     struct stat *sb;
@@ -464,6 +485,7 @@ shellscript(buf, sb)
     return (1);
 }
 
+int
 shell(bp, n, tab)
     char *bp;
     int n;

@@ -98,6 +98,8 @@ struct  stat
 
 int     chmod (const char *path, mode_t mode);
 int     fchmod (int fd, mode_t mode);
+int     mknod (const char *path, mode_t mode, dev_t dev);
+int     mkdir (const char *path, mode_t mode);
 mode_t  umask (mode_t cmask);
 
 #endif

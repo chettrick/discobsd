@@ -16,6 +16,18 @@
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <sys/dir.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int     chmodr(char *, int, int);
+int     error(char *, char *);
+void    fatal();
+int     Perror(char *);
+int     newmode(unsigned int);
+int     abss();
+int     who();
+int     what();
+int     where(int);
 
 static  char    *fchdirmsg = "Can't fchdir() back to starting directory";
 char    *modestring, *ms;
@@ -24,7 +36,9 @@ int status;
 int fflag;
 int rflag;
 
+int
 main(argc, argv)
+    int argc;
     char *argv[];
 {
     register char *p, *flags;
@@ -89,6 +103,7 @@ done:
     exit(status);
 }
 
+int
 chmodr(dir, mode, savedir)
     char *dir;
     int mode;
@@ -140,6 +155,7 @@ chmodr(dir, mode, savedir)
     return (ecode);
 }
 
+int
 error(fmt, a)
     char *fmt, *a;
 {
@@ -152,6 +168,7 @@ error(fmt, a)
     return (!fflag);
 }
 
+void
 fatal(status, fmt, a)
     int status;
     char *fmt, *a;
@@ -162,10 +179,10 @@ fatal(status, fmt, a)
     exit(status);
 }
 
+int
 Perror(s)
     char *s;
 {
-
     if (!fflag) {
         fprintf(stderr, "chmod: ");
         perror(s);
@@ -173,10 +190,11 @@ Perror(s)
     return (!fflag);
 }
 
+int
 newmode(nm)
-    unsigned nm;
+    unsigned int nm;
 {
-    register o, m, b;
+    register int o, m, b;
     int savem;
 
     ms = modestring;
@@ -207,9 +225,10 @@ newmode(nm)
     return (nm);
 }
 
+int
 abss()
 {
-    register c, i;
+    register int c, i;
 
     i = 0;
     while ((c = *ms++) >= '0' && c <= '7')
@@ -229,9 +248,10 @@ abss()
 #define SETID   06000   /* set[ug]id */
 #define STICKY  01000   /* sticky bit */
 
+int
 who()
 {
-    register m;
+    register int m;
 
     m = 0;
     for (;;) switch (*ms++) {
@@ -255,9 +275,9 @@ who()
     }
 }
 
+int
 what()
 {
-
     switch (*ms) {
     case '+':
     case '-':
@@ -267,10 +287,11 @@ what()
     return (0);
 }
 
+int
 where(om)
-    register om;
+    register int om;
 {
-    register m;
+    register int m;
 
     m = 0;
     switch (*ms) {

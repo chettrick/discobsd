@@ -24,6 +24,8 @@
 #include <sys/stat.h>
 #include <sys/file.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #ifdef pdp11
 #define LBIN 16385
@@ -34,17 +36,21 @@
 #undef  BUFSIZ
 #define BUFSIZ  8192
 
+void    fexit();
+
 struct  stat    statb;
 int follow;
 int piped;
 char bin[LBIN];
 int errno;
 
+int
 main(argc,argv)
+int argc;
 char **argv;
 {
     long n,di;
-    register i,j,k;
+    register int i,j,k;
     char    *arg;
     int partial,bylines,bkwds,fromend,lastnl;
     char *p;
@@ -221,6 +227,7 @@ errcom:
     exit(2);
 }
 
+void
 fexit()
 {   register int n;
     if (!follow || piped) exit(0);

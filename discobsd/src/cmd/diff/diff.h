@@ -8,7 +8,10 @@
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/dir.h>
+#include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 /*
  * Output format options
@@ -79,6 +82,9 @@ struct	stat stb1, stb2;
 char	*talloc(), *ralloc();
 char	*savestr(), *splice(), *splicen();
 char	*copytemp();
-void	done(int);
+void	 done(int);
+int	 min(int, int), max(int, int);
+void	 diffdir(char **);
+void	 diffreg();
 
 extern	char diffh[], diff[], pr[];

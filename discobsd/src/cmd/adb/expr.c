@@ -16,6 +16,7 @@ static char isymbol[MAXSYMLEN + 2];
  */
 static int
 symchar(dig)
+    int dig;
 {
     if (lastc == '\\') {
         readchar();
@@ -92,6 +93,7 @@ convdig(c)
  */
 int
 item(a)
+    int a;
 {
     int base, d, frpt, regptr;
     char savc, hex;
@@ -228,6 +230,7 @@ item(a)
  */
 int
 term(a)
+    int a;
 {
     switch (readchar()) {
 
@@ -270,6 +273,7 @@ term(a)
  */
 int
 expr(a)
+    int a;
 {
     int rc;
     long lhs;
@@ -297,6 +301,7 @@ expr(a)
 
 int
 varchk(name)
+    int name;
 {
     if (isdigit(name))
         return name - '0';

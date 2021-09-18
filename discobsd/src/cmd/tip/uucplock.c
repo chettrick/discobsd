@@ -80,6 +80,7 @@ stlock(name)
  */
 static int
 onelock(pid, tempfile, name)
+    int pid;
     char *tempfile, *name;
 {
     int fd;

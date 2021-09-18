@@ -9,10 +9,10 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/param.h>
 
-char *getwd();
-
+int
 main()
 {
     char pathname[MAXPATHLEN + 1];

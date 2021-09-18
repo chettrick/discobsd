@@ -9,13 +9,19 @@
  * software without specific written prior permission. This software
  * is provided ``as is'' without express or implied warranty.
  */
+
 #include <sys/param.h>
 #include <sys/file.h>
 #include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <ctype.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <unistd.h>
 
 #define DIFF    1           /* found differences */
 #define ERR 2           /* error during run */
@@ -34,7 +40,7 @@ static char *file1, *file2;     /* file names */
  * error --
  *  print I/O error message and die
  */
-static
+static void
 error(filename)
     char *filename;
 {
@@ -54,7 +60,7 @@ error(filename)
  * endoffile --
  *  print end-of-file message and exit indicating the files were different
  */
-static
+static void
 endoffile(filename)
     char *filename;
 {
@@ -68,7 +74,7 @@ endoffile(filename)
  * skip --
  *  skip first part of file
  */
-static
+static void
 skip(dist, fd, fname)
     register u_long dist;       /* length in bytes, to skip */
     register int    fd;     /* file descriptor */
@@ -88,7 +94,7 @@ skip(dist, fd, fname)
     }
 }
 
-static
+static void
 cmp()
 {
     register u_char *C1, *C2;   /* traveling pointers */
@@ -188,13 +194,14 @@ otoi(C)
  * usage --
  *  print usage and die
  */
-static
+static void
 usage()
 {
     fputs("usage: cmp [-ls] file1 file2 [skip1] [skip2]\n", stderr);
     exit(ERR);
 }
 
+int
 main(argc, argv)
     int argc;
     char    **argv;

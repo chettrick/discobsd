@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
+int	number(char *);
+
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -32,6 +36,7 @@ usage:
 	printf("usage: mknod name b/c major minor\n");
 }
 
+int
 number(s)
 char *s;
 {

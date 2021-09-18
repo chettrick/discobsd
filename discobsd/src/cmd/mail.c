@@ -1,6 +1,7 @@
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+#include <sys/wait.h>
 
 #include <ctype.h>
 #include <stdio.h>
@@ -13,6 +14,7 @@
 #include <paths.h>
 #include <stdlib.h>
 #include <time.h>
+#include <fcntl.h>
 #include <unistd.h>
 
     /* copylet flags */
@@ -24,6 +26,24 @@
 #define LSIZE       256
 #define MAXLET      300     /* maximum number of letters */
 #define MAILMODE    0600        /* mode of created mail */
+
+void     setsig(int, sig_t);
+int      any(int, char *);
+void     printmail(int, char **);
+void     copyback();
+void     copymt(FILE *, FILE *);
+void     copylet(int, FILE *, int);
+int      isfrom(char *);
+void     bulkmail(int, char **);
+int      sendrmt(int, char *);
+void     usage();
+int      sendmail(int, char *, char *);
+void     delex(int);
+void     done();
+void     cat(char *, char *, char *);
+char    *getarg(char *, char *);
+int      safefile(char *);
+void     panic();
 
 char    line[LSIZE];
 char    resp[LSIZE];
@@ -46,7 +66,6 @@ int error;
 int changed;
 int forward;
 char    from[] = "From ";
-int delex();
 int flgf;
 int flgp;
 int delflg = 1;
@@ -54,7 +73,9 @@ int hseqno;
 jmp_buf sjbuf;
 int rmail;
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     register int i;
@@ -88,6 +109,7 @@ char **argv;
     done();
 }
 
+void
 setsig(i, f)
 int i;
 sig_t f;
@@ -96,18 +118,20 @@ sig_t f;
         signal(i, f);
 }
 
+int
 any(c, str)
     register int c;
     register char *str;
 {
-
     while (*str)
         if (c == *str++)
             return(1);
     return(0);
 }
 
+void
 printmail(argc, argv)
+    int argc;
     char **argv;
 {
     int flg, i, j, print;
@@ -287,6 +311,7 @@ printmail(argc, argv)
 }
 
 /* copy temp or whatever back to /var/mail */
+void
 copyback()
 {
     register int i, c;
@@ -327,6 +352,7 @@ copyback()
 }
 
 /* copy mail (f1) to temp (f2) */
+void
 copymt(f1, f2)
     FILE *f1, *f2;
 {
@@ -343,7 +369,9 @@ copymt(f1, f2)
     let[nlet].adr = nextadr;    /* last plus 1 */
 }
 
+void
 copylet(n, f, type)
+    int n, type;
     FILE *f;
 {
     int ch;
@@ -384,6 +412,7 @@ copylet(n, f, type)
         putc(getc(tmpf), f);
 }
 
+int
 isfrom(lp)
 register char *lp;
 {
@@ -395,7 +424,9 @@ register char *lp;
     return(1);
 }
 
+void
 bulkmail(argc, argv)
+int argc;
 char **argv;
 {
     char *truename;
@@ -514,13 +545,15 @@ char **argv;
     fclose(tmpf);
 }
 
+int
 sendrmt(n, name)
+int n;
 char *name;
 {
     FILE *rmf, *popen();
     register char *p;
     char rsys[64], cmd[64];
-    register pid;
+    register int pid;
     int sts;
 
     for (p=rsys; *name!='!'; *p++ = *name++)
@@ -554,6 +587,7 @@ skip:
     exit(pclose(rmf) != 0);
 }
 
+void
 usage()
 {
     fprintf(stderr, "Usage: mail [ -f ] people . . .\n");
@@ -561,6 +595,7 @@ usage()
     done();
 }
 
+int
 sendmail(n, name, fromaddr)
     int n;
     char *name, *fromaddr;
@@ -616,7 +651,9 @@ sendmail(n, name, fromaddr)
     return(1);
 }
 
+void
 delex(i)
+    int i;
 {
     sigset_t sigt;
 
@@ -634,12 +671,14 @@ delex(i)
     done();
 }
 
+void
 done()
 {
     unlink(lettmp);
     exit(error);
 }
 
+void
 cat(to, from1, from2)
     char *to, *from1, *from2;
 {
@@ -667,6 +706,7 @@ getarg(s, p)
     return(p);
 }
 
+int
 safefile(f)
     char *f;
 {
@@ -683,8 +723,10 @@ safefile(f)
     return (1);
 }
 
+void
 panic(msg, a1, a2, a3)
     char *msg;
+    int a1, a2, a3; // XXX
 {
     fprintf(stderr, "mail: ");
     fprintf(stderr, msg, a1, a2, a3);

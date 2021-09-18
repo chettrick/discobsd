@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <sgtty.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/time.h>
 
 #define	kbytes(size)	(((size) + 1023) / 1024)
@@ -62,6 +63,10 @@ char	*getname(), *getgroup();
 char	*flags_to_string (unsigned flags, char *def);
 unsigned string_to_flags (char **stringp, unsigned *setp, unsigned *clrp);
 
+void	formatf(struct afile *, struct afile *);
+void	formatd(char *, int);
+
+int
 main(argc, argv)
 	int argc;
 	char *argv[];
@@ -72,6 +77,7 @@ main(argc, argv)
 	struct sgttyb sgbuf;
 	int ch, i;
 	time_t time();
+	void cfree();
 
 	Aflg = !getuid();
 	(void) time(&now); sixmonthsago = now - 6L*30L*24L*60L*60L; now += 60;
@@ -206,6 +212,7 @@ main(argc, argv)
 	exit(0);
 }
 
+void
 formatd(name, dotitle)
 	char *name;
 	int dotitle;
@@ -215,6 +222,7 @@ formatd(name, dotitle)
 	struct afile *dfp0, *dfplast;
 	int isadir;
 	long nkb, getdir();
+	void cfree();
 
 	nkb = getdir(name, &dfp0, &dfplast, &isadir);
 	if (dfp0 == 0)
@@ -377,6 +385,7 @@ gstat(fp, file, statarg, pnb)
 	return (fp);
 }
 
+void
 formatf(fp0, fplast)
 	struct afile *fp0, *fplast;
 {
@@ -437,6 +446,7 @@ formatf(fp0, fplast)
 	}
 }
 
+int
 fcmp(f1, f2)
 	register struct afile *f1, *f2;
 {

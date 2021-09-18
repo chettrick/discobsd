@@ -27,6 +27,7 @@ static int gobble(register char match, char response[]);
 #define CPUSPEED 1000000    /* VAX 780 is 1MIPS */
 
 void busyloop(n)
+    int n;
 {
     while (--n > 0)
         ;
@@ -179,6 +180,7 @@ gobble(match, response)
  */
 static int
 pensync(fd)
+    int fd;
 {
     int already = 0, nread;
     long temp;

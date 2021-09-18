@@ -115,6 +115,7 @@ printregs()
  */
 void
 printtrace(modif)
+    int     modif;
 {
     int     narg, i, stat, name, limit;
     u_int   dynam;
@@ -388,6 +389,7 @@ printtrace(modif)
 
 int
 getreg(regnam)
+    int     regnam;
 {
     register const REGLIST *p;
     register char *regptr;

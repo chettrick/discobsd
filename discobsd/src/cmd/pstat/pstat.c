@@ -20,6 +20,21 @@
 #include <nlist.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+void	usage();
+void	doinode();
+u_int	getuint(off_t);
+void	putf(long, char);
+void	doproc();
+void	dotty();
+void	dottytype(char *, int);
+void	ttyprt(struct tty *, int);
+void	dousr();
+int	oatoi(char *);
+void	dofile();
+void	doswap();
 
 char	*fcore	= "/dev/kmem";
 char	*fmem	= "/dev/mem";
@@ -54,7 +69,9 @@ int	totflg;
 int	allflg;
 int	kflg;
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
 	register char *argp;
@@ -147,11 +164,13 @@ char **argv;
 		doswap();
 }
 
+void
 usage()
 {
 	printf("usage: pstat -[aikptfsT] [-u [ubase]] [core]\n");
 }
 
+void
 doinode()
 {
 	register struct inode *ip;
@@ -225,6 +244,7 @@ getuint(loc)
 	return (word);
 }
 
+void
 putf(v, n)
 	long	v;
 	char	n;
@@ -235,12 +255,13 @@ putf(v, n)
 		printf(" ");
 }
 
+void
 doproc()
 {
 	struct proc *xproc;
 	u_int nproc, aproc;
 	register struct proc *pp;
-	register loc, np;
+	register int loc, np;
 
 	nproc = getuint((off_t)nl[SNPROC].n_value);
 	xproc = (struct proc *)calloc(nproc, sizeof (struct proc));
@@ -297,6 +318,7 @@ doproc()
 static int ttyspace = 64;
 static struct tty *tty;
 
+void
 dotty()
 {
 	if ((tty = (struct tty *)malloc(ttyspace * sizeof(*tty))) == 0) {
@@ -306,8 +328,10 @@ dotty()
 	dottytype("cn", SKL);
 }
 
+void
 dottytype(name, type)
 char *name;
+int type;
 {
 	register struct tty *tp;
 
@@ -318,8 +342,10 @@ char *name;
 	ttyprt(tty, 0);
 }
 
+void
 ttyprt(atp, line)
 struct tty *atp;
+int line;
 {
 	register struct tty *tp;
 
@@ -346,11 +372,12 @@ struct tty *atp;
 	printf("%6d\n", tp->t_pgrp);
 }
 
+void
 dousr()
 {
 	struct user U;
 	long	*ip;
-	register i, j;
+	register int i, j;
 
 	lseek(fm, ubase, 0);
 	read(fm, &U, sizeof(U));
@@ -467,10 +494,11 @@ dousr()
 		minor(U.u_ncache.nc_dev));
 }
 
+int
 oatoi(s)
 char *s;
 {
-	register v;
+	register int v;
 
 	v = 0;
 	while (*s)
@@ -478,11 +506,12 @@ char *s;
 	return(v);
 }
 
+void
 dofile()
 {
 	struct file *xfile;
 	register struct file *fp;
-	register nf;
+	register int nf;
 	u_int loc, afile;
 	static char *dtypes[] = { "???", "inode", "socket", "pipe" };
 
@@ -534,6 +563,7 @@ dofile()
 	free(xfile);
 }
 
+void
 doswap()
 {
 	u_int	nswap, used;

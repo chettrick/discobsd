@@ -62,7 +62,7 @@ char *argv[];
 			break;
 		case 'p':
 			checkprefix = 1;
-			if (&argv[1][2] != '\0')
+			if (&argv[1][2] != NULL)
 				stpre(&argv[1][2]);
 			break;
 		case 'x':

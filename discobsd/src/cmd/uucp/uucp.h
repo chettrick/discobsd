@@ -71,7 +71,7 @@ struct timeb {
  * The complete list is in the condevs array in condevs.c
  */
 /* #define ATT2224		/* AT&T 2224 */
-//#define BSDTCP		/* 4.2bsd or 2.9bsd TCP/IP */
+/* XXX #define BSDTCP */		/* 4.2bsd or 2.9bsd TCP/IP */
 /* #define CDS224		/* Concord Data Systems 2400 */
 /* #define DATAKIT	/* ATT's datakit */
 /* #define DF02		/* Dec's DF02/DF03 */
@@ -367,7 +367,7 @@ struct Devices {
 
 #include <sys/types.h>
 #ifndef USG
-//#include <sys/timeb.h>
+/* XXX #include <sys/timeb.h> */
 #else 
 struct timeb
 {
@@ -422,3 +422,5 @@ extern int main();
 #endif
 #define DEBUG(a,b,c)
 #endif
+
+void	syslog(char *);

@@ -9,10 +9,12 @@ char    *ofil;
 FILE    *is;
 FILE    *os;
 
+int
 main(argc, argv)
+int argc;
 char *argv[];
 {
-    register i, c, f;
+    register int i, c, f;
     int iflg = 0;
 
     for(i=1; i<argc; i++)

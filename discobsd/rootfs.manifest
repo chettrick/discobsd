@@ -524,7 +524,7 @@ file /bin/pagesize
 file /bin/passwd
 mode 04755
 file /bin/pdc
-file /bin/picoc
+# XXX file /bin/picoc
 file /bin/portio
 file /bin/pr
 file /bin/printenv
@@ -947,7 +947,7 @@ file /libexec/bigram
 file /libexec/code
 file /libexec/diffh
 file /libexec/getty
-file /libexec/smallc
+# XXX file /libexec/smallc
 # XXX file /libexec/smlrc
 
 #

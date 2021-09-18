@@ -4,10 +4,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/dir.h>
 #include <sys/file.h>
+
+int     rm(char arg[], int level);
+int     dotname(char *s);
+int     yes();
+void    append(char *name);
 
 int fflg;       /* -f force - supress error messages */
 int iflg;       /* -i interrogate user on each file */
@@ -15,7 +21,9 @@ int rflg;       /* -r recurse */
 
 int errcode;    /* true if errors occured */
 
+int
 main(argc, argv)
+    int argc;
     char *argv[];
 {
     register char *arg;
@@ -72,8 +80,10 @@ int pathsz;     /* size of path */
 /*
  * Return TRUE if sucessful. Recursive with -r (rflg)
  */
+int
 rm(arg, level)
     char arg[];
+    int level;
 {
     int ok;             /* true if recursive rm succeeded */
     struct stat buf;        /* for finding out what a file is */
@@ -206,6 +216,7 @@ rm(arg, level)
 /*
  * boolean: is it "." or ".." ?
  */
+int
 dotname(s)
     char *s;
 {
@@ -223,6 +234,7 @@ dotname(s)
 /*
  * Get a yes/no answer from the user.
  */
+int
 yes()
 {
     int i, b;
@@ -236,6 +248,7 @@ yes()
 /*
  * Append 'name' to 'path'.
  */
+void
 append(name)
     char *name;
 {

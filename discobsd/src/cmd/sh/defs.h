@@ -103,6 +103,7 @@ extern int              errno;
 extern char                             *allat();
 extern char                             *make();
 extern char             *alloc();
+extern void                              addblok();
 extern char                             *movstr();
 extern char                             *movstrn();
 extern struct trenod    *cmd();

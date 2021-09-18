@@ -12,6 +12,7 @@ int timeout();
  * Botch the interface to look like cu's
  */
 void cumain(argc, argv)
+    int argc;
     char *argv[];
 {
     register int i;

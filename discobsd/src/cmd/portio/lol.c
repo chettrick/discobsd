@@ -95,6 +95,7 @@ void display (fd, text)
  * 3) all LEDs on.
  */
 void demo1 (fd)
+    int fd;
 {
     static unsigned short picture[9];
     int y, frame;
@@ -135,6 +136,7 @@ void demo1 (fd)
 }
 
 void demo2 (fd)
+    int fd;
 {
     static unsigned short picture[9];
     int x, y, dx, dy;
@@ -178,6 +180,7 @@ void usage ()
 }
 
 int main (argc, argv)
+    int argc;
     char **argv;
 {
     const char *devname = "/dev/porta";

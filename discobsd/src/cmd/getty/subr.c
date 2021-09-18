@@ -7,7 +7,10 @@
  */
 #include <string.h>
 #include <sgtty.h>
+#include <unistd.h>
+
 #include "gettytab.h"
+#include "extern.h"
 
 extern	struct sgttyb tmode;
 extern	struct tchars tc;
@@ -16,13 +19,14 @@ extern	struct ltchars ltc;
 /*
  * Get a table entry.
  */
+void
 gettable(name, buf, area)
 	char *name, *buf, *area;
 {
 	register struct gettystrs *sp;
 	register struct gettynums *np;
 	register struct gettyflags *fp;
-	register n;
+	register int n;
 
 	hopcount = 0;		/* new lookup, start fresh */
 	if (getent(buf, name) != 1)
@@ -50,6 +54,7 @@ gettable(name, buf, area)
 	}
 }
 
+void
 gendefaults()
 {
 	register struct gettystrs *sp;
@@ -69,6 +74,7 @@ gendefaults()
 			fp->defalt = fp->invrt;
 }
 
+void
 setdefaults()
 {
 	register struct gettystrs *sp;
@@ -101,6 +107,7 @@ charvars[] = {
 	&ltc.t_werasc, &ltc.t_lnextc, 0
 };
 
+void
 setchars()
 {
 	register int i;
@@ -117,6 +124,7 @@ setchars()
 
 long
 setflags(n)
+	int n;
 {
 	register long f;
 
@@ -179,6 +187,7 @@ setflags(n)
 
 char	editedhost[32];
 
+void
 edithost(pat)
 	register char *pat;
 {
@@ -253,6 +262,7 @@ struct speedtab {
 	0
 };
 
+long
 speed(val)
 	long val;
 {
@@ -268,6 +278,7 @@ speed(val)
 	return (B300);		/* default in impossible cases */
 }
 
+void
 makeenv(env)
 	char *env[];
 {

@@ -129,6 +129,7 @@ nopiperr:
  * Insert a symbol to current line at a current position.
  */
 static void cline_insert_char(keysym)
+    int keysym;
 {
     int i, c;
 

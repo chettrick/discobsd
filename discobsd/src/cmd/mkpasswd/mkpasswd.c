@@ -16,12 +16,18 @@
  */
 #include <sys/param.h>
 #include <sys/file.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <ndbm.h>
 #include <pwd.h>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+void	rmall(char *);
+void	usage();
 
 static FILE *_pw_fp;
 static struct passwd _pw_passwd;
@@ -32,7 +38,7 @@ static char line[MAXLINELENGTH];
 
 /* from libc/gen/getpwent.c */
 
-static
+static int
 scanpw()
 {
 	register char *cp;
@@ -79,6 +85,7 @@ scanpw()
  * required the addition of a flag field to the dbm database to distinguish
  * between a record keyed by name, and one keyed by uid.
  */
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -189,6 +196,7 @@ bad:	(void)fprintf(stderr, "mkpasswd: dbm_store failed.\n");
 	exit(1);
 }
 
+void
 rmall(fname)
 	char *fname;
 {
@@ -204,6 +212,7 @@ rmall(fname)
 	(void)unlink(buf);
 }
 
+void
 usage()
 {
 	(void)fprintf(stderr, "usage: mkpasswd [-p] passwd_file\n");

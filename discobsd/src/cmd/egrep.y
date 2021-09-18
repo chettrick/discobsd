@@ -15,6 +15,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -24,6 +26,25 @@
 #define NCHARS 128
 #define NSTATES 128
 #define FINAL -1
+
+void    yyerror();
+int     yylex();
+int     nextch();
+void    synerror();
+int     enter();
+int     cclenter();
+int     node();
+int     unary();
+void    overflo();
+void    cfoll();
+void    cgotofn();
+int     cstate();
+int     member();
+int     notin();
+void    add();
+void    follow();
+void    execute();
+
 char gotofn[NSTATES][NCHARS];
 int state[NSTATES];
 char out[NSTATES];
@@ -109,11 +130,14 @@ r:  r OR r
     ;
 
 %%
-yyerror(s) {
+
+void
+yyerror(s) int s; {
     fprintf(stderr, "egrep: %s\n", s);
     exit(2);
 }
 
+int
 yylex() {
     extern int yylval;
     int cclcnt, x;
@@ -164,6 +188,8 @@ yylex() {
         default: yylval = c; return (CHAR);
     }
 }
+
+int
 nextch() {
     register char c;
     if (fflag) {
@@ -176,11 +202,13 @@ nextch() {
     return(c);
 }
 
+void
 synerror() {
     fprintf(stderr, "egrep: syntax error\n");
     exit(2);
 }
 
+int
 enter(x) int x; {
     if(line >= MAXLIN) overflo();
     name[line] = x;
@@ -189,14 +217,16 @@ enter(x) int x; {
     return(line++);
 }
 
+int
 cclenter(x) int x; {
-    register linno;
+    register int linno;
     linno = enter(x);
     right[linno] = count;
     return (linno);
 }
 
-node(x, l, r) {
+int
+node(x, l, r) int x, l, r; {
     if(line >= MAXLIN) overflo();
     name[line] = x;
     left[line] = l;
@@ -206,7 +236,8 @@ node(x, l, r) {
     return(line++);
 }
 
-unary(x, d) {
+int
+unary(x, d) int x, d; {
     if(line >= MAXLIN) overflo();
     name[line] = x;
     left[line] = d;
@@ -214,13 +245,16 @@ unary(x, d) {
     parent[d] = line;
     return(line++);
 }
+
+void
 overflo() {
     fprintf(stderr, "egrep: regular expression too long\n");
     exit(2);
 }
 
-cfoll(v) {
-    register i;
+void
+cfoll(v) int v; {
+    register int i;
     if (left[v] == 0) {
         count = 0;
         for (i=1; i<=line; i++) tmpstat[i] = 0;
@@ -233,8 +267,10 @@ cfoll(v) {
         cfoll(right[v]);
     }
 }
+
+void
 cgotofn() {
-    register c, i, k;
+    register int c, i, k;
     int n, s;
     char symbol[NCHARS];
     int j, nc, pc, pos;
@@ -327,8 +363,9 @@ cgotofn() {
     }
 }
 
-cstate(v) {
-    register b;
+int
+cstate(v) int v; {
+    register int b;
     if (left[v] == 0) {
         if (tmpstat[v] != 1) {
             tmpstat[v] = 1;
@@ -352,9 +389,9 @@ cstate(v) {
     }
 }
 
-
-member(symb, set, torf) {
-    register i, num, pos;
+int
+member(symb, set, torf) int symb, set, torf; {
+    register int i, num, pos;
     num = chars[set];
     pos = set + 1;
     for (i=0; i<num; i++)
@@ -362,8 +399,9 @@ member(symb, set, torf) {
     return (!torf);
 }
 
-notin(n) {
-    register i, j, pos;
+int
+notin(n) int n; {
+    register int i, j, pos;
     for (i=0; i<=n; i++) {
         if (positions[state[i]] == count) {
             pos = state[i] + 1;
@@ -377,8 +415,9 @@ notin(n) {
     return (1);
 }
 
-add(array, n) int *array; {
-    register i;
+void
+add(array, n) int *array, n; {
+    register int i;
     if (nxtpos + count > MAXPOS) overflo();
     array[n] = nxtpos;
     positions[nxtpos++] = count;
@@ -389,6 +428,7 @@ add(array, n) int *array; {
     }
 }
 
+void
 follow(v) int v; {
     int p;
     if (v == line) return;
@@ -419,8 +459,9 @@ follow(v) int v; {
     }
 }
 
-
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     while (--argc > 0 && (++argv)[0][0]=='-')
@@ -498,12 +539,13 @@ out:
     exit(retcode != 0 ? retcode : nsucc == 0);
 }
 
+void
 execute(file)
 char *file;
 {
     register char *p;
-    register cstat;
-    register ccount;
+    register int cstat;
+    register int ccount;
     static char *buf;
     static int blksize;
     struct stat stb;

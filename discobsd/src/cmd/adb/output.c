@@ -85,6 +85,7 @@ convert(cp)
 static void
 printnum(n, fmat, base)
     register int n;
+    int fmat, base;
 {
     register char k;
     register int *dptr;
@@ -337,6 +338,7 @@ int ifiledepth;
 
 void
 iclose(stack, err)
+    int stack, err;
 {
     if (err) {
         if (infile) {

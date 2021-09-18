@@ -78,6 +78,7 @@ int
 getlin(fp, loc, maxlen)
     FILE *fp;
     char *loc;
+    int maxlen;
 {
     register int n;
     register char *p, *lastloc;
@@ -329,6 +330,7 @@ getpathname(namebuf, curdir, ino)
 
 void
 catch (sig)
+    int sig;
 {
     ckfini();
     exit(12);
@@ -341,6 +343,7 @@ catch (sig)
  */
 void
 catchquit (sig)
+    int sig;
 {
     printf("returning to single-user after filesystem check\n");
     returntosingle = 1;
@@ -353,8 +356,8 @@ catchquit (sig)
  */
 void
 voidquit (sig)
+    int sig;
 {
-
     sleep(1);
     (void)signal(SIGQUIT, SIG_IGN);
     (void)signal(SIGQUIT, SIG_DFL);
@@ -368,7 +371,6 @@ dofix(idesc, msg)
     register struct inodesc *idesc;
     char *msg;
 {
-
     switch (idesc->id_fix) {
 
     case DONTKNOW:

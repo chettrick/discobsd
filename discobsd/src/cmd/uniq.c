@@ -10,8 +10,14 @@ int letters;
 int linec;
 char    mode;
 int uniq;
-char    *skip();
 
+int      gline(char buf[]);
+void     pline(char buf[]);
+int      equal(char b1[], char b2[]);
+char    *skip(char *s);
+void     printe(char *p, char *s);
+
+int
 main(argc, argv)
 int argc;
 char *argv[];
@@ -64,10 +70,11 @@ char *argv[];
     }
 }
 
+int
 gline(buf)
 register char buf[];
 {
-    register c;
+    register int c;
 
     while((c = getchar()) != '\n') {
         if(c == EOF)
@@ -78,10 +85,10 @@ register char buf[];
     return(0);
 }
 
+void
 pline(buf)
 register char buf[];
 {
-
     switch(mode) {
 
     case 'u':
@@ -103,6 +110,7 @@ register char buf[];
     putchar('\n');
 }
 
+int
 equal(b1, b2)
 register char b1[], b2[];
 {
@@ -122,7 +130,7 @@ char *
 skip(s)
 register char *s;
 {
-    register nf, nl;
+    register int nf, nl;
 
     nf = nl = 0;
     while(nf++ < fields) {
@@ -136,6 +144,7 @@ register char *s;
     return(s);
 }
 
+void
 printe(p,s)
 char *p,*s;
 {

@@ -29,7 +29,7 @@ OWNER=	uucp
 GROUP=	daemon
 
 # XXX CFLAGS += -Os -Werror
-CFLAGS += -Os
+CFLAGS += -Os -ansi
 
 SBINDIR=	${DESTDIR}/usr/sbin
 LIBEXECDIR=	${DESTDIR}/usr/libexec

@@ -17,6 +17,8 @@
 #include <sys/dir.h>
 #include <grp.h>
 #include <strings.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 static	char	*fchdirmsg = "Can't fchdir() back to starting directory";
 struct	passwd *pwd;
@@ -27,7 +29,108 @@ int	status;
 int	fflag;
 int	rflag;
 
+int
+error(fmt, a)
+	char *fmt, *a;
+{
+
+	if (!fflag) {
+		fprintf(stderr, "chown: ");
+		fprintf(stderr, fmt, a);
+		putc('\n', stderr);
+	}
+	return (!fflag);
+}
+
+int
+fatal(status, fmt, a)
+	int status;
+	char *fmt, *a;
+{
+
+	fflag = 0;
+	(void) error(fmt, a);
+	exit(status);
+}
+
+int
+Perror(s)
+	char *s;
+{
+
+	if (!fflag) {
+		fprintf(stderr, "chown: ");
+		perror(s);
+	}
+	return (!fflag);
+}
+
+int
+isnumber(s)
+	char *s;
+{
+	register int c;
+
+	while(c = *s++)
+		if (!isdigit(c))
+			return (0);
+	return (1);
+}
+
+int
+chownr(dir, uid, gid, savedir)
+	char *dir;
+	uid_t uid;
+	gid_t gid;
+	int savedir;
+{
+	register DIR *dirp;
+	register struct direct *dp;
+	struct stat st;
+	int ecode;
+
+	/*
+	 * Change what we are given before doing it's contents.
+	 */
+	if (chown(dir, uid, gid) < 0 && Perror(dir))
+		return (1);
+	if (chdir(dir) < 0) {
+		Perror(dir);
+		return (1);
+	}
+	if ((dirp = opendir(".")) == NULL) {
+		Perror(dir);
+		return (1);
+	}
+	dp = readdir(dirp);
+	dp = readdir(dirp); /* read "." and ".." */
+	ecode = 0;
+	for (dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
+		if (lstat(dp->d_name, &st) < 0) {
+			ecode = Perror(dp->d_name);
+			if (ecode)
+				break;
+			continue;
+		}
+		if ((st.st_mode&S_IFMT) == S_IFDIR) {
+			ecode = chownr(dp->d_name, uid, gid, dirfd(dirp));
+			if (ecode)
+				break;
+			continue;
+		}
+		if (chown(dp->d_name, uid, gid) < 0 &&
+		    (ecode = Perror(dp->d_name)))
+			break;
+	}
+	if	(fchdir(savedir) < 0)
+		fatal(255, fchdirmsg);
+	closedir(dirp);
+	return (ecode);
+}
+
+int
 main(argc, argv)
+	int argc;
 	char *argv[];
 {
 	register int c;
@@ -96,95 +199,4 @@ main(argc, argv)
 		}
 	}
 	exit(status);
-}
-
-isnumber(s)
-	char *s;
-{
-	register c;
-
-	while(c = *s++)
-		if (!isdigit(c))
-			return (0);
-	return (1);
-}
-
-chownr(dir, uid, gid, savedir)
-	char *dir;
-{
-	register DIR *dirp;
-	register struct direct *dp;
-	struct stat st;
-	int ecode;
-
-	/*
-	 * Change what we are given before doing it's contents.
-	 */
-	if (chown(dir, uid, gid) < 0 && Perror(dir))
-		return (1);
-	if (chdir(dir) < 0) {
-		Perror(dir);
-		return (1);
-	}
-	if ((dirp = opendir(".")) == NULL) {
-		Perror(dir);
-		return (1);
-	}
-	dp = readdir(dirp);
-	dp = readdir(dirp); /* read "." and ".." */
-	ecode = 0;
-	for (dp = readdir(dirp); dp != NULL; dp = readdir(dirp)) {
-		if (lstat(dp->d_name, &st) < 0) {
-			ecode = Perror(dp->d_name);
-			if (ecode)
-				break;
-			continue;
-		}
-		if ((st.st_mode&S_IFMT) == S_IFDIR) {
-			ecode = chownr(dp->d_name, uid, gid, dirfd(dirp));
-			if (ecode)
-				break;
-			continue;
-		}
-		if (chown(dp->d_name, uid, gid) < 0 &&
-		    (ecode = Perror(dp->d_name)))
-			break;
-	}
-	if	(fchdir(savedir) < 0)
-		fatal(255, fchdirmsg);
-	closedir(dirp);
-	return (ecode);
-}
-
-error(fmt, a)
-	char *fmt, *a;
-{
-
-	if (!fflag) {
-		fprintf(stderr, "chown: ");
-		fprintf(stderr, fmt, a);
-		putc('\n', stderr);
-	}
-	return (!fflag);
-}
-
-fatal(status, fmt, a)
-	int status;
-	char *fmt, *a;
-{
-
-	fflag = 0;
-	(void) error(fmt, a);
-	exit(status);
-}
-
-Perror(s)
-	char *s;
-{
-
-	if (!fflag) {
-		fprintf(stderr, "chown: ");
-		perror(s);
-	}
-	return (!fflag);
 }

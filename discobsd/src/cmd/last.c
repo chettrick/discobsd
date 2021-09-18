@@ -6,6 +6,7 @@
  * specifies the terms and conditions for redistribution.
  */
 #include <sys/types.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +14,9 @@
 #include <sys/stat.h>
 #include <utmp.h>
 #include <paths.h>
+#include <pwd.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define NMAX    sizeof(buf[0].ut_name)
 #define LMAX    sizeof(buf[0].ut_line)
@@ -25,6 +29,9 @@
 
 #define MAXTTYS 256
 
+int      want(struct utmp *bp);
+char    *strspl(char *, char *);
+
 char    **argv;
 int argc;
 int nameargs;
@@ -33,9 +40,8 @@ struct  utmp buf[128];
 char    ttnames[MAXTTYS][LMAX+1];
 long    logouts[MAXTTYS];
 
-char    *ctime(), *strspl();
-
-void onintr(signo)
+void
+onintr(signo)
     int signo;
 {
     char *ct;
@@ -58,7 +64,9 @@ usage(progname)
     exit(1);
 }
 
+int
 main(ac, av)
+    int ac;
     char **av;
 {
     register int i, k;
@@ -195,6 +203,7 @@ main(ac, av)
     exit(0);
 }
 
+int
 want(bp)
     struct utmp *bp;
 {

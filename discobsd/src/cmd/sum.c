@@ -4,11 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int
 main(argc,argv)
+int argc;
 char **argv;
 {
-    register unsigned sum;
-    register i, c;
+    register unsigned int sum;
+    register int i, c;
     register FILE *f;
     register long nbytes;
     int errflg = 0;

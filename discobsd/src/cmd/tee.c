@@ -6,8 +6,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define BUFSIZ  8192
+
+void    stash(int);
 
 int openf[20] = { 1 };
 int n = 1;
@@ -18,6 +22,7 @@ char in[BUFSIZ];
 
 char out[BUFSIZ];
 
+void
 putstr(s)
 char *s;
 {
@@ -25,7 +30,9 @@ char *s;
         write(2,s++,1);
 }
 
+int
 main(argc,argv)
+int argc;
 char **argv;
 {
     int register r,w,p;
@@ -83,7 +90,9 @@ char **argv;
     }
 }
 
+void
 stash(p)
+int p;
 {
     int k;
     int i;

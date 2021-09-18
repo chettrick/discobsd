@@ -25,6 +25,9 @@ static char sccsid[] = "@(#)hys.c	4.6 (Berkeley) 2/12/86";
  *		CF_DIAL,CF_DEVICE  -  failed
  */
 
+int hysopn(char *, char *[], struct Devices *, int);
+
+int
 hyspopn(telno, flds, dev)
 char *telno, *flds[];
 struct Devices *dev;
@@ -32,6 +35,7 @@ struct Devices *dev;
 	return hysopn(telno, flds, dev, 0);
 }
 
+int
 hystopn(telno, flds, dev)
 char *telno, *flds[];
 struct Devices *dev;
@@ -40,13 +44,14 @@ struct Devices *dev;
 }
 
 /* ARGSUSED */
+int
 hysopn(telno, flds, dev, toneflag)
 char *telno;
 char *flds[];
 struct Devices *dev;
 int toneflag;
 {
-	extern errno;
+	extern int errno;
 	char dcname[20];
 	char cbuf[MAXPH];
 	register char *cp;
@@ -144,6 +149,7 @@ int toneflag;
 	return dh;
 }
 
+int
 hyscls(fd)
 int fd;
 {

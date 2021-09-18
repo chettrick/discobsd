@@ -9,9 +9,12 @@
 
 #define MAXPATH	1024		/* maximum pathname length */
 
+int prefix_length ( char *, char * );
+
 char path[MAXPATH];
 char oldpath[MAXPATH] = " ";
 
+int
 main ( )
 {
   	register int count, j;
@@ -33,6 +36,7 @@ main ( )
    	}
 }
 
+int
 prefix_length ( s1, s2 )	/* return length of longest common prefix */
 	char *s1, *s2;		/* ... of strings s1 and s2 */
 {

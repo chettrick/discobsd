@@ -15,11 +15,19 @@
 #include <sys/stat.h>
 #include <sys/dir.h>
 #include <sys/time.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int     copy(char *, char *);
+int     rcopy(char *, char *);
+int     setimes(char *, struct stat *);
+void    Perror(char *);
 
 int iflag;
 int rflag;
 int pflag;
 
+int
 main(argc, argv)
     int argc;
     char **argv;
@@ -67,6 +75,7 @@ usage:
     exit(1);
 }
 
+int
 copy(from, to)
     char *from, *to;
 {
@@ -172,6 +181,7 @@ copy(from, to)
     return (0);
 }
 
+int
 rcopy(from, to)
     char *from, *to;
 {
@@ -225,6 +235,7 @@ setimes(path, statp)
     return (0);
 }
 
+void
 Perror(s)
     char *s;
 {

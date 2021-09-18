@@ -7,11 +7,17 @@
 #include <ctype.h>
 #include <nlist.h>
 #include <signal.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include <sys/types.h>
 #include <sys/file.h>
 #include <sys/buf.h>
 #include <sys/dk.h>
+
+void    stats(int dn);
+void    stat1(int o);
+void    read_names();
 
 struct nlist nl[] = {
     { "_dk_busy" },
@@ -58,7 +64,8 @@ int hz;
 double  etime;
 int tohdr = 1;
 
-void printhdr(sig)
+void
+printhdr(sig)
     int sig;
 {
     register int i;
@@ -77,11 +84,13 @@ void printhdr(sig)
     tohdr = 19;
 }
 
+int
 main(argc, argv)
+    int argc;
     char *argv[];
 {
     extern char *ctime();
-    register  i;
+    register int i;
     int iter;
     double f1, f2;
     long t;
@@ -205,7 +214,9 @@ contin:
     }
 }
 
+void
 stats(dn)
+    int dn;
 {
     /* number of bytes transferred */
     printf("%5.0f", (double) s.dk_bytes[dn] / 1024 / etime);
@@ -214,9 +225,11 @@ stats(dn)
     printf("%4.0f", (double) s.dk_xfer[dn] / etime);
 }
 
+void
 stat1(o)
+    int o;
 {
-    register i;
+    register int i;
     double time;
 
     time = 0;
@@ -227,6 +240,7 @@ stat1(o)
     printf(" %3.0f", 100.0 * s.cp_time[o] / time);
 }
 
+void
 read_names()
 {
     char name[2];

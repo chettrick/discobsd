@@ -10,6 +10,7 @@ void
 scanform(icount, ifp, itype, ptype)
     long    icount;
     char    *ifp;
+    int     itype, ptype;
 {
     char    *fp;
     char    modifier;
@@ -65,6 +66,7 @@ scanform(icount, ifp, itype, ptype)
 
 static void
 printesc(c)
+    int     c;
 {
     c &= STRIP;
     if (c < SP || c > '~' || c == '@') {
@@ -307,6 +309,7 @@ unox()
 
 long
 inkdot(incr)
+    int     incr;
 {
     long    newdot;
 

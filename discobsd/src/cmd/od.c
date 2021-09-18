@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #define DBUF_SIZE   BUFSIZ
 #define BIG_DBUF    32
@@ -94,8 +95,15 @@ char    fmt[]   = "            %s"; /* 12 blanks */
 char    *icvt();
 char    *scvt();
 char    *underline();
+void    put_sbuf();
+void    pr_sbuf();
 long    get_addr();
-
+void    put_addr();
+void    line();
+int     parity();
+void    offset();
+void    dumbseek();
+int     canseek();
 
 /*
  * special form of _ctype
@@ -147,14 +155,14 @@ char    _ctype[256] = {
 /* 370 */   0,  0,  0,  0,  0,  0,  0,  0,
 };
 
-
+int
 main(argc, argv)
 int argc;
 char    **argv;
 {
     register char *p;
     register char *l;
-    register n, same;
+    register int n, same;
     struct dfmt *d;
     struct dfmt **cv = conv_vec;
     int showall = NO;
@@ -362,6 +370,7 @@ char    **argv;
     }
 }
 
+void
 put_addr(a, l, c)
 long    a;
 long    l;
@@ -373,10 +382,11 @@ char    c;
     putchar(c);
 }
 
+void
 line(n)
 int n;
 {
-    register i, first;
+    register int i, first;
     register struct dfmt *c;
     register struct dfmt **cv = conv_vec;
 
@@ -405,6 +415,7 @@ int n;
     }
 }
 
+int
 s_put(n, d)
 short   *n;
 struct dfmt *d;
@@ -413,6 +424,7 @@ struct dfmt *d;
     return(d->df_size);
 }
 
+int
 us_put(n, d)
 unsigned short  *n;
 struct dfmt *d;
@@ -421,6 +433,7 @@ struct dfmt *d;
     return(d->df_size);
 }
 
+int
 l_put(n, d)
 long    *n;
 struct dfmt *d;
@@ -429,6 +442,7 @@ struct dfmt *d;
     return(d->df_size);
 }
 
+int
 d_put(f, d)
 double  *f;
 struct dfmt *d;
@@ -448,6 +462,7 @@ struct dfmt *d;
     return(d->df_size);
 }
 
+int
 f_put(f, d)
 float   *f;
 struct dfmt *d;
@@ -473,13 +488,14 @@ char    asc_name[34][4] = {
 /* 040 */   " sp",  "del"
 };
 
+int
 a_put(cc, d)
 char    *cc;
 struct dfmt *d;
 {
     int c = *cc;
     register char *s = "   ";
-    register pbit = parity((int)c & 0377);
+    register int pbit = parity((int)c & 0377);
 
     c &= 0177;
     if (isgraphic(c))
@@ -502,6 +518,7 @@ struct dfmt *d;
     return(1);
 }
 
+int
 parity(word)
 int word;
 {
@@ -536,6 +553,7 @@ char    *s;
     return(ulbuf);
 }
 
+int
 b_put(b, d)
 char    *b;
 struct dfmt *d;
@@ -544,6 +562,7 @@ struct dfmt *d;
     return(1);
 }
 
+int
 c_put(cc, d)
 char    *cc;
 struct dfmt *d;
@@ -613,6 +632,7 @@ static char *str_ptr;
 static long str_addr;
 static long str_label;
 
+int
 st_put(cc, d)
 char    *cc;
 struct dfmt *d;
@@ -652,6 +672,7 @@ struct dfmt *d;
     return(1);
 }
 
+void
 put_sbuf(c, d)
 int c;
 struct dfmt *d;
@@ -665,6 +686,7 @@ struct dfmt *d;
     }
 }
 
+void
 pr_sbuf(d, end)
 struct dfmt *d;
 int end;
@@ -834,6 +856,7 @@ register char *s;
     return(a);
 }
 
+void
 offset(a)
 long    a;
 {
@@ -849,6 +872,7 @@ long    a;
     dumbseek(stdin, a);
 }
 
+void
 dumbseek(s, offset)
 FILE    *s;
 long    offset;
@@ -871,7 +895,9 @@ long    offset;
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
+int
 canseek(f)
 FILE    *f;
 {

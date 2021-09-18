@@ -5,10 +5,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <sys/time.h>
 #include <sys/resource.h>
 
+int
 main(argc, argv)
     int argc;
     char *argv[];

@@ -23,6 +23,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <paths.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define	NEW_PATH	"/new/man"
 
@@ -63,7 +65,7 @@ static MANDIR	list3[2];		/* single section */
  * cat --
  *	cat out the file
  */
-static
+static void
 cat(fname)
 	char *fname;
 {
@@ -90,7 +92,7 @@ cat(fname)
  * add --
  *	add a file name to the list for future paging
  */
-static
+static void
 add(fname)
 	char *fname;
 {
@@ -127,7 +129,7 @@ add(fname)
  *	matches; check ${directory}/${dir}/{file name} and
  *	${directory}/${dir}/${machine}/${file name}.
  */
-static
+static int
 manual(section, name)
 	MANDIR *section;
 	char *name;
@@ -230,7 +232,7 @@ getsect(s)
 	return((MANDIR *)NULL);
 }
 
-static
+static void
 man(argv)
 	char **argv;
 {
@@ -315,7 +317,7 @@ man(argv)
  * jump --
  *	strip out flag argument and jump
  */
-static
+static void
 jump(argv, flag, name)
 	char **argv, *name;
 	register char *flag;
@@ -337,6 +339,7 @@ jump(argv, flag, name)
  * This is done in a function by itself because 'uname()' uses a 640
  * structure which we do not want permanently allocated on main()'s stack.
 */
+void
 setmachine()
         {
         struct  utsname foo;
@@ -350,13 +353,14 @@ setmachine()
  * usage --
  *	print usage and die
  */
-static
+static void
 usage()
 {
 	fputs("usage: man [-] [-a] [-M path] [section] title ...\n", stderr);
 	exit(1);
 }
 
+int
 main(argc, argv)
 	int argc;
 	register char **argv;

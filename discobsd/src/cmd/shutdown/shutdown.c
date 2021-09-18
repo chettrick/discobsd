@@ -19,6 +19,7 @@
 #include <paths.h>
 #include <string.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -37,7 +38,9 @@
 
 char	hostname[MAXHOSTNAMELEN];
 
-time_t	getsdt();
+time_t	getsdt(char *);
+void	doitfast();
+void	nolog(time_t);
 
 struct	utmp utmp;
 int	sint;
@@ -96,13 +99,14 @@ void timeout(sig)
 	longjmp(alarmbuf, 1);
 }
 
+void
 warning(term, sdt, now, type)
 	FILE *term;
 	time_t sdt, now;
 	char *type;
 {
 	char *ts;
-	register delay = sdt - now;
+	register int delay = sdt - now;
 
 	if (delay > 8)
 		while (delay % 5)
@@ -125,11 +129,12 @@ warning(term, sdt, now, type)
 		fprintf(term, "System going down IMMEDIATELY\r\n");
 }
 
+int
 main(argc,argv)
 	int argc;
 	char **argv;
 {
-	register i, ufd;
+	register int i, ufd;
 	register char *f;
 	char *ts;
 	time_t sdt;
@@ -367,6 +372,7 @@ badform:
 	/*NOTREACHED*/
 }
 
+void
 doitfast()
 {
 	register FILE *fastd;
@@ -377,6 +383,7 @@ doitfast()
 	}
 }
 
+void
 nolog(sdt)
 	time_t sdt;
 {

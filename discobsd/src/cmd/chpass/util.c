@@ -18,7 +18,10 @@
 #include <sys/time.h>
 #include <pwd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
 #include <paths.h>
 #include "chpass.h"
@@ -46,6 +49,7 @@ ttoa(tval)
 	return(tbuf);
 }
 
+int
 atot(p, store)
 	char *p;
 	time_t *store;
@@ -109,6 +113,7 @@ bad:		return(1);
 	return(0);
 }
 
+void
 print(fp, pw)
 	register FILE *fp;
 	struct passwd *pw;

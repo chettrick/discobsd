@@ -37,6 +37,7 @@ error(msg)
 
 void
 fault(a)
+    int a;
 {
     signal(a, fault);
     lseek(infile, 0L, 2);

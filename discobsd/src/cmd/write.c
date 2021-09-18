@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <signal.h>
 #include <utmp.h>
 #include <paths.h>
@@ -42,12 +43,50 @@ void eof(sig)
     exit(0);
 }
 
+void
+sigs(sig)
+    sig_t sig;
+{
+    register int i;
+
+    for (i=0; signum[i]; i++)
+        signal(signum[i], sig);
+}
+
+void
+ex(bp)
+    char *bp;
+{
+    register int i;
+
+    sigs(SIG_IGN);
+    i = fork();
+    if (i < 0) {
+        printf("Try again\n");
+        goto out;
+    }
+    if (i == 0) {
+        fclose(tf);     /* Close his terminal */
+        setgid(getgid());   /* Give up effective group privs */
+        sigs((sig_t) 0);
+        execl(getenv("SHELL") ?
+            getenv("SHELL") : "/bin/sh", "sh", "-c", bp+1, 0);
+        exit(0);
+    }
+    while (wait((int *)NULL) != i)
+        ;
+    printf("!\n");
+out:
+    sigs(eof);
+}
+
+int
 main(argc, argv)
     int argc;
     char *argv[];
 {
     struct stat stbuf;
-    register i;
+    register int i;
     register FILE *uf;
     int c1, c2;
     time_t clock = time(0);
@@ -202,39 +241,4 @@ cont:
             }
         }
     }
-}
-
-ex(bp)
-    char *bp;
-{
-    register i;
-
-    sigs(SIG_IGN);
-    i = fork();
-    if (i < 0) {
-        printf("Try again\n");
-        goto out;
-    }
-    if (i == 0) {
-        fclose(tf);     /* Close his terminal */
-        setgid(getgid());   /* Give up effective group privs */
-        sigs((sig_t) 0);
-        execl(getenv("SHELL") ?
-            getenv("SHELL") : "/bin/sh", "sh", "-c", bp+1, 0);
-        exit(0);
-    }
-    while (wait((int *)NULL) != i)
-        ;
-    printf("!\n");
-out:
-    sigs(eof);
-}
-
-sigs(sig)
-    sig_t sig;
-{
-    register i;
-
-    for (i=0; signum[i]; i++)
-        signal(signum[i], sig);
 }

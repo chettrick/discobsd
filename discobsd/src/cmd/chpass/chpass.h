@@ -22,3 +22,15 @@ struct entry {
 };
 
 extern uid_t uid;
+
+char	*ttoa(time_t tval);
+int	 atot(char *p, time_t *store);
+void	 print(FILE *fp, struct passwd *pw);
+
+int	 p_login(char *p, struct passwd *pw, struct entry *ep);
+int	 p_passwd(char *p, struct passwd *pw, struct entry *ep);
+int	 p_uid(char *p, struct passwd *pw, struct entry *ep);
+int	 p_gid(char *p, struct passwd *pw, struct entry *ep);
+int	 p_gecos(char *p, struct passwd *pw, struct entry *ep);
+int	 p_hdir(char *p, struct passwd *pw, struct entry *ep);
+int	 p_shell(char *p, struct passwd *pw, struct entry *ep);

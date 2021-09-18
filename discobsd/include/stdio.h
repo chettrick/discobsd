@@ -76,6 +76,7 @@ FILE    *fopen (const char *, const char *);
 FILE    *fdopen (int, const char *);
 FILE    *freopen (const char *, const char *, FILE *);
 FILE    *popen (const char *, const char *);
+int     pclose (FILE *);
 FILE    *tmpfile (void);
 int     fclose (FILE *);
 long    ftell (FILE *);
@@ -97,6 +98,7 @@ int     setvbuf (FILE *, char *, int, size_t);
 int     fseek (FILE *, long, int);
 void    rewind (FILE *);
 int     remove (const char *);
+int     rename (const char *, const char *);
 int     getw(FILE *stream);
 int     putw(int w, FILE *stream);
 

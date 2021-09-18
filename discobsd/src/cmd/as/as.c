@@ -904,6 +904,7 @@ int lookcmd ()
 }
 
 char *alloc (len)
+    int len;
 {
     register int r;
 
@@ -1046,6 +1047,7 @@ skiptoeol:  while ((c = getchar()) != '\n')
 }
 
 void ungetlex (val, type)
+    int val, type;
 {
     blexflag = 1;
     backlex = val;
@@ -1325,6 +1327,7 @@ void emit_la (opcode, relinfo)
  */
 void makecmd (opcode, type, emitfunc)
     unsigned opcode;
+    unsigned type;
     void (*emitfunc) (unsigned, struct reloc*);
 {
     unsigned offset, orig_opcode = 0;
@@ -1923,6 +1926,7 @@ void setoption ()
  * Align the current segment.
  */
 void align (align_bits)
+    int align_bits;
 {
     unsigned nbytes, align_mask, c;
 
@@ -2424,6 +2428,7 @@ void middle ()
 }
 
 void makeheader (rtsize, rdsize)
+    unsigned rtsize, rdsize;
 {
     struct exec hdr;
 
@@ -2607,6 +2612,7 @@ void pass2 ()
  * Convert symbol type to relocation type.
  */
 int typerel (t)
+    unsigned t;
 {
     switch (t & N_TYPE) {
     case N_ABS:     return (RABS);
@@ -2715,6 +2721,7 @@ void usage ()
 }
 
 int main (argc, argv)
+    int argc;
     register char *argv[];
 {
     register int i;

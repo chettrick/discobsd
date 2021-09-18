@@ -18,6 +18,7 @@ static char *months[] = {
 #define AM "am"
 #define PM "pm"
 
+void
 get_date(datebuffer)
 	char *datebuffer;
 {

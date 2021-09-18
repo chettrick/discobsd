@@ -3,6 +3,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <signal.h>
 #include <ctype.h>
 
@@ -13,12 +14,14 @@ char *signm[] = { 0,
 "XFSZ", "VTALRM", "PROF", "WINCH", 0, "USR1", "USR2", 0,    /* 25-31 */
 };
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
-    register signo, pid, res;
+    register int signo, pid, res;
     int errlev;
-    extern errno;
+    extern int errno;
 
     errlev = 0;
     if (argc <= 1) {

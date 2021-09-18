@@ -117,7 +117,7 @@
 #define HOWMANY 133
 #endif
 
-// PITO: 
+/* PITO: */
 #define readline_timeout 1
 
 /* Ward Christensen / CP/M parameters - Don't change these! */
@@ -692,7 +692,7 @@ unsigned int timeout;
 		return TIMEOUT;
 	}
 	signal(SIGALRM, alrm); alarm(n);
-    //errno=0;
+    /* errno=0; */
 	Lleft=read(0, cdq=linbuf, Readnum);
 	alarm(0);
 	if (Verbose > 5) {

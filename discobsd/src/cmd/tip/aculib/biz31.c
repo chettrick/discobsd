@@ -174,6 +174,7 @@ detect(s)
  */
 static int
 bizsync(fd)
+    int fd;
 {
 #ifdef FIOCAPACITY
     struct capacity b;

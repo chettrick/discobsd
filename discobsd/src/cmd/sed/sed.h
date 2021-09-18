@@ -150,12 +150,6 @@ int	depth;
 union reptr	*pending;
 char	*badp;
 char	bad;
-char	*compile();
-char	*ycomp();
-char	*address();
-char	*text();
-char	*compsub();
-struct label	*search();
-char	*gline();
-char	*place();
 char	compfl;
+
+void	execute(char *);

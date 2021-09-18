@@ -19,8 +19,12 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define IGNOREUSER  "sleeper"
+
+void	sendmes(char *);
 
 char    hostname[32];
 char    mesg[3000];
@@ -30,9 +34,11 @@ char    who[UT_NAMESIZE + 1] = "???";
 long    clock;
 struct tm *localclock;
 
-extern  errno;
+extern  int errno;
 
+int
 main(argc, argv)
+int argc;
 char *argv[];
 {
     register int i, c;
@@ -92,10 +98,11 @@ char *argv[];
     exit(0);
 }
 
+void
 sendmes(tty)
 char *tty;
 {
-    register f, flags;
+    register int f, flags;
     static char t[50] = "/dev/";
     int e, i;
 

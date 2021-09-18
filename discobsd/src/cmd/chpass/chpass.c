@@ -20,6 +20,7 @@
 #include <sys/signal.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 #include <pwd.h>
 #include <errno.h>
 #include <stdio.h>
@@ -28,6 +29,7 @@
 #include <strings.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <paths.h>
 #include "chpass.h"
 
@@ -36,6 +38,15 @@ char e2[] = ":,";
 
 int p_gecos(), p_gid(), p_hdir();
 int p_login(), p_passwd(), p_shell(), p_uid();
+
+int	info(struct passwd *pw);
+int	check(FILE *fp, struct passwd *pw);
+int	copy(struct passwd *pw, FILE *fp);
+int	makedb(char *file);
+int	edit(char *file);
+void	loadpw(char *arg, struct passwd *pw);
+int	prompt();
+void	usage();
 
 struct entry list[] = {
 	{ "Login",		p_login,  1,   5, e1,   },
@@ -57,6 +68,7 @@ struct entry list[] = {
 
 uid_t uid;
 
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -220,6 +232,7 @@ bad:		(void)fprintf(stderr, "%s unchanged.\n", _PATH_SHADOW);
 	exit(0);
 }
 
+int
 info(pw)
 	struct passwd *pw;
 {
@@ -268,6 +281,7 @@ info(pw)
 	return(rval);
 }
 
+int
 check(fp, pw)
 	FILE *fp;
 	struct passwd *pw;
@@ -331,6 +345,7 @@ check(fp, pw)
 	return(1);
 }
 
+int
 copy(pw, fp)
 	struct passwd *pw;
 	FILE *fp;
@@ -371,6 +386,7 @@ copy(pw, fp)
 	return(1);
 }
 
+int
 makedb(file)
 	char *file;
 {
@@ -384,6 +400,7 @@ makedb(file)
 	return(w == -1 || status);
 }
 
+int
 edit(file)
 	char *file;
 {
@@ -408,6 +425,7 @@ edit(file)
 	return(w == -1 || status);
 }
 
+void
 loadpw(arg, pw)
 	char *arg;
 	register struct passwd *pw;
@@ -432,6 +450,7 @@ bad:		(void)fprintf(stderr, "chpass: bad password list.\n");
 	}
 }
 
+int
 prompt()
 {
 	register int c;
@@ -447,6 +466,7 @@ prompt()
 	/* NOTREACHED */
 }
 
+void
 usage()
 {
 	(void)fprintf(stderr, "usage: chpass [-a list] [user]\n");

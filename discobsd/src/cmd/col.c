@@ -10,6 +10,13 @@
 #define GREEK 0200
 #define LINELN 800
 
+void    outc(char);
+void    store(int);
+void    fetch(int);
+void    emit(char *, int);
+void    incr();
+void    decr();
+
 char *page[PL];
 char lbuff [LINELN], *line;
 int bflag, hflag, fflag;
@@ -20,7 +27,8 @@ int pcp = 0;
 char *pgmname;
 char    *strcpy();
 
-main (argc, argv)
+int
+main(argc, argv)
     int argc; char **argv;
 {
     int i;
@@ -159,7 +167,8 @@ main (argc, argv)
     exit(0);
 }
 
-outc (c)
+void
+outc(c)
     register char c;
 {
     if (lp > cp) {
@@ -205,7 +214,9 @@ outc (c)
     }
 }
 
-store (lno)
+void
+store(lno)
+    int lno;
 {
     lno %= PL;
     if (page[lno] != 0)
@@ -218,7 +229,9 @@ store (lno)
     strcpy (page[lno],lbuff);
 }
 
+void
 fetch(lno)
+    int lno;
 {
     register char *p;
 
@@ -231,7 +244,9 @@ fetch(lno)
     if (page[lno])
         strcpy (line, page[lno]);
 }
-emit (s, lineno)
+
+void
+emit(s, lineno)
     char *s;
     int lineno;
 {
@@ -285,6 +300,7 @@ emit (s, lineno)
     }
 }
 
+void
 incr()
 {
     store (ll++);
@@ -299,6 +315,7 @@ incr()
     fetch (ll);
 }
 
+void
 decr()
 {
     if (ll > mustwr - PL) {

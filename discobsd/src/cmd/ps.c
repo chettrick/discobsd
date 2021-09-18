@@ -521,6 +521,7 @@ perrexit(msg)
 
 void
 openfiles(argc, argv)
+    int argc;
     char **argv;
 {
     if (kflg)
@@ -658,6 +659,7 @@ printhdr()
 
 int
 main (argc, argv)
+    int argc;
     char **argv;
 {
     int     uid, euid, puid, nread;

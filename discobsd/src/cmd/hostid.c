@@ -12,9 +12,12 @@
 #include <unistd.h>
 #if HAVE_NET
 #include <netdb.h>
-#include <arpa/inet.h>
 #endif
+#include <arpa/inet.h>
 
+void    usage();
+
+int
 main(argc, argv)
     int argc;
     char **argv;
@@ -51,8 +54,9 @@ main(argc, argv)
     exit(0);
 }
 
+void
 usage()
 {
-    errx (1,"usage: [hexnum or internet name/address]");
-/* NOTREACHED */
+    errx(1,"usage: [hexnum or internet name/address]");
+    /* NOTREACHED */
 }

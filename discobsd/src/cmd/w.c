@@ -19,6 +19,8 @@
 #include <sys/proc.h>
 #include <sys/ioctl.h>
 #include <sys/tty.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define NMAX    sizeof(utmp.ut_name)
 #define LMAX    sizeof(utmp.ut_line)
@@ -43,15 +45,23 @@ int file;
 dev_t   tty;
 char    doing[520];     /* process attached to terminal */
 time_t  proctime;       /* cpu time of process in doing */
-unsigned avenrun[3];
+unsigned int avenrun[3];
 extern  int errno, optind;
 
 #define DIV60(t)    ((t+30)/60)    /* x/60 rounded */
 #define TTYEQ       (tty == pr[i].w_tty)
 #define IGINT       (1+3*1)     /* ignoring both SIGINT & SIGQUIT */
 
-char    *getargs();
-char    *getptr();
+void     gettty();
+void     putline();
+long     findidle();
+void     prttime(time_t tim, char *tail);
+void     prtat(struct tm *p);
+void     readpr();
+char    *getargs(struct smproc *p);
+char    *getptr(char **adr);
+int      getbyte(char *adr);
+int      within(char *adr, long lbd, long ubd);
 
 char    *program;
 int header = 1;     /* true if -h flag: don't print heading */
@@ -75,7 +85,9 @@ struct addrmap {
 };
 struct addrmap datmap;
 
+int
 main(argc, argv)
+    int argc;
     char **argv;
 {
     int days, hrs, mins;
@@ -231,6 +243,7 @@ main(argc, argv)
 }
 
 /* figure out the major/minor device # pair for this tty */
+void
 gettty()
 {
     char ttybuf[20];
@@ -246,6 +259,7 @@ gettty()
 /*
  * putline: print out the accumulated line of info about one user.
  */
+void
 putline()
 {
 
@@ -284,6 +298,7 @@ putline()
 }
 
 /* find & return number of minutes current tty has been idle */
+long
 findidle()
 {
     struct stat stbuf;
@@ -306,6 +321,7 @@ findidle()
  * The character string tail is printed at the end, obvious
  * strings to pass are "", " ", or "am".
  */
+void
 prttime(tim, tail)
     time_t tim;
     char *tail;
@@ -328,6 +344,7 @@ prttime(tim, tail)
 }
 
 /* prtat prints a 12 hour time given a pointer to a time of day */
+void
 prtat(p)
     register struct tm *p;
 {
@@ -347,6 +364,7 @@ prtat(p)
  * readpr finds and reads in the array pr, containing the interesting
  * parts of the proc and user tables for each live process.
  */
+void
 readpr()
 {
     struct  kinfo_proc *kp;
@@ -553,7 +571,7 @@ char **adr;
 {
     char *ptr;
     register char *p, *pa;
-    register i;
+    register int i;
 
     ptr = 0;
     pa = (char *)adr;
@@ -563,6 +581,7 @@ char **adr;
     return(ptr);
 }
 
+int
 getbyte(adr)
 char *adr;
 {
@@ -584,7 +603,7 @@ char *adr;
     return((unsigned)b);
 }
 
-
+int
 within(adr,lbd,ubd)
 char *adr;
 long lbd, ubd;

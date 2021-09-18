@@ -29,10 +29,14 @@
 #define MAXPATH 1024		/* maximum pathname length */
 #define	RESET	30		/* switch code */
 
+int strindex ( char *, char * );
+int prefix_length ( char *, char * );
+
 char path[MAXPATH];
 char oldpath[MAXPATH] = " ";
 char bigrams[257] = { 0 };
 
+int
 main ( argc, argv )
 	int argc; char *argv[];
 {
@@ -89,6 +93,7 @@ main ( argc, argv )
 	}
 }
 
+int
 strindex ( string, pattern )	/* return location of pattern in string or -1 */
 	char *string, *pattern;
 {
@@ -105,6 +110,7 @@ strindex ( string, pattern )	/* return location of pattern in string or -1 */
 	return ( -1 );
 }
 
+int
 prefix_length ( s1, s2 )	/* return length of longest common prefix */
 	char *s1, *s2;		/* ... of strings s1 and s2 */
 {

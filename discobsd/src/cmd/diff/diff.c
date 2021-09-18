@@ -3,10 +3,13 @@
  */
 #include "diff.h"
 
+void	noroom();
+
 char	diff[] = DIFF;
 char	diffh[] = DIFFH;
 char	pr[] = PR;
 
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -158,6 +161,7 @@ savestr(cp)
 	return (dp);
 }
 
+int
 min(a,b)
 	int a,b;
 {
@@ -165,6 +169,7 @@ min(a,b)
 	return (a < b ? a : b);
 }
 
+int
 max(a,b)
 	int a,b;
 {
@@ -182,6 +187,7 @@ void done(sig)
 
 char *
 talloc(n)
+	int n;
 {
 	register char *p;
 
@@ -192,7 +198,8 @@ talloc(n)
 
 char *
 ralloc(p,n)
-char *p;
+	char *p;
+	int n;
 {
 	register char *q;
 
@@ -201,6 +208,7 @@ char *p;
 	return(q);
 }
 
+void
 noroom()
 {
 	fprintf(stderr, "diff: files too big, try -h\n");

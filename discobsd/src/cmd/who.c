@@ -19,10 +19,13 @@
 #define LMAX sizeof(utmp.ut_line)
 #define HMAX sizeof(utmp.ut_host)
 
+void    putline();
+
 struct  utmp utmp;
 struct  passwd *pw;
 char    hostname[MAXHOSTNAMELEN];
 
+int
 main(argc, argv)
     int argc;
     char **argv;
@@ -65,6 +68,7 @@ main(argc, argv)
     }
 }
 
+void
 putline()
 {
     register char *cbuf;

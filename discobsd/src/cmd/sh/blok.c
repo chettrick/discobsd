@@ -13,7 +13,7 @@
 #define BUSY 01
 #define busy(x) (Rcheat((x)->word) & BUSY)
 
-unsigned        brkincr = BRKINCR;
+unsigned int    brkincr = BRKINCR;
 struct blk *blokp;                      /*current search pointer*/
 struct blk *bloktop;            /* top of arena (last blok) */
 
@@ -22,9 +22,9 @@ char            *setbrk();
 
 char *
 alloc(nbytes)
-	unsigned nbytes;
+	unsigned int nbytes;
 {
-	register unsigned rbytes = round(nbytes+BYTESPERWORD, BYTESPERWORD);
+	register unsigned int rbytes = round(nbytes+BYTESPERWORD, BYTESPERWORD);
 
 	for (;;)
 	{
@@ -54,12 +54,13 @@ alloc(nbytes)
 	}
 }
 
+void
 addblok(reqd)
-	unsigned reqd;
+	unsigned int reqd;
 {
 	if (stakbot == NIL)
 	{
-                extern end;
+                extern int end;
 		brkbegin = setbrk(BRKINCR * 5);
 		bloktop = (struct blk *) &end;
 	}
@@ -94,6 +95,7 @@ addblok(reqd)
 	}
 }
 
+void
 free(ap)
 	struct blk *ap;
 {
@@ -112,6 +114,7 @@ free(ap)
 
 #ifdef DEBUG
 
+void
 chkbptr(ptr)
 	struct blk *ptr;
 {
@@ -147,7 +150,7 @@ chkbptr(ptr)
 		abort(1);
 }
 
-
+void
 chkmem()
 {
 	register struct blk *p = (struct blk *)brkbegin;

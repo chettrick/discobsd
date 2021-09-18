@@ -7,15 +7,20 @@
 #include <sys/resource.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pwd.h>
 #include <errno.h>
+
+int	donice(int, int, int);
 
 /*
  * Change the priority (nice) of processes
  * or groups of processes which are already
  * running.
  */
+int
 main(argc, argv)
+	int argc;
 	char **argv;
 {
 	int which = PRIO_PROCESS;
@@ -68,6 +73,7 @@ main(argc, argv)
 	exit(errs != 0);
 }
 
+int
 donice(which, who, prio)
 	int which, who, prio;
 {

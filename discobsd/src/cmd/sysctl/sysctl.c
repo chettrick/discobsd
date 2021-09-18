@@ -36,7 +36,7 @@
 #include <machine/cpu.h>
 
 #include <netinet/in.h>
-#if 0
+#if 0 /* XXX */
 #include <sys/socket.h>
 #include <netinet/in_systm.h>
 #include <netinet/ip.h>
@@ -51,6 +51,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -84,6 +85,15 @@ struct list secondlevel[] = {
 	{ machdepname, CPU_MAXID },	/* CTL_MACHDEP */
 	{ username, USER_MAXID },	/* CTL_USER_NAMES */
 };
+
+void	listall(char *, struct list *);
+void	parse(char *, int);
+void	debuginit();
+#ifdef PF_INET
+int	sysctl_inet(char *, char **, int *, int, int *);
+#endif /* PF_INET */
+int	findname(char *, char *, char **, struct list *);
+void	usage();
 
 int	Aflag, aflag, nflag, wflag;
 
@@ -146,6 +156,7 @@ main(argc, argv)
 /*
  * List all variables known to the system.
  */
+void
 listall(prefix, lp)
 	char *prefix;
 	struct list *lp;
@@ -171,6 +182,7 @@ listall(prefix, lp)
  * Lookup and print out the MIB entry if it exists.
  * Set a new value if requested.
  */
+void
 parse(string, flags)
 	char *string;
 	int flags;
@@ -279,7 +291,7 @@ parse(string, flags)
 				break;
 			return;
 		}
-#endif
+#endif /* PF_INET */
 		if (flags == 0)
 			return;
 		fprintf(stderr, "Use netstat to view %s information\n", string);
@@ -430,6 +442,7 @@ doit:
 /*
  * Initialize the set of debugging names
  */
+void
 debuginit()
 {
 	int mib[3], size, loc, i;
@@ -480,6 +493,7 @@ struct list inetvars[] = {
 /*
  * handle internet requests
  */
+int
 sysctl_inet(string, bufpp, mib, flags, typep)
 	char *string;
 	char **bufpp;
@@ -521,6 +535,7 @@ sysctl_inet(string, bufpp, mib, flags, typep)
 /*
  * Scan a list of names searching for a particular name.
  */
+int
 findname(string, level, bufp, namelist)
 	char *string;
 	char *level;
@@ -546,6 +561,7 @@ findname(string, level, bufp, namelist)
 	return (i);
 }
 
+void
 usage()
 {
 

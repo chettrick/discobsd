@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "operators.h"
 
@@ -78,6 +79,11 @@ struct filestat {
 	int rcode;		/* Return code from stat. */
 	struct stat stat;	/* Status info on file. */
 };
+
+int expr_is_false();
+int lookup_op();
+int posix_unary_op();
+int posix_binary_op();
 
 extern char unary_op[][4];
 extern char binary_op[][4];
@@ -279,6 +285,7 @@ overflow()
 	err(2, "expression is too complex");
 }
 
+int
 main(argc, argv)
 	int argc;
 	char *argv[];

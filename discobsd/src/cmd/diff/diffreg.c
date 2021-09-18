@@ -79,6 +79,26 @@ struct line {
 	int	serial;
 	int	value;
 } *file[2], line;
+
+void	prepare(int, FILE *);
+void	prune();
+void	equiv(struct line *, int, struct line *, int, int *);
+int	stone(int *, int, int *, int *);
+int	newcand(int, int, int);
+int	search(int *, int, int);
+int	unravel(int);
+void	check();
+void	sort(struct line *, int);
+void	unsort(struct line *, int, int *);
+int	skipline(int);
+void	output();
+void	change(int, int, int, int);
+void	range(int, int, char *);
+void	fetch();
+int	readhash(FILE *);
+int	asciifile(FILE *);
+void	dump_context_vec();
+
 int	len[2];
 struct	line *sfile[2];	/* shortened by pruning common prefix and suffix */
 int	slen[2];
@@ -135,6 +155,7 @@ const char cup2low[256] = {
 0xf0,0xf1,0xf2,0xf3,0xf4,0xf5,0xf6,0xf7,0xf8,0xf9,0xfa,0xfb,0xfc,0xfd,0xfe,0xff
 };
 
+void
 diffreg()
 {
 	register int i, j;
@@ -306,12 +327,13 @@ splice(dir, file)
 	return (savestr(buf));
 }
 
+void
 prepare(i, fd)
 	int i;
 	FILE *fd;
 {
 	register struct line *p;
-	register j,h;
+	register int j, h;
 
 	fseek(fd, (long)0, 0);
 	p = (struct line *)talloc(3*sizeof(line));
@@ -323,9 +345,10 @@ prepare(i, fd)
 	file[i] = p;
 }
 
+void
 prune()
 {
-	register i,j;
+	register int i, j;
 	for(pref=0;pref<len[0]&&pref<len[1]&&
 		file[0][pref+1].value==file[1][pref+1].value;
 		pref++ ) ;
@@ -340,8 +363,10 @@ prune()
 	}
 }
 
+void
 equiv(a,n,b,m,c)
 struct line *a, *b;
+int n, m;
 int *c;
 {
 	register int i, j;
@@ -368,8 +393,10 @@ int *c;
 	c[j] = -1;
 }
 
+int
 stone(a,n,b,c)
 int *a;
+int n;
 int *b;
 register int *c;
 {
@@ -409,7 +436,9 @@ register int *c;
 	return(k);
 }
 
+int
 newcand(x,y,pred)
+int x, y, pred;
 {
 	register struct cand *q;
 	clist = (struct cand *)ralloc((char *)clist,++clen*sizeof(cand));
@@ -420,8 +449,10 @@ newcand(x,y,pred)
 	return(clen-1);
 }
 
+int
 search(c, k, y)
 int *c;
+int k, y;
 {
 	register int i, j, l;
 	int t;
@@ -444,7 +475,9 @@ int *c;
 	return(l+1);
 }
 
+int
 unravel(p)
+int p;
 {
 	register int i;
 	register struct cand *q;
@@ -461,6 +494,7 @@ unravel(p)
 to confounding by hashing (which result in "jackpot")
 2.  collect random access indexes to the two files */
 
+void
 check()
 {
 	register int i, j;
@@ -560,8 +594,10 @@ check()
 */
 }
 
+void
 sort(a,n)	/*shellsort CACM #201*/
 struct line *a;
+int n;
 {
 	struct line w;
 	register int j,m;
@@ -595,8 +631,10 @@ struct line *a;
 	}
 }
 
+void
 unsort(f, l, b)
 struct line *f;
+int l;
 int *b;
 {
 	register int *a;
@@ -609,9 +647,11 @@ int *b;
 	free((char *)a);
 }
 
+int
 skipline(f)
+int f;
 {
-	register i, c;
+	register int i, c;
 
 	for(i=1;(c=getc(input[f]))!='\n';i++)
 		if (c < 0)
@@ -619,6 +659,7 @@ skipline(f)
 	return(i);
 }
 
+void
 output()
 {
 	int m;
@@ -686,7 +727,9 @@ struct	context_vec	*context_vec_start,
    and this means that there were lines appended (beginning at b).
    If c is greater than d then there are lines missing from the to file.
 */
+void
 change(a,b,c,d)
+int a, b, c, d;
 {
 	int ch;
 	int lowa,upb,lowc,upd;
@@ -776,7 +819,9 @@ change(a,b,c,d)
 	}
 }
 
+void
 range(a,b,separator)
+int a, b;
 char *separator;
 {
 	printf("%d", a>b?b:a);
@@ -785,10 +830,13 @@ char *separator;
 	}
 }
 
+void
 fetch(f,a,b,lb,s,oldfile)
 long *f;
+int a, b;
 FILE *lb;
 char *s;
+int oldfile;
 {
 	register int i, j;
 	register int c;
@@ -864,13 +912,14 @@ char *s;
  * arranging line in 7-bit bytes and then
  * summing 1-s complement in 16-bit hunks
  */
+int
 readhash(f)
 register FILE *f;
 {
 	register long sum;
 	register unsigned shift;
-	register t;
-	register space;
+	register int t;
+	register int space;
 
 	sum = 1;
 	space = 0;
@@ -931,6 +980,7 @@ register FILE *f;
 
 #include <a.out.h>
 
+int
 asciifile(f)
 	FILE *f;
 {
@@ -955,6 +1005,7 @@ asciifile(f)
 
 
 /* dump accumulated "context" diff changes */
+void
 dump_context_vec()
 {
 	register int	a, b, c, d;

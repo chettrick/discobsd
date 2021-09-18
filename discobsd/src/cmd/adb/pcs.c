@@ -5,6 +5,7 @@
 
 void
 subpcs(modif)
+    int modif;
 {
     register int check;
     int execsig, runmode;

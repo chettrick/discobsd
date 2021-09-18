@@ -9,6 +9,7 @@ static int userpc = 1;
 
 int
 getsig(sig)
+    int sig;
 {
     return expr(0) ? shorten(expv) : sig;
 }
@@ -100,6 +101,7 @@ execbkpt(bkptr)
 
 int
 runpcs(runmode, execsig)
+    int runmode, execsig;
 {
     int rc = 0;
     register BKPTR bkpt;
@@ -241,6 +243,7 @@ setup()
 
 BKPTR
 scanbkpt(adr)
+    int adr;
 {
     register BKPTR bkptr;
 

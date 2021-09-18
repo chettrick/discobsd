@@ -55,7 +55,24 @@ expr:   '(' expr ')'            = { $$ = (int) $2; }
 #define ESIZE   256
 #define error(c)    errxx(c)
 #define EQL(x,y) !strcmp(x,y)
-long atol();
+
+int      yylex();
+char    *rel();
+char    *arith();
+char    *conju();
+char    *substr();
+char    *length();
+char    *cindex();
+char    *match();
+int      ematch();
+void     errxx();
+char    *compile();
+int      step();
+int      advance();
+void     getrnge();
+int      ecmp();
+void     yyerror();
+
 char    **Av;
 int Ac;
 int Argi;
@@ -63,7 +80,11 @@ int Argi;
 char Mstring[1][128];
 extern int nbra;
 
-main(argc, argv) char **argv; {
+int
+main(argc, argv)
+    int argc;
+    char **argv;
+{
     Ac = argc;
     Argi = 1;
     Av = argv;
@@ -77,10 +98,11 @@ int op[] = { OR, AND, ADD,  SUBT, MULT, DIV, REM, MCH,
     EQ, EQ, LT, LEQ, GT, GEQ, NEQ,
     MATCH, SUBSTR, LENGTH, INDEX };
 
+int
 yylex()
 {
     register char *p;
-    register i;
+    register int i;
 
     if(Argi >= Ac) return NOARG;
 
@@ -95,7 +117,10 @@ yylex()
     return A_STRING;
 }
 
-char *rel(op, r1, r2) register char *r1, *r2;
+char *
+rel(op, r1, r2)
+    int op;
+    register char *r1, *r2;
 {
     register long i;
 
@@ -114,7 +139,10 @@ char *rel(op, r1, r2) register char *r1, *r2;
     return i? "1": "0";
 }
 
-char *arith(op, r1, r2) char *r1, *r2;
+char *
+arith(op, r1, r2)
+    int op;
+    char *r1, *r2;
 {
     long i1, i2;
     register char *rv;
@@ -136,7 +164,10 @@ char *arith(op, r1, r2) char *r1, *r2;
     return rv;
 }
 
-char *conju(op, r1, r2) char *r1, *r2;
+char *
+conju(op, r1, r2)
+    int op;
+    char *r1, *r2;
 {
     register char *rv;
 
@@ -169,7 +200,7 @@ char *conju(op, r1, r2) char *r1, *r2;
 
 char *substr(v, s, w) char *v, *s, *w;
 {
-register si, wi;
+register int si, wi;
 register char *res;
 
     si = atol(s);
@@ -186,7 +217,7 @@ register char *res;
 
 char *length(s) register char *s;
 {
-    register i = 0;
+    register int i = 0;
     register char *rv;
 
     while(*s++) ++i;
@@ -198,7 +229,7 @@ char *length(s) register char *s;
 
 char *cindex(s, t) char *s, *t;
 {
-    register i, j;
+    register int i, j;
     register char *rv;
 
     for(i = 0; s[i] ; ++i)
@@ -210,7 +241,10 @@ char *cindex(s, t) char *s, *t;
     return "0";
 }
 
-char *match(s, p)
+char *
+match(s, p)
+    char *s;
+    char *p;
 {
     register char *rv;
 
@@ -226,17 +260,17 @@ char *match(s, p)
 #define GETC()      (*sp++)
 #define PEEKC()     (*sp)
 #define UNGETC(c)   (--sp)
-#define RETURN(c)   return
+#define RETURN(c)   return(c)
 #define ERROR(c)    errxx(c)
 
-
+int
 ematch(s, p)
 char *s;
 register char *p;
 {
     static char expbuf[ESIZE];
     char *compile();
-    register num;
+    register int num;
     extern char *braslist[], *braelist[], *loc2;
 
     compile(p, expbuf, &expbuf[ESIZE], 0);
@@ -254,7 +288,9 @@ register char *p;
     return(0);
 }
 
+void
 errxx(c)
+    int c;
 {
     yyerror("RE error");
 }
@@ -301,10 +337,11 @@ char *
 compile(instring, ep, endbuf, seof)
 register char *ep;
 char *instring, *endbuf;
+int seof;
 {
     INIT    /* Dependent declarations and initializations */
-    register c;
-    register eof = seof;
+    register int c;
+    register int eof = seof;
     char *lastep = instring;
     int cclcnt;
     char bracket[NBRA], *bracketp;
@@ -476,10 +513,11 @@ char *instring, *endbuf;
     }
 }
 
+int
 step(p1, p2)
 register char *p1, *p2;
 {
-    register c;
+    register int c;
 
     if (circf) {
         loc1 = p1;
@@ -508,6 +546,7 @@ register char *p1, *p2;
     return(0);
 }
 
+int
 advance(lp, ep)
 register char *lp, *ep;
 {
@@ -654,6 +693,7 @@ register char *lp, *ep;
     }
 }
 
+void
 getrnge(str)
 register char *str;
 {
@@ -661,9 +701,10 @@ register char *str;
     size = *str == 255 ? 20000 : (*str &0377) - low;
 }
 
+int
 ecmp(a, b, count)
 register char   *a, *b;
-register    count;
+register int    count;
 {
     if(a == b) /* should have been caught in compile() */
         error(51);
@@ -673,6 +714,7 @@ register    count;
     return(1);
 }
 
+void
 yyerror(s)
 char *s;
 {

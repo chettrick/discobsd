@@ -4,10 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 
+void    printt(char *, struct timeval *);
+
+int
 main(argc, argv)
     int argc;
     char **argv;
@@ -48,10 +53,10 @@ main(argc, argv)
     exit (status>>8);
 }
 
+void
 printt(s, tv)
     char *s;
     struct timeval *tv;
 {
-
     fprintf(stderr, "%9ld.%01ld %s ", tv->tv_sec, tv->tv_usec/100000, s);
 }

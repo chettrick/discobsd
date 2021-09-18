@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #define	ATOI2(ar)	(ar[0] - '0') * 10 + (ar[1] - '0'); ar += 2;
 
@@ -39,7 +40,7 @@ static struct utmp	wtmp[2] = {
  * gtime --
  *	convert user's time into number of seconds
  */
-static
+static int
 gtime(ap)
 	register char	*ap;		/* user argument */
 {
@@ -295,6 +296,7 @@ void fmttime(char *fmt, struct tm *tm)
 	
 }
 
+int
 main(argc,argv)
 	int	argc;
 	char	**argv;

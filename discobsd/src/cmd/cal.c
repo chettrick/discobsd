@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int     number(char *);
+void    pstr(char *, int);
+void    cal(int, int, char *, int);
+int     jan1(int);
+
 char    dayw[] = {
     " S  M Tu  W Th  F  S"
 };
@@ -11,10 +16,12 @@ char    *smon[]= {
 };
 char    string[432];
 
+int
 main(argc, argv)
+int argc;
 char *argv[];
 {
-    register y, i, j;
+    register int y, i, j;
     int m;
 
     if(argc < 2) {
@@ -72,10 +79,11 @@ badarg:
     printf("Bad argument\n");
 }
 
+int
 number(str)
 char *str;
 {
-    register n, c;
+    register int n, c;
     register char *s;
 
     n = 0;
@@ -88,10 +96,12 @@ char *str;
     return(n);
 }
 
+void
 pstr(str, n)
 char *str;
+int n;
 {
-    register i;
+    register int i;
     register char *s;
 
     s = str;
@@ -114,10 +124,12 @@ char    mon[] = {
     30, 31, 30, 31,
 };
 
+void
 cal(m, y, p, w)
+int m, y, w;
 char *p;
 {
-    register d, i;
+    register int d, i;
     register char *s;
 
     s = p;
@@ -174,9 +186,11 @@ char *p;
  *  of jan 1 of given year
  */
 
+int
 jan1(yr)
+int yr;
 {
-    register y, d;
+    register int y, d;
 
 /*
  *  normal gregorian calendar

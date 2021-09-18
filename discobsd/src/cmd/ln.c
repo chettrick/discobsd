@@ -3,17 +3,22 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+int     linkit(char *, char *);
 
 struct  stat stb;
 int fflag;      /* force flag set? */
 int sflag;
 char    name[BUFSIZ];
-char    *rindex();
 extern  int errno;
 
+int
 main(argc, argv)
     int argc;
     register char **argv;
@@ -53,8 +58,7 @@ usage:
     exit(1);
 }
 
-int link(), symlink();
-
+int
 linkit(from, to)
     char *from, *to;
 {

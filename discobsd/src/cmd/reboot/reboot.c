@@ -12,6 +12,8 @@
 #include <errno.h>
 #include <pwd.h>
 #include <sysexits.h>
+#include <time.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <sys/syslog.h>
 #include <sys/file.h>
@@ -20,6 +22,9 @@
 
 #define	OPTS	"lqnhdarsfRD"
 
+void	markdown();
+
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -30,7 +35,6 @@ main(argc, argv)
 	char *myname;		/* name we were invoked as */
 	char args[20], *ap;	/* collected arguments for syslog */
 	int i;
-	char *rindex();
 
 	if (myname = rindex(argv[0], '/'))
 		myname++;
@@ -164,6 +168,7 @@ main(argc, argv)
 
 #define	SCPYN(a, b)	strncpy(a, b, sizeof(a))
 
+void
 markdown()
 {
 	struct utmp wtmp;

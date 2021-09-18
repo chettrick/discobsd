@@ -37,6 +37,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <tzfile.h>
 #include <lastlog.h>
@@ -50,6 +51,17 @@ int	kerror = KSUCCESS, notickets = 1;
 #endif
 
 #define	TTYGRPNAME	"tty"		/* name of group to own ttys */
+
+void	 getloginname();
+int	 rootterm(char *);
+void	 sigint(int);
+void	 motd();
+void	 checknologin();
+void	 dolastlog(int);
+void	 badlogin(char *);
+char	*stypeof(char *);
+void	 getstr(char *, int, char *);
+void	 sleepexit(int);
 
 /*
  * This bounds the time given to login.  Not a define so it can
@@ -80,6 +92,7 @@ void timedout(sig)
 	exit(0);
 }
 
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -337,6 +350,7 @@ nouser:
 	/* nothing else left to fail -- really log in */
 	{
 		struct utmp utmp;
+		void login(struct utmp *);
 
 		bzero((char *)&utmp, sizeof(utmp));
 		(void)time(&utmp.ut_time);
@@ -422,6 +436,7 @@ nouser:
 	exit(0);
 }
 
+void
 getloginname()
 {
 	register int ch;
@@ -450,6 +465,7 @@ getloginname()
 	}
 }
 
+int
 rootterm(ttyn)
 	char *ttyn;
 {
@@ -466,6 +482,7 @@ void sigint(sig)
 	longjmp(motdinterrupt, 1);
 }
 
+void
 motd()
 {
 	register int fd, nchars;
@@ -482,6 +499,7 @@ motd()
 	(void)close(fd);
 }
 
+void
 checknologin()
 {
 	register int fd, nchars;
@@ -494,6 +512,7 @@ checknologin()
 	}
 }
 
+void
 dolastlog(quiet)
 	int quiet;
 {
@@ -527,6 +546,7 @@ dolastlog(quiet)
 	}
 }
 
+void
 badlogin(name)
 	char *name;
 {
@@ -552,6 +572,7 @@ stypeof(ttyid)
 	return(ttyid && (t = getttynam(ttyid)) ? t->ty_type : UNKNOWN);
 }
 
+void
 getstr(buf, cnt, err)
 	char *buf, *err;
 	int cnt;
@@ -569,6 +590,7 @@ getstr(buf, cnt, err)
 	} while (ch);
 }
 
+void
 sleepexit(eval)
 	int eval;
 {

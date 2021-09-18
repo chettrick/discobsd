@@ -28,6 +28,13 @@
 #define ESIZE   256
 #define NBRA    9
 
+void    compile(char *);
+void    execute(char *);
+int     advance(char *, char *);
+void    succeed(char *);
+int     ecmp(char *, char *, int);
+void    errexit(char *, char *);
+
 char    expbuf[ESIZE];
 long    lnum;
 char    linebuf[LBSIZE+1];
@@ -60,7 +67,9 @@ char    bittab[] = {
     128
 };
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     while (--argc > 0 && (++argv)[0][0]=='-')
@@ -151,10 +160,11 @@ out:
     exit(retcode != 0 ? retcode : nsucc == 0);
 }
 
+void
 compile(astr)
 char *astr;
 {
-    register c;
+    register int c;
     register char *ep, *sp;
     char *cstart;
     char *lastep;
@@ -283,11 +293,12 @@ char *astr;
     errexit("grep: RE error\n", (char *)NULL);
 }
 
+void
 execute(file)
 char *file;
 {
     register char *p1, *p2;
-    register c;
+    register int c;
 
     if (file) {
         if (freopen(file, "r", stdin) == NULL) {
@@ -348,6 +359,7 @@ char *file;
     }
 }
 
+int
 advance(lp, ep)
 register char *lp, *ep;
 {
@@ -477,6 +489,7 @@ register char *lp, *ep;
     }
 }
 
+void
 succeed(f)
 char *f;
 {
@@ -503,15 +516,18 @@ char *f;
     fflush(stdout);
 }
 
+int
 ecmp(a, b, count)
 char    *a, *b;
+int count;
 {
-    register cc = count;
+    register int cc = count;
     while(cc--)
         if(*a++ != *b++)    return(0);
     return(1);
 }
 
+void
 errexit(s, f)
 char *s, *f;
 {

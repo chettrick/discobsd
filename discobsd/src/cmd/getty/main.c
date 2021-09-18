@@ -7,8 +7,10 @@
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
  */
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <sgtty.h>
 #include <signal.h>
@@ -16,7 +18,9 @@
 #include <setjmp.h>
 #include <syslog.h>
 #include <sys/file.h>
+
 #include "gettytab.h"
+#include "extern.h"
 
 extern	char **environ;
 
@@ -42,8 +46,6 @@ char	name[16];
 char	dev[] = "/dev/";
 char	ctty[] = "/dev/console";
 char	ttyn[32];
-char	*portselector();
-char	*ttyname();
 
 #define	OBUFSIZ		128
 #define	TABBUFSIZ	512
@@ -97,9 +99,21 @@ void interrupt(sig)
 	longjmp(intrupt, 1);
 }
 
+static void	putstr(const char *);
+static int	getname(void);
+static void	putpad(char *);
+static void	putchr(int);
+static void	oflush(void);
+static void	prompt(void);
+static void	putf(char *);
+
+int
 main(argc, argv)
+	int argc;
 	char *argv[];
 {
+	int vhangup();
+
 	register char *tname;
 	long allflags;
 	int repcnt = 0;
@@ -234,17 +248,19 @@ main(argc, argv)
 	}
 }
 
-void putstr(s)
+static void
+putstr(s)
 	register const char *s;
 {
 	while (*s)
 		putchr(*s++);
 }
 
-getname()
+static int
+getname(void)
 {
 	register char *np;
-	register c;
+	register int c;
 	char cs;
 
 	/*
@@ -325,11 +341,12 @@ short	tmspc10[] = {
 	0, 2000, 1333, 909, 743, 666, 500, 333, 166, 83, 55, 41, 20, 10, 5, 15
 };
 
+static void
 putpad(s)
 	register char *s;
 {
-	register pad = 0;
-	register mspc10;
+	register int pad = 0;
+	register int mspc10;
 
 	if (isdigit(*s)) {
 		while (isdigit(*s)) {
@@ -370,7 +387,9 @@ putpad(s)
 char	outbuf[OBUFSIZ];
 int	obufcnt = 0;
 
+static void
 putchr(cc)
+	int cc;
 {
 	char c;
 
@@ -387,21 +406,23 @@ putchr(cc)
 		write(1, &c, 1);
 }
 
-oflush()
+static void
+oflush(void)
 {
 	if (obufcnt)
 		write(1, outbuf, obufcnt);
 	obufcnt = 0;
 }
 
-prompt()
+static void
+prompt(void)
 {
-
 	putf(LM);
 	if (CO)
 		putchr('\n');
 }
 
+static void
 putf(cp)
 	register char *cp;
 {

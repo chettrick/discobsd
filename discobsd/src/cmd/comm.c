@@ -3,6 +3,12 @@
 
 #define LB 256
 
+int      rd(FILE *, char *);
+void     wr(char *, int);
+void     copy(FILE *, char *, int);
+int      compare(char *, char *);
+FILE    *openfil(char *);
+
 int one;
 int two;
 int three;
@@ -11,8 +17,10 @@ char    *ldr[3];
 
 FILE *ib1;
 FILE *ib2;
-FILE *openfil();
+
+int
 main(argc,argv)
+int      argc;
 char    *argv[];
 {
     int l;
@@ -93,11 +101,11 @@ char    *argv[];
     }
 }
 
+int
 rd(file,buf)
 FILE *file;
 char *buf;
 {
-
     register int i, c;
     i = 0;
     while((c = getc(file)) != EOF) {
@@ -112,10 +120,11 @@ char *buf;
     return(-1);
 }
 
+void
 wr(str,n)
     char    *str;
+    int      n;
 {
-
     switch(n) {
 
         case 1:
@@ -132,9 +141,11 @@ wr(str,n)
     printf("%s%s\n",ldr[n-1],str);
 }
 
+void
 copy(ibuf,lbuf,n)
 FILE *ibuf;
 char *lbuf;
+int n;
 {
     do {
         wr(lbuf,n);
@@ -143,6 +154,7 @@ char *lbuf;
     exit(0);
 }
 
+int
 compare(a,b)
     char    *a,*b;
 {
@@ -155,7 +167,9 @@ compare(a,b)
     if(*ra < *rb)   return(1);
     return(2);
 }
-FILE *openfil(s)
+
+FILE *
+openfil(s)
 char *s;
 {
     FILE *b;

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define BIG 2147483647
 #define LCASE   01
@@ -8,6 +10,9 @@
 #define SWAB    04
 #define NERR    010
 #define SYNC    020
+
+void    stats();
+void    null(int);
 
 int cflag;
 int fflag;
@@ -20,7 +25,6 @@ char    *ifile;
 char    *ofile;
 char    *ibuf;
 char    *obuf;
-char    *sbrk();
 int ibs = 512;
 int obs = 512;
 int bs;
@@ -149,9 +153,10 @@ term(status)
     exit(status);
 }
 
+void
 flsh()
 {
-    register c;
+    register int c;
 
     if(obc) {
         if(obc == obs)
@@ -166,6 +171,7 @@ flsh()
     }
 }
 
+int
 match(s)
 char *s;
 {
@@ -184,7 +190,9 @@ true:
     return(1);
 }
 
+long
 number(big)
+    long big;
 {
     register char *cs;
     long n;
@@ -223,9 +231,11 @@ number(big)
     /* never gets here */
 }
 
+void
 cnull(cc)
+    int cc;
 {
-    register c;
+    register int c;
 
     c = cc;
     if(cflag&UCASE && c>='a' && c<='z')
@@ -235,9 +245,10 @@ cnull(cc)
     null(c);
 }
 
+void
 null(c)
+    int c;
 {
-
     *op = c;
     op++;
     if(++obc >= obs) {
@@ -246,9 +257,11 @@ null(c)
     }
 }
 
+void
 ascii(cc)
+    int cc;
 {
-    register c;
+    register int c;
 
     c = etoa[cc] & 0377;
     if(cbs == 0) {
@@ -273,9 +286,11 @@ out:
     }
 }
 
+void
 unblock(cc)
+    int cc;
 {
-    register c;
+    register int c;
 
     c = cc & 0377;
     if(cbs == 0) {
@@ -300,9 +315,11 @@ out:
     }
 }
 
+void
 ebcdic(cc)
+    int cc;
 {
-    register c;
+    register int c;
 
     c = cc;
     if(cflag&UCASE && c>='a' && c<='z')
@@ -329,9 +346,11 @@ ebcdic(cc)
         null(c);
 }
 
+void
 ibm(cc)
+    int cc;
 {
-    register c;
+    register int c;
 
     c = cc;
     if(cflag&UCASE && c>='a' && c<='z')
@@ -358,9 +377,11 @@ ibm(cc)
         null(c);
 }
 
+void
 block(cc)
+    int cc;
 {
-    register c;
+    register int c;
 
     c = cc;
     if(cflag&UCASE && c>='a' && c<='z')
@@ -387,6 +408,7 @@ block(cc)
         null(c);
 }
 
+void
 stats()
 {
     fprintf(stderr,"%u+%u records in\n", nifr, nipr);
@@ -395,13 +417,14 @@ stats()
         fprintf(stderr,"%u truncated records\n", ntrunc);
 }
 
+int
 main(argc, argv)
 int argc;
 char    **argv;
 {
-    int (*conv)();
+    void (*conv)(); // XXX Return type was 'int'.
     register char *ip;
-    register c;
+    register int c;
     int a;
 
     conv = null;

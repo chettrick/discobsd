@@ -9,6 +9,7 @@ static char line[LINSIZ];
 
 int
 eol(c)
+    int c;
 {
     return (c == EOR || c == ';');
 }

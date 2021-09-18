@@ -48,6 +48,7 @@ int **pres[NNONTERM+2];  /* vector of pointers to productions yielding each nont
 struct looksets *pfirst[NNONTERM+2];  /* vector of pointers to first sets for each nonterminal */
 int pempty[NNONTERM+1];  /* vector of nonterminals nontrivially deriving e */
 
+int
 main(argc,argv) int argc; char *argv[]; {
 
 	setup(argc,argv); /* initialize and read productions */
@@ -66,7 +67,7 @@ main(argc,argv) int argc; char *argv[]; {
 	}
 
 others(){ /* put out other arrays, copy the parsers */
-	register c, i, j;
+	register int c, i, j;
 
 	finput = fopen( PARSER, "r" );
 	if( finput == NULL ) error( "cannot find parser %s", PARSER );
@@ -211,7 +212,7 @@ aryfil( v, n, c ) int *v,n,c; { /* set elements 0 through n-1 to c */
 setunion( a, b ) register *a, *b; {
 	/* set a to the union of a and b */
 	/* return 1 if b is not a subset of a, 0 otherwise */
-	register i, x, sub;
+	register int i, x, sub;
 
 	sub = 0;
 	SETLOOP(i){
@@ -222,7 +223,7 @@ setunion( a, b ) register *a, *b; {
 	}
 
 prlook( p ) struct looksets *p;{
-	register j, *pp;
+	register int j, *pp;
 
 	pp = p->lset;
 	if( pp == 0 ) fprintf( foutput, "\tNULL");
@@ -239,7 +240,7 @@ cpres(){ /* compute an array with the beginnings of  productions yielding given 
 	The array pres points to these lists */
 	/* the array pyield has the lists: the total size is only NPROD+1 */
 	int **pmem;
-	register c, j, i;
+	register int c, j, i;
 	static int * pyield[NPROD];
 
 	pmem = pyield;
@@ -267,7 +268,7 @@ cpres(){ /* compute an array with the beginnings of  productions yielding given 
 int indebug = 0;
 cpfir() {
 	/* compute an array with the first of nonterminals */
-	register *p, **s, i, **t, ch, changes;
+	register int *p, **s, i, **t, ch, changes;
 
 	zzcwp = &wsets[nnonter];
 	NTLOOP(i){
@@ -313,7 +314,7 @@ cpfir() {
 
 state(c){ /* sorts last state,and sees if it equals earlier ones. returns state number */
 	int size1,size2;
-	register i;
+	register int i;
 	struct item *p1, *p2, *k, *l, *q1, *q2;
 	p1 = pstate[nstate];
 	p2 = pstate[nstate+1];
@@ -400,7 +401,7 @@ cempty(){ /* mark nonterminals which derive the empty string */
 # define WHOKNOWS 0
 # define OK 1
 
-	register i, *p;
+	register int i, *p;
 
 	/* first, use the array pempty to detect productions that can never be reduced */
 	/* set pempty to WHONOWS */
@@ -461,7 +462,7 @@ int gsdebug = 0;
 stagen(){ /* generate the states */
 
 	int i, j;
-	register c;
+	register int c;
 	register struct wset *p, *q;
 
 	/* initialize */
@@ -638,7 +639,7 @@ struct looksets *flset( p )   struct looksets *p; {
 
 	register struct looksets *q;
 	int j, *w;
-	register *u, *v;
+	register int *u, *v;
 
 	for( q = &lkst[nlset]; q-- > lkst; ){
 		u = p->lset;

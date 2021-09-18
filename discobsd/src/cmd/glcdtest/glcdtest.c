@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <glcd.h>
 #include <string.h>
+#include <unistd.h>
 
 int glcd;
 

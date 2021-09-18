@@ -5,6 +5,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <paths.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -31,10 +32,6 @@ unsigned    nlines;
 unsigned    ntext;
 int *lspace;
 char    *tspace;
-int cmp(), cmpa();
-int (*compare)() = cmpa;
-char    *eol();
-void    term(int);
 int     mflg;
 int cflg;
 int uflg;
@@ -177,10 +174,33 @@ char    *setfil();
 
 #define blank(c)    ((c) == ' ' || (c) == '\t')
 
+void     sort();
+void     merge(int, int);
+void     disorder(char *, char *);
+void     newfile();
+char    *setfil(int);
+void     oldfile();
+void     safeoutfil();
+void     cant(char *);
+void     diag(char *, char *);
+void     term(int);
+int      cmp(char *, char *);
+int      cmpa(char *, char *);
+char    *skip(char *, struct field *, int);
+char    *eol(char *);
+void     copyproto();
+void     field(char *, int);
+int      number(char **);
+void     qusort(char **, char **);
+
+int (*compare)() = cmpa;
+
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
-    register a;
+    register int a;
     extern char end[1];
     char *ep;
     char *arg;
@@ -299,11 +319,12 @@ char **argv;
     term(0);
 }
 
+void
 sort()
 {
     register char *cp;
     register char **lp;
-    register lines, text, len;
+    register int lines, text, len;
     int done = 0;
     int i = 0;
     char *f;
@@ -378,11 +399,13 @@ struct merg
     FILE    *b;
 } *ibuf[256];
 
+void
 merge(a,b)
+int a, b;
 {
     struct  merg    *p;
     register char   *cp, *dp;
-    register    i;
+    register int     i;
     struct merg **ip, *jp;
     char    *f;
     int j;
@@ -476,6 +499,7 @@ merge(a,b)
     fclose(os);
 }
 
+void
 disorder(s,t)
 char *s, *t;
 {
@@ -486,6 +510,7 @@ char *s, *t;
     term(0);
 }
 
+void
 newfile()
 {
     register char *f;
@@ -500,8 +525,8 @@ newfile()
 
 char *
 setfil(i)
+int i;
 {
-
     if(i < eargc)
         if(eargv[i][0] == '-' && eargv[i][1] == '\0')
             return(0);
@@ -513,9 +538,9 @@ setfil(i)
     return(file);
 }
 
+void
 oldfile()
 {
-
     if(outfil) {
         if((os=fopen(outfil, "w")) == NULL) {
             diag("can't create ",outfil);
@@ -525,6 +550,7 @@ oldfile()
         os = stdout;
 }
 
+void
 safeoutfil()
 {
     register int i;
@@ -543,6 +569,7 @@ safeoutfil()
     }
 }
 
+void
 cant(f)
 char *f;
 {
@@ -550,6 +577,7 @@ char *f;
     term(0);
 }
 
+void
 diag(s,t)
 char *s, *t;
 {
@@ -559,10 +587,11 @@ char *s, *t;
     fputs("\n",stderr);
 }
 
-void term(sig)
+void
+term(sig)
 int sig;
 {
-    register i;
+    register int i;
 
     signal(SIGINT, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
@@ -575,6 +604,7 @@ int sig;
     _exit(error);
 }
 
+int
 cmp(i, j)
 char *i, *j;
 {
@@ -677,6 +707,7 @@ loop:
     return(cmpa(i, j));
 }
 
+int
 cmpa(pa, pb)
 register char *pa, *pb;
 {
@@ -697,8 +728,9 @@ char *
 skip(pp, fp, j)
 struct field *fp;
 char *pp;
+int j;
 {
-    register i;
+    register int i;
     register char *p;
 
     p = pp;
@@ -742,9 +774,10 @@ register char *p;
     return(p);
 }
 
+void
 copyproto()
 {
-    register i;
+    register int i;
     register int *p, *q;
 
     p = (int *)&proto;
@@ -753,11 +786,13 @@ copyproto()
         *q++ = *p++;
 }
 
+void
 field(s,k)
 char *s;
+int k;
 {
     register struct field *p;
-    register d;
+    register int d;
     p = &fields[nfields];
     d = 0;
     for(; *s!=0; s++) {
@@ -815,6 +850,7 @@ char *s;
     }
 }
 
+int
 number(ppa)
 char **ppa;
 {
@@ -832,6 +868,7 @@ char **ppa;
 #define qsexc(p,q) t= *p;*p= *q;*q=t
 #define qstexc(p,q,r) t= *p;*p= *r;*r= *q;*q=t
 
+void
 qusort(a,l)
 char **a, **l;
 {

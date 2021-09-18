@@ -16,9 +16,13 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <paths.h>
 
+void	fatal(char *msg);
+
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -44,6 +48,7 @@ main(argc, argv)
 	/* NOTREACHED */
 }
 
+void
 fatal(msg)
 	char *msg;
 {

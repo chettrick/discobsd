@@ -6,9 +6,12 @@
  *      1 - ok, but no matches
  *      2 - some error
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -16,6 +19,12 @@
 
 #define MAXSIZ 4000
 #define QSIZE 400
+
+void    execute(char *);
+int     getargc();
+void    cgotofn();
+void    overflo();
+void    cfail();
 
 struct words {
     char    inp;
@@ -37,7 +46,9 @@ long    tln;
 FILE    *wordf;
 char    *argptr;
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     while (--argc > 0 && (++argv)[0][0]=='-')
@@ -123,11 +134,12 @@ out:
 #define ccomp(a,b) (yflag ? lca(a)==lca(b) : a==b)
 #define lca(x) (isupper(x) ? tolower(x) : x)
 
+void
 execute(file)
 char *file;
 {
     register struct words *c;
-    register ccount;
+    register int ccount;
     register char ch;
     register char *p;
     static char *buf;
@@ -252,9 +264,10 @@ char *file;
     }
 }
 
+int
 getargc()
 {
-    register c;
+    register int c;
     if (wordf)
         return(getc(wordf));
     if ((c = *argptr++) == '\0')
@@ -262,8 +275,10 @@ getargc()
     return(c);
 }
 
-cgotofn() {
-    register c;
+void
+cgotofn()
+{
+    register int c;
     register struct words *s;
 
     s = smax = w;
@@ -325,11 +340,16 @@ nword:  for(;;) {
         goto nword;
 }
 
-overflo() {
+void
+overflo()
+{
     fprintf(stderr, "wordlist too large\n");
     exit(2);
 }
-cfail() {
+
+void
+cfail()
+{
     struct words *queue[QSIZE];
     struct words **front, **rear;
     struct words *state;

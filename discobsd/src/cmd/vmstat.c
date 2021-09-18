@@ -8,6 +8,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <nlist.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include <sys/param.h>
 #include <sys/file.h>
@@ -17,8 +19,17 @@
 #include <sys/dir.h>
 #include <sys/inode.h>
 #include <sys/namei.h>
+#include <sys/time.h>
 
 #include <machine/machparam.h>
+
+void    dotimes();
+void    dosum();
+void    doforkst();
+void    stats(int dn);
+double  stat1(int row);
+void    dointr(long nintv);
+void    read_names();
 
 struct nlist nl[] = {
 #define X_CPTIME    0
@@ -59,7 +70,6 @@ int *dr_select;
 int dk_ndrive;
 int ndrives = 0;
 char    *defdrives[] = { "sd0", 0 };
-double  stat1();
 int hz;
 
 struct {
@@ -86,7 +96,8 @@ int     mf;
 time_t  now, boottime;
 int lines = 1;
 
-void printhdr(sig)
+void
+printhdr(sig)
     int sig;
 {
     register int i, j;
@@ -120,12 +131,13 @@ void printhdr(sig)
     lines = 19;
 }
 
+int
 main(argc, argv)
     int argc;
     char **argv;
 {
     extern char *ctime();
-    register i;
+    register int i;
     int iter, iflag = 0;
     long nintv, t;
     char *arg, **cp, buf[BUFSIZ];
@@ -343,11 +355,13 @@ loop:
     }
 }
 
+void
 dotimes()
 {
     printf("page in/out/reclamation is not applicable to 2.11BSD\n");
 }
 
+void
 dosum()
 {
     struct nchstats nchstats;
@@ -377,6 +391,7 @@ dosum()
         nchstats.ncs_badhits, nchstats.ncs_falsehits, nchstats.ncs_long);
 }
 
+void
 doforkst()
 {
     lseek(mf, (long)nl[X_FORKSTAT].n_value, L_SET);
@@ -391,7 +406,9 @@ doforkst()
             (float) forkstat.sizvfork / forkstat.cntvfork);
 }
 
+void
 stats(dn)
+    int dn;
 {
     if (dn >= dk_ndrive) {
         printf("   0");
@@ -402,9 +419,10 @@ stats(dn)
 
 double
 stat1(row)
+    int row;
 {
     double t;
-    register i;
+    register int i;
 
     t = 0;
     for(i=0; i<CPUSTATES; i++)
@@ -414,6 +432,7 @@ stat1(row)
     return(s.time[row]*100./t);
 }
 
+void
 dointr(nintv)
     long nintv;
 {
@@ -425,6 +444,7 @@ dointr(nintv)
 /*
  * Read the drive names out of kmem.
  */
+void
 read_names()
 {
     char two_char[2];

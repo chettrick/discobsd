@@ -58,6 +58,7 @@ findsym(svalue, type)
 
 void
 valpr(v, idsp)
+    int     v, idsp;
 {
     u_int   d;
 

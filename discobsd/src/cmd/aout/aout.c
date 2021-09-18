@@ -282,6 +282,7 @@ void disasm (fname)
 }
 
 int main (argc, argv)
+    int argc;
     register char **argv;
 {
     int ch;

@@ -1,6 +1,8 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
+CFLAGS          = -ansi
+
 OBJS            = setbrk.o blok.o stak.o cmd.o fault.o main.o word.o \
                   string.o name.o args.o xec.o service.o error.o io.o \
                   print.o macro.o expand.o ctype.o msg.o test.o defs.o \
@@ -9,7 +11,7 @@ OBJS            = setbrk.o blok.o stak.o cmd.o fault.o main.o word.o \
 all:		sh
 
 sh:		${OBJS}
-		${CC} ${LDFLAGS} -o sh.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o sh.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S sh.elf > sh.dis
 		${SIZE} sh.elf
 		${ELF2AOUT} sh.elf $@ && rm sh.elf

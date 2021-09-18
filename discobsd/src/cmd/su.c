@@ -28,6 +28,7 @@ int fastlogin;
 extern char **environ;
 struct  passwd *pwd;
 
+void
 setenvv(ename, eval, buf)
     char *ename, *eval, *buf;
 {
@@ -64,6 +65,7 @@ getenvv(ename)
     return ((char *)0);
 }
 
+int
 main(argc,argv)
     int argc;
     char *argv[];

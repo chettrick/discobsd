@@ -10,6 +10,17 @@
 #include <string.h>
 #include <ctype.h>
 
+void    getlist(int *, char ***, char ***, int *);
+void    zerof();
+void    lookup(char *);
+void    looksrc(char *);
+void    lookbin(char *);
+void    lookman(char *);
+void    findv(char **, int, char *);
+void    find(char **, char *);
+void    findin(char *, char *);
+int     itsit(char *, char *);
+
 static char *bindirs[] = {
     "/etc",
     "/bin",
@@ -63,15 +74,16 @@ int Bcnt;
 char    **Mflag;
 int Mcnt;
 char    uflag;
+
 /*
  * whereis name
  * look for source, documentation and binaries
  */
+int
 main(argc, argv)
     int argc;
     char *argv[];
 {
-
     argc--, argv++;
     if (argc == 0) {
 usage:
@@ -126,13 +138,13 @@ usage:
     while (--argc > 0);
 }
 
+void
 getlist(argcp, argvp, flagp, cntp)
     char ***argvp;
     int *argcp;
     char ***flagp;
     int *cntp;
 {
-
     (*argvp)++;
     *flagp = *argvp;
     *cntp = 0;
@@ -142,17 +154,16 @@ getlist(argcp, argvp, flagp, cntp)
     (*argvp)--;
 }
 
-
+void
 zerof()
 {
-
     if (sflag && bflag && mflag)
         sflag = bflag = mflag = 0;
 }
 int count;
 int print;
 
-
+void
 lookup(cp)
     register char *cp;
 {
@@ -204,6 +215,7 @@ again:
         printf("\n");
 }
 
+void
 looksrc(cp)
     char *cp;
 {
@@ -213,6 +225,7 @@ looksrc(cp)
         findv(Sflag, Scnt, cp);
 }
 
+void
 lookbin(cp)
     char *cp;
 {
@@ -222,6 +235,7 @@ lookbin(cp)
         findv(Bflag, Bcnt, cp);
 }
 
+void
 lookman(cp)
     char *cp;
 {
@@ -231,25 +245,26 @@ lookman(cp)
         findv(Mflag, Mcnt, cp);
 }
 
+void
 findv(dirv, dirc, cp)
     char **dirv;
     int dirc;
     char *cp;
 {
-
     while (dirc > 0)
         findin(*dirv++, cp), dirc--;
 }
 
+void
 find(dirs, cp)
     char **dirs;
     char *cp;
 {
-
     while (*dirs)
         findin(*dirs++, cp);
 }
 
+void
 findin(dir, cp)
     char *dir, *cp;
 {
@@ -269,6 +284,7 @@ findin(dir, cp)
     closedir(dirp);
 }
 
+int
 itsit(cp, dp)
     register char *cp, *dp;
 {

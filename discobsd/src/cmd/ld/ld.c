@@ -447,6 +447,7 @@ void getrantab ()
 void ldrsym (sp, val, type)
         register struct nlist *sp;
         unsigned val;
+        int type;
 {
 	if (sp == 0)
                 return;
@@ -691,6 +692,7 @@ unsigned copy_and_close (buf)
 
 int mkfsym (s, wflag)
         register char *s;
+        int wflag;
 {
 	register char *p;
 
@@ -873,7 +875,8 @@ void readhdr (loc)
  * single file
  */
 int load1 (loc, libflg, nloc)
-        unsigned loc;
+        unsigned int loc;
+        int libflg, nloc;
 {
 	register struct nlist *sp;
 	int savindex, ndef, type, symlen, nsymbol;
@@ -1061,6 +1064,7 @@ void load1arg (cp)
 }
 
 void pass1 (argc, argv)
+        int argc;
         char **argv;
 {
 	register int c, i;
@@ -1514,6 +1518,7 @@ void finishout ()
 }
 
 int main (argc, argv)
+        int argc;
         char **argv;
 {
 	if (argc == 1) {

@@ -8,15 +8,21 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+void    error(char *);
+void    newmode(mode_t);
 
 struct stat sbuf;
 
 char *tty;
 char *ttyname();
 
+int
 main(argc, argv)
+int argc;
 char *argv[];
 {
     int r=0;
@@ -43,6 +49,7 @@ char *argv[];
     exit(r);
 }
 
+void
 error(s)
 char *s;
 {
@@ -50,7 +57,9 @@ char *s;
     exit(-1);
 }
 
+void
 newmode(m)
+mode_t m;
 {
     if(chmod(tty,m)<0)
         error("cannot change mode");

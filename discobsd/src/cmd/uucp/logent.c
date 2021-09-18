@@ -11,17 +11,20 @@ static char sccsid[] = "@(#)logent.c	5.6 (Berkeley) 10/9/85";
 #if defined(USG) || defined(BSD4_2)
 #include <fcntl.h>
 #endif
+#include <sys/types.h>
+#include <sys/stat.h>
 
 static FILE *Lp = NULL;
 static FILE *Sp = NULL;
-static Ltried = 0;
-static Stried = 0;
+static int Ltried = 0;
+static int Stried = 0;
 
 /*LINTLIBRARY*/
 
 /*
  *	make log entry
  */
+void
 logent(text, status)
 char *text, *status;
 {
@@ -78,7 +81,7 @@ mlogent(fp, status, text)
 char *text, *status;
 register FILE *fp;
 {
-	static pid = 0;
+	static int pid = 0;
 	register struct tm *tp;
 	extern struct tm *localtime();
 
@@ -142,6 +145,7 @@ logcls()
 /*
  *	make system log entry
  */
+void
 syslog(text)
 char *text;
 {

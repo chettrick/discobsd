@@ -9,10 +9,15 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+void    copyout(int);
+int     getnum(char *);
 
 int linecnt = 10;
 int argc;
 
+int
 main(Argc, argv)
     int Argc;
     char *argv[];
@@ -51,6 +56,7 @@ main(Argc, argv)
     } while (argc > 0);
 }
 
+void
 copyout(cnt)
     register int cnt;
 {
@@ -64,6 +70,7 @@ copyout(cnt)
     }
 }
 
+int
 getnum(cp)
     register char *cp;
 {

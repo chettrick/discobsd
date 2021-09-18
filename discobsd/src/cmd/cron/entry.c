@@ -26,6 +26,7 @@ static char sccsid[] = "@(#)entry.c 2.12.2 (2.11BSD) 1999/08/05";
  */
 
 #include "cron.h"
+#include <strings.h>
 
 typedef	enum ecode {
 	e_none, e_minute, e_hour, e_dom, e_month, e_dow,

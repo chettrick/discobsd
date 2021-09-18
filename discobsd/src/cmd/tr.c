@@ -13,12 +13,17 @@ char    squeez[256];
 char    vect[256];
 struct string { int last, max; char *p; } string1, string2;
 
+int     next(struct string *);
+int     nextc(struct string *);
+
+int
 main(argc,argv)
+int argc;
 char **argv;
 {
-    register i;
+    register int i;
     int j;
-    register c, d;
+    register int c, d;
     char *compl;
     int lastd;
 
@@ -92,10 +97,10 @@ char **argv;
     exit(0);
 }
 
+int
 next(s)
 struct string *s;
 {
-
 again:
     if(s->max) {
         if(s->last++ < s->max)
@@ -118,10 +123,11 @@ again:
     return(s->last = nextc(s));
 }
 
+int
 nextc(s)
 struct string *s;
 {
-    register c, i, n;
+    register int c, i, n;
 
     c = *s->p++;
     if(c=='\\') {

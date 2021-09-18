@@ -4,7 +4,7 @@ TOPSRC          = $(shell cd ../../../..; pwd)
 include $(TOPSRC)/target.mk
 
 DEBUG           =
-CFLAGS          = -Os ${DEBUG}
+CFLAGS          = -Os -ansi ${DEBUG}
 # XXX CFLAGS          = -Os -Werror ${DEBUG}
 
 OBJS            = bsdtcp.o df2.o df12.o dk.o dn.o hys.o hysq.o mic.o nov.o pen.o pnet.o \

@@ -21,11 +21,14 @@
 #include <string.h>
 #include <strings.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <ctype.h>
 #include <paths.h>
 #include "chpass.h"
 
 /* ARGSUSED */
+int
 p_login(p, pw, ep)
 	char *p;
 	struct passwd *pw;
@@ -57,6 +60,7 @@ p_login(p, pw, ep)
 }
 
 /* ARGSUSED */
+int
 p_passwd(p, pw, ep)
 	char *p;
 	struct passwd *pw;
@@ -73,6 +77,7 @@ p_passwd(p, pw, ep)
 }
 
 /* ARGSUSED */
+int
 p_uid(p, pw, ep)
 	register char *p;
 	struct passwd *pw;
@@ -99,6 +104,7 @@ p_uid(p, pw, ep)
 }
 
 /* ARGSUSED */
+int
 p_gid(p, pw, ep)
 	register char *p;
 	struct passwd *pw;
@@ -131,6 +137,7 @@ p_gid(p, pw, ep)
 }
 
 /* ARGSUSED */
+int
 p_gecos(p, pw, ep)
 	char *p;
 	struct passwd *pw;
@@ -146,6 +153,7 @@ p_gecos(p, pw, ep)
 }
 
 /* ARGSUSED */
+int
 p_hdir(p, pw, ep)
 	char *p;
 	struct passwd *pw;
@@ -163,6 +171,7 @@ p_hdir(p, pw, ep)
 }
 
 /* ARGSUSED */
+int
 p_shell(p, pw, ep)
 	register char *p;
 	struct passwd *pw;

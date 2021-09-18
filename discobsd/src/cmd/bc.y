@@ -1,5 +1,18 @@
 %{
-    int *getout();
+    int      yylex();
+    int      cpeek();
+    int      getch();
+    int      bundle();
+    void     routput();
+    void     output();
+    void     conout();
+    void     yyerror();
+    void     pp();
+    void     tp();
+    void     yyinit();
+    int     *getout();
+    int     *getf();
+    int     *geta();
 %}
 %right '='
 %left '+' '-'
@@ -348,6 +361,8 @@ char *letr[26] = {
   "k","l","m","n","o","p","q","r","s","t",
   "u","v","w","x","y","z" } ;
 char *dot = { "." };
+
+int
 yylex(){
     int c, ch;
 restart:
@@ -445,7 +460,8 @@ restart:
     }
 }
 
-cpeek( c, yes, no ){
+int
+cpeek( c, yes, no ) int c, yes, no; {
     if( (peekc=getch()) != c ) return( no );
     else {
         peekc = -1;
@@ -453,6 +469,7 @@ cpeek( c, yes, no ){
     }
 }
 
+int
 getch(){
     int ch;
 loop:
@@ -478,7 +495,9 @@ int b_space [ b_sp_max ];
 int * b_sp_nxt = { b_space };
 
 int bdebug = 0;
-bundle(a){
+
+int
+bundle(a) int a; {
     int i, *p, *q;
 
     p = &a;
@@ -494,6 +513,7 @@ bundle(a){
     return( (int) q );
 }
 
+void
 routput(p) int *p; {
     if( bdebug ) printf("routput(%p)\n", p );
     if( p >= &b_space[0] && p < &b_space[b_sp_max]){
@@ -503,6 +523,7 @@ routput(p) int *p; {
     else printf( "%s", (char*) p );  /* character string */
 }
 
+void
 output( p ) int *p; {
     routput( p );
     b_sp_nxt = & b_space[0];
@@ -512,6 +533,7 @@ output( p ) int *p; {
     crs = rcrs;
 }
 
+void
 conout( p, s ) int *p; char *s; {
     printf("[");
     routput( p );
@@ -520,6 +542,7 @@ conout( p, s ) int *p; char *s; {
     lev--;
 }
 
+void
 yyerror( s ) char *s; {
     if(ifile > sargc)ss="teletype";
     printf("c[%s on line %d, %s]pc\n", s ,ln+1,ss);
@@ -531,6 +554,7 @@ yyerror( s ) char *s; {
     b_sp_nxt = &b_space[0];
 }
 
+void
 pp( s ) char *s; {
     /* puts the relevant stuff on pre and post for the letter s */
 
@@ -540,6 +564,7 @@ pp( s ) char *s; {
     post = (int*) yyval;
 }
 
+void
 tp( s ) char *s; { /* same as pp, but for temps */
     bundle(3, "0S", s, pre );
     pre = (int*) yyval;
@@ -547,6 +572,7 @@ tp( s ) char *s; { /* same as pp, but for temps */
     post = (int*) yyval;
 }
 
+void
 yyinit(argc,argv) int argc; char *argv[];{
     signal( 2, SIG_IGN );   /* ignore all interrupts */
     sargv=argv;
@@ -560,7 +586,9 @@ yyinit(argc,argv) int argc; char *argv[];{
     ln = 0;
     ss = sargv[1];
 }
-int *getout(){
+
+int *
+getout(){
     printf("q");
     fflush(stdout);
     exit(0);
@@ -576,7 +604,9 @@ geta(p) char *p;{
     return (int*) &atab[2 * (*p - 0141)];
 }
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     int p[2];

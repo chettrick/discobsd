@@ -18,6 +18,8 @@
 #include <sys/dir.h>
 #include <errno.h>
 #include <signal.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define DELIM   '/'
 #define MODEBITS 07777
@@ -28,15 +30,24 @@
 #define ISDEV(st) \
     (((st).st_mode&S_IFMT) == S_IFCHR || ((st).st_mode&S_IFMT) == S_IFBLK)
 
-char    *dname();
+int      movewithshortname(char *, char *);
+int      query(char *, ...);
+int      move(char *, char *);
+char    *dname(char *);
+void     error();
+void     Perror(char *);
+void     Perror2(char *, char *);
+
 struct  stat s1, s2;
 int iflag = 0;  /* interactive mode */
 int fflag = 0;  /* force overwriting */
 
+int
 main(argc, argv)
+    int argc;
     register char *argv[];
 {
-    register i, r;
+    register int i, r;
     register char *arg;
     char *dest;
 
@@ -86,6 +97,7 @@ usage:
     return (1);
 }
 
+int
 movewithshortname(src, dest)
     char *src, *dest;
 {
@@ -103,7 +115,7 @@ movewithshortname(src, dest)
 }
 
 int
-query (char *prompt, ...)
+query(char *prompt, ...)
 {
     va_list args;
     register int i, c;
@@ -117,6 +129,7 @@ query (char *prompt, ...)
     return (i == 'y');
 }
 
+int
 move(source, target)
     char *source, *target;
 {
@@ -168,7 +181,7 @@ move(source, target)
      * between file systems.
      */
     if (ISLNK(s1)) {
-        register m;
+        register int m;
         char symln[MAXPATHLEN + 1];
 
         m = readlink(source, symln, sizeof (symln) - 1);
@@ -271,15 +284,17 @@ dname(name)
 }
 
 /*VARARGS*/
+void
 error(fmt, a1, a2)
     char *fmt;
+    int a1, a2;
 {
-
     fprintf(stderr, "mv: ");
     fprintf(stderr, fmt, a1, a2);
     fprintf(stderr, "\n");
 }
 
+void
 Perror(s)
     char *s;
 {
@@ -289,6 +304,7 @@ Perror(s)
     perror(buf);
 }
 
+void
 Perror2(s1, s2)
     char *s1, *s2;
 {

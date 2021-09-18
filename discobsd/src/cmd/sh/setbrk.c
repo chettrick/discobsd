@@ -7,10 +7,10 @@
 
 char 	*sbrk();
 
-char*
+char *
 setbrk(incr)
+int	incr;
 {
-
 	register char *a = sbrk(incr);
 
 	brkend = a + incr;

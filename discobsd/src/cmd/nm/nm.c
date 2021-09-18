@@ -42,6 +42,7 @@ union {
 int	narg, errs;
 
 void error(n, s)
+        int n;
         char *s;
 {
 	fprintf(stderr, "nm: %s:", *xargv);

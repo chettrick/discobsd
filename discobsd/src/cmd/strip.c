@@ -58,6 +58,7 @@ out:
 
 int
 main(argc, argv)
+    int argc;
     char *argv[];
 {
     register int i;

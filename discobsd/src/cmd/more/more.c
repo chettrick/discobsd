@@ -11,8 +11,9 @@
  * specifies the terms and conditions for redistribution.
  */
 #include <stdio.h>
-#undef	putchar			/* force use of function rather than macro */
+// XXX #undef	putchar			/* force use of function rather than macro */
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <ctype.h>
 #include <signal.h>
 #include <errno.h>
@@ -22,6 +23,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <limits.h>
 #include <paths.h>
@@ -94,6 +96,43 @@ struct {
     long chrctr, line;
 } context, screen_start;
 extern char	PC;		/* pad character */
+
+void	 argscan(char *);
+FILE	*checkf(char *, int *);
+int	 putch();
+void	 screen(FILE *, int);
+void	 copy_file(FILE *);
+void	 scanstr(int, char *);
+void	 Sprintf(int);
+int	 tailequ(char *, char *);
+void	 prompt(char *);
+int	 getline(FILE *, int *);
+void	 erase(int);
+void	 kill_line();
+void	 cleareol();
+void	 clreos();
+int	 pr(char *);
+void	 prbuf(char *, int);
+void	 doclear();
+void	 home();
+int	 printd(int);
+int	 command(char *, FILE *);
+int	 colon(char *, int, int);
+int	 number(char *);
+void	 do_shell(char *);
+void	 search(char *, FILE *, int);
+void	 execute();
+void	 skiplns(int, FILE *);
+void	 skipf(int);
+void	 initterm();
+char	 readch();
+void	 ttyin(char *, int, char);
+int	 expand(char *, char *);
+void	 show(char);
+void	 error(char *);
+void	 set_tty();
+void	 reset_tty();
+void	 rdline(FILE *);
 
 /*
  * Termcap stub.
@@ -252,6 +291,7 @@ void onsusp (sig)
 	    longjmp (restore, 1);
 }
 
+int
 main(argc, argv)
 int argc;
 char *argv[];
@@ -425,6 +465,7 @@ char *argv[];
     exit(0);
 }
 
+void
 argscan(s)
 char *s;
 {
@@ -526,6 +567,7 @@ int *clearfirst;
 ** A real function, for the tputs routine in termlib
 */
 
+int
 putch (ch)
 char ch;
 {
@@ -538,6 +580,7 @@ char ch;
 
 #define STOP -10
 
+void
 screen (f, num_lines)
 register FILE *f;
 register int num_lines;
@@ -612,6 +655,7 @@ register int num_lines;
     }
 }
 
+void
 copy_file(f)
 register FILE *f;
 {
@@ -624,6 +668,7 @@ register FILE *f;
 /* Put the print representation of an integer into a string */
 static char *sptr;
 
+void
 scanstr (n, str)
 int n;
 char *str;
@@ -633,6 +678,7 @@ char *str;
     *sptr = '\0';
 }
 
+void
 Sprintf (n)
 register int n;
 {
@@ -649,6 +695,7 @@ static char bell = ctrl('G');
 ** string "string"
 */
 
+int
 tailequ (path, string)
 char *path;
 register char *string;
@@ -666,6 +713,7 @@ register char *string;
 	return(0);
 }
 
+void
 prompt (filename)
 char *filename;
 {
@@ -706,6 +754,7 @@ char *filename;
 ** Get a logical line
 */
 
+int
 getline(f, length)
 register FILE *f;
 int *length;
@@ -787,6 +836,7 @@ int *length;
 ** Erase the rest of the prompt, assuming we are starting at column col.
 */
 
+void
 erase (col)
 register int col;
 {
@@ -812,6 +862,7 @@ register int col;
 ** Erase the current line entirely
 */
 
+void
 kill_line ()
 {
     erase (0);
@@ -821,11 +872,13 @@ kill_line ()
 /*
  * force clear to end of line
  */
+void
 cleareol()
 {
     tputs(eraseln, 1, putch);
 }
 
+void
 clreos()
 {
     tputs(EodClr, 1, putch);
@@ -835,6 +888,7 @@ clreos()
 **  Print string and return number of characters
 */
 
+int
 pr(s1)
 char	*s1;
 {
@@ -849,6 +903,7 @@ char	*s1;
 
 /* Print a buffer of n characters */
 
+void
 prbuf (s, n)
 register char *s;
 register int n;
@@ -891,6 +946,7 @@ register int n;
 **  Clear the screen
 */
 
+void
 doclear()
 {
     if (Clear && !hard) {
@@ -907,6 +963,7 @@ doclear()
 /*
  * Go to home position
  */
+void
 home()
 {
     tputs(Home,1,putch);
@@ -920,6 +977,7 @@ char shell_line[132];
 ** Print an integer as a string of decimal digits,
 ** returning the length of the print representation.
 */
+int
 printd (n)
 register int n;
 {
@@ -940,6 +998,7 @@ register int n;
 ** in the current file, zero is returned.
 */
 
+int
 command (filename, f)
 char *filename;
 register FILE *f;
@@ -1173,6 +1232,7 @@ char ch;
  * more of the file to be printed.
  */
 
+int
 colon (filename, cmd, nlines)
 char *filename;
 int cmd;
@@ -1230,6 +1290,7 @@ int nlines;
 ** terminates the number.
 */
 
+int
 number(cmd)
 char *cmd;
 {
@@ -1250,6 +1311,7 @@ char *cmd;
 	return (i);
 }
 
+void
 do_shell (filename)
 char *filename;
 {
@@ -1279,11 +1341,14 @@ char *filename;
 ** Search for nth ocurrence of regular expression contained in buf in the file
 */
 
+void
 search (buf, file, n)
 char buf[];
 FILE *file;
 register int n;
 {
+    int re_exec(char *);
+
     long startline = Ftell (file);
     register long line1 = startline;
     register long line2 = startline;
@@ -1354,6 +1419,7 @@ register int n;
     }
 }
 
+void
 execute (filename, cmd, args)
 char *filename;
 char *cmd, *args;
@@ -1394,6 +1460,7 @@ char *cmd, *args;
 ** Skip n lines in the file f
 */
 
+void
 skiplns (n, f)
 register int n;
 register FILE *f;
@@ -1414,6 +1481,7 @@ register FILE *f;
 ** negative.
 */
 
+void
 skipf (nskip)
 register int nskip;
 {
@@ -1443,6 +1511,7 @@ register int nskip;
 
 /*----------------------------- Terminal I/O -------------------------------*/
 
+void
 initterm ()
 {
     char	buf[TBUFSIZ];
@@ -1559,6 +1628,7 @@ retry:
     }
 }
 
+char
 readch ()
 {
 	char ch;
@@ -1580,6 +1650,7 @@ static char CARAT = '^';
     else \
 	write (2, &BS, sizeof(BS));
 
+void
 ttyin (buf, nmax, pchar)
 char buf[];
 register int nmax;
@@ -1661,6 +1732,7 @@ char pchar;
 	error ("Line too long");
 }
 
+int
 expand (outbuf, inbuf)
 char *outbuf;
 char *inbuf;
@@ -1704,6 +1776,7 @@ char *inbuf;
     return (changed);
 }
 
+void
 show (ch)
 register char ch;
 {
@@ -1719,6 +1792,7 @@ register char ch;
     promptlen++;
 }
 
+void
 error (mess)
 char *mess;
 {
@@ -1739,7 +1813,7 @@ char *mess;
     longjmp (restore, 1);
 }
 
-
+void
 set_tty ()
 {
 	otty.sg_flags |= MBIT;
@@ -1747,6 +1821,7 @@ set_tty ()
 	stty(fileno(stderr), &otty);
 }
 
+void
 reset_tty ()
 {
     if (pstate) {
@@ -1759,6 +1834,7 @@ reset_tty ()
     stty(fileno(stderr), &savetty);
 }
 
+void
 rdline (f)
 register FILE *f;
 {

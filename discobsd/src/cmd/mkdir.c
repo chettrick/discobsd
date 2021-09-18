@@ -36,9 +36,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+int     build(char *);
+void    usage();
 
 extern int errno;
 
+int
 main(argc, argv)
     int argc;
     char **argv;
@@ -71,6 +76,7 @@ main(argc, argv)
     exit(exitval);
 }
 
+int
 build(path)
     char *path;
 {
@@ -101,6 +107,7 @@ build(path)
     return(0);
 }
 
+void
 usage()
 {
     (void)fprintf(stderr, "usage: mkdir [-p] dirname ...\n");

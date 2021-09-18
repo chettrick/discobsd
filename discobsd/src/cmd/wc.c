@@ -8,11 +8,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void    wcp(char *, long, long, long);
+void    ipr(long);
+
 long    linect, wordct, charct, pagect;
 long    tlinect, twordct, tcharct, tpagect;
 char    *wd = "lwc";
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     int i, token;
@@ -82,6 +87,7 @@ char **argv;
     exit(0);
 }
 
+void
 wcp(wd, charct, wordct, linect)
 register char *wd;
 long charct; long wordct; long linect;
@@ -102,6 +108,7 @@ long charct; long wordct; long linect;
     }
 }
 
+void
 ipr(num)
 long num;
 {

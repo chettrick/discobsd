@@ -5,12 +5,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <time.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
 /* Making putcp a macro sped things up by 14%. */
 #define putcp(c)  if (page >= fpage) putchar(c)
+
+void    onintr(int sig);
+void    done();
+int     numeric(char *str);
+void    fixtty();
+void    print(char *fp, char **argp);
+void    mopen(char **ap);
+void    putpage();
+void    nexbuf();
+int     tpgetc(int ai);
+int     pgetc(int i);
+void    put(int ac);
 
 int ncol    = 1;
 char    *header;
@@ -43,8 +56,6 @@ int mflg;
 int tabc;
 char    *tty;
 int mode;
-char    *ttyname();
-char    *ctime();
 
 void
 onintr (sig)
@@ -55,7 +66,9 @@ onintr (sig)
     _exit(1);
 }
 
+int
 main(argc, argv)
+int argc;
 char **argv;
 {
     int nfdone;
@@ -130,15 +143,16 @@ char **argv;
     done();
 }
 
+void
 done()
 {
-
     if (tty)
         chmod(tty, mode);
     exit(0);
 }
 
 /* numeric -- returns 1 if str is numeric, elsewise 0 */
+int
 numeric(str)
     char    *str;
 {
@@ -150,6 +164,7 @@ numeric(str)
     return(1);
 }
 
+void
 fixtty()
 {
     struct stat sbuf;
@@ -163,12 +178,13 @@ fixtty()
 }
 
 /* print -- print file */
+void
 print(fp, argp)
 char *fp;
 char **argp;
 {
     struct stat sbuf;
-    register sncol;
+    register int sncol;
     register char *sheader;
     register char *cbuf;
     char linebuf[150], *cp;
@@ -256,6 +272,7 @@ char **argp;
     header = sheader;
 }
 
+void
 mopen(ap)
 char **ap;
 {
@@ -276,6 +293,7 @@ char **ap;
     }
 }
 
+void
 putpage()
 {
     register int lastcol, i, c;
@@ -321,6 +339,7 @@ putpage()
     }
 }
 
+void
 nexbuf()
 {
     register int n;
@@ -343,7 +362,9 @@ nexbuf()
     bufp = rbufp;
 }
 
+int
 tpgetc(ai)
+    int ai;
 {
     register char **p;
     register int c, i;
@@ -378,7 +399,9 @@ loop:
     return(c);
 }
 
+int
 pgetc(i)
+    int i;
 {
     register int c;
 
@@ -410,7 +433,10 @@ pgetc(i)
         icol++;
     return(c);
 }
+
+void
 put(ac)
+    int ac;
 {
     register int ns, c;
 

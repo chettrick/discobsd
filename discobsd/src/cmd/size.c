@@ -14,6 +14,7 @@ int header;
 
 int
 main(argc, argv)
+int argc;
 char **argv;
 {
     struct exec buf;

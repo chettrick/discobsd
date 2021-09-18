@@ -58,6 +58,7 @@ err:    errflg = (space & DSP) ? BADDAT : BADTXT;
 int
 acces(mode, adr, space, value)
     long    adr;
+    int     mode, space, value;
 {
     int     w, w1, pmode, rd, file;
     BKPTR   bkptr;
@@ -106,7 +107,8 @@ acces(mode, adr, space, value)
 
 void
 put(adr, space, value)
-    long   adr;
+    long    adr;
+    int     space, value;
 {
     acces(WT, adr, space, value);
 }
@@ -114,13 +116,15 @@ put(adr, space, value)
 u_int
 get(adr, space)
     long    adr;
+    int     space;
 {
     return acces(RD, adr, space, 0);
 }
 
 u_int
 chkget(n, space)
-    long n;
+    long    n;
+    int     space;
 {
     register int w;
 

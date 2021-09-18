@@ -19,10 +19,22 @@ char	bittab[]  = {
 		128
 	};
 
+void		 fcomp();
+char		*compsub(char *);
+char		*compile(char *);
+int		 rline(char *);
+char		*address(char *);
+int		 cmp(char *, char *);
+char		*text(char *);
+struct label	*search(struct label *);
+void		 dechain();
+char		*ycomp(char *);
+
+int
 main(argc, argv)
+int	 argc;
 char	*argv[];
 {
-
 	eargc = argc;
 	eargv = argv;
 
@@ -113,9 +125,10 @@ char	*argv[];
 	fclose(stdout);
 	exit(0);
 }
+
+void
 fcomp()
 {
-
 	register char	*p, *op, *tp;
 	char	*address();
 	union reptr	*pt, *pt1;
@@ -565,7 +578,9 @@ done:
 	rep->A.command = 0;
 	lastre = op;
 }
-char	*compsub(rhsbuf)
+
+char *
+compsub(rhsbuf)
 char	*rhsbuf;
 {
 	register char	*p, *q;
@@ -592,10 +607,11 @@ char	*rhsbuf;
 	}
 }
 
-char *compile(expbuf)
+char *
+compile(expbuf)
 char	*expbuf;
 {
-	register c;
+	register int c;
 	register char *ep, *sp;
 	char	neg;
 	char *lastep, *cstart;
@@ -753,11 +769,13 @@ char	*expbuf;
 		}
 	}
 }
+
+int
 rline(lbuf)
 char	*lbuf;
 {
 	register char	*p, *q;
-	register	t;
+	register int	t;
 	static char	*saveq;
 
 	p = lbuf - 1;
@@ -820,7 +838,8 @@ char	*lbuf;
 	return(-1);
 }
 
-char	*address(expbuf)
+char *
+address(expbuf)
 char	*expbuf;
 {
 	register char	*rcp;
@@ -859,6 +878,8 @@ char	*expbuf;
 	}
 	return(0);
 }
+
+int
 cmp(a, b)
 char	*a,*b;
 {
@@ -872,7 +893,8 @@ char	*a,*b;
 	return(1);
 }
 
-char	*text(textbuf)
+char *
+text(textbuf)
 char	*textbuf;
 {
 	register char	*p, *q;
@@ -896,7 +918,8 @@ char	*textbuf;
 }
 
 
-struct label	*search(ptr)
+struct label *
+search(ptr)
 struct label	*ptr;
 {
 	struct label	*rp;
@@ -911,7 +934,7 @@ struct label	*ptr;
 	return(0);
 }
 
-
+void
 dechain()
 {
 	struct label	*lptr;
@@ -935,7 +958,8 @@ dechain()
 	}
 }
 
-char *ycomp(expbuf)
+char *
+ycomp(expbuf)
 char	*expbuf;
 {
 	register char	c, *ep, *tsp;

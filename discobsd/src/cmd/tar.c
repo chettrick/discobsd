@@ -20,6 +20,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #define TBLOCK  512
 #define NBLOCK  20
@@ -56,6 +57,45 @@ union   hblock dblock;
 union   hblock *tbuf;
 struct  linkbuf *ihead;
 struct  stat stbuf;
+
+void     usage();
+int      openmt(char *, int);
+char    *getcwd(char *);
+void     dorep(char **);
+int      endtape();
+void     getdir();
+void     passtape();
+char    *getmem(int);
+void     putfile(char *, char *, char *);
+void     doxtract(char **);
+void     dotable(char **);
+void     putempty();
+void     longt(struct stat *);
+void     pmode(struct stat *);
+void     selectbits(int *, struct stat *);
+int      checkdir(char *);
+void     tomodes(struct stat *);
+int      checksum();
+int      checkw(int, char *);
+int      response();
+int      checkf(char *, int, int);
+int      checkupdate(char *);
+void     done(int);
+int      wantit(char **);
+int      prefix(char *, char *);
+daddr_t  lookup(char *);
+daddr_t  bsrch(char *, int, daddr_t, daddr_t);
+int      cmp(char *, char *, int);
+int      readtape(char *);
+int      readtbuf(char **, int);
+int      writetbuf(char *, int);
+void     backtape();
+void     flushtape();
+void     mterr(char *, int, int);
+int      bread(int, char *, int);
+void     getbuf();
+void     dodirtimes(union hblock *);
+void     setimes(char *, time_t);
 
 int rflag;
 int xflag;
@@ -125,6 +165,7 @@ onterm (sig)
 }
 #endif
 
+int
 main(argc, argv)
 int argc;
 char    *argv[];
@@ -279,6 +320,7 @@ char    *argv[];
     done(0);
 }
 
+void
 usage()
 {
     fprintf(stderr,
@@ -291,7 +333,6 @@ openmt(tape, writing)
     char *tape;
     int writing;
 {
-
     if (strcmp(tape, "-") == 0) {
         /*
          * Read from standard input or write to standard output.
@@ -340,6 +381,7 @@ getcwd(buf)
     return (buf);
 }
 
+void
 dorep(argv)
     char *argv[];
 {
@@ -421,11 +463,13 @@ dorep(argv)
     }
 }
 
+int
 endtape()
 {
     return (dblock.dbuf.name[0] == '\0');
 }
 
+void
 getdir()
 {
     register struct stat *sp;
@@ -455,6 +499,7 @@ top:
         fprintf(tfile, "%s %s\n", dblock.dbuf.name, dblock.dbuf.mtime);
 }
 
+void
 passtape()
 {
     long blocks;
@@ -472,6 +517,7 @@ passtape()
 
 char *
 getmem(size)
+    int size;
 {
     char *p = malloc((unsigned) size);
 
@@ -483,6 +529,7 @@ getmem(size)
     return (p);
 }
 
+void
 putfile(longname, shortname, parent)
     char *longname;
     char *shortname;
@@ -686,6 +733,7 @@ putfile(longname, shortname, parent)
     }
 }
 
+void
 doxtract(argv)
     char *argv[];
 {
@@ -810,6 +858,7 @@ doxtract(argv)
     }
 }
 
+void
 dotable(argv)
     char *argv[];
 {
@@ -832,6 +881,7 @@ dotable(argv)
     }
 }
 
+void
 putempty()
 {
     char buf[TBLOCK];
@@ -840,6 +890,7 @@ putempty()
     (void) writetape(buf);
 }
 
+void
 longt(st)
     register struct stat *st;
 {
@@ -877,6 +928,7 @@ int m9[] = { 2, STXT, 't', XOTH, 'x', '-' };
 
 int *m[] = { m1, m2, m3, m4, m5, m6, m7, m8, m9};
 
+void
 pmode(st)
     register struct stat *st;
 {
@@ -886,6 +938,7 @@ pmode(st)
         selectbits(*mp++, st);
 }
 
+void
 selectbits(pairp, st)
     int *pairp;
     struct stat *st;
@@ -904,6 +957,7 @@ selectbits(pairp, st)
  * a directory on the tar tape (indicated by a trailing '/'),
  * return 1; else 0.
  */
+int
 checkdir(name)
     register char *name;
 {
@@ -943,6 +997,7 @@ checkdir(name)
     return (cp[-1]=='/');
 }
 
+void
 tomodes(sp)
 register struct stat *sp;
 {
@@ -957,9 +1012,10 @@ register struct stat *sp;
     sprintf(dblock.dbuf.mtime, "%11lo ", sp->st_mtime);
 }
 
+int
 checksum()
 {
-    register i;
+    register int i;
     register char *cp;
 
     for (cp = dblock.dbuf.chksum;
@@ -971,7 +1027,9 @@ checksum()
     return (i);
 }
 
+int
 checkw(c, name)
+    int c;
     char *name;
 {
     if (!wflag)
@@ -983,6 +1041,7 @@ checkw(c, name)
     return (response() == 'y');
 }
 
+int
 response()
 {
     char c;
@@ -996,6 +1055,7 @@ response()
     return (c);
 }
 
+int
 checkf(name, mode, howmuch)
     char *name;
     int mode, howmuch;
@@ -1020,6 +1080,7 @@ checkf(name, mode, howmuch)
 }
 
 /* Is the current file a new file, or the newest one of the same name? */
+int
 checkupdate(arg)
     char *arg;
 {
@@ -1038,7 +1099,9 @@ checkupdate(arg)
     }
 }
 
+void
 done(n)
+    int n;
 {
     unlink(tname);
     exit(n);
@@ -1048,6 +1111,7 @@ done(n)
  * Do we want the next entry on the tape, i.e. is it selected?  If
  * not, skip over the entire entry.  Return -1 if reached end of tape.
  */
+int
 wantit(argv)
     char *argv[];
 {
@@ -1068,6 +1132,7 @@ wantit(argv)
 /*
  * Does s2 begin with the string s1, on a directory boundary?
  */
+int
 prefix(s1, s2)
     register char *s1, *s2;
 {
@@ -1086,7 +1151,7 @@ daddr_t
 lookup(s)
     char *s;
 {
-    register i;
+    register int i;
     daddr_t a;
 
     for(i=0; s[i]; i++)
@@ -1100,8 +1165,9 @@ daddr_t
 bsrch(s, n, l, h)
     daddr_t l, h;
     char *s;
+    int n;
 {
-    register i, j;
+    register int i, j;
     char b[N];
     daddr_t m, m1;
 
@@ -1142,10 +1208,12 @@ loop:
     return (m);
 }
 
+int
 cmp(b, s, n)
     char *b, *s;
+    int n;
 {
-    register i;
+    register int i;
 
     if (b[0] != '\n')
         exit(2);
@@ -1158,6 +1226,7 @@ cmp(b, s, n)
     return (b[i+1] == ' '? 0 : -1);
 }
 
+int
 readtape(buffer)
     char *buffer;
 {
@@ -1170,6 +1239,7 @@ readtape(buffer)
     return(TBLOCK);
 }
 
+int
 readtbuf(bufpp, size)
     char **bufpp;
     int size;
@@ -1200,6 +1270,7 @@ readtbuf(bufpp, size)
     return (size);
 }
 
+int
 writetbuf(buffer, n)
     register char *buffer;
     register int n;
@@ -1246,6 +1317,7 @@ writetbuf(buffer, n)
     return (nblock - recno);
 }
 
+void
 backtape()
 {
     static int mtdev = 1;
@@ -1265,6 +1337,7 @@ backtape()
     recno--;
 }
 
+void
 flushtape()
 {
     int i;
@@ -1274,9 +1347,10 @@ flushtape()
         mterr("write", i, 2);
 }
 
+void
 mterr(operation, i, exitcode)
     char *operation;
-    int i;
+    int i, exitcode;
 {
     fprintf(stderr, "tar: tape %s error: ", operation);
     if (i < 0)
@@ -1286,6 +1360,7 @@ mterr(operation, i, exitcode)
     done(exitcode);
 }
 
+int
 bread(fd, buf, size)
     int fd;
     char *buf;
@@ -1309,9 +1384,9 @@ bread(fd, buf, size)
     return (count);
 }
 
+void
 getbuf()
 {
-
     if (nblock == 0) {
         fstat(mt, &stbuf);
         if ((stbuf.st_mode & S_IFMT) == S_IFCHR)
@@ -1351,6 +1426,7 @@ char dirstack[NAMSIZ];
 #define NTIM (NAMSIZ/2+1)       /* a/b/c/d/... */
 time_t mtime[NTIM];
 
+void
 dodirtimes(hp)
     union hblock *hp;
 {
@@ -1391,6 +1467,7 @@ dodirtimes(hp)
     mtime[ndir] = stbuf.st_mtime;   /* overwrite the last one */
 }
 
+void
 setimes(path, mt)
     char *path;
     time_t mt;

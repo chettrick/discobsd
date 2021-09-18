@@ -11,12 +11,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <grp.h>
 #include <pwd.h>
 #include <sys/dir.h>
+
+int     isnumber(char *);
+int     chownr(char *, uid_t, gid_t, int);
+int     error(char *, char *);
+void    fatal();
+int     Perror(char *);
 
 struct  group *gr;
 struct  passwd *pwd;
@@ -27,11 +35,12 @@ int status;
 int fflag, rflag;
 static  char    *fchdirmsg = "Can't fchdir() back to starting directory";
 
+int
 main(argc, argv)
     int argc;
     char *argv[];
 {
-    register c, i;
+    register int c, i;
     register char *cp;
     int fcurdir;
 
@@ -107,6 +116,7 @@ ok:
     exit(status);
 }
 
+int
 isnumber(s)
     char *s;
 {
@@ -118,6 +128,7 @@ isnumber(s)
     return (1);
 }
 
+int
 chownr(dir, uid, gid, savedir)
     char *dir;
     uid_t   uid;
@@ -173,10 +184,10 @@ chownr(dir, uid, gid, savedir)
     return (ecode);
 }
 
+int
 error(fmt, a)
     char *fmt, *a;
 {
-
     if (!fflag) {
         fprintf(stderr, "chgrp: ");
         fprintf(stderr, fmt, a);
@@ -186,20 +197,20 @@ error(fmt, a)
 }
 
 /* VARARGS */
+void
 fatal(status, fmt, a)
     int status;
     char *fmt, *a;
 {
-
     fflag = 0;
     (void) error(fmt, a);
     exit(status);
 }
 
+int
 Perror(s)
     char *s;
 {
-
     if (!fflag) {
         fprintf(stderr, "chgrp: ");
         perror(s);

@@ -1,5 +1,14 @@
 #include <stdio.h>
 
+void    putstr();
+void    ptabs();
+int     getch();
+int     lookup(char *tab[]);
+int     getstr();
+void    gotelse();
+int     getnl();
+void    comment();
+
 int slevel[10];
 int clevel  = 0;
 int spflg[20][10];
@@ -39,6 +48,7 @@ int lastchar;
 int c;
 int getstr();
 
+void
 putstr()
 {
     if(j > 0){
@@ -62,9 +72,10 @@ putstr()
     }
 }
 
+int
 main(argc, argv)
     int argc;
-    char argv[];
+    char *argv[];
 {
     while((c = getch()) != EOF){
         switch(c){
@@ -279,12 +290,14 @@ cont:
     }
 }
 
+void
 ptabs()
 {
     int i;
     for(i=0; i < tabs; i++)printf("\t");
 }
 
+int
 getch()
 {
     if(peek < 0 && lastchar != ' ' && lastchar != '\t')pchar = lastchar;
@@ -293,6 +306,7 @@ getch()
     return(lastchar);
 }
 
+int
 lookup(tab)
     char *tab[];
 {
@@ -309,6 +323,7 @@ lookup(tab)
     return(0);
 }
 
+int
 getstr()
 {
     char ch;
@@ -329,6 +344,7 @@ beg:
     else return(ch);
 }
 
+void
 gotelse()
 {
     tabs = stabs[clevel][iflev];
@@ -337,6 +353,7 @@ gotelse()
     ifflg = 1;
 }
 
+int
 getnl()
 {
     while((peek = getch()) == '\t' || peek == ' '){
@@ -360,6 +377,7 @@ getnl()
     return(0);
 }
 
+void
 comment()
 {
     int i = j;

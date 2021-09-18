@@ -228,7 +228,7 @@ cron_sleep() {
 
 
 static void
-sigchld_handler(x) {
+sigchld_handler(int x) {
 	WAIT_T		waiter;
 	PID_T		pid;
 
@@ -252,7 +252,7 @@ sigchld_handler(x) {
 }
 
 static void
-sighup_handler(x) {
+sighup_handler(int x) {
 	log_close();
 }
 

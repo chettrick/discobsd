@@ -3,6 +3,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+int     input(int);
+void    output(int, int);
+void    error();
+int     cmp(char *, char *);
 
 #define F1      0
 #define F2      1
@@ -25,7 +31,9 @@ int unpub1;
 int unpub2;
 int aflg;
 
+int
 main(argc, argv)
+int argc;
 char *argv[];
 {
     int i;
@@ -142,7 +150,9 @@ char *argv[];
     return(0);
 }
 
+int
 input(n)        /* get input line and split into fields */
+    int n;
 {
     register int i, c;
     char *bp;
@@ -170,6 +180,7 @@ input(n)        /* get input line and split into fields */
     return(i);
 }
 
+void
 output(on1, on2)    /* print items from olist */
 int on1, on2;
 {
@@ -201,8 +212,10 @@ int on1, on2;
     }
 }
 
+void
 error(s1, s2, s3, s4, s5)
 char *s1;
+int s2, s3, s4, s5; // XXX
 {
     fprintf(stderr, "join: ");
     fprintf(stderr, s1, s2, s3, s4, s5);
@@ -210,6 +223,7 @@ char *s1;
     exit(1);
 }
 
+int
 cmp(s1, s2)
 char *s1, *s2;
 {

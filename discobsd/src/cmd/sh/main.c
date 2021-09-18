@@ -11,6 +11,8 @@
 #include "dup.h"
 #include <sys/fcntl.h>
 #include <sys/param.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #ifdef RES
 #include <sgtty.h>
@@ -32,7 +34,14 @@ static long     *mod_time = (long *)NIL;
 
 extern char     *simple();
 
-static int
+static void      exfile(BOOL);
+void             chkpr();
+void             settmp();
+void             Ldup(int, int);
+void             chkmail();
+void             setmail(char *);
+
+static void
 exfile(prof)
 BOOL    prof;
 {
@@ -140,6 +149,7 @@ BOOL    prof;
 	}
 }
 
+int
 main(c, v, e)
 int     c;
 char    **v;
@@ -285,12 +295,14 @@ char    **e;
 	done();
 }
 
+void
 chkpr()
 {
 	if ((flags & prompt) && standin->fstak == NIL)
 		prs(ps2nod.namval);
 }
 
+void
 settmp()
 {
 	itos(getpid());
@@ -298,6 +310,7 @@ settmp()
 	tmpnam = movstr(numbuf, &tmpout[TMPNAM]);
 }
 
+void
 Ldup(fa, fb)
 register int    fa, fb;
 {
@@ -316,7 +329,7 @@ register int    fa, fb;
 #endif
 }
 
-
+void
 chkmail()
 {
 	register char   *s = mailp;
@@ -380,6 +393,7 @@ chkmail()
 	}
 }
 
+void
 setmail(mailpath)
 	char *mailpath;
 {

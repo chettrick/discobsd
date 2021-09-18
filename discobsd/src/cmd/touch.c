@@ -6,14 +6,20 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+void    touch(char *);
+void    readwrite(char *, off_t);
 
 int dontcreate; /* set if -c option */
 int force;      /* set if -f option */
 
 char *whoami = "touch";
 
+int
 main(argc,argv)
     int argc;
     char    **argv;
@@ -43,6 +49,7 @@ main(argc,argv)
     }
 }
 
+void
 touch(filename)
     char    *filename;
 {
@@ -85,6 +92,7 @@ touch(filename)
     }
 }
 
+void
 readwrite(filename,size)
     char    *filename;
     off_t   size;

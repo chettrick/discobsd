@@ -32,15 +32,23 @@ struct nodelist {
     int live;
 } firstnode = {NULL, NULL, NULL, DEAD};
 
-struct nodelist *nindex();
+int              present(struct nodelist *, struct nodelist *);
+int              anypred(struct nodelist *);
+struct nodelist *nindex(register char *);
+int              cmp(char *, char *);
+void             error(char *, char *);
+void             note(char *, char *);
 struct nodelist *findloop();
-struct nodelist *mark();
+struct nodelist *mark(struct nodelist *);
+
 char *empty = "";
 
 /*  the first for loop reads in the graph,
  *  the second prints out the ordering
  */
+int
 main(argc,argv)
+int argc;
 char **argv;
 {
     register struct predlist *t;
@@ -88,6 +96,7 @@ char **argv;
 
 /*  is i present on j's predecessor list?
  */
+int
 present(i,j)
 struct nodelist *i, *j;
 {
@@ -100,6 +109,7 @@ struct nodelist *i, *j;
 
 /*  is there any live predecessor for i?
  */
+int
 anypred(i)
 struct nodelist *i;
 {
@@ -135,6 +145,7 @@ register char *s;
     return(i);
 }
 
+int
 cmp(s,t)
 register char *s, *t;
 {
@@ -147,6 +158,7 @@ register char *s, *t;
     return(0);
 }
 
+void
 error(s,t)
 char *s, *t;
 {
@@ -154,6 +166,7 @@ char *s, *t;
     exit(1);
 }
 
+void
 note(s,t)
 char *s,*t;
 {

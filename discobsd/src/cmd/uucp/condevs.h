@@ -2,6 +2,7 @@
 
 #include "uucp.h"
 #include <errno.h>
+#include <fcntl.h>
 #include <setjmp.h>
 #include <signal.h>
 #include <sgtty.h>
@@ -18,6 +19,8 @@ extern int next_fd;
 extern jmp_buf Sjbuf;
 extern int alarmtr();
 int nulldev(), nodev(), Acuopn(), diropn(), dircls();
+
+void logent(char *, char *);
 
 #ifdef DATAKIT
 int dkopn();

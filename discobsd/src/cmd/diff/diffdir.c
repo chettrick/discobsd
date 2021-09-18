@@ -17,10 +17,20 @@ struct dir {
 	char	*d_entry;
 };
 
-struct	dir *setupdir();
+void		 setfile(char **fpp, char **epp, char *file);
+void		 scanpr(struct dir *, int, char *, char *, char *, char *, char *);
+void		 only(struct dir *, int);
+struct dir	*setupdir(char *);
+int		 entcmp();
+void		 compare(struct dir *);
+void		 calldiff(char *);
+int		 ascii(int);
+int		 useless(char *cp);
+
 int	header;
 char	title[2*BUFSIZ], *etitle;
 
+void
 diffdir(argv)
 	char **argv;
 {
@@ -109,6 +119,7 @@ diffdir(argv)
 	}
 }
 
+void
 setfile(fpp, epp, file)
 	char **fpp, **epp;
 	char *file;
@@ -127,6 +138,7 @@ setfile(fpp, epp, file)
 	*epp = cp;
 }
 
+void
 scanpr(dp, test, title, file1, efile1, file2, efile2)
 	register struct dir *dp;
 	int test;
@@ -152,6 +164,7 @@ scanpr(dp, test, title, file1, efile1, file2, efile2)
 	}
 }
 
+void
 only(dp, which)
 	struct dir *dp;
 	int which;
@@ -161,8 +174,6 @@ only(dp, which)
 
 	printf("Only in %.*s: %s\n", efile - file - 1, file, dp->d_entry);
 }
-
-int	entcmp();
 
 struct dir *
 setupdir(cp)
@@ -222,12 +233,14 @@ setupdir(cp)
 	return (dp);
 }
 
+int
 entcmp(d1, d2)
 	struct dir *d1, *d2;
 {
 	return (strcmp(d1->d_entry, d2->d_entry));
 }
 
+void
 compare(dp)
 	register struct dir *dp;
 {
@@ -320,6 +333,7 @@ closem:
 
 char	*prargs[] = { "pr", "-h", 0, "-f", 0, 0 };
 
+void
 calldiff(wantpr)
 	char *wantpr;
 {
@@ -379,6 +393,7 @@ calldiff(wantpr)
 
 #include <a.out.h>
 
+int
 ascii(f)
 	int f;
 {
@@ -404,6 +419,7 @@ ascii(f)
 /*
  * THIS IS CRUDE.
  */
+int
 useless(cp)
 register char *cp;
 {

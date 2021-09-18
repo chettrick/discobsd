@@ -17,8 +17,10 @@
 #include <sys/param.h>
 #include <sys/file.h>
 #include <sys/signal.h>
+#include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include <pwd.h>
 #include <stdio.h>
@@ -26,11 +28,17 @@
 #include <ctype.h>
 #include <string.h>
 #include <strings.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <paths.h>
 
+int	 copy(char *, char *, FILE *, struct passwd *);
+char	*getnewpasswd(struct passwd *, char *);
+int	 makedb(char *);
+
 uid_t uid;
 
+int
 main(argc, argv)
 	int argc;
 	char **argv;
@@ -152,6 +160,7 @@ bad:		fprintf(stderr, "; password unchanged.\n");
 	exit(0);
 }
 
+int
 copy(name, np, fp, pw)
 	char *name, *np;
 	FILE *fp;
@@ -243,6 +252,7 @@ getnewpasswd(pw, temp)
 	return(crypt(buf, salt));
 }
 
+int
 makedb(file)
 	char *file;
 {

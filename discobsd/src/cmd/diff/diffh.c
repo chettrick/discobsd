@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -8,6 +9,19 @@
 #define RANGE 30
 #define LEN 255
 #define INF 16384
+
+char	*getl(int, long);
+void	 clrl(int, long);
+void	 movstr(char *, char *);
+int	 easysynch();
+int	 output(int, int);
+void	 change(long, int, long, int, char *);
+void	 range(long, int);
+int	 cmp(char *, char *);
+FILE	*dopen(char *, char *);
+void	 progerr(char *);
+void	 error(char *, char *);
+int	 hardsynch();
 
 char *text[2][RANGE];
 long lineno[2] = {1, 1};	/*no. of 1st stored line in each file*/
@@ -18,11 +32,13 @@ int debug = 0;
 FILE *file[2];
 
 	/* return pointer to line n of file f*/
-char *getl(f,n)
+char *
+getl(f,n)
+int f;
 long n;
 {
 	register char *t;
-	register delta, nt;
+	register long delta, nt;
 again:
 	delta = n - lineno[f];
 	nt = ntext[f];
@@ -52,10 +68,12 @@ again:
 }
 
 	/*remove thru line n of file f from storage*/
+void
 clrl(f,n)
+int f;
 long n;
 {
-	register i,j;
+	register long i,j;
 	j = n-lineno[f]+1;
 	for(i=0;i+j<ntext[f];i++)
 		movstr(text[f][i+j],text[f][i]);
@@ -63,6 +81,7 @@ long n;
 	ntext[f] -= j;
 }
 
+void
 movstr(s,t)
 register char *s, *t;
 {
@@ -70,7 +89,9 @@ register char *s, *t;
 		continue;
 }
 
+int
 main(argc,argv)
+int argc;
 char **argv;
 {
 	char *s0,*s1;
@@ -112,10 +133,11 @@ char **argv;
 }
 
 	/* synch on C successive matches*/
+int
 easysynch()
 {
 	int i,j;
-	register k,m;
+	register int k,m;
 	char *s0,*s1;
 	for(i=j=1;i<RANGE&&j<RANGE;i++,j++) {
 		s0 = getl(0,n0+i);
@@ -144,9 +166,11 @@ cont2:			;
 	return(0);
 }
 
+int
 output(a,b)
+int a, b;
 {
-	register i;
+	register int i;
 	char *s;
 	if(a<0)
 		change(n0-1,0,n1,b,"a");
@@ -175,8 +199,10 @@ output(a,b)
 	return(1);
 }
 
+void
 change(a,b,c,d,s)
 long a,c;
+int b,d;
 char *s;
 {
 	range(a,b);
@@ -185,8 +211,10 @@ char *s;
 	printf("\n");
 }
 
+void
 range(a,b)
 long a;
+int b;
 {
 	if(b==INF)
 		printf("%ld,$",a);
@@ -196,6 +224,7 @@ long a;
 		printf("%ld,%ld",a,a+b);
 }
 
+int
 cmp(s,t)
 char *s,*t;
 {
@@ -214,7 +243,8 @@ char *s,*t;
 	return(*s-*t);
 }
 
-FILE *dopen(f1,f2)
+FILE *
+dopen(f1,f2)
 char *f1,*f2;
 {
 	FILE *f;
@@ -242,13 +272,14 @@ char *f1,*f2;
 	return(f);
 }
 
-
+void
 progerr(s)
 char *s;
 {
 	error("program error ",s);
 }
 
+void
 error(s,t)
 char *s,*t;
 {
@@ -257,6 +288,7 @@ char *s,*t;
 }
 
 	/*stub for resychronization beyond limits of text buf*/
+int
 hardsynch()
 {
 	change(n0,INF,n1,INF,"c");

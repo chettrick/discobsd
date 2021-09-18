@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <unistd.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/dir.h>
+#include <sys/wait.h>
 
 char    path[BUFSIZ], name[BUFSIZ];
 int aflg;
@@ -22,6 +24,7 @@ long    descend();
 
 #define kb(n)   (howmany(n * DEV_BSIZE, 1024))
 
+int
 main(argc, argv)
     int argc;
     char **argv;

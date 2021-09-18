@@ -1,6 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "sed.h"
+
+int	 match(char *, int);
+int	 advance(char *, char *);
+int	 substitute(union reptr *);
+void	 dosub(char *);
+char	*place(char *, char *, char *);
+void	 command(union reptr *);
+char	*gline(char *);
+int	 ecmp(char *, char *, int);
+void	 arout();
 
 char	*trans[040]  = {
 	"\\01",
@@ -37,6 +49,7 @@ char	*trans[040]  = {
 };
 char	rub[] = {"\177"};
 
+void
 execute(file)
 char *file;
 {
@@ -156,8 +169,11 @@ char *file;
 
 	}
 }
+
+int
 match(expbuf, gf)
 char	*expbuf;
+int	 gf;
 {
 	register char	*p1, *p2, c;
 
@@ -203,6 +219,8 @@ char	*expbuf;
 	} while(*p1++);
 	return(0);
 }
+
+int
 advance(alp, aep)
 char	*alp, *aep;
 {
@@ -334,6 +352,8 @@ char	*alp, *aep;
 		fprintf(stderr, "RE botch, %o\n", *--ep);
 	}
 }
+
+int
 substitute(ipc)
 union reptr	*ipc;
 {
@@ -351,6 +371,7 @@ union reptr	*ipc;
 	return(1);
 }
 
+void
 dosub(rhsbuf)
 char	*rhsbuf;
 {
@@ -385,7 +406,9 @@ char	*rhsbuf;
 	while (*lp++ = *sp++);
 	spend = lp-1;
 }
-char	*place(asp, al1, al2)
+
+char *
+place(asp, al1, al2)
 char	*asp, *al1, *al2;
 {
 	register char *sp, *l1, *l2;
@@ -401,6 +424,7 @@ char	*asp, *al1, *al2;
 	return(sp);
 }
 
+void
 command(ipc)
 union reptr	*ipc;
 {
@@ -643,12 +667,12 @@ union reptr	*ipc;
 
 }
 
-char	*
+char *
 gline(addr)
 char	*addr;
 {
 	register char	*p1, *p2;
-	register	c;
+	register int	c;
 	p1 = addr;
 	p2 = cbp;
 	for (;;) {
@@ -682,14 +706,18 @@ char	*addr;
 
 	return(p1);
 }
+
+int
 ecmp(a, b, count)
 char	*a, *b;
+int count;
 {
 	while(count--)
 		if(*a++ != *b++)	return(0);
 	return(1);
 }
 
+void
 arout()
 {
 	register char	*p1;

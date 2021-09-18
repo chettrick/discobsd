@@ -81,6 +81,7 @@ static void prtime(s, a)
  */
 static void transfer(buf, fd, eofchars)
     char *buf, *eofchars;
+    int fd;
 {
     register int ct;
     char c, buffer[BUFSIZ];
@@ -494,6 +495,7 @@ void cu_put(cc)
  *  Identical to consh() except for where stdout goes.
  */
 void pipeout(c)
+    int c;
 {
     char buf[256];
     int cpid, status, p;

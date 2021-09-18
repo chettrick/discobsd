@@ -8,14 +8,14 @@ include $(TOPSRC)/target.mk
 
 # XXX CFLAGS          += -Werror
 
-# XXX removed cpp and smlrc temporarily
+# XXX removed cpp, picoc, smallc, and smlrc temporarily
 # Programs that live in subdirectories, and have makefiles of their own.
 # /bin
 SUBDIR		= adb adc-demo aout ar as awk basic calendar cc chflags \
                   chpass dc diff emg env fdisk find fold forth \
                   fstat glcdtest hostname id la lcc lcpp ld ls login make \
-                  man md5 med more nm passwd pdc picoc portio printf pwm \
-                  ranlib re renice retroforth scm sed setty sh sl smallc \
+                  man md5 med more nm passwd pdc portio printf pwm \
+                  ranlib re renice retroforth scm sed setty sh sl \
                   smux stty sysctl test uname wiznet xargs \
                   zmodem gtest msec cron compress date2 tip \
                   talloc uucp yacc

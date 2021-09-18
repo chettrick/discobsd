@@ -19,7 +19,9 @@ typedef char    bool;
 
 bool    Debug;
 
+int
 main(argc, argv)
+    int argc;
     char **argv;
 {
     FILE *out;  /* output to sendmail */

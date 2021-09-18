@@ -20,18 +20,27 @@
 #include <sys/file.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include <pwd.h>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <limits.h>
 #include <paths.h>
 
+int	check(FILE *);
+int	makedb(char *);
+int	edit();
+int	prompt();
+void	stop(int);
+
 char *passwd, *temp;
 
+int
 main()
 {
 	register int n, fd_passwd, fd;
@@ -143,6 +152,7 @@ syserr:		(void)fprintf(stderr, "vipw: %s: %s; ",
 	exit(0);
 }
 
+int
 check(tfp)
 	FILE *tfp;
 {
@@ -208,6 +218,7 @@ bad:			(void)fprintf(stderr, "; line #%d.\n", lcnt);
 	return(0);
 }
 
+int
 makedb(file)
 	char *file;
 {
@@ -221,6 +232,7 @@ makedb(file)
 	return(w == -1 || status);
 }
 
+int
 edit()
 {
 	int status, pid, w;
@@ -244,6 +256,7 @@ edit()
 	return(w == -1 || status);
 }
 
+int
 prompt()
 {
 	register int c;
@@ -259,6 +272,7 @@ prompt()
 	/* NOTREACHED */
 }
 
+void
 stop(val)
 	int val;
 {

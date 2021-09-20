@@ -221,7 +221,7 @@ inv_rings()
 		}
 	}
 	if (wizard) {
-		sprintf(buf, "ste %d, r_r %d, e_r %d, r_t %d, s_s %d, a_s %d, reg %d, r_e %d, s_i %d, m_a %d, aus %d",
+		snprintf(buf, sizeof(buf), "ste %d, r_r %d, e_r %d, r_t %d, s_s %d, a_s %d, reg %d, r_e %d, s_i %d, m_a %d, aus %d",
 			stealthy, r_rings, e_rings, r_teleport, sustain_strength,
 			add_strength, regeneration, ring_exp, r_see_invisible,
 			maintain_armor, auto_search);

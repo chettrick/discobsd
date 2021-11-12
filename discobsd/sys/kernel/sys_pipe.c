@@ -12,6 +12,7 @@
 #include <sys/fs.h>
 #include <sys/mount.h>
 #include <sys/uio.h>
+#include <machine/frame.h>
 
 int
 readp (fp, uio, flag)
@@ -292,9 +293,9 @@ pipe()
     }
 #ifdef __mips__
     /* Move a secondary return value to register $v1. */
-    u.u_frame [FRAME_R3] = u.u_rval;
+    u.u_frame->tf_r3 = u.u_rval;
 #elif __arm__
-    /* XXX */
+    /* XXX FRAME */
 #else
 #error "pipe return value for unknown architecture"
 #endif

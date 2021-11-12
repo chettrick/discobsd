@@ -12,6 +12,7 @@
 #include <sys/tty.h>
 #include <machine/uart.h>
 #include <machine/usb_uart.h>
+#include <machine/frame.h>
 
 //#define TRACE_EXCEPTIONS
 
@@ -147,14 +148,14 @@ static const unsigned mask_by_vector[] = {
 
 static void
 dumpregs(frame)
-    int *frame;
+    struct trapframe *frame;
 {
     unsigned int cause;
     const char *code = 0;
     unsigned *stacktop = (unsigned*) 0x80007ffc;
     unsigned *p = (unsigned*) frame;
 
-    printf("\n*** 0x%08x: exception ", frame [FRAME_PC]);
+    printf("\n*** 0x%08x: exception ", frame->tf_pc);
 
     cause = mips_read_c0_register(C0_CAUSE, 0);
     switch (cause & CA_EXC_CODE) {
@@ -196,29 +197,23 @@ dumpregs(frame)
 
     printf("*** registers:\n");
     printf("                t0 = %8x   s0 = %8x   t8 = %8x   lo = %8x\n",
-        frame [FRAME_R8], frame [FRAME_R16],
-        frame [FRAME_R24], frame [FRAME_LO]);
+        frame->tf_r8, frame->tf_r16, frame->tf_r24, frame->tf_lo);
     printf("at = %8x   t1 = %8x   s1 = %8x   t9 = %8x   hi = %8x\n",
-        frame [FRAME_R1], frame [FRAME_R9], frame [FRAME_R17],
-        frame [FRAME_R25], frame [FRAME_HI]);
+        frame->tf_r1, frame->tf_r9, frame->tf_r17, frame->tf_r25,
+        frame->tf_hi);
     printf("v0 = %8x   t2 = %8x   s2 = %8x               status = %8x\n",
-        frame [FRAME_R2], frame [FRAME_R10],
-        frame [FRAME_R18], frame [FRAME_STATUS]);
+        frame->tf_r2, frame->tf_r10, frame->tf_r18, frame->tf_status);
     printf("v1 = %8x   t3 = %8x   s3 = %8x                cause = %8x\n",
-        frame [FRAME_R3], frame [FRAME_R11],
-        frame [FRAME_R19], cause);
+        frame->tf_r3, frame->tf_r11, frame->tf_r19, cause);
     printf("a0 = %8x   t4 = %8x   s4 = %8x   gp = %8x  epc = %8x\n",
-        frame [FRAME_R4], frame [FRAME_R12],
-        frame [FRAME_R20], frame [FRAME_GP], frame [FRAME_PC]);
+        frame->tf_r4, frame->tf_r12, frame->tf_r20, frame->tf_gp,
+        frame->tf_pc);
     printf("a1 = %8x   t5 = %8x   s5 = %8x   sp = %8x\n",
-        frame [FRAME_R5], frame [FRAME_R13],
-        frame [FRAME_R21], frame [FRAME_SP]);
+        frame->tf_r5, frame->tf_r13, frame->tf_r21, frame->tf_sp);
     printf("a2 = %8x   t6 = %8x   s6 = %8x   fp = %8x\n",
-        frame [FRAME_R6], frame [FRAME_R14],
-        frame [FRAME_R22], frame [FRAME_FP]);
+        frame->tf_r6, frame->tf_r14, frame->tf_r22, frame->tf_fp);
     printf("a3 = %8x   t7 = %8x   s7 = %8x   ra = %8x\n",
-        frame [FRAME_R7], frame [FRAME_R15],
-        frame [FRAME_R23], frame [FRAME_RA]);
+        frame->tf_r7, frame->tf_r15, frame->tf_r23, frame->tf_ra);
 }
 
 /*
@@ -233,7 +228,7 @@ dumpregs(frame)
  */
 void
 exception(frame)
-    int *frame;
+    struct trapframe *frame;
 {
     register int psig;
     time_t syst;
@@ -246,7 +241,7 @@ exception(frame)
         /*NOTREACHED*/
     }
     /* Switch to kernel mode, keep interrupts disabled. */
-    status = frame [FRAME_STATUS];
+    status = frame->tf_status;
     mips_write_c0_register(C0_STATUS, 0,
         status & ~(ST_UM | ST_EXL | ST_IE));
 
@@ -279,7 +274,7 @@ exception(frame)
             /*NOTREACHED*/
         case CA_IBE + USER:     /* Bus error, instruction fetch */
         case CA_DBE + USER:     /* Bus error, load or store */
-            printf("*** 0x%08x: %s: bus error\n", frame [FRAME_PC], u.u_comm);
+            printf("*** 0x%08x: %s: bus error\n", frame->tf_pc, u.u_comm);
             psig = SIGBUS;
             break;
         case CA_RI + USER:      /* Reserved instruction */
@@ -301,7 +296,7 @@ exception(frame)
         case CA_AdEL + USER:    /* Address error, load or instruction fetch */
         case CA_AdES + USER:    /* Address error, store */
             printf("*** 0x%08x: %s: bad address 0x%08x\n",
-                frame [FRAME_PC], u.u_comm, mips_read_c0_register(C0_BADVADDR, 0));
+                frame->tf_pc, u.u_comm, mips_read_c0_register(C0_BADVADDR, 0));
             psig = SIGSEGV;
             break;
         }
@@ -337,7 +332,7 @@ exception(frame)
                 c += (CPU_KHZ * 1000 / HZ + 1) / 2;
                 mips_write_c0_register(C0_COMPARE, 0, c);
             } while ((int) (c - (unsigned)mips_read_c0_register(C0_COUNT, 0)) < 0);
-            hardclock((caddr_t) frame [FRAME_PC], status);
+            hardclock((caddr_t) frame->tf_pc, status);
 
 #ifdef POWER_ENABLED
             power_switch_check();
@@ -403,10 +398,10 @@ exception(frame)
 // MADSCIFI start new code
             //u.u_error = 0;
             u.u_frame = frame;
-            u.u_code = frame [FRAME_PC];        /* For signal handler */
+            u.u_code = frame->tf_pc;            /* For signal handler */
 
             /* Check stack. */
-            sp = frame [FRAME_SP];
+            sp = frame->tf_sp;
             if (sp < u.u_procp->p_daddr + u.u_dsize) {
                 /* Process has trashed its stack; give it an illegal
                  * instruction violation to halt it in its tracks. */
@@ -438,10 +433,10 @@ exception(frame)
         mips_intr_enable();
         u.u_error = 0;
         u.u_frame = frame;
-        u.u_code = frame [FRAME_PC];        /* For signal handler */
+        u.u_code = frame->tf_pc;            /* For signal handler */
 
         /* Check stack. */
-        sp = frame [FRAME_SP];
+        sp = frame->tf_sp;
         if (sp < u.u_procp->p_daddr + u.u_dsize) {
             /* Process has trashed its stack; give it an illegal
              * instruction violation to halt it in its tracks. */
@@ -456,8 +451,8 @@ exception(frame)
         }
 
         /* Original pc for restarting syscalls */
-        int opc = frame [FRAME_PC];         /* opc points at syscall */
-        frame [FRAME_PC] = opc + 3*NBPW;    /* no errors - skip 2 next instructions */
+        int opc = frame->tf_pc;             /* opc points at syscall */
+        frame->tf_pc = opc + 3*NBPW;        /* no errors - skip 2 next instructions */
 
         const struct sysent *callp = &sysent[0];
         int code = (*(u_int*) opc >> 6) & 0377; /* bottom 8 bits are index */
@@ -465,17 +460,17 @@ exception(frame)
             callp += code;
 
         if (callp->sy_narg) {
-            u.u_arg[0] = frame [FRAME_R4];  /* $a0 */
-            u.u_arg[1] = frame [FRAME_R5];  /* $a1 */
-            u.u_arg[2] = frame [FRAME_R6];  /* $a2 */
-            u.u_arg[3] = frame [FRAME_R7];  /* $a3 */
+            u.u_arg[0] = frame->tf_r4;      /* $a0 */
+            u.u_arg[1] = frame->tf_r5;      /* $a1 */
+            u.u_arg[2] = frame->tf_r6;      /* $a2 */
+            u.u_arg[3] = frame->tf_r7;      /* $a3 */
             if (callp->sy_narg > 4) {
-                unsigned addr = (frame [FRAME_SP] + 16) & ~3;
+                unsigned addr = (frame->tf_sp + 16) & ~3;
                 if (! baduaddr((caddr_t) addr))
                     u.u_arg[4] = *(unsigned*) addr;
             }
             if (callp->sy_narg > 5) {
-                unsigned addr = (frame [FRAME_SP] + 20) & ~3;
+                unsigned addr = (frame->tf_sp + 20) & ~3;
                 if (! baduaddr((caddr_t) addr))
                     u.u_arg[5] = *(unsigned*) addr;
             }
@@ -497,26 +492,27 @@ exception(frame)
 #ifdef TRACE_EXCEPTIONS
             printf("    (%u)syscall returned %u\n", u.u_procp->p_pid, u.u_rval);
 #endif
-            frame [FRAME_R2] = u.u_rval;    /* $v0 - result */
+            frame->tf_r2 = u.u_rval;        /* $v0 - result */
             break;
         case ERESTART:
 #ifdef TRACE_EXCEPTIONS
             printf("    (%u)syscall restarted at %#x\n", u.u_procp->p_pid, opc);
 #endif
-            frame [FRAME_PC] = opc;         /* return to syscall */
+            frame->tf_pc = opc;             /* return to syscall */
             break;
         case EJUSTRETURN:                   /* return from signal handler */
 #ifdef TRACE_EXCEPTIONS
-            printf("    (%u)jump to %#x, stack %#x\n", u.u_procp->p_pid, frame [FRAME_PC], frame [FRAME_SP]);
+            printf("    (%u)jump to %#x, stack %#x\n",
+                u.u_procp->p_pid, frame->tf_pc, frame->tf_sp);
 #endif
             break;
         default:
 #ifdef TRACE_EXCEPTIONS
             printf("    (%u)syscall failed, errno %d\n", u.u_procp->p_pid, u.u_error);
 #endif
-            frame [FRAME_PC] = opc + NBPW;  /* return to next instruction */
-            frame [FRAME_R2] = -1;      /* $v0 - result */
-            frame [FRAME_R8] = u.u_error;   /* $t0 - errno */
+            frame->tf_pc = opc + NBPW;      /* return to next instruction */
+            frame->tf_r2 = -1;              /* $v0 - result */
+            frame->tf_r8 = u.u_error;       /* $t0 - errno */
             break;
         }
         goto out;
@@ -542,7 +538,7 @@ out:
 
     /* Update profiling information. */
     if (u.u_prof.pr_scale)
-        addupc((caddr_t) frame [FRAME_PC],
+        addupc((caddr_t) frame->tf_pc,
             &u.u_prof, (int) (u.u_ru.ru_stime - syst));
 ret:
     led_control(LED_KERNEL, 0);

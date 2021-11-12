@@ -10,6 +10,7 @@
 #include <sys/inode.h>
 #include <sys/vm.h>
 #include <sys/ptrace.h>
+#include <machine/frame.h>
 
 /*
  * sys-trace system call.
@@ -102,11 +103,17 @@ procxmt()
     case PT_WRITE_U:
         i = (int)ipc.ip_addr;
         p = (int*)&u + i/sizeof(int);
+#ifdef __mips__
         for (i=0; i<FRAME_WORDS; i++)
-            if (p == &u.u_frame[i])
+            if (p == (int *)&u.u_frame[i]) /* XXX FRAME */
                 goto ok;
         goto error;
 ok:
+#elif __arm__
+        /* XXX FRAME */
+#else
+#error "user frame for unknown architecture"
+#endif
         *p = ipc.ip_data;
         break;
 
@@ -114,11 +121,17 @@ ok:
     /* one version causes a trace-trap */
     case PT_STEP:
         /* Use Status.RP bit to indicate a single-step request. */
-        u.u_frame [FRAME_STATUS] |= ST_RP;
+#ifdef __mips__
+        u.u_frame->tf_status |= ST_RP;
+#elif __arm__
+        /* XXX FRAME */
+#else
+#error "single step process status for unknown architecture"
+#endif
         /* FALL THROUGH TO ... */
     case PT_CONTINUE:
         if ((int)ipc.ip_addr != 1)
-            u.u_frame [FRAME_PC] = (int)ipc.ip_addr;
+            u.u_frame->tf_pc = (int)ipc.ip_addr; /* XXX FRAME */
         if (ipc.ip_data > NSIG)
             goto error;
         u.u_procp->p_ptracesig = ipc.ip_data;

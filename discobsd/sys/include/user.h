@@ -25,7 +25,7 @@
 
 struct user {
     struct  proc *u_procp;          /* pointer to proc structure */
-    int     *u_frame;               /* address of users saved frame */
+    struct  trapframe *u_frame;     /* address of users saved frame */
     char    u_comm[MAXCOMLEN + 1];  /* command file name */
     label_t u_qsave;                /* for non-local gotos on interrupts */
     label_t u_rsave;                /* save info when exchanging stacks */

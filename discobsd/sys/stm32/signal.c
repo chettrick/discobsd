@@ -11,6 +11,7 @@
 #include <sys/buf.h>
 #include <sys/map.h>
 #include <sys/syslog.h>
+#include <machine/frame.h>
 
 //#define DIAGNOSTIC
 
@@ -34,7 +35,7 @@ sendsig (p, sig, mask)
         int     sf_space [4];
         struct  sigcontext sf_sc;
     };
-    register int *regs = u.u_frame;
+    struct trapframe *regs = u.u_frame;
     register struct sigframe *sfp;
     int oonstack;
 
@@ -54,7 +55,7 @@ sendsig (p, sig, mask)
             u.u_sigstk.ss_size);
         u.u_sigstk.ss_flags |= SA_ONSTACK;
     } else
-        sfp = (struct sigframe*) regs [FRAME_SP];
+        sfp = (struct sigframe*) regs->tf_sp;
 
     sfp--;
     if (! (u.u_sigstk.ss_flags & SA_ONSTACK)) {
@@ -78,39 +79,25 @@ sendsig (p, sig, mask)
      */
     sfp->sf_sc.sc_onstack = oonstack;
     sfp->sf_sc.sc_mask = mask;
-    sfp->sf_sc.sc_r1  = regs [FRAME_R1];
-    sfp->sf_sc.sc_r2  = regs [FRAME_R2];
-    sfp->sf_sc.sc_r3  = regs [FRAME_R3];
-    sfp->sf_sc.sc_r4  = regs [FRAME_R4];
-    sfp->sf_sc.sc_r5  = regs [FRAME_R5];
-    sfp->sf_sc.sc_r6  = regs [FRAME_R6];
-    sfp->sf_sc.sc_r7  = regs [FRAME_R7];
-    sfp->sf_sc.sc_r8  = regs [FRAME_R8];
-    sfp->sf_sc.sc_r9  = regs [FRAME_R9];
-    sfp->sf_sc.sc_r10 = regs [FRAME_R10];
-    sfp->sf_sc.sc_r11 = regs [FRAME_R11];
-    sfp->sf_sc.sc_r12 = regs [FRAME_R12];
-    sfp->sf_sc.sc_r13 = regs [FRAME_R13];
-    sfp->sf_sc.sc_r14 = regs [FRAME_R14];
-    sfp->sf_sc.sc_r15 = regs [FRAME_R15];
-    sfp->sf_sc.sc_r16 = regs [FRAME_R16];
-    sfp->sf_sc.sc_r17 = regs [FRAME_R17];
-    sfp->sf_sc.sc_r18 = regs [FRAME_R18];
-    sfp->sf_sc.sc_r19 = regs [FRAME_R19];
-    sfp->sf_sc.sc_r20 = regs [FRAME_R20];
-    sfp->sf_sc.sc_r21 = regs [FRAME_R21];
-    sfp->sf_sc.sc_r22 = regs [FRAME_R22];
-    sfp->sf_sc.sc_r23 = regs [FRAME_R23];
-    sfp->sf_sc.sc_r24 = regs [FRAME_R24];
-    sfp->sf_sc.sc_r25 = regs [FRAME_R25];
-    sfp->sf_sc.sc_gp  = regs [FRAME_GP];
-    sfp->sf_sc.sc_sp  = regs [FRAME_SP];
-    sfp->sf_sc.sc_fp  = regs [FRAME_FP];
-    sfp->sf_sc.sc_ra  = regs [FRAME_RA];
-    sfp->sf_sc.sc_lo  = regs [FRAME_LO];
-    sfp->sf_sc.sc_hi  = regs [FRAME_HI];
-    sfp->sf_sc.sc_pc  = regs [FRAME_PC];
+    sfp->sf_sc.sc_psr = regs->tf_psr;
+    sfp->sf_sc.sc_r0  = regs->tf_r0;
+    sfp->sf_sc.sc_r1  = regs->tf_r1;
+    sfp->sf_sc.sc_r2  = regs->tf_r2;
+    sfp->sf_sc.sc_r3  = regs->tf_r3;
+    sfp->sf_sc.sc_r4  = regs->tf_r4;
+    sfp->sf_sc.sc_r5  = regs->tf_r5;
+    sfp->sf_sc.sc_r6  = regs->tf_r6;
+    sfp->sf_sc.sc_r7  = regs->tf_r7;
+    sfp->sf_sc.sc_r8  = regs->tf_r8;
+    sfp->sf_sc.sc_r9  = regs->tf_r9;
+    sfp->sf_sc.sc_r10 = regs->tf_r10;
+    sfp->sf_sc.sc_r11 = regs->tf_r11;
+    sfp->sf_sc.sc_r12 = regs->tf_r12;
+    sfp->sf_sc.sc_sp  = regs->tf_sp;
+    sfp->sf_sc.sc_lr  = regs->tf_lr;
+    sfp->sf_sc.sc_pc  = regs->tf_pc;
 
+#if 0 // XXX FRAME
     /* Call signal handler */
     regs [FRAME_R4] = sig;                  /* $a0 - signal number */
     regs [FRAME_R5] = u.u_code;             /* $a1 - code */
@@ -118,6 +105,7 @@ sendsig (p, sig, mask)
     regs [FRAME_RA] = (int) u.u_sigtramp;   /* $ra - sigtramp */
     regs [FRAME_SP] = (int) sfp;
     regs [FRAME_PC] = (int) p;
+#endif // XXX FRAME
 #ifdef DIAGNOSTIC
     printf("    ...call handler %p (sig=%d, code=%#x, context=%p)\n",
         p, sig, u.u_code, &sfp->sf_sc);
@@ -138,13 +126,13 @@ sendsig (p, sig, mask)
 void
 sigreturn()
 {
-    register int *regs = u.u_frame;
+    struct trapframe *regs = u.u_frame;
     register struct sigcontext *scp =
-        (struct sigcontext*) (regs [FRAME_SP] + 16);
+        (struct sigcontext*) (regs->tf_sp + 16); // XXX FRAME
 
 #ifdef DIAGNOSTIC
     printf("(%u)sigreturn stack=%#x, context=%p\n",
-        u.u_procp->p_pid, regs [FRAME_SP], scp);
+        u.u_procp->p_pid, regs->tf_sp, scp);
 #endif
     if (baduaddr ((caddr_t) scp) ||
         baduaddr ((caddr_t) scp + sizeof(*scp))) {
@@ -159,39 +147,24 @@ sigreturn()
     u.u_procp->p_sigmask = scp->sc_mask & ~sigcantmask;
 
     /* Return from signal handler */
-    regs [FRAME_R1] = scp->sc_r1;
-    regs [FRAME_R2] = scp->sc_r2;
-    regs [FRAME_R3] = scp->sc_r3;
-    regs [FRAME_R4] = scp->sc_r4;
-    regs [FRAME_R5] = scp->sc_r5;
-    regs [FRAME_R6] = scp->sc_r6;
-    regs [FRAME_R7] = scp->sc_r7;
-    regs [FRAME_R8] = scp->sc_r8;
-    regs [FRAME_R9] = scp->sc_r9;
-    regs [FRAME_R10] = scp->sc_r10;
-    regs [FRAME_R11] = scp->sc_r11;
-    regs [FRAME_R12] = scp->sc_r12;
-    regs [FRAME_R13] = scp->sc_r13;
-    regs [FRAME_R14] = scp->sc_r14;
-    regs [FRAME_R15] = scp->sc_r15;
-    regs [FRAME_R16] = scp->sc_r16;
-    regs [FRAME_R17] = scp->sc_r17;
-    regs [FRAME_R18] = scp->sc_r18;
-    regs [FRAME_R19] = scp->sc_r19;
-    regs [FRAME_R20] = scp->sc_r20;
-    regs [FRAME_R21] = scp->sc_r21;
-    regs [FRAME_R22] = scp->sc_r22;
-    regs [FRAME_R23] = scp->sc_r23;
-    regs [FRAME_R24] = scp->sc_r24;
-    regs [FRAME_R25] = scp->sc_r25;
-    regs [FRAME_GP] = scp->sc_gp;
-    regs [FRAME_SP] = scp->sc_sp;
-    regs [FRAME_FP] = scp->sc_fp;
-    regs [FRAME_RA] = scp->sc_ra;
-    regs [FRAME_LO] = scp->sc_lo;
-    regs [FRAME_HI] = scp->sc_hi;
-    regs [FRAME_PC] = scp->sc_pc;
+    regs->tf_psr = scp->sc_psr;
+    regs->tf_r0  = scp->sc_r0;
+    regs->tf_r1  = scp->sc_r1;
+    regs->tf_r2  = scp->sc_r2;
+    regs->tf_r3  = scp->sc_r3;
+    regs->tf_r4  = scp->sc_r4;
+    regs->tf_r5  = scp->sc_r5;
+    regs->tf_r6  = scp->sc_r6;
+    regs->tf_r7  = scp->sc_r7;
+    regs->tf_r8  = scp->sc_r8;
+    regs->tf_r9  = scp->sc_r9;
+    regs->tf_r10 = scp->sc_r10;
+    regs->tf_r11 = scp->sc_r11;
+    regs->tf_r12 = scp->sc_r12;
+    regs->tf_sp  = scp->sc_sp;
+    regs->tf_lr  = scp->sc_lr;
+    regs->tf_pc  = scp->sc_pc;
 #ifdef DIAGNOSTIC
-    printf("    ...to %#x, stack %#x\n", regs[FRAME_PC], regs[FRAME_SP]);
+    printf("    ...to %#x, stack %#x\n", regs->tf_pc, regs->tf_sp);
 #endif
 }

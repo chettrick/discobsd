@@ -42,10 +42,19 @@ The
 entry fills in a structure pointed to by its argument,
 as defined by
 .RI < sys/timeb.h >:
-.PP
 .ta .5i +\w'unsigned 'u
 .nf
-.so /usr/include/sys/timeb.h
+.IP
+/*
+ * Structure returned by ftime system call
+ */
+struct timeb
+{
+        time_t  time;
+        unsigned short millitm;
+        short   timezone;
+        short   dstflag;
+};
 .fi
 .PP
 The structure contains the time since the epoch in seconds,

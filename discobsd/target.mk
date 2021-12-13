@@ -6,6 +6,7 @@ BUILD		= $(shell git rev-list HEAD --count)
 VERSION		= $(RELEASE)-$(BUILD)
 
 UNAME_S		= $(shell uname -s)
+#USE_GROFF	= 1
 
 ifeq ($(MACHINE_ARCH), mips)
 
@@ -165,5 +166,11 @@ LEX             = flex
 INSTALL		= install -m 644
 INSTALLDIR	= install -m 755 -d
 TAGSFILE	= tags
+
+ifdef USE_GROFF
 MANROFF		= nroff -man -h -Tascii
+else
+MANROFF		= mandoc -Tascii
+endif
+
 ELF2AOUT	= $(TOPSRC)/tools/elf2aout/elf2aout

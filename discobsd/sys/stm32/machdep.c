@@ -31,80 +31,19 @@
 #include <machine/stm32f4xx_hal.h>
 #include <machine/stm32469i_discovery.h>
 
-#if 0 // XXX Duplicates
-#define LED4_PIN                           LL_GPIO_PIN_12
-#define LED4_GPIO_PORT                     GPIOD
-#define LED4_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
-#endif // XXX Duplicates
-
 #ifdef POWER_ENABLED
 extern void power_init();
 extern void power_off();
 #endif
 
-#ifdef LED_TTY_INVERT
-#define LED_TTY_ON()        LAT_CLR(LED_TTY_PORT) = 1 << LED_TTY_PIN
-#define LED_TTY_OFF()       LAT_SET(LED_TTY_PORT) = 1 << LED_TTY_PIN
-#else
-#define LED_TTY_ON()        LAT_SET(LED_TTY_PORT) = 1 << LED_TTY_PIN
-#define LED_TTY_OFF()       LAT_CLR(LED_TTY_PORT) = 1 << LED_TTY_PIN
-#endif
-
-#ifdef LED_DISK_INVERT
-#define LED_DISK_ON()       LAT_CLR(LED_DISK_PORT) = 1 << LED_DISK_PIN
-#define LED_DISK_OFF()      LAT_SET(LED_DISK_PORT) = 1 << LED_DISK_PIN
-#else
-#define LED_DISK_ON()       LAT_SET(LED_DISK_PORT) = 1 << LED_DISK_PIN
-#define LED_DISK_OFF()      LAT_CLR(LED_DISK_PORT) = 1 << LED_DISK_PIN
-#endif
-
-#ifdef LED_KERNEL_INVERT
-#define LED_KERNEL_ON()     LAT_CLR(LED_KERNEL_PORT) = 1 << LED_KERNEL_PIN
-#define LED_KERNEL_OFF()    LAT_SET(LED_KERNEL_PORT) = 1 << LED_KERNEL_PIN
-#else
-#define LED_KERNEL_ON()     LAT_SET(LED_KERNEL_PORT) = 1 << LED_KERNEL_PIN
-#define LED_KERNEL_OFF()    LAT_CLR(LED_KERNEL_PORT) = 1 << LED_KERNEL_PIN
-#endif
-
-#ifdef LED_SWAP_INVERT
-#define LED_SWAP_ON()       LAT_CLR(LED_SWAP_PORT) = 1 << LED_SWAP_PIN
-#define LED_SWAP_OFF()      LAT_SET(LED_SWAP_PORT) = 1 << LED_SWAP_PIN
-#else
-#define LED_SWAP_ON()       LAT_SET(LED_SWAP_PORT) = 1 << LED_SWAP_PIN
-#define LED_SWAP_OFF()      LAT_CLR(LED_SWAP_PORT) = 1 << LED_SWAP_PIN
-#endif
-
-#ifdef LED_MISC1_INVERT
-#define LED_MISC1_ON()      LAT_CLR(LED_MISC1_PORT) = 1 << LED_MISC1_PIN
-#define LED_MISC1_OFF()     LAT_SET(LED_MISC1_PORT) = 1 << LED_MISC1_PIN
-#else
-#define LED_MISC1_ON()      LAT_SET(LED_MISC1_PORT) = 1 << LED_MISC1_PIN
-#define LED_MISC1_OFF()     LAT_CLR(LED_MISC1_PORT) = 1 << LED_MISC1_PIN
-#endif
-
-#ifdef LED_MISC2_INVERT
-#define LED_MISC2_ON()      LAT_CLR(LED_MISC2_PORT) = 1 << LED_MISC2_PIN
-#define LED_MISC2_OFF()     LAT_SET(LED_MISC2_PORT) = 1 << LED_MISC2_PIN
-#else
-#define LED_MISC2_ON()      LAT_SET(LED_MISC2_PORT) = 1 << LED_MISC2_PIN
-#define LED_MISC2_OFF()     LAT_CLR(LED_MISC2_PORT) = 1 << LED_MISC2_PIN
-#endif
-
-#ifdef LED_MISC3_INVERT
-#define LED_MISC3_ON()      LAT_CLR(LED_MISC3_PORT) = 1 << LED_MISC3_PIN
-#define LED_MISC3_OFF()     LAT_SET(LED_MISC3_PORT) = 1 << LED_MISC3_PIN
-#else
-#define LED_MISC3_ON()      LAT_SET(LED_MISC3_PORT) = 1 << LED_MISC3_PIN
-#define LED_MISC3_OFF()     LAT_CLR(LED_MISC3_PORT) = 1 << LED_MISC3_PIN
-#endif
-
-#ifdef LED_MISC4_INVERT
-#define LED_MISC4_ON()      LAT_CLR(LED_MISC4_PORT) = 1 << LED_MISC4_PIN
-#define LED_MISC4_OFF()     LAT_SET(LED_MISC4_PORT) = 1 << LED_MISC4_PIN
-#else
-#define LED_MISC4_ON()      LAT_SET(LED_MISC4_PORT) = 1 << LED_MISC4_PIN
-#define LED_MISC4_OFF()     LAT_CLR(LED_MISC4_PORT) = 1 << LED_MISC4_PIN
-#endif
+#define LED_TTY_ON()        BSP_LED_On(LED_GREEN)
+#define LED_TTY_OFF()       BSP_LED_Off(LED_GREEN)
+#define LED_SWAP_ON()       BSP_LED_On(LED_ORANGE)
+#define LED_SWAP_OFF()      BSP_LED_Off(LED_ORANGE)
+#define LED_DISK_ON()       BSP_LED_On(LED_RED)
+#define LED_DISK_OFF()      BSP_LED_Off(LED_RED)
+#define LED_KERNEL_ON()     BSP_LED_On(LED_BLUE)
+#define LED_KERNEL_OFF()    BSP_LED_Off(LED_BLUE)
 
 int     hz = HZ;
 int     usechz = (1000000L + HZ - 1) / HZ;
@@ -268,13 +207,23 @@ startup()
 
     SystemClock_Config();
 
-    BSP_LED_Init(LED1); // Green.
-    BSP_LED_Init(LED2); // Orange.
-    BSP_LED_Init(LED3); // Red.
-    BSP_LED_Init(LED4); // Blue.
+    /*
+     * Configure LED pins.
+     */
+    BSP_LED_Init(LED1);                 /* Green.   Terminal i/o */
+    BSP_LED_Init(LED2);                 /* Orange.  Auxiliary swap */
+    BSP_LED_Init(LED3);                 /* Red.     Disk i/o */
+    BSP_LED_Init(LED4);                 /* Blue.    Kernel activity */
 
-    BSP_LED_On(LED_ORANGE);
-    BSP_LED_On(LED_BLUE);
+    LED_TTY_ON();
+    LED_SWAP_ON();
+    LED_DISK_ON();
+    LED_KERNEL_ON();
+
+    LED_TTY_OFF();
+    LED_SWAP_OFF();
+    LED_DISK_OFF();
+    LED_KERNEL_OFF();
 
 #if 0 // XXX
     extern void _etext(), _exception_base_();
@@ -371,29 +320,6 @@ startup()
     mips_write_c0_register(C0_STATUS, 0, ST_CU0);
     mips_ehb();
 
-    /*
-     * Configure LED pins.
-     */
-#ifdef LED_TTY_PORT                     /* Terminal i/o */
-    LED_TTY_OFF();
-    TRIS_CLR(LED_TTY_PORT) = 1 << LED_TTY_PIN;
-#endif
-#ifdef LED_DISK_PORT                    /* Disk i/o */
-    LED_DISK_OFF();
-    TRIS_CLR(LED_DISK_PORT) = 1 << LED_DISK_PIN;
-#endif
-#ifdef LED_KERNEL_PORT                  /* Kernel activity */
-    LED_KERNEL_OFF();
-    TRIS_CLR(LED_KERNEL_PORT) = 1 << LED_KERNEL_PIN;
-#endif
-#ifdef LED_SWAP_PORT                    /* Auxiliary */
-    LED_SWAP_OFF();
-    TRIS_CLR(LED_SWAP_PORT) = 1 << LED_SWAP_PIN;
-#endif
-#ifdef GPIO_CLEAR_PORT                  /* Clear pin */
-    LAT_CLR(GPIO_CLEAR_PORT) = 1 << GPIO_CLEAR_PIN;
-    TRIS_CLR(GPIO_CLEAR_PORT) = 1 << GPIO_CLEAR_PIN;
-#endif
 #ifdef POWER_ENABLED
     power_init();
 #endif
@@ -763,30 +689,22 @@ udelay(usec)
  */
 void led_control(int mask, int on)
 {
-#ifdef LED_SWAP_PORT
-    if (mask & LED_SWAP) {       /* Auxiliary */
+    if (mask & LED_SWAP) {      /* Auxiliary swap */
         if (on) LED_SWAP_ON();
         else    LED_SWAP_OFF();
     }
-#endif
-#ifdef LED_DISK_PORT
     if (mask & LED_DISK) {      /* Disk i/o */
         if (on) LED_DISK_ON();
         else    LED_DISK_OFF();
     }
-#endif
-#ifdef LED_KERNEL_PORT
     if (mask & LED_KERNEL) {    /* Kernel activity */
         if (on) LED_KERNEL_ON();
         else    LED_KERNEL_OFF();
     }
-#endif
-#ifdef LED_TTY_PORT
     if (mask & LED_TTY) {       /* Terminal i/o */
         if (on) LED_TTY_ON();
         else    LED_TTY_OFF();
     }
-#endif
 }
 
 /*

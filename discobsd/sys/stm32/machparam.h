@@ -1,5 +1,5 @@
 /*
- * Machine dependent constants for MIPS32.
+ * Machine dependent constants for STM32.
  *
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement
@@ -14,7 +14,7 @@
 #define LITTLE          1234            /* least-significant byte first (vax) */
 #define BIG             4321            /* most-significant byte first */
 #define PDP             3412            /* LSB first in word, MSW first in long (pdp) */
-#define ENDIAN          LITTLE          /* byte order on pic32 */
+#define ENDIAN          LITTLE          /* byte order on stm32 */
 
 /*
  * The time for a process to be blocked before being very swappable.
@@ -73,37 +73,23 @@
  * On PIC32, there are total 512 kbytes of flash and 128 kbytes of RAM.
  * We reserve for kernel 192 kbytes of flash and 32 kbytes of RAM.
  */
-#define FLASH_SIZE              (512*1024)
+#define FLASH_SIZE              (1024*1024)     /* Minimum from STM32F407 chip. */
 #define DATA_SIZE               (128*1024)
 
+#define KERNEL_FLASH_START      (0x08000000)
 #define KERNEL_FLASH_SIZE       (192*1024)
+#define KERNEL_FLASH_END        (KERNEL_FLASH_START + KERNEL_FLASH_SIZE)
 
-#ifdef KERNEL_EXECUTABLE_RAM
-extern void _keram_start(), _keram_end();
-#define KERAM_SIZE ((unsigned)((char*)&_keram_end-(char*)&_keram_start))
-#define KERNEL_DATA_SIZE        (32*1024-KERAM_SIZE)
-#else
-#define KERNEL_DATA_SIZE        (32*1024)
-#endif
-
-#define KERNEL_FLASH_START      0x9d000000
 #define USER_FLASH_START        (KERNEL_FLASH_START + KERNEL_FLASH_SIZE)
 #define USER_FLASH_END          (KERNEL_FLASH_START + FLASH_SIZE)
 
-#define KERNEL_DATA_START       0x80000000
+#define KERNEL_DATA_START       (0x10000000)
+#define KERNEL_DATA_SIZE        (64*1024)       /* CCM RAM for kernel is 64kb. */
 #define KERNEL_DATA_END         (KERNEL_DATA_START + KERNEL_DATA_SIZE)
 
-#if 0 /* XXX */
-#ifdef KERNEL_EXECUTABLE_RAM
-#define USER_DATA_START         (0x7f000000 + KERNEL_DATA_SIZE+KERAM_SIZE)
-#else
-#define USER_DATA_START         (0x7f000000 + KERNEL_DATA_SIZE)
-#endif
-
-#define USER_DATA_END           (0x7f000000 + DATA_SIZE)
-#endif /* XXX */
-#define USER_DATA_START         (0x20010000)
-#define USER_DATA_END           (0x2001B000)
+#define USER_DATA_START         (0x20000000)
+#define USER_DATA_SIZE          (112*1024)      /* Minimum from STM32F407 chip. */
+#define USER_DATA_END           (USER_DATA_START + USER_DATA_SIZE)
 
 #define stacktop(siz)           (USER_DATA_END)
 #define stackbas(siz)           (USER_DATA_END-(siz))

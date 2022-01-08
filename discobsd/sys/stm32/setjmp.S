@@ -2,7 +2,7 @@
 
    Nick Clifton, Cygnus Solutions, 13 June 1997.  */
 
-#define UBASE   0x20010000      /* XXX User space base address */
+#define UBASE   0x20000000      /* User space base address */
 
 /* ANSI concatenation macros.  */
 #define CONCAT(a, b)  CONCAT2(a, b)
@@ -254,6 +254,7 @@ blink:
 	ldr	r7, =1			/* SYS_exit */
 	swi	0x0			/* syscall */
 
+	.align	2
 	.type	sbininit, %object
 sbininit:
 	.ascii	"/sbin/init\0"
@@ -263,6 +264,7 @@ sbininit:
 initflags:
 	.ascii	"-\0\0\0\0\0\0\0\0\0\0"	/* space for options */
 
+	.align	2
 	.type	argv, %object
 argv:
 	.word	sbininit + 6 - icode + UBASE	/* address of "init\0" */
@@ -272,4 +274,3 @@ argv:
 	.globl	icodeend
 	.type	icodeend, %function
 icodeend:
-	nop

@@ -489,9 +489,6 @@ startup()
 #endif
 
 #if 0 // XXX
-    /* Get total RAM size. */
-    physmem = BMXDRMSZ;
-
     /*
      * When button 1 is pressed - boot to single user mode.
      */
@@ -511,6 +508,7 @@ cpuidentify()
     printf("cpu: ");
     switch (devid) {
     case 0x0411:
+        physmem = 192 * 1024;   /* Total 192kb RAM size. */
         printf("STM32F407xx");
         printf(" rev ");
         switch (revid) {
@@ -523,6 +521,7 @@ cpuidentify()
         }
         break;
     case 0x0434:
+        physmem = 384 * 1024;   /* Total 384kb RAM size. */
         printf("STM32F469xx");
         printf(" rev ");
         switch (revid) {
@@ -535,6 +534,7 @@ cpuidentify()
         }
         break;
     default:
+        physmem = 128 * 1024;   /* Minimum of 128kb total RAM size. */
         printf("device unknown 0x%03x", devid);
         printf(" rev unknown 0x%04x", revid);
         break;

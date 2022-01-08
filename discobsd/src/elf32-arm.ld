@@ -15,7 +15,7 @@ SECTIONS
 {
   /* Read-only sections, merged into text segment: */
 /* XXX PROVIDE (__executable_start = SEGMENT_START("text-segment", 0x8000)); . = SEGMENT_START("text-segment", 0x8000); */
-  PROVIDE (__executable_start = 0x20010000); . = 0x20010000;
+  PROVIDE (__executable_start = 0x20000000); . = 0x20000000;
   .interp         : { *(.interp) }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
   .hash           : { *(.hash) }

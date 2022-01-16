@@ -109,7 +109,7 @@ procxmt()
                 goto ok;
         goto error;
 ok:
-#elif __arm__
+#elif __thumb2__
         /* XXX FRAME */
 #else
 #error "user frame for unknown architecture"
@@ -123,7 +123,7 @@ ok:
         /* Use Status.RP bit to indicate a single-step request. */
 #ifdef __mips__
         u.u_frame->tf_status |= ST_RP;
-#elif __arm__
+#elif __thumb2__
         /* XXX FRAME */
 #else
 #error "single step process status for unknown architecture"

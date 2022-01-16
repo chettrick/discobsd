@@ -113,7 +113,15 @@ LoopFillZerobss:
 // XXX  bl __libc_init_array
 /* Call the application's entry point.*/
   bl  main
-  bl  icode /* XXX force code at icode to run. */
+
+/* Switch from kernel mode to user mode. */
+  /* XXX switching code here XXX */
+
+/* Enable interrupts. */
+  /* XXX Enable interrupt code here XXX */
+
+/* Run icode() in user space. */
+  ldr  lr, =0x20000000 + 1  /* XXX Thumb2 requires lsbit set. */
   bx  lr    
 .size  Reset_Handler, .-Reset_Handler
 

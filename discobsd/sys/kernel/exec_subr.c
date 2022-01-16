@@ -108,7 +108,7 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
     u.u_frame->tf_r4 = epp->argc;               /* $a0 := argc */
     u.u_frame->tf_r5 = (int)argp;               /* $a1 := argp */
     u.u_frame->tf_r6 = (int)envp;               /* $a2 := env */
-#elif __arm__
+#elif __thumb2__
     /* XXX FRAME */
 #else
 #error "set up top of stack for unknown architecture"
@@ -404,7 +404,7 @@ void exec_clear(struct exec_params *epp)
     u.u_frame->tf_lo  = 0;
     u.u_frame->tf_hi  = 0;
     u.u_frame->tf_gp  = 0;
-#elif __arm__
+#elif __thumb2__
     /* XXX FRAME */
 #else
 #error "clear trap frame registers for unknown architecture"

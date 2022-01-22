@@ -426,7 +426,7 @@ uint32_t SDIO_GetResponse(SDIO_TypeDef *SDIOx, uint32_t Response)
   assert_param(IS_SDIO_RESP(Response));
 
   /* Get the response */
-  tmp = (uint32_t)&(SDIOx->RESP1) + Response;
+  tmp = (uint32_t)(&(SDIOx->RESP1)) + Response;
 
   return (*(__IO uint32_t *) tmp);
 }

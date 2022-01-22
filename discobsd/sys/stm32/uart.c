@@ -79,12 +79,14 @@ static const struct uart_inst uart[NUART] = {
 
 struct tty uartttys[NUART];
 
+#if 0 // XXX UART
 static unsigned speed_bps [NSPEEDS] = {
     0,       50,      75,      150,     200,    300,     600,     1200,
     1800,    2400,    4800,    9600,    19200,  38400,   57600,   115200,
     230400,  460800,  500000,  576000,  921600, 1000000, 1152000, 1500000,
     2000000, 2500000, 3000000, 3500000, 4000000
 };
+#endif // XXX UART
 
 void cnstart(struct tty *tp);
 
@@ -194,7 +196,9 @@ uartinit(int unit)
 
 int uartopen(dev_t dev, int flag, int mode)
 {
+#if 0 // XXX UART
     register struct uartreg *reg;
+#endif // XXX UART
     register struct tty *tp;
     register int unit = minor(dev);
 
@@ -205,7 +209,9 @@ int uartopen(dev_t dev, int flag, int mode)
     if (! tp->t_addr)
         return (ENXIO);
 
+#if 0 // XXX UART
     reg = (struct uartreg*) tp->t_addr;
+#endif // XXX UART
     tp->t_oproc = uartstart;
     if ((tp->t_state & TS_ISOPEN) == 0) {
         if (tp->t_ispeed == 0) {
@@ -324,10 +330,14 @@ void
 uartintr (dev)
     dev_t dev;
 {
+#if 0 // XXX UART
     register int c;
+#endif // XXX UART
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
+#if 0 // XXX UART
     register struct uartreg *reg = (struct uartreg *)tp->t_addr;
+#endif // XXX UART
 
     if (! tp->t_addr)
         return;
@@ -374,9 +384,12 @@ uartintr (dev)
 
 void uartstart (register struct tty *tp)
 {
+    register int s;
+#if 0 // XXX UART
     register struct uartreg *reg = (struct uartreg*) tp->t_addr;
     register int c, s;
     register int unit = minor(tp->t_dev);
+#endif // XXX UART
 
     if (! tp->t_addr)
         return;
@@ -460,8 +473,10 @@ again:
 
 char uartgetc(dev_t dev)
 {
+#if 0 // XXX UART
     int unit = minor(dev);
 // XXX    register struct uartreg *reg = uart[unit];
+#endif // XXX UART
     int s, c;
 
     s = spltty();

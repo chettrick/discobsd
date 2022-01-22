@@ -190,13 +190,13 @@ main()
     /*
      * Make init process.
      */
-#if __mips__ /* XXX Don't compile for Arm, yet.*/
+#if 1  /* XXX For Parent/Child debugging. */
     if (newproc (0) == 0) {
         /* Parent process with pid 0: swapper.
          * No return from sched. */
         sched();
     }
-#endif /* XXX __mips__ */
+#endif /* XXX For Parent/Child debugging. */
 
     /* Child process with pid 1: init. */
     s = splhigh();

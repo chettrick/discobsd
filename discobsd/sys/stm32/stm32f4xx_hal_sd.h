@@ -144,11 +144,11 @@ typedef struct
 
   HAL_LockTypeDef              Lock;             /*!< SD locking object                   */
 
-  uint32_t                     *pTxBuffPtr;      /*!< Pointer to SD Tx transfer Buffer    */
+  uint8_t                      *pTxBuffPtr;      /*!< Pointer to SD Tx transfer Buffer    */
 
   uint32_t                     TxXferSize;       /*!< SD Tx Transfer size                 */
 
-  uint32_t                     *pRxBuffPtr;      /*!< Pointer to SD Rx transfer Buffer    */
+  uint8_t                      *pRxBuffPtr;      /*!< Pointer to SD Rx transfer Buffer    */
 
   uint32_t                     RxXferSize;       /*!< SD Rx Transfer size                 */
 

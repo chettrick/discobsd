@@ -70,10 +70,10 @@ card_read(int unit, unsigned int offset, char *data, unsigned int bcount)
     uint8_t SD_state = MSD_OK;
 
     if ((bcount % SECTSIZE) == 0) {
-        nblocks = bcount / SECTSIZE; // XXX Use btod()?
+        nblocks = bcount / SECTSIZE;
     } else {
         printf("bcount: %d\tnot a multiple of SECTSIZE (%d bytes)\n", bcount, SECTSIZE);
-        return 0; // XXX Only do blocks rn.
+        return 0;
     }
 
     SD_state = BSP_SD_ReadBlocks((uint32_t *)data, offset << 1, nblocks, SD_DATATIMEOUT);
@@ -97,10 +97,10 @@ card_write(int unit, unsigned offset, char *data, unsigned bcount)
     uint8_t SD_state = MSD_OK;
 
     if ((bcount % SECTSIZE) == 0) {
-        nblocks = bcount / SECTSIZE; // XXX Use btod()?
+        nblocks = bcount / SECTSIZE;
     } else {
         printf("bcount: %d\tnot a multiple of SECTSIZE (%d bytes)\n", bcount, SECTSIZE);
-        return 0; // XXX Only do blocks rn.
+        return 0;
     }
 
     SD_state = BSP_SD_WriteBlocks((uint32_t *)data, offset << 1, nblocks, SD_DATATIMEOUT);

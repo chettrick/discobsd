@@ -190,13 +190,11 @@ main()
     /*
      * Make init process.
      */
-#if 1  /* XXX For Parent/Child debugging. */
     if (newproc (0) == 0) {
         /* Parent process with pid 0: swapper.
          * No return from sched. */
         sched();
     }
-#endif /* XXX For Parent/Child debugging. */
 
     /* Child process with pid 1: init. */
     s = splhigh();

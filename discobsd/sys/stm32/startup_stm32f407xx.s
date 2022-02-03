@@ -51,6 +51,8 @@
 .global  g_pfnVectors
 .global  Default_Handler
 
+/* End address of u. area in kernel RAM. Defined in linker script. */
+.word  u_end
 /* start address for the initialization values of the .data section. 
 defined in linker script */
 .word  _sidata
@@ -78,6 +80,18 @@ defined in linker script */
   .type  Reset_Handler, %function
 Reset_Handler:  
   ldr   sp, =_estack     /* set stack pointer */
+
+/* Zero fill the data segment. */
+	ldr	r2, =_sdata
+	b	LoopFillZeroData
+FillZeroData:
+	movs	r3, #0
+	str	r3, [r2], #4
+
+LoopFillZeroData:
+	ldr	r3, =u_end
+	cmp	r2, r3
+	bcc	FillZeroData
 
 /* Copy the data segment initializers from flash to SRAM */  
   movs  r1, #0

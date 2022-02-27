@@ -20,6 +20,7 @@ ldscript        "f469idisco/STM32F469NIHX.ld" # Linker script
 options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=90000"             # Frequency of peripheral bus
 options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+options         "MAXMEM=112*1024"           # Max core per process allowed
 #options         "USE_FULL_LL_DRIVER=1"      # Use full low-level driver
 
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b

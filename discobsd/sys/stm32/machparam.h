@@ -69,7 +69,7 @@
 /* Bytes to disk blocks */
 #define btod(x)         (((x) + DEV_BSIZE-1) >> DEV_BSHIFT)
 
-/*
+/* XXX FLASH SRAM
  * On PIC32, there are total 512 kbytes of flash and 128 kbytes of RAM.
  * We reserve for kernel 192 kbytes of flash and 32 kbytes of RAM.
  */
@@ -161,22 +161,6 @@ void clkstart(void);
 void led_control(int mask, int on);
 
 /*
- * Port i/o access, relative to TRIS base.
- */
-#define TRIS_VAL(p)     (&p)[0]
-#define TRIS_CLR(p)     (&p)[1]
-#define TRIS_SET(p)     (&p)[2]
-#define TRIS_INV(p)     (&p)[3]
-#define PORT_VAL(p)     (&p)[4]
-#define PORT_CLR(p)     (&p)[5]
-#define PORT_SET(p)     (&p)[6]
-#define PORT_INV(p)     (&p)[7]
-#define LAT_VAL(p)      (&p)[8]
-#define LAT_CLR(p)      (&p)[9]
-#define LAT_SET(p)      (&p)[10]
-#define LAT_INV(p)      (&p)[11]
-
-/*
  * SD timeouts, for sysctl.
  */
 extern int sd_timo_cmd;
@@ -188,21 +172,6 @@ extern int sd_timo_wait_wdata;
 extern int sd_timo_wait_wdone;
 extern int sd_timo_wait_wstop;
 extern int sd_timo_wait_widle;
-
-/*
- * GPIO pins.
- */
-void gpio_set_input(int pin);
-void gpio_set_output(int pin);
-void gpio_set(int pin);
-void gpio_clr(int pin);
-int gpio_get(int pin);
-
-char gpio_portname(int pin);
-int gpio_pinno(int pin);
-
-/* Convert port name/signal into a pin number. */
-#define GPIO_PIN(x,n) (((x)-'A'+1) << 4 | (n))
 
 #endif /* KERNEL */
 

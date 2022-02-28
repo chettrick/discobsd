@@ -61,24 +61,6 @@
 #define DEBUG9(...) printf(__VA_ARGS__)
 #endif
 
-#endif
+#endif /* GLOBAL_DEBUG */
 
-#define SETVAL(X) \
-    TRISECLR = 0b0000000011111111; \
-    LATECLR =  0b0000000011111111; \
-    LATESET =  (X & 0xFF)
-/*
-    TRISFCLR = 0b0000000000110000; \
-    LATFCLR =  0b0000000000110000; \
-    TRISBCLR = 0b1111111000000000; \
-    LATBCLR =  0b1111111000000000; \
-    LATBCLR =  0b0000001000000000; \
-    LATFSET = ((X & 0x01) << 5) | ((X & 0x02) << 3); \
-    LATBSET = ((X & 0x04) << 13) | ((X & 0x08) << 11) | ((X & 0x10) << 9) | ((X & 0x20) << 7) | ((X & 0x40) << 5) | ((X & 0x80) << 3); \
-    LATBSET =  0b0000001000000000;
-*/
-
-#define LED_ON(X,Y) TRIS_CLR(X) = 1<<(Y); LAT_SET(X) = 1<<(Y);
-#define LED_OFF(X,Y) TRIS_CLR(X) = 1<<(Y); LAT_CLR(X) = 1<<(Y);
-
-#endif
+#endif /* _DEBUG_H */

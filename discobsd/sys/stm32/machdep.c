@@ -183,18 +183,8 @@ SystemClock_Config(void)
 static inline int
 button1_pressed()
 {
-#ifdef BUTTON1_PORT
-    int val;
-
-    TRIS_SET(BUTTON1_PORT) = 1 << BUTTON1_PIN;
-    val = PORT_VAL(BUTTON1_PORT);
-#ifdef BUTTON1_INVERT
-    val = ~val;
-#endif
-    return (val >> BUTTON1_PIN) & 1;
-#else
+// XXX BUTTON
     return 0;
-#endif
 }
 
 /*
@@ -318,13 +308,10 @@ startup()
 
     /* Kernel mode, interrupts disabled.  */
     mips_write_c0_register(C0_STATUS, 0, ST_CU0);
-    mips_ehb();
 
 #ifdef POWER_ENABLED
     power_init();
 #endif
-
-    //SETVAL(0);
 
     /* Initialize .data + .bss segments by zeroes. */
     bzero(&__data_start, KERNEL_DATA_SIZE - 96);
@@ -1023,59 +1010,4 @@ int copyin (caddr_t from, caddr_t to, u_int nbytes)
         return EFAULT;
     bcopy(from, to, nbytes);
     return 0;
-}
-
-/*
- * Routines for access to general purpose I/O pins.
- */
-static const char pin_name[16] = "?ABCDEFG????????";
-
-void gpio_set_input(int pin)
-{
-    struct gpioreg *port = (struct gpioreg*) &TRISA;
-
-    port += (pin >> 4 & 15) - 1;
-    port->trisset = (1 << (pin & 15));
-}
-
-void gpio_set_output(int pin)
-{
-    struct gpioreg *port = (struct gpioreg*) &TRISA;
-
-    port += (pin >> 4 & 15) - 1;
-    port->trisclr = (1 << (pin & 15));
-}
-
-void gpio_set(int pin)
-{
-    struct gpioreg *port = (struct gpioreg*) &TRISA;
-
-    port += (pin >> 4 & 15) - 1;
-    port->latset = (1 << (pin & 15));
-}
-
-void gpio_clr(int pin)
-{
-    struct gpioreg *port = (struct gpioreg*) &TRISA;
-
-    port += (pin >> 4 & 15) - 1;
-    port->latclr = (1 << (pin & 15));
-}
-
-int gpio_get(int pin)
-{
-    struct gpioreg *port = (struct gpioreg*) &TRISA;
-
-    port += (pin >> 4 & 15) - 1;
-    return ((port->port & (1 << (pin & 15))) ? 1 : 0);
-}
-
-char gpio_portname(int pin)
-{
-    return pin_name[(pin >> 4) & 15];
-}
-
-int gpio_pinno(int pin)
-{
-    return (ffs(pin) - 1);
 }

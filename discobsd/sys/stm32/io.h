@@ -24,45 +24,6 @@
 
 #include "machine/pic32mx.h"
 
-/*
- * Offsets of register values in saved context.
- */
-#define FRAME_R1        0
-#define FRAME_R2        1
-#define FRAME_R3        2
-#define FRAME_R4        3
-#define FRAME_R5        4
-#define FRAME_R6        5
-#define FRAME_R7        6
-#define FRAME_R8        7
-#define FRAME_R9        8
-#define FRAME_R10       9
-#define FRAME_R11       10
-#define FRAME_R12       11
-#define FRAME_R13       12
-#define FRAME_R14       13
-#define FRAME_R15       14
-#define FRAME_R16       15
-#define FRAME_R17       16
-#define FRAME_R18       17
-#define FRAME_R19       18
-#define FRAME_R20       19
-#define FRAME_R21       20
-#define FRAME_R22       21
-#define FRAME_R23       22
-#define FRAME_R24       23
-#define FRAME_R25       24
-#define FRAME_GP        25
-#define FRAME_SP        26
-#define FRAME_FP        27
-#define FRAME_RA        28
-#define FRAME_LO        29
-#define FRAME_HI        30
-#define FRAME_STATUS    31
-#define FRAME_PC        32
-
-#define FRAME_WORDS     33
-
 #ifndef __ASSEMBLER__
 
 #ifndef KERNEL
@@ -86,31 +47,6 @@ unsigned ustore (unsigned addr, unsigned value);
 unsigned ucall (int priority, void *address, int arg1, int arg2);
 
 #endif /* KERNEL */
-
-/*
- * Set value of stack pointer register.
- */
-static void inline __attribute__ ((always_inline))
-mips_set_stack_pointer (void *x)
-{
-// XXX    asm volatile (
-// XXX    "move   $sp, %0"
-// XXX    : : "r" (x) : "sp");
-}
-
-/*
- * Get value of stack pointer register.
- */
-static inline __attribute__ ((always_inline))
-void *mips_get_stack_pointer ()
-{
-    void *x;
-
-// XXX    asm volatile (
-// XXX    "move   %0, $sp"
-// XXX    : "=r" (x));
-    return x;
-}
 
 /*
  * Read C0 coprocessor register.
@@ -162,15 +98,6 @@ mips_intr_restore (int x)
 }
 
 /*
- * Explicit hazard barrier.
- */
-static void inline __attribute__ ((always_inline))
-mips_ehb()
-{
-// XXX    asm volatile ("ehb");
-}
-
-/*
  * Enable hardware interrupts.
  */
 static int inline __attribute__ ((always_inline))
@@ -181,31 +108,4 @@ mips_intr_enable ()
     return status;
 }
 
-/*
- * Count a number of leading (most significant) zero bits in a word.
- */
-static int inline __attribute__ ((always_inline))
-mips_clz (unsigned x)
-{
-    int n;
-
-// XXX    asm volatile ("clz  %0, %1"
-// XXX        : "=r" (n) : "r" (x));
-    return n;
-}
-
-/*
- * Swap bytes in a word: ABCD to DCBA.
- */
-static unsigned inline __attribute__ ((always_inline))
-mips_bswap (unsigned x)
-{
-    int n;
-
-// XXX    asm volatile (
-// XXX    "wsbh   %0, %1 \n"
-// XXX    "rotr   %0, 16"
-// XXX        : "=r" (n) : "r" (x));
-    return n;
-}
 #endif /* __ASSEMBLER__ */

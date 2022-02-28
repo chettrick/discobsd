@@ -517,8 +517,8 @@ uartprobe(config)
         return 0;
 
     printf("uart%d: pins tx=P%c%d/rx=P%c%d, af=%d", unit+1,
-        uart[unit].tx.port_name, gpio_pinno(uart[unit].tx.pin),
-        uart[unit].rx.port_name, gpio_pinno(uart[unit].rx.pin),
+        uart[unit].tx.port_name, ffs(uart[unit].tx.pin)-1,
+        uart[unit].rx.port_name, ffs(uart[unit].rx.pin)-1,
         uart[unit].af);
 
     if (is_console)

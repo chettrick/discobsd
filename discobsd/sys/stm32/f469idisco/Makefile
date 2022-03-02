@@ -99,7 +99,7 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o ${OBJS} ioconf.o
+SYSTEM_OBJ      = locore.o startup_stm32f407xx.o ${OBJS} ioconf.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
     SYSTEM_OBJ  += devcfg.o
 endif
@@ -147,7 +147,7 @@ sys:
 .deps:
 	mkdir .deps
 
-setjmp.o: ../setjmp.S
+locore.o: ../locore.S
 	${COMPILE_S}
 
 startup_stm32f407xx.o: ../startup_stm32f407xx.s

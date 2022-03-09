@@ -142,8 +142,8 @@ CFLAGS		+= -mips16
 endif # MACHINE_ARCH == mips
 ifeq ($(MACHINE_ARCH), arm)
 
-CC		= $(GCCPREFIX)gcc -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -I$(TOPSRC)/include $(INCLUDES)
-CXX             = $(GCCPREFIX)g++ -mcpu=cortex-m4 -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -I$(TOPSRC)/include $(INCLUDES)
+CC		= $(GCCPREFIX)gcc -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -I$(TOPSRC)/include $(INCLUDES)
+CXX		= $(GCCPREFIX)g++ -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -I$(TOPSRC)/include $(INCLUDES)
 OBJDUMP         = $(GCCPREFIX)objdump -marm -M force-thumb
 LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/src/elf32-arm.ld \
 		   $(TOPSRC)/src/crt0.o -L$(TOPSRC)/src

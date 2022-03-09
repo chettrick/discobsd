@@ -79,7 +79,7 @@ defined in linker script */
   .weak  Reset_Handler
   .type  Reset_Handler, %function
 Reset_Handler:  
-  ldr   sp, =_estack     /* set stack pointer */
+	ldr	sp, =_estack	/* Set Main Stack Pointer (MSP). */
 
 /* Zero fill the data segment. */
 	ldr	r2, =_sdata
@@ -128,8 +128,19 @@ LoopFillZerobss:
 /* Call the application's entry point.*/
   bl  main
 
-/* Switch from kernel mode to user mode. */
-  /* XXX switching code here XXX */
+/*
+ * Switch from kernel mode to user mode.
+ */
+
+	/* Switch SPSEL to Process Stack Pointer (PSP) for user space. */
+	ldr	r0, =0x2001C000	/* XXX USER_DATA_END machparam.h */
+	msr	PSP, r0		/* PSP is the user space stack pointer. */
+	mrs	r0, CONTROL
+	orrs	r0, r0, #0x2	/* CONTROL[1] -> 1 sets PSP as active. */
+	msr	CONTROL, r0	/* Set PSP as current stack pointer. */
+	isb			/* Just to be safe. */
+
+	/* XXX nPRIV -> 1 sets unprivileged Thread Mode for user space. */
 
 /* Enable interrupts. */
   /* XXX Enable interrupt code here XXX */

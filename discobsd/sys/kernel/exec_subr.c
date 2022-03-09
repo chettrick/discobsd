@@ -103,16 +103,21 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
     ucp = (char *)((unsigned)topp - roundup(epp->envbc + epp->argbc,NBPW)); /* arg string space */
     envp = (char **)(ucp - (epp->envc+1)*NBPW); /* Make place for envp[...], +1 for the 0 */
     argp = envp - (epp->argc+1)*NBPW;           /* Make place for argv[...] */
+
 #ifdef __mips__
     u.u_frame->tf_sp = (int)(argp-16);
     u.u_frame->tf_r4 = epp->argc;               /* $a0 := argc */
     u.u_frame->tf_r5 = (int)argp;               /* $a1 := argp */
     u.u_frame->tf_r6 = (int)envp;               /* $a2 := env */
 #elif __thumb2__
-    /* XXX FRAME */
+    u.u_frame->tf_sp = (int)(argp-0x20);        /* 0x20 for svc trap frame. */
+    u.u_frame->tf_r0 = epp->argc;               /* $a1 := argc */
+    u.u_frame->tf_r1 = (int)argp;               /* $a2 := argp */
+    u.u_frame->tf_r2 = (int)envp;               /* $a3 := envp */
 #else
 #error "set up top of stack for unknown architecture"
 #endif
+
     *topp = argp;                               /* for /bin/ps */
 
     /*
@@ -405,7 +410,9 @@ void exec_clear(struct exec_params *epp)
     u.u_frame->tf_hi  = 0;
     u.u_frame->tf_gp  = 0;
 #elif __thumb2__
-    /* XXX FRAME */
+    u.u_frame->tf_r3  = 0;              /* a4 */
+    u.u_frame->tf_ip  = 0;              /* sp, as passed as ip */
+    u.u_frame->tf_lr  = 0;              /* lr */
 #else
 #error "clear trap frame registers for unknown architecture"
 #endif

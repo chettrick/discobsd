@@ -6,6 +6,5 @@
 #include "SYS.h"
 
 ENTRY(_exit)
-#if 0 // XXX Arm ASM
-		syscall	SYS_exit
-#endif // XXX Arm ASM
+	svc	#SYS_exit
+END(_exit)

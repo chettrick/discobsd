@@ -120,10 +120,8 @@ icode1:
 	ldr	r1, =UBASE
 	adds	r0, sbininit - icode
 	adds	r1, argv - icode
-	ldr	r7, =11			/* SYS_execv */
-	swi	0x0			/* Make syscall. */
-	ldr	r7, =1			/* SYS_exit */
-	swi	0x0			/* Make syscall. */
+	svc	#11			/* Make SYS_execv syscall. */
+	svc	#1			/* Make SYS_exit syscall. */
 
 forever:				/* Catch runaway code. */
 	b	forever
@@ -149,3 +147,42 @@ argv:
 	.type	icodeend, %object
 icodeend:
 	.size	icode, . - icode
+
+/*
+ * SVC_Handler(frame)
+ *	struct trapframe *frame;
+ *
+ * Exception handler entry point for system calls (via 'svc' instruction).
+ * Save the processor state in a trap frame and pass it to syscall().
+ * Restore processor state from returned trap frame on return from syscall().
+ */
+	.text
+	.align	2
+	.thumb_func
+	.globl	SVC_Handler
+	.type	SVC_Handler, %function
+SVC_Handler:
+	/*
+	 * ARMv7-M hardware already pushed r0-r3, ip, lr, pc, psr on PSP,
+	 * and then switched to MSP and is currently in Handler Mode.
+	 */
+	mrs	r1, PSP			/* Get pointer to trap frame. */
+	ldmfd	r1, {r2-r9}		/* Copy trap frame from PSP. */
+	mov	r6, r1			/* Set trap frame sp as PSP. */
+	push	{r2-r9}			/* Push that trap frame onto MSP. */
+
+	mrs	r0, MSP			/* MSP trap frame is syscall() arg. */
+	bl	syscall			/* Call syscall() with MSP as arg. */
+
+	pop	{r2-r9}			/* Pop off trap frame from MSP. */
+	mrs	r1, PSP			/* Going to copy it on to PSP. */
+	stmia	r1, {r2-r9}		/* Hardware pops off PSP on return. */
+
+	/*
+	 * On return, ARMv7-M hardware sets PSP as stack pointer,
+	 * pops from PSP to registers r0-r3, ip, lr, pc, psr,
+	 * and then switches back to Thread Mode (exception completed).
+	 */
+	mov	lr, #0xFFFFFFFD		/* EXC_RETURN Thread Mode, PSP */
+	bx	lr			/* Return to Thread Mode. */
+	.size	SVC_Handler, . - SVC_Handler

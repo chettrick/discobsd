@@ -1,17 +1,28 @@
 /*
- * Copyright (c) 1987 Regents of the University of California.
- * All rights reserved.  The Berkeley software License Agreement
- * specifies the terms and conditions for redistribution.
+ * Copyright (c) 2022 Christopher Hettrick <chris@structfoo.com>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 #include "SYS.h"
 
 ENTRY(_brk)
-#if 0 // XXX Arm ASM
-		.set	noreorder
-		syscall	SYS_sbrk
-		lui	$t1, %hi(errno)		# return here on error
-		sw      $t0, %lo(errno)($t1)
-		.set	reorder
-
-		jr	$ra			# return here on success
-#endif // XXX Arm ASM
+	svc	#SYS_sbrk
+	bcs	1f			/* Error if carry set. */
+	bx	lr			/* Success return. */
+1:	ldr	r1, =errno
+	str	r0, [r1]
+	mov	r0, #0
+	mvn	r0, r0
+	bx	lr			/* Error return. */
+END(_brk)

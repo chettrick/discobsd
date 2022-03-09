@@ -17,28 +17,25 @@
 #ifndef _MACHINE_FRAME_H_
 #define _MACHINE_FRAME_H_
 
+#define	INSN_SZ		2	/* Thumb are 2 bytes; some are 4 bytes. */
+
+#define	PSR_C		(1UL << 29U)	/* Carry bit. */
+
 struct	trapframe {
-	u_int	tf_psr;
-	u_int	tf_r0;
-	u_int	tf_r1;
-	u_int	tf_r2;
-	u_int	tf_r3;
-	u_int	tf_r4;
-	u_int	tf_r5;
-	u_int	tf_r6;
-	u_int	tf_r7;
-	u_int	tf_r8;
-	u_int	tf_r9;
-	u_int	tf_r10;
-	u_int	tf_r11;
-	u_int	tf_r12;
-	u_int	tf_r13;
-	u_int	tf_r14;
-	u_int	tf_r15;
+/* The following 8 registers are pushed on stack by hardware in an SVCall. */
+	u_int	tf_r0;		/* Argument / Scratch Register 1 */
+	u_int	tf_r1;		/* Argument / Scratch Register 2 */
+	u_int	tf_r2;		/* Argument / Scratch Register 3 */
+	u_int	tf_r3;		/* Argument / Scratch Register 4 */
+	u_int	tf_ip;		/* Stack Pointer (as passed by IP) */
+	u_int	tf_lr;		/* Link Register */
+	u_int	tf_pc;		/* Program Counter */
+	u_int	tf_psr;		/* Program Status Register */
 };
 
-#define	tf_sp	tf_r13		/* Stack Pointer */
-#define	tf_lr	tf_r14		/* Link Register */
-#define	tf_pc	tf_r15		/* Program Counter */
+#define	tf_r12	tf_ip		/* Intra-Procedure-Call Scratch Register */
+#define	tf_sp	tf_ip		/* Stack Pointer (as passed by IP) */
+#define	tf_r14	tf_lr		/* Link Register */
+#define	tf_r15	tf_pc		/* Program Counter */
 
 #endif /* !_MACHINE_FRAME_H_ */

@@ -512,12 +512,12 @@ main(argc, argv)
 	int argc;
 	char **argv;
 {
-#if 0
+#if 1 // XXX init
         /* Trivial init: just start shell. */
         int fd = open(ctty, O_RDWR, 0);
         if (fd < 0)
                 return 0;
-	write(fd, "init: starting /bin/sh\n", 23);
+// XXX	write(fd, "init: starting /bin/sh\n", 23);
         if (fd > 0)
                 dup2(fd, 0);
         dup2(0, 1);

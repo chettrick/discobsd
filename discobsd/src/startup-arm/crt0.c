@@ -10,8 +10,8 @@
  * C runtime startoff.  When an a.out is loaded by the kernel, the kernel
  * sets up the stack as follows:
  *
- *	_________________________________
- *	| (NULL)			| top of memory
+ *	--------------------------------- top of memory
+ *	| (NULL)			| end of command-line args and env
  *	|-------------------------------|
  *	| 				|
  *	| environment strings		|
@@ -37,17 +37,14 @@
  *	|-------------------------------|
  *	| argv[0]			| pointer to first argument string
  *	|-------------------------------|
- *	|				| space for fourth argument
+ *	| &envv[0]			| pointer to array of env pointers
  *	|-------------------------------|
- *	|				| space for third argument
+ *	| &argv[0]			| pointer to array of arg pointers
  *	|-------------------------------|
- *	|				| space for second argument
- *	|-------------------------------|
- * sp->	| 				| space for first
+ * sp->	| argc				| number of command-line arguments
  *	---------------------------------
  *
- * Arguments are passed in registers $a0, $a1 and $a2.
- * Register $gp is set to the start of data section.
+ * Arguments are passed in registers $a1, $a2 and $a3.
  *
  * Crt0 simply moves the env to environ variable, calculates
  * the __progname and then calls main.
@@ -66,8 +63,6 @@ _start (argc, argv, env)
 	char **argv;
 	char **env;
 {
-// XXX        asm volatile ("la $gp, _gp");
-
 	environ = env;
 	if (argc > 0 && argv[0] != 0) {
 		const char *s;
@@ -77,5 +72,5 @@ _start (argc, argv, env)
 			if (*s == '/')
 				__progname = s + 1;
 	}
-	exit (main (argc, argv, env));
+	exit (main (argc, argv, environ));
 }

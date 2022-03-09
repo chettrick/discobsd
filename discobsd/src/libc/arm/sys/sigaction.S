@@ -4,6 +4,8 @@
  * specifies the terms and conditions for redistribution.
  */
 
+#include "SYS.h"
+
 /*
  * error = sigaction(sig, vec, ovec)
  *	int		error, sig;
@@ -17,20 +19,17 @@
  * really doesn't introduce much extra overhead, so our method for doing it on
  * a PDP-11 is alright too.
  */
-#include "SYS.h"
-
 ENTRY(sigaction)
-#if 0 // XXX Arm ASM
-                la      $a3, sigtramp           # arg4: address of sigtramp
-
-		.set	noreorder
-		syscall	SYS_sigaction
-		lui	$t1, %hi(errno)		# return here on error
-		sw      $t0, %lo(errno)($t1)
-		.set	reorder
-
-		jr	$ra			# return here on success
-#endif // XXX Arm ASM
+	ldr	r3, =sigtramp		/* arg4: address of sigtramp. */
+	svc	SYS_sigaction
+	bcs	1f			/* Error if carry set. */
+	bx	lr			/* Success return. */
+1:	ldr	r1, =errno
+	str	r0, [r1]
+	mov	r0, #0
+	mvn	r0, r0
+	bx	lr			/* Error return. */
+END(sigaction)
 
 /*
  * sigtramp - Signal "Trampoline Code"
@@ -56,11 +55,11 @@ ENTRY(sigaction)
  *	|-----------------------|
  *	| unused		|
  *	|-----------------------|
- *	| $a2: ptr to sigcontext|
+ *	| $a3: ptr to sigcontext|
  *	|-----------------------|
- *	| $a1: code		|
+ *	| $a2: code		|
  *	|-----------------------|
- *sp ->	| $a0: signal number	|
+ *sp ->	| $a1: signal number	|
  *	-------------------------
  *
  * The important features of this as far as sigtramp is concerned are:
@@ -75,7 +74,6 @@ ENTRY(sigaction)
  * sigcontext structure changes.
  */
 sigtramp:
-#if 0 // XXX Arm ASM
-                syscall	SYS_sigreturn		# attempt the sigreturn
-                syscall	SYS_exit		# die if the sigreturn fails ...
-#endif // XXX Arm ASM
+	svc	SYS_sigreturn		/* Attempt the sigreturn. */
+	svc	SYS_exit		/* Die if the sigreturn fails ... */
+END(sigtramp)

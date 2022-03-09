@@ -79,23 +79,14 @@ sendsig (p, sig, mask)
      */
     sfp->sf_sc.sc_onstack = oonstack;
     sfp->sf_sc.sc_mask = mask;
-    sfp->sf_sc.sc_psr = regs->tf_psr;
     sfp->sf_sc.sc_r0  = regs->tf_r0;
     sfp->sf_sc.sc_r1  = regs->tf_r1;
     sfp->sf_sc.sc_r2  = regs->tf_r2;
     sfp->sf_sc.sc_r3  = regs->tf_r3;
-    sfp->sf_sc.sc_r4  = regs->tf_r4;
-    sfp->sf_sc.sc_r5  = regs->tf_r5;
-    sfp->sf_sc.sc_r6  = regs->tf_r6;
-    sfp->sf_sc.sc_r7  = regs->tf_r7;
-    sfp->sf_sc.sc_r8  = regs->tf_r8;
-    sfp->sf_sc.sc_r9  = regs->tf_r9;
-    sfp->sf_sc.sc_r10 = regs->tf_r10;
-    sfp->sf_sc.sc_r11 = regs->tf_r11;
-    sfp->sf_sc.sc_r12 = regs->tf_r12;
     sfp->sf_sc.sc_sp  = regs->tf_sp;
     sfp->sf_sc.sc_lr  = regs->tf_lr;
     sfp->sf_sc.sc_pc  = regs->tf_pc;
+    sfp->sf_sc.sc_psr = regs->tf_psr;
 
 #if 0 // XXX FRAME
     /* Call signal handler */
@@ -147,23 +138,14 @@ sigreturn()
     u.u_procp->p_sigmask = scp->sc_mask & ~sigcantmask;
 
     /* Return from signal handler */
-    regs->tf_psr = scp->sc_psr;
     regs->tf_r0  = scp->sc_r0;
     regs->tf_r1  = scp->sc_r1;
     regs->tf_r2  = scp->sc_r2;
     regs->tf_r3  = scp->sc_r3;
-    regs->tf_r4  = scp->sc_r4;
-    regs->tf_r5  = scp->sc_r5;
-    regs->tf_r6  = scp->sc_r6;
-    regs->tf_r7  = scp->sc_r7;
-    regs->tf_r8  = scp->sc_r8;
-    regs->tf_r9  = scp->sc_r9;
-    regs->tf_r10 = scp->sc_r10;
-    regs->tf_r11 = scp->sc_r11;
-    regs->tf_r12 = scp->sc_r12;
     regs->tf_sp  = scp->sc_sp;
     regs->tf_lr  = scp->sc_lr;
     regs->tf_pc  = scp->sc_pc;
+    regs->tf_psr = scp->sc_psr;
 #ifdef DIAGNOSTIC
     printf("    ...to %#x, stack %#x\n", regs->tf_pc, regs->tf_sp);
 #endif

@@ -121,6 +121,7 @@ void UsageFault_Handler(void)
   }
 }
 
+#if 0 // XXX
 /**
   * @brief  This function handles SVCall exception.
   * @param  None
@@ -129,6 +130,7 @@ void UsageFault_Handler(void)
 void SVC_Handler(void)
 {
 }
+#endif // XXX
 
 /**
   * @brief  This function handles Debug Monitor exception.

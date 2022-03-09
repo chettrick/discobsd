@@ -63,6 +63,7 @@ stm32/machdep.c                 standard
 stm32/mem.c                     standard
 stm32/signal.c                  standard
 stm32/swap.c                    standard
+stm32/syscall.c                 standard
 stm32/sysctl.c                  standard
 stm32/system_stm32f4xx.c        standard
 stm32/stm32f4xx_it.c            standard

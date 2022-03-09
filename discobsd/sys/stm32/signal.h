@@ -27,27 +27,19 @@
 struct	sigcontext {
 	int	sc_onstack;	/* sigstack state to restore */
 	long	sc_mask;	/* signal mask to restore */
-	u_int	sc_psr;
 	u_int	sc_r0;
 	u_int	sc_r1;
 	u_int	sc_r2;
 	u_int	sc_r3;
-	u_int	sc_r4;
-	u_int	sc_r5;
-	u_int	sc_r6;
-	u_int	sc_r7;
-	u_int	sc_r8;
-	u_int	sc_r9;
-	u_int	sc_r10;
-	u_int	sc_r11;
-	u_int	sc_r12;
-	u_int	sc_r13;
-	u_int	sc_r14;
-	u_int	sc_r15;
+	u_int	sc_ip;
+	u_int	sc_lr;
+	u_int	sc_pc;
+	u_int	sc_psr;
 };
 
-#define	sc_sp	sc_r13		/* Stack Pointer */
-#define	sc_lr	sc_r14		/* Link Register */
-#define	sc_pc	sc_r15		/* Program Counter */
+#define	sc_r12	sc_ip		/* Intra-Procedure-Call Scratch Register */
+#define	sc_sp	sc_ip		/* Stack Pointer (as passed by IP) */
+#define	sc_r14	sc_lr		/* Link Register */
+#define	sc_r15	sc_pc		/* Program Counter */
 
 #endif /* !_MACHINE_SIGNAL_H_ */

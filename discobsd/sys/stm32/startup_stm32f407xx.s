@@ -135,6 +135,7 @@ LoopFillZerobss:
 	/* Switch SPSEL to Process Stack Pointer (PSP) for user space. */
 	ldr	r0, =0x2001C000	/* XXX USER_DATA_END machparam.h */
 	msr	PSP, r0		/* PSP is the user space stack pointer. */
+	isb			/* Just to be safe. */
 	mrs	r0, CONTROL
 	orrs	r0, r0, #0x2	/* CONTROL[1] -> 1 sets PSP as active. */
 	msr	CONTROL, r0	/* Set PSP as current stack pointer. */

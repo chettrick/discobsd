@@ -1189,13 +1189,13 @@ unsigned getexpr (s)
                 uerror ("too complex expression");
             rez ^= ~intval;
             break;
-        case LLSHIFT:           /* сдвиг влево */
+        case LLSHIFT:           /* left shift */
             s2 = getterm ();
             if (*s != SABS || s2 != SABS)
                 uerror ("too complex expression");
             rez <<= intval & 037;
             break;
-        case LRSHIFT:           /* сдвиг вправо */
+        case LRSHIFT:           /* right shift */
             s2 = getterm ();
             if (*s != SABS || s2 != SABS)
                 uerror ("too complex expression");

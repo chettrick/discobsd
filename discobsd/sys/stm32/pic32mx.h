@@ -64,7 +64,7 @@
 #define ST_IE           0x00000001      /* Interrupt enable */
 
 /*
- * Сause register.
+ * Cause register.
  */
 #define CA_BD           0x80000000      /* Exception occured in delay slot */
 #define CA_TI           0x40000000      /* Timer interrupt is pending */

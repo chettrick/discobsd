@@ -14,7 +14,7 @@
  * the microcontroller family which will be used.
  *
  * The software supplied herewith by Microchip Technology Incorporated
- * (the 'Company') for its PICmicro� Microcontroller is intended and
+ * (the 'Company') for its PICmicro(R) Microcontroller is intended and
  * supplied to you, the Company's customer, for use solely and
  * exclusively on Microchip PICmicro Microcontroller products. The
  * software is owned by the Company and/or its supplier, and is
@@ -126,7 +126,7 @@ static inline void *ConvertToPhysicalAddress (volatile void *addr)
             // kseg2 or kseg3 - no mapping
             phys = virt;
         } else {
-            // kseg0 или kseg1, cut bits A[31:29]
+            // kseg0 or kseg1, cut bits A[31:29]
             phys = virt & 0x1fffffff;
         }
     } else {

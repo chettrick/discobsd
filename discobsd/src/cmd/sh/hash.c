@@ -44,7 +44,7 @@ hcreate()
 		table[j] = (struct node *)NIL;
 	}
 
-	bitsper = 0;    /* число битов в байте */
+	bitsper = 0;    /* Number of bits in a byte */
 #ifdef NOTDEF
 	while (c)
 	{

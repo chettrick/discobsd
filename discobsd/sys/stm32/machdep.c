@@ -401,7 +401,6 @@ startup()
     uartinit(CONS_MINOR);
 #endif
 
-#if 0 // XXX
     /*
      * When button 1 is pressed - boot to single user mode.
      */
@@ -409,7 +408,6 @@ startup()
     if (button1_pressed()) {
         boothowto |= RB_SINGLE;
     }
-#endif // XXX
 }
 
 static void
@@ -601,42 +599,15 @@ boot(dev, howto)
             (*dump)(dumpdev);
         }
         /* Restart from dev, howto */
-        /* Unlock access to reset register */
-        SYSKEY = 0;
-        SYSKEY = 0xaa996655;
-        SYSKEY = 0x556699aa;
-
-        /* Reset microcontroller */
-        RSWRSTSET = 1;
-        (void) RSWRST;
+        /* XXX Reset microcontroller */
     }
     printf("halted\n");
-
-    if (howto & RB_BOOTLOADER) {
-        printf("entering bootloader\n");
-        BLRKEY = 0x12345678;
-        /* Unlock access to reset register */
-        SYSKEY = 0;
-        SYSKEY = 0xaa996655;
-        SYSKEY = 0x556699aa;
-
-        /* Reset microcontroller */
-        RSWRSTSET = 1;
-        (void) RSWRST;
-    }
 
 #ifdef HALTREBOOT
     printf("press any key to reboot...");
     cngetc();
 
-    /* Unlock access to reset register */
-    SYSKEY = 0;
-    SYSKEY = 0xaa996655;
-    SYSKEY = 0x556699aa;
-
-    /* Reset microcontroller */
-    RSWRSTSET = 1;
-    (void) RSWRST;
+    /* XXX Reset microcontroller */
 #endif
 
     for (;;) {

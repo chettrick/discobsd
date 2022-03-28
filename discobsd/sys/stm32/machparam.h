@@ -116,14 +116,13 @@
 #endif
 
 #ifdef KERNEL
-#include "machine/io.h"
 #include <machine/intr.h>
 
 /*
  * Macros to decode processor status word.
  */
-#define USERMODE(ps)    (((ps) & ST_UM) != 0)
-#define BASEPRI(ps)     (CA_RIPL(ps) == 0)
+#define USERMODE(ps)    (0UL) /* XXX USERMODE */
+#define BASEPRI(ps)     (0UL) /* XXX USERMODE */
 
 #define noop()          asm volatile("nop")
 

@@ -58,7 +58,6 @@ kernel/vm_swp.c                 standard
 stm32/clock.c                   standard
 stm32/cons.c                    standard
 stm32/devsw.c                   standard
-stm32/exception.c               standard
 stm32/machdep.c                 standard
 stm32/mem.c                     standard
 stm32/signal.c                  standard

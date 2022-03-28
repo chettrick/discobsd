@@ -277,6 +277,12 @@ ustore()
     *(unsigned*) addr = uap->value;
 }
 
+void
+sc_msec()
+{
+    u.u_rval = 0; // XXX Not implemented
+}
+
 /*
  * This was moved here when the TMSCP portion was added.  At that time it
  * became (even more) system specific and didn't belong in kern_sysctl.c

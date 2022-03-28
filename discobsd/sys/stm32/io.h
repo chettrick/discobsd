@@ -22,8 +22,6 @@
  * this software.
  */
 
-#include "machine/pic32mx.h"
-
 #ifndef __ASSEMBLER__
 
 #ifndef KERNEL
@@ -47,65 +45,5 @@ unsigned ustore (unsigned addr, unsigned value);
 unsigned ucall (int priority, void *address, int arg1, int arg2);
 
 #endif /* KERNEL */
-
-/*
- * Read C0 coprocessor register.
- */
-#define mips_read_c0_register(reg,sel) \
-(0)
-/* XXX
-    ({  int __value; \
-        asm volatile ( \
-        "mfc0   %0, $%1, %2" \
-        : "=r" (__value) : "K" (reg), "K" (sel)); \
-        __value; \
-    })
-XXX */
-
-/*
- * Write C0 coprocessor register.
- */
-#define mips_write_c0_register(reg, sel, value) \
-(0)
-/* XXX
-    do { \
-        asm volatile ( \
-        "mtc0   %z0, $%1, %2 \n ehb" \
-        : : "r" ((unsigned int) (value)), "K" (reg), "K" (sel)); \
-    } while (0)
-XXX */
-
-/*
- * Disable the hardware interrupts,
- * saving the interrupt state into the supplied variable.
- */
-static int inline __attribute__ ((always_inline))
-mips_intr_disable ()
-{
-    int status;
-// XXX    asm volatile ("di   %0" : "=r" (status));
-    return status;
-}
-
-/*
- * Restore the hardware interrupt mode using the saved interrupt state.
- */
-static void inline __attribute__ ((always_inline))
-mips_intr_restore (int x)
-{
-    /* C0_STATUS */
-    mips_write_c0_register (12, 0, x);
-}
-
-/*
- * Enable hardware interrupts.
- */
-static int inline __attribute__ ((always_inline))
-mips_intr_enable ()
-{
-    int status;
-// XXX    asm volatile ("ei   %0" : "=r" (status));
-    return status;
-}
 
 #endif /* __ASSEMBLER__ */

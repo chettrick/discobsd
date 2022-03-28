@@ -55,7 +55,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
-	exception.o machdep.o mem.o signal.o swap.o syscall.o sysctl.o \
+	machdep.o mem.o signal.o swap.o syscall.o sysctl.o \
 	system_stm32f4xx.o stm32f4xx_it.o stm32f4xx_hal.o \
 	stm32f4xx_hal_cortex.o stm32f4xx_ll_rcc.o stm32f4xx_ll_utils.o \
 	sd.o sdio_card.o stm32f4xx_hal_sd.o stm32f4xx_ll_sdmmc.o sdio.o \
@@ -83,9 +83,9 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/kernel/ufs_syscalls.c $S/kernel/ufs_syscalls2.c \
 	$S/kernel/vfs_vnops.c $S/kernel/vm_sched.c $S/kernel/vm_swap.c \
 	$S/kernel/vm_swp.c $S/stm32/clock.c $S/stm32/cons.c \
-	$S/stm32/devsw.c $S/stm32/exception.c $S/stm32/machdep.c \
-	$S/stm32/mem.c $S/stm32/signal.c $S/stm32/swap.c \
-	$S/stm32/syscall.c $S/stm32/sysctl.c $S/stm32/system_stm32f4xx.c \
+	$S/stm32/devsw.c $S/stm32/machdep.c $S/stm32/mem.c \
+	$S/stm32/signal.c $S/stm32/swap.c $S/stm32/syscall.c \
+	$S/stm32/sysctl.c $S/stm32/system_stm32f4xx.c \
 	$S/stm32/stm32f4xx_it.c $S/stm32/stm32f4xx_hal.c \
 	$S/stm32/stm32f4xx_hal_cortex.c $S/stm32/stm32f4xx_ll_rcc.c \
 	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c $S/stm32/sdio_card.c \
@@ -307,9 +307,6 @@ cons.o: $S/stm32/cons.c
 	${COMPILE_C}
 
 devsw.o: $S/stm32/devsw.c
-	${COMPILE_C}
-
-exception.o: $S/stm32/exception.c
 	${COMPILE_C}
 
 machdep.o: $S/stm32/machdep.c

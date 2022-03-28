@@ -31,11 +31,6 @@
 #include <machine/stm32f4xx_hal.h>
 #include <machine/stm32469i_discovery.h>
 
-#ifdef POWER_ENABLED
-extern void power_init();
-extern void power_off();
-#endif
-
 #define LED_TTY_ON()        BSP_LED_On(LED_GREEN)
 #define LED_TTY_OFF()       BSP_LED_Off(LED_GREEN)
 #define LED_SWAP_ON()       BSP_LED_On(LED_ORANGE)
@@ -214,185 +209,6 @@ startup()
     LED_SWAP_OFF();
     LED_DISK_OFF();
     LED_KERNEL_OFF();
-
-#if 0 // XXX
-    extern void _etext(), _exception_base_();
-    extern unsigned __data_start;
-
-    /* Initialize STATUS register: master interrupt disable.
-     * Setup interrupt vector base. */
-    mips_write_c0_register(C0_STATUS, 0, ST_CU0 | ST_BEV);
-    mips_write_c0_register(C0_EBASE, 1, _exception_base_);
-    mips_write_c0_register(C0_STATUS, 0, ST_CU0);
-
-    /* Set vector spacing: not used really, but must be nonzero. */
-    mips_write_c0_register(C0_INTCTL, 1, 32);
-
-    /* Clear CAUSE register: use special interrupt vector 0x200. */
-    mips_write_c0_register(C0_CAUSE, 0, CA_IV);
-
-    /* Setup memory. */
-    BMXPUPBA = 512 << 10;               /* Kernel Flash memory size */
-#ifdef KERNEL_EXECUTABLE_RAM
-    /*
-     * Set boundry for kernel executable ram on smallest
-     * 2k boundry required to allow the keram segment to fit.
-     * This means that there is possibly some u0area ramspace that
-     * is executable, but as it is isolated from userspace this
-     * should be ok, given the apparent goals of this project.
-     */
-    extern void _keram_start(), _keram_end();
-    unsigned keram_size = (((char*)&_keram_end-(char*)&_keram_start+(2<<10))/(2<<10)*(2<<10));
-    BMXDKPBA = ((32<<10)-keram_size);   /* Kernel RAM size */
-    BMXDUDBA = BMXDKPBA+(keram_size);   /* Executable RAM in kernel */
-#else
-    BMXDKPBA = 32 << 10;                /* Kernel RAM size */
-    BMXDUDBA = BMXDKPBA;                /* Zero executable RAM in kernel */
-#endif
-    BMXDUPBA = BMXDUDBA;                /* All user RAM is executable */
-
-    /*
-     * Setup interrupt controller.
-     */
-    INTCON = 0;                         /* Interrupt Control */
-    IPTMR = 0;                          /* Temporal Proximity Timer */
-
-    /* Interrupt Flag Status */
-    IFS(0) = PIC32_IPC_IP0(2) | PIC32_IPC_IP1(1) |
-             PIC32_IPC_IP2(1) | PIC32_IPC_IP3(1) |
-             PIC32_IPC_IS0(0) | PIC32_IPC_IS1(0) |
-             PIC32_IPC_IS2(0) | PIC32_IPC_IS3(0) ;
-    IFS(1) = 0;
-    IFS(2) = 0;
-
-    /* Interrupt Enable Control */
-    IEC(0) = 0;
-    IEC(1) = 0;
-    IEC(2) = 0;
-
-    /* Interrupt Priority Control */
-    unsigned ipc = PIC32_IPC_IP0(1) | PIC32_IPC_IP1(1) |
-                   PIC32_IPC_IP2(1) | PIC32_IPC_IP3(1) |
-                   PIC32_IPC_IS0(0) | PIC32_IPC_IS1(0) |
-                   PIC32_IPC_IS2(0) | PIC32_IPC_IS3(0) ;
-    IPC(0) = ipc;
-    IPC(1) = ipc;
-    IPC(2) = ipc;
-    IPC(3) = ipc;
-    IPC(4) = ipc;
-    IPC(5) = ipc;
-    IPC(6) = ipc;
-    IPC(7) = ipc;
-    IPC(8) = ipc;
-    IPC(9) = ipc;
-    IPC(10) = ipc;
-    IPC(11) = ipc;
-    IPC(12) = ipc;
-
-    /*
-     * Setup wait states.
-     */
-    CHECON = 2;
-    BMXCONCLR = 0x40;
-    CHECONSET = 0x30;
-
-    /* Disable JTAG port, to use it for i/o. */
-    DDPCON = 0;
-
-    /* Use all B ports as digital. */
-    AD1PCFG = ~0;
-
-    /* Config register: enable kseg0 caching. */
-    mips_write_c0_register(C0_CONFIG, 0,
-    mips_read_c0_register(C0_CONFIG, 0) | 3);
-
-    /* Kernel mode, interrupts disabled.  */
-    mips_write_c0_register(C0_STATUS, 0, ST_CU0);
-
-#ifdef POWER_ENABLED
-    power_init();
-#endif
-
-    /* Initialize .data + .bss segments by zeroes. */
-    bzero(&__data_start, KERNEL_DATA_SIZE - 96);
-
-#if __MPLABX__
-    /* Microchip C32 compiler generates a .dinit table with
-     * initialization values for .data segment. */
-    extern const unsigned _dinit_addr[];
-    unsigned const *dinit = &_dinit_addr[0];
-    for (;;) {
-        char *dst = (char*) (*dinit++);
-        if (dst == 0)
-            break;
-
-        unsigned nbytes = *dinit++;
-        unsigned fmt = *dinit++;
-        if (fmt == 0) {                 /* Clear */
-            do {
-                *dst++ = 0;
-            } while (--nbytes > 0);
-        } else {                        /* Copy */
-            char *src = (char*) dinit;
-            do {
-                *dst++ = *src++;
-            } while (--nbytes > 0);
-            dinit = (unsigned*) ((unsigned) (src + 3) & ~3);
-        }
-    }
-#else
-    /* Copy the .data image from flash to ram.
-     * Linker places it at the end of .text segment. */
-    extern unsigned _edata;
-    unsigned *src = (unsigned*) &_etext;
-    unsigned *dest = &__data_start;
-    unsigned *limit = &_edata;
-    while (dest < limit) {
-        /*printf("copy %08x from (%08x) to (%08x)\n", *src, src, dest);*/
-        *dest++ = *src++;
-    }
-
-#ifdef KERNEL_EXECUTABLE_RAM
-    /* Copy code that must run out of ram (due to timing restrictions)
-     * from flash to the executable section of kernel ram.
-     * This was added to support swap on sdram */
-
-    extern void _ramfunc_image_begin();
-    extern void _ramfunc_begin();
-    extern void _ramfunc_end();
-
-    unsigned *src1 = (unsigned*) &_ramfunc_image_begin;
-    unsigned *dest1 = (unsigned*)&_ramfunc_begin;
-    unsigned *limit1 = (unsigned*)&_ramfunc_end;
-    /*printf("copy from (%08x) to (%08x)\n", src1, dest1);*/
-    while (dest1 < limit1) {
-        *dest1++ = *src1++;
-    }
-#endif
-#endif /* __MPLABX__ */
-
-    /*
-     * Setup peripheral bus clock divisor.
-     */
-    unsigned osccon = OSCCON & ~PIC32_OSCCON_PBDIV_MASK;
-#if BUS_DIV == 1
-    osccon |= PIC32_OSCCON_PBDIV_1;
-#elif BUS_DIV == 2
-    osccon |= PIC32_OSCCON_PBDIV_2;
-#elif BUS_DIV == 4
-    osccon |= PIC32_OSCCON_PBDIV_4;
-#elif BUS_DIV == 8
-    osccon |= PIC32_OSCCON_PBDIV_8;
-#else
-#error Incorrect BUS_DIV value!
-#endif
-    /* Unlock access to OSCCON register */
-    SYSKEY = 0;
-    SYSKEY = 0xaa996655;
-    SYSKEY = 0x556699aa;
-
-    OSCCON = osccon;
-#endif // XXX
 
     /*
      * Early setup for console devices.
@@ -611,10 +427,6 @@ boot(dev, howto)
 #endif
 
     for (;;) {
-#ifdef POWER_ENABLED
-        if (howto & RB_POWEROFF)
-            power_off();
-#endif
 // XXX        asm volatile ("wait");
     }
     /*NOTREACHED*/
@@ -630,16 +442,6 @@ void
 udelay(usec)
     u_int usec;
 {
-    unsigned now = mips_read_c0_register(C0_COUNT, 0);
-    unsigned final = now + usec * (CPU_KHZ / 1000) / 2;
-
-    for (;;) {
-        now = mips_read_c0_register(C0_COUNT, 0);
-
-        /* This comparison is valid only when using a signed type. */
-        if ((int) (now - final) >= 0)
-            break;
-    }
 }
 
 /*

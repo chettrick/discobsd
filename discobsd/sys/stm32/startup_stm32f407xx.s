@@ -136,15 +136,16 @@ LoopFillZerobss:
 	ldr	r0, =0x2001C000	/* XXX USER_DATA_END machparam.h */
 	msr	PSP, r0		/* PSP is the user space stack pointer. */
 	isb			/* Just to be safe. */
+
+	/* nPRIV -> 1 sets unprivileged Thread Mode for user space. */
 	mrs	r0, CONTROL
+	orrs	r0, r0, #0x1	/* CONTROL[0] -> 1 sets unprivileged level. */
 	orrs	r0, r0, #0x2	/* CONTROL[1] -> 1 sets PSP as active. */
-	msr	CONTROL, r0	/* Set PSP as current stack pointer. */
+
+	cpsie	i		/* Enable interrupts. */
+
+	msr	CONTROL, r0	/* PSP is current sp; unprivileged level. */
 	isb			/* Just to be safe. */
-
-	/* XXX nPRIV -> 1 sets unprivileged Thread Mode for user space. */
-
-/* Enable interrupts. */
-  /* XXX Enable interrupt code here XXX */
 
 /* Run icode() in user space. */
   ldr  lr, =0x20000000 + 1  /* XXX Thumb2 requires lsbit set. */

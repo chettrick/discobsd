@@ -117,21 +117,13 @@
 
 #ifdef KERNEL
 #include "machine/io.h"
+#include <machine/intr.h>
 
 /*
  * Macros to decode processor status word.
  */
 #define USERMODE(ps)    (((ps) & ST_UM) != 0)
 #define BASEPRI(ps)     (CA_RIPL(ps) == 0)
-
-#define splbio()        mips_intr_disable()
-#define spltty()        mips_intr_disable()
-#define splclock()      mips_intr_disable()
-#define splhigh()       mips_intr_disable()
-#define splnet()        mips_intr_enable()
-#define splsoftclock()  mips_intr_enable()
-#define spl0()          mips_intr_enable()
-#define splx(s)         mips_intr_restore(s)
 
 #define noop()          asm volatile("nop")
 

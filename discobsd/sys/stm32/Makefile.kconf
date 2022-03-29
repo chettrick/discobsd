@@ -6,8 +6,7 @@
 include ../gcc-config.mk
 
 AS              = ${ARM_GCC_PREFIX}as ${DEBUG} -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -ffreestanding
-# CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdinc -fno-builtin -Wall
-CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -nostdlib -fno-builtin -Wall -Wno-unused-value -Wno-uninitialized -ffreestanding
+CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -ffreestanding -fno-builtin -nostdlib -Wall
 CPP             = ${ARM_GCC_PREFIX}cpp
 LD              = ${ARM_GCC_PREFIX}gcc -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16
 LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$(basename $@).map

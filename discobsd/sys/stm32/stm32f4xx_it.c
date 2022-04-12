@@ -38,6 +38,13 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include <sys/param.h>
+#include <sys/user.h>
+#include <sys/conf.h>
+#include <sys/tty.h>
+
+#include <machine/uart.h>
+
 #include "stm32f4xx_it.h"
 
 /** @addtogroup STM32F4xx_LL_Examples
@@ -166,6 +173,16 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f4xx.s).                                               */
 /******************************************************************************/
+
+void USART3_IRQHandler(void)
+{
+  uartintr(makedev(UART_MAJOR, 2)); /* USART3, console */
+}
+
+void USART6_IRQHandler(void)
+{
+  uartintr(makedev(UART_MAJOR, 5)); /* USART6 */
+}
 
 /**
   * @}

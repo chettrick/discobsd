@@ -5,6 +5,7 @@
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
  */
+
 #include <sys/param.h>
 #include <sys/conf.h>
 #include <sys/user.h>
@@ -12,6 +13,7 @@
 #include <sys/tty.h>
 #include <sys/systm.h>
 #include <sys/kconfig.h>
+
 #include <machine/uart.h>
 #include <machine/stm32f4xx_ll_bus.h>
 #include <machine/stm32f4xx_ll_gpio.h>
@@ -194,7 +196,8 @@ uartinit(int unit)
     LL_USART_Enable(inst);
 }
 
-int uartopen(dev_t dev, int flag, int mode)
+int
+uartopen(dev_t dev, int flag, int mode)
 {
 #if 0 // XXX UART
     register struct uartreg *reg;
@@ -246,7 +249,7 @@ int uartopen(dev_t dev, int flag, int mode)
 
 /*ARGSUSED*/
 int
-uartclose (dev_t dev, int flag, int mode)
+uartclose(dev_t dev, int flag, int mode)
 {
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
@@ -261,10 +264,7 @@ uartclose (dev_t dev, int flag, int mode)
 
 /*ARGSUSED*/
 int
-uartread (dev, uio, flag)
-    dev_t dev;
-    struct uio *uio;
-    int flag;
+uartread(dev_t dev, struct uio *uio, int flag)
 {
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
@@ -277,10 +277,7 @@ uartread (dev, uio, flag)
 
 /*ARGSUSED*/
 int
-uartwrite (dev, uio, flag)
-    dev_t dev;
-    struct uio *uio;
-    int flag;
+uartwrite(dev_t dev, struct uio *uio, int flag)
 {
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
@@ -292,9 +289,7 @@ uartwrite (dev, uio, flag)
 }
 
 int
-uartselect (dev, rw)
-    register dev_t dev;
-    int rw;
+uartselect(dev_t dev, int rw)
 {
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
@@ -307,11 +302,7 @@ uartselect (dev, rw)
 
 /*ARGSUSED*/
 int
-uartioctl (dev, cmd, addr, flag)
-    dev_t dev;
-    register u_int cmd;
-    caddr_t addr;
-    int flag;
+uartioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
 {
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
@@ -327,8 +318,7 @@ uartioctl (dev, cmd, addr, flag)
 }
 
 void
-uartintr (dev)
-    dev_t dev;
+uartintr(dev_t dev)
 {
 #if 0 // XXX UART
     register int c;
@@ -361,7 +351,7 @@ uartintr (dev)
 
     /* Transmit */
     if (reg->sta & PIC32_USTA_TRMT) {
-        led_control (LED_TTY, 0);
+        led_control(LED_TTY, 0);
 
         if (uirq[unit].tx < 32) {
             IECCLR(0) = 1 << uirq[unit].tx;
@@ -382,7 +372,8 @@ uartintr (dev)
 #endif // XXX
 }
 
-void uartstart (register struct tty *tp)
+void
+uartstart(struct tty *tp)
 {
     register int s;
 #if 0 // XXX UART
@@ -396,9 +387,9 @@ void uartstart (register struct tty *tp)
 
     s = spltty();
     if (tp->t_state & (TS_TIMEOUT | TS_BUSY | TS_TTSTOP)) {
-out:    /* Disable transmit_interrupt. */
-        led_control (LED_TTY, 0);
-        splx (s);
+out:    /* Disable transmit interrupt. */
+        led_control(LED_TTY, 0);
+        splx(s);
         return;
     }
     ttyowake(tp);
@@ -421,8 +412,8 @@ out:    /* Disable transmit_interrupt. */
         IECSET(2) = 1 << (uirq[unit].tx - 64);
     }
 #endif // XXX
-    led_control (LED_TTY, 1);
-    splx (s);
+    led_control(LED_TTY, 1);
+    splx(s);
 }
 
 void
@@ -445,10 +436,10 @@ again:
             break;
 
     if (tp->t_state & TS_BUSY) {
-        uartintr (dev);
+        uartintr(dev);
         goto again;
     }
-    led_control (LED_TTY, 1);
+    led_control(LED_TTY, 1);
     LL_USART_ClearFlag_TC(inst);
     LL_USART_TransmitData8(inst, c);
 
@@ -471,7 +462,8 @@ again:
     splx(s);
 }
 
-char uartgetc(dev_t dev)
+char
+uartgetc(dev_t dev)
 {
 #if 0 // XXX UART
     int unit = minor(dev);
@@ -506,8 +498,7 @@ char uartgetc(dev_t dev)
  * Return true if found and initialized ok.
  */
 static int
-uartprobe(config)
-    struct conf_device *config;
+uartprobe(struct conf_device *config)
 {
     int unit = config->dev_unit - 1;
     int is_console = (CONS_MAJOR == UART_MAJOR &&

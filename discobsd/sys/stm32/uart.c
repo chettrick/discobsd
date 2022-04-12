@@ -143,6 +143,10 @@ uartinit(int unit)
         break;
     case 2:     /* UART3 */
 #ifdef STM32F469xx
+        /* NVIC Configuration for USART3 interrupts */
+        NVIC_SetPriority(USART3_IRQn, 0);       // XXX USARTx_IRQn
+        NVIC_EnableIRQ(USART3_IRQn);            // XXX USARTx_IRQn
+
         /* USART3: AHB1/APB1, 45 MHz, AF7, TX on PB.10, RX on PB.11 */
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3);
@@ -155,6 +159,10 @@ uartinit(int unit)
         break;
     case 5:     /* UART6 */
 #ifdef STM32F469xx
+        /* NVIC Configuration for USART6 interrupts */
+        NVIC_SetPriority(USART6_IRQn, 0);       // XXX USARTx_IRQn
+        NVIC_EnableIRQ(USART6_IRQn);            // XXX USARTx_IRQn
+
         /* USART6: AHB1/APB2, 90 MHz, AF8, TX on PC.06, RX on PC.07 */
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART6);
@@ -199,9 +207,7 @@ uartinit(int unit)
 int
 uartopen(dev_t dev, int flag, int mode)
 {
-#if 0 // XXX UART
-    register struct uartreg *reg;
-#endif // XXX UART
+    register struct uart_inst *uip;
     register struct tty *tp;
     register int unit = minor(dev);
 
@@ -212,9 +218,7 @@ uartopen(dev_t dev, int flag, int mode)
     if (! tp->t_addr)
         return (ENXIO);
 
-#if 0 // XXX UART
-    reg = (struct uartreg*) tp->t_addr;
-#endif // XXX UART
+    uip = (struct uart_inst *)tp->t_addr;
     tp->t_oproc = uartstart;
     if ((tp->t_state & TS_ISOPEN) == 0) {
         if (tp->t_ispeed == 0) {
@@ -228,22 +232,21 @@ uartopen(dev_t dev, int flag, int mode)
     if ((tp->t_state & TS_XCLUDE) && u.u_uid != 0)
         return (EBUSY);
 
+    // XXX Clear USART state, then set up new state.
+    LL_USART_Enable(uip->inst);
+    LL_USART_EnableDirectionRx(uip->inst);
+    LL_USART_EnableDirectionTx(uip->inst);
 #if 0 // XXX
     reg->sta = 0;
     reg->brg = PIC32_BRG_BAUD (BUS_KHZ * 1000, speed_bps [tp->t_ospeed]);
     reg->mode = PIC32_UMODE_PDSEL_8NPAR |
                 PIC32_UMODE_ON;
     reg->staset = PIC32_USTA_URXEN | PIC32_USTA_UTXEN;
+#endif // XXX
 
     /* Enable receive interrupt. */
-    if (uirq[unit].rx < 32) {
-            IECSET(0) = 1 << uirq[unit].rx;
-    } else if (uirq[unit].rx < 64) {
-            IECSET(1) = 1 << (uirq[unit].rx-32);
-    } else {
-            IECSET(2) = 1 << (uirq[unit].rx-64);
-    }
-#endif // XXX
+    LL_USART_EnableIT_RXNE(uip->inst);
+
     return ttyopen(dev, tp);
 }
 
@@ -320,74 +323,58 @@ uartioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
 void
 uartintr(dev_t dev)
 {
-#if 0 // XXX UART
     register int c;
-#endif // XXX UART
     register int unit = minor(dev);
     register struct tty *tp = &uartttys[unit];
-#if 0 // XXX UART
-    register struct uartreg *reg = (struct uartreg *)tp->t_addr;
-#endif // XXX UART
+    register struct uart_inst *uip;
 
     if (! tp->t_addr)
         return;
 
-#if 0 // XXX
+    uip = (struct uart_inst *)tp->t_addr;
+
     /* Receive */
-    while (reg->sta & PIC32_USTA_URXDA) {
-        c = reg->rxreg;
+    while (LL_USART_IsActiveFlag_RXNE(uip->inst)) {
+        c = LL_USART_ReceiveData8(uip->inst);
         ttyinput(c, tp);
     }
+
+#if 0 // XXX
+    /* XXX Receive Buffer Overrun */
     if (reg->sta & PIC32_USTA_OERR)
         reg->staclr = PIC32_USTA_OERR;
+#endif // XXX
 
-    if (uirq[unit].rx < 32) {
-        IFSCLR(0) = (1 << uirq[unit].rx) | (1 << uirq[unit].er);
-    } else if (uirq[unit].rx < 64) {
-        IFSCLR(1) = (1 << (uirq[unit].rx-32)) | (1 << (uirq[unit].er-32));
-    } else {
-        IFSCLR(2) = (1 << (uirq[unit].rx-64)) | (1 << (uirq[unit].er-64));
-    }
+    /* RXNE flag was cleared by reading DR register */
 
     /* Transmit */
-    if (reg->sta & PIC32_USTA_TRMT) {
+    if (LL_USART_IsActiveFlag_TXE(uip->inst)) {
         led_control(LED_TTY, 0);
 
-        if (uirq[unit].tx < 32) {
-            IECCLR(0) = 1 << uirq[unit].tx;
-            IFSCLR(0) = 1 << uirq[unit].tx;
-        } else if (uirq[unit].tx < 64) {
-            IECCLR(1) = 1 << (uirq[unit].tx - 32);
-            IFSCLR(1) = 1 << (uirq[unit].tx - 32);
-        } else {
-            IECCLR(2) = 1 << (uirq[unit].tx - 64);
-            IFSCLR(2) = 1 << (uirq[unit].tx - 64);
-        }
+        /* Transmit interrupt is cleared in uartstart(). */
 
         if (tp->t_state & TS_BUSY) {
             tp->t_state &= ~TS_BUSY;
             ttstart(tp);
         }
     }
-#endif // XXX
 }
 
 void
 uartstart(struct tty *tp)
 {
-    register int s;
-#if 0 // XXX UART
-    register struct uartreg *reg = (struct uartreg*) tp->t_addr;
+    register struct uart_inst *uip;
     register int c, s;
-    register int unit = minor(tp->t_dev);
-#endif // XXX UART
 
     if (! tp->t_addr)
         return;
 
+    uip = (struct uart_inst *)tp->t_addr;
+
     s = spltty();
     if (tp->t_state & (TS_TIMEOUT | TS_BUSY | TS_TTSTOP)) {
 out:    /* Disable transmit interrupt. */
+        LL_USART_DisableIT_TXE(uip->inst);
         led_control(LED_TTY, 0);
         splx(s);
         return;
@@ -396,22 +383,15 @@ out:    /* Disable transmit interrupt. */
     if (tp->t_outq.c_cc == 0)
         goto out;
 
-#if 0 // XXX
-    if (reg->sta & PIC32_USTA_TRMT) {
+    if (LL_USART_IsActiveFlag_TXE(uip->inst)) {
         c = getc(&tp->t_outq);
-        reg->txreg = c & 0xff;
+        LL_USART_TransmitData8(uip->inst, c & 0xff);
         tp->t_state |= TS_BUSY;
     }
 
     /* Enable transmit interrupt. */
-    if (uirq[unit].tx < 32) {
-        IECSET(0) = 1 << uirq[unit].tx;
-    } else if (uirq[unit].tx < 64) {
-        IECSET(1) = 1 << (uirq[unit].tx - 32);
-    } else {
-        IECSET(2) = 1 << (uirq[unit].tx - 64);
-    }
-#endif // XXX
+    LL_USART_EnableIT_TXE(uip->inst);
+
     led_control(LED_TTY, 1);
     splx(s);
 }
@@ -421,7 +401,7 @@ uartputc(dev_t dev, char c)
 {
     int unit = minor(dev);
     struct tty *tp = &uartttys[unit];
-    register USART_TypeDef *inst = uart[unit].inst;
+    register const struct uart_inst *uip = &uart[unit];
     register int s, timo;
 
     s = spltty();
@@ -431,7 +411,7 @@ again:
      * otherwise give up after a reasonable time.
      */
     timo = 30000;
-    while (!LL_USART_IsActiveFlag_TXE(inst))
+    while (!LL_USART_IsActiveFlag_TXE(uip->inst))
         if (--timo == 0)
             break;
 
@@ -440,24 +420,14 @@ again:
         goto again;
     }
     led_control(LED_TTY, 1);
-    LL_USART_ClearFlag_TC(inst);
-    LL_USART_TransmitData8(inst, c);
+    LL_USART_ClearFlag_TC(uip->inst);
+    LL_USART_TransmitData8(uip->inst, c);
 
     timo = 30000;
-    while (!LL_USART_IsActiveFlag_TC(inst))
+    while (!LL_USART_IsActiveFlag_TC(uip->inst))
         if (--timo == 0)
             break;
 
-#if 0 /* XXX */
-    /* Clear TX interrupt. */
-    if (uirq[unit].tx < 32) {
-        IECCLR(0) = 1 << uirq[unit].tx;
-    } else if (uirq[unit].tx < 64) {
-        IECCLR(1) = 1 << (uirq[unit].tx - 32);
-    } else {
-        IECCLR(2) = 1 << (uirq[unit].tx - 64);
-    }
-#endif /* XXX */
     led_control(LED_TTY, 0);
     splx(s);
 }
@@ -465,30 +435,21 @@ again:
 char
 uartgetc(dev_t dev)
 {
-#if 0 // XXX UART
     int unit = minor(dev);
-// XXX    register struct uartreg *reg = uart[unit];
-#endif // XXX UART
+    register const struct uart_inst *uip = &uart[unit];
     int s, c;
 
     s = spltty();
-#if 0 // XXX
     for (;;) {
         /* Wait for key pressed. */
-        if (reg->sta & PIC32_USTA_URXDA) {
-            c = reg->rxreg;
+        if (LL_USART_IsActiveFlag_RXNE(uip->inst)) {
+            c = LL_USART_ReceiveData8(uip->inst);
             break;
         }
     }
 
-    if (uirq[unit].rx < 32) {
-        IFSCLR(0) = (1 << uirq[unit].rx) | (1 << uirq[unit].er);
-    } else if (uirq[unit].rx < 64) {
-        IFSCLR(1) = (1 << (uirq[unit].rx-32)) | (1 << (uirq[unit].er-32));
-    } else {
-        IFSCLR(2) = (1 << (uirq[unit].rx-64)) | (1 << (uirq[unit].er-64));
-    }
-#endif // XXX
+    /* RXNE flag was cleared by reading DR register */
+
     splx(s);
     return (unsigned char) c;
 }

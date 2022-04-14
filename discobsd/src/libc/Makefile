@@ -26,8 +26,7 @@
 TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
-# XXX DEFS		= -Wall -Werror
-DEFS		= -Wall
+DEFS		= -Wall -Werror
 ALL		= gen stdio stdlib string inet compat ${MACHINE_ARCH}
 
 all:            ../libc.a

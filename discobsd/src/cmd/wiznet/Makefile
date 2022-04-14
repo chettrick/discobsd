@@ -1,8 +1,7 @@
 TOPSRC          = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS          += -O -Wall -Werror
-CFLAGS          += -O -Wall
+CFLAGS          += -O -Wall -Werror
 LIBS            += -lwiznet -lc
 
 EXAMPLES        = telnet \

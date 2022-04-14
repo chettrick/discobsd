@@ -1,7 +1,6 @@
 OBJS    = smux.o
 BIN     = smux
-CFLAGS  = -O -Wall
-# XXX CFLAGS  = -O -Wall -Werror
+CFLAGS  = -O -Wall -Werror
 
 $(BIN): $(OBJS)
 	$(CC) -o $(BIN) $(OBJS)

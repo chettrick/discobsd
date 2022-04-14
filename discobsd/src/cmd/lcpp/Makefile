@@ -5,8 +5,7 @@ include $(TOPSRC)/target.mk
 OBJS            = cpp.o lex.o nlist.o tokens.o macro.o eval.o \
                   include.o hideset.o unix.o
 
-# XXX CFLAGS		+= -Werror -Wall -Os
-CFLAGS		+= -Wall -Os
+CFLAGS		+= -Werror -Wall -Os
 
 all:            lcpp
 

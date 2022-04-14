@@ -1,8 +1,7 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror -Wall
-CFLAGS		+= -Wall
+CFLAGS		+= -Werror -Wall
 
 SRCS		= disktool.c
 OBJS		= disktool.o

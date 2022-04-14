@@ -5,8 +5,7 @@ TOPSRC =	$(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
 # Some basic CFLAGS.
-# XXX CFLAGS =	-Os -Wall -Werror
-CFLAGS =	-Os -Wall
+CFLAGS =	-Os -Wall -Werror
 
 # With the extra LDFLAGS, save some bytes.
 CFLAGS +=	-ffunction-sections -fdata-sections

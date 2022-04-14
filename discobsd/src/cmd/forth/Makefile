@@ -2,8 +2,7 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-# XXX CFLAGS		+= -Werror -Wall
-CFLAGS		+= -Wall
+CFLAGS          += -Werror -Wall
 LIBS            += -lm -lc
 
 OBJS            = forth.o func.o

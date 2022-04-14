@@ -4,8 +4,7 @@ include $(TOPSRC)/target.mk
 
 OBJS            = cc.o
 
-# XXX CFLAGS		+= -Werror -Wall
-CFLAGS		+= -Wall
+CFLAGS          += -Werror -Wall
 CFLAGS          += -DVERSSTR=\"1.0\" \
                    -DSTDINC=\"/include\" \
                    -DLIBDIR=\"/lib\" \

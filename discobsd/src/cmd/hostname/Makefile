@@ -4,7 +4,7 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
+CFLAGS		+= -Werror -Wall
 
 SRCS            = hostname.c
 OBJS            = hostname.o

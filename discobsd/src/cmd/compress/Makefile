@@ -8,8 +8,7 @@ OBJS 		= compress.o
 
 #COMFLAGS       = -DBSD4_2 -O -DSACREDMEM=256000
 
-# XXX CFLAGS          += -DUSERMEM=1024 -Wall -Werror
-CFLAGS          += -DUSERMEM=1024 -Wall
+CFLAGS          += -DUSERMEM=1024 -Wall -Werror
 
 compress: $(OBJS)
 	${CC} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}

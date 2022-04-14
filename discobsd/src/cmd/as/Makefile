@@ -5,8 +5,7 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-# XXX CFLAGS		+= -Werror -Wall -Os
-CFLAGS		+= -Wall -Os
+CFLAGS		+= -Werror -Wall -Os
 LDFLAGS         +=
 
 all:            as

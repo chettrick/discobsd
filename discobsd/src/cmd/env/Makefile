@@ -4,8 +4,7 @@ include $(TOPSRC)/target.mk
 
 OBJS            = env.o
 
-# XXX CFLAGS		+= -Werror -Wall -DGCC_COMPAT
-CFLAGS		+= -Wall -DGCC_COMPAT
+CFLAGS		+= -Werror -Wall -DGCC_COMPAT
 CFLAGS          += -DVERSSTR=\"1.0\" \
                    -DSTDINC=\"/include\" \
                    -DLIBDIR=\"/lib\" \

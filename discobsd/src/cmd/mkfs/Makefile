@@ -5,8 +5,7 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-# XXX CFLAGS		+= -Wall -Werror
-CFLAGS		+= -Wall
+CFLAGS		+= -Wall -Werror
 
 SRCS		= mkfs.c
 OBJS		= mkfs.o

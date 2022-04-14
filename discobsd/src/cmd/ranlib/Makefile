@@ -2,8 +2,7 @@ TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-# XXX CFLAGS		+= -Werror -Wall -g -I. -I../ar
-CFLAGS		+= -Wall -g -I. -I../ar
+CFLAGS		+= -Werror -Wall -g -I. -I../ar
 
 SRCS            = ../ar/archive.c ranlib.c
 OBJS            = archive.o ranlib.o

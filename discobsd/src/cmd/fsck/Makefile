@@ -7,8 +7,7 @@ TOPSRC		= $(shell cd ../../..; pwd)
 
 include $(TOPSRC)/target.mk
 OBJS		= main.o
-# XXX CFLAGS		+= -g -Werror -Wall -Os
-CFLAGS		+= -g -Wall -Os
+CFLAGS		+= -g -Werror -Wall -Os
 
 #include $(TOPSRC)/cross.mk
 #OBJS		= cross.o

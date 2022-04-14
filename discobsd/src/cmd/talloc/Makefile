@@ -4,8 +4,7 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror -I../../../sys/include
-CFLAGS		+= -I../../../sys/include
+CFLAGS		+= -Wall -Werror -I../../../sys/include
 
 BIN		    = talloc
 SRCS        = $(BIN).c

@@ -112,6 +112,7 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
 #elif __thumb2__
     u.u_frame->tf_sp = (int)(argp-0x20);        /* 0x20 for svc trap frame. */
     u.u_frame->tf_r0 = epp->argc;               /* $a1 := argc */
+    u.u_rval         = epp->argc;               /* $a1 := argc via syscall() */
     u.u_frame->tf_r1 = (int)argp;               /* $a2 := argp */
     u.u_frame->tf_r2 = (int)envp;               /* $a3 := envp */
 #else
@@ -410,9 +411,14 @@ void exec_clear(struct exec_params *epp)
     u.u_frame->tf_hi  = 0;
     u.u_frame->tf_gp  = 0;
 #elif __thumb2__
+    u.u_frame->tf_r0  = 0;              /* a1 */
+    u.u_frame->tf_r1  = 0;              /* a2 */
+    u.u_frame->tf_r2  = 0;              /* a3 */
     u.u_frame->tf_r3  = 0;              /* a4 */
     u.u_frame->tf_ip  = 0;              /* sp, as passed as ip */
-    u.u_frame->tf_lr  = 0;              /* lr */
+    u.u_frame->tf_lr  = 0xffffffff;     /* lr, set to -1 (reset value) */
+    u.u_frame->tf_pc  = 0;              /* pc */
+    u.u_frame->tf_psr = 0x01000000;     /* psr, Thumb state bit set */
 #else
 #error "clear trap frame registers for unknown architecture"
 #endif

@@ -130,9 +130,9 @@ forever:				/* Catch runaway code. */
 	.type	sbininit, %object
 sbininit:
 	.ascii	"/sbin/init\0"
-	.align	2
 
 	.globl	initflags
+	.type	initflags, %object
 initflags:
 	.ascii	"-\0\0\0\0\0\0\0\0\0\0"	/* Space for options. */
 

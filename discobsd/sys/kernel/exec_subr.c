@@ -79,10 +79,10 @@
  *              [argn]      ptr to argn
  *               ...
  *  argp ->     [arg0]      ptr to arg0
- *               []
- *               []
- *               []
- *    sp ->      []
+ *               []       \
+ *               []       | 16 bytes for Mips
+ *               []       | 64 bytes for Arm
+ *    sp ->      []       /
  *
  */
 void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
@@ -110,11 +110,14 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
     u.u_frame->tf_r5 = (int)argp;               /* $a1 := argp */
     u.u_frame->tf_r6 = (int)envp;               /* $a2 := env */
 #elif __thumb2__
-    u.u_frame->tf_sp = (int)(argp-0x20);        /* 0x20 for svc trap frame. */
+    u.u_frame->tf_sp = (int)(argp-0x40);        /* 0x40 for svc trap frame. */
     u.u_frame->tf_r0 = epp->argc;               /* $a1 := argc */
     u.u_rval         = epp->argc;               /* $a1 := argc via syscall() */
     u.u_frame->tf_r1 = (int)argp;               /* $a2 := argp */
     u.u_frame->tf_r2 = (int)envp;               /* $a3 := envp */
+
+    u.u_frame->tf_lr  = 0xffffffff;             /* lr, set -1 (reset value) */
+    u.u_frame->tf_psr = 0x01000000;             /* psr, Thumb state bit set */
 #else
 #error "set up top of stack for unknown architecture"
 #endif
@@ -416,9 +419,17 @@ void exec_clear(struct exec_params *epp)
     u.u_frame->tf_r2  = 0;              /* a3 */
     u.u_frame->tf_r3  = 0;              /* a4 */
     u.u_frame->tf_ip  = 0;              /* sp, as passed as ip */
-    u.u_frame->tf_lr  = 0xffffffff;     /* lr, set to -1 (reset value) */
+    u.u_frame->tf_lr  = 0;              /* lr */
     u.u_frame->tf_pc  = 0;              /* pc */
-    u.u_frame->tf_psr = 0x01000000;     /* psr, Thumb state bit set */
+    u.u_frame->tf_psr = 0;              /* psr */
+    u.u_frame->tf_r4  = 0;              /* v1 */
+    u.u_frame->tf_r5  = 0;              /* v2 */
+    u.u_frame->tf_r6  = 0;              /* v3 */
+    u.u_frame->tf_r7  = 0;              /* v4 */
+    u.u_frame->tf_r8  = 0;              /* v5 */
+    u.u_frame->tf_r9  = 0;              /* v6 */
+    u.u_frame->tf_r10 = 0;              /* v7 */
+    u.u_frame->tf_r11 = 0;              /* v8 */
 #else
 #error "clear trap frame registers for unknown architecture"
 #endif

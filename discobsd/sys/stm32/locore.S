@@ -166,6 +166,7 @@ SVC_Handler:
 	 * ARMv7-M hardware already pushed r0-r3, ip, lr, pc, psr on PSP,
 	 * and then switched to MSP and is currently in Handler Mode.
 	 */
+	push	{r4-r11}		/* Push v1-v8 registers onto MSP. */
 	mrs	r1, PSP			/* Get pointer to trap frame. */
 	ldmfd	r1, {r2-r9}		/* Copy trap frame from PSP. */
 	mov	r6, r1			/* Set trap frame sp as PSP. */
@@ -178,6 +179,7 @@ SVC_Handler:
 	mov	r1, r6			/* PSP will be trap frame sp. */
 	stmia	r1, {r2-r9}		/* Hardware pops off PSP on return. */
 	msr	PSP, r1			/* Set PSP as trap frame sp. */
+	pop	{r4-r11}		/* Pop from MSP into v1-v8 regs. */
 
 	/*
 	 * On return, ARMv7-M hardware sets PSP as stack pointer,

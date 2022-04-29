@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Christopher Hettrick <chris@structfoo.com>
+ * Copyright (c) 2021, 2022 Christopher Hettrick <chris@structfoo.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -35,6 +35,14 @@ struct	sigcontext {
 	u_int	sc_lr;
 	u_int	sc_pc;
 	u_int	sc_psr;
+	u_int	sc_r4;
+	u_int	sc_r5;
+	u_int	sc_r6;
+	u_int	sc_r7;
+	u_int	sc_r8;
+	u_int	sc_r9;
+	u_int	sc_r10;
+	u_int	sc_r11;
 };
 
 #define	sc_r12	sc_ip		/* Intra-Procedure-Call Scratch Register */

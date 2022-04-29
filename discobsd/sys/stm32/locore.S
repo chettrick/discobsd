@@ -175,8 +175,9 @@ SVC_Handler:
 	bl	syscall			/* Call syscall() with MSP as arg. */
 
 	pop	{r2-r9}			/* Pop off trap frame from MSP. */
-	mrs	r1, PSP			/* Going to copy it on to PSP. */
+	mov	r1, r6			/* PSP will be trap frame sp. */
 	stmia	r1, {r2-r9}		/* Hardware pops off PSP on return. */
+	msr	PSP, r1			/* Set PSP as trap frame sp. */
 
 	/*
 	 * On return, ARMv7-M hardware sets PSP as stack pointer,

@@ -20,6 +20,7 @@
 #include <machine/sd.h>
 #include <machine/sdio_card.h>
 #include <machine/stm32469i_discovery_sd.h>
+#include <machine/debug.h>
 
 #define SECTSIZE        512
 
@@ -72,14 +73,16 @@ card_read(int unit, unsigned int offset, char *data, unsigned int bcount)
     if ((bcount % SECTSIZE) == 0) {
         nblocks = bcount / SECTSIZE;
     } else {
-        printf("bcount: %d\tnot a multiple of SECTSIZE (%d bytes)\n", bcount, SECTSIZE);
-        return 0;
+        nblocks = (bcount / SECTSIZE) + 1;
     }
+
+    DEBUG("card_read:  bcount: %d\tnblocks: %d\tbcount \% %d: %d\n",
+      bcount, nblocks, SECTSIZE, bcount % SECTSIZE);
 
     SD_state = BSP_SD_ReadBlocks((uint32_t *)data, offset << 1, nblocks, SD_DATATIMEOUT);
 
     if (SD_state != MSD_OK) {
-        printf("card_read: read failed\n");
+        printf("card_read:  read failed\n");
         return 0;
     }
 
@@ -99,9 +102,11 @@ card_write(int unit, unsigned offset, char *data, unsigned bcount)
     if ((bcount % SECTSIZE) == 0) {
         nblocks = bcount / SECTSIZE;
     } else {
-        printf("bcount: %d\tnot a multiple of SECTSIZE (%d bytes)\n", bcount, SECTSIZE);
-        return 0;
+        nblocks = (bcount / SECTSIZE) + 1;
     }
+
+    DEBUG("card_write: bcount: %d\tnblocks: %d\tbcount \% %d: %d\n",
+      bcount, nblocks, SECTSIZE, bcount % SECTSIZE);
 
     SD_state = BSP_SD_WriteBlocks((uint32_t *)data, offset << 1, nblocks, SD_DATATIMEOUT);
 

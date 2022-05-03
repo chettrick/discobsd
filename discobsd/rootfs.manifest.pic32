@@ -813,6 +813,7 @@ file /include/machine/sdramp.h
 file /include/machine/sdramp_config.h
 file /include/machine/sramc.h
 file /include/machine/sd.h
+file /include/machine/setjmp.h
 file /include/machine/signal.h
 file /include/machine/uart.h
 file /include/machine/usb_ch9.h

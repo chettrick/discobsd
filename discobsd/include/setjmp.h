@@ -1,23 +1,9 @@
 #ifndef _SETJMP_H
 #define _SETJMP_H
-/*
- * Total 12 registers for MIPS architecture:
- *	0  - $s0
- *	1  - $s1
- *	2  - $s2
- *	3  - $s3
- *	4  - $s4
- *	5  - $s5
- *	6  - $s6
- *	7  - $s7
- *	8  - $s8
- *	9  - $ra - return address
- *	10 - $gp - global data pointer
- *	11 - $sp - stack pointer
- *      12 - signal mask saved
- *      13 - signal mask
- */
-typedef int jmp_buf [14];
+
+#include <machine/setjmp.h>
+
+typedef int jmp_buf[_JBLEN];
 typedef jmp_buf sigjmp_buf;
 
 /*
@@ -39,4 +25,5 @@ void longjmp (jmp_buf env, int val);
  */
 int sigsetjmp (sigjmp_buf env, int savesigs);
 void siglongjmp (sigjmp_buf env, int val);
-#endif
+
+#endif /* !_SETJMP_H */

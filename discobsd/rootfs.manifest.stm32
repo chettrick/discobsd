@@ -809,6 +809,7 @@ file /include/machine/machparam.h
 file /include/machine/sd.h
 file /include/machine/sdio.h
 file /include/machine/sdio_card.h
+file /include/machine/setjmp.h
 file /include/machine/signal.h
 file /include/machine/uart.h
 file /include/math.h

@@ -53,7 +53,11 @@ OBJS            += bcopy.o bzero.o ffs.o memcpy.o memmove.o memset.o \
                    strlen.o bcmp.o index.o rindex.o strcmp.o
 
 # libc/mips/gen XXX MACHINE_ARCH?
+ifeq ($(MACHINE_ARCH), mips)
 OBJS            += _setjmp.o htonl.o htons.o
+else
+OBJS            += setjmp.o htonl.o htons.o
+endif
 
 # libc/gen
 OBJS            += abort.o alarm.o atof.o atoi.o atol.o calloc.o closedir.o crypt.o \

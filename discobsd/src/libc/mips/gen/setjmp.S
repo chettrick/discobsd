@@ -47,7 +47,7 @@
 		.type	setjmp, @function
 setjmp:		.globl 	setjmp
 
-		subu	$sp, 24
+		subu	$sp, $sp, 24
 		sw	$ra, 20($sp)
 		sw	$a0, 24($sp)
 
@@ -59,7 +59,7 @@ setjmp:		.globl 	setjmp
 
 		lw	$a0, 24($sp)
 		lw	$ra, 20($sp)
-		addu	$sp, 24
+		addu	$sp, $sp, 24
 
 		li	$t0, 1
 		sw	$t0, (12 * 4)($a0)
@@ -84,7 +84,7 @@ setjmp:		.globl 	setjmp
 		.type	longjmp, @function
 longjmp:	.globl	longjmp
 
-		subu	$sp, 24
+		subu	$sp, $sp, 24
 		sw	$ra, 20($sp)
 		sw	$a0, 24($sp)
 		sw	$a1, 28($sp)
@@ -98,7 +98,7 @@ longjmp:	.globl	longjmp
 		lw	$a1, 28($sp)
 		lw	$a0, 24($sp)
 		lw	$ra, 20($sp)
-		addu	$sp, 24
+		addu	$sp, $sp, 24
 
 		lw	$s0, (0 * 4) ($a0)	# restore register variables s0-s8
 		lw	$s1, (1 * 4) ($a0)

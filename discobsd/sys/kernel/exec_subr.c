@@ -92,7 +92,7 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
     char *ucp;
     char **argp, **envp, ***topp;
 
-    DEBUG("exec_setupstack:\n");
+    DEBUG("\texec_setupstack(): start\n");
 
     /*
      * Set up top of stack structure as above
@@ -148,17 +148,19 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
 
     ucp = (caddr_t)roundup((unsigned)ucp, NBPW);
     if ((caddr_t)ucp != (caddr_t)topp) {
-        DEBUG("Copying of arg list went wrong, ucp=%#x, topp=%#x\n", ucp, topp);
+        DEBUG("\texec_setupstack(): error: copy arg list, ucp = %#x, topp = %#x\n", ucp, topp);
         panic("exec check");
     }
 
     u.u_frame->tf_pc = entryaddr;
-    DEBUG("Setting up new PC=%#x\n", entryaddr);
+    DEBUG("\texec_setupstack(): new PC = %#x\n", entryaddr);
 
     /*
      * Remember file name for accounting.
      */
     (void) copystr(argp[0], u.u_comm, MAXCOMLEN, 0);
+
+    DEBUG("\texec_setupstack(): end\n");
 }
 
 /*
@@ -182,7 +184,7 @@ void *exec_alloc(int size, int ru, struct exec_params *epp)
         return NULL;
     if (epp->alloc[i].bp == NULL) {
         if ((epp->alloc[i].bp = geteblk()) == NULL) {
-            DEBUG("exec_alloc: no buf\n");
+            DEBUG("\texec_alloc(): no buf\n");
             return NULL;
         }
     }
@@ -216,28 +218,40 @@ void exec_alloc_freeall(struct exec_params *epp)
  */
 int exec_estab(struct exec_params *epp)
 {
-    DEBUG("text =  %#x..%#x, len=%d\n", epp->text.vaddr, epp->text.vaddr+epp->text.len, epp->text.len);
-    DEBUG("data =  %#x..%#x, len=%d\n", epp->data.vaddr, epp->data.vaddr+epp->data.len, epp->data.len);
-    DEBUG("bss =   %#x..%#x, len=%d\n", epp->bss.vaddr, epp->bss.vaddr+epp->bss.len, epp->bss.len);
-    DEBUG("heap =  %#x..%#x, len=%d\n", epp->heap.vaddr, epp->heap.vaddr+epp->heap.len, epp->heap.len);
-    DEBUG("stack = %#x..%#x, len=%d\n", epp->stack.vaddr, epp->stack.vaddr+epp->stack.len, epp->stack.len);
+    DEBUG("\texec_estab(): start\n");
+
+    DEBUG("\texec_estab(): text  = %#x..%#x, len = %d\n", epp->text.vaddr,
+      epp->text.vaddr + epp->text.len, epp->text.len);
+    DEBUG("\texec_estab(): data  = %#x..%#x, len = %d\n", epp->data.vaddr,
+      epp->data.vaddr + epp->data.len, epp->data.len);
+    DEBUG("\texec_estab(): bss   = %#x..%#x, len = %d\n", epp->bss.vaddr,
+      epp->bss.vaddr + epp->bss.len, epp->bss.len);
+    DEBUG("\texec_estab(): heap  = %#x..%#x, len = %d\n", epp->heap.vaddr,
+      epp->heap.vaddr + epp->heap.len, epp->heap.len);
+    DEBUG("\texec_estab(): stack = %#x..%#x, len = %d\n", epp->stack.vaddr,
+      epp->stack.vaddr + epp->stack.len, epp->stack.len);
 
     /*
      * Right now we can only handle the simple original a.out
      * case, so we double check for that case here.
      */
-    if (epp->text.vaddr != NO_ADDR || epp->data.vaddr == NO_ADDR
-        || epp->data.vaddr != (caddr_t)USER_DATA_START || epp->stack.vaddr != (caddr_t)USER_DATA_END - epp->stack.len)
+    if (epp->text.vaddr != NO_ADDR || epp->data.vaddr == NO_ADDR ||
+      epp->data.vaddr != (caddr_t)USER_DATA_START ||
+      epp->stack.vaddr != (caddr_t)USER_DATA_END - epp->stack.len) {
+        DEBUG("\texec_estab(): error: not an a.out executable\n");
         return ENOMEM;
+    }
 
     /*
      * Try out for overflow
      */
-    if (epp->text.len + epp->data.len + epp->heap.len + epp->stack.len > MAXMEM)
+    if (epp->text.len + epp->data.len + epp->heap.len + epp->stack.len > MAXMEM) {
+        DEBUG("\texec_estab(): error: memory overflow\n");
         return ENOMEM;
+    }
 
     if (roundup((unsigned)epp->data.vaddr + epp->data.len, NBPW) != roundup((unsigned)epp->bss.vaddr, NBPW)) {
-        DEBUG(".bss do not follow .data\n");
+        DEBUG("\texec_estab(): error: .bss does not follow .data\n");
         return ENOMEM;
     }
 
@@ -252,9 +266,14 @@ int exec_estab(struct exec_params *epp)
     u.u_procp->p_ssize = epp->stack.len;
     u.u_procp->p_saddr = (size_t)epp->stack.vaddr;
 
-    DEBUG("core allocation: \n");
-    DEBUG("daddr =%#x..%#x\n", u.u_procp->p_daddr, u.u_procp->p_daddr + u.u_procp->p_dsize);
-    DEBUG("saddr =%#x..%#x\n", u.u_procp->p_saddr, u.u_procp->p_saddr + u.u_procp->p_ssize);
+    DEBUG("\texec_estab(): core allocation\n");
+    DEBUG("\texec_estab(): daddr = %#x..%#x, len = %d\n", u.u_procp->p_daddr,
+      u.u_procp->p_daddr + u.u_procp->p_dsize, u.u_procp->p_dsize);
+    DEBUG("\texec_estab(): saddr = %#x..%#x, len = %d\n", u.u_procp->p_saddr,
+      u.u_procp->p_saddr + u.u_procp->p_ssize, u.u_procp->p_ssize);
+
+    DEBUG("\texec_estab(): end\n");
+
     return 0;
 }
 
@@ -268,6 +287,8 @@ void exec_save_args(struct exec_params *epp)
     caddr_t cp;
     int argc, i, l;
     char **argp, *ap;
+
+    DEBUG("\texec_save_args(): start\n");
 
     epp->argc = epp->envc = 0;
     epp->argbc = epp->envbc = 0;
@@ -347,16 +368,20 @@ void exec_save_args(struct exec_params *epp)
     }
 
     for (i = 0; i < epp->argc; i++)
-        DEBUG("arg[%d] = \"%s\"\n", i, epp->argp[i]);
+        DEBUG("\texec_save_args(): arg[%d] = \"%s\"\n", i, epp->argp[i]);
 
     for (i = 0; i < epp->envc; i++)
-        DEBUG("env[%d] = \"%s\"\n", i, epp->envp[i]);
+        DEBUG("\texec_save_args(): env[%d] = \"%s\"\n", i, epp->envp[i]);
+
+    DEBUG("\texec_save_args(): end\n");
 }
 
 void exec_clear(struct exec_params *epp)
 {
     char *cp;
     int cc;
+
+    DEBUG("\texec_clear(): start\n");
 
     /* clear BSS  */
     if (epp->bss.len > 0)
@@ -448,4 +473,6 @@ void exec_clear(struct exec_params *epp)
     }
     while (u.u_lastfile >= 0 && u.u_ofile [u.u_lastfile] == NULL)
         u.u_lastfile--;
+
+    DEBUG("\texec_clear(): end\n");
 }

@@ -40,7 +40,7 @@ int exec_check(struct exec_params *epp)
 {
     int error, i, r;
 
-    DEBUG("Entering exec_check\n");
+    DEBUG("\texec_check(): start\n");
     if (access (epp->ip, IEXEC))
         return ENOEXEC;
     if ((u.u_procp->p_flag & P_TRACED) && access (epp->ip, IREAD))
@@ -65,10 +65,9 @@ int exec_check(struct exec_params *epp)
     /*
      * Read the first 'SHSIZE' bytes from the file to execute
      */
-    DEBUG("Read header %d bytes from %d\n", sizeof(epp->hdr), 0);
+    DEBUG("\texec_check(): read header %d bytes\n", sizeof(epp->hdr));
     epp->hdr.sh[0] = '\0';      /* for zero length files */
-    error = rdwri (UIO_READ, epp->ip,
-               (caddr_t) &epp->hdr, sizeof(epp->hdr),
+    error = rdwri(UIO_READ, epp->ip, (caddr_t) &epp->hdr, sizeof(epp->hdr),
                (off_t)0, IO_UNIT, &r);
     if (error)
         return error;
@@ -80,15 +79,18 @@ int exec_check(struct exec_params *epp)
      * someone who can handle this file format.
      */
     error = ENOEXEC;
-    DEBUG("Trying %d exec formats\n", nexecs);
+    DEBUG("\texec_check(): trying %d exec formats\n", nexecs);
     for (i = 0; i < nexecs && error != 0; i++) {
-        DEBUG("Trying exec format %d : %s\n", i, execsw[i].es_name);
+        DEBUG("\texec_check(): trying format %d: %s\n", i, execsw[i].es_name);
         if (execsw[i].es_check == NULL)
             continue;
         error = (*execsw[i].es_check)(epp);
         if (error == 0)
             break;
     }
+
+    DEBUG("\texec_check(): end\n");
+
     return error;
 }
 
@@ -111,11 +113,13 @@ execve()
     register struct nameidata *ndp = &nd;
     struct exec_params eparam;
 
-    DEBUG("execve ('%s', ['%s', '%s', ...])\n", uap->fname, uap->argp[0], uap->argp[1]);
+    DEBUG("\n\texecve(): start\n");
+    DEBUG("\texecve(): args: '%s', ['%s', '%s', ...]\n",
+      uap->fname, uap->argp[0], uap->argp[1]);
     NDINIT (ndp, LOOKUP, FOLLOW, uap->fname);
     ip = namei (ndp);
     if (ip == NULL) {
-        DEBUG("execve: file '%s' not found\n", uap->fname);
+        DEBUG("\texecve(): file '%s' not found\n", uap->fname);
         return;
     }
     /*
@@ -131,7 +135,7 @@ execve()
 
     if (ip->i_fs->fs_flags & MNT_NOEXEC) {
         u.u_error = EACCES;
-        DEBUG("EACCES\n");
+        DEBUG("\texecve(): EACCES\n");
         goto done;
     }
     if ((ip->i_fs->fs_flags & MNT_NOSUID) == 0) {
@@ -142,12 +146,12 @@ execve()
     }
 
     eparam.ip = ip;
-    DEBUG("calling exec_check()\n");
     if ((error = exec_check(&eparam)))
         u.u_error = error;
-    DEBUG("back from exec_check()\n");
 done:
     exec_alloc_freeall(&eparam);
     if (ip)
         iput(ip);
+
+    DEBUG("\texecve(): end\n\n");
 }

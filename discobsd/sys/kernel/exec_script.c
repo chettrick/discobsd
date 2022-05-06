@@ -5,6 +5,7 @@
 #include <sys/exec.h>
 #include <sys/user.h>
 #include <sys/systm.h>
+#include <machine/debug.h>
 
 int
 exec_script_check(struct exec_params *epp)
@@ -14,6 +15,8 @@ exec_script_check(struct exec_params *epp)
     struct nameidata *ndp;
     int error;
     struct inode *ip = 0;
+
+    DEBUG("\texec_script_check(): start\n");
 
     /*
      * We come here with the first line of the executable
@@ -85,6 +88,7 @@ exec_script_check(struct exec_params *epp)
     /*
      * Everything set up, do the recursive exec()
      */
+    DEBUG("\texec_script_check(): do recursive exec\n");
     if (epp->ip)
         iput(epp->ip);
     epp->ip = ip;
@@ -92,5 +96,8 @@ exec_script_check(struct exec_params *epp)
 done:
     if (ip)
         iput(ip);
+
+    DEBUG("\texec_script_check(): end\n");
+
     return error;
 }

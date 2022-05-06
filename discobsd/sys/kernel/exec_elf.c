@@ -74,6 +74,7 @@
 #include <sys/signalvar.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
+#include <machine/debug.h>
 
 extern char sigcode[], esigcode[];
 
@@ -99,15 +100,24 @@ exec_elf_check(struct exec_params *epp)
     const char elfident[] = {ELFMAG0, ELFMAG1, ELFMAG2, ELFMAG3,
                  ELFCLASS32, ELFDATA2LSB, EV_CURRENT, ELFOSABI_SYSV, 0};
 
+    DEBUG("\texec_elf_check(): start\n");
+
     /*
      * Check that this is an ELF file that we can handle,
      * and do some sanity checks on the header
      */
-    if (epp->hdr_len < sizeof(struct elf_ehdr))
+    if (epp->hdr_len < sizeof(struct elf_ehdr)) {
+        DEBUG("\texec_elf_check(): error: wrong header length\n");
+        DEBUG("\texec_elf_check(): end\n");
         return ENOEXEC;
-    for (i = 0; i < sizeof elfident; i++)
-        if (epp->hdr.elf.e_ident[i] !=  elfident[i])
+    }
+    for (i = 0; i < sizeof elfident; i++) {
+        if (epp->hdr.elf.e_ident[i] !=  elfident[i]) {
+            DEBUG("\texec_elf_check(): error: not an elf\n");
+            DEBUG("\texec_elf_check(): end\n");
             return ENOEXEC;
+        }
+    }
     if (epp->hdr.elf.e_type != ET_EXEC)
         return ENOEXEC;
     if (epp->hdr.elf.e_machine != EM_MIPS || epp->hdr.elf.e_version != EV_CURRENT)
@@ -194,6 +204,8 @@ exec_elf_check(struct exec_params *epp)
 
     exec_clear(epp);
     exec_setupstack(epp->hdr.elf.e_entry, epp);
+
+    DEBUG("\texec_elf_check(): end\n");
 
     return 0;
 }

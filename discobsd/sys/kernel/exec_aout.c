@@ -20,11 +20,19 @@ int exec_aout_check(struct exec_params *epp)
 {
     int error;
 
-    if (epp->hdr_len < sizeof(struct exec))
+    DEBUG("\texec_aout_check(): start\n");
+
+    if (epp->hdr_len < sizeof(struct exec)) {
+        DEBUG("\texec_aout_check(): error: wrong header length\n");
+        DEBUG("\texec_aout_check(): end\n");
         return ENOEXEC;
+    }
     if (!(N_GETMID(epp->hdr.aout) == MID_ZERO &&
-          N_GETFLAG(epp->hdr.aout) == 0))
+          N_GETFLAG(epp->hdr.aout) == 0)) {
+        DEBUG("\texec_aout_check(): error: not an a.out\n");
+        DEBUG("\texec_aout_check(): end\n");
         return ENOEXEC;
+    }
 
     switch (N_GETMAGIC(epp->hdr.aout)) {
     case OMAGIC:
@@ -41,15 +49,23 @@ int exec_aout_check(struct exec_params *epp)
      */
     exec_save_args(epp);
 
-    DEBUG("Exec file header:\n");
-    DEBUG("a_midmag =  %#x\n", epp->hdr.aout.a_midmag);     /* magic number */
-    DEBUG("a_text =    %d\n",  epp->hdr.aout.a_text);       /* size of text segment */
-    DEBUG("a_data =    %d\n",  epp->hdr.aout.a_data);       /* size of initialized data */
-    DEBUG("a_bss =     %d\n",  epp->hdr.aout.a_bss);        /* size of uninitialized data */
-    DEBUG("a_reltext = %d\n",  epp->hdr.aout.a_reltext);    /* size of text relocation info */
-    DEBUG("a_reldata = %d\n",  epp->hdr.aout.a_reldata);    /* size of data relocation info */
-    DEBUG("a_syms =    %d\n",  epp->hdr.aout.a_syms);       /* size of symbol table */
-    DEBUG("a_entry =   %#x\n", epp->hdr.aout.a_entry);      /* entry point */
+    DEBUG("\texec_aout_check(): exec file header\n");
+    /* magic number */
+    DEBUG("\texec_aout_check(): a_midmag  = %#x\n", epp->hdr.aout.a_midmag);
+    /* size of text segment */
+    DEBUG("\texec_aout_check(): a_text    = %d\n",  epp->hdr.aout.a_text);
+    /* size of initialized data */
+    DEBUG("\texec_aout_check(): a_data    = %d\n",  epp->hdr.aout.a_data);
+    /* size of uninitialized data */
+    DEBUG("\texec_aout_check(): a_bss     = %d\n",  epp->hdr.aout.a_bss);
+    /* size of text relocation info */
+    DEBUG("\texec_aout_check(): a_reltext = %d\n",  epp->hdr.aout.a_reltext);
+    /* size of data relocation info */
+    DEBUG("\texec_aout_check(): a_reldata = %d\n",  epp->hdr.aout.a_reldata);
+    /* size of symbol table */
+    DEBUG("\texec_aout_check(): a_syms    = %d\n",  epp->hdr.aout.a_syms);
+    /* entry point */
+    DEBUG("\texec_aout_check(): a_entry   = %#x\n", epp->hdr.aout.a_entry);
 
     /*
      * Set up memory allocation
@@ -73,12 +89,12 @@ int exec_aout_check(struct exec_params *epp)
     exec_estab(epp);
 
     /* read in text and data */
-    DEBUG("reading a.out image\n");
+    DEBUG("\texec_aout_check(): reading a.out image\n");
     error = rdwri (UIO_READ, epp->ip,
                (caddr_t)epp->data.vaddr, epp->hdr.aout.a_data,
                sizeof(struct exec) + epp->hdr.aout.a_text, IO_UNIT, 0);
     if (error)
-        DEBUG("read image returned error=%d\n", error);
+        DEBUG("\texec_aout_check(): error: read image returned: %d\n", error);
     if (error) {
         /*
          * Error - all is lost, when the old image is possible corrupt
@@ -90,6 +106,8 @@ int exec_aout_check(struct exec_params *epp)
 
     exec_clear(epp);
     exec_setupstack(epp->hdr.aout.a_entry, epp);
+
+    DEBUG("\texec_aout_check(): end\n");
 
     return 0;
 }

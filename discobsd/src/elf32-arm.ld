@@ -94,10 +94,12 @@ SECTIONS
   PROVIDE (etext = .);
   .rodata         : { *(.rodata .rodata.* .gnu.linkonce.r.*) }
   .rodata1        : { *(.rodata1) }
+/* XXX elf2aout cannot handle these optional sections.
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) }
    PROVIDE_HIDDEN (__exidx_start = .);
   .ARM.exidx   : { *(.ARM.exidx* .gnu.linkonce.armexidx.*) }
    PROVIDE_HIDDEN (__exidx_end = .);
+XXX */
   .eh_frame_hdr : { *(.eh_frame_hdr) *(.eh_frame_entry .eh_frame_entry.*) }
   .eh_frame       : ONLY_IF_RO { KEEP (*(.eh_frame)) *(.eh_frame.*) }
   .gcc_except_table   : ONLY_IF_RO { *(.gcc_except_table
@@ -245,4 +247,5 @@ SECTIONS
   .ARM.attributes 0 : { KEEP (*(.ARM.attributes)) KEEP (*(.gnu.attributes)) }
   .note.gnu.arm.ident 0 : { KEEP (*(.note.gnu.arm.ident)) }
   /DISCARD/ : { *(.note.GNU-stack) *(.gnu_debuglink) *(.gnu.lto_*) }
+  /DISCARD/ : { *(.ARM.exidx) *(.ARM.extab) }
 }

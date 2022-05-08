@@ -297,10 +297,12 @@ void UnistdSetpgid(struct ParseState *Parser, struct Value *ReturnValue, struct 
 }
 */
 
+/*
 void UnistdSetpgrp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
     ReturnValue->Val->Integer = setpgrp();
 }
+*/
 
 void UnistdSetregid(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
@@ -490,7 +492,7 @@ struct LibraryFunction UnistdFunctions[] =
     { UnistdSbrk,          "void *sbrk(intptr_t);" },
     { UnistdSetgid,        "int setgid(gid_t);" },
 /*    { UnistdSetpgid,       "int setpgid(pid_t, pid_t);" }, */
-    { UnistdSetpgrp,       "pid_t setpgrp(void);" },
+/*    { UnistdSetpgrp,       "pid_t setpgrp(void);" }, */
     { UnistdSetregid,      "int setregid(gid_t, gid_t);" },
     { UnistdSetreuid,      "int setreuid(uid_t, uid_t);" },
 /*    { UnistdSetsid,        "pid_t setsid(void);" }, */

@@ -430,8 +430,8 @@ file /etc/ttys
 #
 default
 filemode 0775
-# XXX file /bin/adb
-# XXX file /bin/adc-demo
+# XXX pic32 XXX file /bin/adb
+# XXX pic32 XXX file /bin/adc-demo
 file /bin/aout
 file /bin/apropos
 file /bin/ar
@@ -456,7 +456,7 @@ file /bin/col
 file /bin/comm
 file /bin/compress
 file /bin/cp
-# XXX file /bin/cpp
+file /bin/cpp
 file /bin/crontab
 file /bin/date
 file /bin/dc
@@ -524,7 +524,7 @@ file /bin/pagesize
 file /bin/passwd
 mode 04755
 file /bin/pdc
-# XXX file /bin/picoc
+file /bin/picoc
 file /bin/portio
 file /bin/pr
 file /bin/printenv
@@ -954,8 +954,8 @@ file /libexec/bigram
 file /libexec/code
 file /libexec/diffh
 file /libexec/getty
-# XXX file /libexec/smallc
-# XXX file /libexec/smlrc
+file /libexec/smallc
+# XXX pic32 XXX file /libexec/smlrc
 
 #
 # Files: /share
@@ -1257,7 +1257,7 @@ dir /share/man/cat8
 #
 # Single pages
 #
-# XXX file /share/man/cat1/adb.0
+# XXX pic32 XXX file /share/man/cat1/adb.0
 file /share/man/cat1/addbib.0
 file /share/man/cat1/apply.0
 file /share/man/cat1/apropos.0
@@ -1288,7 +1288,7 @@ file /share/man/cat1/colcrt.0
 file /share/man/cat1/colrm.0
 file /share/man/cat1/comm.0
 file /share/man/cat1/cp.0
-# XXX file /share/man/cat1/cpp.0
+file /share/man/cat1/cpp.0
 file /share/man/cat1/crontab.0
 file /share/man/cat1/csh.0
 file /share/man/cat1/ctags.0

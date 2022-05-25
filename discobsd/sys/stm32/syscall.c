@@ -74,10 +74,23 @@ syscall(struct trapframe *frame)
 		callp += code;
 
 	if (callp->sy_narg) {
+		/* In AAPCS, first four args are from trapframe regs r0-r3. */
 		u.u_arg[0] = u.u_frame->tf_r0;	/* $a1 */
 		u.u_arg[1] = u.u_frame->tf_r1;	/* $a2 */
 		u.u_arg[2] = u.u_frame->tf_r2;	/* $a3 */
 		u.u_arg[3] = u.u_frame->tf_r3;	/* $a4 */
+
+		/* Remaining args are from the stack, after the trapframe. */
+		if (callp->sy_narg > 4) {
+			u_int addr = (u.u_frame->tf_sp + 32) & ~3;
+			if (! baduaddr((caddr_t)addr))
+				u.u_arg[4] = *(u_int *)addr;
+		}
+		if (callp->sy_narg > 5) {
+			u_int addr = (u.u_frame->tf_sp + 36) & ~3;
+			if (! baduaddr((caddr_t)addr))
+				u.u_arg[5] = *(u_int *)addr;
+		}
 	}
 
 	u.u_rval = 0;

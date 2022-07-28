@@ -18,9 +18,13 @@
 #define _MACHINE_SETJMP_H_
 
 /*
- * Total 10 registers for Arm architecture:
- *	0-9:	v1-v8, ip, lr (r4-r11, r12, r14)
+ * Total 12 words for Arm architecture:
+ * Two for signal mask:
+ *	env[0]:		savesigs
+ *	env[1]:		signal mask
+ * Ten for registers:
+ *	env[2-11]:	v1-v8, ip, lr (r4-r11, r12, r14)
  */
-#define _JBLEN 10
+#define _JBLEN 12
 
 #endif /* !_MACHINE_SETJMP_H_ */

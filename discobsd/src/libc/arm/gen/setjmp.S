@@ -28,6 +28,11 @@
 	.globl	sigsetjmp
 	.type	sigsetjmp, %function
 sigsetjmp:
+	cmp	r1, #0			/* If savesigs is zero.. */
+	beq	_setjmp			/*   skip signal mask handling; */
+	bne	setjmp			/*   else handle signal mask. */
+	.size	sigsetjmp, . - sigsetjmp
+
 
 	.text
 	.align	2
@@ -35,6 +40,22 @@ sigsetjmp:
 	.globl	setjmp
 	.type	setjmp, %function
 setjmp:
+	push	{lr}			/* Save return address. */
+	mov	r1, #1			/* When saving sigmask, env[0]=1.. */
+	str	r1, [r0], #8		/*   so longjmp restores sigmask; */
+					/*   skip over sigmask in env[1]. */
+	mov	ip, sp			/* Save stack pointer (via ip). */
+	stmia	r0, {r4-r11,ip,lr}	/* Save regs in env[2-11]. */
+
+	sub	r2, r0, #4		/* &env[1] signal mask for oset. */
+	mov	r1, #0			/* Null for set. Mask is unchanged. */
+	mov	r0, #1			/* SIG_BLOCK, but how is irrelevant. */
+	bl	sigprocmask		/* Get current sigmask into env[1]. */
+
+	mov	r0, #0			/* Always return a 0. */
+	pop	{pc}			/* Return to whence we came. */
+	.size	setjmp, . - setjmp
+
 
 	.text
 	.align	2
@@ -42,17 +63,18 @@ setjmp:
 	.globl	_setjmp
 	.type	_setjmp, %function
 _setjmp:
+	mov	r1, #0			/* Not saving sigmask, env[0]=0.. */
+	stmia	r0!, {r1}		/*   so _longjmp ignores sigmask. */
+	stmia	r0!, {r1}		/* Ignore sigmask, so env[1]=0. */
 	mov	ip, sp			/* Save stack pointer (via ip). */
-	stmia	r0!, {r4-r11,ip,lr}	/* Save regs in env jmp_buf. */
+	stmia	r0, {r4-r11,ip,lr}	/* Save regs in env[2-11]. */
 	mov	r0, #0			/* Always return a 0. */
 	bx	lr
 	.size	_setjmp, . - _setjmp
-	.size	setjmp, . - setjmp
-	.size	sigsetjmp, . - sigsetjmp
 
 
 /*
- * siglongjmp(sigjmp_buf env, int savesigs);
+ * siglongjmp(sigjmp_buf env, int val);
  * longjmp(jmp_buf env, int val);
  * _longjmp(jmp_buf env, int val);
  */
@@ -62,6 +84,12 @@ _setjmp:
 	.globl	siglongjmp
 	.type	siglongjmp, %function
 siglongjmp:
+	ldr	r2, [r0]		/* Get savesigs. */
+	cmp	r2, #0			/* If savesigs was zero.. */
+	beq	_longjmp		/*   skip signal mask handling; */
+	bne	longjmp			/*   else handle signal mask. */
+	.size	siglongjmp, . - siglongjmp
+
 
 	.text
 	.align	2
@@ -69,6 +97,24 @@ siglongjmp:
 	.globl	longjmp
 	.type	longjmp, %function
 longjmp:
+	mov	r3, r0			/* Save env before sigprocmask. */
+
+	mov	r2, #0			/* Null for oset. */
+	add	r1, r0, #4		/* &env[1] signal mask for set. */
+	mov	r0, #3			/* SIG_SETMASK for how. */
+	bl	sigprocmask		/* Restore sigmask from env[1]. */
+
+	mov	r0, r3			/* Restore env after sigprocmask. */
+
+	add	r0, r0, #8		/* Skip savesigs and signal mask. */
+	ldmia	r0, {r4-r11,ip,lr}	/* Restore regs from env[2-11]. */
+	mov	sp, ip			/* Restore stack pointer (via ip). */
+	movs	r0, r1			/* Return val.. */
+	it	eq			/*   but first test if val is 0.. */
+	moveq	r0, #1			/*   and return a 1 if val is 0. */
+	bx	lr
+	.size	longjmp, . - longjmp
+
 
 	.text
 	.align	2
@@ -76,12 +122,11 @@ longjmp:
 	.globl	_longjmp
 	.type	_longjmp, %function
 _longjmp:
-	ldmia	r0!, {r4-r11,ip,lr}	/* Restore regs from env jmp_buf. */
+	add	r0, r0, #8		/* Skip savesigs and signal mask. */
+	ldmia	r0, {r4-r11,ip,lr}	/* Restore regs from env[2-11]. */
 	mov	sp, ip			/* Restore stack pointer (via ip). */
 	movs	r0, r1			/* Return val.. */
 	it	eq			/*   but first test if val is 0.. */
 	moveq	r0, #1			/*   and return a 1 if val is 0. */
 	bx	lr
 	.size	_longjmp, . - _longjmp
-	.size	longjmp, . - longjmp
-	.size	siglongjmp, . - siglongjmp

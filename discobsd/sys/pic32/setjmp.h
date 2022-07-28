@@ -18,11 +18,12 @@
 #define _MACHINE_SETJMP_H_
 
 /*
- * Total 12 registers for MIPS architecture:
- *	0-11:	$s0-$s8, $ra, $gp, $sp
- * Two more for signal mask:
- *	12:	signal mask saved
- *	13:	signal mask
+ * Total 14 words for MIPS architecture:
+ * Twelve for registers:
+ *	env[0-11]:	$s0-$s8, $ra, $gp, $sp
+ * Two for signal mask:
+ *	env[12]:	savesigs
+ *	env[13]:	signal mask
  */
 #define _JBLEN 14
 

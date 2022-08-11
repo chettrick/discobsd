@@ -29,9 +29,10 @@
 
 /*
  * Clock ticks per second. The HZ value must be an integer factor of 1000.
+ * Cortex-M SysTick operates with a 1ms time base, hence 1000 for HZ.
  */
 #ifndef HZ
-#define HZ              200
+#define HZ              1000
 #endif
 
 /*

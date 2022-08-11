@@ -21,42 +21,95 @@
 
 #include <machine/stm32f4xx.h>
 
-static inline int
-arm_intr_disable(void)
-{
-	int s = __get_PRIMASK();
-	__disable_irq();
-	__ISB();
-	return s;
-}
+/*
+ * Logical interrupt priority level: low prio (0) -> high prio (6)
+ * Interrupts at or lower than numerical level are blocked.
+ *
+ * Notes:
+ * - IPLs are the inverse of the Cortex-M hardware interrupt scheme.
+ *     low prio (0b111x.xxxx) -> high prio (0b001x.xxxx), 3 NVIC prio bits
+ *     low prio (0b0111.xxxx) -> high prio (0b0001.xxxx), 4 NVIC prio bits
+ * - A zero value disables BASEPRI register; IPL levels are 0 -> 6.
+ */
+#define	IPL_NONE	0	/* Blocks nothing. */
+#define	IPL_SOFTCLOCK	1	/* Blocks low-priority clock processing. */
+#define	IPL_NET		2	/* Blocks network protocol processing. */
+#define	IPL_BIO		3	/* Blocks disk controllers. */
+#define	IPL_TTY		4	/* Blocks terminal multiplexers. */
+#define	IPL_CLOCK	5	/* Blocks high-priority clock processing. */
+#define	IPL_HIGH	6	/* Blocks all interrupt activity. */
 
-static inline int
-arm_intr_enable(void)
+#define	IPL_TOP		(IPL_HIGH + 1)	/* +1 since zero disables BASEPRI. */
+#define	IPL_BITS	(8U - __NVIC_PRIO_BITS)	/* MSB prio shift bits. */
+
+#define	IPLTOREG(ipl) \
+	(uint8_t)((ipl) ? (((IPL_TOP - (ipl)) << IPL_BITS) & 0xFFUL) : 0)
+#define	REGTOIPL(reg) \
+	(uint32_t)((reg) ? (IPL_TOP - ((reg) >> IPL_BITS)) : 0)
+
+#define	arm_intr_disable()	__disable_irq()	/* Disable interrupts. */
+#define	arm_intr_enable()	__enable_irq()	/* Enable interrupts. */
+
+static inline void
+arm_intr_disable_irq(int irq)
 {
-	int s = __get_PRIMASK();
-	__enable_irq();
-	__ISB();
-	return s;
+	NVIC_DisableIRQ(irq);
 }
 
 static inline void
-arm_intr_restore(int s)
+arm_intr_enable_irq(int irq)
 {
-	__set_PRIMASK(s);
+	NVIC_EnableIRQ(irq);
+}
+
+static inline void
+arm_intr_set_priority(int irq, int prio)
+{
+	/*
+	 * This CMSIS function bitshifts prio into the most significant bits
+	 * and expects an inverted prio for the Cortex-M interrupt priority
+	 * scheme (zero has more priority than one), so IPL_TOP - prio.
+	 */
+	NVIC_SetPriority(irq, IPL_TOP - prio);
+}
+
+static inline int
+splraise(int new)
+{
+	int old;
+
+	old = REGTOIPL(__get_BASEPRI());
+	__set_BASEPRI_MAX(IPLTOREG(new));
+	__ISB();
+
+	return old;
+}
+
+#define	splhigh()	splraise(IPL_HIGH)
+#define	splclock()	splraise(IPL_CLOCK)
+#define	spltty()	splraise(IPL_TTY)
+#define	splnet()	splraise(IPL_NET)
+#define	splbio()	splraise(IPL_BIO)
+
+#define	splsoftclock()	splraise(IPL_SOFTCLOCK)
+
+static inline void
+splx(int s)
+{
+	__set_BASEPRI(IPLTOREG(s));
 	__ISB();
 }
 
-#define	splhigh()	arm_intr_disable()
-#define	splclock()	arm_intr_disable()
-#define	spltty()	arm_intr_disable()
-#define	splnet()	arm_intr_disable()
-#define	splbio()	arm_intr_disable()
+static inline int
+spl0(void)
+{
+	int old;
 
-#define	splsoftclock()	arm_intr_enable()
+	old = REGTOIPL(__get_BASEPRI());
+	splx(IPL_NONE);
 
-#define	spl0()		arm_intr_enable()
-
-#define	splx(s)		arm_intr_restore(s)
+	return old;
+}
 
 #endif	/* KERNEL */
 

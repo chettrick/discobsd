@@ -33,11 +33,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+		.syntax	unified
+		.thumb
 
+		.text
+		.align	2
+		.thumb_func
 		.type	htons, %function
 htons:		.globl 	htons
-		.type	ntohs, %function
-ntohs:		.globl 	ntohs
 #if 0 // XXX Arm ASM
 #ifdef __MIPSEB__
 		move    $v0, $a0
@@ -50,3 +53,13 @@ ntohs:		.globl 	ntohs
 #endif
 		j	$ra
 #endif // XXX Arm ASM
+		nop
+		.size	htons, . - htons
+
+		.text
+		.align	2
+		.thumb_func
+		.type	ntohs, %function
+ntohs:		.globl 	ntohs
+		nop
+		.size	ntohs, . - ntohs

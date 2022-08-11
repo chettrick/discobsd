@@ -37,10 +37,14 @@
 #
 # a0 = 0x11223344, return 0x44332211
 #
+		.syntax	unified
+		.thumb
+
+		.text
+		.align	2
+		.thumb_func
 		.type	htonl, %function
 htonl:		.globl 	htonl
-		.type	ntohl, %function
-ntohl:		.globl 	ntohl
 
 #if 0 // XXX Arm ASM
 #ifdef __MIPSEB__
@@ -58,3 +62,14 @@ ntohl:		.globl 	ntohl
 #endif
 		j       $ra
 #endif // XXX Arm ASM
+		nop
+		.size	htonl, . - htonl
+
+
+		.text
+		.align	2
+		.thumb_func
+		.type	ntohl, %function
+ntohl:		.globl 	ntohl
+		nop
+		.size	ntohl, . - ntohl

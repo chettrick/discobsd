@@ -290,8 +290,8 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
   LL_GPIO_SetPinOutputType(GPIOD, port_d_pin, LL_GPIO_OUTPUT_PUSHPULL);
 
   /* NVIC configuration for SDIO interrupts */
-  HAL_NVIC_SetPriority(SDIO_IRQn, 0x0E, 0);
-  HAL_NVIC_EnableIRQ(SDIO_IRQn);
+  arm_intr_set_priority(SDIO_IRQn, IPL_BIO);
+  arm_intr_enable_irq(SDIO_IRQn);
 }
 
 /**
@@ -320,7 +320,7 @@ __weak void
 BSP_SD_MspDeInit(SD_HandleTypeDef *hsd, void *Params)
 {
   /* Disable NVIC for SDIO interrupts */
-  HAL_NVIC_DisableIRQ(SDIO_IRQn);
+  arm_intr_disable_irq(SDIO_IRQn);
 
   /* Disable SDIO clock */
   LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_SDIO);

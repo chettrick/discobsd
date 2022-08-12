@@ -144,8 +144,8 @@ uartinit(int unit)
     case 2:     /* UART3 */
 #ifdef STM32F469xx
         /* NVIC Configuration for USART3 interrupts */
-        NVIC_SetPriority(USART3_IRQn, 0);       // XXX USARTx_IRQn
-        NVIC_EnableIRQ(USART3_IRQn);            // XXX USARTx_IRQn
+        arm_intr_set_priority(USART3_IRQn, IPL_TTY);
+        arm_intr_enable_irq(USART3_IRQn);
 
         /* USART3: AHB1/APB1, 45 MHz, AF7, TX on PB.10, RX on PB.11 */
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
@@ -160,8 +160,8 @@ uartinit(int unit)
     case 5:     /* UART6 */
 #ifdef STM32F469xx
         /* NVIC Configuration for USART6 interrupts */
-        NVIC_SetPriority(USART6_IRQn, 0);       // XXX USARTx_IRQn
-        NVIC_EnableIRQ(USART6_IRQn);            // XXX USARTx_IRQn
+        arm_intr_set_priority(USART6_IRQn, IPL_TTY);
+        arm_intr_enable_irq(USART6_IRQn);
 
         /* USART6: AHB1/APB2, 90 MHz, AF8, TX on PC.06, RX on PC.07 */
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);

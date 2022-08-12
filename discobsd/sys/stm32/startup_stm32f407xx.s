@@ -132,6 +132,12 @@ LoopFillZerobss:
  * Switch from kernel mode to user mode.
  */
 
+	cpsid	i		/* Disable interrupts. */
+
+	/* Initialize BASEPRI register to spl0; no interrupt masking. */
+	movs	r0, #0		/* Turn BASEPRI off; mask nothing. */
+	msr	BASEPRI, r0
+
 	/* Switch SPSEL to Process Stack Pointer (PSP) for user space. */
 	ldr	r0, =0x2001C000	/* XXX USER_DATA_END machparam.h */
 	msr	PSP, r0		/* PSP is the user space stack pointer. */

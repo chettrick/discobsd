@@ -42,6 +42,9 @@
 #define	IPL_TOP		(IPL_HIGH + 1)	/* +1 since zero disables BASEPRI. */
 #define	IPL_BITS	(8U - __NVIC_PRIO_BITS)	/* MSB prio shift bits. */
 
+/* Cortex-M core exception/interrupt priority levels. */
+#define	IPL_SYSTICK	IPL_CLOCK	/* SysTick exception at clock prio. */
+
 #define	IPLTOREG(ipl) \
 	(uint8_t)((ipl) ? (((IPL_TOP - (ipl)) << IPL_BITS) & 0xFFUL) : 0)
 #define	REGTOIPL(reg) \

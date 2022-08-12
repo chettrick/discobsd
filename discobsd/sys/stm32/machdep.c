@@ -165,7 +165,7 @@ SystemClock_Config(void)
 #endif /* STM32F469xx */
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 
-    /* Set systick to 1ms */
+    /* Set SysTick to 1ms */
     SysTick_Config(CPU_KHZ);
 
     /* Update CMSIS variable (or through SystemCoreClockUpdate()) */
@@ -191,6 +191,9 @@ startup()
     HAL_Init();
 
     SystemClock_Config();
+
+    /* SysTick exceptions have the interrupt priority of IPL_CLOCK. */
+    arm_intr_set_priority(SysTick_IRQn, IPL_SYSTICK);
 
     /*
      * Configure LED pins.

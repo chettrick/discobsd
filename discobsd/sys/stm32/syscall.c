@@ -23,6 +23,23 @@
 
 #include <machine/frame.h>
 
+/*
+ * SVC_Handler(frame)
+ *	struct trapframe *frame;
+ *
+ * Exception handler entry point for system calls (via 'svc' instruction).
+ * The real work is done in PendSV_Handler at the lowest exception priority.
+ */
+void
+SVC_Handler(void)
+{
+	/* Set a PendSV exception to immediately tail-chain into. */
+	SCB->ICSR |= SCB_ICSR_PENDSVSET_Msk;
+
+	/* PendSV has lowest priority, so need to allow it to fire. */
+	(void)spl0();
+}
+
 void
 syscall(struct trapframe *frame)
 {
@@ -43,7 +60,8 @@ syscall(struct trapframe *frame)
 	cnt.v_syscall++;
 #endif
 
-	/* XXX Enable interrupts. */
+	/* Enable interrupts. */
+	arm_intr_enable();
 
 	u.u_error = 0;
 	u.u_frame = frame;

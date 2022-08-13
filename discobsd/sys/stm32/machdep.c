@@ -192,6 +192,12 @@ startup()
 
     SystemClock_Config();
 
+    /* Syscalls (via PendSV) have the lowest interrupt priority. */
+    arm_intr_set_priority(PendSV_IRQn, IPL_PENDSV);
+
+    /* SVCall exceptions have the highest interrupt priority. */
+    arm_intr_set_priority(SVCall_IRQn, IPL_SVCALL);
+
     /* SysTick exceptions have the interrupt priority of IPL_CLOCK. */
     arm_intr_set_priority(SysTick_IRQn, IPL_SYSTICK);
 

@@ -148,6 +148,7 @@ void DebugMon_Handler(void)
 {
 }
 
+#if 0 // XXX
 /**
   * @brief  This function handles PendSVC exception.
   * @param  None
@@ -156,6 +157,7 @@ void DebugMon_Handler(void)
 void PendSV_Handler(void)
 {
 }
+#endif // XXX
 
 /**
   * @brief  This function handles SysTick Handler.

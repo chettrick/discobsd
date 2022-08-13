@@ -30,6 +30,7 @@
  *     low prio (0b111x.xxxx) -> high prio (0b001x.xxxx), 3 NVIC prio bits
  *     low prio (0b0111.xxxx) -> high prio (0b0001.xxxx), 4 NVIC prio bits
  * - A zero value disables BASEPRI register; IPL levels are 0 -> 6.
+ * - PendSV exception is IPL level 0; SVCall exception is IPL level 7.
  */
 #define	IPL_NONE	0	/* Blocks nothing. */
 #define	IPL_SOFTCLOCK	1	/* Blocks low-priority clock processing. */
@@ -43,6 +44,8 @@
 #define	IPL_BITS	(8U - __NVIC_PRIO_BITS)	/* MSB prio shift bits. */
 
 /* Cortex-M core exception/interrupt priority levels. */
+#define	IPL_PENDSV	IPL_NONE	/* PendSV exception at lowest prio. */
+#define	IPL_SVCALL	IPL_TOP		/* SVC exception at highest prio. */
 #define	IPL_SYSTICK	IPL_CLOCK	/* SysTick exception at clock prio. */
 
 #define	IPLTOREG(ipl) \

@@ -149,19 +149,21 @@ icodeend:
 	.size	icode, . - icode
 
 /*
- * SVC_Handler(frame)
+ * PendSV_Handler(frame)
  *	struct trapframe *frame;
  *
- * Exception handler entry point for system calls (via 'svc' instruction).
+ * System call handler (via SVC_Handler pending a PendSV exception).
  * Save the processor state in a trap frame and pass it to syscall().
  * Restore processor state from returned trap frame on return from syscall().
  */
 	.text
 	.align	2
 	.thumb_func
-	.globl	SVC_Handler
-	.type	SVC_Handler, %function
-SVC_Handler:
+	.globl	PendSV_Handler
+	.type	PendSV_Handler, %function
+PendSV_Handler:
+	cpsid	i			/* Disable interrupts. */
+
 	/*
 	 * ARMv7-M hardware already pushed r0-r3, ip, lr, pc, psr on PSP,
 	 * and then switched to MSP and is currently in Handler Mode.
@@ -188,4 +190,4 @@ SVC_Handler:
 	 */
 	mov	lr, #0xFFFFFFFD		/* EXC_RETURN Thread Mode, PSP */
 	bx	lr			/* Return to Thread Mode. */
-	.size	SVC_Handler, . - SVC_Handler
+	.size	PendSV_Handler, . - PendSV_Handler

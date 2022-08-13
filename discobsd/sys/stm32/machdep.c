@@ -371,8 +371,12 @@ idle()
     /* Set SPL low so we can be interrupted. */
     int x = spl0();
 
+    led_control(LED_KERNEL, 0);
+
     /* Wait for something to happen. */
-// XXX    asm volatile ("wait");
+    __DSB();
+    __ISB();
+    __WFI();
 
     /* Restore previous SPL. */
     splx(x);

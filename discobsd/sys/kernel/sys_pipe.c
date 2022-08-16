@@ -291,15 +291,21 @@ pipe()
         iput (ip);
         return;
     }
+
+    /* 'Write' end of pipe (for filedes[1]). */
 #ifdef __mips__
     /* Move a secondary return value to register $v1. */
     u.u_frame->tf_r3 = u.u_rval;
 #elif __thumb2__
-    /* XXX FRAME */
+    /* Move a secondary return value to register $a2. */
+    u.u_frame->tf_r1 = u.u_rval;
 #else
 #error "pipe return value for unknown architecture"
 #endif
+
+    /* 'Read' end of pipe (for filedes[0]). */
     u.u_rval = r;
+
     wf->f_flag = FWRITE;
     rf->f_flag = FREAD;
     rf->f_type = wf->f_type = DTYPE_PIPE;

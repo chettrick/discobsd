@@ -1,6 +1,10 @@
 TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
+# Favor assembler source files over their C source equivalent.
+.SUFFIXES:
+.SUFFIXES: .o .S .c
+
 LIBCDIR          = $(TOPSRC)/src/libc
 vpath %.S $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/$(MACHINE_ARCH)/string \
           $(LIBCDIR)/$(MACHINE_ARCH)/gen $(LIBCDIR)/runtime

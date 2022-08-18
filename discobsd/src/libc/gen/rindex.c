@@ -7,14 +7,15 @@
 
 char *
 rindex(sp, c)
-register char *sp, c;
+	register const char *sp;
+	register int c;
 {
 	register char *r;
 
 	r = NULL;
 	do {
-		if (*sp == c)
-			r = sp;
+		if (*sp == (char)c)
+			r = (char *)sp;
 	} while (*sp++);
 	return(r);
 }

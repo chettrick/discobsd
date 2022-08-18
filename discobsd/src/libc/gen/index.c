@@ -7,11 +7,12 @@
 
 char *
 index(sp, c)
-register char *sp, c;
+	register const char *sp;
+	register int c;
 {
 	do {
 		if (*sp == c)
-			return(sp);
+			return((char *)sp);
 	} while (*sp++);
 	return(NULL);
 }

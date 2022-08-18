@@ -7,8 +7,9 @@
 /*
  * ffs -- vax ffs instruction
  */
+int
 ffs(mask)
-	register long mask;
+	register int mask;
 {
 	register int cnt;
 

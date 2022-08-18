@@ -4,13 +4,15 @@
  * specifies the terms and conditions for redistribution.
  */
 
+#include <string.h>
+
 /*
  * bcmp -- vax cmpc3 instruction
  */
 int
 bcmp(v1, v2, length)
 	const void *v1, *v2;
-	unsigned long length;
+	size_t length;
 {
         register const char *b1 = v1;
         register const char *b2 = v2;

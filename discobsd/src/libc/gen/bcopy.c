@@ -7,21 +7,27 @@
 /*
  * bcopy -- vax movc3 instruction
  */
-bcopy(src, dst, length)
-	register char *src, *dst;
+void
+bcopy(src0, dst0, length)
+	register const void *src0;
+	register void *dst0;
 	register unsigned int length;
 {
-	if (length && src != dst)
-		if (dst < src)
+	const char *src = src0;
+	char *dst = dst0;
+
+	if (length && src != dst) {
+		if (dst < src) {
 			do
 				*dst++ = *src++;
 			while (--length);
-		else {			/* copy backwards */
+		} else {		/* copy backwards */
 			src += length;
 			dst += length;
 			do
 				*--dst = *--src;
 			while (--length);
 		}
-	return(0);
+	}
+	return;
 }

@@ -442,15 +442,19 @@ void StdioFflush(struct ParseState *Parser, struct Value *ReturnValue, struct Va
     ReturnValue->Val->Integer = fflush(Param[0]->Val->Pointer);
 }
 
+/*
 void StdioFgetpos(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
     ReturnValue->Val->Integer = fgetpos(Param[0]->Val->Pointer, Param[1]->Val->Pointer);
 }
+*/
 
+/*
 void StdioFsetpos(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
     ReturnValue->Val->Integer = fsetpos(Param[0]->Val->Pointer, Param[1]->Val->Pointer);
 }
+*/
 
 void StdioFputc(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
@@ -649,8 +653,8 @@ struct LibraryFunction StdioFunctions[] =
     { StdioFerror,  "int ferror(FILE *);" },
     { StdioFileno,  "int fileno(FILE *);" },
     { StdioFflush,  "int fflush(FILE *);" },
-    { StdioFgetpos, "int fgetpos(FILE *, int *);" },
-    { StdioFsetpos, "int fsetpos(FILE *, int *);" },
+/*    { StdioFgetpos, "int fgetpos(FILE *, int *);" }, */
+/*    { StdioFsetpos, "int fsetpos(FILE *, int *);" }, */
     { StdioFtell,   "int ftell(FILE *);" },
     { StdioFseek,   "int fseek(FILE *, int, int);" },
     { StdioPerror,  "void perror(char *);" },

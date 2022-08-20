@@ -1,75 +1,53 @@
-/*-
- * Copyright (c) 1997 The NetBSD Foundation, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) 2022 Christopher Hettrick <chris@structfoo.com>
  *
- * This code is derived from software contributed to The NetBSD Foundation
- * by Neil A. Carson
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by the NetBSD
- *	Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
- * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
- * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#
-# a0 = 0x11223344, return 0x44332211
-#
-		.syntax	unified
-		.thumb
+	.syntax	unified
+	.thumb
 
-		.text
-		.align	2
-		.thumb_func
-		.type	htonl, %function
-htonl:		.globl 	htonl
-
-#if 0 // XXX Arm ASM
-#ifdef __MIPSEB__
-		move	$v0, $a0
-#else
-		srl     $v1, $a0, 24		# v1 = 0x00000011
-		sll     $v0, $a0, 24		# v0 = 0x44000000
-		or      $v0, $v0, $v1
-		andi    $v1, $a0, 0xff00
-		sll     $v1, $v1, 8		# v1 = 0x00330000
-		or      $v0, $v0, $v1
-		srl     $v1, $a0, 8
-		andi    $v1, $v1, 0xff00	# v1 = 0x00002200
-		or      $v0, $v0, $v1
-#endif
-		j       $ra
-#endif // XXX Arm ASM
-		nop
-		.size	htonl, . - htonl
+/*
+ * uint32_t
+ * htonl(uint32_t host32);
+ *
+ * Host order    -> Network order
+ * 0x78.56.34.12 -> 0x12.34.56.78
+ */
+	.text
+	.align	2
+	.thumb_func
+	.globl	htonl
+	.type	htonl, %function
+htonl:
+	rev	r0, r0		/* Swap byte order in 32-bit word. */
+	bx	lr
+	.size	htonl, . - htonl
 
 
-		.text
-		.align	2
-		.thumb_func
-		.type	ntohl, %function
-ntohl:		.globl 	ntohl
-		nop
-		.size	ntohl, . - ntohl
+/*
+ * uint32_t
+ * ntohl(uint32_t net32);
+ *
+ * Network order -> Host order
+ * 0x12.34.56.78 -> 0x78.56.34.12
+ */
+	.text
+	.align	2
+	.thumb_func
+	.globl	ntohl
+	.type	ntohl, %function
+ntohl:
+	rev	r0, r0		/* Swap byte order in 32-bit word. */
+	bx	lr
+	.size	ntohl, . - ntohl

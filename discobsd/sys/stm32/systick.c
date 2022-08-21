@@ -15,10 +15,15 @@
  */
 
 #include <sys/param.h>
+#include <sys/signalvar.h>
+#include <sys/systm.h>
 #include <sys/user.h>
 #include <sys/proc.h>
+#include <sys/conf.h>
+#include <sys/tty.h>
 
 #include <machine/frame.h>
+#include <machine/uart.h>
 
 #include "stm32f4xx_hal.h"
 
@@ -32,4 +37,6 @@ SysTick_Handler(void)
 	HAL_IncTick();		/* Required for HAL driver subsystems. */
 
 	hardclock((caddr_t) u.u_frame->tf_pc, 0); // XXX USERMODE(ps)
+
+	uartintr(makedev(UART_MAJOR, 2));	/* USART3, console */
 }

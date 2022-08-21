@@ -60,8 +60,10 @@ void UsageFault_Handler(void);
 void SVC_Handler(void);
 #endif // XXX
 void DebugMon_Handler(void);
+#if 0 // XXX
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+#endif // XXX
 
 void USART3_IRQHandler(void);
 void USART6_IRQHandler(void);

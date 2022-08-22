@@ -21,7 +21,7 @@
  * Stack is set up to allow trampoline code stored at u.u_sigtramp (as
  * specified by the user process) to call the user's real signal catch
  * routine, followed by sys sigreturn to the sigreturn routine below
- * (see lib/libc/mips/sys/sigaction.S).  After sigreturn resets the signal
+ * (see lib/libc/arm/sys/sigaction.S).  After sigreturn resets the signal
  * mask, the stack, and the frame pointer, it returns to the user specified
  * pc and regs.
  */
@@ -96,15 +96,13 @@ sendsig (p, sig, mask)
     sfp->sf_sc.sc_r10 = regs->tf_r10;
     sfp->sf_sc.sc_r11 = regs->tf_r11;
 
-#if 0 // XXX FRAME
     /* Call signal handler */
-    regs [FRAME_R4] = sig;                  /* $a0 - signal number */
-    regs [FRAME_R5] = u.u_code;             /* $a1 - code */
-    regs [FRAME_R6] = (int) &sfp->sf_sc;    /* $a2 - address of sigcontext */
-    regs [FRAME_RA] = (int) u.u_sigtramp;   /* $ra - sigtramp */
-    regs [FRAME_SP] = (int) sfp;
-    regs [FRAME_PC] = (int) p;
-#endif // XXX FRAME
+    regs->tf_r0 = sig;                  /* $a1 - signal number */
+    regs->tf_r1 = u.u_code;             /* $a2 - code */
+    regs->tf_r2 = (int) &sfp->sf_sc;    /* $a3 - address of sigcontext */
+    regs->tf_lr = (int) u.u_sigtramp;   /* $lr - sigtramp */
+    regs->tf_sp = (int) sfp;            /* $sp - stack */
+    regs->tf_pc = (int) p;              /* $pc - handler */
 #ifdef DIAGNOSTIC
     printf("    ...call handler %p (sig=%d, code=%#x, context=%p)\n",
         p, sig, u.u_code, &sfp->sf_sc);
@@ -127,7 +125,7 @@ sigreturn()
 {
     struct trapframe *regs = u.u_frame;
     register struct sigcontext *scp =
-        (struct sigcontext*) (regs->tf_sp + 16); // XXX FRAME
+        (struct sigcontext*) (regs->tf_sp + 16);
 
 #ifdef DIAGNOSTIC
     printf("(%u)sigreturn stack=%#x, context=%p\n",

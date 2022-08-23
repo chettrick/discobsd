@@ -811,6 +811,7 @@ file /include/machine/sdio.h
 file /include/machine/sdio_card.h
 file /include/machine/setjmp.h
 file /include/machine/signal.h
+file /include/machine/types.h
 file /include/machine/uart.h
 file /include/math.h
 file /include/mtab.h

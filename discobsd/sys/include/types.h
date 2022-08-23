@@ -7,6 +7,8 @@
 #ifndef _SYS_TYPES_H_
 #define _SYS_TYPES_H_
 
+#include <machine/types.h>
+
 /*
  * Basic system types and major/minor device constructing/busting macros.
  */
@@ -31,16 +33,7 @@ typedef struct  label_t {
     int     val[7];                 /* regs 2-7 and super SP */
 } label_t;
 #endif
-#ifdef __mips__
-typedef struct  label_t {
-    unsigned val[12];               /* regs S0-S8, RA, GP and SP */
-} label_t;
-#endif
-#ifdef __thumb2__
-typedef struct  label_t {
-    long val[10];                   /* regs v1-v7, FP, IP/SP, LR (r4-r10,r11,r12,r14) */
-} label_t;
-#endif
+
 typedef long    daddr_t;
 typedef char *  caddr_t;
 typedef u_int   ino_t;

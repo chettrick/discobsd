@@ -18,22 +18,9 @@
 	.thumb
 
 /*
- * sigsetjmp(sigjmp_buf env, int savesigs);
+ * int
  * setjmp(jmp_buf env);
- * _setjmp(jmp_buf env);
  */
-	.text
-	.align	2
-	.thumb_func
-	.globl	sigsetjmp
-	.type	sigsetjmp, %function
-sigsetjmp:
-	cmp	r1, #0			/* If savesigs is zero.. */
-	beq	_setjmp			/*   skip signal mask handling; */
-	bne	setjmp			/*   else handle signal mask. */
-	.size	sigsetjmp, . - sigsetjmp
-
-
 	.text
 	.align	2
 	.thumb_func
@@ -57,40 +44,10 @@ setjmp:
 	.size	setjmp, . - setjmp
 
 
-	.text
-	.align	2
-	.thumb_func
-	.globl	_setjmp
-	.type	_setjmp, %function
-_setjmp:
-	mov	r1, #0			/* Not saving sigmask, env[0]=0.. */
-	stmia	r0!, {r1}		/*   so _longjmp ignores sigmask. */
-	stmia	r0!, {r1}		/* Ignore sigmask, so env[1]=0. */
-	mov	ip, sp			/* Save stack pointer (via ip). */
-	stmia	r0, {r4-r11,ip,lr}	/* Save regs in env[2-11]. */
-	mov	r0, #0			/* Always return a 0. */
-	bx	lr
-	.size	_setjmp, . - _setjmp
-
-
 /*
- * siglongjmp(sigjmp_buf env, int val);
+ * void
  * longjmp(jmp_buf env, int val);
- * _longjmp(jmp_buf env, int val);
  */
-	.text
-	.align	2
-	.thumb_func
-	.globl	siglongjmp
-	.type	siglongjmp, %function
-siglongjmp:
-	ldr	r2, [r0]		/* Get savesigs. */
-	cmp	r2, #0			/* If savesigs was zero.. */
-	beq	_longjmp		/*   skip signal mask handling; */
-	bne	longjmp			/*   else handle signal mask. */
-	.size	siglongjmp, . - siglongjmp
-
-
 	.text
 	.align	2
 	.thumb_func
@@ -114,19 +71,3 @@ longjmp:
 	moveq	r0, #1			/*   and return a 1 if val is 0. */
 	bx	lr
 	.size	longjmp, . - longjmp
-
-
-	.text
-	.align	2
-	.thumb_func
-	.globl	_longjmp
-	.type	_longjmp, %function
-_longjmp:
-	add	r0, r0, #8		/* Skip savesigs and signal mask. */
-	ldmia	r0, {r4-r11,ip,lr}	/* Restore regs from env[2-11]. */
-	mov	sp, ip			/* Restore stack pointer (via ip). */
-	movs	r0, r1			/* Return val.. */
-	it	eq			/*   but first test if val is 0.. */
-	moveq	r0, #1			/*   and return a 1 if val is 0. */
-	bx	lr
-	.size	_longjmp, . - _longjmp

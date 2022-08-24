@@ -8,8 +8,8 @@ include $(TOPSRC)/target.mk
 
 CFLAGS		+= ${DEFS}
 
-SRCS		= htonl.S htons.S setjmp.S
-OBJS		= htonl.o htons.o setjmp.o
+SRCS		= _setjmp.S htonl.S htons.S setjmp.S sigsetjmp.S
+OBJS		= _setjmp.o htonl.o htons.o setjmp.o sigsetjmp.o
 
 gen.a:		${OBJS}
 		@echo "building gen.a"

@@ -15,7 +15,7 @@ OBJS		= getopt.o getsubopt.o strtol.o strtoul.o strtod.o
 all:		stdlib.a
 
 stdlib.a:	${OBJS}
-		@echo "building stdlib"
+		@echo "building stdlib.a"
 		@ar cru stdlib.a ${OBJS}
 
 clean:

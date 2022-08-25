@@ -3,10 +3,10 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/libcurses
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
-else
 CFLAGS		= -Os $(DEFS) -Wall -Werror
+
+ifeq ($(MACHINE_ARCH), mips)
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/
 endif
 
 OBJS		= addch.o addstr.o box.o clear.o clrtobot.o clrtoeol.o cr_put.o \

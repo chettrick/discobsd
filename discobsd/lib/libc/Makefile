@@ -12,21 +12,20 @@ vpath %.c $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
           $(LIBCDIR)/stdlib $(LIBCDIR)/string $(LIBCDIR)/inet \
           $(LIBCDIR)/compat $(LIBCDIR)/runtime
 
+CFLAGS		= -Os $(DEFS) -Wall -Werror
+ASFLAGS		= $(DEFS) -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
+
 ifeq ($(MACHINE_ARCH), mips)
-# XXX CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
-CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall
-ASFLAGS		+= -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x \
-		   -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
-else
-CFLAGS		= -Os $(DEFS) -Wall
-ASFLAGS		+= $(DEFS) -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/
+ASFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/ \
+		   -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl
 endif
 
 # modules which can not use SYSCALL and must be assembled from sources.  The
 # rest of the system calls are generated with printf(1) and do not have
 # source files associated with them.
 
-# libc/mips/sys XXX MACHINE_ARCH?
+# libc/$(MACHINE_ARCH)/sys
 SYSOBJS		= __sysctl.o accept.o access.o adjtime.o bind.o chdir.o \
 		  chflags.o chmod.o chown.o chroot.o close.o connect.o dup.o \
 		  dup2.o execve.o fchdir.o fchflags.o fchmod.o fchown.o \
@@ -51,12 +50,11 @@ SYSOBJS		= __sysctl.o accept.o access.o adjtime.o bind.o chdir.o \
 OBJS		= $(SYSOBJS) sbrk.o execl.o execle.o execv.o \
 		  _exit.o _brk.o pipe.o ptrace.o sigaction.o
 
-# libc/mips/string XXX MACHINE_ARCH?
-ASFLAGS         += -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl
+# libc/$(MACHINE_ARCH)/string
 OBJS            += bcopy.o bzero.o ffs.o memcpy.o memmove.o memset.o \
                    strlen.o bcmp.o index.o rindex.o strcmp.o
 
-# libc/mips/gen XXX MACHINE_ARCH?
+# libc/$(MACHINE_ARCH)/gen
 OBJS            += _setjmp.o htonl.o htons.o
 
 # libc/gen

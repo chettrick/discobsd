@@ -3,10 +3,10 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/libwiznet
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		= -Os -B$(TOPSRC)/lib/ $(DEFS) -Wa,-x -Wall -Werror
-else
 CFLAGS		= -Os $(DEFS) -Wall -Werror
+
+ifeq ($(MACHINE_ARCH), mips)
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/
 endif
 
 OBJS		= w5100.o socket.o ethernet.o client.o server.o udp.o

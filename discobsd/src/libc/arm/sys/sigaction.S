@@ -73,7 +73,7 @@ END(sigaction)
  * Note that the stack offset SIG_SC will NOT have to be recomputed if the
  * sigcontext structure changes.
  */
-sigtramp:
+ENTRY(sigtramp)
 	svc	SYS_sigreturn		/* Attempt the sigreturn. */
 	svc	SYS_exit		/* Die if the sigreturn fails ... */
 END(sigtramp)

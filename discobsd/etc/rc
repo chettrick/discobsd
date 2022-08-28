@@ -45,7 +45,7 @@ case $? in
     exit 1 ;;
 esac
 
-hostname "pic32"
+hostname "name.my.domain"
 
 #
 # First umount everything in case the system is going back into multiuser

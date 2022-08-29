@@ -98,14 +98,20 @@ syscall(struct trapframe *frame)
 		u.u_arg[2] = u.u_frame->tf_r2;	/* $a3 */
 		u.u_arg[3] = u.u_frame->tf_r3;	/* $a4 */
 
+		/* In AAPCS, stack must be double-word aligned. */
+		int stkalign = 0;
+		if (u.u_frame->tf_psr & SCB_CCR_STKALIGN_Msk) {
+			stkalign = 4;		/* Skip over padding byte. */
+		}
+
 		/* Remaining args are from the stack, after the trapframe. */
 		if (callp->sy_narg > 4) {
-			u_int addr = (u.u_frame->tf_sp + 32) & ~3;
+			u_int addr = (u.u_frame->tf_sp + 32 + stkalign) & ~3;
 			if (! baduaddr((caddr_t)addr))
 				u.u_arg[4] = *(u_int *)addr;
 		}
 		if (callp->sy_narg > 5) {
-			u_int addr = (u.u_frame->tf_sp + 36) & ~3;
+			u_int addr = (u.u_frame->tf_sp + 36 + stkalign) & ~3;
 			if (! baduaddr((caddr_t)addr))
 				u.u_arg[5] = *(u_int *)addr;
 		}

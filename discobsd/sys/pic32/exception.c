@@ -519,27 +519,10 @@ exception(frame)
     }
     /* From this point and further the interrupts must be enabled. */
     psignal(u.u_procp, psig);
+
 out:
-    /* Process all received signals. */
-    for (;;) {
-        psig = CURSIG(u.u_procp);
-        if (psig <= 0)
-            break;
-        postsig(psig);
-    }
-    curpri = setpri(u.u_procp);
+    userret(frame->tf_pc, syst);
 
-    /* Switch to another process. */
-    if (runrun) {
-        setrq(u.u_procp);
-        u.u_ru.ru_nivcsw++;
-        swtch();
-    }
-
-    /* Update profiling information. */
-    if (u.u_prof.pr_scale)
-        addupc((caddr_t) frame->tf_pc,
-            &u.u_prof, (int) (u.u_ru.ru_stime - syst));
 ret:
     led_control(LED_KERNEL, 0);
 }

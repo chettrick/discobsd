@@ -145,26 +145,7 @@ bad:
 	psignal(u.u_procp, psig);
 
 out:
-	/* Process all received signals. */
-	for (;;) {
-		psig = CURSIG(u.u_procp);
-		if (psig <= 0)
-			break;
-		postsig(psig);
-	}
-	curpri = setpri(u.u_procp);
-
-	/* Switch to another process. */
-	if (runrun) {
-		setrq(u.u_procp);
-		u.u_ru.ru_nivcsw++;
-		swtch();
-	}
-
-	/* Update profiling information. */
-	if (u.u_prof.pr_scale)
-		addupc((caddr_t) u.u_frame->tf_pc,
-		    &u.u_prof, (int) (u.u_ru.ru_stime - syst));
+	userret(u.u_frame->tf_pc, syst);
 
 	led_control(LED_KERNEL, 0);
 }

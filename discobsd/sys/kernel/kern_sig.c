@@ -713,3 +713,29 @@ nosys()
         u.u_error = EINVAL;
     psignal(u.u_procp, SIGSYS);
 }
+
+void
+userret(int pc, time_t syst)
+{
+    int psig;
+
+    /* Process all received signals. */
+    for (;;) {
+        psig = CURSIG(u.u_procp);
+        if (psig <= 0)
+            break;
+        postsig(psig);
+    }
+    curpri = setpri(u.u_procp);
+
+    /* Switch to another process. */
+    if (runrun) {
+        setrq(u.u_procp);
+        u.u_ru.ru_nivcsw++;
+        swtch();
+    }
+
+    /* Update profiling information. */
+    if (u.u_prof.pr_scale)
+        addupc((caddr_t)pc, &u.u_prof, (int)(u.u_ru.ru_stime - syst));
+}

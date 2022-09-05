@@ -273,6 +273,7 @@ void fatalsig (int signum);
 int procxmt (void);
 
 void execsigs(register struct proc *p);
+void userret(int, time_t);
 
 #endif /* KERNEL */
 

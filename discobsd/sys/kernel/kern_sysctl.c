@@ -270,15 +270,17 @@ hw_sysctl(name, namelen, oldp, oldlenp, newp, newlen)
     void *newp;
     size_t newlen;
 {
+    extern char machine[], machine_arch[], cpu_model[];
+
     /* all sysctl names at this level are terminal */
     if (namelen != 1)
         return (ENOTDIR);       /* overloaded */
 
     switch (name[0]) {
     case HW_MACHINE:
-        return (sysctl_rdstring(oldp, oldlenp, newp, "pic32"));
+        return (sysctl_rdstring(oldp, oldlenp, newp, machine));
     case HW_MODEL:
-        return (sysctl_rdstring(oldp, oldlenp, newp, "mips"));
+        return (sysctl_rdstring(oldp, oldlenp, newp, cpu_model));
     case HW_NCPU:
         return (sysctl_rdint(oldp, oldlenp, newp, 1));  /* XXX */
     case HW_BYTEORDER:
@@ -291,6 +293,8 @@ hw_sysctl(name, namelen, oldp, oldlenp, newp, newlen)
 #endif
     case HW_PAGESIZE:
         return (sysctl_rdint(oldp, oldlenp, newp, DEV_BSIZE));
+    case HW_MACHINE_ARCH:
+        return (sysctl_rdstring(oldp, oldlenp, newp, machine_arch));
     default:
         return (EOPNOTSUPP);
     }

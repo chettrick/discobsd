@@ -97,6 +97,10 @@ extern void power_off();
 #define LED_MISC4_OFF()     LAT_CLR(LED_MISC4_PORT) = 1 << LED_MISC4_PIN
 #endif
 
+char    machine[] = MACHINE;            /* from <machine/machparam.h> */
+char    machine_arch[] = MACHINE_ARCH;  /* from <machine/machparam.h> */
+char    cpu_model[64];
+
 int     hz = HZ;
 int     usechz = (1000000L + HZ - 1) / HZ;
 #ifdef TIMEZONE
@@ -425,22 +429,27 @@ static void cpuidentify()
     switch (devid & 0x0fffffff) {
     case 0x04307053:
         cpu_pins = 100;
+        copystr("795F512L", cpu_model, sizeof(cpu_model), NULL);
         printf("795F512L");
         break;
     case 0x0430E053:
         cpu_pins = 64;
+        copystr("795F512H", cpu_model, sizeof(cpu_model), NULL);
         printf("795F512H");
         break;
     case 0x04341053:
         cpu_pins = 100;
+        copystr("695F512L", cpu_model, sizeof(cpu_model), NULL);
         printf("695F512L");
         break;
     case 0x04325053:
         cpu_pins = 64;
+        copystr("695F512H", cpu_model, sizeof(cpu_model), NULL);
         printf("695F512H");
         break;
     default:
         /* Assume 100-pin package. */
+        copystr("PIC32 device unknown", cpu_model, sizeof(cpu_model), NULL);
         cpu_pins = 100;
         printf("DevID %08x", devid);
     }

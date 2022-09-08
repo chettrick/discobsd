@@ -7,6 +7,9 @@
  */
 #ifndef ENDIAN
 
+#define MACHINE         "pic32"
+#define MACHINE_ARCH    "mips"
+
 /*
  * Definitions for byte order,
  * according to byte significance from low address to high.

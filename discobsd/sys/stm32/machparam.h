@@ -7,6 +7,9 @@
  */
 #ifndef ENDIAN
 
+#define MACHINE         "stm32"
+#define MACHINE_ARCH    "arm"
+
 /*
  * Definitions for byte order,
  * according to byte significance from low address to high.

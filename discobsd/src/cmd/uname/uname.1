@@ -36,7 +36,7 @@
 .SH NAME
 uname \- display information about the system
 .SH SYNOPSIS
-.B uname [\-amnrsv]
+.B uname [\-amnprsv]
 .SH DESCRIPTION
 The
 .B uname
@@ -56,6 +56,9 @@ Write the type of the current hardware platform to standard output.
 .TP 10
 \-n
 Write the name of the system to standard output.
+.TP 10
+\-p
+Write the type of the machine processor architecture to standard output.
 .TP 10
 \-r
 Write the current release level of the operating system
@@ -77,14 +80,17 @@ The
 .B uname
 utility exits 0 on success, and >0 if an error occurs.
 .SH SEE ALSO
-sysctl(8), sysctl(3), uname(3)
+hostname(1), machine(1), sysctl(3), uname(3), sysctl(8)
 .SH HISTORY
 The
 .B uname
 command appeared in 4.4BSD.
 .SH STANDARDS
 The
-.Nm uname
+.B uname
 command is expected to conform to the
 IEEE Std1003.2 (``POSIX'')
 specification.
+.PP
+The flag
+[\-p] is an extension to that specification.

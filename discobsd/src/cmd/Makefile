@@ -10,7 +10,7 @@ include $(TOPSRC)/target.mk
 
 # Programs that live in subdirectories, and have makefiles of their own.
 # /bin
-SUBDIR		= aout ar as awk basic calendar cc chflags \
+SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   chpass cpp dc diff emg env fdisk find fold forth \
                   fstat glcdtest hostname id la lcc lcpp ld ls login make \
                   man md5 med more nm passwd pdc picoc portio printf pwm \

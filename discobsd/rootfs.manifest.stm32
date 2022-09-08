@@ -435,6 +435,7 @@ filemode 0775
 file /bin/aout
 file /bin/apropos
 file /bin/ar
+file /bin/arch
 file /bin/as
 file /bin/awk
 file /bin/basename
@@ -628,6 +629,9 @@ link /bin/sb
 target /bin/sz
 link /bin/sx
 target /bin/sz
+
+link /bin/machine
+target /bin/arch
 
 #
 # Files: /sbin
@@ -1250,6 +1254,7 @@ file /share/man/cat1/addbib.0
 file /share/man/cat1/apply.0
 file /share/man/cat1/apropos.0
 file /share/man/cat1/ar.0
+file /share/man/cat1/arch.0
 file /share/man/cat1/as.0
 file /share/man/cat1/at.0
 file /share/man/cat1/atq.0
@@ -2709,3 +2714,7 @@ target /share/man/cat3/endgrent.0
 file /share/man/cat1/more.0
 link /share/man/cat1/page.0
 target /share/man/cat1/more.0
+
+file /share/man/cat1/arch.0
+link /share/man/cat1/machine.0
+target /share/man/cat1/arch.0

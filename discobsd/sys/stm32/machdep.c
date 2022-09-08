@@ -40,6 +40,10 @@
 #define LED_KERNEL_ON()     BSP_LED_On(LED_BLUE)
 #define LED_KERNEL_OFF()    BSP_LED_Off(LED_BLUE)
 
+char    machine[] = MACHINE;            /* from <machine/machparam.h> */
+char    machine_arch[] = MACHINE_ARCH;  /* from <machine/machparam.h> */
+char    cpu_model[64];
+
 int     hz = HZ;
 int     usechz = (1000000L + HZ - 1) / HZ;
 #ifdef TIMEZONE
@@ -245,6 +249,7 @@ cpuidentify()
     switch (devid) {
     case 0x0411:
         physmem = 192 * 1024;   /* Total 192kb RAM size. */
+        copystr("STM32F407xx", cpu_model, sizeof(cpu_model), NULL);
         printf("STM32F407xx");
         printf(" rev ");
         switch (revid) {
@@ -258,6 +263,7 @@ cpuidentify()
         break;
     case 0x0434:
         physmem = 384 * 1024;   /* Total 384kb RAM size. */
+        copystr("STM32F469xx", cpu_model, sizeof(cpu_model), NULL);
         printf("STM32F469xx");
         printf(" rev ");
         switch (revid) {
@@ -271,6 +277,7 @@ cpuidentify()
         break;
     default:
         physmem = 128 * 1024;   /* Minimum of 128kb total RAM size. */
+        copystr("STM32 device unknown", cpu_model, sizeof(cpu_model), NULL);
         printf("device unknown 0x%03x", devid);
         printf(" rev unknown 0x%04x", revid);
         break;

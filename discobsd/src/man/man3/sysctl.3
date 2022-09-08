@@ -212,6 +212,7 @@ privilege may change the value.
 	HW\_PAGESIZE	integer	no
 .\".It HW\_DISKNAMES	integer	no
 .\".It HW\_DISKSTATS	integer	no
+	HW\_MACHINE_ARCH	string	no
 .fi
 .PP
 .ta .5i
@@ -221,7 +222,7 @@ HW_MACHINE
 .sp
 HW_MODEL
 .br
-	The machine model
+	The machine model.
 .sp
 HW_NCPU
 .br
@@ -245,6 +246,10 @@ HW_PAGESIZE
 .sp
 .\".It Fa HW_DISKNAMES
 .\".It Fa HW_DISKSTATS
+HW_MACHINE_ARCH
+.br
+	The machine architecture.
+.sp
 .SH CTL_KERN
 The string and integer information available for the CTL_KERN level
 is detailed below.

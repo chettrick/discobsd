@@ -9,6 +9,8 @@
 #ifndef _SYS_RESOURCE_H_
 #define _SYS_RESOURCE_H_
 
+#include <sys/time.h>
+
 /*
  * Process priority specifications to get/setpriority.
  */

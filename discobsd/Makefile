@@ -36,7 +36,7 @@ TOPSRC       = $(shell pwd)
 CONFIG       = $(TOPSRC)/tools/configsys/config
 KCONFIG      = $(TOPSRC)/tools/kconfig/kconfig
 
-all:
+all:		symlinks
 		$(MAKE) -C tools
 		$(MAKE) -C lib
 		$(MAKE) -C src install
@@ -81,6 +81,10 @@ cleanall:       clean
 		rm -f tools/configsys/.depend
 		rm -f var/log/aculog sdcard.img
 		rm -rf var/lock share/unixbench
+
+symlinks:
+		rm -f include/machine
+		ln -s $(MACHINE) include/machine
 
 installfs:
 ifdef SDCARD

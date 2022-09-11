@@ -48,8 +48,8 @@ main(argc, argv)
 		howto = RB_NOFSCK;
 	else if (strcmp(myname, "poweroff") == 0)
 		howto = RB_HALT|RB_POWEROFF;
-    else if (strcmp(myname, "bootloader") == 0)
-        howto = RB_HALT|RB_BOOTLOADER;
+	else if (strcmp(myname, "bootloader") == 0)
+		howto = RB_HALT|RB_BOOTLOADER;
 	else
 		howto = 0;
 
@@ -145,7 +145,7 @@ main(argc, argv)
 				    "CAUTION: some process(es) wouldn't die\n");
 				break;
 			}
-			sleep(i);
+			// XXX sleep(i);
 		}
                 if (! (howto & RB_NOSYNC)) {
                         markdown();

@@ -435,21 +435,29 @@ boot(dev, howto)
             (*dump)(dumpdev);
         }
         /* Restart from dev, howto */
-        /* XXX Reset microcontroller */
+
+        /* Reset microcontroller */
+        NVIC_SystemReset();
+        /* NOTREACHED */
     }
     printf("halted\n");
 
 #ifdef HALTREBOOT
-    printf("press any key to reboot...");
+    printf("press any key to reboot...\n");
     cngetc();
 
-    /* XXX Reset microcontroller */
+    /* Reset microcontroller */
+    NVIC_SystemReset();
+    /* NOTREACHED */
 #endif
 
+    printf("reboot failed; spinning\n");
     for (;;) {
-// XXX        asm volatile ("wait");
+        __DSB();
+        __ISB();
+        __WFI();
     }
-    /*NOTREACHED*/
+    /* NOTREACHED */
 }
 
 /*

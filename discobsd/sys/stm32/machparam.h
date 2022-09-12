@@ -136,9 +136,9 @@
 void idle(void);
 
 /*
- * Microsecond delay routine.
+ * Millisecond delay routine.
  */
-void udelay(unsigned usec);
+void mdelay(unsigned msec);
 
 /*
  * Setup system timer for `hz' timer interrupts per second.

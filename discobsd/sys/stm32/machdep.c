@@ -28,6 +28,7 @@
 #include <machine/stm32f4xx_ll_pwr.h>
 #include <machine/stm32f4xx_ll_rcc.h>
 #include <machine/stm32f4xx_ll_system.h>
+#include <machine/stm32f4xx_ll_utils.h>
 #include <machine/stm32f4xx_hal.h>
 #include <machine/stm32469i_discovery.h>
 
@@ -419,7 +420,7 @@ boot(dev, howto)
             if (nbusy == 0)
                 break;
             printf("%d ", nbusy);
-            udelay(40000L * iter);
+            mdelay(40L * iter);
         }
         printf("done\n");
     }
@@ -461,15 +462,16 @@ boot(dev, howto)
 }
 
 /*
- * Microsecond delay routine for MIPS processor.
+ * Millisecond delay routine.
  *
- * We rely on a hardware register Count, which is increased
- * every next clock cycle, i.e. at rate CPU_KHZ/2 per millisecond.
+ * Uses SysTick, which must be configured to a 1ms timebase.
+ * This is a busy-wait blocking delay, so be wise with use.
  */
 void
-udelay(usec)
-    u_int usec;
+mdelay(msec)
+    u_int msec;
 {
+    LL_mDelay(msec);
 }
 
 /*

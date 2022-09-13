@@ -6,6 +6,8 @@ OBJS            = reboot.o
 MAN             = reboot.0
 MANSRC          = reboot.8
 
+CFLAGS          += -Wall -Werror
+
 all:            reboot ${MAN}
 
 reboot:         ${OBJS}

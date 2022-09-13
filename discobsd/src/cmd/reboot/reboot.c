@@ -36,7 +36,7 @@ main(argc, argv)
 	char args[20], *ap;	/* collected arguments for syslog */
 	int i;
 
-	if (myname = rindex(argv[0], '/'))
+	if ((myname = rindex(argv[0], '/')) != NULL)
 		myname++;
 	else
 		myname = argv[0];

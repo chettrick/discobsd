@@ -47,4 +47,24 @@ struct	trapframe {
 #define	tf_r14	tf_lr		/* Link Register */
 #define	tf_r15	tf_pc		/* Program Counter */
 
+/*
+ * Exception stack frame of a SysTick exception.
+ * A clockframe encapsulates the machine state when the SysTick
+ * exception occured.
+ * The clockframe is used by hardclock(), softclock(), and gatherstats().
+ */
+struct	clockframe {
+/* These 8 registers are pushed on stack by hardware in an exception. */
+	u_int	cf_r0;		/* Argument / Scratch Register 1 */
+	u_int	cf_r1;		/* Argument / Scratch Register 2 */
+	u_int	cf_r2;		/* Argument / Scratch Register 3 */
+	u_int	cf_r3;		/* Argument / Scratch Register 4 */
+	u_int	cf_ip;		/* Stack Pointer (as passed by IP) */
+	u_int	cf_lr;		/* Link Register */
+	u_int	cf_pc;		/* Program Counter */
+	u_int	cf_psr;		/* Program Status Register */
+};
+
+#define	cf_sp	cf_ip		/* Stack Pointer (as passed by IP) */
+
 #endif /* !_MACHINE_FRAME_H_ */

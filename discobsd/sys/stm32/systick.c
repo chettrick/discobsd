@@ -27,16 +27,28 @@
 
 #include "stm32f4xx_hal.h"
 
+void
+SysTick_Handler(void)
+{
+__asm volatile (
+"	tst	lr, #0x4	\n\t"	/* Test bit 2 (SPSEL) of EXC_RETURN. */
+"	ite	eq		\n\t"	/* Came from user or kernel mode? */
+"	mrseq	r0, MSP		\n\t"	/* Kernel mode; stack frame on MSP. */
+"	mrsne	r0, PSP		\n\t"	/* User mode; stack frame on PSP. */
+"	b	systick		\n\t"	/* Call systick(frame); */
+);
+}
+
 /*
  * Default system time base for Cortex-M.
  * Internal hardware SysTick interrupt every 1 millisecond.
  */
 void
-SysTick_Handler(void)
+systick(struct clockframe *frame)
 {
 	HAL_IncTick();		/* Required for HAL driver subsystems. */
 
-	hardclock((caddr_t) u.u_frame->tf_pc, 0); // XXX USERMODE(ps)
+	hardclock((caddr_t)frame->cf_pc, frame->cf_psr);
 
 	uartintr(makedev(UART_MAJOR, 2));	/* USART3, console */
 }

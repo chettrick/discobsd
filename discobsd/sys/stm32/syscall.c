@@ -40,6 +40,48 @@ SVC_Handler(void)
 	(void)spl0();
 }
 
+/*
+ * PendSV_Handler(frame)
+ *	struct trapframe *frame;
+ *
+ * System call handler (via SVC_Handler pending a PendSV exception).
+ * Save the processor state in a trap frame and pass it to syscall().
+ * Restore processor state from returned trap frame on return from syscall().
+ */
+void
+PendSV_Handler(void)
+{
+__asm volatile (
+"	cpsid	i		\n\t"	/* Disable interrupts. */
+
+	/*
+	 * ARMv7-M hardware already pushed r0-r3, ip, lr, pc, psr on PSP,
+	 * and then switched to MSP and is currently in Handler Mode.
+	 */
+"	push	{r4-r11}	\n\t"	/* Push v1-v8 registers onto MSP. */
+"	mrs	r1, PSP		\n\t"	/* Get pointer to trap frame. */
+"	ldmfd	r1, {r2-r9}	\n\t"	/* Copy trap frame from PSP. */
+"	mov	r6, r1		\n\t"	/* Set trap frame sp as PSP. */
+"	push	{r2-r9}		\n\t"	/* Push that trap frame onto MSP. */
+
+"	mrs	r0, MSP		\n\t"	/* MSP trap frame is syscall() arg. */
+"	bl	syscall		\n\t"	/* Call syscall() with MSP as arg. */
+
+"	pop	{r2-r9}		\n\t"	/* Pop off trap frame from MSP. */
+"	mov	r1, r6		\n\t"	/* PSP will be trap frame sp. */
+"	stmia	r1, {r2-r9}	\n\t"	/* Hardware pops off PSP on return. */
+"	msr	PSP, r1		\n\t"	/* Set PSP as trap frame sp. */
+"	pop	{r4-r11}	\n\t"	/* Pop from MSP into v1-v8 regs. */
+
+	/*
+	 * On return, ARMv7-M hardware sets PSP as stack pointer,
+	 * pops from PSP to registers r0-r3, ip, lr, pc, psr,
+	 * and then switches back to Thread Mode (exception completed).
+	 */
+"	mov	lr, #0xFFFFFFFD	\n\t"	/* EXC_RETURN Thread Mode, PSP */
+);					/* Return to Thread Mode. */
+}
+
 void
 syscall(struct trapframe *frame)
 {
@@ -52,7 +94,7 @@ syscall(struct trapframe *frame)
 
 	if ((unsigned) frame < (unsigned) &u + sizeof(u)) {
 		panic("stack overflow");
-		/*NOTREACHED*/
+		/* NOTREACHED */
 	}
 
 #ifdef UCB_METER

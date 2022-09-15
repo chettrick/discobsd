@@ -116,9 +116,9 @@ main(argc, argv)
 		fprintf(stderr, "%s: can\'t idle init\n", myname);
 		exit(EX_NOPERM);
 	}
-	//sleep(1);
+	sleep(1);
 	(void) kill(-1, SIGTERM);	/* one chance to catch it */
-	//sleep(1);
+	sleep(1);
         printf(" done\n");
 
         /*
@@ -128,7 +128,7 @@ main(argc, argv)
          */
 	if (!(howto & RB_NOSYNC)) {
 		sync();
-                //sleep(1);
+		sleep(1);
         }
 
 	if (! quickly) {
@@ -145,12 +145,12 @@ main(argc, argv)
 				    "CAUTION: some process(es) wouldn't die\n");
 				break;
 			}
-			// XXX sleep(i);
+			sleep(i);
 		}
                 if (! (howto & RB_NOSYNC)) {
                         markdown();
                         sync();
-                        //sleep(1);
+                        sleep(1);
                 }
         }
 	reboot(howto);

@@ -241,7 +241,7 @@ hardclock(pc, ps)
     }
 
     if (needsoft && BASEPRI(ps)) {  /* if ps is high, just return */
-//      (void) splsoftclock();
+        (void) splsoftclock();
         softclock (pc, ps);
     }
 }

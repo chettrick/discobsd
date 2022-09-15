@@ -125,8 +125,8 @@
 /*
  * Macros to decode processor status word.
  */
-#define USERMODE(ps)    (0UL) /* XXX USERMODE */
-#define BASEPRI(ps)     (0UL) /* XXX USERMODE */
+#define USERMODE(psr)   ((psr & IPSR_ISR_Msk) == 0)     /* No exceptions. */
+#define BASEPRI(psr)    (__get_BASEPRI() == 0)          /* No masking. */
 
 #define noop()          asm volatile("nop")
 

@@ -234,7 +234,7 @@ shutreset (sig)
 		sleep(1);
 		exit(1);
 	}
-	//sleep(1);
+	sleep(1);
 	shutend();
 	longjmp(shutpass, 1);
 }
@@ -256,7 +256,7 @@ shutdown()
 	itab = (struct tab *)0;
 	signal(SIGALRM, shutreset);
 	(void) kill(-1, SIGTERM);	/* one chance to catch it */
-	//sleep(1);
+	sleep(1);
 	alarm(30);
 	for (i = 0; i < 5; i++)
 		kill(-1, SIGKILL);

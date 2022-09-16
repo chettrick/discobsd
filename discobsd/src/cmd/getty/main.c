@@ -145,7 +145,7 @@ main(argc, argv)
 		/*
 		 * Delay the open so DTR stays down long enough to be detected.
 		 */
-		//sleep(2);
+		sleep(2);
 		while (open(ttyn, O_RDWR) != 0) {
 			if (repcnt % 10 == 0) {
 				syslog(LOG_ERR, "%s: %m", ttyn);

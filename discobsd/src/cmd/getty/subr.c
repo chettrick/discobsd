@@ -352,7 +352,7 @@ portselector()
 			type = ps->ps_type;
 			break;
 		}
-	//sleep(2);	/* wait for connection to complete */
+	sleep(2);	/* wait for connection to complete */
 	return (type);
 }
 

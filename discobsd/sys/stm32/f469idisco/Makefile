@@ -23,11 +23,11 @@ DEBUG = -g
 #
 include ../gcc-config.mk
 
-AS              = ${ARM_GCC_PREFIX}as ${DEBUG} -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -ffreestanding
-CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16 -ffreestanding -fno-builtin -nostdlib -Wall
+AS              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16
+CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 -mabi=aapcs -ffreestanding -fno-builtin -nostdlib -Wall
 CPP             = ${ARM_GCC_PREFIX}cpp
-LD              = ${ARM_GCC_PREFIX}gcc -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mno-thumb-interwork -mfloat-abi=soft -mfpu=fpv4-sp-d16
-LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$(basename $@).map
+LD              = ${ARM_GCC_PREFIX}ld
+LDFLAGS         = -T ../${LDSCRIPT} -nostdlib -nopie -Map=$(basename $@).map
 SIZE            = ${ARM_GCC_PREFIX}size
 OBJCOPY         = ${ARM_GCC_PREFIX}objcopy
 OBJDUMP         = ${ARM_GCC_PREFIX}objdump
@@ -43,7 +43,7 @@ CFLAGS          = -O ${DEFS}
 # SUFFIX is the file suffix, capitalized (e.g. C for a .c file).
 
 COMPILE_C       = ${CC} -c ${CFLAGS} $<
-COMPILE_S       = ${CC} -c ${DEFS} $<
+COMPILE_S       = ${AS} -c ${DEFS} -x assembler-with-cpp $<
 
 OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	init_main.o init_sysent.o kern_clock.o kern_descrip.o \
@@ -108,8 +108,6 @@ SYSTEM_LD_HEAD  = sh ../newvers.sh > vers.c; ${CC} $(CFLAGS) -c vers.c; rm -f $@
 SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \
                   ${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@
 SYSTEM_LD_TAIL  = ${SIZE} $@; \
-                  $(OBJCOPY) -O ihex --change-addresses=0x80000000 $@ $(basename $@).hex; \
-                  $(OBJCOPY) -O binary -R .boot -R .config $@ $(basename $@).bin; \
                   $(OBJDUMP) -d -S $@ > $(basename $@).dis
 
 unix: unix.elf

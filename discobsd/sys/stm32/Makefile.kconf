@@ -5,27 +5,29 @@
 #
 include ../gcc-config.mk
 
-AS              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16
-CC              = ${ARM_GCC_PREFIX}gcc ${DEBUG} -mcpu=cortex-m4 -mlittle-endian -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 -mabi=aapcs -ffreestanding -fno-builtin -nostdlib -Wall
-CPP             = ${ARM_GCC_PREFIX}cpp
-LD              = ${ARM_GCC_PREFIX}ld
-LDFLAGS         = -T ../${LDSCRIPT} -nostdlib -nopie -Map=$(basename $@).map
-SIZE            = ${ARM_GCC_PREFIX}size
-OBJCOPY         = ${ARM_GCC_PREFIX}objcopy
-OBJDUMP         = ${ARM_GCC_PREFIX}objdump
-
 # sources are located via $S relative to the compilation directory
-S               = ../..
+S=		../..
 
-DEPFLAGS	= -MT $@ -MP -MD -MF .deps/$*.dep
-DEFS            = -I. ${PARAM} -DKERNEL $(DEPFLAGS)
-CFLAGS          = -O ${DEFS}
+INCLUDES=	-nostdlib -I.
+DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
+DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
+CWARNFLAGS=	-Wall
+
+CMACHFLAGS=	-ffreestanding -fno-builtin
+CMACHFLAGS+=	-mfloat-abi=soft -mfpu=fpv4-sp-d16
+CMACHFLAGS+=	-mthumb -mabi=aapcs -mlittle-endian
+CMACHFLAGS+=	-mcpu=cortex-m4
+
+COPTS?=		-O
+CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
+AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
+LDFLAGS=	-T ../${LDSCRIPT} -nopie -Map=$(basename $@).map
 
 # compile rules: rules are named COMPILE_${SUFFIX}
 # SUFFIX is the file suffix, capitalized (e.g. C for a .c file).
 
-COMPILE_C       = ${CC} -c ${CFLAGS} $<
-COMPILE_S       = ${AS} -c ${DEFS} -x assembler-with-cpp $<
+COMPILE_C=	${CC} ${CFLAGS} ${DEFS} -c $<
+COMPILE_S=	${AS} ${AFLAGS} ${DEFS} -c $<
 
 %OBJS
 
@@ -36,16 +38,16 @@ COMPILE_S       = ${AS} -c ${DEFS} -x assembler-with-cpp $<
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = locore.o startup_stm32f407xx.o ${OBJS} ioconf.o
+SYSTEM_OBJ=	locore.o startup_stm32f407xx.o ${OBJS} ioconf.o
 ifeq (devcfg.c,$(wildcard devcfg.c))
-    SYSTEM_OBJ  += devcfg.o
+SYSTEM_OBJ+=	devcfg.o
 endif
-SYSTEM_DEP      = Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
-SYSTEM_LD_HEAD  = sh ../newvers.sh > vers.c; ${CC} $(CFLAGS) -c vers.c; rm -f $@
-SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \
-                  ${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@
-SYSTEM_LD_TAIL  = ${SIZE} $@; \
-                  $(OBJDUMP) -d -S $@ > $(basename $@).dis
+SYSTEM_DEP=	Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
+SYSTEM_LD_HEAD=	sh ../newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
+SYSTEM_LD=	-@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \
+		${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@
+SYSTEM_LD_TAIL=	${SIZE} $@; \
+		${OBJDUMP} -d -S $@ > $(basename $@).dis
 
 %LOAD
 
@@ -57,7 +59,7 @@ clean-all: clean
 
 reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
 	../../../tools/kconfig/kconfig -g Config
-	$(MAKE) clean
+	${MAKE} clean
 	rm -f *.hex
 
 load:   unix.elf

@@ -183,8 +183,7 @@ SystemClock_Config(void)
 static inline int
 button1_pressed()
 {
-// XXX BUTTON
-    return 0;
+    return BSP_PB_GetState(BUTTON_USER);
 }
 
 /*
@@ -223,6 +222,11 @@ startup()
     LED_SWAP_OFF();
     LED_DISK_OFF();
     LED_KERNEL_OFF();
+
+    /*
+     * Configure USER Button.
+     */
+    BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
 
     /*
      * Early setup for console devices.

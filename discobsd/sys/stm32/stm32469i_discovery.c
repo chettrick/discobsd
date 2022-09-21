@@ -63,6 +63,9 @@ GPIO_TypeDef* GPIO_PORT[LEDn] = { LED1_GPIO_PORT,
                                   LED3_GPIO_PORT,
                                   LED4_GPIO_PORT };
 
+GPIO_TypeDef * BUTTON_PORT[BUTTONn] = { WAKEUP_BUTTON_GPIO_PORT };
+const uint16_t BUTTON_PIN[BUTTONn] = { WAKEUP_BUTTON_PIN };
+
   /**
   * @brief  This method returns the STM32469I Discovery BSP Driver revision
   * @retval version: 0xXYZR (8bits for each decimal, R for RC)
@@ -194,6 +197,70 @@ BSP_LED_Toggle(Led_TypeDef Led)
   if (Led <= LED4) {
      LL_GPIO_TogglePin(GPIO_PORT[Led], GPIO_PIN[Led]);
   }
+}
+
+/**
+  * @brief  Configures button GPIO and EXTI Line.
+  * @param  Button: Button to be configured
+  *          This parameter can be one of the following values:
+  *            @arg  BUTTON_WAKEUP: Wakeup Push Button
+  *            @arg  BUTTON_USER: User Push Button
+  * @param  Button_Mode: Button mode
+  *          This parameter can be one of the following values:
+  *            @arg  BUTTON_MODE_GPIO: Button will be used as simple IO
+  *            @arg  BUTTON_MODE_EXTI: Button will be connected to EXTI line
+  *                                    with interrupt generation capability
+  */
+void
+BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
+{
+  GPIO_TypeDef *port = BUTTON_PORT[Button];
+  uint32_t pin = BUTTON_PIN[Button];
+
+  /* Enable the BUTTON clock */
+  WAKEUP_BUTTON_GPIO_CLK_ENABLE();
+
+  if (Button_Mode == BUTTON_MODE_GPIO) {
+    /* Configure Button pin as input */
+    LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_INPUT);
+    LL_GPIO_SetPinPull(port, pin, LL_GPIO_PULL_NO);
+    LL_GPIO_SetPinSpeed(port, pin, LL_GPIO_SPEED_FREQ_HIGH);
+  }
+}
+
+/**
+  * @brief  Push Button DeInit.
+  * @param  Button: Button to be configured
+  *          This parameter can be one of the following values:
+  *            @arg  BUTTON_WAKEUP: Wakeup Push Button
+  *            @arg  BUTTON_USER: User Push Button
+  * @note PB DeInit does not disable the GPIO clock
+  */
+void
+BSP_PB_DeInit(Button_TypeDef Button)
+{
+  GPIO_TypeDef *port = BUTTON_PORT[Button];
+  uint32_t pin = BUTTON_PIN[Button];
+
+  /* Configure parameters to default values */
+  LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_ANALOG);
+  LL_GPIO_SetPinSpeed(port, pin, LL_GPIO_SPEED_FREQ_LOW);
+  LL_GPIO_SetPinPull(port, pin, LL_GPIO_PULL_NO);
+  LL_GPIO_SetPinOutputType(port, pin, LL_GPIO_OUTPUT_PUSHPULL);
+}
+
+/**
+  * @brief  Returns the selected button state.
+  * @param  Button: Button to be checked
+  *          This parameter can be one of the following values:
+  *            @arg  BUTTON_WAKEUP: Wakeup Push Button
+  *            @arg  BUTTON_USER: User Push Button
+  * @retval The Button GPIO pin value
+  */
+uint32_t
+BSP_PB_GetState(Button_TypeDef Button)
+{
+  return (LL_GPIO_ReadInputPort(BUTTON_PORT[Button]) & BUTTON_PIN[Button]);
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

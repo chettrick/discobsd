@@ -66,8 +66,26 @@ typedef enum
 
 } Led_TypeDef;
 
+/** @brief Button_TypeDef
+  *  STM32469I_Discovery board Buttons definitions.
+  */
+typedef enum
+{
+  BUTTON_WAKEUP = 0
+} Button_TypeDef;
+
+#define BUTTON_USER BUTTON_WAKEUP
+
+/** @brief ButtonMode_TypeDef
+  *  STM32469I_Discovery board Buttons Modes definitions.
+  */
+typedef enum
+{
+  BUTTON_MODE_GPIO = 0
+} ButtonMode_TypeDef;
+
 /* Always four LEDs for all revisions of Discovery boards */
-#define LEDn                             ((uint8_t)4)
+#define LEDn                            ((uint8_t)4)
 
 /* 4 Leds are connected to MCU directly on PG6, PD4, PD5, PK3 */
 #define LED1_GPIO_PORT                  ((GPIO_TypeDef *)GPIOG)
@@ -89,6 +107,25 @@ typedef enum
 #define LED3_PIN                        ((uint32_t)LL_GPIO_PIN_5)
 #define LED4_PIN                        ((uint32_t)LL_GPIO_PIN_3)
 
+/* Only one User/Wakeup button */
+#define BUTTONn                         ((uint8_t)1)
+
+/**
+  * @brief Wakeup push-button
+  */
+#define WAKEUP_BUTTON_PIN               LL_GPIO_PIN_0
+#define WAKEUP_BUTTON_GPIO_PORT         GPIOA
+#define WAKEUP_BUTTON_GPIO_CLK_ENABLE() LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
+#define WAKEUP_BUTTON_GPIO_CLK_DISABLE()    LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
+#define WAKEUP_BUTTON_EXTI_IRQn         EXTI0_IRQn
+
+/* Define the USER button as an alias of the Wakeup button */
+#define USER_BUTTON_PIN                 WAKEUP_BUTTON_PIN
+#define USER_BUTTON_GPIO_PORT           WAKEUP_BUTTON_GPIO_PORT
+#define USER_BUTTON_GPIO_CLK_ENABLE()   WAKEUP_BUTTON_GPIO_CLK_ENABLE()
+#define USER_BUTTON_GPIO_CLK_DISABLE()  WAKEUP_BUTTON_GPIO_CLK_DISABLE()
+#define USER_BUTTON_EXTI_IRQn           WAKEUP_BUTTON_EXTI_IRQn
+
 /**
   * @brief SD-detect signal
   */
@@ -104,6 +141,9 @@ void             BSP_LED_DeInit(Led_TypeDef Led);
 void             BSP_LED_On(Led_TypeDef Led);
 void             BSP_LED_Off(Led_TypeDef Led);
 void             BSP_LED_Toggle(Led_TypeDef Led);
+void             BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode);
+void             BSP_PB_DeInit(Button_TypeDef Button);
+uint32_t         BSP_PB_GetState(Button_TypeDef Button);
 
 #ifdef __cplusplus
 }

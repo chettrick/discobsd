@@ -31,10 +31,24 @@ setjmp:
 	movs	r1, #1			/* When saving sigmask, env[0]=1.. */
 	str	r1, [r0]		/*   so longjmp restores sigmask; */
 	adds	r0, r0, #(2 * 4)	/*   skip over sigmask in env[1]. */
+	mov	r1, r0			/* Save env for sigprocmask. */
 	mov	ip, sp			/* Save stack pointer (via ip). */
+#ifdef __thumb2__
 	stmia	r0, {r4-r11,ip,lr}	/* Save regs in env[2-11]. */
+#else /* __thumb__ */
+	stmia	r0!, {r4-r7}		/* Save regs in env[2-5]. */
+	mov	r2, r8			/* Move high regs to low.. */
+	mov	r3, r9
+	mov	r4, r10
+	mov	r5, r11
+	mov	r6, ip
+	mov	r7, lr
+	stmia	r0!, {r2-r7}		/* Save regs in env[6-11]. */
+	subs	r0, r0, #(10 * 4)	/* Index back to &env[2]. */
+	ldmia	r0!, {r4-r7}		/* Bring back the low regs. */
+#endif
 
-	subs	r2, r0, #(1 * 4)	/* &env[1] signal mask for oset. */
+	subs	r2, r1, #(1 * 4)	/* &env[1] signal mask for oset. */
 	movs	r1, #0			/* Null for set. Mask is unchanged. */
 	movs	r0, #1			/* SIG_BLOCK, but how is irrelevant. */
 	bl	sigprocmask		/* Get current sigmask into env[1]. */
@@ -64,7 +78,20 @@ longjmp:
 	mov	r0, r3			/* Restore env after sigprocmask. */
 
 	adds	r0, r0, #(2 * 4)	/* Skip savesigs and signal mask. */
+#ifdef __thumb2__
 	ldmia	r0, {r4-r11,ip,lr}	/* Restore regs from env[2-11]. */
+#else /* __thumb__ */
+	adds	r0, r0, #(4 * 4)	/* Index to &env[6]. */
+	ldmia	r0!, {r2-r7}		/* Restore regs from env[6-11]. */
+	mov	r8, r2			/* Move low regs to high.. */
+	mov	r9, r3
+	mov	r10, r4
+	mov	r11, r5
+	mov	ip, r6
+	mov	lr, r7
+	subs	r0, r0, #(10 * 4)	/* Index back to &env[2]. */
+	ldmia	r0!, {r4-r7}		/* Restore regs from env[2-5]. */
+#endif
 	mov	sp, ip			/* Restore stack pointer (via ip). */
 	movs	r0, r1			/* Return val.. */
 	cmp	r0, #0			/*   but first test if val is 0.. */

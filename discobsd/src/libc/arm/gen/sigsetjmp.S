@@ -28,8 +28,12 @@
 	.type	sigsetjmp, %function
 sigsetjmp:
 	cmp	r1, #0			/* If savesigs is zero.. */
-	beq	_setjmp			/*   skip signal mask handling; */
-	bne	setjmp			/*   else handle signal mask. */
+	bne	1f
+	ldr	r3, =_setjmp		/*   skip signal mask handling; */
+	bx	r3
+1:
+	ldr	r3, =setjmp		/*   else handle signal mask. */
+	bx	r3
 	.size	sigsetjmp, . - sigsetjmp
 
 
@@ -45,6 +49,10 @@ sigsetjmp:
 siglongjmp:
 	ldr	r2, [r0]		/* Get savesigs. */
 	cmp	r2, #0			/* If savesigs was zero.. */
-	beq	_longjmp		/*   skip signal mask handling; */
-	bne	longjmp			/*   else handle signal mask. */
+	bne	1f
+	ldr	r3, =_longjmp		/*   skip signal mask handling; */
+	bx	r3
+1:
+	ldr	r3, =longjmp		/*   else handle signal mask. */
+	bx	r3
 	.size	siglongjmp, . - siglongjmp

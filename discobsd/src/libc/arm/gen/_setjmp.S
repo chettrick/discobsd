@@ -27,12 +27,12 @@
 	.globl	_setjmp
 	.type	_setjmp, %function
 _setjmp:
-	mov	r1, #0			/* Not saving sigmask, env[0]=0.. */
+	movs	r1, #0			/* Not saving sigmask, env[0]=0.. */
 	stmia	r0!, {r1}		/*   so _longjmp ignores sigmask. */
 	stmia	r0!, {r1}		/* Ignore sigmask, so env[1]=0. */
 	mov	ip, sp			/* Save stack pointer (via ip). */
 	stmia	r0, {r4-r11,ip,lr}	/* Save regs in env[2-11]. */
-	mov	r0, #0			/* Always return a 0. */
+	movs	r0, #0			/* Always return a 0. */
 	bx	lr
 	.size	_setjmp, . - _setjmp
 
@@ -47,11 +47,13 @@ _setjmp:
 	.globl	_longjmp
 	.type	_longjmp, %function
 _longjmp:
-	add	r0, r0, #8		/* Skip savesigs and signal mask. */
+	adds	r0, r0, #(2 * 4)	/* Skip savesigs and signal mask. */
 	ldmia	r0, {r4-r11,ip,lr}	/* Restore regs from env[2-11]. */
 	mov	sp, ip			/* Restore stack pointer (via ip). */
 	movs	r0, r1			/* Return val.. */
-	it	eq			/*   but first test if val is 0.. */
-	moveq	r0, #1			/*   and return a 1 if val is 0. */
+	cmp	r0, #0			/*   but first test if val is 0.. */
+	bne	1f
+	movs	r0, #1			/*   and return a 1 if val is 0. */
+1:
 	bx	lr
 	.size	_longjmp, . - _longjmp

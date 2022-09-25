@@ -26,9 +26,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Tiny version of strcmp in ARM state.  Used only when optimizing
-   for size.  Also supports Thumb-2.  */
-
 	.syntax	unified
 	.thumb
 
@@ -39,12 +36,28 @@
 	.type	strcmp, %function
 strcmp:
 1:
+#ifdef __thumb2__
+	/* Tiny version of strcmp in ARM state.  Used only when optimizing
+	   for size.  Also supports Thumb-2.  */
 	ldrb	r2, [r0], #1
 	ldrb	r3, [r1], #1
 	cmp	r2, #1
 	it	cs
 	cmpcs	r2, r3
 	beq	1b
+#else /* __thumb__ */
+	/* This version is only used when we want a very basic Thumb1
+	   implementation or for size, otherwise we use the base ARMv4
+	   version.  This is also suitable for ARMv6-M.  */
+	ldrb	r2, [r0]
+	ldrb	r3, [r1]
+	cmp	r2, #0
+	beq	2f
+	adds	r0, r0, #1
+	adds	r1, r1, #1
+	cmp	r2, r3
+	beq	1b
+#endif
 2:
 	subs	r0, r2, r3
 	bx	lr

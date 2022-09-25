@@ -35,33 +35,32 @@
 	.globl	memmove
 	.type	memmove, %function
 memmove:
+	push	{r4, lr}
 	cmp	r0, r1
-	push	{r4}
 	bls	3f
-	adds	r3, r1, r2
-	cmp	r0, r3
+	adds	r4, r1, r2
+	cmp	r0, r4
 	bcs	3f
-	adds	r1, r0, r2
-	cbz	r2, 2f
-	subs	r2, r3, r2
+	subs	r3, r2, #1
+	cmp	r2, #0
+	beq	2f
+	subs	r2, r4, r2
 1:
-	ldrb	r4, [r3, #-1]!
-	cmp	r2, r3
-	strb	r4, [r1, #-1]!
-	bne	1b
+	ldrb	r1, [r2, r3]
+	strb	r1, [r0, r3]
+	subs	r3, r3, #1
+	bcs	1b
 2:
-	pop	{r4}
-	bx	lr
+	pop	{r4, pc}
 3:
+	movs	r3, #0
 	cmp	r2, #0
 	beq	2b
-	add	r2, r2, r1
-	subs	r3, r0, #1
 4:
-	ldrb	r4, [r1], #1
-	cmp	r2, r1
-	strb	r4, [r3, #1]!
+	ldrb	r4, [r1, r3]
+	strb	r4, [r0, r3]
+	adds	r3, r3, #1
+	cmp	r2, r3
 	bne	4b
-	pop	{r4}
-	bx	lr
+	b	2b
 	.size	memmove, . - memmove

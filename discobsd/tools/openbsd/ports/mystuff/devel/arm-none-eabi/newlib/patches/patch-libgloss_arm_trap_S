@@ -1,0 +1,15 @@
+$OpenBSD$
+
+Include code in trap.S for APCS only.
+
+Index: libgloss/arm/trap.S
+--- libgloss/arm/trap.S.orig
++++ libgloss/arm/trap.S
+@@ -1,6 +1,6 @@
+ #include "arm.h"
+         /* Run-time exception support */
+-#ifndef THUMB_V7_V6M
++#ifndef __ARM_EABI__
+ #include "swi.h"
+ 
+ /* .text is used instead of .section .text so it works with arm-aout too.  */

@@ -1,0 +1,16 @@
+$OpenBSD$
+
+Make macro checks ARMv8-M baseline proof.
+
+Index: libgloss/arm/linux-crt0.c
+--- libgloss/arm/linux-crt0.c.orig
++++ libgloss/arm/linux-crt0.c
+@@ -12,7 +12,7 @@
+ 
+ static int _main(int argc, char *argv[]) __attribute__((noreturn));
+ 
+-#if defined(__thumb__) && !defined(THUMB_V7_V6M)
++#if __thumb__ && !defined(PREFER_THUMB)
+ asm("\n"
+ 	".code 32\n"
+ 	".global _start\n"

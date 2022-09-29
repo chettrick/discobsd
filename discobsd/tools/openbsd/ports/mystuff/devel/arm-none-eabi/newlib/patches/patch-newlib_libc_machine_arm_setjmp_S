@@ -1,0 +1,31 @@
+$OpenBSD$
+
+Make macro checks ARMv8-M baseline proof.
+
+Use ACLE macros __ARM_ARCH_ISA_THUMB and __ARM_ARCH_ISA_ARM to check for
+Thumb-2 only targets rather than __ARM_ARCH and __ARM_ARCH_PROFILE.
+Likewise for Thumb-1 only target and include acle-compat.h.
+
+Index: newlib/libc/machine/arm/setjmp.S
+--- newlib/libc/machine/arm/setjmp.S.orig
++++ newlib/libc/machine/arm/setjmp.S
+@@ -2,6 +2,8 @@
+ 
+    Nick Clifton, Cygnus Solutions, 13 June 1997.  */
+ 
++#include "acle-compat.h"
++
+ /* ANSI concatenation macros.  */
+ #define CONCAT(a, b)  CONCAT2(a, b)
+ #define CONCAT2(a, b) a##b
+@@ -55,8 +57,8 @@
+    
+    For Thumb-2 do everything in Thumb mode.  */
+ 
+-#if defined(__ARM_ARCH_6M__)
+-/* ARMv6-M has to be implemented in Thumb mode.  */
++#if __ARM_ARCH_ISA_THUMB == 1 && !__ARM_ARCH_ISA_ARM
++/* ARMv6-M-like has to be implemented in Thumb mode.  */
+ 
+ .thumb
+ .thumb_func

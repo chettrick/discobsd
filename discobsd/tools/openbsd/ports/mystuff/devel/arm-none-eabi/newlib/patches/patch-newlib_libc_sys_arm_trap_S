@@ -1,0 +1,14 @@
+$OpenBSD$
+
+Include code in trap.S for APCS only.
+
+Index: newlib/libc/sys/arm/trap.S
+--- newlib/libc/sys/arm/trap.S.orig
++++ newlib/libc/sys/arm/trap.S
+@@ -1,5 +1,5 @@
+         /* Run-time exception support */
+-#if !defined(__thumb2__)
++#ifndef __ARM_EABI__
+ #include "swi.h"
+ 
+ /* .text is used instead of .section .text so it works with arm-aout too.  */

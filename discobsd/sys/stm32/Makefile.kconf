@@ -14,7 +14,7 @@ DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
 CWARNFLAGS=	-Wall
 
 CMACHFLAGS=	-ffreestanding -fno-builtin
-CMACHFLAGS+=	-mfloat-abi=soft -mfpu=fpv4-sp-d16
+CMACHFLAGS+=	-mfloat-abi=soft
 CMACHFLAGS+=	-mthumb -mabi=aapcs -mlittle-endian
 CMACHFLAGS+=	-mcpu=cortex-m4
 

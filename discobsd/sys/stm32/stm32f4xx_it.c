@@ -177,6 +177,7 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f4xx.s).                                               */
 /******************************************************************************/
 
+#if 0 // XXX
 void USART3_IRQHandler(void)
 {
   uartintr(makedev(UART_MAJOR, 2)); /* USART3, console */
@@ -186,6 +187,7 @@ void USART6_IRQHandler(void)
 {
   uartintr(makedev(UART_MAJOR, 5)); /* USART6 */
 }
+#endif // XXX
 
 /**
   * @}

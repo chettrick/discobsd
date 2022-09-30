@@ -105,6 +105,18 @@ void cnstart(struct tty *tp);
 // UART5:  APB1 42 MHz AF8: TX on PC.12<-USED, RX on PD.02<-free BAD
 // USART6: APB2 84 MHz AF8: TX on PC.06<-free, RX on PC.07<-USED BAD
 
+void
+USART3_IRQHandler(void)
+{
+    uartintr(makedev(UART_MAJOR, 2));   /* USART3, console */
+}
+
+void
+USART6_IRQHandler(void)
+{
+    uartintr(makedev(UART_MAJOR, 5));   /* USART6 */
+}
+
 /*
  * Setup USART/UART.
  */
@@ -164,6 +176,7 @@ uartinit(int unit)
         arm_intr_enable_irq(USART6_IRQn);
 
         /* USART6: AHB1/APB2, 90 MHz, AF8, TX on PC.06, RX on PC.07 */
+        /* USART6: CN12 Ext: 3V3 Pin 1, GND Pin 2, TX Pin 6, RX Pin 8 */
         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART6);
 #endif /* STM32F469xx */

@@ -58,7 +58,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
 	machdep.o mem.o signal.o swap.o syscall.o sysctl.o \
-	system_stm32f4xx.o systick.o stm32f4xx_it.o stm32f4xx_hal.o \
+	system_stm32f4xx.o systick.o stm32f4xx_hal.o \
 	stm32f4xx_hal_cortex.o stm32f4xx_ll_rcc.o stm32f4xx_ll_utils.o \
 	sd.o sdio_card.o stm32f4xx_hal_sd.o stm32f4xx_ll_sdmmc.o sdio.o \
 	uart.o stm32f4xx_ll_usart.o stm32469i_discovery.o \
@@ -88,13 +88,12 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 	$S/stm32/devsw.c $S/stm32/machdep.c $S/stm32/mem.c \
 	$S/stm32/signal.c $S/stm32/swap.c $S/stm32/syscall.c \
 	$S/stm32/sysctl.c $S/stm32/system_stm32f4xx.c $S/stm32/systick.c \
-	$S/stm32/stm32f4xx_it.c $S/stm32/stm32f4xx_hal.c \
-	$S/stm32/stm32f4xx_hal_cortex.c $S/stm32/stm32f4xx_ll_rcc.c \
-	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c $S/stm32/sdio_card.c \
-	$S/stm32/stm32f4xx_hal_sd.c $S/stm32/stm32f4xx_ll_sdmmc.c \
-	$S/stm32/sdio.c $S/stm32/uart.c $S/stm32/stm32f4xx_ll_usart.c \
-	$S/stm32/stm32469i_discovery.c $S/stm32/stm32469i_discovery_sd.c \
-	swapunix.c 
+	$S/stm32/stm32f4xx_hal.c $S/stm32/stm32f4xx_hal_cortex.c \
+	$S/stm32/stm32f4xx_ll_rcc.c $S/stm32/stm32f4xx_ll_utils.c \
+	$S/stm32/sd.c $S/stm32/sdio_card.c $S/stm32/stm32f4xx_hal_sd.c \
+	$S/stm32/stm32f4xx_ll_sdmmc.c $S/stm32/sdio.c $S/stm32/uart.c \
+	$S/stm32/stm32f4xx_ll_usart.c $S/stm32/stm32469i_discovery.c \
+	$S/stm32/stm32469i_discovery_sd.c swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -331,9 +330,6 @@ system_stm32f4xx.o: $S/stm32/system_stm32f4xx.c
 	${COMPILE_C}
 
 systick.o: $S/stm32/systick.c
-	${COMPILE_C}
-
-stm32f4xx_it.o: $S/stm32/stm32f4xx_it.c
 	${COMPILE_C}
 
 stm32f4xx_hal.o: $S/stm32/stm32f4xx_hal.c

@@ -8,6 +8,7 @@ CV=`cat .compileversion`
 CV=`expr $CV + 1`
 OV=`cat .oldversion`
 GITREV=`git rev-list HEAD --count`
+GITDIR=`git rev-parse --show-toplevel`
 
 if [ "x$GITREV" = "x" ]
 then
@@ -21,15 +22,14 @@ fi
 echo $CV >.compileversion
 echo $GITREV >.oldversion
 
-echo $GITREV ${USER-root} `pwd` `date +'%Y-%m-%d'` `hostname` $CV| \
+echo $GITREV $CV ${USER-root} `hostname` ${PWD#$GITDIR}| \
 awk ' {
     version = $1;
-    user = $2;
-    dir = $3;
-    date = $4;
-    host = $5;
-    cv = $6;
-    printf "const char version[] = \"2.11 BSD Unix for STM32, revision G%s build %d:\\n", version, cv;
-    printf "     Compiled %s by %s@%s:\\n", date, user, host;
-    printf "     %s\\n\";\n", dir;
+    cv = $2;
+    user = $3;
+    host = $4;
+    dir = $5;
+    date = strftime();
+    printf "const char version[] = \"2.11 BSD UNIX for STM32, rev G%s \#%d: %s\\n", version, cv, date;
+    printf "     %s@%s:%s\\n\";\n", user, host, dir;
 }'

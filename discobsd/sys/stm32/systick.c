@@ -49,6 +49,4 @@ systick(struct clockframe *frame)
 	HAL_IncTick();		/* Required for HAL driver subsystems. */
 
 	hardclock((caddr_t)frame->cf_pc, frame->cf_psr);
-
-	uartintr(makedev(UART_MAJOR, 2));	/* USART3, console */
 }

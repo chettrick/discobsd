@@ -364,7 +364,8 @@ uartintr(dev_t dev)
     if (LL_USART_IsActiveFlag_TXE(uip->inst)) {
         led_control(LED_TTY, 0);
 
-        /* Transmit interrupt is cleared in uartstart(). */
+        /* Disable transmit interrupt. */
+        LL_USART_DisableIT_TXE(uip->inst);
 
         if (tp->t_state & TS_BUSY) {
             tp->t_state &= ~TS_BUSY;
@@ -373,6 +374,9 @@ uartintr(dev_t dev)
     }
 }
 
+/*
+ * Start (restart) transmission on the given line.
+ */
 void
 uartstart(struct tty *tp)
 {
@@ -384,15 +388,29 @@ uartstart(struct tty *tp)
 
     uip = (struct uart_inst *)tp->t_addr;
 
+    /*
+     * Must hold interrupts in following code to prevent
+     * state of the tp from changing.
+     */
     s = spltty();
+    /*
+     * If it is currently active, or delaying, no need to do anything.
+     */
     if (tp->t_state & (TS_TIMEOUT | TS_BUSY | TS_TTSTOP)) {
-out:    /* Disable transmit interrupt. */
-        LL_USART_DisableIT_TXE(uip->inst);
+out:
         led_control(LED_TTY, 0);
         splx(s);
         return;
     }
+
+    /*
+     * Wake up any sleepers.
+     */
     ttyowake(tp);
+
+    /*
+     * Now restart transmission unless the output queue is empty.
+     */
     if (tp->t_outq.c_cc == 0)
         goto out;
 

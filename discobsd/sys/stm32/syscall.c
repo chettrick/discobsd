@@ -52,8 +52,12 @@ void
 PendSV_Handler(void)
 {
 __asm volatile (
+"	.syntax	unified		\n\t"
+"	.thumb			\n\t"
+
 "	cpsid	i		\n\t"	/* Disable interrupts. */
 
+#ifdef __thumb2__
 	/*
 	 * ARMv7-M hardware already pushed r0-r3, ip, lr, pc, psr on PSP,
 	 * and then switched to MSP and is currently in Handler Mode.
@@ -79,7 +83,53 @@ __asm volatile (
 	 * and then switches back to Thread Mode (exception completed).
 	 */
 "	mov	lr, #0xFFFFFFFD	\n\t"	/* EXC_RETURN Thread Mode, PSP */
-);					/* Return to Thread Mode. */
+					/* Return to Thread Mode. */
+#else /* __thumb__ */
+	/*
+	 * ARMv6-M hardware already pushed r0-r3, ip, lr, pc, psr on PSP,
+	 * and then switched to MSP and is currently in Handler Mode.
+	 */
+"	mov	r0, r8		\n\t"	/* Bring high register v5 to low. */
+"	mov	r1, r9		\n\t"	/* Bring high register v6 to low. */
+"	mov	r2, r10		\n\t"	/* Bring high register v7 to low. */
+"	mov	r3, r11		\n\t"	/* Bring high register v8 to low. */
+"	push	{r0-r3}		\n\t"	/* Push v5-v8 registers onto MSP. */
+"	push	{r4-r7}		\n\t"	/* Push v1-v4 registers onto MSP. */
+
+"	mrs	r1, PSP		\n\t"	/* Get pointer to trap frame. */
+"	mov	r2, r1		\n\t"	/* Pointer to use for top half. */
+"	adds	r2, #(4 * 4)	\n\t"	/* Index to top half of trap frame. */
+"	ldmfd	r2!, {r4-r7}	\n\t"	/* Copy frame top half from PSP. */
+"	mov	r4, r1		\n\t"	/* Set trap frame sp as PSP. */
+"	push	{r4-r7}		\n\t"	/* Push frame top half onto MSP. */
+"	ldmfd	r1!, {r4-r7}	\n\t"	/* Copy frame low half from PSP. */
+"	push	{r4-r7}		\n\t"	/* Push frame low half onto MSP. */
+
+"	mrs	r0, MSP		\n\t"	/* MSP trap frame is syscall() arg. */
+"	bl	syscall		\n\t"	/* Call syscall() with MSP as arg. */
+
+"	pop	{r0-r7}		\n\t"	/* Pop off trap frame from MSP. */
+"	msr	PSP, r4		\n\t"	/* Set PSP as trap frame sp. */
+"	stmia	r4!, {r0-r3}	\n\t"	/* Copy trap frame low half to PSP. */
+"	mrs	r1, PSP		\n\t"	/* Get PSP again as trap frame sp. */
+"	stmia	r4!, {r1,r5-r7}	\n\t"	/* Copy trap frame top half to PSP. */
+
+"	pop	{r4-r7}		\n\t"	/* Pop from MSP into v1-v4 regs. */
+"	pop	{r0-r3}		\n\t"	/* Pop from MSP for v5-v8 regs. */
+"	mov	r11, r3		\n\t"	/* Move low register to high v8. */
+"	mov	r10, r2		\n\t"	/* Move low register to high v7. */
+"	mov	r9, r1		\n\t"	/* Move low register to high v6. */
+"	mov	r8, r0		\n\t"	/* Move low register to high v5. */
+
+	/*
+	 * On return, ARMv6-M hardware sets PSP as stack pointer,
+	 * pops from PSP to registers r0-r3, ip, lr, pc, psr,
+	 * and then switches back to Thread Mode (exception completed).
+	 */
+"	ldr	r1, =0xFFFFFFFD	\n\t"	/* EXC_RETURN Thread Mode, PSP */
+"	mov	lr, r1		\n\t"	/* Return to Thread Mode. */
+#endif
+);
 }
 
 void

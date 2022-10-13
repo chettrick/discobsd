@@ -31,6 +31,9 @@ void
 SysTick_Handler(void)
 {
 __asm volatile (
+"	.syntax	unified		\n\t"
+"	.thumb			\n\t"
+
 #ifdef __thumb2__
 "	tst	lr, #0x4	\n\t"	/* Test bit 2 (SPSEL) of EXC_RETURN. */
 "	ite	eq		\n\t"	/* Came from user or kernel mode? */

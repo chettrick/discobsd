@@ -25,6 +25,9 @@ ifndef ARM_GCC_PREFIX
     ifeq (/usr/bin/arm-none-eabi-gcc,$(wildcard /usr/bin/arm-none-eabi-gcc))
         ARM_GCC_PREFIX = /usr/bin/arm-none-eabi-
     endif
+
+    LIBGCC=	`${CC} ${CMACHCPU} -print-libgcc-file-name`
+
 endif
 
 AS=		${ARM_GCC_PREFIX}${_AS}

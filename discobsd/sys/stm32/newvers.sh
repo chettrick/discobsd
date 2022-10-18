@@ -30,6 +30,6 @@ awk ' {
     host = $4;
     dir = $5;
     date = strftime();
-    printf "const char version[] = \"2.11 BSD UNIX for STM32, rev G%s \#%d: %s\\n", version, cv, date;
+    printf "const char version[] = \"2.11 BSD UNIX for STM32, rev G%s #%d: %s\\n", version, cv, date;
     printf "     %s@%s:%s\\n\";\n", user, host, dir;
 }'

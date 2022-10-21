@@ -77,7 +77,7 @@ cleanall:       clean
 		rm -f games/[a-k]* games/[m-z]* share/man/cat*/*
 		rm -f games/lib/adventure.dat games/lib/cfscores
 		rm -f share/re.help share/emg.keys share/misc/more.help
-		rm -f etc/termcap etc/remote etc/phones
+		rm -f etc/termcap etc/remote etc/phones etc/motd
 		rm -f tools/configsys/.depend
 		rm -f var/log/aculog sdcard.img
 		rm -rf var/lock share/unixbench
@@ -85,6 +85,9 @@ cleanall:       clean
 symlinks:
 		rm -f include/machine
 		ln -s $(MACHINE) include/machine
+		if [ -f etc/etc.$(MACHINE)/motd ]; then \
+			cp -p etc/etc.$(MACHINE)/motd etc/motd; \
+		fi
 
 installfs:
 ifdef SDCARD

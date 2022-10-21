@@ -62,10 +62,22 @@ mount -a
 
 rm -f /etc/nologin
 
+# Patch /etc/motd.
+if [ ! -f /etc/motd ]; then
+    echo "" >/etc/motd && chmod 664 /etc/motd && chown root.wheel /etc/motd
+fi
+T=/tmp/_motd
+sysctl -n kern.version | sed 1q >$T
+sed -n '/^$/,$p' </etc/motd >>$T
+cmp -s $T /etc/motd || cp $T /etc/motd
+rm -f $T
+
 echo -n "Starting daemons:"
 update && echo -n "update"
 cron && echo -n "cron"
 echo
 
 #/etc/rc.local
+
+date
 exit 0

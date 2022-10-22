@@ -33,7 +33,6 @@ FSUTIL		= tools/fsutil/fsutil
 -include Makefile.user
 
 TOPSRC       = $(shell pwd)
-CONFIG       = $(TOPSRC)/tools/configsys/config
 KCONFIG      = $(TOPSRC)/tools/kconfig/kconfig
 
 all:		symlinks
@@ -43,7 +42,6 @@ all:		symlinks
 		$(MAKE) kernel
 		$(MAKE) fs
 
-# XXX kernel:         $(CONFIG)
 kernel:         $(KCONFIG)
 		$(MAKE) -C sys/$(MACHINE) all
 
@@ -61,9 +59,6 @@ sdcard.img:	$(FSUTIL) rootfs.manifest.$(MACHINE) userfs.manifest
 $(FSUTIL):
 		cd tools/fsutil; $(MAKE)
 
-$(CONFIG):
-		$(MAKE) -C tools/configsys
-
 $(KCONFIG):
 		$(MAKE) -C tools/kconfig
 
@@ -78,7 +73,6 @@ cleanall:       clean
 		rm -f games/lib/adventure.dat games/lib/cfscores
 		rm -f share/re.help share/emg.keys share/misc/more.help
 		rm -f etc/termcap etc/remote etc/phones etc/motd
-		rm -f tools/configsys/.depend
 		rm -f var/log/aculog sdcard.img
 		rm -rf var/lock share/unixbench
 

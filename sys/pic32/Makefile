@@ -21,9 +21,3 @@ clean-all:
 
 reconfig:
 		-for i in $(SUBDIR); do ${MAKE} -C $$i reconfig; done
-
-configsys:
-		-for i in $(SUBDIR); do echo $$i; \
-                I=`echo $$i | awk '{print toupper($$0)}'`; \
-                if [ ! -f $$i/Config ]; then \
-                (cd $$i; ../../../tools/configsys/config $$I); fi; done

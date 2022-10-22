@@ -4,9 +4,20 @@
 # All rights reserved.  The Berkeley software License Agreement
 # specifies the terms and conditions for redistribution.
 #
+
+if [ ! -r .compileversion -o ! -s .compileversion ]
+then
+    echo 0 >.compileversion
+fi
 CV=`cat .compileversion`
 CV=`expr $CV + 1`
+
+if [ ! -r .oldversion -o ! -s .oldversion ]
+then
+    echo 0 >.oldversion
+fi
 OV=`cat .oldversion`
+
 GITREV=`git rev-list HEAD --count`
 
 if [ "x$GITREV" = "x" ]

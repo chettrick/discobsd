@@ -1,56 +1,56 @@
 #
 # Kernel sources, architecture-agnostic.
 #
-kernel/exec_aout.c              standard
-kernel/exec_conf.c              standard
-kernel/exec_elf.c               standard
-kernel/exec_script.c            standard
-kernel/exec_subr.c              standard
-kernel/init_main.c              standard
-kernel/init_sysent.c            standard
-kernel/kern_clock.c             standard
-kernel/kern_descrip.c           standard
-kernel/kern_exec.c              standard
-kernel/kern_exit.c              standard
-kernel/kern_fork.c              standard
-kernel/kern_mman.c              standard
-kernel/kern_proc.c              standard
-kernel/kern_prot.c              standard
-kernel/kern_prot2.c             standard
-kernel/kern_resource.c          standard
-kernel/kern_sig.c               standard
-kernel/kern_sig2.c              standard
-kernel/kern_subr.c              standard
-kernel/kern_synch.c             standard
-kernel/kern_sysctl.c            standard
-kernel/kern_time.c              standard
-kernel/subr_log.c               optional log
-kernel/subr_prf.c               standard
-kernel/subr_rmap.c              standard
-kernel/sys_generic.c            standard
-kernel/sys_inode.c              standard
-kernel/sys_pipe.c               standard
-kernel/sys_process.c            standard
-kernel/syscalls.c               standard
-kernel/tty.c                    standard
-kernel/tty_pty.c                optional pty
-kernel/tty_subr.c               standard
-kernel/tty_tty.c                standard
-kernel/ufs_alloc.c              standard
-kernel/ufs_bio.c                standard
-kernel/ufs_bmap.c               standard
-kernel/ufs_dsort.c              standard
-kernel/ufs_fio.c                standard
-kernel/ufs_inode.c              standard
-kernel/ufs_mount.c              standard
-kernel/ufs_namei.c              standard
-kernel/ufs_subr.c               standard
-kernel/ufs_syscalls.c           standard
-kernel/ufs_syscalls2.c          standard
-kernel/vfs_vnops.c              standard
-kernel/vm_sched.c               standard
-kernel/vm_swap.c                standard
-kernel/vm_swp.c                 standard
+kern/exec_aout.c                standard
+kern/exec_conf.c                standard
+kern/exec_elf.c                 standard
+kern/exec_script.c              standard
+kern/exec_subr.c                standard
+kern/init_main.c                standard
+kern/init_sysent.c              standard
+kern/kern_clock.c               standard
+kern/kern_descrip.c             standard
+kern/kern_exec.c                standard
+kern/kern_exit.c                standard
+kern/kern_fork.c                standard
+kern/kern_mman.c                standard
+kern/kern_proc.c                standard
+kern/kern_prot.c                standard
+kern/kern_prot2.c               standard
+kern/kern_resource.c            standard
+kern/kern_sig.c                 standard
+kern/kern_sig2.c                standard
+kern/kern_subr.c                standard
+kern/kern_synch.c               standard
+kern/kern_sysctl.c              standard
+kern/kern_time.c                standard
+kern/subr_log.c                 optional log
+kern/subr_prf.c                 standard
+kern/subr_rmap.c                standard
+kern/sys_generic.c              standard
+kern/sys_inode.c                standard
+kern/sys_pipe.c                 standard
+kern/sys_process.c              standard
+kern/syscalls.c                 standard
+kern/tty.c                      standard
+kern/tty_pty.c                  optional pty
+kern/tty_subr.c                 standard
+kern/tty_tty.c                  standard
+kern/ufs_alloc.c                standard
+kern/ufs_bio.c                  standard
+kern/ufs_bmap.c                 standard
+kern/ufs_dsort.c                standard
+kern/ufs_fio.c                  standard
+kern/ufs_inode.c                standard
+kern/ufs_mount.c                standard
+kern/ufs_namei.c                standard
+kern/ufs_subr.c                 standard
+kern/ufs_syscalls.c             standard
+kern/ufs_syscalls2.c            standard
+kern/vfs_vnops.c                standard
+kern/vm_sched.c                 standard
+kern/vm_swap.c                  standard
+kern/vm_swp.c                   standard
 
 #
 # PIC32 platform.

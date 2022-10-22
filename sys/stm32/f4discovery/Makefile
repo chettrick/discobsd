@@ -92,9 +92,6 @@ CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
 SYSTEM_OBJ      = setjmp.o startup_stm32f407xx.o ${OBJS} ioconf.o
-ifeq (devcfg.c,$(wildcard devcfg.c))
-    SYSTEM_OBJ  += devcfg.o
-endif
 SYSTEM_DEP      = Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD  = sh ../newvers.sh > vers.c; ${CC} $(CFLAGS) -c vers.c; rm -f $@
 SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \

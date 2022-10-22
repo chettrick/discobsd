@@ -72,33 +72,29 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	gpio.o pwm.o sd.o spi.o spi_bus.o uart.o usb_device.o \
 	usb_function_cdc.o usb_uart.o 
 
-CFILES = $S/kernel/exec_aout.c $S/kernel/exec_conf.c $S/kernel/exec_elf.c \
-	$S/kernel/exec_script.c $S/kernel/exec_subr.c \
-	$S/kernel/init_main.c $S/kernel/init_sysent.c \
-	$S/kernel/kern_clock.c $S/kernel/kern_descrip.c \
-	$S/kernel/kern_exec.c $S/kernel/kern_exit.c \
-	$S/kernel/kern_fork.c $S/kernel/kern_mman.c \
-	$S/kernel/kern_proc.c $S/kernel/kern_prot.c \
-	$S/kernel/kern_prot2.c $S/kernel/kern_resource.c \
-	$S/kernel/kern_sig.c $S/kernel/kern_sig2.c $S/kernel/kern_subr.c \
-	$S/kernel/kern_synch.c $S/kernel/kern_sysctl.c \
-	$S/kernel/kern_time.c $S/kernel/subr_prf.c $S/kernel/subr_rmap.c \
-	$S/kernel/sys_generic.c $S/kernel/sys_inode.c \
-	$S/kernel/sys_pipe.c $S/kernel/sys_process.c \
-	$S/kernel/syscalls.c $S/kernel/tty.c $S/kernel/tty_subr.c \
-	$S/kernel/tty_tty.c $S/kernel/ufs_alloc.c $S/kernel/ufs_bio.c \
-	$S/kernel/ufs_bmap.c $S/kernel/ufs_dsort.c $S/kernel/ufs_fio.c \
-	$S/kernel/ufs_inode.c $S/kernel/ufs_mount.c \
-	$S/kernel/ufs_namei.c $S/kernel/ufs_subr.c \
-	$S/kernel/ufs_syscalls.c $S/kernel/ufs_syscalls2.c \
-	$S/kernel/vfs_vnops.c $S/kernel/vm_sched.c $S/kernel/vm_swap.c \
-	$S/kernel/vm_swp.c $S/pic32/clock.c $S/pic32/cons.c \
-	$S/pic32/devsw.c $S/pic32/exception.c $S/pic32/machdep.c \
-	$S/pic32/mem.c $S/pic32/signal.c $S/pic32/swap.c \
-	$S/pic32/sysctl.c $S/pic32/adc.c $S/pic32/gpio.c $S/pic32/pwm.c \
-	$S/pic32/sd.c $S/pic32/spi.c $S/pic32/spi_bus.c $S/pic32/uart.c \
-	$S/pic32/usb_device.c $S/pic32/usb_function_cdc.c \
-	$S/pic32/usb_uart.c swapunix.c 
+CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
+	$S/kern/exec_script.c $S/kern/exec_subr.c $S/kern/init_main.c \
+	$S/kern/init_sysent.c $S/kern/kern_clock.c \
+	$S/kern/kern_descrip.c $S/kern/kern_exec.c $S/kern/kern_exit.c \
+	$S/kern/kern_fork.c $S/kern/kern_mman.c $S/kern/kern_proc.c \
+	$S/kern/kern_prot.c $S/kern/kern_prot2.c $S/kern/kern_resource.c \
+	$S/kern/kern_sig.c $S/kern/kern_sig2.c $S/kern/kern_subr.c \
+	$S/kern/kern_synch.c $S/kern/kern_sysctl.c $S/kern/kern_time.c \
+	$S/kern/subr_prf.c $S/kern/subr_rmap.c $S/kern/sys_generic.c \
+	$S/kern/sys_inode.c $S/kern/sys_pipe.c $S/kern/sys_process.c \
+	$S/kern/syscalls.c $S/kern/tty.c $S/kern/tty_subr.c \
+	$S/kern/tty_tty.c $S/kern/ufs_alloc.c $S/kern/ufs_bio.c \
+	$S/kern/ufs_bmap.c $S/kern/ufs_dsort.c $S/kern/ufs_fio.c \
+	$S/kern/ufs_inode.c $S/kern/ufs_mount.c $S/kern/ufs_namei.c \
+	$S/kern/ufs_subr.c $S/kern/ufs_syscalls.c \
+	$S/kern/ufs_syscalls2.c $S/kern/vfs_vnops.c $S/kern/vm_sched.c \
+	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/pic32/clock.c \
+	$S/pic32/cons.c $S/pic32/devsw.c $S/pic32/exception.c \
+	$S/pic32/machdep.c $S/pic32/mem.c $S/pic32/signal.c \
+	$S/pic32/swap.c $S/pic32/sysctl.c $S/pic32/adc.c $S/pic32/gpio.c \
+	$S/pic32/pwm.c $S/pic32/sd.c $S/pic32/spi.c $S/pic32/spi_bus.c \
+	$S/pic32/uart.c $S/pic32/usb_device.c \
+	$S/pic32/usb_function_cdc.c $S/pic32/usb_uart.c swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -159,148 +155,148 @@ startup.o: ../startup.S
 ioconf.o: ioconf.c
 	${COMPILE_C}
 
-exec_aout.o: $S/kernel/exec_aout.c
+exec_aout.o: $S/kern/exec_aout.c
 	${COMPILE_C}
 
-exec_conf.o: $S/kernel/exec_conf.c
+exec_conf.o: $S/kern/exec_conf.c
 	${COMPILE_C}
 
-exec_elf.o: $S/kernel/exec_elf.c
+exec_elf.o: $S/kern/exec_elf.c
 	${COMPILE_C}
 
-exec_script.o: $S/kernel/exec_script.c
+exec_script.o: $S/kern/exec_script.c
 	${COMPILE_C}
 
-exec_subr.o: $S/kernel/exec_subr.c
+exec_subr.o: $S/kern/exec_subr.c
 	${COMPILE_C}
 
-init_main.o: $S/kernel/init_main.c
+init_main.o: $S/kern/init_main.c
 	${COMPILE_C}
 
-init_sysent.o: $S/kernel/init_sysent.c
+init_sysent.o: $S/kern/init_sysent.c
 	${COMPILE_C}
 
-kern_clock.o: $S/kernel/kern_clock.c
+kern_clock.o: $S/kern/kern_clock.c
 	${COMPILE_C}
 
-kern_descrip.o: $S/kernel/kern_descrip.c
+kern_descrip.o: $S/kern/kern_descrip.c
 	${COMPILE_C}
 
-kern_exec.o: $S/kernel/kern_exec.c
+kern_exec.o: $S/kern/kern_exec.c
 	${COMPILE_C}
 
-kern_exit.o: $S/kernel/kern_exit.c
+kern_exit.o: $S/kern/kern_exit.c
 	${COMPILE_C}
 
-kern_fork.o: $S/kernel/kern_fork.c
+kern_fork.o: $S/kern/kern_fork.c
 	${COMPILE_C}
 
-kern_mman.o: $S/kernel/kern_mman.c
+kern_mman.o: $S/kern/kern_mman.c
 	${COMPILE_C}
 
-kern_proc.o: $S/kernel/kern_proc.c
+kern_proc.o: $S/kern/kern_proc.c
 	${COMPILE_C}
 
-kern_prot.o: $S/kernel/kern_prot.c
+kern_prot.o: $S/kern/kern_prot.c
 	${COMPILE_C}
 
-kern_prot2.o: $S/kernel/kern_prot2.c
+kern_prot2.o: $S/kern/kern_prot2.c
 	${COMPILE_C}
 
-kern_resource.o: $S/kernel/kern_resource.c
+kern_resource.o: $S/kern/kern_resource.c
 	${COMPILE_C}
 
-kern_sig.o: $S/kernel/kern_sig.c
+kern_sig.o: $S/kern/kern_sig.c
 	${COMPILE_C}
 
-kern_sig2.o: $S/kernel/kern_sig2.c
+kern_sig2.o: $S/kern/kern_sig2.c
 	${COMPILE_C}
 
-kern_subr.o: $S/kernel/kern_subr.c
+kern_subr.o: $S/kern/kern_subr.c
 	${COMPILE_C}
 
-kern_synch.o: $S/kernel/kern_synch.c
+kern_synch.o: $S/kern/kern_synch.c
 	${COMPILE_C}
 
-kern_sysctl.o: $S/kernel/kern_sysctl.c
+kern_sysctl.o: $S/kern/kern_sysctl.c
 	${COMPILE_C}
 
-kern_time.o: $S/kernel/kern_time.c
+kern_time.o: $S/kern/kern_time.c
 	${COMPILE_C}
 
-subr_prf.o: $S/kernel/subr_prf.c
+subr_prf.o: $S/kern/subr_prf.c
 	${COMPILE_C}
 
-subr_rmap.o: $S/kernel/subr_rmap.c
+subr_rmap.o: $S/kern/subr_rmap.c
 	${COMPILE_C}
 
-sys_generic.o: $S/kernel/sys_generic.c
+sys_generic.o: $S/kern/sys_generic.c
 	${COMPILE_C}
 
-sys_inode.o: $S/kernel/sys_inode.c
+sys_inode.o: $S/kern/sys_inode.c
 	${COMPILE_C}
 
-sys_pipe.o: $S/kernel/sys_pipe.c
+sys_pipe.o: $S/kern/sys_pipe.c
 	${COMPILE_C}
 
-sys_process.o: $S/kernel/sys_process.c
+sys_process.o: $S/kern/sys_process.c
 	${COMPILE_C}
 
-syscalls.o: $S/kernel/syscalls.c
+syscalls.o: $S/kern/syscalls.c
 	${COMPILE_C}
 
-tty.o: $S/kernel/tty.c
+tty.o: $S/kern/tty.c
 	${COMPILE_C}
 
-tty_subr.o: $S/kernel/tty_subr.c
+tty_subr.o: $S/kern/tty_subr.c
 	${COMPILE_C}
 
-tty_tty.o: $S/kernel/tty_tty.c
+tty_tty.o: $S/kern/tty_tty.c
 	${COMPILE_C}
 
-ufs_alloc.o: $S/kernel/ufs_alloc.c
+ufs_alloc.o: $S/kern/ufs_alloc.c
 	${COMPILE_C}
 
-ufs_bio.o: $S/kernel/ufs_bio.c
+ufs_bio.o: $S/kern/ufs_bio.c
 	${COMPILE_C}
 
-ufs_bmap.o: $S/kernel/ufs_bmap.c
+ufs_bmap.o: $S/kern/ufs_bmap.c
 	${COMPILE_C}
 
-ufs_dsort.o: $S/kernel/ufs_dsort.c
+ufs_dsort.o: $S/kern/ufs_dsort.c
 	${COMPILE_C}
 
-ufs_fio.o: $S/kernel/ufs_fio.c
+ufs_fio.o: $S/kern/ufs_fio.c
 	${COMPILE_C}
 
-ufs_inode.o: $S/kernel/ufs_inode.c
+ufs_inode.o: $S/kern/ufs_inode.c
 	${COMPILE_C}
 
-ufs_mount.o: $S/kernel/ufs_mount.c
+ufs_mount.o: $S/kern/ufs_mount.c
 	${COMPILE_C}
 
-ufs_namei.o: $S/kernel/ufs_namei.c
+ufs_namei.o: $S/kern/ufs_namei.c
 	${COMPILE_C}
 
-ufs_subr.o: $S/kernel/ufs_subr.c
+ufs_subr.o: $S/kern/ufs_subr.c
 	${COMPILE_C}
 
-ufs_syscalls.o: $S/kernel/ufs_syscalls.c
+ufs_syscalls.o: $S/kern/ufs_syscalls.c
 	${COMPILE_C}
 
-ufs_syscalls2.o: $S/kernel/ufs_syscalls2.c
+ufs_syscalls2.o: $S/kern/ufs_syscalls2.c
 	${COMPILE_C}
 
-vfs_vnops.o: $S/kernel/vfs_vnops.c
+vfs_vnops.o: $S/kern/vfs_vnops.c
 	${COMPILE_C}
 
-vm_sched.o: $S/kernel/vm_sched.c
+vm_sched.o: $S/kern/vm_sched.c
 	${COMPILE_C}
 
-vm_swap.o: $S/kernel/vm_swap.c
+vm_swap.o: $S/kern/vm_swap.c
 	${COMPILE_C}
 
-vm_swp.o: $S/kernel/vm_swp.c
+vm_swp.o: $S/kern/vm_swp.c
 	${COMPILE_C}
 
 clock.o: $S/pic32/clock.c

@@ -73,6 +73,7 @@ cleanall:       clean
 		rm -f games/lib/adventure.dat games/lib/cfscores
 		rm -f share/re.help share/emg.keys share/misc/more.help
 		rm -f etc/termcap etc/remote etc/phones etc/motd
+		rm -f include/machine
 		rm -f var/log/aculog sdcard.img
 		rm -rf var/lock share/unixbench
 

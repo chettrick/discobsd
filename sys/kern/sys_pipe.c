@@ -296,7 +296,7 @@ pipe()
 #ifdef __mips__
     /* Move a secondary return value to register $v1. */
     u.u_frame->tf_r3 = u.u_rval;
-#elif __thumb2__
+#elif __thumb2__ || __thumb__
     /* Move a secondary return value to register $a2. */
     u.u_frame->tf_r1 = u.u_rval;
 #else

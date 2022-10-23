@@ -109,7 +109,7 @@ void exec_setupstack(unsigned entryaddr, struct exec_params *epp)
     u.u_frame->tf_r4 = epp->argc;               /* $a0 := argc */
     u.u_frame->tf_r5 = (int)argp;               /* $a1 := argp */
     u.u_frame->tf_r6 = (int)envp;               /* $a2 := env */
-#elif __thumb2__
+#elif __thumb2__ || __thumb__
     u.u_frame->tf_sp = (int)(argp-0x40);        /* 0x40 for svc trap frame. */
     u.u_frame->tf_r0 = epp->argc;               /* $a1 := argc */
     u.u_rval         = epp->argc;               /* $a1 := argc via syscall() */
@@ -438,7 +438,7 @@ void exec_clear(struct exec_params *epp)
     u.u_frame->tf_lo  = 0;
     u.u_frame->tf_hi  = 0;
     u.u_frame->tf_gp  = 0;
-#elif __thumb2__
+#elif __thumb2__ || __thumb__
     u.u_frame->tf_r0  = 0;              /* a1 */
     u.u_frame->tf_r1  = 0;              /* a2 */
     u.u_frame->tf_r2  = 0;              /* a3 */

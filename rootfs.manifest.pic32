@@ -17,7 +17,7 @@ dir /lib
 dir /libexec
 dir /sbin
 dir /tmp
-dir /u
+dir /home
 
 #
 # Block devices.

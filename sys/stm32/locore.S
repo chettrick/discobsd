@@ -140,6 +140,7 @@ resume:
 
 	movs	a1, #1			/* Transfer back to setjmp() return */
 	bx	lr			/*   with a return value of one. */
+	.pool				/* Literal pool for local labels. */
 	.size	longjmp, . - longjmp
 
 /*
@@ -154,15 +155,17 @@ icode:
 	.thumb_func
 	.type	icode1, %function
 icode1:
-	ldr	r0, =UBASE
-	ldr	r1, =UBASE
-	adds	r0, sbininit - icode
-	adds	r1, argv - icode
+	movs.n	r0, #(sbininit - icode)	/* Offset for /sbin/init path. */
+	movs.n	r1, #(argv - icode)	/* Offset for *argv[] array. */
+	ldr	r2, =UBASE		/* User space base address. */
+	add	r0, r2			/* execv() *name argument. */
+	add	r1, r2			/* execv() *argv[] argument. */
 	svc	#11			/* Make SYS_execv syscall. */
 	svc	#1			/* Make SYS_exit syscall. */
 
 forever:				/* Catch runaway code. */
 	b	forever
+	.pool				/* Put literal pool inside icode(). */
 
 	.align	2
 	.type	sbininit, %object

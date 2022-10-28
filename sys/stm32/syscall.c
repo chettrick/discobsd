@@ -36,6 +36,9 @@ SVC_Handler(void)
 	/* Set a PendSV exception to immediately tail-chain into. */
 	SCB->ICSR |= SCB_ICSR_PENDSVSET_Msk;
 
+	__DSB();
+	__ISB();
+
 	/* PendSV has lowest priority, so need to allow it to fire. */
 	(void)spl0();
 }
@@ -153,7 +156,7 @@ syscall(struct trapframe *frame)
 #endif
 
 	/* Enable interrupts. */
-	arm_intr_enable();
+	(void)arm_intr_enable();
 
 	u.u_error = 0;
 	u.u_frame = frame;

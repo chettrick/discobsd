@@ -53,8 +53,30 @@
 #define	REGTOIPL(reg) \
 	(uint32_t)((reg) ? (IPL_TOP - ((reg) >> IPL_BITS)) : 0)
 
-#define	arm_intr_disable()	__disable_irq()	/* Disable interrupts. */
-#define	arm_intr_enable()	__enable_irq()	/* Enable interrupts. */
+static inline int
+arm_intr_disable(void)
+{
+	int s = __get_PRIMASK();
+	__disable_irq();			/* Disable interrupts. */
+	__ISB();
+	return s;
+}
+
+static inline int
+arm_intr_enable(void)
+{
+	int s = __get_PRIMASK();
+	__enable_irq();				/* Enable interrupts. */
+	__ISB();
+	return s;
+}
+
+static inline void
+arm_intr_restore(int s)
+{
+	__set_PRIMASK(s);
+	__ISB();
+}
 
 static inline void
 arm_intr_disable_irq(int irq)
@@ -78,6 +100,8 @@ arm_intr_set_priority(int irq, int prio)
 	 */
 	NVIC_SetPriority(irq, IPL_TOP - prio);
 }
+
+#ifdef __thumb2__
 
 static inline int
 splraise(int new)
@@ -116,6 +140,22 @@ spl0(void)
 
 	return old;
 }
+
+#else /* __thumb__ */
+
+#define	splhigh()	arm_intr_disable()
+#define	splclock()	arm_intr_disable()
+#define	spltty()	arm_intr_disable()
+#define	splnet()	arm_intr_disable()
+#define	splbio()	arm_intr_disable()
+
+#define	splsoftclock()	arm_intr_enable()
+
+#define	splx(s)		arm_intr_restore(s)
+
+#define	spl0()		arm_intr_enable()
+
+#endif
 
 #endif	/* KERNEL */
 

@@ -53,7 +53,6 @@
 
 #define HAL_MODULE_ENABLED
 #define HAL_SD_MODULE_ENABLED
-#define HAL_CORTEX_MODULE_ENABLED
 
 /* ########################## HSE/HSI Values adaptation ##################### */
 /**

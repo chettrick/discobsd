@@ -68,7 +68,6 @@ stm32/sysctl.c                  standard
 stm32/system_stm32f4xx.c        standard
 stm32/systick.c                 standard
 stm32/stm32f4xx_hal.c           standard
-stm32/stm32f4xx_hal_cortex.c    standard
 stm32/stm32f4xx_ll_rcc.c        standard
 stm32/stm32f4xx_ll_utils.c      standard
 

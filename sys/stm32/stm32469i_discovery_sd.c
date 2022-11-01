@@ -77,6 +77,8 @@
 
 ------------------------------------------------------------------------------*/
 
+#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32469i_discovery_sd.h"
 
@@ -351,5 +353,7 @@ BSP_SD_GetCardInfo(HAL_SD_CardInfoTypeDef *CardInfo)
   /* Get SD card Information */
   HAL_SD_GetCardInfo(&uSdHandle, CardInfo);
 }
+
+#endif /* F469IDISCO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -36,6 +36,8 @@
   ******************************************************************************
   */
 
+#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32469I_DISCOVERY_H
 #define __STM32469I_DISCOVERY_H
@@ -150,5 +152,7 @@ uint32_t         BSP_PB_GetState(Button_TypeDef Button);
 #endif
 
 #endif /* __STM32469I_DISCOVERY_H */
+
+#endif /* F469IDISCO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

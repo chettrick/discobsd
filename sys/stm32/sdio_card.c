@@ -19,7 +19,11 @@
 
 #include <machine/sd.h>
 #include <machine/sdio_card.h>
+
+#ifdef F469IDISCO               /* Kernel Config 'board' definition. */
 #include <machine/stm32469i_discovery_sd.h>
+#endif /* F469IDISCO */
+
 #include <machine/debug.h>
 
 #define SECTSIZE        512

@@ -38,6 +38,8 @@
   ******************************************************************************
   */
 
+#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32469i_discovery.h"
 
@@ -262,5 +264,7 @@ BSP_PB_GetState(Button_TypeDef Button)
 {
   return (LL_GPIO_ReadInputPort(BUTTON_PORT[Button]) & BUTTON_PIN[Button]);
 }
+
+#endif /* F469IDISCO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

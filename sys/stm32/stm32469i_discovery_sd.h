@@ -36,6 +36,8 @@
   ******************************************************************************
   */
 
+#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32469I_DISCOVERY_SD_H
 #define __STM32469I_DISCOVERY_SD_H
@@ -88,5 +90,7 @@ void    BSP_SD_MspDeInit(SD_HandleTypeDef *hsd, void *Params);
 #endif
 
 #endif /* __STM32469I_DISCOVERY_SD_H */
+
+#endif /* F469IDISCO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

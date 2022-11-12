@@ -76,8 +76,8 @@ stm32/stm32f4xx_ll_utils.c      standard
 #
 stm32/sd.c                      optional sd
 stm32/sdio_card.c               optional sd
-stm32/stm32f4xx_hal_sd.c        optional sd
-stm32/stm32f4xx_ll_sdmmc.c      optional sd
+stm32/stm32f4xx_hal_sd.c        optional sdio
+stm32/stm32f4xx_ll_sdmmc.c      optional sdio
 stm32/sdio.c                    optional sdio
 stm32/uart.c                    optional uart
 stm32/stm32f4xx_ll_usart.c      optional uart
@@ -85,6 +85,5 @@ stm32/stm32f4xx_ll_usart.c      optional uart
 #
 # STM32 drivers for F469IDISCO board.
 #
-stm32/stm32469i_discovery.c     optional gpio
-stm32/stm32469i_discovery.c     optional sd
-stm32/stm32469i_discovery_sd.c  optional sd
+stm32/stm32469i_discovery.c     optional sdio
+stm32/stm32469i_discovery_sd.c  optional sdio

@@ -53,6 +53,7 @@
 
 #define HAL_MODULE_ENABLED
 #define HAL_SD_MODULE_ENABLED
+#define HAL_SPI_MODULE_ENABLED
 
 /* ########################## HSE/HSI Values adaptation ##################### */
 /**
@@ -149,9 +150,9 @@
  #include "stm32f4xx_hal_sd.h"
 #endif /* HAL_SD_MODULE_ENABLED */
 
-#ifdef HAL_CORTEX_MODULE_ENABLED
-  #include "stm32f4xx_hal_cortex.h"
-#endif /* HAL_CORTEX_MODULE_ENABLED */
+#ifdef HAL_SPI_MODULE_ENABLED
+ #include "stm32f4xx_hal_spi.h"
+#endif /* HAL_SPI_MODULE_ENABLED */
 
 /* Exported macro ------------------------------------------------------------*/
 #ifdef  USE_FULL_ASSERT

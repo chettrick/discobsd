@@ -180,6 +180,7 @@
 /** @addtogroup SPI_Private_Functions
   * @{
   */
+#if 0 // XXX DMA
 static void SPI_DMATransmitCplt(DMA_HandleTypeDef *hdma);
 static void SPI_DMAReceiveCplt(DMA_HandleTypeDef *hdma);
 static void SPI_DMATransmitReceiveCplt(DMA_HandleTypeDef *hdma);
@@ -190,6 +191,7 @@ static void SPI_DMAError(DMA_HandleTypeDef *hdma);
 static void SPI_DMAAbortOnError(DMA_HandleTypeDef *hdma);
 static void SPI_DMATxAbortCallback(DMA_HandleTypeDef *hdma);
 static void SPI_DMARxAbortCallback(DMA_HandleTypeDef *hdma);
+#endif // XXX DMA
 static HAL_StatusTypeDef SPI_WaitFlagStateUntilTimeout(SPI_HandleTypeDef *hspi, uint32_t Flag, uint32_t State, uint32_t Timeout, uint32_t Tickstart);
 static void SPI_TxISR_8BIT(struct __SPI_HandleTypeDef *hspi);
 static void SPI_TxISR_16BIT(struct __SPI_HandleTypeDef *hspi);
@@ -1296,6 +1298,7 @@ error :
   return errorcode;
 }
 
+#if 0 // XXX DMA
 /**
   * @brief  Transmit an amount of data in non-blocking mode with DMA.
   * @param  hspi: pointer to a SPI_HandleTypeDef structure that contains
@@ -1600,6 +1603,7 @@ error :
   __HAL_UNLOCK(hspi);
   return errorcode;
 }
+#endif // XXX DMA
 
 /**
   * @brief  Abort ongoing transfer (blocking mode).
@@ -1618,7 +1622,9 @@ error :
 */
 HAL_StatusTypeDef HAL_SPI_Abort(SPI_HandleTypeDef *hspi)
 {
+#if 0 // XXX DMA
   __IO uint32_t count = SPI_DEFAULT_TIMEOUT * (SystemCoreClock / 24U / 1000U);
+#endif // XXX DMA
 
   /* Disable TXEIE, RXNEIE and ERRIE(mode fault event, overrun error, TI frame error) interrupts */
   if(HAL_IS_BIT_SET(hspi->Instance->CR2, SPI_CR2_TXEIE))
@@ -1637,6 +1643,7 @@ HAL_StatusTypeDef HAL_SPI_Abort(SPI_HandleTypeDef *hspi)
   /* Disable the SPI DMA Tx or SPI DMA Rx request if enabled */
   if ((HAL_IS_BIT_SET(hspi->Instance->CR2, SPI_CR2_TXDMAEN)) || (HAL_IS_BIT_SET(hspi->Instance->CR2, SPI_CR2_RXDMAEN)))
   {
+#if 0 // XXX DMA
     /* Abort the SPI DMA Tx channel : use blocking DMA Abort API (no callback) */
     if(hspi->hdmatx != NULL)
     {
@@ -1678,6 +1685,7 @@ HAL_StatusTypeDef HAL_SPI_Abort(SPI_HandleTypeDef *hspi)
       CLEAR_BIT(hspi->Instance->CR2, (SPI_CR2_RXDMAEN));
 
     }
+#endif // XXX DMA
   }
   /* Reset Tx and Rx transfer counters */
   hspi->RxXferCount = 0U;
@@ -1733,6 +1741,7 @@ HAL_StatusTypeDef HAL_SPI_Abort_IT(SPI_HandleTypeDef *hspi)
 
   abortcplt = 1U;
 
+#if 0 // XXX DMA
   /* If DMA Tx and/or DMA Rx Handles are associated to SPI Handle, DMA Abort complete callbacks should be initialised
      before any call to DMA Abort functions */
   /* DMA Tx Handle is valid */
@@ -1830,6 +1839,7 @@ HAL_StatusTypeDef HAL_SPI_Abort_IT(SPI_HandleTypeDef *hspi)
       }
     }
   }
+#endif // XXX DMA
 
   if(abortcplt == 1U)
   {
@@ -1853,6 +1863,7 @@ HAL_StatusTypeDef HAL_SPI_Abort_IT(SPI_HandleTypeDef *hspi)
   return HAL_OK;
 }
 
+#if 0 // XXX DMA
 /**
   * @brief  Pause the DMA Transfer.
   * @param  hspi: pointer to a SPI_HandleTypeDef structure that contains
@@ -1923,6 +1934,7 @@ HAL_StatusTypeDef HAL_SPI_DMAStop(SPI_HandleTypeDef *hspi)
   hspi->State = HAL_SPI_STATE_READY;
   return HAL_OK;
 }
+#endif // XXX DMA
 
 /**
   * @brief  Handle SPI interrupt request.
@@ -1991,6 +2003,7 @@ void HAL_SPI_IRQHandler(SPI_HandleTypeDef *hspi)
       /* Disable the SPI DMA requests if enabled */
       if ((HAL_IS_BIT_SET(itsource, SPI_CR2_TXDMAEN))||(HAL_IS_BIT_SET(itsource, SPI_CR2_RXDMAEN)))
       {
+#if 0 // XXX DMA
         CLEAR_BIT(hspi->Instance->CR2, (SPI_CR2_TXDMAEN | SPI_CR2_RXDMAEN));
 
         /* Abort the SPI DMA Rx channel */
@@ -2009,6 +2022,7 @@ void HAL_SPI_IRQHandler(SPI_HandleTypeDef *hspi)
           hspi->hdmatx->XferAbortCallback = SPI_DMAAbortOnError;
           HAL_DMA_Abort_IT(hspi->hdmatx);
         }
+#endif // XXX DMA
       }
       else
       {
@@ -2199,6 +2213,7 @@ uint32_t HAL_SPI_GetError(SPI_HandleTypeDef *hspi)
   * @{
   */
 
+#if 0 // XXX DMA
 /**
   * @brief DMA SPI transmit process complete callback.
   * @param  hdma: pointer to a DMA_HandleTypeDef structure that contains
@@ -2547,6 +2562,7 @@ static void SPI_DMARxAbortCallback(DMA_HandleTypeDef *hdma)
   /* Call user Abort complete callback */
   HAL_SPI_AbortCpltCallback(hspi);
 }
+#endif // XXX DMA
 
 /**
   * @brief  Rx 8-bit handler for Transmit and Receive in Interrupt mode.

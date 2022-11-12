@@ -61,10 +61,10 @@
 #define SD_NO_RESPONSE_EXPECTED  0x80
 
 GPIO_TypeDef* GPIO_PORT[LEDn] = {LED2_GPIO_PORT};
-const uint16_t GPIO_PIN[LEDn] = {LED2_PIN};
+const uint32_t GPIO_PIN[LEDn] = {LED2_PIN};
 
 GPIO_TypeDef* BUTTON_PORT[BUTTONn] = {KEY_BUTTON_GPIO_PORT};
-const uint16_t BUTTON_PIN[BUTTONn] = {KEY_BUTTON_PIN};
+const uint32_t BUTTON_PIN[BUTTONn] = {KEY_BUTTON_PIN};
 
 /**
  * @brief BUS variables
@@ -109,20 +109,22 @@ uint32_t BSP_GetVersion(void)
   */
 void BSP_LED_Init(Led_TypeDef Led)
 {
-  GPIO_InitTypeDef  GPIO_InitStruct;
+  if (Led == LED2) {
+    GPIO_TypeDef *port = GPIO_PORT[Led];
+    uint32_t pin = GPIO_PIN[Led];
 
-  /* Enable the GPIO_LED Clock */
-  LEDx_GPIO_CLK_ENABLE(Led);
+    /* Enable the GPIO_LED Clock */
+    LEDx_GPIO_CLK_ENABLE(Led);
 
-  /* Configure the GPIO_LED pin */
-  GPIO_InitStruct.Pin = GPIO_PIN[Led];
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+    /* Configure the GPIO_LED pin */
+    LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_OUTPUT);
+    LL_GPIO_SetPinSpeed(port, pin, LL_GPIO_SPEED_FREQ_HIGH);
+    LL_GPIO_SetPinPull(port, pin, LL_GPIO_PULL_NO);
+    LL_GPIO_SetPinOutputType(port, pin, LL_GPIO_OUTPUT_PUSHPULL);
 
-  HAL_GPIO_Init(GPIO_PORT[Led], &GPIO_InitStruct);
-
-  HAL_GPIO_WritePin(GPIO_PORT[Led], GPIO_PIN[Led], GPIO_PIN_RESET);
+    /* By default, turn off LED by setting a low level on corresponding GPIO */
+    LL_GPIO_ResetOutputPin(port, pin);
+  }
 }
 
 /**
@@ -134,13 +136,19 @@ void BSP_LED_Init(Led_TypeDef Led)
   */
 void BSP_LED_DeInit(Led_TypeDef Led)
 {
-  GPIO_InitTypeDef  gpio_init_structure;
+  if (Led == LED2) {
+    GPIO_TypeDef *port = GPIO_PORT[Led];
+    uint32_t pin = GPIO_PIN[Led];
 
-  /* Turn off LED */
-  HAL_GPIO_WritePin(GPIO_PORT[Led], GPIO_PIN[Led], GPIO_PIN_RESET);
-  /* DeInit the GPIO_LED pin */
-  gpio_init_structure.Pin = GPIO_PIN[Led];
-  HAL_GPIO_DeInit(GPIO_PORT[Led], gpio_init_structure.Pin);
+    /* Turn off LED */
+    LL_GPIO_ResetOutputPin(port, pin);
+
+    /* Configure parameters to default values */
+    LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_ANALOG);
+    LL_GPIO_SetPinSpeed(port, pin, LL_GPIO_SPEED_FREQ_LOW);
+    LL_GPIO_SetPinPull(port, pin, LL_GPIO_PULL_NO);
+    LL_GPIO_SetPinOutputType(port, pin, LL_GPIO_OUTPUT_PUSHPULL);
+  }
 }
 
 /**
@@ -151,7 +159,12 @@ void BSP_LED_DeInit(Led_TypeDef Led)
   */
 void BSP_LED_On(Led_TypeDef Led)
 {
-  HAL_GPIO_WritePin(GPIO_PORT[Led], GPIO_PIN[Led], GPIO_PIN_SET);
+  if (Led == LED2) {
+    GPIO_TypeDef *port = GPIO_PORT[Led];
+    uint32_t pin = GPIO_PIN[Led];
+
+    LL_GPIO_SetOutputPin(port, pin);
+  }
 }
 
 /**
@@ -162,7 +175,12 @@ void BSP_LED_On(Led_TypeDef Led)
   */
 void BSP_LED_Off(Led_TypeDef Led)
 {
-  HAL_GPIO_WritePin(GPIO_PORT[Led], GPIO_PIN[Led], GPIO_PIN_RESET);
+  if (Led == LED2) {
+    GPIO_TypeDef *port = GPIO_PORT[Led];
+    uint32_t pin = GPIO_PIN[Led];
+
+    LL_GPIO_ResetOutputPin(port, pin);
+  }
 }
 
 /**
@@ -173,32 +191,35 @@ void BSP_LED_Off(Led_TypeDef Led)
   */
 void BSP_LED_Toggle(Led_TypeDef Led)
 {
-  HAL_GPIO_TogglePin(GPIO_PORT[Led], GPIO_PIN[Led]);
+  if (Led == LED2) {
+    GPIO_TypeDef *port = GPIO_PORT[Led];
+    uint32_t pin = GPIO_PIN[Led];
+
+    LL_GPIO_TogglePin(port, pin);
+  }
 }
 
 /**
   * @brief  Configures Button GPIO.
   * @param  Button: Specifies the Button to be configured.
   *   This parameter should be: BUTTON_KEY
-  * @param  ButtonMode: Specifies Button mode.
+  * @param  Button_Mode: Specifies Button mode.
   *   This parameter can be one of following parameters:
   *     @arg BUTTON_MODE_GPIO: Button will be used as simple IO
   */
-void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode)
+void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
 {
-  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_TypeDef *port = BUTTON_PORT[Button];
+  uint32_t pin = BUTTON_PIN[Button];
 
   /* Enable the BUTTON Clock */
   BUTTONx_GPIO_CLK_ENABLE(Button);
 
-  if(ButtonMode == BUTTON_MODE_GPIO)
-  {
+  if (Button_Mode == BUTTON_MODE_GPIO) {
     /* Configure Button pin as input */
-    GPIO_InitStruct.Pin = BUTTON_PIN[Button];
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
-    HAL_GPIO_Init(BUTTON_PORT[Button], &GPIO_InitStruct);
+    LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_INPUT);
+    LL_GPIO_SetPinPull(port, pin, LL_GPIO_PULL_DOWN);
+    LL_GPIO_SetPinSpeed(port, pin, LL_GPIO_SPEED_FREQ_HIGH);
   }
 }
 
@@ -210,10 +231,14 @@ void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode)
   */
 void BSP_PB_DeInit(Button_TypeDef Button)
 {
-    GPIO_InitTypeDef gpio_init_structure;
+  GPIO_TypeDef *port = BUTTON_PORT[Button];
+  uint32_t pin = BUTTON_PIN[Button];
 
-    gpio_init_structure.Pin = BUTTON_PIN[Button];
-    HAL_GPIO_DeInit(BUTTON_PORT[Button], gpio_init_structure.Pin);
+  /* Configure parameters to default values */
+  LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_ANALOG);
+  LL_GPIO_SetPinSpeed(port, pin, LL_GPIO_SPEED_FREQ_LOW);
+  LL_GPIO_SetPinPull(port, pin, LL_GPIO_PULL_NO);
+  LL_GPIO_SetPinOutputType(port, pin, LL_GPIO_OUTPUT_PUSHPULL);
 }
 
 /**
@@ -224,7 +249,10 @@ void BSP_PB_DeInit(Button_TypeDef Button)
   */
 uint32_t BSP_PB_GetState(Button_TypeDef Button)
 {
-  return HAL_GPIO_ReadPin(BUTTON_PORT[Button], BUTTON_PIN[Button]);
+  GPIO_TypeDef *port = BUTTON_PORT[Button];
+  uint32_t pin = BUTTON_PIN[Button];
+
+  return (LL_GPIO_ReadInputPort(port) & pin);
 }
 
 /******************************************************************************
@@ -240,30 +268,28 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
   */
 static void SPIx_MspInit(SPI_HandleTypeDef *hspi)
 {
-  GPIO_InitTypeDef  GPIO_InitStruct;
-
   /*** Configure the GPIOs ***/
   /* Enable GPIO clock */
   NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE();
   NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE();
 
   /* Configure SPI SCK */
-  GPIO_InitStruct.Pin = NUCLEO_SPIx_SCK_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull  = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-  GPIO_InitStruct.Alternate = NUCLEO_SPIx_SCK_AF;
-  HAL_GPIO_Init(NUCLEO_SPIx_SCK_GPIO_PORT, &GPIO_InitStruct);
+  LL_GPIO_SetPinMode(NUCLEO_SPIx_SCK_GPIO_PORT, NUCLEO_SPIx_SCK_PIN, LL_GPIO_MODE_ALTERNATE);
+  LL_GPIO_SetAFPin_0_7(NUCLEO_SPIx_SCK_GPIO_PORT, NUCLEO_SPIx_SCK_PIN, NUCLEO_SPIx_SCK_AF);
+  LL_GPIO_SetPinSpeed(NUCLEO_SPIx_SCK_GPIO_PORT, NUCLEO_SPIx_SCK_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+  LL_GPIO_SetPinPull(NUCLEO_SPIx_SCK_GPIO_PORT, NUCLEO_SPIx_SCK_PIN, LL_GPIO_PULL_UP);
 
-  /* Configure SPI MISO and MOSI */
-  GPIO_InitStruct.Pin = NUCLEO_SPIx_MOSI_PIN;
-  GPIO_InitStruct.Alternate = NUCLEO_SPIx_MISO_MOSI_AF;
-  GPIO_InitStruct.Pull  = GPIO_PULLDOWN;
-  HAL_GPIO_Init(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, &GPIO_InitStruct);
+  /* Configure SPI MOSI */
+  LL_GPIO_SetPinMode(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MOSI_PIN, LL_GPIO_MODE_ALTERNATE);
+  LL_GPIO_SetAFPin_0_7(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MOSI_PIN, NUCLEO_SPIx_MISO_MOSI_AF);
+  LL_GPIO_SetPinSpeed(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MOSI_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+  LL_GPIO_SetPinPull(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MOSI_PIN, LL_GPIO_PULL_DOWN);
 
-  GPIO_InitStruct.Pin = NUCLEO_SPIx_MISO_PIN;
-  GPIO_InitStruct.Pull  = GPIO_PULLDOWN;
-  HAL_GPIO_Init(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, &GPIO_InitStruct);
+  /* Configure SPI MISO */
+  LL_GPIO_SetPinMode(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MISO_PIN, LL_GPIO_MODE_ALTERNATE);
+  LL_GPIO_SetAFPin_0_7(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MISO_PIN, NUCLEO_SPIx_MISO_MOSI_AF);
+  LL_GPIO_SetPinSpeed(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MISO_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+  LL_GPIO_SetPinPull(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT, NUCLEO_SPIx_MISO_PIN, LL_GPIO_PULL_DOWN);
 
   /*** Configure the SPI peripheral ***/
   /* Enable SPI clock */
@@ -288,12 +314,12 @@ static void SPIx_Init(void)
     hnucleo_Spi.Init.Direction = SPI_DIRECTION_2LINES;
     hnucleo_Spi.Init.CLKPhase = SPI_PHASE_2EDGE;
     hnucleo_Spi.Init.CLKPolarity = SPI_POLARITY_HIGH;
-    hnucleo_Spi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLED;
+    hnucleo_Spi.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
     hnucleo_Spi.Init.CRCPolynomial = 7;
     hnucleo_Spi.Init.DataSize = SPI_DATASIZE_8BIT;
     hnucleo_Spi.Init.FirstBit = SPI_FIRSTBIT_MSB;
     hnucleo_Spi.Init.NSS = SPI_NSS_SOFT;
-    hnucleo_Spi.Init.TIMode = SPI_TIMODE_DISABLED;
+    hnucleo_Spi.Init.TIMode = SPI_TIMODE_DISABLE;
     hnucleo_Spi.Init.Mode = SPI_MODE_MASTER;
 
     SPIx_MspInit(&hnucleo_Spi);
@@ -344,18 +370,17 @@ static void SPIx_Error (void)
   */
 void SD_IO_Init(void)
 {
-  GPIO_InitTypeDef  GPIO_InitStruct;
   uint8_t counter;
 
   /* SD_CS_GPIO Periph clock enable */
   SD_CS_GPIO_CLK_ENABLE();
 
   /* Configure SD_CS_PIN pin: SD Card CS pin */
-  GPIO_InitStruct.Pin = SD_CS_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-  HAL_GPIO_Init(SD_CS_GPIO_PORT, &GPIO_InitStruct);
+  LL_GPIO_SetPinMode(SD_CS_GPIO_PORT, SD_CS_PIN, LL_GPIO_MODE_OUTPUT);
+  LL_GPIO_SetAFPin_0_7(SD_CS_GPIO_PORT, SD_CS_PIN, NUCLEO_SPIx_MISO_MOSI_AF);
+  LL_GPIO_SetPinSpeed(SD_CS_GPIO_PORT, SD_CS_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+  LL_GPIO_SetPinPull(SD_CS_GPIO_PORT, SD_CS_PIN, LL_GPIO_PULL_UP);
+  LL_GPIO_SetPinOutputType(SD_CS_GPIO_PORT, SD_CS_PIN, LL_GPIO_OUTPUT_PUSHPULL);
 
   /*------------Put SD in SPI mode--------------*/
   /* SD SPI Config */

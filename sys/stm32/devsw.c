@@ -15,6 +15,7 @@
 #include <sys/tty.h>
 #include <sys/systm.h>
 #include <sys/errno.h>
+#include <machine/spi.h>
 #include <machine/uart.h>
 
 #include <sys/swap.h>
@@ -201,7 +202,16 @@ const struct cdevsw cdevsw[] = {
     NOCDEV
 },
 {   /* 12 - spi */
+#if defined(SPI1_ENABLED) || defined(SPI2_ENABLED) || \
+    defined(SPI3_ENABLED) || defined(SPI4_ENABLED) || \
+    defined(SPI5_ENABLED) || defined(SPI6_ENABLED) || \
+    defined(SPI7_ENABLED) || defined(SPI8_ENABLED)
+    spi_open,       spi_close,      spi_read,       spi_write,
+    spi_ioctl,      nulldev,        0,              seltrue,
+    nostrategy,     0,              0,
+#else
     NOCDEV
+#endif
 },
 {   /* 13 - glcd */
     NOCDEV

@@ -7,8 +7,7 @@
   * @brief   This file contains definitions for:
   *          - LEDs and push-button available on STM32F4XX-Nucleo Kit
   *            from STMicroelectronics
-  *          - MicroSD available on Adafruit 1.8" TFT LCD
-  *            shield (reference ID 802)
+  *          - MicroSD available on Adafruit MicroSD Breakout Board+ (ID 254)
   ******************************************************************************
   * @attention
   *
@@ -52,9 +51,9 @@
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_gpio.h"
 
-/* To be defined only if the board is provided with the related shield */
-/* https://www.adafruit.com/products/802 */
-#define ADAFRUIT_TFT_JOY_SD_ID802
+/* To be defined only if provided with the Adafruit MicroSD Breakout Board+ */
+/* https://www.adafruit.com/product/254 */
+#define ADAFRUIT_SD_ID254
 
 typedef enum
 {
@@ -142,9 +141,9 @@ typedef enum
 #define SD_CS_HIGH()                              LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 
 /**
-  * @brief  SD Control Interface pins (shield D4)
+  * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PB6)
   */
-#define SD_CS_PIN                                 ((uint32_t)LL_GPIO_PIN_5)
+#define SD_CS_PIN                                 ((uint32_t)LL_GPIO_PIN_6)
 #define SD_CS_GPIO_PORT                           GPIOB
 #define SD_CS_GPIO_CLK_ENABLE()                   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
 #define SD_CS_GPIO_CLK_DISABLE()                  LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOB)

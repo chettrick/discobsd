@@ -5,7 +5,7 @@
   * @version V3.0.3
   * @date    30-April-2018
   * @brief   This file provides a set of functions needed to manage the SD card
-  *          mounted on the Adafruit 1.8" TFT LCD shield (reference ID 802),
+  *          mounted on the Adafruit MicroSD Breakout Board+ (reference ID 254),
   *          that is used with the STM32 Nucleo board through SPI interface.
   *          It implements a high level communication layer for read and write
   *          from/to this memory. The needed STM32XXxx hardware resources (SPI and
@@ -70,8 +70,7 @@
 ---------------------
   + Initialization steps:
      o Initialize the micro SD card using the BSP_SD_Init() function.
-     o Checking the SD card presence is not managed because SD detection pin is
-       not physically mapped on the Adafruit shield.
+     o Checking the SD card presence is not managed.
      o The function BSP_SD_GetCardInfo() is used to get the micro SD card information
        which is stored in the structure "SD_CardInfo".
 
@@ -87,28 +86,12 @@
 ------------------------------------------------------------------------------*/
 
 /* Includes ------------------------------------------------------------------*/
+#include <sys/param.h>
+#include <sys/systm.h>
 #include "stm32_adafruit_sd.h"
-#include "stdlib.h"
-#include "string.h"
-#include "stdio.h"
-
-/** @addtogroup BSP
-  * @{
-  */
-
-/** @addtogroup STM32_ADAFRUIT
-  * @{
-  */
-
-/** @defgroup STM32_ADAFRUIT_SD
-  * @{
-  */
 
 /* Private typedef -----------------------------------------------------------*/
 
-/** @defgroup STM32_ADAFRUIT_SD_Private_Types_Definitions
-  * @{
-  */
 typedef struct {
   uint8_t r1;
   uint8_t r2;
@@ -117,15 +100,8 @@ typedef struct {
   uint8_t r5;
 } SD_CmdAnswer_typedef;
 
-/**
-  * @}
-  */
-
 /* Private define ------------------------------------------------------------*/
 
-/** @defgroup STM32_ADAFRUIT_SD_Private_Defines
-  * @{
-  */
 #define SD_DUMMY_BYTE            0xFF
 
 #define SD_MAX_FRAME_LENGTH        17    /* Lenght = 16 + 1 */
@@ -226,25 +202,10 @@ typedef enum
   SD_DATA_OTHER_ERROR       = (0xFF)
 } SD_Error;
 
-/**
-  * @}
-  */
-
 /* Private macro -------------------------------------------------------------*/
-
-/** @defgroup STM32_ADAFRUIT_SD_Private_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
 
 /* Private variables ---------------------------------------------------------*/
 
-/** @defgroup STM32_ADAFRUIT_SD_Private_Variables
-  * @{
-  */
 __IO uint8_t SdStatus = SD_NOT_PRESENT;
 
 /* flag_SDHC :
@@ -252,10 +213,6 @@ __IO uint8_t SdStatus = SD_NOT_PRESENT;
       1 : High capacity
 */
 uint16_t flag_SDHC = 0;
-
-/**
-  * @}
-  */
 
 /* Private function prototypes -----------------------------------------------*/
 static uint8_t SD_GetCIDRegister(SD_CID* Cid);
@@ -265,18 +222,8 @@ static uint8_t SD_GoIdleState(void);
 static SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t Answer);
 static uint8_t SD_WaitData(uint8_t data);
 static uint8_t SD_ReadData(void);
-/** @defgroup STM32_ADAFRUIT_SD_Private_Function_Prototypes
-  * @{
-  */
-/**
-  * @}
-  */
 
 /* Private functions ---------------------------------------------------------*/
-
-/** @defgroup STM32_ADAFRUIT_SD_Private_Functions
-  * @{
-  */
 
 /**
   * @brief  Initializes the SD/SD communication.
@@ -290,7 +237,7 @@ uint8_t BSP_SD_Init(void)
   /* Configure IO functionalities for SD pin */
   SD_IO_Init();
 
-  /* SD detection pin is not physically mapped on the Adafruit shield */
+  /* SD detection pin is physically mapped on the board, but not managed */
   SdStatus = SD_PRESENT;
 
   /* SD initialized and set to SPI mode properly */
@@ -1029,21 +976,5 @@ uint8_t SD_WaitData(uint8_t data)
   /* Right response got */
   return BSP_SD_OK;
 }
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

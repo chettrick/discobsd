@@ -7,8 +7,7 @@
   * @brief   This file provides set of firmware functions to manage:
   *          - LEDs and push-button available on STM32F4XX-Nucleo Kit
   *            from STMicroelectronics
-  *          - MicroSD available on Adafruit 1.8" TFT LCD
-  *            shield (reference ID 802)
+  *          - MicroSD available on Adafruit MicroSD Breakout Board+ (ID 254)
   ******************************************************************************
   * @attention
   *
@@ -70,7 +69,7 @@ const uint32_t BUTTON_PIN[BUTTONn] = {KEY_BUTTON_PIN};
  * @brief BUS variables
  */
 
-#ifdef ADAFRUIT_TFT_JOY_SD_ID802
+#ifdef ADAFRUIT_SD_ID254
 
 #ifdef HAL_SPI_MODULE_ENABLED
 
@@ -90,7 +89,7 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
 
 #endif /* HAL_SPI_MODULE_ENABLED */
 
-#endif /* ADAFRUIT_TFT_JOY_SD_ID802 */
+#endif /* ADAFRUIT_SD_ID254 */
 
 /**
   * @brief  This method returns the STM32F4xx NUCLEO BSP Driver revision
@@ -258,7 +257,7 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
 /******************************************************************************
                             BUS OPERATIONS
 *******************************************************************************/
-#ifdef ADAFRUIT_TFT_JOY_SD_ID802
+#ifdef ADAFRUIT_SD_ID254
 
 /******************************* SPI ********************************/
 #ifdef HAL_SPI_MODULE_ENABLED
@@ -440,6 +439,6 @@ uint8_t SD_IO_WriteByte(uint8_t Data)
 
 #endif /* HAL_SPI_MODULE_ENABLED */
 
-#endif /* ADAFRUIT_TFT_JOY_SD_ID802 */
+#endif /* ADAFRUIT_SD_ID254 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -79,6 +79,8 @@ stm32/sdio_card.c               optional sd
 stm32/stm32f4xx_hal_sd.c        optional sdio
 stm32/stm32f4xx_ll_sdmmc.c      optional sdio
 stm32/sdio.c                    optional sdio
+stm32/spi.c                     optional spi
+stm32/stm32f4xx_hal_spi.c       optional spi
 stm32/uart.c                    optional uart
 stm32/stm32f4xx_ll_usart.c      optional uart
 

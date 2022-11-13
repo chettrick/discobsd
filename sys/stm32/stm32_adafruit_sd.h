@@ -45,24 +45,8 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include <stdint.h>
 
-/** @addtogroup BSP
-  * @{
-  */
 #define __IO    volatile
-
-/** @addtogroup STM32_ADAFRUIT
-  * @{
-  */
-
-/** @defgroup STM32_ADAFRUIT_SD
-  * @{
-  */
-
-/** @defgroup STM32_ADAFRUIT_SD_Exported_Types
-  * @{
-  */
 
 /**
   * @brief  SD status structure definition
@@ -84,7 +68,6 @@ typedef struct
   uint8_t  MaxWrCurrentVDDMax:3;      /* Max. write current @ VDD max */
   uint8_t  DeviceSizeMul:3;           /* Device size multiplier */
 } struct_v1;
-
 
 typedef struct
 {
@@ -168,14 +151,6 @@ typedef struct
 } SD_CardInfo;
 
 /**
-  * @}
-  */
-
-/** @defgroup STM32_ADAFRUIT_SPI_SD_Exported_Constants
-  * @{
-  */
-
-/**
   * @brief  Block Size
   */
 #define SD_BLOCK_SIZE    0x200
@@ -193,21 +168,6 @@ typedef struct
   */
 #define BSP_SD_CardInfo SD_CardInfo
 
-/**
-  * @}
-  */
-
-/** @defgroup STM32_ADAFRUIT_SD_Exported_Macro
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup STM32_ADAFRUIT_SD_Exported_Functions
-  * @{
-  */
 uint8_t BSP_SD_Init(void);
 uint8_t BSP_SD_DeInit(void);
 uint8_t BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks, uint32_t Timeout);
@@ -230,21 +190,5 @@ void HAL_Delay(__IO uint32_t Delay);
 #endif
 
 #endif /* __STM32_ADAFRUIT_SD_H */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -66,7 +66,7 @@ GPIO_TypeDef* GPIO_PORT[LEDn] = { LED1_GPIO_PORT,
                                   LED4_GPIO_PORT };
 
 GPIO_TypeDef * BUTTON_PORT[BUTTONn] = { WAKEUP_BUTTON_GPIO_PORT };
-const uint16_t BUTTON_PIN[BUTTONn] = { WAKEUP_BUTTON_PIN };
+const uint32_t BUTTON_PIN[BUTTONn] = { WAKEUP_BUTTON_PIN };
 
   /**
   * @brief  This method returns the STM32469I Discovery BSP Driver revision
@@ -162,8 +162,11 @@ BSP_LED_DeInit(Led_TypeDef Led)
 void
 BSP_LED_On(Led_TypeDef Led)
 {
+  GPIO_TypeDef *port = GPIO_PORT[Led];
+  uint32_t pin = GPIO_PIN[Led];
+
   if (Led <= LED4) {
-    LL_GPIO_ResetOutputPin(GPIO_PORT[Led], GPIO_PIN[Led]);
+    LL_GPIO_ResetOutputPin(port, pin);
   }
 }
 
@@ -179,8 +182,11 @@ BSP_LED_On(Led_TypeDef Led)
 void
 BSP_LED_Off(Led_TypeDef Led)
 {
+  GPIO_TypeDef *port = GPIO_PORT[Led];
+  uint32_t pin = GPIO_PIN[Led];
+
   if (Led <= LED4) {
-    LL_GPIO_SetOutputPin(GPIO_PORT[Led], GPIO_PIN[Led]);
+    LL_GPIO_SetOutputPin(port, pin);
   }
 }
 
@@ -196,13 +202,16 @@ BSP_LED_Off(Led_TypeDef Led)
 void
 BSP_LED_Toggle(Led_TypeDef Led)
 {
+  GPIO_TypeDef *port = GPIO_PORT[Led];
+  uint32_t pin = GPIO_PIN[Led];
+
   if (Led <= LED4) {
-     LL_GPIO_TogglePin(GPIO_PORT[Led], GPIO_PIN[Led]);
+    LL_GPIO_TogglePin(port, pin);
   }
 }
 
 /**
-  * @brief  Configures button GPIO and EXTI Line.
+  * @brief  Configures button GPIO.
   * @param  Button: Button to be configured
   *          This parameter can be one of the following values:
   *            @arg  BUTTON_WAKEUP: Wakeup Push Button
@@ -210,8 +219,6 @@ BSP_LED_Toggle(Led_TypeDef Led)
   * @param  Button_Mode: Button mode
   *          This parameter can be one of the following values:
   *            @arg  BUTTON_MODE_GPIO: Button will be used as simple IO
-  *            @arg  BUTTON_MODE_EXTI: Button will be connected to EXTI line
-  *                                    with interrupt generation capability
   */
 void
 BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
@@ -262,7 +269,10 @@ BSP_PB_DeInit(Button_TypeDef Button)
 uint32_t
 BSP_PB_GetState(Button_TypeDef Button)
 {
-  return (LL_GPIO_ReadInputPort(BUTTON_PORT[Button]) & BUTTON_PIN[Button]);
+  GPIO_TypeDef *port = BUTTON_PORT[Button];
+  uint32_t pin = BUTTON_PIN[Button];
+
+  return (LL_GPIO_ReadInputPort(port) & pin);
 }
 
 #endif /* F469IDISCO */

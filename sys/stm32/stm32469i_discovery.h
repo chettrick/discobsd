@@ -115,18 +115,16 @@ typedef enum
 /**
   * @brief Wakeup push-button
   */
-#define WAKEUP_BUTTON_PIN               LL_GPIO_PIN_0
+#define WAKEUP_BUTTON_PIN               ((uint32_t)LL_GPIO_PIN_0)
 #define WAKEUP_BUTTON_GPIO_PORT         GPIOA
 #define WAKEUP_BUTTON_GPIO_CLK_ENABLE() LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define WAKEUP_BUTTON_GPIO_CLK_DISABLE()    LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-#define WAKEUP_BUTTON_EXTI_IRQn         EXTI0_IRQn
 
 /* Define the USER button as an alias of the Wakeup button */
 #define USER_BUTTON_PIN                 WAKEUP_BUTTON_PIN
 #define USER_BUTTON_GPIO_PORT           WAKEUP_BUTTON_GPIO_PORT
 #define USER_BUTTON_GPIO_CLK_ENABLE()   WAKEUP_BUTTON_GPIO_CLK_ENABLE()
 #define USER_BUTTON_GPIO_CLK_DISABLE()  WAKEUP_BUTTON_GPIO_CLK_DISABLE()
-#define USER_BUTTON_EXTI_IRQn           WAKEUP_BUTTON_EXTI_IRQn
 
 /**
   * @brief SD-detect signal

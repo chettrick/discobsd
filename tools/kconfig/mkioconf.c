@@ -33,8 +33,49 @@
 #include "y.tab.h"
 #include "config.h"
 
+static void     ctlr_ioconf(FILE *fp);
+static void     service_ioconf(FILE *fp);
+static char    *wnum(int num);
+
 /*
  * build the ioconf.c file
+ */
+
+/*
+ * print controller initialization structures
+ */
+static void ctlr_ioconf(fp)
+    register FILE *fp;
+{
+    register struct device *dp;
+
+    for (dp = dtab; dp != 0; dp = dp->d_next) {
+        if (dp->d_type == SERVICE)
+            continue;
+        fprintf(fp, "extern struct driver %sdriver;\n", dp->d_name);
+    }
+    fprintf(fp, "\nstruct conf_ctlr conf_ctlr_init[] = {\n");
+    fprintf(fp, "   /* driver,\t\tunit,\taddr,\t\tpri,\tflags */\n");
+    for (dp = dtab; dp != 0; dp = dp->d_next) {
+        if (dp->d_type != CONTROLLER)
+            continue;
+        if (dp->d_drive != UNKNOWN) {
+            printf("can't specify drive for %s%s\n",
+                dp->d_name, wnum(dp->d_unit));
+            continue;
+        }
+        if (dp->d_unit == UNKNOWN || dp->d_unit == QUES)
+            dp->d_unit = 0;
+        fprintf(fp,
+               "    { &%sdriver,\t%d,\tC 0x%08x,\t%d,\t0x%x },\n",
+            dp->d_name, dp->d_unit, dp->d_addr, dp->d_pri,
+            dp->d_flags);
+    }
+    fprintf(fp, "    { 0 }\n};\n");
+}
+
+/*
+ * print service initialization structures
  */
 static void service_ioconf(fp)
     register FILE *fp;
@@ -81,29 +122,7 @@ void pic32_ioconf()
     fprintf(fp, "#define C (char *)\n\n");
 
     /* print controller initialization structures */
-    for (dp = dtab; dp != 0; dp = dp->d_next) {
-        if (dp->d_type == SERVICE)
-            continue;
-        fprintf(fp, "extern struct driver %sdriver;\n", dp->d_name);
-    }
-    fprintf(fp, "\nstruct conf_ctlr conf_ctlr_init[] = {\n");
-    fprintf(fp, "   /* driver,\t\tunit,\taddr,\t\tpri,\tflags */\n");
-    for (dp = dtab; dp != 0; dp = dp->d_next) {
-        if (dp->d_type != CONTROLLER)
-            continue;
-        if (dp->d_drive != UNKNOWN) {
-            printf("can't specify drive for %s%s\n",
-                dp->d_name, wnum(dp->d_unit));
-            continue;
-        }
-        if (dp->d_unit == UNKNOWN || dp->d_unit == QUES)
-            dp->d_unit = 0;
-        fprintf(fp,
-               "    { &%sdriver,\t%d,\tC 0x%08x,\t%d,\t0x%x },\n",
-            dp->d_name, dp->d_unit, dp->d_addr, dp->d_pri,
-            dp->d_flags);
-    }
-    fprintf(fp, "    { 0 }\n};\n");
+    ctlr_ioconf(fp);
 
     /* print devices connected to other controllers */
     fprintf(fp, "\nstruct conf_device conf_device_init[] = {\n");
@@ -141,7 +160,10 @@ void pic32_ioconf()
         fprintf(fp, " },\n");
     }
     fprintf(fp, "    { 0 }\n};\n");
+
+    /* print service initialization structures */
     service_ioconf(fp);
+
     fclose(fp);
 }
 #endif

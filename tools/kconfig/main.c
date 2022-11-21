@@ -79,15 +79,12 @@ usage:  fputs("usage: kconfig [-gp] sysname\n", stderr);
     switch (arch) {
 
     case ARCH_PIC32:
-    case ARCH_STM32: /* XXX */
         pic32_ioconf();
         break;
 
-#if 0 /* XXX Need an STM32 specific ioconf() function. */
     case ARCH_STM32:
         stm32_ioconf();
         break;
-#endif /* XXX */
 
     default:
         printf("Specify architecture, e.g. ``architecture pic32''\n");

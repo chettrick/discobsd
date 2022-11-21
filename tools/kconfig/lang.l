@@ -105,10 +105,10 @@ kw_lookup(word)
 }
 %}
 WORD            [A-Za-z_][-A-Za-z_]*
-PIN             R[A-Z][0-9][0-9]*
+PIN             [PR][A-Z][0-9][0-9]*
 %%
 {PIN}           {
-                    /* Pin name from RA0 to RZ255. */
+                    /* Pin name from [PR]A0 to [PR]Z255. */
                     yylval.val = atoi(yytext + 2) & 0xff;
                     yylval.val |= (yytext[1] - 'A' + 1) << 8;
                     return PIN;

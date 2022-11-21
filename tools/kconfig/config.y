@@ -108,16 +108,31 @@ struct  device *curp = 0;
 char    *temp_id;
 char    *val_id;
 
-int yylex(void);
-int finddev(dev_t dev);
-void deverror(char *systemname, char *devtype);
-int alreadychecked(dev_t dev, dev_t list[], dev_t *last);
+int             yylex(void);
+void            yyerror(char *s);
+
+void            newdev(struct device *dp);
+void            mkconf(char *sysname);
+struct file_list   *newflist(u_char ftype);
+void            mkswap(struct file_list *system, struct file_list *fl,
+                    int size, int flag);
+struct device  *connect(char *dev, int num);
+struct device  *huhcon(char *dev);
+void            check_nexus(struct device *dev, int num);
+void            check_tz(void);
+void            checksystemspec(struct file_list *fl);
+void            verifysystemspecs(void);
+dev_t          *verifyswap(struct file_list *fl, dev_t checked[],
+                    dev_t *pchecked);
+int             alreadychecked(dev_t dev, dev_t list[], dev_t *last);
+void            deverror(char *systemname, char *devtype);
+int             finddev(dev_t dev);
 
 %}
 %%
 Configuration:
     Many_specs
-        = { verifysystemspecs(); }
+        { verifysystemspecs(); }
     ;
 
 Many_specs:
@@ -128,12 +143,12 @@ Many_specs:
 
 Spec:
     Device_spec SEMICOLON
-        = { newdev(&cur); }
+        { newdev(&cur); }
         |
     Config_spec SEMICOLON
         |
     TRACE SEMICOLON
-        = { do_trace = !do_trace; }
+        { do_trace = !do_trace; }
         |
     SEMICOLON
         |
@@ -142,7 +157,7 @@ Spec:
 
 Config_spec:
     ARCHITECTURE Save_id
-        = {
+        {
             if (strcmp($2, "pic32") == 0) {
                 arch = ARCH_PIC32;
                 archname = "pic32";
@@ -154,7 +169,7 @@ Config_spec:
         }
         |
     CPU Save_id
-        = {
+        {
             struct cputype *cp =
                 (struct cputype *)malloc(sizeof (struct cputype));
             cp->cpu_name = strdup($2);
@@ -168,13 +183,13 @@ Config_spec:
     MAKEOPTIONS Mkopt_list
         |
     BOARD ID
-        = { board = strdup($2); }
+        { board = strdup($2); }
         |
     LDSCRIPT ID
-        = { ldscript = strdup($2); }
+        { ldscript = strdup($2); }
         |
     SIGNAL ID PINS PIN optional_invert
-        = {
+        {
             struct signal *s = (struct signal*) malloc(sizeof(struct signal));
             s->sig_name = strdup($2);
             s->sig_next = siglist;
@@ -186,53 +201,53 @@ Config_spec:
     System_spec
         |
     TIMEZONE NUMBER
-        = { zone = 60 * $2; check_tz(); }
+        { zone = 60 * $2; check_tz(); }
         |
     TIMEZONE NUMBER DST NUMBER
-        = { zone = 60 * $2; dst = $4; check_tz(); }
+        { zone = 60 * $2; dst = $4; check_tz(); }
         |
     TIMEZONE NUMBER DST
-        = { zone = 60 * $2; dst = 1; check_tz(); }
+        { zone = 60 * $2; dst = 1; check_tz(); }
         |
     TIMEZONE FPNUMBER
-        = { zone = $2; check_tz(); }
+        { zone = $2; check_tz(); }
         |
     TIMEZONE FPNUMBER DST NUMBER
-        = { zone = $2; dst = $4; check_tz(); }
+        { zone = $2; dst = $4; check_tz(); }
         |
     TIMEZONE FPNUMBER DST
-        = { zone = $2; dst = 1; check_tz(); }
+        { zone = $2; dst = 1; check_tz(); }
         |
     TIMEZONE MINUS NUMBER
-        = { zone = -60 * $3; check_tz(); }
+        { zone = -60 * $3; check_tz(); }
         |
     TIMEZONE MINUS NUMBER DST NUMBER
-        = { zone = -60 * $3; dst = $5; check_tz(); }
+        { zone = -60 * $3; dst = $5; check_tz(); }
         |
     TIMEZONE MINUS NUMBER DST
-        = { zone = -60 * $3; dst = 1; check_tz(); }
+        { zone = -60 * $3; dst = 1; check_tz(); }
         |
     TIMEZONE MINUS FPNUMBER
-        = { zone = -$3; check_tz(); }
+        { zone = -$3; check_tz(); }
         |
     TIMEZONE MINUS FPNUMBER DST NUMBER
-        = { zone = -$3; dst = $5; check_tz(); }
+        { zone = -$3; dst = $5; check_tz(); }
         |
     TIMEZONE MINUS FPNUMBER DST
-        = { zone = -$3; dst = 1; check_tz(); }
+        { zone = -$3; dst = 1; check_tz(); }
         |
     MAXUSERS NUMBER
-        = { maxusers = $2; }
+        { maxusers = $2; }
     ;
 
 System_spec:
     System_id System_parameter_list
-        = { checksystemspec(*confp); }
+        { checksystemspec(*confp); }
     ;
 
 System_id:
     CONFIG Save_id
-        = { mkconf($2); }
+        { mkconf($2); }
     ;
 
 System_parameter_list:
@@ -261,12 +276,12 @@ swap_device_list:
 
 swap_device:
     swap_device_spec optional_size optional_sflag
-        = { mkswap(*confp, $1, $2, $3); }
+        { mkswap(*confp, $1, $2, $3); }
     ;
 
 swap_device_spec:
     device_name
-        = {
+        {
             struct file_list *fl = newflist(SWAPSPEC);
 
             if (eq($1, "generic"))
@@ -279,7 +294,7 @@ swap_device_spec:
         }
         |
     major_minor
-        = {
+        {
             struct file_list *fl = newflist(SWAPSPEC);
 
             fl->f_swapdev = $1;
@@ -290,7 +305,7 @@ swap_device_spec:
 
 root_spec:
     ROOT optional_on root_device_spec
-        = {
+        {
             struct file_list *fl = *confp;
 
             if (fl && fl->f_rootdev != NODEV)
@@ -302,14 +317,14 @@ root_spec:
 
 root_device_spec:
     device_name
-        = { $$ = nametodev($1, 0); }
+        { $$ = nametodev($1, 0); }
         |
     major_minor
     ;
 
 dump_spec:
     DUMPS optional_on dump_device_spec
-        = {
+        {
             struct file_list *fl = *confp;
 
             if (fl && fl->f_dumpdev != NODEV)
@@ -321,14 +336,14 @@ dump_spec:
 
 dump_device_spec:
     device_name
-        = { $$ = nametodev($1, 0); }
+        { $$ = nametodev($1, 0); }
         |
     major_minor
     ;
 
 major_minor:
     MAJOR NUMBER MINOR NUMBER
-        = { $$ = makedev($2, $4); }
+        { $$ = makedev($2, $4); }
     ;
 
 optional_on:
@@ -339,34 +354,34 @@ optional_on:
 
 optional_size:
     SIZE NUMBER
-        = { $$ = $2; }
+        { $$ = $2; }
         |
     /* empty */
-        = { $$ = 0; }
+        { $$ = 0; }
     ;
 
 optional_sflag:
     SEQUENTIAL
-        = { $$ = 2; }
+        { $$ = 2; }
         |
     /* empty */
-        = { $$ = 0; }
+        { $$ = 0; }
     ;
 
 optional_invert:
     INVERT
-        = { $$ = 1; }
+        { $$ = 1; }
         |
     /* empty */
-        = { $$ = 0; }
+        { $$ = 0; }
     ;
 
 device_name:
     Save_id
-        = { $$ = $1; }
+        { $$ = $1; }
         |
     Save_id NUMBER
-        = {
+        {
             char buf[80];
 
             (void) sprintf(buf, "%s%d", $1, $2);
@@ -375,7 +390,7 @@ device_name:
         }
         |
     Save_id NUMBER ID
-        = {
+        {
             char buf[80];
 
             (void) sprintf(buf, "%s%d%s", $1, $2, $3);
@@ -392,7 +407,7 @@ Opt_list:
 
 Option:
     Save_id
-        = {
+        {
             struct opt *op = (struct opt *)malloc(sizeof (struct opt));
             op->op_name = strdup($1);
             op->op_next = opt;
@@ -402,7 +417,7 @@ Option:
         }
         |
     Save_id EQUALS Opt_value
-        = {
+        {
             struct opt *op = (struct opt *)malloc(sizeof (struct opt));
             op->op_name = strdup($1);
             op->op_next = opt;
@@ -415,10 +430,10 @@ Option:
 
 Opt_value:
     ID
-        = { $$ = val_id = strdup($1); }
+        { $$ = val_id = strdup($1); }
         |
     NUMBER
-        = {
+        {
             char nb[16];
             (void) sprintf(nb, "%d", $1);
             $$ = val_id = strdup(nb);
@@ -427,7 +442,7 @@ Opt_value:
 
 Save_id:
     ID
-        = { $$ = temp_id = strdup($1); }
+        { $$ = temp_id = strdup($1); }
     ;
 
 Mkopt_list:
@@ -438,7 +453,7 @@ Mkopt_list:
 
 Mkoption:
     Save_id EQUALS Opt_value
-        = {
+        {
             struct opt *op = (struct opt *)malloc(sizeof (struct opt));
             op->op_name = strdup($1);
             op->op_next = mkopt;
@@ -451,24 +466,24 @@ Mkoption:
 
 Dev:
     ID
-        = { $$ = strdup($1); }
+        { $$ = strdup($1); }
     ;
 
 Device_spec:
     DEVICE Dev_name Dev_info Int_spec
-        = { cur.d_type = DEVICE; }
+        { cur.d_type = DEVICE; }
         |
     CONTROLLER Dev_name Dev_info Int_spec
-        = { cur.d_type = CONTROLLER; }
+        { cur.d_type = CONTROLLER; }
         |
     SERVICE Init_dev Dev
-        = {
+        {
             cur.d_name = $3;
             cur.d_type = SERVICE;
         }
         |
     SERVICE Init_dev Dev NUMBER
-        = {
+        {
             cur.d_name = $3;
             cur.d_type = SERVICE;
             cur.d_slave = $4;
@@ -477,20 +492,20 @@ Device_spec:
 
 Dev_name:
     Init_dev Dev NUMBER
-        = {
+        {
             cur.d_name = $2;
             cur.d_unit = $3;
         }
         |
     Init_dev Dev
-        = {
+        {
             cur.d_name = $2;
         }
     ;
 
 Init_dev:
     /* lambda */
-        = { init_dev(&cur); }
+        { init_dev(&cur); }
     ;
 
 Dev_info:
@@ -503,7 +518,7 @@ Dev_info:
 
 Con_info:
     AT Dev NUMBER
-        = { cur.d_conn = connect($2, $3); }
+        { cur.d_conn = connect($2, $3); }
     ;
 
 Info_list:
@@ -514,35 +529,35 @@ Info_list:
 
 Info:
     CSR NUMBER
-        = { cur.d_addr = $2; }
+        { cur.d_addr = $2; }
         |
     DRIVE NUMBER
-        = { cur.d_drive = $2; }
+        { cur.d_drive = $2; }
         |
     FLAGS NUMBER
-        = { cur.d_flags = $2; }
+        { cur.d_flags = $2; }
         |
     PINS Pin_list
     ;
 
 Int_spec:
     VECTOR Id_list
-        = { cur.d_vec = $2; }
+        { cur.d_vec = $2; }
         |
     PRIORITY NUMBER
-        = { cur.d_pri = $2; }
+        { cur.d_pri = $2; }
         |
     /* lambda */
     ;
 
 Id_list:
     Save_id
-        = {
+        {
             struct idlst *a = (struct idlst *)malloc(sizeof(struct idlst));
             a->id = $1; a->id_next = 0; $$ = a;
         }
         |
-    Save_id Id_list =
+    Save_id Id_list
         {
             struct idlst *a = (struct idlst *)malloc(sizeof(struct idlst));
             a->id = $1; a->id_next = $2; $$ = a;
@@ -551,10 +566,10 @@ Id_list:
 
 Pin_list:
     PIN
-        = { cur.d_pins[cur.d_npins++] = $1; }
+        { cur.d_pins[cur.d_npins++] = $1; }
         |
     PIN COMMA Pin_list
-        = { cur.d_pins[cur.d_npins++] = $1; }
+        { cur.d_pins[cur.d_npins++] = $1; }
     ;
 %%
 
@@ -670,7 +685,6 @@ connect(dev, num)
     register int num;
 {
     register struct device *dp;
-    struct device *huhcon();
 
     if (num == QUES)
         return (huhcon(dev));
@@ -791,7 +805,7 @@ void check_nexus(dev, num)
 /*
  * Check the timezone to make certain it is sensible
  */
-void check_tz()
+void check_tz(void)
 {
     if (abs(zone) > 12 * 60)
         yyerror("timezone is unreasonable");
@@ -877,10 +891,10 @@ void checksystemspec(fl)
  * Verify all devices specified in the system specification
  * are present in the device specifications.
  */
-void verifysystemspecs()
+void verifysystemspecs(void)
 {
     register struct file_list *fl;
-    dev_t checked[50], *verifyswap();
+    dev_t checked[50];
     register dev_t *pchecked = checked;
 
     for (fl = conf_list; fl; fl = fl->f_next) {

@@ -115,6 +115,8 @@ typedef enum
 /**
   * @brief Wakeup push-button
   */
+#define BUTTON_USER_PRESSED             ((uint32_t)1)
+
 #define WAKEUP_BUTTON_PIN               ((uint32_t)LL_GPIO_PIN_0)
 #define WAKEUP_BUTTON_GPIO_PORT         GPIOA
 #define WAKEUP_BUTTON_GPIO_CLK_ENABLE() LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)

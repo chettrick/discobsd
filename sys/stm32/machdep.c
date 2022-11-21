@@ -178,7 +178,7 @@ SystemClock_Config(void)
 static inline int
 button1_pressed()
 {
-    return BSP_PB_GetState(BUTTON_USER);
+    return (BSP_PB_GetState(BUTTON_USER) == BUTTON_USER_PRESSED);
 }
 
 /*

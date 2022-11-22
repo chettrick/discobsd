@@ -1,7 +1,7 @@
 ifeq ($(MACHINE), pic32)
 SUBDIR		= elf2aout fsutil virtualmips mkrd kconfig icache
 else
-SUBDIR		= elf2aout fsutil mkrd kconfig icache
+SUBDIR		= elf2aout fsutil kconfig
 endif
 
 all install depend: ${SUBDIR}

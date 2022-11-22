@@ -109,7 +109,7 @@ typedef struct
   uint8_t  MaxWrBlockLen:4;           /* Max. write data block length */
   uint8_t  WriteBlockPartial:1;       /* Partial blocks for write allowed */
   uint8_t  Reserved3:5;               /* Reserved */
-  uint8_t  FileFormatGrouop:1;        /* File format group */
+  uint8_t  FileFormatGroup:1;         /* File format group */
   uint8_t  CopyFlag:1;                /* Copy flag (OTP) */
   uint8_t  PermWrProtect:1;           /* Permanent write protection */
   uint8_t  TempWrProtect:1;           /* Temporary write protection */

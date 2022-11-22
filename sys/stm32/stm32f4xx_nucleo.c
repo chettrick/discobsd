@@ -77,7 +77,7 @@ uint32_t SpixTimeout = NUCLEO_SPIx_TIMEOUT_MAX; /*<! Value of Timeout when SPI c
 static SPI_HandleTypeDef hnucleo_Spi;
 
 static void       SPIx_Init(void);
-static void       SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLegnth);
+static void       SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength);
 static void       SPIx_Error(void);
 static void       SPIx_MspInit(SPI_HandleTypeDef *hspi);
 
@@ -95,7 +95,8 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
   * @brief  This method returns the STM32F4xx NUCLEO BSP Driver revision
   * @retval version: 0xXYZR (8bits for each decimal, R for RC)
   */
-uint32_t BSP_GetVersion(void)
+uint32_t
+BSP_GetVersion(void)
 {
   return __STM32F4xx_NUCLEO_BSP_VERSION;
 }
@@ -106,7 +107,8 @@ uint32_t BSP_GetVersion(void)
   *   This parameter can be one of following parameters:
   *     @arg LED2
   */
-void BSP_LED_Init(Led_TypeDef Led)
+void
+BSP_LED_Init(Led_TypeDef Led)
 {
   if (Led == LED2) {
     GPIO_TypeDef *port = GPIO_PORT[Led];
@@ -133,7 +135,8 @@ void BSP_LED_Init(Led_TypeDef Led)
   *     @arg  LED2
   * @note Led DeInit does not disable the GPIO clock nor disable the Mfx
   */
-void BSP_LED_DeInit(Led_TypeDef Led)
+void
+BSP_LED_DeInit(Led_TypeDef Led)
 {
   if (Led == LED2) {
     GPIO_TypeDef *port = GPIO_PORT[Led];
@@ -156,7 +159,8 @@ void BSP_LED_DeInit(Led_TypeDef Led)
   *   This parameter can be one of following parameters:
   *     @arg LED2
   */
-void BSP_LED_On(Led_TypeDef Led)
+void
+BSP_LED_On(Led_TypeDef Led)
 {
   if (Led == LED2) {
     GPIO_TypeDef *port = GPIO_PORT[Led];
@@ -172,7 +176,8 @@ void BSP_LED_On(Led_TypeDef Led)
   *   This parameter can be one of following parameters:
   *     @arg LED2
   */
-void BSP_LED_Off(Led_TypeDef Led)
+void
+BSP_LED_Off(Led_TypeDef Led)
 {
   if (Led == LED2) {
     GPIO_TypeDef *port = GPIO_PORT[Led];
@@ -188,7 +193,8 @@ void BSP_LED_Off(Led_TypeDef Led)
   *   This parameter can be one of following parameters:
   *     @arg LED2
   */
-void BSP_LED_Toggle(Led_TypeDef Led)
+void
+BSP_LED_Toggle(Led_TypeDef Led)
 {
   if (Led == LED2) {
     GPIO_TypeDef *port = GPIO_PORT[Led];
@@ -206,7 +212,8 @@ void BSP_LED_Toggle(Led_TypeDef Led)
   *   This parameter can be one of following parameters:
   *     @arg BUTTON_MODE_GPIO: Button will be used as simple IO
   */
-void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
+void
+BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
 {
   GPIO_TypeDef *port = BUTTON_PORT[Button];
   uint32_t pin = BUTTON_PIN[Button];
@@ -228,7 +235,8 @@ void BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
   *   This parameter should be: BUTTON_KEY
   * @note PB DeInit does not disable the GPIO clock
   */
-void BSP_PB_DeInit(Button_TypeDef Button)
+void
+BSP_PB_DeInit(Button_TypeDef Button)
 {
   GPIO_TypeDef *port = BUTTON_PORT[Button];
   uint32_t pin = BUTTON_PIN[Button];
@@ -246,7 +254,8 @@ void BSP_PB_DeInit(Button_TypeDef Button)
   *   This parameter should be: BUTTON_KEY
   * @retval The Button GPIO pin value.
   */
-uint32_t BSP_PB_GetState(Button_TypeDef Button)
+uint32_t
+BSP_PB_GetState(Button_TypeDef Button)
 {
   GPIO_TypeDef *port = BUTTON_PORT[Button];
   uint32_t pin = BUTTON_PIN[Button];
@@ -265,7 +274,8 @@ uint32_t BSP_PB_GetState(Button_TypeDef Button)
 /**
   * @brief  Initializes SPI MSP.
   */
-static void SPIx_MspInit(SPI_HandleTypeDef *hspi)
+static void
+SPIx_MspInit(SPI_HandleTypeDef *hspi)
 {
   /*** Configure the GPIOs ***/
   /* Enable GPIO clock */
@@ -298,14 +308,14 @@ static void SPIx_MspInit(SPI_HandleTypeDef *hspi)
 /**
   * @brief  Initializes SPI HAL.
   */
-static void SPIx_Init(void)
+static void
+SPIx_Init(void)
 {
-  if(HAL_SPI_GetState(&hnucleo_Spi) == HAL_SPI_STATE_RESET)
-  {
+  if (HAL_SPI_GetState(&hnucleo_Spi) == HAL_SPI_STATE_RESET) {
     /* SPI Config */
     hnucleo_Spi.Instance = NUCLEO_SPIx;
       /* SPI baudrate is set to 12,5 MHz maximum (APB1/SPI_BaudRatePrescaler = 100/8 = 12,5 MHz)
-       to verify these constraints:
+         to verify these constraints:
           - SD card SPI interface max baudrate is 25MHz for write/read
           - PCLK2 max frequency is 100 MHz
        */
@@ -330,17 +340,17 @@ static void SPIx_Init(void)
   * @brief  SPI Write a byte to device
   * @param  DataIn: value to be written
   * @param  DataOut: value to be read
-  * @param  DataLegnth: length of data
+  * @param  DataLength: length of data
   */
-static void SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLegnth)
+static void
+SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength)
 {
   HAL_StatusTypeDef status = HAL_OK;
 
-  status = HAL_SPI_TransmitReceive(&hnucleo_Spi, (uint8_t*) DataIn, DataOut, DataLegnth, SpixTimeout);
+  status = HAL_SPI_TransmitReceive(&hnucleo_Spi, (uint8_t*) DataIn, DataOut, DataLength, SpixTimeout);
 
   /* Check the communication status */
-  if(status != HAL_OK)
-  {
+  if (status != HAL_OK) {
     /* Execute user timeout callback */
     SPIx_Error();
   }
@@ -349,7 +359,8 @@ static void SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t
 /**
   * @brief  SPI error treatment function.
   */
-static void SPIx_Error (void)
+static void
+SPIx_Error(void)
 {
   /* De-initialize the SPI communication BUS */
   HAL_SPI_DeInit(&hnucleo_Spi);
@@ -367,7 +378,8 @@ static void SPIx_Error (void)
   * @brief  Initializes the SD Card and put it into StandBy State (Ready for
   *         data transfer).
   */
-void SD_IO_Init(void)
+void
+SD_IO_Init(void)
 {
   uint8_t counter;
 
@@ -390,8 +402,7 @@ void SD_IO_Init(void)
 
   /* Send dummy byte 0xFF, 10 times with CS high */
   /* Rise CS and MOSI for 80 clocks cycles */
-  for (counter = 0; counter <= 9; counter++)
-  {
+  for (counter = 0; counter <= 9; counter++) {
     /* Send dummy byte 0xFF */
     SD_IO_WriteByte(SD_DUMMY_BYTE);
   }
@@ -401,14 +412,12 @@ void SD_IO_Init(void)
   * @brief Set the SD_CS pin.
   * @param val: pin value.
   */
-void SD_IO_CSState(uint8_t val)
+void
+SD_IO_CSState(uint8_t val)
 {
-  if(val == 1)
-  {
+  if (val == 1) {
     SD_CS_HIGH();
-  }
-  else
-  {
+  } else {
     SD_CS_LOW();
   }
 }
@@ -419,7 +428,8 @@ void SD_IO_CSState(uint8_t val)
   * @param  DataOut: value to be read
   * @param  DataLength: length of data
   */
-void SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength)
+void
+SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength)
 {
   /* Send the byte */
   SPIx_WriteReadData(DataIn, DataOut, DataLength);
@@ -429,11 +439,12 @@ void SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataL
   * @brief  Writes a byte on the SD.
   * @param  Data: byte to send.
   */
-uint8_t SD_IO_WriteByte(uint8_t Data)
+uint8_t
+SD_IO_WriteByte(uint8_t Data)
 {
   uint8_t tmp;
   /* Send the byte */
-  SPIx_WriteReadData(&Data,&tmp,1);
+  SPIx_WriteReadData(&Data, &tmp, 1);
   return tmp;
 }
 

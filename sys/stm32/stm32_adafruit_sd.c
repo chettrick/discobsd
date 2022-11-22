@@ -77,7 +77,7 @@
   + Micro SD card operations
      o The micro SD card can be accessed with read/write block(s) operations once
        it is ready for access. The access can be performed in polling
-       mode by calling the functions BSP_SD_ReadBlocks()/BSP_SD_WriteBlocks()
+       mode by calling the functions BSP_SD_ReadBlocks()/BSP_SD_WriteBlocks().
 
      o The SD erase block(s) is performed using the function BSP_SD_Erase() with
        specifying the number of blocks to erase.
@@ -104,7 +104,7 @@ typedef struct {
 
 #define SD_DUMMY_BYTE            0xFF
 
-#define SD_MAX_FRAME_LENGTH        17    /* Lenght = 16 + 1 */
+#define SD_MAX_FRAME_LENGTH        17    /* Length = 16 + 1 */
 #define SD_CMD_LENGTH               6
 
 #define SD_MAX_TRY                100    /* Number of try */
@@ -114,7 +114,7 @@ typedef struct {
 
 
 /**
-  * @brief  SD ansewer format
+  * @brief  SD answer format
   */
 typedef enum {
  SD_ANSWER_R1_EXPECTED,
@@ -134,7 +134,7 @@ typedef enum {
 #define SD_TOKEN_START_DATA_MULTIPLE_BLOCK_READ  0xFE  /* Data token start byte, Start Multiple Block Read */
 #define SD_TOKEN_START_DATA_SINGLE_BLOCK_WRITE   0xFE  /* Data token start byte, Start Single Block Write */
 #define SD_TOKEN_START_DATA_MULTIPLE_BLOCK_WRITE 0xFD  /* Data token start byte, Start Multiple Block Write */
-#define SD_TOKEN_STOP_DATA_MULTIPLE_BLOCK_WRITE  0xFD  /* Data toke stop byte, Stop Multiple Block Write */
+#define SD_TOKEN_STOP_DATA_MULTIPLE_BLOCK_WRITE  0xFD  /* Data token stop byte, Stop Multiple Block Write */
 
 /**
   * @brief  Commands: CMDxx = CMD-number | 0x40
@@ -168,7 +168,7 @@ typedef enum {
 #define SD_CMD_READ_OCR               58  /* CMD55 = 0x79 */
 
 /**
-  * @brief  SD reponses and error flags
+  * @brief  SD responses and error flags
   */
 typedef enum
 {
@@ -209,7 +209,7 @@ typedef enum
 __IO uint8_t SdStatus = SD_NOT_PRESENT;
 
 /* flag_SDHC :
-      0 :  Standard capacity
+      0 : Standard capacity
       1 : High capacity
 */
 uint16_t flag_SDHC = 0;
@@ -232,7 +232,8 @@ static uint8_t SD_ReadData(void);
   *         - MSD_ERROR: Sequence failed
   *         - MSD_OK: Sequence succeed
   */
-uint8_t BSP_SD_Init(void)
+uint8_t
+BSP_SD_Init(void)
 {
   /* Configure IO functionalities for SD pin */
   SD_IO_Init();
@@ -266,7 +267,8 @@ BSP_SD_DeInit(void)
   *         - MSD_ERROR: Sequence failed
   *         - MSD_OK: Sequence succeed
   */
-uint8_t BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo)
+uint8_t
+BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo)
 {
   uint8_t status;
 
@@ -301,7 +303,8 @@ uint8_t BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo)
   * @param  Timeout: This parameter is used for compatibility with BSP implementation
   * @retval SD status
   */
-uint8_t BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks, uint32_t Timeout)
+uint8_t
+BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks, uint32_t Timeout)
 {
   uint32_t offset = 0;
   uint32_t addr;
@@ -366,7 +369,7 @@ error:
   SD_IO_CSState(1);
   SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-  /* Return the reponse */
+  /* Return the response */
   return retr;
 }
 
@@ -379,7 +382,8 @@ error:
   * @param  Timeout: This parameter is used for compatibility with BSP implementation
   * @retval SD status
   */
-uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBlocks, uint32_t Timeout)
+uint8_t
+BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBlocks, uint32_t Timeout)
 {
   uint32_t offset = 0;
   uint32_t addr;
@@ -446,7 +450,7 @@ error:
   SD_IO_CSState(1);
   SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-  /* Return the reponse */
+  /* Return the response */
   return retr;
 }
 
@@ -456,7 +460,8 @@ error:
   * @param  EndAddr: End address in Blocks (Size of a block is 512bytes)
   * @retval SD status
   */
-uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
+uint8_t
+BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
 {
   uint8_t retr = BSP_SD_ERROR;
   SD_CmdAnswer_typedef response;
@@ -484,7 +489,7 @@ uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
     }
   }
 
-  /* Return the reponse */
+  /* Return the response */
   return retr;
 }
 
@@ -493,7 +498,8 @@ uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
   * @param  None
   * @retval The SD status.
   */
-uint8_t BSP_SD_GetCardState(void)
+uint8_t
+BSP_SD_GetCardState(void)
 {
   SD_CmdAnswer_typedef retr;
 
@@ -512,20 +518,21 @@ uint8_t BSP_SD_GetCardState(void)
 }
 
 /**
-  * @brief  Reads the SD card SCD register.
+  * @brief  Reads the SD card CSD register.
   *         Reading the contents of the CSD register in SPI mode is a simple
   *         read-block transaction.
-  * @param  Csd: pointer on an SCD register structure
+  * @param  Csd: pointer on an CSD register structure
   * @retval SD status
   */
-uint8_t SD_GetCSDRegister(SD_CSD* Csd)
+uint8_t
+SD_GetCSDRegister(SD_CSD* Csd)
 {
   uint16_t counter = 0;
   uint8_t CSD_Tab[16];
   uint8_t retr = BSP_SD_ERROR;
   SD_CmdAnswer_typedef response;
 
-  /* Send CMD9 (CSD register) or CMD10(CSD register) and Wait for response in the R1 format (0x00 is no errors) */
+  /* Send CMD9 (CSD register) and Wait for response in the R1 format (0x00 is no errors) */
   response = SD_SendCmd(SD_CMD_SEND_CSD, 0, 0xFF, SD_ANSWER_R1_EXPECTED);
   if(response.r1 == SD_R1_NO_ERROR)
   {
@@ -604,7 +611,7 @@ uint8_t SD_GetCSDRegister(SD_CSD* Csd)
                               |((CSD_Tab[13] & 0xC0) >> 6);
       Csd->WriteBlockPartial = (CSD_Tab[13] & 0x20) >> 5;
       Csd->Reserved3         = (CSD_Tab[13] & 0x1F);
-      Csd->FileFormatGrouop  = (CSD_Tab[14] & 0x80) >> 7;
+      Csd->FileFormatGroup   = (CSD_Tab[14] & 0x80) >> 7;
       Csd->CopyFlag          = (CSD_Tab[14] & 0x40) >> 6;
       Csd->PermWrProtect     = (CSD_Tab[14] & 0x20) >> 5;
       Csd->TempWrProtect     = (CSD_Tab[14] & 0x10) >> 4;
@@ -621,7 +628,7 @@ uint8_t SD_GetCSDRegister(SD_CSD* Csd)
   SD_IO_CSState(1);
   SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-  /* Return the reponse */
+  /* Return the response */
   return retr;
 }
 
@@ -632,22 +639,23 @@ uint8_t SD_GetCSDRegister(SD_CSD* Csd)
   * @param  Cid: pointer on an CID register structure
   * @retval SD status
   */
-uint8_t SD_GetCIDRegister(SD_CID* Cid)
+uint8_t
+SD_GetCIDRegister(SD_CID* Cid)
 {
   uint32_t counter = 0;
-  uint8_t retr = BSP_SD_ERROR;
   uint8_t CID_Tab[16];
+  uint8_t retr = BSP_SD_ERROR;
   SD_CmdAnswer_typedef response;
 
   /* Send CMD10 (CID register) and Wait for response in the R1 format (0x00 is no errors) */
   response = SD_SendCmd(SD_CMD_SEND_CID, 0, 0xFF, SD_ANSWER_R1_EXPECTED);
   if(response.r1 == SD_R1_NO_ERROR)
   {
-    if(SD_WaitData(SD_TOKEN_START_DATA_SINGLE_BLOCK_READ) == BSP_SD_OK)
+    if (SD_WaitData(SD_TOKEN_START_DATA_SINGLE_BLOCK_READ) == BSP_SD_OK)
     {
-      /* Store CID register value on CID_Tab */
       for (counter = 0; counter < 16; counter++)
       {
+        /* Store CID register value on CID_Tab */
         CID_Tab[counter] = SD_IO_WriteByte(SD_DUMMY_BYTE);
       }
 
@@ -713,7 +721,7 @@ uint8_t SD_GetCIDRegister(SD_CID* Cid)
   SD_IO_CSState(1);
   SD_IO_WriteByte(SD_DUMMY_BYTE);
 
-  /* Return the reponse */
+  /* Return the response */
   return retr;
 }
 
@@ -725,14 +733,15 @@ uint8_t SD_GetCIDRegister(SD_CID* Cid)
   * @param  Answer: SD_ANSWER_NOT_EXPECTED or SD_ANSWER_EXPECTED
   * @retval SD status
   */
-SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t Answer)
+SD_CmdAnswer_typedef
+SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t Answer)
 {
   uint8_t frame[SD_CMD_LENGTH], frameout[SD_CMD_LENGTH];
   SD_CmdAnswer_typedef retr = {0xFF, 0xFF , 0xFF, 0xFF, 0xFF};
 
-  /* R1 Lenght = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 1 Bytes answer + NEC(0) = 15bytes */
+  /* R1 Length = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 1 Bytes answer + NEC(0) = 15bytes */
   /* R1b identical to R1 + Busy information                                                   */
-  /* R2 Lenght = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 2 Bytes answer + NEC(0) = 16bytes */
+  /* R2 Length = NCS(0)+ 6 Bytes command + NCR(min1 max8) + 2 Bytes answer + NEC(0) = 16bytes */
 
   /* Prepare Frame to send */
   frame[0] = (Cmd | 0x40);         /* Construct byte 1 */
@@ -785,12 +794,13 @@ SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t 
   * @brief  Gets the SD card data response and check the busy flag.
   * @param  None
   * @retval The SD status: Read data response xxx0<status>1
-  *         - status 010: Data accecpted
+  *         - status 010: Data accepted
   *         - status 101: Data rejected due to a crc error
   *         - status 110: Data rejected due to a Write error.
   *         - status 111: Data rejected due to other error.
   */
-uint8_t SD_GetDataResponse(void)
+uint8_t
+SD_GetDataResponse(void)
 {
   uint8_t dataresponse;
   uint8_t rvalue = SD_DATA_OTHER_ERROR;
@@ -826,13 +836,13 @@ uint8_t SD_GetDataResponse(void)
   return rvalue;
 }
 
-
 /**
   * @brief  Put the SD in Idle state.
   * @param  None
   * @retval SD status
   */
-uint8_t SD_GoIdleState(void)
+uint8_t
+SD_GoIdleState(void)
 {
   SD_CmdAnswer_typedef response;
   __IO uint8_t counter = 0;
@@ -858,10 +868,10 @@ uint8_t SD_GoIdleState(void)
   SD_IO_WriteByte(SD_DUMMY_BYTE);
   if((response.r1  & SD_R1_ILLEGAL_COMMAND) == SD_R1_ILLEGAL_COMMAND)
   {
-    /* initialise card V1 */
+    /* Initialize card V1 */
     do
     {
-      /* initialise card V1 */
+      /* Initialize card V1 */
       /* Send CMD55 (SD_CMD_APP_CMD) before any ACMD command: R1 response (0x00: no errors) */
       response = SD_SendCmd(SD_CMD_APP_CMD, 0x00000000, 0xFF, SD_ANSWER_R1_EXPECTED);
       SD_IO_CSState(1);
@@ -877,7 +887,7 @@ uint8_t SD_GoIdleState(void)
   }
   else if(response.r1 == SD_R1_IN_IDLE_STATE)
   {
-      /* initialise card V2 */
+      /* Initialize card V2 */
     do {
 
       /* Send CMD55 (SD_CMD_APP_CMD) before any ACMD command: R1 response (0x00: no errors) */
@@ -934,7 +944,8 @@ uint8_t SD_GoIdleState(void)
   * @param  None
   * @retval the value read
   */
-uint8_t SD_ReadData(void)
+uint8_t
+SD_ReadData(void)
 {
   uint8_t timeout = 0x08;
   uint8_t readvalue;
@@ -955,7 +966,8 @@ uint8_t SD_ReadData(void)
   * @param  data : Expected data from the SD card
   * @retval BSP_SD_OK or BSP_SD_TIMEOUT
   */
-uint8_t SD_WaitData(uint8_t data)
+uint8_t
+SD_WaitData(uint8_t data)
 {
   uint16_t timeout = 0xFFFF;
   uint8_t readvalue;

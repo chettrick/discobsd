@@ -1742,7 +1742,7 @@ HAL_StatusTypeDef HAL_SPI_Abort_IT(SPI_HandleTypeDef *hspi)
   abortcplt = 1U;
 
 #if 0 // XXX DMA
-  /* If DMA Tx and/or DMA Rx Handles are associated to SPI Handle, DMA Abort complete callbacks should be initialised
+  /* If DMA Tx and/or DMA Rx Handles are associated to SPI Handle, DMA Abort complete callbacks should be initialized
      before any call to DMA Abort functions */
   /* DMA Tx Handle is valid */
   if(hspi->hdmatx != NULL)

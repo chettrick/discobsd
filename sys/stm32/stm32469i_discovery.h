@@ -135,7 +135,6 @@ typedef enum
 #define SD_DETECT_GPIO_PORT             ((GPIO_TypeDef *)GPIOG)
 #define SD_DETECT_GPIO_CLK_ENABLE()     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOG)
 #define SD_DETECT_GPIO_CLK_DISABLE()    LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOG)
-#define SD_DETECT_EXTI_IRQn             EXTI2_IRQn
 
 uint32_t         BSP_GetVersion(void);
 void             BSP_LED_Init(Led_TypeDef Led);

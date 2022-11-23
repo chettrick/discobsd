@@ -54,10 +54,6 @@
        also includes the micro SD initialization sequence.
      o To check the SD card presence you can use the function BSP_SD_IsDetected() which
        returns the detection status
-     o If SD presence detection interrupt mode is desired, you must configure the
-       SD detection interrupt mode by calling the function BSP_SD_ITConfig(). The interrupt
-       is generated as an external interrupt whenever the micro SD card is
-       plugged/unplugged in/from the board.
      o The function BSP_SD_GetCardInfo() is used to get the micro SD card information
        which is stored in the structure "HAL_SD_CardInfoTypeDef".
 
@@ -152,36 +148,6 @@ BSP_SD_DeInit(void)
   BSP_SD_MspDeInit(&uSdHandle, NULL);
 
   return  sd_state;
-}
-
-/**
-  * @brief  Configures Interrupt mode for SD detection pin.
-  * @retval Returns 0
-  */
-uint8_t
-BSP_SD_ITConfig(void)
-{
-#if 0 // XXX SD
-  GPIO_InitTypeDef gpio_init_structure;
-
-  /* Configure Interrupt mode for SD detection pin */
-  gpio_init_structure.Pin = SD_DETECT_PIN;
-  gpio_init_structure.Pull = GPIO_PULLUP;
-  gpio_init_structure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  gpio_init_structure.Mode = GPIO_MODE_IT_RISING_FALLING;
-  HAL_GPIO_Init(SD_DETECT_GPIO_PORT, &gpio_init_structure);
-
-// XXX LL_GPIO_SetPinMode(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_MODE_INPUT);
-// XXX LL_GPIO_SetPinSpeed(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_SPEED_FREQ_VERY_HIGH);
-// XXX LL_GPIO_SetPinPull(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_PULL_UP);
-// XXX LL_GPIO_SetPinOutputType(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-
-  /* Enable and set SD detect EXTI Interrupt to the lowest priority */
-  HAL_NVIC_SetPriority((IRQn_Type)(SD_DETECT_EXTI_IRQn), 0x0F, 0x00);
-  HAL_NVIC_EnableIRQ((IRQn_Type)(SD_DETECT_EXTI_IRQn));
-#endif // XXX SD
-
-  return MSD_OK;
 }
 
 /**

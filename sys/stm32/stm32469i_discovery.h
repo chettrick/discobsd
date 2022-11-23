@@ -46,8 +46,7 @@
  extern "C" {
 #endif
 
-
- /* Includes ------------------------------------------------------------------*/
+/* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_gpio.h"
@@ -73,10 +72,10 @@ typedef enum
   */
 typedef enum
 {
-  BUTTON_WAKEUP = 0
+  BUTTON_USER = 0,
+  /* Alias */
+  BUTTON_WAKEUP = BUTTON_USER
 } Button_TypeDef;
-
-#define BUTTON_USER BUTTON_WAKEUP
 
 /** @brief ButtonMode_TypeDef
   *  STM32469I_Discovery board Buttons Modes definitions.
@@ -90,6 +89,11 @@ typedef enum
 #define LEDn                            ((uint8_t)4)
 
 /* 4 Leds are connected to MCU directly on PG6, PD4, PD5, PK3 */
+#define LED1_PIN                        ((uint32_t)LL_GPIO_PIN_6)
+#define LED2_PIN                        ((uint32_t)LL_GPIO_PIN_4)
+#define LED3_PIN                        ((uint32_t)LL_GPIO_PIN_5)
+#define LED4_PIN                        ((uint32_t)LL_GPIO_PIN_3)
+
 #define LED1_GPIO_PORT                  ((GPIO_TypeDef *)GPIOG)
 #define LED2_GPIO_PORT                  ((GPIO_TypeDef *)GPIOD)
 #define LED3_GPIO_PORT                  ((GPIO_TypeDef *)GPIOD)
@@ -104,29 +108,24 @@ typedef enum
 #define LED4_GPIO_CLK_ENABLE()          LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOK)
 #define LED4_GPIO_CLK_DISABLE()         LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOK)
 
-#define LED1_PIN                        ((uint32_t)LL_GPIO_PIN_6)
-#define LED2_PIN                        ((uint32_t)LL_GPIO_PIN_4)
-#define LED3_PIN                        ((uint32_t)LL_GPIO_PIN_5)
-#define LED4_PIN                        ((uint32_t)LL_GPIO_PIN_3)
-
 /* Only one User/Wakeup button */
 #define BUTTONn                         ((uint8_t)1)
 
 /**
-  * @brief Wakeup push-button
+  * @brief User push-button
   */
 #define BUTTON_USER_PRESSED             ((uint32_t)1)
 
-#define WAKEUP_BUTTON_PIN               ((uint32_t)LL_GPIO_PIN_0)
-#define WAKEUP_BUTTON_GPIO_PORT         GPIOA
-#define WAKEUP_BUTTON_GPIO_CLK_ENABLE() LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-#define WAKEUP_BUTTON_GPIO_CLK_DISABLE()    LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
+#define USER_BUTTON_PIN                 ((uint32_t)LL_GPIO_PIN_0)
+#define USER_BUTTON_GPIO_PORT           ((GPIO_TypeDef *)GPIOA)
+#define USER_BUTTON_GPIO_CLK_ENABLE()   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
+#define USER_BUTTON_GPIO_CLK_DISABLE()  LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 
-/* Define the USER button as an alias of the Wakeup button */
-#define USER_BUTTON_PIN                 WAKEUP_BUTTON_PIN
-#define USER_BUTTON_GPIO_PORT           WAKEUP_BUTTON_GPIO_PORT
-#define USER_BUTTON_GPIO_CLK_ENABLE()   WAKEUP_BUTTON_GPIO_CLK_ENABLE()
-#define USER_BUTTON_GPIO_CLK_DISABLE()  WAKEUP_BUTTON_GPIO_CLK_DISABLE()
+/* Define the Wakeup button as an alias of the USER button */
+#define WAKEUP_BUTTON_PIN               USER_BUTTON_PIN
+#define WAKEUP_BUTTON_GPIO_PORT         USER_BUTTON_GPIO_PORT
+#define WAKEUP_BUTTON_GPIO_CLK_ENABLE() USER_BUTTON_GPIO_CLK_ENABLE()
+#define WAKEUP_BUTTON_GPIO_CLK_DISABLE() USER_BUTTON_GPIO_CLK_DISABLE()
 
 /**
   * @brief SD-detect signal

@@ -80,25 +80,25 @@ typedef enum
  #define USE_STM32F4XX_NUCLEO
 #endif
 
-#define LEDn                                    1
+#define LEDn                                    ((uint8_t)1)
 
 #define LED2_PIN                                ((uint32_t)LL_GPIO_PIN_5)
-#define LED2_GPIO_PORT                          GPIOA
+#define LED2_GPIO_PORT                          ((GPIO_TypeDef *)GPIOA)
 #define LED2_GPIO_CLK_ENABLE()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define LED2_GPIO_CLK_DISABLE()                 LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 
 #define LEDx_GPIO_CLK_ENABLE(__INDEX__)         LED2_GPIO_CLK_ENABLE()
 #define LEDx_GPIO_CLK_DISABLE(__INDEX__)        LED2_GPIO_CLK_DISABLE()
 
-#define BUTTONn                                 1
+#define BUTTONn                                 ((uint8_t)1)
 
 /**
-  * @brief Key push-button
+  * @brief User push-button
   */
 #define BUTTON_USER_PRESSED                     ((uint32_t)0)
 
 #define USER_BUTTON_PIN                         ((uint32_t)LL_GPIO_PIN_13)
-#define USER_BUTTON_GPIO_PORT                   GPIOC
+#define USER_BUTTON_GPIO_PORT                   ((GPIO_TypeDef *)GPIOC)
 #define USER_BUTTON_GPIO_CLK_ENABLE()           LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC)
 #define USER_BUTTON_GPIO_CLK_DISABLE()          LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOC)
 
@@ -117,16 +117,16 @@ typedef enum
 #define NUCLEO_SPIx                                     SPI1
 #define NUCLEO_SPIx_CLK_ENABLE()                        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1)
 
-#define NUCLEO_SPIx_SCK_AF                              LL_GPIO_AF_5
+#define NUCLEO_SPIx_SCK_AF                              ((uint32_t)LL_GPIO_AF_5)
 #define NUCLEO_SPIx_SCK_PIN                             ((uint32_t)LL_GPIO_PIN_5)
-#define NUCLEO_SPIx_SCK_GPIO_PORT                       GPIOA
+#define NUCLEO_SPIx_SCK_GPIO_PORT                       ((GPIO_TypeDef *)GPIOA)
 #define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()               LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()              LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 
-#define NUCLEO_SPIx_MISO_MOSI_AF                        LL_GPIO_AF_5
+#define NUCLEO_SPIx_MISO_MOSI_AF                        ((uint32_t)LL_GPIO_AF_5)
 #define NUCLEO_SPIx_MISO_PIN                            ((uint32_t)LL_GPIO_PIN_6)
 #define NUCLEO_SPIx_MOSI_PIN                            ((uint32_t)LL_GPIO_PIN_7)
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 GPIOA
+#define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOA)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 /* Maximum Timeout values for flags waiting loops. These timeouts are not based
@@ -146,7 +146,7 @@ typedef enum
   * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PB6)
   */
 #define SD_CS_PIN                                 ((uint32_t)LL_GPIO_PIN_6)
-#define SD_CS_GPIO_PORT                           GPIOB
+#define SD_CS_GPIO_PORT                           ((GPIO_TypeDef *)GPIOB)
 #define SD_CS_GPIO_CLK_ENABLE()                   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
 #define SD_CS_GPIO_CLK_DISABLE()                  LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
 

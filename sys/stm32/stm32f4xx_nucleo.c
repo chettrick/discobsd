@@ -53,11 +53,11 @@
                                              |(__STM32F4xx_NUCLEO_BSP_VERSION_SUB2 << 8 )\
                                              |(__STM32F4xx_NUCLEO_BSP_VERSION_RC))
 
-GPIO_TypeDef* GPIO_PORT[LEDn] = {LED2_GPIO_PORT};
-const uint32_t GPIO_PIN[LEDn] = {LED2_PIN};
+GPIO_TypeDef* GPIO_PORT[LEDn] = { LED2_GPIO_PORT };
+const uint32_t GPIO_PIN[LEDn] = { LED2_PIN };
 
-GPIO_TypeDef* BUTTON_PORT[BUTTONn] = {KEY_BUTTON_GPIO_PORT};
-const uint32_t BUTTON_PIN[BUTTONn] = {KEY_BUTTON_PIN};
+GPIO_TypeDef* BUTTON_PORT[BUTTONn] = { USER_BUTTON_GPIO_PORT };
+const uint32_t BUTTON_PIN[BUTTONn] = { USER_BUTTON_PIN };
 
 /**
  * @brief BUS variables
@@ -212,8 +212,8 @@ BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
   GPIO_TypeDef *port = BUTTON_PORT[Button];
   uint32_t pin = BUTTON_PIN[Button];
 
-  /* Enable the BUTTON Clock */
-  BUTTONx_GPIO_CLK_ENABLE(Button);
+  /* Enable the BUTTON clock */
+  USER_BUTTON_GPIO_CLK_ENABLE();
 
   if (Button_Mode == BUTTON_MODE_GPIO) {
     /* Configure Button pin as input */

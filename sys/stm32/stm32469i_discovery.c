@@ -55,18 +55,18 @@
                                                  |(__STM32469I_DISCOVERY_BSP_VERSION_SUB2 << 8 )\
                                                  |(__STM32469I_DISCOVERY_BSP_VERSION_RC))
 
-uint32_t GPIO_PIN[LEDn] = { LED1_PIN,
-                            LED2_PIN,
-                            LED3_PIN,
-                            LED4_PIN };
-
 GPIO_TypeDef* GPIO_PORT[LEDn] = { LED1_GPIO_PORT,
                                   LED2_GPIO_PORT,
                                   LED3_GPIO_PORT,
                                   LED4_GPIO_PORT };
 
-GPIO_TypeDef * BUTTON_PORT[BUTTONn] = { WAKEUP_BUTTON_GPIO_PORT };
-const uint32_t BUTTON_PIN[BUTTONn] = { WAKEUP_BUTTON_PIN };
+const uint32_t GPIO_PIN[LEDn] = { LED1_PIN,
+                                  LED2_PIN,
+                                  LED3_PIN,
+                                  LED4_PIN };
+
+GPIO_TypeDef* BUTTON_PORT[BUTTONn] = { USER_BUTTON_GPIO_PORT };
+const uint32_t BUTTON_PIN[BUTTONn] = { USER_BUTTON_PIN };
 
   /**
   * @brief  This method returns the STM32469I Discovery BSP Driver revision
@@ -211,7 +211,7 @@ BSP_LED_Toggle(Led_TypeDef Led)
 }
 
 /**
-  * @brief  Configures button GPIO.
+  * @brief  Configures Button GPIO.
   * @param  Button: Button to be configured
   *          This parameter can be one of the following values:
   *            @arg  BUTTON_WAKEUP: Wakeup Push Button
@@ -227,7 +227,7 @@ BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
   uint32_t pin = BUTTON_PIN[Button];
 
   /* Enable the BUTTON clock */
-  WAKEUP_BUTTON_GPIO_CLK_ENABLE();
+  USER_BUTTON_GPIO_CLK_ENABLE();
 
   if (Button_Mode == BUTTON_MODE_GPIO) {
     /* Configure Button pin as input */

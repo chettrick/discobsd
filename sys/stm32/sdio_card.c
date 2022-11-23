@@ -38,14 +38,17 @@ int
 card_init(int unit)
 {
     struct disk *du = &sddrives[unit];
-    HAL_SD_CardInfoTypeDef ci;
+    BSP_SD_CardInfo ci;
 
     if (BSP_SD_Init() != MSD_OK) {
         return 0;
     }
 
     BSP_SD_GetCardInfo(&ci);
+#if 0 // XXX SD CARD TYPE
     du->card_type = ci.CardType;
+#endif // XXX SD CARD TYPE
+    du->card_type = TYPE_SDHC; // XXX SD CARD TYPE
 
     return 1;
 }
@@ -57,7 +60,7 @@ card_init(int unit)
 int
 card_size(int unit)
 {
-    HAL_SD_CardInfoTypeDef ci;
+    BSP_SD_CardInfo ci;
 
     BSP_SD_GetCardInfo(&ci);
 
@@ -116,7 +119,7 @@ card_write(int unit, unsigned offset, char *data, unsigned bcount)
 
     /* Wait for write completion. */
     int x = spl0();
-    while ((BSP_SD_GetCardState() != SD_TRANSFER_OK))
+    while ((BSP_SD_GetCardState() != MSD_OK))
         ;
     splx(x);
 

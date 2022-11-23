@@ -174,7 +174,7 @@ uint8_t BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBloc
 uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBlocks, uint32_t Timeout);
 uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr);
 uint8_t BSP_SD_GetCardState(void);
-uint8_t BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo);
+uint8_t BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo);
 
 /* Link functions for SD Card peripheral*/
 void    SD_IO_Init(void);

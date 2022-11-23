@@ -55,7 +55,7 @@
      o To check the SD card presence you can use the function BSP_SD_IsDetected() which
        returns the detection status
      o The function BSP_SD_GetCardInfo() is used to get the micro SD card information
-       which is stored in the structure "HAL_SD_CardInfoTypeDef".
+       which is stored in the structure "BSP_SD_CardInfo".
 
      + Micro SD card operations
         o The micro SD card can be accessed with read/write block(s) operations once
@@ -67,8 +67,8 @@
           the DMA Tx/Rx transfer complete are handled using the functions
           BSP_SD_DMA_Tx_IRQHandler()/BSP_SD_DMA_Rx_IRQHandler(). The corresponding user callbacks
           are implemented by the user at application level.
-        o The SD erase block(s) is performed using the function BSP_SD_Erase() with specifying
-          the number of blocks to erase.
+        o The SD erase block(s) is performed using the function BSP_SD_Erase() with
+          specifying the number of blocks to erase.
         o The SD runtime status is returned when calling the function BSP_SD_GetCardState().
 
 ------------------------------------------------------------------------------*/
@@ -217,14 +217,18 @@ BSP_SD_GetCardState(void)
 
 /**
   * @brief  Get SD information about specific SD card.
-  * @param  CardInfo: Pointer to HAL_SD_CardInfoTypedef structure
-  * @retval None
+  * @param  pCardInfo: Pointer to BSP_SD_CardInfo structure
+  * @retval SD status
   */
-void
-BSP_SD_GetCardInfo(HAL_SD_CardInfoTypeDef *CardInfo)
+uint8_t
+BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo)
 {
+  uint8_t status;
+
   /* Get SD card Information */
-  HAL_SD_GetCardInfo(&uSdHandle, CardInfo);
+  status = HAL_SD_GetCardInfo(&uSdHandle, pCardInfo);
+
+  return status;
 }
 
 /**

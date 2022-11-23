@@ -72,7 +72,7 @@
      o Initialize the micro SD card using the BSP_SD_Init() function.
      o Checking the SD card presence is not managed.
      o The function BSP_SD_GetCardInfo() is used to get the micro SD card information
-       which is stored in the structure "SD_CardInfo".
+       which is stored in the structure "BSP_SD_CardInfo".
 
   + Micro SD card operations
      o The micro SD card can be accessed with read/write block(s) operations once
@@ -485,14 +485,14 @@ BSP_SD_GetCardState(void)
 
 /**
   * @brief  Returns information about specific card.
-  * @param  pCardInfo: Pointer to a SD_CardInfo structure that contains all SD
+  * @param  pCardInfo: Pointer to a BSP_SD_CardInfo structure that contains all SD
   *         card information.
   * @retval The SD Response:
   *         - MSD_ERROR: Sequence failed
   *         - MSD_OK: Sequence succeed
   */
 uint8_t
-BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo)
+BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo)
 {
   uint8_t status;
 

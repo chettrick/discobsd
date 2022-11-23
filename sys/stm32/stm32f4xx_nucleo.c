@@ -53,12 +53,6 @@
                                              |(__STM32F4xx_NUCLEO_BSP_VERSION_SUB2 << 8 )\
                                              |(__STM32F4xx_NUCLEO_BSP_VERSION_RC))
 
-/**
-  * @brief LINK SD Card
-  */
-#define SD_DUMMY_BYTE            0xFF
-#define SD_NO_RESPONSE_EXPECTED  0x80
-
 GPIO_TypeDef* GPIO_PORT[LEDn] = {LED2_GPIO_PORT};
 const uint32_t GPIO_PIN[LEDn] = {LED2_PIN};
 
@@ -404,7 +398,7 @@ SD_IO_Init(void)
   /* Rise CS and MOSI for 80 clocks cycles */
   for (counter = 0; counter <= 9; counter++) {
     /* Send dummy byte 0xFF */
-    SD_IO_WriteByte(SD_DUMMY_BYTE);
+    SD_IO_WriteByte(0xFF);
   }
 }
 

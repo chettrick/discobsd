@@ -151,23 +151,6 @@ BSP_SD_DeInit(void)
 }
 
 /**
- * @brief  Detects if SD card is correctly plugged in the memory slot or not.
- * @retval Returns if SD is detected or not
- */
-uint8_t
-BSP_SD_IsDetected(void)
-{
-  __IO uint8_t  status = SD_PRESENT;
-
-  /* Check SD card detect pin */
-  if (LL_GPIO_IsInputPinSet(SD_DETECT_GPIO_PORT, SD_DETECT_PIN)) {
-    status = SD_NOT_PRESENT;
-  }
-
-  return status;
-}
-
-/**
   * @brief  Reads block(s) from a specified address in an SD card, in polling mode.
   * @param  pData: Pointer to the buffer that will contain the data to transmit
   * @param  ReadAddr: Address from where data is to be read
@@ -217,6 +200,48 @@ BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
   } else {
     return MSD_OK;
   }
+}
+
+/**
+  * @brief  Gets the current SD card data status.
+  * @retval Data transfer state.
+  *          This value can be one of the following values:
+  *            @arg  SD_TRANSFER_OK: No data transfer is acting
+  *            @arg  SD_TRANSFER_BUSY: Data transfer is acting
+  */
+uint8_t
+BSP_SD_GetCardState(void)
+{
+  return((HAL_SD_GetCardState(&uSdHandle) == HAL_SD_CARD_TRANSFER ) ? SD_TRANSFER_OK : SD_TRANSFER_BUSY);
+}
+
+/**
+  * @brief  Get SD information about specific SD card.
+  * @param  CardInfo: Pointer to HAL_SD_CardInfoTypedef structure
+  * @retval None
+  */
+void
+BSP_SD_GetCardInfo(HAL_SD_CardInfoTypeDef *CardInfo)
+{
+  /* Get SD card Information */
+  HAL_SD_GetCardInfo(&uSdHandle, CardInfo);
+}
+
+/**
+ * @brief  Detects if SD card is correctly plugged in the memory slot or not.
+ * @retval Returns if SD is detected or not
+ */
+uint8_t
+BSP_SD_IsDetected(void)
+{
+  __IO uint8_t  status = SD_PRESENT;
+
+  /* Check SD card detect pin */
+  if (LL_GPIO_IsInputPinSet(SD_DETECT_GPIO_PORT, SD_DETECT_PIN)) {
+    status = SD_NOT_PRESENT;
+  }
+
+  return status;
 }
 
 /**
@@ -292,32 +317,6 @@ BSP_SD_MspDeInit(SD_HandleTypeDef *hsd, void *Params)
 
   /* Disable SDIO clock */
   LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_SDIO);
-}
-
-/**
-  * @brief  Gets the current SD card data status.
-  * @retval Data transfer state.
-  *          This value can be one of the following values:
-  *            @arg  SD_TRANSFER_OK: No data transfer is acting
-  *            @arg  SD_TRANSFER_BUSY: Data transfer is acting
-  */
-uint8_t
-BSP_SD_GetCardState(void)
-{
-  return((HAL_SD_GetCardState(&uSdHandle) == HAL_SD_CARD_TRANSFER ) ? SD_TRANSFER_OK : SD_TRANSFER_BUSY);
-}
-
-
-/**
-  * @brief  Get SD information about specific SD card.
-  * @param  CardInfo: Pointer to HAL_SD_CardInfoTypedef structure
-  * @retval None
-  */
-void
-BSP_SD_GetCardInfo(HAL_SD_CardInfoTypeDef *CardInfo)
-{
-  /* Get SD card Information */
-  HAL_SD_GetCardInfo(&uSdHandle, CardInfo);
 }
 
 #endif /* F469IDISCO */

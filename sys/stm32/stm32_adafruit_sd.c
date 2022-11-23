@@ -81,7 +81,7 @@
 
      o The SD erase block(s) is performed using the function BSP_SD_Erase() with
        specifying the number of blocks to erase.
-     o The SD runtime status is returned when calling the function BSP_SD_GetStatus().
+     o The SD runtime status is returned when calling the function BSP_SD_GetCardState().
 
 ------------------------------------------------------------------------------*/
 
@@ -215,15 +215,16 @@ __IO uint8_t SdStatus = SD_NOT_PRESENT;
 uint16_t flag_SDHC = 0;
 
 /* Private function prototypes -----------------------------------------------*/
-static uint8_t SD_GetCIDRegister(SD_CID* Cid);
-static uint8_t SD_GetCSDRegister(SD_CSD* Csd);
-static uint8_t SD_GetDataResponse(void);
-static uint8_t SD_GoIdleState(void);
-static SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t Answer);
-static uint8_t SD_WaitData(uint8_t data);
-static uint8_t SD_ReadData(void);
 
-/* Private functions ---------------------------------------------------------*/
+static uint8_t SD_GetCSDRegister(SD_CSD* Csd);
+static uint8_t SD_GetCIDRegister(SD_CID* Cid);
+static SD_CmdAnswer_typedef SD_SendCmd(uint8_t Cmd, uint32_t Arg, uint8_t Crc, uint8_t Answer);
+static uint8_t SD_GetDataResponse(void);
+static uint8_t SD_ReadData(void);
+static uint8_t SD_WaitData(uint8_t data);
+static uint8_t SD_GoIdleState(void);
+
+/* Public functions ----------------------------------------------------------*/
 
 /**
   * @brief  Initializes the SD/SD communication.
@@ -257,41 +258,6 @@ BSP_SD_DeInit(void)
   uint8_t sd_state = MSD_OK;
 
   return  sd_state;
-}
-
-/**
-  * @brief  Returns information about specific card.
-  * @param  pCardInfo: Pointer to a SD_CardInfo structure that contains all SD
-  *         card information.
-  * @retval The SD Response:
-  *         - MSD_ERROR: Sequence failed
-  *         - MSD_OK: Sequence succeed
-  */
-uint8_t
-BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo)
-{
-  uint8_t status;
-
-  status = SD_GetCSDRegister(&(pCardInfo->Csd));
-  status|= SD_GetCIDRegister(&(pCardInfo->Cid));
-  if(flag_SDHC == 1 )
-  {
-    pCardInfo->LogBlockSize = 512;
-    pCardInfo->CardBlockSize = 512;
-    pCardInfo->CardCapacity = (pCardInfo->Csd.version.v2.DeviceSize + 1) * 1024 * pCardInfo->LogBlockSize;
-    pCardInfo->LogBlockNbr = (pCardInfo->CardCapacity) / (pCardInfo->LogBlockSize);
-  }
-  else
-  {
-    pCardInfo->CardCapacity = (pCardInfo->Csd.version.v1.DeviceSize + 1) ;
-    pCardInfo->CardCapacity *= (1 << (pCardInfo->Csd.version.v1.DeviceSizeMul + 2));
-    pCardInfo->LogBlockSize = 512;
-    pCardInfo->CardBlockSize = 1 << (pCardInfo->Csd.RdBlockLen);
-    pCardInfo->CardCapacity *= pCardInfo->CardBlockSize;
-    pCardInfo->LogBlockNbr = (pCardInfo->CardCapacity) / (pCardInfo->LogBlockSize);
-  }
-
-  return status;
 }
 
 /**
@@ -516,6 +482,43 @@ BSP_SD_GetCardState(void)
 
   return BSP_SD_ERROR;
 }
+
+/**
+  * @brief  Returns information about specific card.
+  * @param  pCardInfo: Pointer to a SD_CardInfo structure that contains all SD
+  *         card information.
+  * @retval The SD Response:
+  *         - MSD_ERROR: Sequence failed
+  *         - MSD_OK: Sequence succeed
+  */
+uint8_t
+BSP_SD_GetCardInfo(SD_CardInfo *pCardInfo)
+{
+  uint8_t status;
+
+  status = SD_GetCSDRegister(&(pCardInfo->Csd));
+  status|= SD_GetCIDRegister(&(pCardInfo->Cid));
+  if(flag_SDHC == 1 )
+  {
+    pCardInfo->LogBlockSize = 512;
+    pCardInfo->CardBlockSize = 512;
+    pCardInfo->CardCapacity = (pCardInfo->Csd.version.v2.DeviceSize + 1) * 1024 * pCardInfo->LogBlockSize;
+    pCardInfo->LogBlockNbr = (pCardInfo->CardCapacity) / (pCardInfo->LogBlockSize);
+  }
+  else
+  {
+    pCardInfo->CardCapacity = (pCardInfo->Csd.version.v1.DeviceSize + 1) ;
+    pCardInfo->CardCapacity *= (1 << (pCardInfo->Csd.version.v1.DeviceSizeMul + 2));
+    pCardInfo->LogBlockSize = 512;
+    pCardInfo->CardBlockSize = 1 << (pCardInfo->Csd.RdBlockLen);
+    pCardInfo->CardCapacity *= pCardInfo->CardBlockSize;
+    pCardInfo->LogBlockNbr = (pCardInfo->CardCapacity) / (pCardInfo->LogBlockSize);
+  }
+
+  return status;
+}
+
+/* Private functions ---------------------------------------------------------*/
 
 /**
   * @brief  Reads the SD card CSD register.
@@ -837,6 +840,56 @@ SD_GetDataResponse(void)
 }
 
 /**
+  * @brief  Waits a data until a value different from SD_DUMMY_BITE
+  * @param  None
+  * @retval the value read
+  */
+uint8_t
+SD_ReadData(void)
+{
+  uint8_t timeout = 0x08;
+  uint8_t readvalue;
+
+  /* Check if response is got or a timeout is happen */
+  do {
+    readvalue = SD_IO_WriteByte(SD_DUMMY_BYTE);
+    timeout--;
+
+  }while ((readvalue == SD_DUMMY_BYTE) && timeout);
+
+  /* Right response got */
+  return readvalue;
+}
+
+/**
+  * @brief  Waits a data from the SD card
+  * @param  data : Expected data from the SD card
+  * @retval BSP_SD_OK or BSP_SD_TIMEOUT
+  */
+uint8_t
+SD_WaitData(uint8_t data)
+{
+  uint16_t timeout = 0xFFFF;
+  uint8_t readvalue;
+
+  /* Check if response is got or a timeout is happen */
+
+  do {
+    readvalue = SD_IO_WriteByte(SD_DUMMY_BYTE);
+    timeout--;
+  }while ((readvalue != data) && timeout);
+
+  if (timeout == 0)
+  {
+    /* After time out */
+    return BSP_SD_TIMEOUT;
+  }
+
+  /* Right response got */
+  return BSP_SD_OK;
+}
+
+/**
   * @brief  Put the SD in Idle state.
   * @param  None
   * @retval SD status
@@ -936,56 +989,6 @@ SD_GoIdleState(void)
     return BSP_SD_ERROR;
   }
 
-  return BSP_SD_OK;
-}
-
-/**
-  * @brief  Waits a data until a value different from SD_DUMMY_BITE
-  * @param  None
-  * @retval the value read
-  */
-uint8_t
-SD_ReadData(void)
-{
-  uint8_t timeout = 0x08;
-  uint8_t readvalue;
-
-  /* Check if response is got or a timeout is happen */
-  do {
-    readvalue = SD_IO_WriteByte(SD_DUMMY_BYTE);
-    timeout--;
-
-  }while ((readvalue == SD_DUMMY_BYTE) && timeout);
-
-  /* Right response got */
-  return readvalue;
-}
-
-/**
-  * @brief  Waits a data from the SD card
-  * @param  data : Expected data from the SD card
-  * @retval BSP_SD_OK or BSP_SD_TIMEOUT
-  */
-uint8_t
-SD_WaitData(uint8_t data)
-{
-  uint16_t timeout = 0xFFFF;
-  uint8_t readvalue;
-
-  /* Check if response is got or a timeout is happen */
-
-  do {
-    readvalue = SD_IO_WriteByte(SD_DUMMY_BYTE);
-    timeout--;
-  }while ((readvalue != data) && timeout);
-
-  if (timeout == 0)
-  {
-    /* After time out */
-    return BSP_SD_TIMEOUT;
-  }
-
-  /* Right response got */
   return BSP_SD_OK;
 }
 

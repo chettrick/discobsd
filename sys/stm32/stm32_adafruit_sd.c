@@ -9,8 +9,8 @@
   *          that is used with the STM32 Nucleo board through SPI interface.
   *          It implements a high level communication layer for read and write
   *          from/to this memory. The needed STM32XXxx hardware resources (SPI and
-  *          GPIO) are defined in stm32XXxx_nucleo.h file, and the initialization is
-  *          performed in SD_IO_Init() function declared in stm32XXxx_nucleo.c
+  *          GPIO) are defined in stm32XXxx_nucleo_sd.h file, and the initialization is
+  *          performed in SD_IO_Init() function declared in stm32XXxx_nucleo_sd.c
   *          file.
   *          You can easily tailor this driver to any other development board,
   *          by just adapting the defines for hardware resources and

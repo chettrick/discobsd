@@ -275,7 +275,7 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
     LL_GPIO_SetPinMode(GPIOC, port_c_pins[i], LL_GPIO_MODE_ALTERNATE);
     LL_GPIO_SetPinSpeed(GPIOC, port_c_pins[i], LL_GPIO_SPEED_FREQ_VERY_HIGH);
     LL_GPIO_SetPinPull(GPIOC, port_c_pins[i], LL_GPIO_PULL_UP);
-    LL_GPIO_SetAFPin_8_15(GPIOC, port_c_pins[i], LL_GPIO_AF_12);
+    LL_GPIO_SetAFPin(GPIOC, port_c_pins[i], LL_GPIO_AF_12);
     LL_GPIO_SetPinOutputType(GPIOC, port_c_pins[i], LL_GPIO_OUTPUT_PUSHPULL);
   }
 
@@ -283,7 +283,7 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
   LL_GPIO_SetPinMode(GPIOD, port_d_pin, LL_GPIO_MODE_ALTERNATE);
   LL_GPIO_SetPinSpeed(GPIOD, port_d_pin, LL_GPIO_SPEED_FREQ_VERY_HIGH);
   LL_GPIO_SetPinPull(GPIOD, port_d_pin, LL_GPIO_PULL_UP);
-  LL_GPIO_SetAFPin_0_7(GPIOD, port_d_pin, LL_GPIO_AF_12);
+  LL_GPIO_SetAFPin(GPIOD, port_d_pin, LL_GPIO_AF_12);
   LL_GPIO_SetPinOutputType(GPIOD, port_d_pin, LL_GPIO_OUTPUT_PUSHPULL);
 
   /* NVIC configuration for SDIO interrupts */

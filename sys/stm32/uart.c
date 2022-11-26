@@ -188,22 +188,14 @@ uartinit(int unit)
 
     /* Config Tx Pin as: Alt func, High Speed, Push pull, Pull up */
     LL_GPIO_SetPinMode(tx_port, tx_pin, LL_GPIO_MODE_ALTERNATE);
-    if (tx_pin >= PIN0 && tx_pin <= PIN7) {
-        LL_GPIO_SetAFPin_0_7(tx_port, tx_pin, af);
-    } else {
-        LL_GPIO_SetAFPin_8_15(tx_port, tx_pin, af);
-    }
+    LL_GPIO_SetAFPin(tx_port, tx_pin, af);
     LL_GPIO_SetPinSpeed(tx_port, tx_pin, LL_GPIO_SPEED_FREQ_HIGH);
     LL_GPIO_SetPinOutputType(tx_port, tx_pin, LL_GPIO_OUTPUT_PUSHPULL);
     LL_GPIO_SetPinPull(tx_port, tx_pin, LL_GPIO_PULL_UP);
 
     /* Config Rx Pin as: Alt func, High Speed, Push pull, Pull up */
     LL_GPIO_SetPinMode(rx_port, rx_pin, LL_GPIO_MODE_ALTERNATE);
-    if (rx_pin >= PIN0 && rx_pin <= PIN7) {
-        LL_GPIO_SetAFPin_0_7(rx_port, rx_pin, af);
-    } else {
-        LL_GPIO_SetAFPin_8_15(rx_port, rx_pin, af);
-    }
+    LL_GPIO_SetAFPin(rx_port, rx_pin, af);
     LL_GPIO_SetPinSpeed(rx_port, rx_pin, LL_GPIO_SPEED_FREQ_HIGH);
     LL_GPIO_SetPinOutputType(rx_port, rx_pin, LL_GPIO_OUTPUT_PUSHPULL);
     LL_GPIO_SetPinPull(rx_port, rx_pin, LL_GPIO_PULL_UP);

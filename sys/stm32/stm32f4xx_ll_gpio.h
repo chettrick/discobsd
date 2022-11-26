@@ -961,6 +961,19 @@ __STATIC_INLINE void LL_GPIO_TogglePin(GPIO_TypeDef *GPIOx, uint32_t PinMask)
 }
 
 /**
+  * @brief  Call proper function to configure gpio alternate function of a dedicated pin for a dedicated port.
+  * @note   This function is an extension to the LL_GPIO library.
+  */
+__STATIC_INLINE void LL_GPIO_SetAFPin(GPIO_TypeDef *GPIOx, uint32_t Pin, uint32_t Alternate)
+{
+  if (Pin >= LL_GPIO_PIN_0 && Pin <= LL_GPIO_PIN_7) {
+    LL_GPIO_SetAFPin_0_7(GPIOx, Pin, Alternate);
+  } else {
+    LL_GPIO_SetAFPin_8_15(GPIOx, Pin, Alternate);
+  }
+}
+
+/**
   * @}
   */
 

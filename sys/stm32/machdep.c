@@ -576,15 +576,12 @@ strlen(s)
 
 /*
  * Return 0 if a user address is valid.
- * There are two memory regions allowed for user: flash and RAM.
+ * There is only one memory region allowed for user: RAM.
  */
 int
 baduaddr(addr)
     register caddr_t addr;
 {
-    if (addr >= (caddr_t) USER_FLASH_START &&
-        addr < (caddr_t) USER_FLASH_END)
-        return 0;
     if (addr >= (caddr_t) USER_DATA_START &&
         addr < (caddr_t) USER_DATA_END)
         return 0;
@@ -593,7 +590,7 @@ baduaddr(addr)
 
 /*
  * Return 0 if a kernel address is valid.
- * There is only one memory region allowed for kernel: RAM.
+ * There are two memory regions allowed for kernel: RAM and flash.
  */
 int
 badkaddr(addr)
@@ -603,7 +600,7 @@ badkaddr(addr)
         addr < (caddr_t) KERNEL_DATA_END)
         return 0;
     if (addr >= (caddr_t) KERNEL_FLASH_START &&
-        addr < (caddr_t) KERNEL_FLASH_START + FLASH_SIZE)
+        addr < (caddr_t) KERNEL_FLASH_END)
         return 0;
     return 1;
 }

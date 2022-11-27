@@ -87,5 +87,15 @@ stm32/stm32f4xx_ll_usart.c      optional uart
 #
 # STM32 drivers for F469IDISCO board.
 #
-stm32/stm32469i_discovery.c     optional sdio
+stm32/stm32469i_discovery.c     standard
+
+#
+# STM32 SDIO SD driver for F469IDISCO board.
+#
 stm32/stm32469i_discovery_sd.c  optional sdio
+
+#
+# STM32 SPI SD driver for ADAFRUIT_SD_ID254 board.
+#
+stm32/stm32_adafruit_sd.c       optional spi
+stm32/stm32f4xx_nucleo_sd.c     optional spi

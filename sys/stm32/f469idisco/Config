@@ -45,8 +45,11 @@ options         "CONS_MINOR=2"              # uart3 is /dev/tty2
 
 # SDIO port
 controller      sdio0                       # SDIO port
+#controller      spi2                        # SPI2 port
 
 # MicroSD card
 device          sd0     at sdio0            # SD card uses SDIO port
+#device          sd0     at spi2             # SD card uses SPI2 port
+#options         "SPI_SD_ENABLED"            # Enable SPI-based SD card
 options         "SD_MHZ=10"                 # speed 10 MHz
 options         "NSD=1"                     # One disk on SDIO.

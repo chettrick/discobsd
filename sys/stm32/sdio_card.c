@@ -20,9 +20,13 @@
 #include <machine/sd.h>
 #include <machine/sdio_card.h>
 
-#ifdef F469IDISCO               /* Kernel Config 'board' definition. */
+#ifdef SPI_SD_ENABLED
+#include <machine/stm32_adafruit_sd.h>
+#endif /* SPI_SD_ENABLED */
+
+#ifdef SDIO_ENABLED
 #include <machine/stm32469i_discovery_sd.h>
-#endif /* F469IDISCO */
+#endif /* SDIO_ENABLED */
 
 #include <machine/debug.h>
 

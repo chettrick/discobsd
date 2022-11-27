@@ -53,8 +53,18 @@
 /* https://www.adafruit.com/product/254 */
 #define ADAFRUIT_SD_ID254
 
-/*############################### SPI1 #######################################*/
 #ifdef HAL_SPI_MODULE_ENABLED
+
+/* Maximum Timeout values for flags waiting loops. These timeouts are not based
+   on accurate values, they just guarantee that the application will not remain
+   stuck if the SPI communication is corrupted.
+   You may modify these timeout values depending on CPU frequency and application
+   conditions (interrupts routines ...). */
+#define NUCLEO_SPIx_TIMEOUT_MAX                         1000
+
+#ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
+
+/*############################### SPI1 #######################################*/
 
 #define NUCLEO_SPIx                                     SPI1
 #define NUCLEO_SPIx_CLK_ENABLE()                        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1)
@@ -71,26 +81,22 @@
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOA)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-/* Maximum Timeout values for flags waiting loops. These timeouts are not based
-   on accurate values, they just guarantee that the application will not remain
-   stuck if the SPI communication is corrupted.
-   You may modify these timeout values depending on CPU frequency and application
-   conditions (interrupts routines ...). */
-#define NUCLEO_SPIx_TIMEOUT_MAX                   1000
-
-/**
-  * @brief  SD Control Lines management
-  */
-#define SD_CS_LOW()                               LL_GPIO_ResetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
-#define SD_CS_HIGH()                              LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 
 /**
   * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PB6)
   */
-#define SD_CS_PIN                                 ((uint32_t)LL_GPIO_PIN_6)
-#define SD_CS_GPIO_PORT                           ((GPIO_TypeDef *)GPIOB)
-#define SD_CS_GPIO_CLK_ENABLE()                   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
-#define SD_CS_GPIO_CLK_DISABLE()                  LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
+#define SD_CS_PIN                                       ((uint32_t)LL_GPIO_PIN_6)
+#define SD_CS_GPIO_PORT                                 ((GPIO_TypeDef *)GPIOB)
+#define SD_CS_GPIO_CLK_ENABLE()                         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
+#define SD_CS_GPIO_CLK_DISABLE()                        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
+
+/**
+  * @brief  SD Control Lines management
+  */
+#define SD_CS_LOW()                                     LL_GPIO_ResetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
+#define SD_CS_HIGH()                                    LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
+
+#endif /* F411RENUCLEO */
 
 #endif /* HAL_SPI_MODULE_ENABLED */
 

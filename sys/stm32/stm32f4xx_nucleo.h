@@ -37,6 +37,8 @@
   ******************************************************************************
   */
 
+#ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F4XX_NUCLEO_H
 #define __STM32F4XX_NUCLEO_H
@@ -121,5 +123,7 @@ uint32_t         BSP_PB_GetState(Button_TypeDef Button);
 #endif
 
 #endif /* __STM32F4XX_NUCLEO_H */
+
+#endif /* F411RENUCLEO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

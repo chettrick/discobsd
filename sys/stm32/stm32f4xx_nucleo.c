@@ -37,6 +37,8 @@
   ******************************************************************************
   */
 
+#ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_nucleo.h"
 
@@ -229,5 +231,7 @@ BSP_PB_GetState(Button_TypeDef Button)
 
   return (LL_GPIO_ReadInputPort(port) & pin);
 }
+
+#endif /* F411RENUCLEO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

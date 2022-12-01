@@ -47,7 +47,9 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32469i_discovery.h"
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_ll_bus.h"
+#include "stm32f4xx_ll_gpio.h"
 
 #define BSP_SD_CardInfo HAL_SD_CardInfoTypeDef
 
@@ -62,6 +64,14 @@
 #define SD_NOT_PRESENT           ((uint8_t)0x00)
 
 #define SD_DATATIMEOUT           ((uint32_t)100000000)
+
+/**
+  * @brief SD-detect signal
+  */
+#define SD_DETECT_PIN                   ((uint32_t)LL_GPIO_PIN_2)
+#define SD_DETECT_GPIO_PORT             ((GPIO_TypeDef *)GPIOG)
+#define SD_DETECT_GPIO_CLK_ENABLE()     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOG)
+#define SD_DETECT_GPIO_CLK_DISABLE()    LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOG)
 
 uint8_t BSP_SD_Init(void);
 uint8_t BSP_SD_DeInit(void);

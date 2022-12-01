@@ -121,14 +121,6 @@ typedef enum
 #define WAKEUP_BUTTON_GPIO_CLK_ENABLE() USER_BUTTON_GPIO_CLK_ENABLE()
 #define WAKEUP_BUTTON_GPIO_CLK_DISABLE() USER_BUTTON_GPIO_CLK_DISABLE()
 
-/**
-  * @brief SD-detect signal
-  */
-#define SD_DETECT_PIN                   ((uint32_t)LL_GPIO_PIN_2)
-#define SD_DETECT_GPIO_PORT             ((GPIO_TypeDef *)GPIOG)
-#define SD_DETECT_GPIO_CLK_ENABLE()     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOG)
-#define SD_DETECT_GPIO_CLK_DISABLE()    LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOG)
-
 uint32_t         BSP_GetVersion(void);
 void             BSP_LED_Init(Led_TypeDef Led);
 void             BSP_LED_DeInit(Led_TypeDef Led);

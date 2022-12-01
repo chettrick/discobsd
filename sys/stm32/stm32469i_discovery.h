@@ -85,9 +85,6 @@ typedef enum
   BUTTON_MODE_GPIO = 0
 } ButtonMode_TypeDef;
 
-/* Always four LEDs for all revisions of Discovery boards */
-#define LEDn                            ((uint8_t)4)
-
 /* 4 Leds are connected to MCU directly on PG6, PD4, PD5, PK3 */
 #define LED1_PIN                        ((uint32_t)LL_GPIO_PIN_6)
 #define LED2_PIN                        ((uint32_t)LL_GPIO_PIN_4)
@@ -107,9 +104,6 @@ typedef enum
 #define LED3_GPIO_CLK_DISABLE()         LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
 #define LED4_GPIO_CLK_ENABLE()          LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOK)
 #define LED4_GPIO_CLK_DISABLE()         LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOK)
-
-/* Only one User/Wakeup button */
-#define BUTTONn                         ((uint8_t)1)
 
 /**
   * @brief User push-button

@@ -55,18 +55,27 @@
                                                  |(__STM32469I_DISCOVERY_BSP_VERSION_SUB2 << 8 )\
                                                  |(__STM32469I_DISCOVERY_BSP_VERSION_RC))
 
-GPIO_TypeDef* GPIO_PORT[LEDn] = { LED1_GPIO_PORT,
-                                  LED2_GPIO_PORT,
-                                  LED3_GPIO_PORT,
-                                  LED4_GPIO_PORT };
+GPIO_TypeDef * const GPIO_PORT[] = {
+    LED1_GPIO_PORT,
+    LED2_GPIO_PORT,
+    LED3_GPIO_PORT,
+    LED4_GPIO_PORT,
+};
 
-const uint32_t GPIO_PIN[LEDn] = { LED1_PIN,
-                                  LED2_PIN,
-                                  LED3_PIN,
-                                  LED4_PIN };
+uint32_t const GPIO_PIN[] = {
+    LED1_PIN,
+    LED2_PIN,
+    LED3_PIN,
+    LED4_PIN,
+};
 
-GPIO_TypeDef* BUTTON_PORT[BUTTONn] = { USER_BUTTON_GPIO_PORT };
-const uint32_t BUTTON_PIN[BUTTONn] = { USER_BUTTON_PIN };
+GPIO_TypeDef * const BUTTON_PORT[] = {
+    USER_BUTTON_GPIO_PORT,
+};
+
+uint32_t const BUTTON_PIN[] = {
+    USER_BUTTON_PIN,
+};
 
   /**
   * @brief  This method returns the STM32469I Discovery BSP Driver revision

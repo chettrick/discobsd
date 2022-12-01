@@ -54,11 +54,21 @@
                                              |(__STM32F4xx_NUCLEO_BSP_VERSION_SUB2 << 8 )\
                                              |(__STM32F4xx_NUCLEO_BSP_VERSION_RC))
 
-GPIO_TypeDef* GPIO_PORT[LEDn] = { LED2_GPIO_PORT };
-const uint32_t GPIO_PIN[LEDn] = { LED2_PIN };
+GPIO_TypeDef * const GPIO_PORT[] = {
+    LED2_GPIO_PORT,
+};
 
-GPIO_TypeDef* BUTTON_PORT[BUTTONn] = { USER_BUTTON_GPIO_PORT };
-const uint32_t BUTTON_PIN[BUTTONn] = { USER_BUTTON_PIN };
+uint32_t const GPIO_PIN[] = {
+    LED2_PIN,
+};
+
+GPIO_TypeDef * const BUTTON_PORT[] = {
+    USER_BUTTON_GPIO_PORT,
+};
+
+uint32_t const BUTTON_PIN[] = {
+    USER_BUTTON_PIN,
+};
 
 /**
   * @brief  This method returns the STM32F4xx NUCLEO BSP Driver revision

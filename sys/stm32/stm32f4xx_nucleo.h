@@ -77,8 +77,6 @@ typedef enum
  #define USE_STM32F4XX_NUCLEO
 #endif
 
-#define LEDn                                    ((uint8_t)1)
-
 #define LED2_PIN                                ((uint32_t)LL_GPIO_PIN_5)
 #define LED2_GPIO_PORT                          ((GPIO_TypeDef *)GPIOA)
 #define LED2_GPIO_CLK_ENABLE()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
@@ -86,8 +84,6 @@ typedef enum
 
 #define LEDx_GPIO_CLK_ENABLE(__INDEX__)         LED2_GPIO_CLK_ENABLE()
 #define LEDx_GPIO_CLK_DISABLE(__INDEX__)        LED2_GPIO_CLK_DISABLE()
-
-#define BUTTONn                                 ((uint8_t)1)
 
 /**
   * @brief User push-button

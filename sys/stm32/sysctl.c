@@ -221,31 +221,13 @@ ucall()
 void
 ufetch()
 {
-    unsigned addr = *(unsigned*) u.u_arg & ~3;
-
     /* Check root privileges */
     if (! suser())
         return;
 
-    /* Low memory address - assume peripheral i/o space.  */
-    if (addr < 0x90000)
-        addr += 0xbf800000;
-
-    /* Check address */
-    if (! (addr >= 0x9d000000 && addr < 0x9d000000 + FLASH_SIZE) &&
-        ! (addr >= 0xbd000000 && addr < 0xbd000000 + FLASH_SIZE) &&
-
-        /* Boot flash memory */
-        ! (addr >= 0x9fc00000 && addr < 0x9fc00000 + 12*1024) &&
-        ! (addr >= 0xbfc00000 && addr < 0xbfc00000 + 12*1024) &&
-
-        /* Peripheral registers */
-        ! (addr >= 0xbf800000 && addr < 0xbf810000) &&
-        ! (addr >= 0xbf880000 && addr < 0xbf890000)) {
-        u.u_error = EFAULT;
-        return;
-    }
-    u.u_rval = *(unsigned*) addr;
+    /* XXX Not implemented */
+    u.u_error = EOPNOTSUPP;
+    return;
 }
 
 /*
@@ -254,27 +236,13 @@ ufetch()
 void
 ustore()
 {
-    register struct a {
-        unsigned addr;
-        unsigned value;
-    } *uap = (struct a *)u.u_arg;
-    unsigned addr = uap->addr & ~3;
-
     /* Check root privileges */
     if (! suser())
         return;
 
-    /* Low memory address - assume peripheral i/o space.  */
-    if (addr < 0x90000)
-        addr += 0xbf800000;
-
-    /* Check address */
-    if (! (addr >= 0xbf800000 && addr < 0xbf810000) &&
-        ! (addr >= 0xbf880000 && addr < 0xbf890000)) {
-        u.u_error = EFAULT;
-        return;
-    }
-    *(unsigned*) addr = uap->value;
+    /* XXX Not implemented */
+    u.u_error = EOPNOTSUPP;
+    return;
 }
 
 void

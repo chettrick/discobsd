@@ -200,14 +200,14 @@ main()
     s = splhigh();
     p = u.u_procp;
     p->p_dsize = icodeend - icode;
-    p->p_daddr = USER_DATA_START;
+    p->p_daddr = (size_t)__user_data_start;
     p->p_ssize = 1024;              /* one kbyte of stack */
-    p->p_saddr = USER_DATA_END - 1024;
-    bcopy ((caddr_t) icode, (caddr_t) USER_DATA_START, icodeend - icode);
+    p->p_saddr = (size_t)__user_data_end - 1024;
+    bcopy ((caddr_t) icode, (caddr_t)__user_data_start, icodeend - icode);
 
-    /* Start in single user more, if asked. */
+    /* Start in single user mode, if asked. */
     if (boothowto & RB_SINGLE) {
-        char *iflags = (char*) USER_DATA_START + (initflags - icode);
+        char *iflags = (char*)__user_data_start + (initflags - icode);
 
         /* Call /sbin/init with option '-s'. */
         iflags[1] = 's';

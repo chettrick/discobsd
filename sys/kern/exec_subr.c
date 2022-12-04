@@ -20,7 +20,7 @@
  * How memory is set up.
  *
  * var a:
- * USER_DATA_END: !----------!
+ *__user_data_end:!----------!
  *                ! +P_ssize ! stack
  * p_saddr ->     !----------!
  *
@@ -30,7 +30,7 @@
  *
  * var b:
  *
- * USER_DATA_END: !--------!
+ *__user_data_end:!--------!
  *                ! +ssize ! stack
  * saddr ->       !--------!
  *                ! +hsize ! heap
@@ -236,8 +236,8 @@ int exec_estab(struct exec_params *epp)
      * case, so we double check for that case here.
      */
     if (epp->text.vaddr != NO_ADDR || epp->data.vaddr == NO_ADDR ||
-      epp->data.vaddr != (caddr_t)USER_DATA_START ||
-      epp->stack.vaddr != (caddr_t)USER_DATA_END - epp->stack.len) {
+      epp->data.vaddr != (caddr_t)__user_data_start ||
+      epp->stack.vaddr != (caddr_t)__user_data_end - epp->stack.len) {
         DEBUG("\texec_estab(): error: not an a.out executable\n");
         return ENOMEM;
     }

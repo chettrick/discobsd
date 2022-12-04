@@ -601,12 +601,12 @@ core()
     if (u.u_error)
         goto out;
 
-    u.u_error = rdwri (UIO_WRITE, ip, (caddr_t) USER_DATA_START,
+    u.u_error = rdwri (UIO_WRITE, ip, (caddr_t)__user_data_start,
         u.u_dsize, (off_t) USIZE, IO_UNIT, (int*) 0);
     if (u.u_error)
         goto out;
 
-    u.u_error = rdwri (UIO_WRITE, ip, (caddr_t) USER_DATA_END - u.u_ssize,
+    u.u_error = rdwri (UIO_WRITE, ip, (caddr_t)__user_data_end - u.u_ssize,
         u.u_ssize, (off_t) USIZE + u.u_dsize,
         IO_UNIT, (int*) 0);
 out:

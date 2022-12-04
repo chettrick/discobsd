@@ -815,7 +815,7 @@ baduaddr(addr)
 
 /*
  * Return 0 if a kernel address is valid.
- * There is only one memory region allowed for kernel: RAM.
+ * There are two memory regions allowed for kernel: RAM and flash.
  */
 int
 badkaddr(addr)
@@ -825,7 +825,7 @@ badkaddr(addr)
         addr < (caddr_t) KERNEL_DATA_END)
         return 0;
     if (addr >= (caddr_t) KERNEL_FLASH_START &&
-        addr < (caddr_t) KERNEL_FLASH_START + FLASH_SIZE)
+        addr < (caddr_t) KERNEL_FLASH_END)
         return 0;
     return 1;
 }

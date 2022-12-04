@@ -90,7 +90,9 @@ extern void _keram_start(), _keram_end();
 #endif
 
 #define KERNEL_FLASH_START      0x9d000000
-#define USER_FLASH_START        (KERNEL_FLASH_START + KERNEL_FLASH_SIZE)
+#define KERNEL_FLASH_END        (KERNEL_FLASH_START + KERNEL_FLASH_SIZE)
+
+#define USER_FLASH_START        (KERNEL_FLASH_END)
 #define USER_FLASH_END          (KERNEL_FLASH_START + FLASH_SIZE)
 
 #define KERNEL_DATA_START       0x80000000

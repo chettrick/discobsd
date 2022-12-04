@@ -73,39 +73,14 @@
 /* Bytes to disk blocks */
 #define btod(x)         (((x) + DEV_BSIZE-1) >> DEV_BSHIFT)
 
-/*
- * On STM32, a minimum of 128 kbytes of flash and 128 kbytes of RAM is needed.
- * Reserved for the kernel 128 kbytes of flash and 32 kbytes of RAM.
- */
-#define FLASH_SIZE              (128 * 1024)    /* Minimum for STM32 chip. */
-#define DATA_SIZE               (128 * 1024)    /* Minimum for STM32 chip. */
-
-#define KERNEL_FLASH_START      (0x08000000)
-#define KERNEL_FLASH_SIZE       (128 * 1024)    /* 128kb for kernel flash. */
-#define KERNEL_FLASH_END        (KERNEL_FLASH_START + KERNEL_FLASH_SIZE)
-
-/*
- * Use the 64kb CCM RAM area on STM32F4 devices if available,
- * else use the last 32kb of the SRAM area.
- *
- * CCMDATARAM_BASE and CCMDATARAM_END are defined in the device header file.
- */
-#if defined(CCMDATARAM_BASE) && defined(CCMDATARAM_END)
-#define KERNEL_DATA_START       CCMDATARAM_BASE /* 0x1000 0000 */
-#define KERNEL_DATA_SIZE        (KERNEL_DATA_END - KERNEL_DATA_START)
-#define KERNEL_DATA_END         CCMDATARAM_END  /* 0x1000 FFFF */
-#else
-#define KERNEL_DATA_START       USER_DATA_END
-#define KERNEL_DATA_SIZE        (32 * 1024)     /* 32kb for kernel RAM. */
-#define KERNEL_DATA_END         (KERNEL_DATA_START + KERNEL_DATA_SIZE)
-#endif
-
+#if 1 /* XXX Needed for ps, w, smlrc. To be removed. */
 #define USER_DATA_START         (0x20000000)
 #define USER_DATA_SIZE          (96 * 1024)     /* 96kb for user RAM. */
 #define USER_DATA_END           (USER_DATA_START + USER_DATA_SIZE)
 
 #define stacktop(siz)           (USER_DATA_END)
 #define stackbas(siz)           (USER_DATA_END-(siz))
+#endif /* XXX Needed for ps, w, smlrc. To be removed. */
 
 /*
  * User area: a user structure, followed by the kernel

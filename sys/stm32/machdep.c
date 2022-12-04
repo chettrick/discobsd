@@ -582,8 +582,8 @@ int
 baduaddr(addr)
     register caddr_t addr;
 {
-    if (addr >= (caddr_t) USER_DATA_START &&
-        addr < (caddr_t) USER_DATA_END)
+    if (addr >= (caddr_t)__user_data_start &&
+        addr < (caddr_t)__user_data_end)
         return 0;
     return 1;
 }
@@ -596,11 +596,11 @@ int
 badkaddr(addr)
     register caddr_t addr;
 {
-    if (addr >= (caddr_t) KERNEL_DATA_START &&
-        addr < (caddr_t) KERNEL_DATA_END)
+    if (addr >= (caddr_t)__kernel_data_start &&
+        addr < (caddr_t)__kernel_data_end)
         return 0;
-    if (addr >= (caddr_t) KERNEL_FLASH_START &&
-        addr < (caddr_t) KERNEL_FLASH_END)
+    if (addr >= (caddr_t)__kernel_flash_start &&
+        addr < (caddr_t)__kernel_flash_end)
         return 0;
     return 1;
 }

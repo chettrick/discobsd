@@ -73,14 +73,14 @@ int exec_aout_check(struct exec_params *epp)
     epp->text.vaddr = epp->heap.vaddr = NO_ADDR;
     epp->text.len = epp->heap.len = 0;
 
-    epp->data.vaddr = (caddr_t)USER_DATA_START;
+    epp->data.vaddr = (caddr_t)__user_data_start;
     epp->data.len = epp->hdr.aout.a_data;
     epp->bss.vaddr = epp->data.vaddr + epp->data.len;
     epp->bss.len = epp->hdr.aout.a_bss;
     epp->heap.vaddr = epp->bss.vaddr + epp->bss.len;
     epp->heap.len = 0;
     epp->stack.len = SSIZE + roundup(epp->argbc + epp->envbc, NBPW) + (epp->argc + epp->envc+4)*NBPW;
-    epp->stack.vaddr = (caddr_t)USER_DATA_END - epp->stack.len;
+    epp->stack.vaddr = (caddr_t)__user_data_end - epp->stack.len;
 
     /*
      * Allocate core at this point, committed to the new image.

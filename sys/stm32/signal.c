@@ -67,8 +67,8 @@ sendsig (p, sig, mask)
             fatalsig(SIGILL);
             return;
         }
-        if (u.u_procp->p_ssize < USER_DATA_END - (unsigned) sfp) {
-            u.u_procp->p_ssize = USER_DATA_END - (unsigned) sfp;
+        if (u.u_procp->p_ssize < (size_t)__user_data_end - (unsigned) sfp) {
+            u.u_procp->p_ssize = (size_t)__user_data_end - (unsigned) sfp;
             u.u_procp->p_saddr = (unsigned) sfp;
             u.u_ssize = u.u_procp->p_ssize;
         }

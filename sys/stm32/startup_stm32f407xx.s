@@ -51,6 +51,10 @@
 .global  g_pfnVectors
 .global  Default_Handler
 
+/* Start address of user RAM. Defined in linker script. */
+.word  __user_data_start
+/* End address of user RAM. Defined in linker script. */
+.word  __user_data_end
 /* End address of u. area in kernel RAM. Defined in linker script. */
 .word  u_end
 /* start address for the initialization values of the .data section. 
@@ -139,7 +143,7 @@ LoopFillZerobss:
 	msr	BASEPRI, r0
 
 	/* Switch SPSEL to Process Stack Pointer (PSP) for user space. */
-	ldr	r0, =0x2001C000	/* XXX USER_DATA_END machparam.h */
+	ldr	r0, =__user_data_end
 	msr	PSP, r0		/* PSP is the user space stack pointer. */
 	isb			/* Just to be safe. */
 
@@ -153,10 +157,10 @@ LoopFillZerobss:
 	msr	CONTROL, r0	/* PSP is current sp; unprivileged level. */
 	isb			/* Just to be safe. */
 
-/* Run icode() in user space. */
-  ldr  lr, =0x20000000 + 1  /* XXX Thumb2 requires lsbit set. */
-  bx  lr    
-.size  Reset_Handler, .-Reset_Handler
+	/* Run icode() in user space. */
+	ldr	lr, =__user_data_start + 1	/* In Thumb must set lsbit. */
+	bx	lr
+	.size	Reset_Handler, . - Reset_Handler
 
 /**
  * @brief  This is the code that gets called when the processor receives an 

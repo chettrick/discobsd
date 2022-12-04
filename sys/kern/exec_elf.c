@@ -153,7 +153,7 @@ exec_elf_check(struct exec_params *epp)
         epp->heap.vaddr = (caddr_t)ph[0].p_vaddr + ph[0].p_memsz;
         epp->heap.len = 0;
         epp->stack.len = SSIZE + epp->argbc + epp->envbc + (epp->argc+epp->envc+4)*NBPW;
-        epp->stack.vaddr = (caddr_t)USER_DATA_END - epp->stack.len;
+        epp->stack.vaddr = (caddr_t)__user_data_end - epp->stack.len;
 
         /*
          * We assume .bss is the different between the memory data

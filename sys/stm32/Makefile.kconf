@@ -22,7 +22,7 @@ CMACHFLAGS+=	${CMACHCPU}
 COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
-LDFLAGS=	-T ../${LDSCRIPT} -nopie -Map=$(basename $@).map
+LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -nopie -Map=$(basename $@).map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}

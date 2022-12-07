@@ -152,6 +152,8 @@ extern int sd_timo_wait_wdone;
 extern int sd_timo_wait_wstop;
 extern int sd_timo_wait_widle;
 
+void LL_GPIO_EnableClock(GPIO_TypeDef *GPIOx);
+
 #endif /* KERNEL */
 
 #endif /* ENDIAN */

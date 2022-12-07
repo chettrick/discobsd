@@ -266,9 +266,9 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
   /* Enable SDIO clock */
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SDIO);
 
-  /* Enable GPIOs clock */
-  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
-  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD);
+  /* Enable GPIO clocks */
+  LL_GPIO_EnableClock(GPIOC);
+  LL_GPIO_EnableClock(GPIOD);
 
   /* GPIOC configuration */
   for (i = 0; i < NUM_C_PINS; ++i) {
@@ -299,7 +299,8 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
 __weak void
 BSP_SD_Detect_MspInit(SD_HandleTypeDef *hsd, void *Params)
 {
-  SD_DETECT_GPIO_CLK_ENABLE();
+  /* Enable GPIO clock */
+  LL_GPIO_EnableClock(SD_DETECT_GPIO_PORT);
 
   /* GPIO configuration in input for uSD_Detect signal */
   LL_GPIO_SetPinMode(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_MODE_INPUT);

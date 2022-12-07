@@ -72,23 +72,17 @@
 #define NUCLEO_SPIx_SCK_AF                              ((uint32_t)LL_GPIO_AF_5)
 #define NUCLEO_SPIx_SCK_PIN                             ((uint32_t)LL_GPIO_PIN_5)
 #define NUCLEO_SPIx_SCK_GPIO_PORT                       ((GPIO_TypeDef *)GPIOA)
-#define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()               LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-#define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()              LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 
 #define NUCLEO_SPIx_MISO_MOSI_AF                        ((uint32_t)LL_GPIO_AF_5)
 #define NUCLEO_SPIx_MISO_PIN                            ((uint32_t)LL_GPIO_PIN_6)
 #define NUCLEO_SPIx_MOSI_PIN                            ((uint32_t)LL_GPIO_PIN_7)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOA)
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 
 /**
   * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PB6)
   */
 #define SD_CS_PIN                                       ((uint32_t)LL_GPIO_PIN_6)
 #define SD_CS_GPIO_PORT                                 ((GPIO_TypeDef *)GPIOB)
-#define SD_CS_GPIO_CLK_ENABLE()                         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
-#define SD_CS_GPIO_CLK_DISABLE()                        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
 
 /**
   * @brief  SD Control Lines management
@@ -108,23 +102,17 @@
 #define NUCLEO_SPIx_SCK_AF                              ((uint32_t)LL_GPIO_AF_5)
 #define NUCLEO_SPIx_SCK_PIN                             ((uint32_t)LL_GPIO_PIN_3)
 #define NUCLEO_SPIx_SCK_GPIO_PORT                       ((GPIO_TypeDef *)GPIOD)
-#define NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE()               LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
-#define NUCLEO_SPIx_SCK_GPIO_CLK_DISABLE()              LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOD)
 
 #define NUCLEO_SPIx_MISO_MOSI_AF                        ((uint32_t)LL_GPIO_AF_5)
 #define NUCLEO_SPIx_MISO_PIN                            ((uint32_t)LL_GPIO_PIN_14)
 #define NUCLEO_SPIx_MOSI_PIN                            ((uint32_t)LL_GPIO_PIN_15)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOB)
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE()         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
-#define NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_DISABLE()        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
 
 /**
   * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PH6)
   */
 #define SD_CS_PIN                                       ((uint32_t)LL_GPIO_PIN_6)
 #define SD_CS_GPIO_PORT                                 ((GPIO_TypeDef *)GPIOH)
-#define SD_CS_GPIO_CLK_ENABLE()                         LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOH)
-#define SD_CS_GPIO_CLK_DISABLE()                        LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOH)
 
 /**
   * @brief  SD Control Lines management

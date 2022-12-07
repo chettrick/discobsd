@@ -79,11 +79,6 @@ typedef enum
 
 #define LED2_PIN                                ((uint32_t)LL_GPIO_PIN_5)
 #define LED2_GPIO_PORT                          ((GPIO_TypeDef *)GPIOA)
-#define LED2_GPIO_CLK_ENABLE()                  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-#define LED2_GPIO_CLK_DISABLE()                 LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
-
-#define LEDx_GPIO_CLK_ENABLE(__INDEX__)         LED2_GPIO_CLK_ENABLE()
-#define LEDx_GPIO_CLK_DISABLE(__INDEX__)        LED2_GPIO_CLK_DISABLE()
 
 /**
   * @brief User push-button
@@ -92,17 +87,10 @@ typedef enum
 
 #define USER_BUTTON_PIN                         ((uint32_t)LL_GPIO_PIN_13)
 #define USER_BUTTON_GPIO_PORT                   ((GPIO_TypeDef *)GPIOC)
-#define USER_BUTTON_GPIO_CLK_ENABLE()           LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC)
-#define USER_BUTTON_GPIO_CLK_DISABLE()          LL_AHB1_GRP1_DisableClock(LL_AHB1_GRP1_PERIPH_GPIOC)
-
-#define BUTTONx_GPIO_CLK_ENABLE(__INDEX__)       USER_BUTTON_GPIO_CLK_ENABLE()
-#define BUTTONx_GPIO_CLK_DISABLE(__INDEX__)      USER_BUTTON_GPIO_CLK_DISABLE()
 
 /* Aliases */
 #define KEY_BUTTON_PIN                       USER_BUTTON_PIN
 #define KEY_BUTTON_GPIO_PORT                 USER_BUTTON_GPIO_PORT
-#define KEY_BUTTON_GPIO_CLK_ENABLE()         USER_BUTTON_GPIO_CLK_ENABLE()
-#define KEY_BUTTON_GPIO_CLK_DISABLE()        USER_BUTTON_GPIO_CLK_DISABLE()
 
 uint32_t         BSP_GetVersion(void);
 void             BSP_LED_Init(Led_TypeDef Led);

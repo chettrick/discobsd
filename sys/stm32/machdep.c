@@ -810,3 +810,55 @@ int copyin (caddr_t from, caddr_t to, u_int nbytes)
     bcopy(from, to, nbytes);
     return 0;
 }
+
+/**
+  * @brief  Enable AHB1 peripherals clock on dedicated port.
+  * @param  GPIOx GPIO Port
+  * @note   This function is an extension to the LL_GPIO library.
+  */
+void
+LL_GPIO_EnableClock(GPIO_TypeDef *GPIOx)
+{
+    /* Check the parameters */
+    assert_param(IS_GPIO_ALL_INSTANCE(GPIOx));
+
+    if (GPIOx == GPIOA) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    } else if (GPIOx == GPIOB) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    } else if (GPIOx == GPIOC) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
+#if defined(GPIOD)
+    } else if (GPIOx == GPIOD) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD);
+#endif /* GPIOD */
+#if defined(GPIOE)
+    } else if (GPIOx == GPIOE) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOE);
+#endif /* GPIOE */
+#if defined(GPIOF)
+    } else if (GPIOx == GPIOF) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOF);
+#endif /* GPIOF */
+#if defined(GPIOG)
+    } else if (GPIOx == GPIOG) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOG);
+#endif /* GPIOG */
+#if defined(GPIOH)
+    } else if (GPIOx == GPIOH) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOH);
+#endif /* GPIOH */
+#if defined(GPIOI)
+    } else if (GPIOx == GPIOI) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOI);
+#endif /* GPIOI */
+#if defined(GPIOJ)
+    } else if (GPIOx == GPIOJ) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOJ);
+#endif /* GPIOJ */
+#if defined(GPIOK)
+    } else if (GPIOx == GPIOK) {
+        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOK);
+#endif /* GPIOK */
+    }
+}

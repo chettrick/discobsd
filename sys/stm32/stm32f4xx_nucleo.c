@@ -93,8 +93,8 @@ BSP_LED_Init(Led_TypeDef Led)
     GPIO_TypeDef *port = GPIO_PORT[Led];
     uint32_t pin = GPIO_PIN[Led];
 
-    /* Enable the GPIO_LED Clock */
-    LEDx_GPIO_CLK_ENABLE(Led);
+    /* Enable the GPIO_LED clock */
+    LL_GPIO_EnableClock(port);
 
     /* Configure the GPIO_LED pin */
     LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_OUTPUT);
@@ -198,7 +198,7 @@ BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
   uint32_t pin = BUTTON_PIN[Button];
 
   /* Enable the BUTTON clock */
-  USER_BUTTON_GPIO_CLK_ENABLE();
+  LL_GPIO_EnableClock(port);
 
   if (Button_Mode == BUTTON_MODE_GPIO) {
     /* Configure Button pin as input */

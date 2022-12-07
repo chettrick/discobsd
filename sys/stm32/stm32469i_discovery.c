@@ -103,22 +103,8 @@ BSP_LED_Init(Led_TypeDef Led)
   uint32_t pin = GPIO_PIN[Led];
 
   if (Led <= LED4) {
-    switch (Led) {
-    case LED1 :
-      LED1_GPIO_CLK_ENABLE();
-      break;
-    case LED2 :
-      LED2_GPIO_CLK_ENABLE();
-      break;
-    case LED3 :
-      LED3_GPIO_CLK_ENABLE();
-      break;
-    case LED4 :
-      LED4_GPIO_CLK_ENABLE();
-      break;
-    default :
-      break;
-    }
+    /* Enable the GPIO_LED clock */
+    LL_GPIO_EnableClock(port);
 
     /* Configure the GPIO_LED pin */
     LL_GPIO_SetPinMode(port, pin, LL_GPIO_MODE_OUTPUT);
@@ -236,7 +222,7 @@ BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode)
   uint32_t pin = BUTTON_PIN[Button];
 
   /* Enable the BUTTON clock */
-  USER_BUTTON_GPIO_CLK_ENABLE();
+  LL_GPIO_EnableClock(port);
 
   if (Button_Mode == BUTTON_MODE_GPIO) {
     /* Configure Button pin as input */

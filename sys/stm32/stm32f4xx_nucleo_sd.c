@@ -75,8 +75,8 @@ SPIx_MspInit(SPI_HandleTypeDef *hspi)
 {
   /*** Configure the GPIOs ***/
   /* Enable GPIO clock */
-  NUCLEO_SPIx_SCK_GPIO_CLK_ENABLE();
-  NUCLEO_SPIx_MISO_MOSI_GPIO_CLK_ENABLE();
+  LL_GPIO_EnableClock(NUCLEO_SPIx_SCK_GPIO_PORT);
+  LL_GPIO_EnableClock(NUCLEO_SPIx_MISO_MOSI_GPIO_PORT);
 
   /* Configure SPI SCK */
   LL_GPIO_SetPinMode(NUCLEO_SPIx_SCK_GPIO_PORT, NUCLEO_SPIx_SCK_PIN, LL_GPIO_MODE_ALTERNATE);
@@ -180,7 +180,7 @@ SD_IO_Init(void)
   uint8_t counter;
 
   /* SD_CS_GPIO Periph clock enable */
-  SD_CS_GPIO_CLK_ENABLE();
+  LL_GPIO_EnableClock(SD_CS_GPIO_PORT);
 
   /* Configure SD_CS_PIN pin: SD Card CS pin */
   LL_GPIO_SetPinMode(SD_CS_GPIO_PORT, SD_CS_PIN, LL_GPIO_MODE_OUTPUT);

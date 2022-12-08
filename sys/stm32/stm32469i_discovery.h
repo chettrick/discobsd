@@ -38,7 +38,6 @@
 
 #ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32469I_DISCOVERY_H
 #define __STM32469I_DISCOVERY_H
 
@@ -46,67 +45,31 @@
  extern "C" {
 #endif
 
-/* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_gpio.h"
 
-/** @brief Led_TypeDef
-  *  STM32469I_Discovery board leds definitions.
-  */
 typedef enum
 {
- LED1 = 0,
- LED_GREEN = LED1,
- LED2 = 1,
- LED_ORANGE = LED2,
- LED3 = 2,
- LED_RED = LED3,
- LED4 = 3,
- LED_BLUE = LED4
-
+  LED1 = 0,
+  LED_GREEN = LED1,
+  LED2 = 1,
+  LED_ORANGE = LED2,
+  LED3 = 2,
+  LED_RED = LED3,
+  LED4 = 3,
+  LED_BLUE = LED4,
 } Led_TypeDef;
 
-/** @brief Button_TypeDef
-  *  STM32469I_Discovery board Buttons definitions.
-  */
 typedef enum
 {
   BUTTON_USER = 0,
-  /* Alias */
-  BUTTON_WAKEUP = BUTTON_USER
 } Button_TypeDef;
 
-/** @brief ButtonMode_TypeDef
-  *  STM32469I_Discovery board Buttons Modes definitions.
-  */
 typedef enum
 {
-  BUTTON_MODE_GPIO = 0
+  BUTTON_MODE_GPIO = 0,
 } ButtonMode_TypeDef;
-
-/* 4 Leds are connected to MCU directly on PG6, PD4, PD5, PK3 */
-#define LED1_PIN                        ((uint32_t)LL_GPIO_PIN_6)
-#define LED2_PIN                        ((uint32_t)LL_GPIO_PIN_4)
-#define LED3_PIN                        ((uint32_t)LL_GPIO_PIN_5)
-#define LED4_PIN                        ((uint32_t)LL_GPIO_PIN_3)
-
-#define LED1_GPIO_PORT                  ((GPIO_TypeDef *)GPIOG)
-#define LED2_GPIO_PORT                  ((GPIO_TypeDef *)GPIOD)
-#define LED3_GPIO_PORT                  ((GPIO_TypeDef *)GPIOD)
-#define LED4_GPIO_PORT                  ((GPIO_TypeDef *)GPIOK)
-
-/**
-  * @brief User push-button
-  */
-#define BUTTON_USER_PRESSED             ((uint32_t)1)
-
-#define USER_BUTTON_PIN                 ((uint32_t)LL_GPIO_PIN_0)
-#define USER_BUTTON_GPIO_PORT           ((GPIO_TypeDef *)GPIOA)
-
-/* Define the Wakeup button as an alias of the USER button */
-#define WAKEUP_BUTTON_PIN               USER_BUTTON_PIN
-#define WAKEUP_BUTTON_GPIO_PORT         USER_BUTTON_GPIO_PORT
 
 uint32_t         BSP_GetVersion(void);
 void             BSP_LED_Init(Led_TypeDef Led);

@@ -19,9 +19,7 @@ ldscript        "f469idisco/STM32F469NIHX.ld" # Linker script
 # Standard system options
 options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=90000"             # Frequency of peripheral bus
-options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
 options         "MAXMEM=112*1024"           # Max core per process allowed
-#options         "USE_FULL_LL_DRIVER=1"      # Use full low-level driver
 options         "HALTREBOOT"                # If halted, press key to reboot
 
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b
@@ -53,3 +51,13 @@ device          sd0     at sdio0            # SD card uses SDIO port
 #options         "SPI_SD_ENABLED"            # Enable SPI-based SD card
 options         "SD_MHZ=10"                 # speed 10 MHz
 options         "NSD=1"                     # One disk on SDIO.
+
+# Four LEDs are connected to MCU on PG6, PD4, PD5, PK3
+signal          "LED1" pin PG6
+signal          "LED2" pin PD4
+signal          "LED3" pin PD5
+signal          "LED4" pin PK3
+
+# User Button is connected to MCU on PA0
+signal          "USER_BUTTON" pin PA0
+options         "BUTTON_USER_PRESSED=1"

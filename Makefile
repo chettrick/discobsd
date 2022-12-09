@@ -16,6 +16,9 @@ FS_MBYTES       = 100
 U_MBYTES        = 100
 SWAP_MBYTES     = 2
 
+# SD card filesystem image for $(MACHINE).
+FSIMG		= distrib/$(MACHINE)/sdcard.img
+
 # Set this to the device name for your SD card.  With this
 # enabled you can use "make installfs" to copy the sdcard.img
 # to the SD card.
@@ -45,10 +48,10 @@ all:		symlinks
 kernel:         $(KCONFIG)
 		$(MAKE) -C sys/$(MACHINE) all
 
-fs:             sdcard.img
+fs:		$(FSIMG)
 
-.PHONY:         sdcard.img
-sdcard.img:	$(FSUTIL) rootfs.manifest.$(MACHINE) userfs.manifest
+.PHONY:		$(FSIMG)
+$(FSIMG):	$(FSUTIL) rootfs.manifest.$(MACHINE) userfs.manifest
 		rm -f $@
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
 		$(FSUTIL) --new --partition=1 --manifest=rootfs.manifest.$(MACHINE) $@ .
@@ -66,6 +69,9 @@ clean:
 		rm -f *~
 		for dir in tools lib src sys/$(MACHINE); do $(MAKE) -C $$dir -k clean; done
 
+cleanfs:
+		rm -f $(FSIMG)
+
 cleanall:       clean
 		$(MAKE) -C lib clean
 		rm -f sys/$(MACHINE)/*/unix.hex bin/* sbin/* libexec/*
@@ -74,7 +80,7 @@ cleanall:       clean
 		rm -f share/re.help share/emg.keys share/misc/more.help
 		rm -f etc/termcap etc/remote etc/phones etc/motd
 		rm -f include/machine
-		rm -f var/log/aculog sdcard.img
+		rm -f var/log/aculog
 		rm -rf var/lock share/unixbench
 
 symlinks:
@@ -86,8 +92,8 @@ symlinks:
 
 installfs:
 ifdef SDCARD
-		@[ -f sdcard.img ] || $(MAKE) sdcard.img
-		sudo dd bs=32k if=sdcard.img of=$(SDCARD)
+		@[ -f $(FSIMG) ] || $(MAKE) $(FSIMG)
+		sudo dd bs=32k if=$(FSIMG) of=$(SDCARD)
 else
 		@echo "Error: No SDCARD defined."
 endif

@@ -26,13 +26,13 @@ clean-all:
 
 build:          build-$(DATE).log
 
-sdcard-$(DATE).zip: ../../sdcard.img
-		zip -jq $@ ../../sdcard.img
+sdcard-$(DATE).zip: ../../distrib/pic32/sdcard.img
+		zip -jq $@ ../../distrib/pic32/sdcard.img
 
 retrobsd-$(TARGET)-$(DATE).zip: update-skeleton
 		@rm -rf retrobsd-$(TARGET)-$(DATE) $@
 		cp -rp skeleton retrobsd-$(TARGET)-$(DATE)
-		ln ../../sdcard.img retrobsd-$(TARGET)-$(DATE)/sdcard.img
+		ln ../../distrib/pic32/sdcard.img retrobsd-$(TARGET)-$(DATE)/sdcard.img
 		ln ../../sys/pic32/$(TARGET)/unix.hex retrobsd-$(TARGET)-$(DATE)/unix.hex
 		ln ../../sys/pic32/$(TARGET)/unix.dis retrobsd-$(TARGET)-$(DATE)/unix.dis
 		zip -rq $@ retrobsd-$(TARGET)-$(DATE)

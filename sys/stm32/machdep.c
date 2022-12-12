@@ -31,9 +31,9 @@
 #include <machine/stm32f4xx_ll_utils.h>
 #include <machine/stm32f4xx_hal.h>
 
-#ifdef F469IDISCO               /* Kernel Config 'board' definition. */
+#ifdef BSP_DISCO                /* Kernel Config 'options' definition. */
 #include <machine/stm32469i_discovery.h>
-#endif /* F469IDISCO */
+#endif /* BSP_DISCO */
 
 #define LED_TTY_ON()        BSP_LED_On(LED_GREEN)
 #define LED_TTY_OFF()       BSP_LED_Off(LED_GREEN)

@@ -36,7 +36,7 @@
   ******************************************************************************
   */
 
-#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+#ifdef BSP_DISCO                /* Kernel Config 'options' definition. */
 
 #ifndef __STM32469I_DISCOVERY_H
 #define __STM32469I_DISCOVERY_H
@@ -87,6 +87,6 @@ uint32_t         BSP_PB_GetState(Button_TypeDef Button);
 
 #endif /* __STM32469I_DISCOVERY_H */
 
-#endif /* F469IDISCO */
+#endif /* BSP_DISCO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

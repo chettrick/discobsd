@@ -21,6 +21,8 @@ options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=90000"             # Frequency of peripheral bus
 options         "MAXMEM=112*1024"           # Max core per process allowed
 options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP_DISCO"                 # Discovery board BSP
+
 
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b
 config          unix    root on sd0a

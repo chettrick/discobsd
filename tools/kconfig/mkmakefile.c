@@ -475,7 +475,7 @@ void makefile()
                     sig->sig_name, 'A'+port-1, bit);
                 exit(1);
             }
-            fprintf(ofp, "PARAM += -D%s_GPIO_PORT=GPIO%c -D%s_PIN=%d",
+            fprintf(ofp, "PARAM += -D%s_GPIO_PORT=GPIO%c -D%s_PIN=LL_GPIO_PIN_%d",
                 sig->sig_name, 'A'+port-1, sig->sig_name, bit);
             break;
 

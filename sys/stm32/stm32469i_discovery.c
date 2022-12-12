@@ -38,7 +38,7 @@
   ******************************************************************************
   */
 
-#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+#ifdef BSP_DISCO                /* Kernel Config 'options' definition. */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32469i_discovery.h"
@@ -270,6 +270,6 @@ BSP_PB_GetState(Button_TypeDef Button)
   return (LL_GPIO_ReadInputPort(port) & pin);
 }
 
-#endif /* F469IDISCO */
+#endif /* BSP_DISCO */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

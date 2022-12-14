@@ -35,8 +35,6 @@ device          uart3                       # USART3 as console
 #device          uart4                       # UART4
 #device          uart5                       # UART5
 device          uart6                       # USART6
-#device          uart7                       # UART7
-#device          uart8                       # UART8
 options         "UART_BAUD=115200"          # default speed
 
 # Use USART3 Virtual Com Port as serial console

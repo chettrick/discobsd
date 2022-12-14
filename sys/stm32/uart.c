@@ -60,23 +60,21 @@ static const struct uart_inst uart[NUART] = {
 #define AF7              LL_GPIO_AF_7
 #define AF8              LL_GPIO_AF_8
 #ifdef STM32F407xx
-    { USART1, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
+    { /* USART1 */ },
     { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 },
-    { USART3, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
-    { UART4,  { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
-    { UART5,  { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }, // XXX
-    { USART6, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 }  // XXX
-#endif /* STM32F407xx */
+    { /* USART3 */ },
+    { /* UART4 */ },
+    { /* UART5 */ },
+    { /* USART6 */ },
+#endif
 #ifdef STM32F469xx
-    { USART1, { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
-    { USART2, { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
+    { /* USART1 */ },
+    { /* USART2 */ },
     { USART3, { GPIOB, 'B', PIN10 }, { GPIOB, 'B', PIN11 }, 2, AF7 },
-    { UART4,  { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
-    { UART5,  { GPIOA, 'A', PIN2  }, { GPIOA, 'A', PIN3  }, 4, AF7 }, // XXX
+    { /* UART4 */ },
+    { /* UART5 */ },
     { USART6, { GPIOC, 'C', PIN6  }, { GPIOC, 'C', PIN7  }, 2, AF8 },
-// XXX    { UART7,  { GPIOC, 'C', PIN6  }, { GPIOC, 'C', PIN7  }, 2, AF8 }, // XXX
-// XXX    { UART8,  { GPIOC, 'C', PIN6  }, { GPIOC, 'C', PIN7  }, 2, AF8 }  // XXX
-#endif /* STM32F469xx */
+#endif
 };
 
 struct tty uartttys[NUART];
@@ -92,23 +90,34 @@ static unsigned speed_bps [NSPEEDS] = {
 
 void cnstart(struct tty *tp);
 
-// STM32F4-Discovery board
-// USART1: APB2 84 MHz AF7: TX on PA.09<-USED, RX on PA.10<-free BAD
-//                     AF7: TX on PB.06<-USED, RX on PB.07<-free BAD
-// USART2: APB1 42 MHz AF7: TX on PA.02<-free, RX on PA.03<-free GOOD
-//                     AF7: TX on PD.05<-USED, RX on PD.06<-free BAD
-// USART3: APB1 42 MHZ AF7: TX on PB.10<-USED, RX on PB.11<-free BAD
-//                     AF7: TX on PD.08<-free, RX on PD.09<-free GOOD
-//                     AF7: TX on PC.10<-USED, RX on PC.11<-free BAD
-// UART4:  APB1 42 MHz AF8: TX on PA.00<-USED, RX on PA.01<-free BAD
-//                     AF8: TX on PC.10<-USED, RX on PC.11<-free BAD
-// UART5:  APB1 42 MHz AF8: TX on PC.12<-USED, RX on PD.02<-free BAD
-// USART6: APB2 84 MHz AF8: TX on PC.06<-free, RX on PC.07<-USED BAD
+void
+USART1_IRQHandler(void)
+{
+    uartintr(makedev(UART_MAJOR, 0));   /* USART1 */
+}
+
+void
+USART2_IRQHandler(void)
+{
+    uartintr(makedev(UART_MAJOR, 1));   /* USART2 */
+}
 
 void
 USART3_IRQHandler(void)
 {
-    uartintr(makedev(UART_MAJOR, 2));   /* USART3, console */
+    uartintr(makedev(UART_MAJOR, 2));   /* USART3 */
+}
+
+void
+UART4_IRQHandler(void)
+{
+    uartintr(makedev(UART_MAJOR, 3));   /* UART4 */
+}
+
+void
+UART5_IRQHandler(void)
+{
+    uartintr(makedev(UART_MAJOR, 4));   /* UART5 */
 }
 
 void
@@ -142,46 +151,75 @@ uartinit(int unit)
     apb_div = uart[unit].apb_div;
     af      = uart[unit].af;
 
+    /*
+     * Configure and enable USART/UART NVIC interrupts.
+     * Enable GPIO port peripheral clock and USART/UART peripheral clock.
+     */
     switch (unit) {
-    case 0:     /* UART1 */
+    case 0:     /* USART1 */
+#ifdef USART1
+        arm_intr_set_priority(USART1_IRQn, IPL_TTY);
+        arm_intr_enable_irq(USART1_IRQn);
+#endif /* USART1 */
         break;
-    case 1:     /* UART2 */
+
+    case 1:     /* USART2 */
+#ifdef USART2
+        arm_intr_set_priority(USART2_IRQn, IPL_TTY);
+        arm_intr_enable_irq(USART2_IRQn);
+
 #ifdef STM32F407xx
         /* USART2: APB1 42 MHz AF7: TX on PA.02, RX on PA.03 */
-        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+        LL_GPIO_EnableClock(GPIOA);
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
-#endif /* STM32F407xx */
+#endif
 
+#endif /* USART2 */
         break;
-    case 2:     /* UART3 */
-#ifdef STM32F469xx
-        /* NVIC Configuration for USART3 interrupts */
+
+    case 2:     /* USART3 */
+#ifdef USART3
         arm_intr_set_priority(USART3_IRQn, IPL_TTY);
         arm_intr_enable_irq(USART3_IRQn);
 
-        /* USART3: AHB1/APB1, 45 MHz, AF7, TX on PB.10, RX on PB.11 */
-        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
-        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3);
-#endif /* STM32F469xx */
-
-        break;
-    case 3:     /* UART4 */
-        break;
-    case 4:     /* UART5 */
-        break;
-    case 5:     /* UART6 */
 #ifdef STM32F469xx
-        /* NVIC Configuration for USART6 interrupts */
+        /* USART3: AHB1/APB1, 45 MHz, AF7, TX on PB.10, RX on PB.11 */
+        LL_GPIO_EnableClock(GPIOB);
+        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART3);
+#endif
+
+#endif /* USART3 */
+        break;
+
+    case 3:     /* UART4 */
+#ifdef UART4
+        arm_intr_set_priority(UART4_IRQn, IPL_TTY);
+        arm_intr_enable_irq(UART4_IRQn);
+#endif /* UART4 */
+        break;
+
+    case 4:     /* UART5 */
+#ifdef UART5
+        arm_intr_set_priority(UART5_IRQn, IPL_TTY);
+        arm_intr_enable_irq(UART5_IRQn);
+#endif /* UART5 */
+        break;
+
+    case 5:     /* USART6 */
+#ifdef USART6
         arm_intr_set_priority(USART6_IRQn, IPL_TTY);
         arm_intr_enable_irq(USART6_IRQn);
 
+#ifdef STM32F469xx
         /* USART6: AHB1/APB2, 90 MHz, AF8, TX on PC.06, RX on PC.07 */
         /* USART6: CN12 Ext: 3V3 Pin 1, GND Pin 2, TX Pin 6, RX Pin 8 */
-        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
+        LL_GPIO_EnableClock(GPIOC);
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART6);
-#endif /* STM32F469xx */
+#endif
 
+#endif /* USART6 */
         break;
+
     default:
         break;
     }
@@ -201,6 +239,7 @@ uartinit(int unit)
     LL_GPIO_SetPinPull(rx_port, rx_pin, LL_GPIO_PULL_UP);
 
     /* Transmit/Receive, 8 data bit, 1 start bit, 1 stop bit, no parity. */
+    LL_USART_Disable(inst);
     LL_USART_SetTransferDirection(inst, LL_USART_DIRECTION_TX_RX);
     LL_USART_ConfigCharacter(inst,
         LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);

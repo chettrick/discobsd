@@ -4,18 +4,22 @@ PARAM += -DUART3_ENABLED
 PARAM += -DUART6_ENABLED
 PARAM += -DSDIO_ENABLED
 PARAM += -DSD_ENABLED
-PARAM += -DUSER_BUTTON_GPIO_PORT=GPIOA -DUSER_BUTTON_PIN=LL_GPIO_PIN_0
-PARAM += -DLED4_GPIO_PORT=GPIOK -DLED4_PIN=LL_GPIO_PIN_3
-PARAM += -DLED3_GPIO_PORT=GPIOD -DLED3_PIN=LL_GPIO_PIN_5
-PARAM += -DLED2_GPIO_PORT=GPIOD -DLED2_PIN=LL_GPIO_PIN_4
-PARAM += -DLED1_GPIO_PORT=GPIOG -DLED1_PIN=LL_GPIO_PIN_6
-PARAM += -DBUTTON_USER_PRESSED=1
+PARAM += -DBUTTON_USER_GPIO_PORT=GPIOA -DBUTTON_USER_PIN=LL_GPIO_PIN_0 -DBUTTON_USER_INVERT=0
+PARAM += -DLED4_GPIO_PORT=GPIOK -DLED4_PIN=LL_GPIO_PIN_3 -DLED4_INVERT=1
+PARAM += -DLED3_GPIO_PORT=GPIOD -DLED3_PIN=LL_GPIO_PIN_5 -DLED3_INVERT=1
+PARAM += -DLED2_GPIO_PORT=GPIOD -DLED2_PIN=LL_GPIO_PIN_4 -DLED2_INVERT=1
+PARAM += -DLED1_GPIO_PORT=GPIOG -DLED1_PIN=LL_GPIO_PIN_6 -DLED1_INVERT=1
+PARAM += -DBSP_BUTTON_USER=BUTTON_USER
+PARAM += -DBSP_LED_KERNEL=LED4
+PARAM += -DBSP_LED_DISK=LED3
+PARAM += -DBSP_LED_SWAP=LED2
+PARAM += -DBSP_LED_TTY=LED1
 PARAM += -DNSD=1
 PARAM += -DSD_MHZ=10
 PARAM += -DCONS_MINOR=2
 PARAM += -DCONS_MAJOR=UART_MAJOR
 PARAM += -DUART_BAUD=115200
-PARAM += -DBSP_DISCO
+PARAM += -DBSP
 PARAM += -DHALTREBOOT
 PARAM += -DMAXMEM=112*1024
 PARAM += -DBUS_KHZ=90000
@@ -69,7 +73,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	system_stm32f4xx.o systick.o stm32f4xx_hal.o stm32f4xx_ll_rcc.o \
 	stm32f4xx_ll_utils.o sd.o sdio_card.o stm32f4xx_hal_sd.o \
 	stm32f4xx_ll_sdmmc.o sdio.o uart.o stm32f4xx_ll_usart.o \
-	stm32469i_discovery.o stm32469i_discovery_sd.o 
+	stm32_bsp.o stm32469i_discovery_sd.o 
 
 CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/exec_script.c $S/kern/exec_subr.c $S/kern/init_main.c \
@@ -96,7 +100,7 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c $S/stm32/sdio_card.c \
 	$S/stm32/stm32f4xx_hal_sd.c $S/stm32/stm32f4xx_ll_sdmmc.c \
 	$S/stm32/sdio.c $S/stm32/uart.c $S/stm32/stm32f4xx_ll_usart.c \
-	$S/stm32/stm32469i_discovery.c $S/stm32/stm32469i_discovery_sd.c \
+	$S/stm32/stm32_bsp.c $S/stm32/stm32469i_discovery_sd.c \
 	swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
@@ -366,7 +370,7 @@ uart.o: $S/stm32/uart.c
 stm32f4xx_ll_usart.o: $S/stm32/stm32f4xx_ll_usart.c
 	${COMPILE_C}
 
-stm32469i_discovery.o: $S/stm32/stm32469i_discovery.c
+stm32_bsp.o: $S/stm32/stm32_bsp.c
 	${COMPILE_C}
 
 stm32469i_discovery_sd.o: $S/stm32/stm32469i_discovery_sd.c

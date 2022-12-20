@@ -68,7 +68,7 @@ stm32/sysctl.c                  standard
 stm32/system_stm32f4xx.c        standard
 stm32/systick.c                 standard
 stm32/stm32f4xx_hal.c           standard
-stm32/stm32f4xx_ll_rcc.c        standard
+#stm32/stm32f4xx_ll_rcc.c        standard
 stm32/stm32f4xx_ll_utils.c      standard
 
 #
@@ -82,7 +82,7 @@ stm32/sdio.c                    optional sdio
 stm32/spi.c                     optional spi
 stm32/stm32f4xx_hal_spi.c       optional spi
 stm32/uart.c                    optional uart
-stm32/stm32f4xx_ll_usart.c      optional uart
+#stm32/stm32f4xx_ll_usart.c      optional uart
 
 #
 # STM32 BSP LED and Button drivers for boards.

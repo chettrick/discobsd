@@ -70,10 +70,10 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
 	fault.o machdep.o mem.o signal.o swap.o syscall.o sysctl.o \
-	system_stm32f4xx.o systick.o stm32f4xx_hal.o stm32f4xx_ll_rcc.o \
+	system_stm32f4xx.o systick.o stm32f4xx_hal.o \
 	stm32f4xx_ll_utils.o sd.o sdio_card.o stm32f4xx_hal_sd.o \
-	stm32f4xx_ll_sdmmc.o sdio.o uart.o stm32f4xx_ll_usart.o \
-	stm32_bsp.o stm32469i_discovery_sd.o 
+	stm32f4xx_ll_sdmmc.o sdio.o uart.o stm32_bsp.o \
+	stm32469i_discovery_sd.o 
 
 CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/exec_script.c $S/kern/exec_subr.c $S/kern/init_main.c \
@@ -96,10 +96,9 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/stm32/machdep.c $S/stm32/mem.c $S/stm32/signal.c \
 	$S/stm32/swap.c $S/stm32/syscall.c $S/stm32/sysctl.c \
 	$S/stm32/system_stm32f4xx.c $S/stm32/systick.c \
-	$S/stm32/stm32f4xx_hal.c $S/stm32/stm32f4xx_ll_rcc.c \
-	$S/stm32/stm32f4xx_ll_utils.c $S/stm32/sd.c $S/stm32/sdio_card.c \
-	$S/stm32/stm32f4xx_hal_sd.c $S/stm32/stm32f4xx_ll_sdmmc.c \
-	$S/stm32/sdio.c $S/stm32/uart.c $S/stm32/stm32f4xx_ll_usart.c \
+	$S/stm32/stm32f4xx_hal.c $S/stm32/stm32f4xx_ll_utils.c \
+	$S/stm32/sd.c $S/stm32/sdio_card.c $S/stm32/stm32f4xx_hal_sd.c \
+	$S/stm32/stm32f4xx_ll_sdmmc.c $S/stm32/sdio.c $S/stm32/uart.c \
 	$S/stm32/stm32_bsp.c $S/stm32/stm32469i_discovery_sd.c \
 	swapunix.c 
 
@@ -343,9 +342,6 @@ systick.o: $S/stm32/systick.c
 stm32f4xx_hal.o: $S/stm32/stm32f4xx_hal.c
 	${COMPILE_C}
 
-stm32f4xx_ll_rcc.o: $S/stm32/stm32f4xx_ll_rcc.c
-	${COMPILE_C}
-
 stm32f4xx_ll_utils.o: $S/stm32/stm32f4xx_ll_utils.c
 	${COMPILE_C}
 
@@ -365,9 +361,6 @@ sdio.o: $S/stm32/sdio.c
 	${COMPILE_C}
 
 uart.o: $S/stm32/uart.c
-	${COMPILE_C}
-
-stm32f4xx_ll_usart.o: $S/stm32/stm32f4xx_ll_usart.c
 	${COMPILE_C}
 
 stm32_bsp.o: $S/stm32/stm32_bsp.c

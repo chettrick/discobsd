@@ -467,6 +467,8 @@ void makefile()
             }
             fprintf(ofp, "PARAM += -D%s_PORT=TRIS%c -D%s_PIN=%d",
                 sig->sig_name, 'A'+port-1, sig->sig_name, bit);
+            if (sig->sig_invert)
+                fprintf(ofp, " -D%s_INVERT", sig->sig_name);
             break;
 
         case ARCH_STM32:
@@ -477,14 +479,13 @@ void makefile()
             }
             fprintf(ofp, "PARAM += -D%s_GPIO_PORT=GPIO%c -D%s_PIN=LL_GPIO_PIN_%d",
                 sig->sig_name, 'A'+port-1, sig->sig_name, bit);
+            fprintf(ofp, " -D%s_INVERT=%d", sig->sig_name, sig->sig_invert);
             break;
 
         default:
             printf("architecture type must be specified\n");
             exit(1);
         }
-        if (sig->sig_invert)
-            fprintf(ofp, " -D%s_INVERT", sig->sig_name);
         fprintf(ofp, "\n");
     }
 

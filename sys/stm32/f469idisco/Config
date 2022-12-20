@@ -21,7 +21,7 @@ options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=90000"             # Frequency of peripheral bus
 options         "MAXMEM=112*1024"           # Max core per process allowed
 options         "HALTREBOOT"                # If halted, press key to reboot
-options         "BSP_DISCO"                 # Discovery board BSP
+options         "BSP"                       # Board support package
 
 
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b
@@ -52,12 +52,16 @@ device          sd0     at sdio0            # SD card uses SDIO port
 options         "SD_MHZ=10"                 # speed 10 MHz
 options         "NSD=1"                     # One disk on SDIO.
 
-# Four LEDs are connected to MCU on PG6, PD4, PD5, PK3
-signal          "LED1" pin PG6
-signal          "LED2" pin PD4
-signal          "LED3" pin PD5
-signal          "LED4" pin PK3
+# Four User LEDs are connected to MCU on PG6, PD4, PD5, PK3, Active-low
+signal          "LED1" pin PG6 invert       # Active-low Green
+signal          "LED2" pin PD4 invert       # Active-low Orange
+signal          "LED3" pin PD5 invert       # Active-low Red
+signal          "LED4" pin PK3 invert       # Active-low Blue
+options         "BSP_LED_TTY=LED1"          # Terminal i/o
+options         "BSP_LED_SWAP=LED2"         # Auxiliary swap
+options         "BSP_LED_DISK=LED3"         # Disk i/o
+options         "BSP_LED_KERNEL=LED4"       # Kernel activity
 
-# User Button is connected to MCU on PA0
-signal          "USER_BUTTON" pin PA0
-options         "BUTTON_USER_PRESSED=1"
+# User Button is connected to MCU on PA0, Active-high
+signal          "BUTTON_USER" pin PA0       # Active-high User button
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

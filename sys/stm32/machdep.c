@@ -30,19 +30,61 @@
 #include <machine/stm32f4xx_ll_system.h>
 #include <machine/stm32f4xx_ll_utils.h>
 #include <machine/stm32f4xx_hal.h>
+#include <machine/stm32_bsp.h>
 
-#ifdef BSP_DISCO                /* Kernel Config 'options' definition. */
-#include <machine/stm32469i_discovery.h>
-#endif /* BSP_DISCO */
+/*
+ * Kernel-specific uses of LEDs and buttons provided by the
+ * board support package and defined in the kernel Config.
+ * LED activity indicators: TTY, SWAP, DISK, KERNEL
+ * User Button: Enter single user mode when pressed during boot.
+ */
+#if defined(BSP) && defined(BSP_LED_TTY)
+#define LED_TTY_INIT()          BSP_LED_Init(BSP_LED_TTY)
+#define LED_TTY_ON()            BSP_LED_On(BSP_LED_TTY)
+#define LED_TTY_OFF()           BSP_LED_Off(BSP_LED_TTY)
+#else
+#define LED_TTY_INIT()          /* Nothing. */
+#define LED_TTY_ON()            /* Nothing. */
+#define LED_TTY_OFF()           /* Nothing. */
+#endif
 
-#define LED_TTY_ON()        BSP_LED_On(LED_GREEN)
-#define LED_TTY_OFF()       BSP_LED_Off(LED_GREEN)
-#define LED_SWAP_ON()       BSP_LED_On(LED_ORANGE)
-#define LED_SWAP_OFF()      BSP_LED_Off(LED_ORANGE)
-#define LED_DISK_ON()       BSP_LED_On(LED_RED)
-#define LED_DISK_OFF()      BSP_LED_Off(LED_RED)
-#define LED_KERNEL_ON()     BSP_LED_On(LED_BLUE)
-#define LED_KERNEL_OFF()    BSP_LED_Off(LED_BLUE)
+#if defined(BSP) && defined(BSP_LED_SWAP)
+#define LED_SWAP_INIT()         BSP_LED_Init(BSP_LED_SWAP)
+#define LED_SWAP_ON()           BSP_LED_On(BSP_LED_SWAP)
+#define LED_SWAP_OFF()          BSP_LED_Off(BSP_LED_SWAP)
+#else
+#define LED_SWAP_INIT()         /* Nothing. */
+#define LED_SWAP_ON()           /* Nothing. */
+#define LED_SWAP_OFF()          /* Nothing. */
+#endif
+
+#if defined(BSP) && defined(BSP_LED_DISK)
+#define LED_DISK_INIT()         BSP_LED_Init(BSP_LED_DISK)
+#define LED_DISK_ON()           BSP_LED_On(BSP_LED_DISK)
+#define LED_DISK_OFF()          BSP_LED_Off(BSP_LED_DISK)
+#else
+#define LED_DISK_INIT()         /* Nothing. */
+#define LED_DISK_ON()           /* Nothing. */
+#define LED_DISK_OFF()          /* Nothing. */
+#endif
+
+#if defined(BSP) && defined(BSP_LED_KERNEL)
+#define LED_KERNEL_INIT()       BSP_LED_Init(BSP_LED_KERNEL)
+#define LED_KERNEL_ON()         BSP_LED_On(BSP_LED_KERNEL)
+#define LED_KERNEL_OFF()        BSP_LED_Off(BSP_LED_KERNEL)
+#else
+#define LED_KERNEL_INIT()       /* Nothing. */
+#define LED_KERNEL_ON()         /* Nothing. */
+#define LED_KERNEL_OFF()        /* Nothing. */
+#endif
+
+#if defined(BSP) && defined(BSP_BUTTON_USER)
+#define BUTTON_USER_INIT()      BSP_PB_Init(BSP_BUTTON_USER)
+#define BUTTON_USER_PRESSED()   BSP_PB_GetState(BSP_BUTTON_USER)
+#else
+#define BUTTON_USER_INIT()      /* Nothing. */
+#define BUTTON_USER_PRESSED()   (0)     /* Not pressed. */
+#endif
 
 char    machine[] = MACHINE;            /* from <machine/machparam.h> */
 char    machine_arch[] = MACHINE_ARCH;  /* from <machine/machparam.h> */
@@ -173,15 +215,6 @@ SystemClock_Config(void)
 }
 
 /*
- * Check whether button 1 is pressed.
- */
-static inline int
-button1_pressed()
-{
-    return (BSP_PB_GetState(BUTTON_USER) == BUTTON_USER_PRESSED);
-}
-
-/*
  * Machine dependent startup code
  */
 void
@@ -203,10 +236,10 @@ startup()
     /*
      * Configure LED pins.
      */
-    BSP_LED_Init(LED1);                 /* Green.   Terminal i/o */
-    BSP_LED_Init(LED2);                 /* Orange.  Auxiliary swap */
-    BSP_LED_Init(LED3);                 /* Red.     Disk i/o */
-    BSP_LED_Init(LED4);                 /* Blue.    Kernel activity */
+    LED_TTY_INIT();                     /* Green.   Terminal i/o */
+    LED_SWAP_INIT();                    /* Orange.  Auxiliary swap */
+    LED_DISK_INIT();                    /* Red.     Disk i/o */
+    LED_KERNEL_INIT();                  /* Blue.    Kernel activity */
 
     LED_TTY_ON();
     LED_SWAP_ON();
@@ -218,10 +251,13 @@ startup()
     LED_DISK_OFF();
     LED_KERNEL_OFF();
 
+    led_control(LED_ALL, 1);
+    led_control(LED_ALL, 0);
+
     /*
-     * Configure USER Button.
+     * Configure User Button.
      */
-    BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
+    BUTTON_USER_INIT();
 
     /*
      * Early setup for console devices.
@@ -231,10 +267,10 @@ startup()
 #endif
 
     /*
-     * When button 1 is pressed - boot to single user mode.
+     * When User button is pressed - boot to single user mode.
      */
     boothowto = 0;
-    if (button1_pressed()) {
+    if (BUTTON_USER_PRESSED()) {
         boothowto |= RB_SINGLE;
     }
 }
@@ -478,6 +514,10 @@ mdelay(msec)
  */
 void led_control(int mask, int on)
 {
+    if (mask & LED_TTY) {       /* Terminal i/o */
+        if (on) LED_TTY_ON();
+        else    LED_TTY_OFF();
+    }
     if (mask & LED_SWAP) {      /* Auxiliary swap */
         if (on) LED_SWAP_ON();
         else    LED_SWAP_OFF();
@@ -489,10 +529,6 @@ void led_control(int mask, int on)
     if (mask & LED_KERNEL) {    /* Kernel activity */
         if (on) LED_KERNEL_ON();
         else    LED_KERNEL_OFF();
-    }
-    if (mask & LED_TTY) {       /* Terminal i/o */
-        if (on) LED_TTY_ON();
-        else    LED_TTY_OFF();
     }
 }
 

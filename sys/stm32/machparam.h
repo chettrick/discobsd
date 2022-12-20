@@ -136,6 +136,7 @@ void clkstart(void);
 #define LED_SWAP        0x04
 #define LED_DISK        0x02
 #define LED_KERNEL      0x01
+#define LED_ALL         (LED_TTY | LED_SWAP | LED_DISK | LED_KERNEL)
 
 void led_control(int mask, int on);
 

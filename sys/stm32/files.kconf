@@ -87,7 +87,7 @@ stm32/stm32f4xx_ll_usart.c      optional uart
 #
 # STM32 BSP LED and Button drivers for boards.
 #
-stm32/stm32469i_discovery.c     optional bsp_disco
+stm32/stm32_bsp.c               optional bsp
 
 #
 # STM32 SDIO SD driver for F469IDISCO board.

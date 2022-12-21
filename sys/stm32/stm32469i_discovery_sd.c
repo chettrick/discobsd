@@ -89,7 +89,7 @@ SD_HandleTypeDef uSdHandle;
 uint8_t
 BSP_SD_Init(void)
 {
-  uint8_t sd_state = MSD_OK;
+  uint8_t sd_state = BSP_SD_OK;
 
   /* PLLSAI is dedicated to LCD periph. Do not use it to get 48MHz. */
 
@@ -108,16 +108,16 @@ BSP_SD_Init(void)
 
   /* HAL SD initialization */
   if (HAL_SD_Init(&uSdHandle) != HAL_OK) {
-    sd_state = MSD_ERROR;
+    sd_state = BSP_SD_ERROR;
   }
 
   /* Configure SD Bus width */
-  if (sd_state == MSD_OK) {
+  if (sd_state == BSP_SD_OK) {
     /* Enable wide operation */
     if (HAL_SD_ConfigWideBusOperation(&uSdHandle, SDIO_BUS_WIDE_4B) != HAL_OK) {
-      sd_state = MSD_ERROR;
+      sd_state = BSP_SD_ERROR;
     } else {
-      sd_state = MSD_OK;
+      sd_state = BSP_SD_OK;
     }
   }
   return  sd_state;
@@ -130,13 +130,13 @@ BSP_SD_Init(void)
 uint8_t
 BSP_SD_DeInit(void)
 {
-  uint8_t sd_state = MSD_OK;
+  uint8_t sd_state = BSP_SD_OK;
 
   uSdHandle.Instance = SDIO;
 
   /* HAL SD deinitialization */
   if (HAL_SD_DeInit(&uSdHandle) != HAL_OK) {
-    sd_state = MSD_ERROR;
+    sd_state = BSP_SD_ERROR;
   }
 
   /* Msp SD deinitialization */
@@ -158,9 +158,9 @@ uint8_t
 BSP_SD_ReadBlocks(uint32_t *pData, uint32_t ReadAddr, uint32_t NumOfBlocks, uint32_t Timeout)
 {
   if (HAL_SD_ReadBlocks(&uSdHandle, (uint8_t *)pData, ReadAddr, NumOfBlocks, Timeout) != HAL_OK) {
-    return MSD_ERROR;
+    return BSP_SD_ERROR;
   } else {
-    return MSD_OK;
+    return BSP_SD_OK;
   }
 }
 
@@ -176,9 +176,9 @@ uint8_t
 BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBlocks, uint32_t Timeout)
 {
   if (HAL_SD_WriteBlocks(&uSdHandle, (uint8_t *)pData, WriteAddr, NumOfBlocks, Timeout) != HAL_OK) {
-    return MSD_ERROR;
+    return BSP_SD_ERROR;
   } else {
-    return MSD_OK;
+    return BSP_SD_OK;
   }
 }
 
@@ -192,9 +192,9 @@ uint8_t
 BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr)
 {
   if (HAL_SD_Erase(&uSdHandle, StartAddr, EndAddr) != HAL_OK) {
-    return MSD_ERROR;
+    return BSP_SD_ERROR;
   } else {
-    return MSD_OK;
+    return BSP_SD_OK;
   }
 }
 

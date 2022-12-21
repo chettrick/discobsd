@@ -38,11 +38,6 @@ enum {
 };
 
 enum {
-	MSD_OK = 0x00,
-	MSD_ERROR = 0x01
-};
-
-enum {
 	SD_TRANSFER_OK = 0x00,
 	SD_TRANSFER_BUSY = 0x01
 };

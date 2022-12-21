@@ -85,6 +85,10 @@
 
 ------------------------------------------------------------------------------*/
 
+/* To be defined only if provided with the Adafruit MicroSD Breakout Board+ */
+/* https://www.adafruit.com/product/254 */
+#ifdef SPI_SD_ENABLED                   /* Kernel Config 'options' definition. */
+
 /* Includes ------------------------------------------------------------------*/
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -986,5 +990,7 @@ SD_GoIdleState(void)
 
   return BSP_SD_OK;
 }
+
+#endif /* SPI_SD_ENABLED */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

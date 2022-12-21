@@ -43,8 +43,6 @@
  * @brief BUS variables
  */
 
-#ifdef ADAFRUIT_SD_ID254
-
 #ifdef HAL_SPI_MODULE_ENABLED
 
 uint32_t SpixTimeout = NUCLEO_SPIx_TIMEOUT_MAX; /*<! Value of Timeout when SPI communication fails */
@@ -54,12 +52,6 @@ static void       SPIx_Init(void);
 static void       SPIx_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength);
 static void       SPIx_Error(void);
 static void       SPIx_MspInit(SPI_HandleTypeDef *hspi);
-
-/* SD IO functions */
-void              SD_IO_Init(void);
-void              SD_IO_CSState(uint8_t state);
-void              SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength);
-uint8_t           SD_IO_WriteByte(uint8_t Data);
 
 /******************************************************************************
                             BUS OPERATIONS
@@ -165,6 +157,10 @@ SPIx_Error(void)
   SPIx_Init();
 }
 
+/* To be defined only if provided with the Adafruit MicroSD Breakout Board+ */
+/* https://www.adafruit.com/product/254 */
+#ifdef SPI_SD_ENABLED                   /* Kernel Config 'options' definition. */
+
 /******************************************************************************
                             LINK OPERATIONS
 *******************************************************************************/
@@ -244,8 +240,8 @@ SD_IO_WriteByte(uint8_t Data)
   return tmp;
 }
 
-#endif /* HAL_SPI_MODULE_ENABLED */
+#endif /* SPI_SD_ENABLED */
 
-#endif /* ADAFRUIT_SD_ID254 */
+#endif /* HAL_SPI_MODULE_ENABLED */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

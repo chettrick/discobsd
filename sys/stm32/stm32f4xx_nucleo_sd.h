@@ -49,10 +49,6 @@
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_gpio.h"
 
-/* To be defined only if provided with the Adafruit MicroSD Breakout Board+ */
-/* https://www.adafruit.com/product/254 */
-#define ADAFRUIT_SD_ID254
-
 #ifdef HAL_SPI_MODULE_ENABLED
 
 /* Maximum Timeout values for flags waiting loops. These timeouts are not based
@@ -61,6 +57,18 @@
    You may modify these timeout values depending on CPU frequency and application
    conditions (interrupts routines ...). */
 #define NUCLEO_SPIx_TIMEOUT_MAX                         1000
+
+/* To be defined only if provided with the Adafruit MicroSD Breakout Board+ */
+/* https://www.adafruit.com/product/254 */
+#ifdef SPI_SD_ENABLED                   /* Kernel Config 'options' definition. */
+
+/* SD IO functions */
+void              SD_IO_Init(void);
+void              SD_IO_CSState(uint8_t state);
+void              SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength);
+uint8_t           SD_IO_WriteByte(uint8_t Data);
+
+#endif /* SPI_SD_ENABLED */
 
 #ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
 

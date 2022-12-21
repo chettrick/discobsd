@@ -170,11 +170,11 @@ uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr);
 uint8_t BSP_SD_GetCardState(void);
 uint8_t BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo);
 
-/* Link functions for SD Card peripheral*/
-void    SD_IO_Init(void);
-void    SD_IO_CSState(uint8_t state);
-void    SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength);
-uint8_t SD_IO_WriteByte(uint8_t Data);
+/* Link external functions for SD Card peripheral */
+extern void    SD_IO_Init(void);
+extern void    SD_IO_CSState(uint8_t state);
+extern void    SD_IO_WriteReadData(const uint8_t *DataIn, uint8_t *DataOut, uint16_t DataLength);
+extern uint8_t SD_IO_WriteByte(uint8_t Data);
 
 /* Link function for HAL delay */
 void HAL_Delay(__IO uint32_t Delay);

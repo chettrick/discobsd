@@ -52,8 +52,7 @@
        function includes the MSP layer hardware resources initialization and the
        SDIO interface configuration to interface with the external micro SD. It
        also includes the micro SD initialization sequence.
-     o To check the SD card presence you can use the function BSP_SD_IsDetected() which
-       returns the detection status
+     o Checking the SD card presence is not managed.
      o The function BSP_SD_GetCardInfo() is used to get the micro SD card information
        which is stored in the structure "BSP_SD_CardInfo".
 
@@ -100,12 +99,6 @@ BSP_SD_Init(void)
   uSdHandle.Init.BusWide             = SDIO_BUS_WIDE_1B;
   uSdHandle.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_ENABLE;
   uSdHandle.Init.ClockDiv            = SDIO_TRANSFER_CLK_DIV;
-
-  /* Msp SD Detect pin initialization */
-  BSP_SD_Detect_MspInit(&uSdHandle, NULL);
-  if (BSP_SD_IsDetected() != SD_PRESENT) {   /* Check if SD card is present */
-    return MSD_ERROR_SD_NOT_PRESENT;
-  }
 
   /* Msp SD initialization */
   BSP_SD_MspInit(&uSdHandle, NULL);
@@ -232,23 +225,6 @@ BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo)
 }
 
 /**
- * @brief  Detects if SD card is correctly plugged in the memory slot or not.
- * @retval Returns if SD is detected or not
- */
-uint8_t
-BSP_SD_IsDetected(void)
-{
-  __IO uint8_t  status = SD_PRESENT;
-
-  /* Check SD card detect pin */
-  if (LL_GPIO_IsInputPinSet(SD_DETECT_GPIO_PORT, SD_DETECT_PIN)) {
-    status = SD_NOT_PRESENT;
-  }
-
-  return status;
-}
-
-/**
   * @brief  Initializes the SD MSP.
   * @param  hsd: SD handle
   * @param  Params : pointer on additional configuration parameters, can be NULL.
@@ -289,24 +265,6 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
   /* NVIC configuration for SDIO interrupts */
   arm_intr_set_priority(SDIO_IRQn, IPL_BIO);
   arm_intr_enable_irq(SDIO_IRQn);
-}
-
-/**
-  * @brief  Initializes the SD Detect pin MSP.
-  * @param  hsd: SD handle
-  * @param  Params : pointer on additional configuration parameters, can be NULL.
-  */
-__weak void
-BSP_SD_Detect_MspInit(SD_HandleTypeDef *hsd, void *Params)
-{
-  /* Enable GPIO clock */
-  LL_GPIO_EnableClock(SD_DETECT_GPIO_PORT);
-
-  /* GPIO configuration in input for uSD_Detect signal */
-  LL_GPIO_SetPinMode(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinSpeed(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_SPEED_FREQ_VERY_HIGH);
-  LL_GPIO_SetPinPull(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_PULL_UP);
-  LL_GPIO_SetPinOutputType(SD_DETECT_GPIO_PORT, SD_DETECT_PIN, LL_GPIO_OUTPUT_PUSHPULL);
 }
 
 /**

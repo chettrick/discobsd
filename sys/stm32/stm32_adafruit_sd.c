@@ -206,8 +206,6 @@ typedef enum
 
 /* Private variables ---------------------------------------------------------*/
 
-__IO uint8_t SdStatus = SD_NOT_PRESENT;
-
 /* flag_SDHC :
       0 : Standard capacity
       1 : High capacity
@@ -238,9 +236,6 @@ BSP_SD_Init(void)
 {
   /* Configure IO functionalities for SD pin */
   SD_IO_Init();
-
-  /* SD detection pin is physically mapped on the board, but not managed */
-  SdStatus = SD_PRESENT;
 
   /* SD initialized and set to SPI mode properly */
   return SD_GoIdleState();

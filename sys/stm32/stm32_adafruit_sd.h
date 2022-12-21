@@ -155,12 +155,6 @@ typedef struct
   */
 #define SD_BLOCK_SIZE    0x200
 
-/**
-  * @brief  SD detection on its memory slot
-  */
-#define SD_PRESENT               ((uint8_t)0x01)
-#define SD_NOT_PRESENT           ((uint8_t)0x00)
-
 #define SD_DATATIMEOUT           ((uint32_t)100000000)
 
 /**

@@ -55,21 +55,11 @@
 
 #define   MSD_OK                        ((uint8_t)0x00)
 #define   MSD_ERROR                     ((uint8_t)0x01)
-#define   MSD_ERROR_SD_NOT_PRESENT      ((uint8_t)0x02)
 
 #define   SD_TRANSFER_OK                ((uint8_t)0x00)
 #define   SD_TRANSFER_BUSY              ((uint8_t)0x01)
 
-#define SD_PRESENT               ((uint8_t)0x01)
-#define SD_NOT_PRESENT           ((uint8_t)0x00)
-
 #define SD_DATATIMEOUT           ((uint32_t)100000000)
-
-/**
-  * @brief SD-detect signal
-  */
-#define SD_DETECT_PIN                   ((uint32_t)LL_GPIO_PIN_2)
-#define SD_DETECT_GPIO_PORT             ((GPIO_TypeDef *)GPIOG)
 
 uint8_t BSP_SD_Init(void);
 uint8_t BSP_SD_DeInit(void);
@@ -78,12 +68,10 @@ uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBl
 uint8_t BSP_SD_Erase(uint32_t StartAddr, uint32_t EndAddr);
 uint8_t BSP_SD_GetCardState(void);
 uint8_t BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo);
-uint8_t BSP_SD_IsDetected(void);
 
 /* These functions can be modified in case the current settings (e.g. DMA stream)
    need to be changed for specific application needs */
 void    BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params);
-void    BSP_SD_Detect_MspInit(SD_HandleTypeDef *hsd, void *Params);
 void    BSP_SD_MspDeInit(SD_HandleTypeDef *hsd, void *Params);
 
 #ifdef __cplusplus

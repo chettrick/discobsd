@@ -72,10 +72,13 @@
 
 ------------------------------------------------------------------------------*/
 
-#ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
+#ifdef SDIO_ENABLED                     /* Kernel Config 'controller' definition. */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32469i_discovery_sd.h"
+#include <machine/stm32_bsp_sd.h>
+
+#include "stm32f4xx_ll_bus.h"
+#include "stm32f4xx_ll_gpio.h"
 
 SD_HandleTypeDef uSdHandle;
 
@@ -282,6 +285,6 @@ BSP_SD_MspDeInit(SD_HandleTypeDef *hsd, void *Params)
   LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_SDIO);
 }
 
-#endif /* F469IDISCO */
+#endif /* SDIO_ENABLED */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

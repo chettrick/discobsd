@@ -92,7 +92,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include <sys/param.h>
 #include <sys/systm.h>
-#include "stm32_adafruit_sd.h"
+
+#include <machine/stm32_bsp_sd.h>
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -105,6 +106,8 @@ typedef struct {
 } SD_CmdAnswer_typedef;
 
 /* Private define ------------------------------------------------------------*/
+
+#define SD_BLOCK_SIZE           0x200
 
 #define SD_DUMMY_BYTE            0xFF
 

@@ -19,14 +19,7 @@
 
 #include <machine/sd.h>
 #include <machine/sdio_card.h>
-
-#ifdef SPI_SD_ENABLED
-#include <machine/stm32_adafruit_sd.h>
-#endif /* SPI_SD_ENABLED */
-
-#ifdef SDIO_ENABLED
-#include <machine/stm32469i_discovery_sd.h>
-#endif /* SDIO_ENABLED */
+#include <machine/stm32_bsp_sd.h>
 
 #include <machine/debug.h>
 
@@ -123,7 +116,7 @@ card_write(int unit, unsigned offset, char *data, unsigned bcount)
 
     /* Wait for write completion. */
     int x = spl0();
-    while ((BSP_SD_GetCardState() != MSD_OK))
+    while (BSP_SD_GetCardState() != MSD_OK)
         ;
     splx(x);
 

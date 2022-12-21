@@ -36,15 +36,9 @@
   ******************************************************************************
   */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F4XX_NUCLEO_SD_H
 #define __STM32F4XX_NUCLEO_SD_H
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-/* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_gpio.h"
@@ -70,9 +64,30 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
 
 #endif /* SPI_SD_ENABLED */
 
-#ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
+#ifdef F4DISCOVERY                      /* Kernel Config 'board' definition. */
+/* SPI2: CS PB12, SCK PB13, MISO PB14, MOSI PB15 */
 
-/*############################### SPI1 #######################################*/
+#define NUCLEO_SPIx                                     SPI2
+#define NUCLEO_SPIx_CLK_ENABLE()                        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2)
+
+#define NUCLEO_SPIx_SCK_AF                              ((uint32_t)LL_GPIO_AF_5)
+#define NUCLEO_SPIx_SCK_PIN                             ((uint32_t)LL_GPIO_PIN_13)
+#define NUCLEO_SPIx_SCK_GPIO_PORT                       ((GPIO_TypeDef *)GPIOB)
+
+#define NUCLEO_SPIx_MISO_MOSI_AF                        ((uint32_t)LL_GPIO_AF_5)
+#define NUCLEO_SPIx_MISO_PIN                            ((uint32_t)LL_GPIO_PIN_14)
+#define NUCLEO_SPIx_MOSI_PIN                            ((uint32_t)LL_GPIO_PIN_15)
+#define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOB)
+
+#define SD_CS_PIN                                       ((uint32_t)LL_GPIO_PIN_12)
+#define SD_CS_GPIO_PORT                                 ((GPIO_TypeDef *)GPIOB)
+
+#define SD_CS_LOW()                                     LL_GPIO_ResetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
+#define SD_CS_HIGH()                                    LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
+
+#endif /* F4DISCOVERY */
+
+#ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
 
 #define NUCLEO_SPIx                                     SPI1
 #define NUCLEO_SPIx_CLK_ENABLE()                        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1)
@@ -86,23 +101,15 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
 #define NUCLEO_SPIx_MOSI_PIN                            ((uint32_t)LL_GPIO_PIN_7)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOA)
 
-/**
-  * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PB6)
-  */
 #define SD_CS_PIN                                       ((uint32_t)LL_GPIO_PIN_6)
 #define SD_CS_GPIO_PORT                                 ((GPIO_TypeDef *)GPIOB)
 
-/**
-  * @brief  SD Control Lines management
-  */
 #define SD_CS_LOW()                                     LL_GPIO_ResetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 #define SD_CS_HIGH()                                    LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 
 #endif /* F411RENUCLEO */
 
 #ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
-
-/*############################### SPI2 #######################################*/
 
 #define NUCLEO_SPIx                                     SPI2
 #define NUCLEO_SPIx_CLK_ENABLE()                        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2)
@@ -116,25 +123,15 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
 #define NUCLEO_SPIx_MOSI_PIN                            ((uint32_t)LL_GPIO_PIN_15)
 #define NUCLEO_SPIx_MISO_MOSI_GPIO_PORT                 ((GPIO_TypeDef *)GPIOB)
 
-/**
-  * @brief  SD Control Interface pins (MicroSD Breakout Board+ D10 PH6)
-  */
 #define SD_CS_PIN                                       ((uint32_t)LL_GPIO_PIN_6)
 #define SD_CS_GPIO_PORT                                 ((GPIO_TypeDef *)GPIOH)
 
-/**
-  * @brief  SD Control Lines management
-  */
 #define SD_CS_LOW()                                     LL_GPIO_ResetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 #define SD_CS_HIGH()                                    LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 
 #endif /* F469IDISCO */
 
 #endif /* HAL_SPI_MODULE_ENABLED */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* __STM32F4XX_NUCLEO_SD_H */
 

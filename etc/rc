@@ -22,6 +22,8 @@ fi
 # checked alone in a pass by itself -- be careful!  This can
 # *seriously* mess you up.
 #
+echo "Automatic boot in progress: starting file system checks."
+
 fsck -p
 case $? in
 0)
@@ -63,6 +65,7 @@ mount -a
 rm -f /etc/nologin
 
 # Patch /etc/motd.
+echo -n "Updating motd..."
 if [ ! -f /etc/motd ]; then
     echo "" >/etc/motd && chmod 664 /etc/motd && chown root.wheel /etc/motd
 fi
@@ -71,6 +74,7 @@ sysctl -n kern.version | sed 1q >$T
 sed -n '/^$/,$p' </etc/motd >>$T
 cmp -s $T /etc/motd || cp $T /etc/motd
 rm -f $T
+echo "done"
 
 echo -n "Starting daemons:"
 update && echo -n "update"

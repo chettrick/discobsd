@@ -37,7 +37,7 @@ card_init(int unit)
     struct disk *du = &sddrives[unit];
     BSP_SD_CardInfo ci;
 
-    if (BSP_SD_Init() != MSD_OK) {
+    if (BSP_SD_Init() != BSP_SD_OK) {
         return 0;
     }
 
@@ -72,7 +72,7 @@ int
 card_read(int unit, unsigned int offset, char *data, unsigned int bcount)
 {
     int nblocks;
-    uint8_t SD_state = MSD_OK;
+    uint8_t SD_state = BSP_SD_OK;
 
     if ((bcount % SECTSIZE) == 0) {
         nblocks = bcount / SECTSIZE;
@@ -85,7 +85,7 @@ card_read(int unit, unsigned int offset, char *data, unsigned int bcount)
 
     SD_state = BSP_SD_ReadBlocks((uint32_t *)data, offset << 1, nblocks, SD_DATATIMEOUT);
 
-    if (SD_state != MSD_OK) {
+    if (SD_state != BSP_SD_OK) {
         printf("card_read:  read failed\n");
         return 0;
     }
@@ -101,7 +101,7 @@ int
 card_write(int unit, unsigned offset, char *data, unsigned bcount)
 {
     int nblocks;
-    uint8_t SD_state = MSD_OK;
+    uint8_t SD_state = BSP_SD_OK;
 
     if ((bcount % SECTSIZE) == 0) {
         nblocks = bcount / SECTSIZE;
@@ -116,11 +116,11 @@ card_write(int unit, unsigned offset, char *data, unsigned bcount)
 
     /* Wait for write completion. */
     int x = spl0();
-    while (BSP_SD_GetCardState() != MSD_OK)
+    while (BSP_SD_GetCardState() != BSP_SD_OK)
         ;
     splx(x);
 
-    if (SD_state != MSD_OK) {
+    if (SD_state != BSP_SD_OK) {
         printf("card_write: write failed\n");
         return 0;
     }

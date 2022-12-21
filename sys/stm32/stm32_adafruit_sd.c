@@ -235,8 +235,8 @@ static uint8_t SD_GoIdleState(void);
   * @brief  Initializes the SD/SD communication.
   * @param  None
   * @retval The SD Response:
-  *         - MSD_ERROR: Sequence failed
-  *         - MSD_OK: Sequence succeed
+  *         - BSP_SD_ERROR: Sequence failed
+  *         - BSP_SD_OK: Sequence succeed
   */
 uint8_t
 BSP_SD_Init(void)
@@ -251,13 +251,13 @@ BSP_SD_Init(void)
 /**
   * @brief  DeInitializes the SD/SD communication.
   * @retval The SD Response:
-  *         - MSD_ERROR: Sequence failed
-  *         - MSD_OK: Sequence succeed
+  *         - BSP_SD_ERROR: Sequence failed
+  *         - BSP_SD_OK: Sequence succeed
   */
 uint8_t
 BSP_SD_DeInit(void)
 {
-  uint8_t sd_state = MSD_OK;
+  uint8_t sd_state = BSP_SD_OK;
 
   return  sd_state;
 }
@@ -490,8 +490,8 @@ BSP_SD_GetCardState(void)
   * @param  pCardInfo: Pointer to a BSP_SD_CardInfo structure that contains all SD
   *         card information.
   * @retval The SD Response:
-  *         - MSD_ERROR: Sequence failed
-  *         - MSD_OK: Sequence succeed
+  *         - BSP_SD_ERROR: Sequence failed
+  *         - BSP_SD_OK: Sequence succeed
   */
 uint8_t
 BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo)

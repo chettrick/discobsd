@@ -19,7 +19,8 @@ ldscript        "f4discovery/STM32F407XG.ld" # Linker script
 # Standard system options
 options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=48000"             # Frequency of peripheral bus
-options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
+options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP"                       # Board support package
 
 # Root filesystem at /dev/sd0a, swap at /dev/sd0b
 config          unix    root on sd0a
@@ -34,13 +35,28 @@ device          uart2                       # USART2 as console
 #device          uart6                       # USART6
 options         "UART_BAUD=115200"          # default speed
 
-# Use USART2 as console
+# Use USART2 Virtual Com Port as serial console
 options         "CONS_MAJOR=UART_MAJOR"     # UART device
 options         "CONS_MINOR=1"              # uart2 is /dev/tty1
 
-# SPI ports
-controller      spi2                        # SD card
+# SPI port
+controller      spi2                        # SPI2 port
 
-# microSD card
-device          sd0     at spi2 pin RC14    # select pin
-options         "SD_MHZ=10"                 # speed 10 MHz
+# MicroSD card
+device          sd0     at spi2             # SD card uses SPI2 port
+options         "SPI_SD_ENABLED"            # Enable SPI-based SD card
+options         "NSD=1"                     # One disk on SPI2.
+
+# Four LEDs are connected to MCU on PD12, PD13, PD14, PD15, Active-high
+signal          "LED1" pin PD12             # LD4 Active-high Green
+signal          "LED2" pin PD13             # LD3 Active-high Orange
+signal          "LED3" pin PD14             # LD5 Active-high Red
+signal          "LED4" pin PD15             # LD6 Active-high Blue
+options         "BSP_LED_TTY=LED1"          # Terminal i/o
+options         "BSP_LED_SWAP=LED2"         # Auxiliary swap
+options         "BSP_LED_DISK=LED3"         # Disk i/o
+options         "BSP_LED_KERNEL=LED4"       # Kernel activity
+
+# User Button is connected to MCU on PA0, Active-high
+signal          "BUTTON_USER" pin PA0
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

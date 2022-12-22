@@ -51,13 +51,13 @@ kernel:         $(KCONFIG)
 fs:		$(FSIMG)
 
 .PHONY:		$(FSIMG)
-$(FSIMG):	$(FSUTIL) rootfs.manifest.$(MACHINE) userfs.manifest
+$(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
 		rm -f $@
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
-		$(FSUTIL) --new --partition=1 --manifest=rootfs.manifest.$(MACHINE) $@ .
+		$(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/md.$(MACHINE) $@ .
 # In case you need a separate /home partition,
 # uncomment the following line.
-		$(FSUTIL) --new --partition=3 --manifest=userfs.manifest $@ home
+		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ home
 
 $(FSUTIL):
 		cd tools/fsutil; $(MAKE)

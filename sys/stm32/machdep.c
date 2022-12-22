@@ -154,17 +154,16 @@ SystemClock_Config(void)
     };
 
     /* Set FLASH latency */
+#if defined(STM32F407xx) || defined(STM32F469xx)
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
+#endif
 
-#ifdef STM32F469xx
     /* Enable PWR clock */
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
-    /* The voltage scaling allows optimizing the power consumption when the device is
-       clocked below the maximum system frequency, to update the voltage scaling value
-       regarding system frequency refer to product datasheet. */
     LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
 
+#if defined(STM32F469xx)
     /* Activation OverDrive Mode */
     LL_PWR_EnableOverDriveMode();
     while(LL_PWR_IsActiveFlag_OD() != 1)
@@ -176,15 +175,15 @@ SystemClock_Config(void)
     while(LL_PWR_IsActiveFlag_ODSW() != 1)
     {
     };
-#endif /* STM32F469xx */
+#endif
 
     /* Main PLL configuration and activation */
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
-#endif /* STM32F407xx */
+#endif
 #ifdef STM32F469xx      /* 180 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 360, LL_RCC_PLLP_DIV_2);
-#endif /* STM32F469xx */
+#endif
 
     LL_RCC_PLL_Enable();
     while(LL_RCC_PLL_IsReady() != 1)
@@ -201,11 +200,12 @@ SystemClock_Config(void)
     /* Set APB1 & APB2 prescaler */
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
-#endif /* STM32F407xx */
+    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+#endif
 #ifdef STM32F469xx      /* 180 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
-#endif /* STM32F469xx */
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+#endif
 
     /* Set SysTick to 1ms */
     SysTick_Config(CPU_KHZ);

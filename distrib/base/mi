@@ -1,5 +1,5 @@
 #
-# Manifest file for RetroBSD root filesystem.
+# Machine independent root file system manifest file.
 #
 default
 owner 0
@@ -430,8 +430,6 @@ file /etc/ttys
 #
 default
 filemode 0775
-# XXX pic32 XXX file /bin/adb
-# XXX pic32 XXX file /bin/adc-demo
 file /bin/aout
 file /bin/apropos
 file /bin/ar
@@ -801,35 +799,6 @@ file /include/grp.h
 file /include/kmem.h
 file /include/lastlog.h
 file /include/limits.h
-# XXX pic32 XXX file /include/machine/adc.h
-file /include/machine/cpu.h
-file /include/machine/debug.h
-file /include/machine/elf_machdep.h
-file /include/machine/float.h
-file /include/machine/frame.h
-file /include/machine/io.h
-file /include/machine/intr.h
-file /include/machine/limits.h
-file /include/machine/machparam.h
-# XXX pic32 XXX file /include/machine/mrams.h
-# XXX pic32 XXX file /include/machine/pic32mx.h
-# XXX pic32 XXX file /include/machine/sdram.h
-# XXX pic32 XXX file /include/machine/sdramp.h
-# XXX pic32 XXX file /include/machine/sdramp_config.h
-# XXX pic32 XXX file /include/machine/sramc.h
-file /include/machine/sd.h
-file /include/machine/sdio.h
-file /include/machine/sdio_card.h
-file /include/machine/setjmp.h
-file /include/machine/signal.h
-file /include/machine/types.h
-file /include/machine/uart.h
-# XXX pic32 XXX file /include/machine/usb_ch9.h
-# XXX pic32 XXX file /include/machine/usb_device.h
-# XXX pic32 XXX file /include/machine/usb_function_cdc.h
-# XXX pic32 XXX file /include/machine/usb_function_hid.h
-# XXX pic32 XXX file /include/machine/usb_hal_pic32.h
-# XXX pic32 XXX file /include/machine/usb_uart.h
 file /include/math.h
 file /include/mtab.h
 file /include/ndbm.h
@@ -960,7 +929,6 @@ file /libexec/code
 file /libexec/diffh
 file /libexec/getty
 file /libexec/smallc
-# XXX pic32 XXX file /libexec/smlrc
 
 #
 # Files: /share
@@ -1262,7 +1230,6 @@ dir /share/man/cat8
 #
 # Single pages
 #
-# XXX pic32 XXX file /share/man/cat1/adb.0
 file /share/man/cat1/addbib.0
 file /share/man/cat1/apply.0
 file /share/man/cat1/apropos.0

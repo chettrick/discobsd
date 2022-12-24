@@ -1,5 +1,5 @@
 #
-# Manifest file for user filesystem.
+# Machine independent user file system manifest file.
 #
 default
 owner 0

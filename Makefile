@@ -52,9 +52,10 @@ fs:		$(FSIMG)
 
 .PHONY:		$(FSIMG)
 $(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
-		rm -f $@
+		rm -f $@ distrib/$(MACHINE)/_manifest
+		cat distrib/base/mi distrib/$(MACHINE)/md.$(MACHINE) > distrib/$(MACHINE)/_manifest
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
-		$(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/md.$(MACHINE) $@ .
+		$(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ .
 # In case you need a separate /home partition,
 # uncomment the following line.
 		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ home
@@ -70,6 +71,7 @@ clean:
 		for dir in tools lib src sys/$(MACHINE); do $(MAKE) -C $$dir -k clean; done
 
 cleanfs:
+		rm -f distrib/$(MACHINE)/_manifest
 		rm -f $(FSIMG)
 
 cleanall:       clean

@@ -1,0 +1,56 @@
+#
+# STM32F412GDISCO board
+# =====================
+#
+# To build the kernel, use:
+#   cd sys/stm32/f412gdisco
+#   kconfig Config
+#   make clean
+#   make
+#
+architecture    "stm32"
+cpu             "STM32F412Zx"               # Processor variant
+board           "F412GDISCO"                # Board type
+ldscript        "f412gdisco/STM32F412ZGTX.ld" # Linker script
+
+# Standard system options
+options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=50000"             # Frequency of peripheral bus
+options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP"                       # Board support package
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+#device          uart1                       # USART1
+device          uart2                       # USART2 as console
+#device          uart3                       # USART3
+#device          uart6                       # USART6
+options         "UART_BAUD=115200"          # default speed
+
+# Use USART2 Virtual Com Port as serial console
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=1"              # uart2 is /dev/tty1
+
+# SDIO port
+controller      sdio0                       # SDIO port
+
+# MicroSD card
+device          sd0     at sdio0            # SD card uses SDIO port
+options         "NSD=1"                     # One disk on SDIO.
+
+# Four User LEDs are connected to MCU on PE0, PE1, PE2, PE3, Active-low
+signal          "LED1" pin PE0 invert       # Active-low Green
+signal          "LED2" pin PE1 invert       # Active-low Orange
+signal          "LED3" pin PE2 invert       # Active-low Red
+signal          "LED4" pin PE3 invert       # Active-low Blue
+options         "BSP_LED_TTY=LED1"          # Terminal i/o
+options         "BSP_LED_SWAP=LED2"         # Auxiliary swap
+options         "BSP_LED_DISK=LED3"         # Disk i/o
+options         "BSP_LED_KERNEL=LED4"       # Kernel activity
+
+# User Button is connected to MCU on PA0, Active-high
+signal          "BUTTON_USER" pin PA0       # Active-high Select button
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

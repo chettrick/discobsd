@@ -1,4 +1,5 @@
-BOARD?=		f469idisco
+BOARD?=		f412gdisco
+#BOARD?=		f469idisco
 #BOARD?=		f4discovery
 KERNDIR=	$(TOPSRC)/sys/stm32/$(BOARD)
 KERN=		unix
@@ -51,6 +52,9 @@ gdb-qemu: kernel
 
 ocd: kernel
 	cd ${KERNDIR}
+ifeq ($(BOARD), f412gdisco)
+	openocd -f "board/stm32f412g-disco.cfg"
+endif
 ifeq ($(BOARD), f469idisco)
 	openocd -f "board/stm32f469discovery.cfg"
 endif

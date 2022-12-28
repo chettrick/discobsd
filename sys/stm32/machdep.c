@@ -157,6 +157,9 @@ SystemClock_Config(void)
 #if defined(STM32F407xx) || defined(STM32F469xx)
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 #endif
+#if defined(STM32F412Zx)
+    LL_FLASH_SetLatency(LL_FLASH_LATENCY_3);
+#endif
 
     /* Enable PWR clock */
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -181,6 +184,9 @@ SystemClock_Config(void)
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
 #endif
+#ifdef STM32F412Zx      /* 100 MHz */
+    LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 200, LL_RCC_PLLP_DIV_2);
+#endif
 #ifdef STM32F469xx      /* 180 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 360, LL_RCC_PLLP_DIV_2);
 #endif
@@ -201,6 +207,10 @@ SystemClock_Config(void)
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+#endif
+#ifdef STM32F412Zx      /* 100 MHz */
+    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
 #endif
 #ifdef STM32F469xx      /* 180 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
@@ -305,6 +315,26 @@ cpuidentify()
         switch (revid) {
         case 0x1000:
             printf("A");
+            break;
+        default:
+            printf("unknown 0x%04x", revid);
+            break;
+        }
+        break;
+    case 0x0441:
+        physmem = 256 * 1024;   /* Total 256kb RAM size. */
+        copystr("STM32F412xx", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F412xx");
+        printf(" rev ");
+        switch (revid) {
+        case 0x1001:
+            printf("Z");
+            break;
+        case 0x2000:
+            printf("B");
+            break;
+        case 0x3000:
+            printf("C");
             break;
         default:
             printf("unknown 0x%04x", revid);

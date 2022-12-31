@@ -1,0 +1,50 @@
+#
+# STM32F411RENUCLEO board
+# =====================
+#
+# To build the kernel, use:
+#   cd sys/stm32/f411renucleo
+#   kconfig Config
+#   make clean
+#   make
+#
+architecture    "stm32"
+cpu             "STM32F411xE"               # Processor variant
+board           "F411RENUCLEO"              # Board type
+ldscript        "f411renucleo/STM32F411RETX.ld" # Linker script
+
+# Standard system options
+options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=50000"             # Frequency of peripheral bus
+options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP"                       # Board support package
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+#device          uart1                       # USART1
+device          uart2                       # USART2 as console
+#device          uart6                       # USART6
+options         "UART_BAUD=115200"          # default speed
+
+# Use USART2 Virtual Com Port as serial console
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=1"              # uart2 is /dev/tty1
+
+# SPI port
+controller      spi1                        # SPI1 port
+
+# MicroSD card
+device          sd0     at spi1             # SD card uses SPI1 port
+options         "SPI_SD_ENABLED"            # Enable SPI-based SD card
+options         "NSD=1"                     # One disk on SPI.
+
+# User LED is connected to MCU on PA5. Conflicts with SPI SCK on D13.
+#signal          "LED2" pin PA5              # Active-high Green
+#options         "BSP_LED_TTY=LED2"          # Terminal i/o
+
+# User Button is connected to MCU on PC13, Active-low
+signal          "BUTTON_USER" pin PC13 invert
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

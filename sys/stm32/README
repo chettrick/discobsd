@@ -1,5 +1,6 @@
 Build directories:
 
+    f411renucleo/       - NUCLEO-F411RE board.
     f412gdisco/         - STM32F412G-DISCO board.
     f469idisco/         - STM32F469I-DISCO board.
     f4discovery/        - STM32F4DISCOVERY board.

@@ -326,13 +326,15 @@ sd_probe(config)
     struct conf_device *config;
 {
     int unit = config->dev_unit;
+    const char *ctlr_name = config->dev_cdriver->d_name;
+    int ctlr_num = config->dev_ctlr;
 
     if (unit < 0 || unit >= NSD)
         return 0;
-    printf("sd%u: port sdio%d, 4-bit bus\n", unit, config->dev_ctlr);
+    printf("sd%u: port %s%d\n", unit, ctlr_name, ctlr_num);
 
     if (! card_init(unit)) {
-        printf("sd%u: cannot open sdio%u port\n", unit, config->dev_ctlr);
+        printf("sd%u: cannot open %s%u port\n", unit, ctlr_name, ctlr_num);
         return 0;
     }
 

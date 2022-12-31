@@ -956,6 +956,7 @@ file /share/emg.keys
 file /share/re.help
 file /share/dict/words
 file /share/misc/more.help
+file /share/misc/yaccpar
 file /share/zoneinfo/Australia/North
 file /share/zoneinfo/Australia/NSW
 file /share/zoneinfo/Australia/Queensland
@@ -1193,6 +1194,19 @@ file /share/examples/dhrystone/README_C
 file /share/examples/dhrystone/Makefile
 file /share/examples/dhrystone/dhry_1.c
 file /share/examples/dhrystone/RATIONALE
+
+#
+# Files: /share/examples/yacc
+#
+dir /share/examples/yacc
+file /share/examples/yacc/Makefile
+file /share/examples/yacc/config.y
+file /share/examples/yacc/cpy.y
+file /share/examples/yacc/egrep.y
+file /share/examples/yacc/expr.y
+file /share/examples/yacc/gram.y
+file /share/examples/yacc/grammar.y
+file /share/examples/yacc/parser.y
 
 #
 # Files: /var

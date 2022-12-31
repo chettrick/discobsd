@@ -13,7 +13,8 @@
  * #endif
  */
 	/* location of the parser text file */
-# define PARSER "/usr/share/misc/yaccpar"
+#define PARSER "/share/misc/yaccpar"
+/* #define PARSER "/usr/share/misc/yaccpar" XXX */
 
 	/* basic size of the Yacc implementation */
 /* # define HUGE */

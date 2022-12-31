@@ -1,3 +1,4 @@
+#BOARD?=		f411renucleo
 BOARD?=		f412gdisco
 #BOARD?=		f469idisco
 #BOARD?=		f4discovery
@@ -52,14 +53,17 @@ gdb-qemu: kernel
 
 ocd: kernel
 	cd ${KERNDIR}
+ifeq ($(BOARD), f411renucleo)
+	sudo openocd -f "board/st_nucleo_f4.cfg"
+endif
 ifeq ($(BOARD), f412gdisco)
-	openocd -f "board/stm32f412g-disco.cfg"
+	sudo openocd -f "board/stm32f412g-disco.cfg"
 endif
 ifeq ($(BOARD), f469idisco)
-	openocd -f "board/stm32f469discovery.cfg"
+	sudo openocd -f "board/stm32f469discovery.cfg"
 endif
 ifeq ($(BOARD), f4discovery)
-	openocd -f "board/stm32f4discovery.cfg"
+	sudo openocd -f "board/stm32f4discovery.cfg"
 endif
 
 gdb-ocd: kernel

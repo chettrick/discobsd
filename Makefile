@@ -79,7 +79,8 @@ cleanall:       clean
 		rm -f sys/$(MACHINE)/*/unix.hex bin/* sbin/* libexec/*
 		rm -f games/[a-k]* games/[m-z]* share/man/cat*/*
 		rm -f games/lib/adventure.dat games/lib/cfscores
-		rm -f share/re.help share/emg.keys share/misc/more.help
+		rm -f share/re.help share/emg.keys
+		rm -f share/misc/more.help share/misc/yaccpar
 		rm -f etc/termcap etc/remote etc/phones etc/motd
 		rm -f include/machine
 		rm -f var/log/aculog

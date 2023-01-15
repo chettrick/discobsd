@@ -16,7 +16,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   man md5 med more nm passwd pdc picoc portio printf pwm \
                   ranlib re renice retroforth scm sed setty sh sl smallc \
                   smux stty sysctl test uname wiznet xargs \
-                  zmodem gtest msec cron compress date2 tip \
+                  zmodem gtest msec cron compress date2 tip tclsh \
                   talloc uucp yacc
 
 # /bin, mips-specific programs

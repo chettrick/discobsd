@@ -563,6 +563,7 @@ file /bin/sysctl
 file /bin/sz
 file /bin/tail
 file /bin/tar
+file /bin/tclsh
 file /bin/tee
 file /bin/telnet
 file /bin/test

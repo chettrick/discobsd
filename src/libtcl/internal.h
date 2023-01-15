@@ -594,7 +594,7 @@ extern int		TclGetFrame (Tcl_Interp *interp,
 extern int		TclGetListIndex (Tcl_Interp *interp,
 			    unsigned char *string, int *indexPtr);
 extern int		TclGetOpenFile (Tcl_Interp *interp,
-			    unsigned char *string, OpenFile **filePtrPtr);
+			    char *string, OpenFile **filePtrPtr);
 extern Proc *		TclIsProc (Command *cmdPtr);
 extern void		TclMakeFileTable (Interp *iPtr,
 			    int index);

@@ -160,7 +160,7 @@ parse_string (Tcl_Interp *interp,	/* Where to store error message. */
      */
     c = *string;
     if (((c >= '0') && (c <= '9')) || (c == '-')) {
-	unsigned char *term;
+	char *term;
 
 	valuePtr->type = TYPE_INT;
 	valuePtr->int_value = strtol (string, &term, 0);
@@ -213,7 +213,7 @@ get_lex (Tcl_Interp *interp,	/* Interpreter to use for error reporting. */
 				 * what's parsed from string.  Caller
 				 * must have initialized pv field correctly. */
 {
-    unsigned char *p, c, *var, *term;
+    char *p, c, *var, *term;
     unsigned char result;
 
     p = infoPtr->expr;

@@ -38,11 +38,11 @@
 int
 Tcl_GetInt(interp, string, intPtr)
     Tcl_Interp *interp;		/* Interpreter to use for error reporting. */
-    unsigned char *string;	/* String containing a (possibly signed)
+    char *string;		/* String containing a (possibly signed)
 				 * integer in a form acceptable to strtol. */
     int *intPtr;		/* Place to store converted result. */
 {
-    unsigned char *end;
+    char *end;
     int i;
 
     i = strtol(string, &end, 0);

@@ -11,9 +11,13 @@ OBJS		= tclget.o tclproc.o tclvar.o tclassem.o \
 		  regexp.o regsub.o tclenv.o tclglob.o \
                   tclunxaz.o tcluxstr.o tcluxutl.o
 
+all:		../libtcl.a
+
 ../libtcl.a:    ${OBJS}
 		$(AR) cru $@ ${OBJS}
 		$(RANLIB) $@
+
+install:	all
 
 clean:
 		rm -f ../libtcl.a *.o *~

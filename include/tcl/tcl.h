@@ -178,7 +178,7 @@ extern void             Tcl_FreeResult (Tcl_Interp *interp);
 extern int              Tcl_GetBoolean (Tcl_Interp *interp,
                             unsigned char *string, int *boolPtr);
 extern int              Tcl_GetInt (Tcl_Interp *interp,
-                            unsigned char *string, int *intPtr);
+                            char *string, int *intPtr);
 extern unsigned char *  Tcl_GetVar (Tcl_Interp *interp,
                             unsigned char *varName, int flags);
 extern unsigned char *  Tcl_GetVar2 (Tcl_Interp *interp,

@@ -2,6 +2,7 @@
  * Definitions etc. for regexp(3) routines.
  */
 typedef struct _regexp_t regexp_t;
+typedef int bool_t;
 
 /*
  * Determine the required size.

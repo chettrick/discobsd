@@ -198,6 +198,7 @@ setenv(name, value, overwrite)
     const char *name;		/* Name of variable whose value is to be
 				 * set. */
     const char *value;		/* New value for variable. */
+    int overwrite;
 {
     int index, length, nameLength;
     char *p;

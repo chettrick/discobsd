@@ -48,8 +48,7 @@ static void		DeleteArray (Interp *iPtr, unsigned char *arrayName,
 			    Var *varPtr, int flags);
 static Var *		NewVar (int space);
 static ArraySearch *	ParseSearchId (Tcl_Interp *interp,
-			    Var *varPtr, unsigned char *varName,
-			    unsigned char *string);
+			    Var *varPtr, unsigned char *varName, char *string);
 static void		VarErrMsg (Tcl_Interp *interp,
 			    unsigned char *part1, unsigned char *part2,
 			    unsigned char *operation, unsigned char *reason);
@@ -2087,12 +2086,12 @@ ParseSearchId(interp, varPtr, varName, string)
     Var *varPtr;		/* Array variable search is for. */
     unsigned char *varName;	/* Name of array variable that search is
 				 * supposed to be for. */
-    unsigned char *string;	/* String containing id of search.  Must have
+    char *string;		/* String containing id of search.  Must have
 				 * form "search-num-var" where "num" is a
 				 * decimal number and "var" is a variable
 				 * name. */
 {
-    unsigned char *end;
+    char *end;
     int id;
     ArraySearch *searchPtr;
 

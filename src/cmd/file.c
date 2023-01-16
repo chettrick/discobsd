@@ -66,7 +66,7 @@ char **argv;
             int l = strlen(p);
             if (l>0)
                 p[l-1] = '\0';
-            printf("%s: ", p);
+            printf("%s:	", p);
             type(p);
             if (ifile>=0)
                 close(ifile);
@@ -74,7 +74,7 @@ char **argv;
         exit(1);
     }
     while(argc > 1) {
-        printf("%s: ", argv[1]);
+        printf("%s:	", argv[1]);
         type(argv[1]);
         fflush(stdout);
         argc--;

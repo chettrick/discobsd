@@ -57,14 +57,14 @@ xlong:
     if(y<1 || y>9999)
         goto badarg;
     printf("\n\n\n");
-    printf("                %u\n", y);
+    printf("				%u\n", y);
     printf("\n");
     for(i=0; i<12; i+=3) {
         for(j=0; j<6*72; j++)
             string[j] = '\0';
-        printf("     %.3s", smon[i]);
-        printf("            %.3s", smon[i+1]);
-        printf("               %.3s\n", smon[i+2]);
+        printf("	 %.3s", smon[i]);
+        printf("			%.3s", smon[i+1]);
+        printf("		       %.3s\n", smon[i+2]);
         printf("%s   %s   %s\n", dayw, dayw, dayw);
         cal(i+1, y, string, 72);
         cal(i+2, y, string+23, 72);

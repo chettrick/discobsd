@@ -67,7 +67,7 @@ Debugging
 ---------
 
 DiscoBSD/stm32 is debugged through OpenOCD and GDB. The `make` targets for
-debugging are `ocd` and `gdb`.
+debugging are `ocd` and `gdb-ocd`.
 
 Debug a particular development board via:
 
@@ -75,7 +75,7 @@ Debug a particular development board via:
 
 in one terminal, and:
 
-    $ BOARD=f412gdisco gmake gdb
+    $ BOARD=f412gdisco gmake gdb-ocd
 
 in another terminal.
 

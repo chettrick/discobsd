@@ -67,4 +67,25 @@ struct	clockframe {
 
 #define	cf_sp	cf_ip		/* Stack Pointer (as passed by IP) */
 
+/*
+ * Exception stack frame of a fault exception.
+ * A faultframe encapsulates the machine state when the fault occured.
+ *
+ * ARMv6-M fault types: HardFault
+ * ARMv7-M fault types: HardFault, MemManage, BusFault, UsageFault
+ */
+struct	faultframe {
+/* These 8 registers are pushed on stack by hardware in a fault exception. */
+	u_int	ff_r0;		/* Argument / Scratch Register 1 */
+	u_int	ff_r1;		/* Argument / Scratch Register 2 */
+	u_int	ff_r2;		/* Argument / Scratch Register 3 */
+	u_int	ff_r3;		/* Argument / Scratch Register 4 */
+	u_int	ff_ip;		/* Stack Pointer (as passed by IP) */
+	u_int	ff_lr;		/* Link Register */
+	u_int	ff_pc;		/* Program Counter */
+	u_int	ff_psr;		/* Program Status Register */
+};
+
+#define	ff_sp	ff_ip		/* Stack Pointer (as passed by IP) */
+
 #endif /* !_MACHINE_FRAME_H_ */

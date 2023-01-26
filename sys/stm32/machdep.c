@@ -22,6 +22,7 @@
 #include <sys/kconfig.h>
 #include <sys/tty.h>
 
+#include <machine/fault.h>
 #include <machine/uart.h>
 #include <machine/stm32f4xx_ll_bus.h>
 #include <machine/stm32f4xx_ll_gpio.h>
@@ -244,6 +245,11 @@ startup()
     HAL_Init();
 
     SystemClock_Config();
+
+    /* Enable all configurable fault handlers. */
+    arm_enable_fault(MM_FAULT_ENABLE);
+    arm_enable_fault(BF_FAULT_ENABLE);
+    arm_enable_fault(UF_FAULT_ENABLE);
 
     /* Syscalls (via PendSV) have the lowest interrupt priority. */
     arm_intr_set_priority(PendSV_IRQn, IPL_PENDSV);

@@ -619,8 +619,7 @@ void mkconf(sysname)
 }
 
 struct file_list *
-newflist(ftype)
-    u_char ftype;
+newflist(u_char ftype)
 {
     struct file_list *fl = (struct file_list *)malloc(sizeof (*fl));
 

@@ -3,7 +3,7 @@ UNAME_S		= $(shell uname -s)
 
 ifeq ($(UNAME_S), FreeBSD)
 CC		= cc -g
-CFLAGS		= -O -Wall -Werror
+CFLAGS		= -O -Wall -Werror -fcommon
 else
 CC		= gcc -g
 CFLAGS		= -O -Wall -Werror

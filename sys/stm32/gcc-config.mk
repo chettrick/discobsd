@@ -20,6 +20,11 @@ ifndef ARM_GCC_PREFIX
     ifeq (/usr/local/bin/arm-none-eabi-gcc,$(wildcard /usr/local/bin/arm-none-eabi-gcc))
         ARM_GCC_PREFIX = /usr/local/bin/arm-none-eabi-
     endif
+# Generic ARM toolchain on FreeBSD
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+    ifeq (/usr/local/gcc-arm-embedded/bin/arm-none-eabi-gcc,$(wildcard /usr/local/gcc-arm-embedded/bin/arm-none-eabi-gcc))
+        ARM_GCC_PREFIX = /usr/local/gcc-arm-embedded/bin/arm-none-eabi-
+    endif
 # Generic ARM toolchain on Linux
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ifeq (/usr/bin/arm-none-eabi-gcc,$(wildcard /usr/bin/arm-none-eabi-gcc))

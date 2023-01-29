@@ -46,9 +46,9 @@ CMACHFLAGS+=	-mthumb -mabi=aapcs -mlittle-endian
 CMACHFLAGS+=	${CMACHCPU}
 
 COPTS?=		-O
-CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
+CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS} -no-pie -fcommon
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
-LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -nopie -Map=$(basename $@).map
+LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -Map=$(basename $@).map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}

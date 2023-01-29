@@ -39,7 +39,7 @@ TOPSRC       = $(shell pwd)
 KCONFIG      = $(TOPSRC)/tools/kconfig/kconfig
 
 all:		symlinks
-		$(MAKE) -C tools
+		#$(MAKE) -C tools
 		$(MAKE) -C lib
 		$(MAKE) -C src install
 		$(MAKE) kernel

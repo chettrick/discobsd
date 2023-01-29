@@ -1,5 +1,11 @@
 CC		= gcc -g
 CFLAGS		= -O -Wall
+
+UNAME_S		= $(shell uname -s)
+ifeq ($(UNAME_S), FreeBSD)
+   CC		= cc -g
+endif
+
 DESTDIR		= /usr/local
 OBJS		= fsutil.o superblock.o block.c inode.o create.o check.o \
                   file.o mount.o manifest.o

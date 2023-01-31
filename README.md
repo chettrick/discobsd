@@ -29,7 +29,7 @@ August 2022. The system is quite usable on supported development boards.
 
 And work continues...
 
-[1]: https://DiscoBSD.org
+[1]: http://DiscoBSD.org
 [2]: https://github.com/chettrick/CSC490
 [3]: https://RetroBSD.org
 [4]: https://github.com/chettrick/CSC490/raw/master/project_outputs/Porting_the_Unix_Kernel-CSC490-Christopher_Hettrick.pdf

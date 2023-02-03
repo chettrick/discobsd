@@ -54,7 +54,7 @@ tags:
 clean:
 	-rm -f *.o profiled/*.o
 	-rm -f ../libtermcap.a ../libtermcap_p.a
-	-rm -f termcap/termcap
+	-rm -f termcap/termcap termcap/termcap.full
 
 VGRIND=	csh /usr/ucb/vgrind
 vgrind:

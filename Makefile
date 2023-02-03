@@ -76,15 +76,20 @@ cleanfs:
 
 cleanall:       clean
 		$(MAKE) -C lib clean
-		rm -f sys/$(MACHINE)/*/unix.hex bin/* sbin/* libexec/*
-		rm -f games/[a-k]* games/[m-z]* share/man/cat*/*
-		rm -f games/lib/adventure.dat games/lib/cfscores
+		rm -f sys/$(MACHINE)/*/unix.hex
+		rm -f bin/* sbin/* libexec/*
+		rm -f games/[a-k]* games/[m-z]*
+		rm -rf games/lib/*
 		rm -f share/re.help share/emg.keys
+		rm -rf share/calendar share/zoneinfo share/unixbench
+		rm -f share/man/cat*/* share/man/man.template share/man/whatis
 		rm -f share/misc/more.help share/misc/yaccpar
-		rm -f etc/termcap etc/remote etc/phones etc/motd
+		rm -f etc/termcap etc/termcap.full
+		rm -f etc/localtime etc/remote etc/phones etc/motd
+		rm -rf include/readline
 		rm -f include/machine
 		rm -f var/log/aculog
-		rm -rf var/lock share/unixbench
+		rm -rf var/lock
 
 symlinks:
 		rm -f include/machine

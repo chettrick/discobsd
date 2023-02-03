@@ -97,8 +97,8 @@ crontab:	$(CRONTAB_OBJ)
 		${ELF2AOUT} $@.elf $@
 
 install:	all
-	cp cron $(DESTSBIN)/
-	cp crontab $(DESTBIN)/
+	install cron $(DESTSBIN)/
+	install crontab $(DESTBIN)/
 	sh putman.sh crontab.1 $(DESTMAN)
 	sh putman.sh cron.8    $(DESTMAN)
 	sh putman.sh crontab.5 $(DESTMAN)

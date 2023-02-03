@@ -137,7 +137,7 @@ libuucp.a: $(LIBOBJ)
 
 
 install: uuencode uuencode
-	cp $(ALL) $(TOPSRC)/bin
+	install ${ALL} ${DESTDIR}/bin/
 
 clean:
 	rm -f *.o $(ALL) libuucp.a *.dis *.elf

@@ -31,7 +31,7 @@ $(TARGET):      $(OBJS)
 		${ELF2AOUT} ${TARGET}.elf $@
 
 install:        $(TARGET)
-		cp $(TARGET) $(TOPSRC)/bin
+		install ${TARGET} ${DESTDIR}/bin/
 
 test:           all
 		(cd tests; make test)

@@ -80,7 +80,7 @@ depend: FRC
 
 install: aculib tip
 	cd aculib; ${MAKE} ${MFLAGS} install
-	cp tip ${DESTDIR}/bin/tip
+	install tip ${DESTDIR}/bin/tip
 	rm -f ${DESTDIR}/bin/cu
 	touch ${DESTDIR}/${ADM}/aculog
 	chmod 600 ${DESTDIR}/${ADM}/aculog

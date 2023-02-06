@@ -7,6 +7,7 @@ OBJS            = pdc.o
 
 CFLAGS		+= -Werror -Wall -Os
 CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC -DHAVE_READLINE
+CPPFLAGS	+= -I../../libreadline
 LIBS            = -lreadline -lc
 
 all:            pdc

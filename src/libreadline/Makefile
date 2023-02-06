@@ -4,6 +4,7 @@ include $(TOPSRC)/target.mk
 CFLAGS          += -O -Wall -Werror
 
 OBJS		= readline.o
+HDRS		= readline/readline.h readline/history.h
 
 all:            ../libreadline.a
 
@@ -11,9 +12,9 @@ all:            ../libreadline.a
 		@$(AR) cru $@ ${OBJS}
 		$(RANLIB) $@
 
-install: 	all readline.h history.h
+install: 	all ${HDRS}
 		install -d $(DESTDIR)/include/readline/
-		cp -p readline.h history.h $(DESTDIR)/include/readline/
+		cp -p ${HDRS} ${DESTDIR}/include/readline/
 
 clean:
 		rm -f *~ *.o a.out ../libreadline*.a

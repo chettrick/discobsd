@@ -5,7 +5,7 @@
 #
 #	@(#)Makefile	5.16.1 (2.11BSD GTE) 1997/9/22
 #
-# Doing a make install builds /usr/include
+# Doing a make install builds ${DESTDIR}/include
 #
 # Define SHARED to indicate whether you want
 # symbolic links to the system source (``symlinks''),
@@ -16,84 +16,111 @@
 # The ``rm -rf''s used below are safe because rm doesn't
 # follow symbolic links.
 #
-DESTDIR=
-SUBDIRS=arpa pascal protocols OLD
-STD=	a.out.h ar.h assert.h ctype.h curses.h disktab.h fcntl.h \
-	fstab.h grp.h lastlog.h math.h memory.h mp.h mtab.h ndbm.h \
-	netdb.h nlist.h pcc.h pwd.h ranlib.h resolv.h setjmp.h \
-	sgtty.h short_names.h stab.h stdio.h string.h strings.h \
-	struct.h syscall.h sysexits.h time.h ttyent.h tzfile.h utmp.h \
-	varargs.h vfont.h vmf.h
+TOPSRC=	$(shell cd ..; pwd)
+include	${TOPSRC}/target.mk
+
+STD=	a.out.h alloca.h ar.h assert.h \
+	ctype.h curses.h \
+	fcntl.h float.h fstab.h \
+	grp.h kmem.h lastlog.h limits.h \
+	math.h mtab.h ndbm.h nlist.h \
+	paths.h psout.h pwd.h \
+	ranlib.h regexp.h \
+	setjmp.h sgtty.h \
+	stdarg.h stddef.h stdint.h stdio.h stdlib.h \
+	string.h strings.h struct.h syscall.h sysexits.h \
+	term.h time.h ttyent.h tzfile.h \
+	unistd.h utmp.h vmf.h
+
 LINKS=	errno.h signal.h syslog.h
-MACHINE=pdp
-MACHDEP=${MACHINE} pdpif pdpuba pdpmba vaxuba
-NETDIRS=net netimp netinet netns netpup
+
+SUBDIRS=arpa
+
+MACHDEP=${MACHINE}
+NETDIRS=netinet
 SYSDIRS=${NETDIRS} ${MACHDEP}
-SHARED=	symlinks
+
+#SHARED=	symlinks
+SHARED=	copies
 TAGSFILE=tags
 
 all:
 
 install: ${SHARED}
 	-for i in ${STD}; do \
-		cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		    install -c -m 444 $$i ${DESTDIR}/usr/include/$$i; \
+		cmp -s $$i ${DESTDIR}/include/$$i || \
+		    install -c -m 444 $$i ${DESTDIR}/include/$$i; \
 	done
 	-for i in ${SUBDIRS}; do \
-		if [ ! -d ${DESTDIR}/usr/include/$$i ]; \
+		if [ ! -d ${DESTDIR}/include/$$i ]; \
 		then \
-			mkdir ${DESTDIR}/usr/include/$$i; \
+			mkdir ${DESTDIR}/include/$$i; \
 		fi; \
 		(cd $$i; for j in *.[ih]; do \
-			cmp -s $$j ${DESTDIR}/usr/include/$$i/$$j || \
-			install -c -m 444 $$j ${DESTDIR}/usr/include/$$i/$$j; \
+			cmp -s $$j ${DESTDIR}/include/$$i/$$j || \
+			install -c -m 444 $$j ${DESTDIR}/include/$$i/$$j; \
 		done); \
 	done
-	-cmp -s Makefile.install ${DESTDIR}/usr/include/Makefile || \
-	    install -c -m 444 Makefile.install ${DESTDIR}/usr/include/Makefile
+# XXX	-cmp -s Makefile.install ${DESTDIR}/include/Makefile || \
+# XXX	    install -c -m 444 Makefile.install ${DESTDIR}/include/Makefile
 	-for i in ${LINKS}; do \
-		rm -f ${DESTDIR}/usr/include/$$i; \
-		ln -s sys/$$i ${DESTDIR}/usr/include/$$i; \
+		rm -f ${DESTDIR}/include/$$i; \
+		ln -s sys/$$i ${DESTDIR}/include/$$i; \
 	done
-	rm -f ${DESTDIR}/usr/include/machine
-	ln -s ${MACHINE} ${DESTDIR}/usr/include/machine
-	rm -f ${DESTDIR}/usr/include/frame.h
-	ln -s machine/frame.h ${DESTDIR}/usr/include/frame.h
+	rm -f ${DESTDIR}/include/machine
+	ln -s ${MACHINE} ${DESTDIR}/include/machine
+# XXX	rm -f ${DESTDIR}/include/frame.h
+# XXX	ln -s machine/frame.h ${DESTDIR}/include/frame.h
 
-symlinks:
-	-for i in ${SYSDIRS}; do \
-		rm -rf ${DESTDIR}/usr/include/$$i; \
-		if [ ! -s ${DESTDIR}/usr/include/$$i ]; \
-		then \
-			ln -s ../../sys/$$i ${DESTDIR}/usr/include/$$i; \
-		else \
-			echo ${DESTDIR}/usr/include/$$i not removed; \
-		fi; \
-	done
-	rm -rf ${DESTDIR}/usr/include/sys
-	-if [ ! -s ${DESTDIR}/usr/include/sys ]; \
-	then \
-		ln -s ../../sys/h ${DESTDIR}/usr/include/sys; \
-	else \
-		echo ${DESTDIR}/usr/include/sys not removed; \
-	fi
+# XXX symlinks:
+# XXX 	-for i in ${SYSDIRS}; do \
+# XXX 		rm -rf ${DESTDIR}/include/$$i; \
+# XXX 		if [ ! -s ${DESTDIR}/include/$$i ]; \
+# XXX 		then \
+# XXX 			ln -s ../../sys/$$i ${DESTDIR}/include/$$i; \
+# XXX 		else \
+# XXX 			echo ${DESTDIR}/include/$$i not removed; \
+# XXX 		fi; \
+# XXX 	done
+# XXX 	rm -rf ${DESTDIR}/include/sys
+# XXX 	-if [ ! -s ${DESTDIR}/include/sys ]; \
+# XXX 	then \
+# XXX 		ln -s ../../sys/h ${DESTDIR}/include/sys; \
+# XXX 	else \
+# XXX 		echo ${DESTDIR}/include/sys not removed; \
+# XXX 	fi
 
 copies:
-	-for i in ${SYSDIRS}; do \
-		rm -rf ${DESTDIR}/usr/include/$$i; \
-		cd /sys; \
-		tar cf - $$i/*.h | (cd ${DESTDIR}/usr/include; tar xpfB -); \
-	done
-	rm -rf ${DESTDIR}/usr/include/sys;
-	mkdir ${DESTDIR}/usr/include/sys; 
-	chmod 775 ${DESTDIR}/usr/include/sys;
-	-(cd /sys/h; tar cf - *.h | (cd ${DESTDIR}/usr/include/sys; tar xpfB -))
+	if [ -z "${DESTDIR}" ] || [ "${DESTDIR}" = "/" ]; \
+	then \
+		echo "DESTDIR must be set and must not be /"; \
+		exit 1; \
+	fi; \
+	if [ -z "${DESTDIR}" ] || [ "${DESTDIR}" = "${TOPSRC}" ]; \
+	then \
+		echo "DESTDIR is same as TOPSRC: skip copying SYSDIRS"; \
+	else \
+		if [ ! -d ${DESTDIR}/include ]; \
+		then \
+			mkdir ${DESTDIR}/include; \
+		fi; \
+		for i in ${SYSDIRS}; do \
+			rm -rf ${DESTDIR}/include/$$i; \
+			tar cf - $$i/*.h | \
+			    (cd ${DESTDIR}/include; tar xpf -); \
+		done; \
+		rm -rf ${DESTDIR}/include/sys; \
+		mkdir ${DESTDIR}/include/sys; \
+		chmod 775 ${DESTDIR}/include/sys; \
+		(cd ../sys/include; tar cf - *.h | \
+		    (cd ${DESTDIR}/include/sys; tar xpf -)); \
+	fi
 
-tags:
-	cwd=/usr/include; \
-	for i in ${STD} ${LINKS}; do \
-		ctags -a -f ${TAGSFILE} $$cwd/$$i; \
-	done
+# XXX tags:
+# XXX 	cwd=/include; \
+# XXX 	for i in ${STD} ${LINKS}; do \
+# XXX 		ctags -a -f ${TAGSFILE} $$cwd/$$i; \
+# XXX 	done
 
 clean:
 	rm -f tags

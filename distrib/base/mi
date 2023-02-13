@@ -890,7 +890,6 @@ file /include/sys/vmparam.h
 file /include/sys/vmsystm.h
 file /include/sys/wait.h
 file /include/term.h
-file /include/termios-todo.h
 file /include/time.h
 file /include/ttyent.h
 file /include/tzfile.h

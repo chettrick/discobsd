@@ -40,6 +40,7 @@ KCONFIG      = $(TOPSRC)/tools/kconfig/kconfig
 
 all:		symlinks
 		$(MAKE) -C tools
+		$(MAKE) -C include install
 		$(MAKE) -C lib
 		$(MAKE) -C src install
 		$(MAKE) kernel

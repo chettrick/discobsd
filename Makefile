@@ -35,11 +35,14 @@ FSUTIL		= tools/fsutil/fsutil
 
 -include Makefile.user
 
-TOPSRC       = $(shell pwd)
-KCONFIG      = $(TOPSRC)/tools/kconfig/kconfig
+TOPSRC=		$(shell pwd)
+DESTDIR?=	${TOPSRC}
+#DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
+KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
 all:		symlinks
 		$(MAKE) -C tools
+		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include install
 		$(MAKE) -C lib
 		$(MAKE) -C src install
@@ -56,7 +59,7 @@ $(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
 		rm -f $@ distrib/$(MACHINE)/_manifest
 		cat distrib/base/mi distrib/$(MACHINE)/md.$(MACHINE) > distrib/$(MACHINE)/_manifest
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
-		$(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ .
+		$(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ ${DESTDIR}
 # In case you need a separate /home partition,
 # uncomment the following line.
 		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ home

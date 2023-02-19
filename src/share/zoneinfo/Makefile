@@ -20,7 +20,8 @@ LOCALTIME=	US/Pacific
 
 CFLAGS= -O
 LINTFLAGS=	-phbaxc
-CC=		cc -g -Wall -Werror
+CC=		cc
+CFLAGS+=	-g -Wall -Werror -idirafter $(TOPSRC)/include
 
 TZCSRCS=	zic.c scheck.c ialloc.c
 TZCOBJS=	zic.o scheck.o ialloc.o
@@ -38,7 +39,7 @@ MANSRC=		$(ZICMANSRC) $(ZDUMAN)
 SHARDIR=	${DESTDIR}/share/zoneinfo
 MANDIR=		${DESTDIR}/man/cat8
 
-all:		tzfile.h zdump zic ${ZICMAN} ${ZDUMAN}
+all:		zdump zic ${ZICMAN} ${ZDUMAN}
 
 install:	zic $(DATA) $(MAN)
 		(umask 22; ./zic -v -d ${SHARDIR} $(DATA))
@@ -59,12 +60,9 @@ zdump:		$(TZDOBJS)
 zic:		$(TZCOBJS)
 		$(CC) $(CFLAGS) $(LFLAGS) $(TZCOBJS) -o $@
 
-tzfile.h:       ${DESTDIR}/include/tzfile.h
-		ln -s $< $@
-
 lint:		$(TZCSRCS) $(TZDSRCS)
 		lint $(LINTFLAGS) $(CFLAGS) $(TZCSRCS)
 		lint $(LINTFLAGS) $(CFLAGS) $(TZDSRCS)
 
 clean:
-		rm -f *.o zdump zic $(ZICMAN) $(ZDUMAN) tzfile.h
+		rm -f *.o zdump zic $(ZICMAN) $(ZDUMAN)

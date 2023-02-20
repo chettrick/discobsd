@@ -5,7 +5,7 @@
 #
 #	@(#)Makefile	5.16.1 (2.11BSD GTE) 1997/9/22
 #
-# Doing a make install builds ${DESTDIR}/include
+# Doing a make includes builds ${DESTDIR}/include
 #
 # Define SHARED to indicate whether you want
 # symbolic links to the system source (``symlinks''),
@@ -36,6 +36,9 @@ LINKS=	errno.h signal.h syslog.h
 
 SUBDIRS=arpa
 
+# XXX This is temporary
+SUBDIRS+=smallc smallc/sys
+
 MACHDEP=${MACHINE}
 NETDIRS=netinet
 SYSDIRS=${NETDIRS} ${MACHDEP}
@@ -46,7 +49,7 @@ TAGSFILE=tags
 
 all:
 
-install: ${SHARED}
+includes: ${SHARED}
 	-for i in ${STD}; do \
 		cmp -s $$i ${DESTDIR}/include/$$i || \
 		    install -c -m 444 $$i ${DESTDIR}/include/$$i; \

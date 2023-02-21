@@ -47,6 +47,7 @@ all:		symlinks
 		$(MAKE) -C lib
 		$(MAKE) -C src install
 		$(MAKE) kernel
+#		$(MAKE) -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 
 kernel:         $(KCONFIG)

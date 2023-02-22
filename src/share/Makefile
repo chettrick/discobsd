@@ -6,7 +6,7 @@
 TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
-SUBDIR		= dict misc zoneinfo
+SUBDIR		= dict examples misc zoneinfo
 
 all:		${SUBDIR}
 

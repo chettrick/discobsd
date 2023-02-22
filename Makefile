@@ -42,11 +42,12 @@ KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
 all:		symlinks
 		$(MAKE) -C tools
+		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
 		$(MAKE) -C lib
+		$(MAKE) -C src
 		$(MAKE) -C src install
-		$(MAKE) kernel
 #		$(MAKE) -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 

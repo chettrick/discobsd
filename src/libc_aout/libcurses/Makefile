@@ -1,4 +1,4 @@
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/libcurses
@@ -6,7 +6,7 @@ vpath %.c $(TOPSRC)/src/libcurses
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
 endif
 
 OBJS		= addch.o addstr.o box.o clear.o clrtobot.o clrtoeol.o cr_put.o \
@@ -21,6 +21,10 @@ all:            ../libcurses.a
 ../libcurses.a: ../ar ../ranlib $(OBJS)
 		../ar rc $@ $(OBJS)
 		../ranlib $@
+
+install:	../libcurses.a
+		${INSTALLDIR} ${DESTDIR}/lib
+		${INSTALL} ../libcurses.a ${DESTDIR}/lib/libcurses.a
 
 clean:
 		rm -f *~ *.o a.out *.a

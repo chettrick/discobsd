@@ -46,7 +46,7 @@ all:		symlinks
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
 		$(MAKE) -C src
-		$(MAKE) -C src install
+		$(MAKE) -C src DESTDIR=${DESTDIR} install
 #		$(MAKE) -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 

@@ -1,4 +1,4 @@
-TOPSRC          = $(shell cd ..; pwd)
+TOPSRC          = $(shell cd ../..; pwd)
 SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
 PROG		= ar as aout ld nm ranlib size strip
 
@@ -51,7 +51,7 @@ strip:          strip.o
 		$(CC) $(LDFLAGS) -o $@ $< $(LIBS)
 
 $(HEADERS):
-		-ln -s -f ../include/a.out.h .
-		-ln -s -f ../include/ar.h .
-		-ln -s -f ../include/nlist.h .
-		-ln -s -f ../include/ranlib.h .
+		-ln -s -f $(TOPSRC)/include/a.out.h .
+		-ln -s -f $(TOPSRC)/include/ar.h .
+		-ln -s -f $(TOPSRC)/include/nlist.h .
+		-ln -s -f $(TOPSRC)/include/ranlib.h .

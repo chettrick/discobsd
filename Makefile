@@ -45,7 +45,6 @@ all:		symlinks
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
-		$(MAKE) -C lib
 		$(MAKE) -C src
 		$(MAKE) -C src install
 #		$(MAKE) -C etc DESTDIR=${DESTDIR} distribution
@@ -74,14 +73,13 @@ $(KCONFIG):
 
 clean:
 		rm -f *~
-		for dir in tools lib src sys/$(MACHINE); do $(MAKE) -C $$dir -k clean; done
+		for dir in tools src sys/$(MACHINE); do $(MAKE) -C $$dir -k clean; done
 
 cleanfs:
 		rm -f distrib/$(MACHINE)/_manifest
 		rm -f $(FSIMG)
 
 cleanall:       clean
-		$(MAKE) -C lib clean
 		rm -f sys/$(MACHINE)/*/unix.hex
 		rm -f bin/* sbin/* libexec/*
 		rm -f games/[a-k]* games/[m-z]*

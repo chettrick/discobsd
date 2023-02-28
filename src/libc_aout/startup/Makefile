@@ -5,7 +5,7 @@
 #
 #	crt0	Normal C run time startoff
 #
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC          = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/startup-$(MACHINE_ARCH)
@@ -13,7 +13,7 @@ vpath %.c $(TOPSRC)/src/startup-$(MACHINE_ARCH)
 CFLAGS          = -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS          += -Wa,-x -B$(TOPSRC)/lib/
+CFLAGS          += -Wa,-x -B$(TOPSRC)/src/libc_aout/
 endif
 
 OBJS		= ../crt0.o
@@ -22,6 +22,10 @@ all:		$(OBJS)
 
 ../crt0.o:	crt0.c
 		$(CC) $(DEFS) $(CFLAGS) -c $< -o $@
+
+install:	../crt0.o
+		${INSTALLDIR} ${DESTDIR}/lib
+		${INSTALL} ../crt0.o ${DESTDIR}/lib/crt0.o
 
 clean:
 		rm -f $(OBJS) *~

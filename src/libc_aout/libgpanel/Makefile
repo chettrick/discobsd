@@ -1,4 +1,4 @@
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/src/libgpanel
@@ -6,7 +6,7 @@ vpath %.c $(TOPSRC)/src/libgpanel
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
 endif
 
 OBJS            = open.o clear.o pixel.o line.o rect.o fill.o fill_triangle.o \
@@ -17,6 +17,10 @@ all:            ../libgpanel.a
 ../libgpanel.a: ../ar ../ranlib $(OBJS)
 		../ar rc $@ $(OBJS)
 		../ranlib $@
+
+install:	../libgpanel.a
+		${INSTALLDIR} ${DESTDIR}/lib
+		${INSTALL} ../libgpanel.a ${DESTDIR}/lib/libgpanel.a
 
 clean:
 		rm -f *~ *.o a.out *.a

@@ -1,4 +1,4 @@
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
 # Favor assembler source files over their C source equivalent.
@@ -16,8 +16,8 @@ CFLAGS		= -Os $(DEFS) -Wall -Werror
 ASFLAGS		= $(DEFS) -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/
-ASFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/ \
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
+ASFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/ \
 		   -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl
 endif
 
@@ -116,6 +116,10 @@ all:            ../libc.a
 $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 		@echo creating $*.o
 		@printf '#include "SYS.h"\nSYS($*)\n' | $(AS) $(ASFLAGS) - -c -o $*.o
+
+install:	../libc.a
+		${INSTALLDIR} ${DESTDIR}/lib
+		${INSTALL} ../libc.a ${DESTDIR}/lib/libc.a
 
 clean:
 		rm -f *~ *.o a.out *.a

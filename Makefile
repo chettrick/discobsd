@@ -36,8 +36,7 @@ FSUTIL		= tools/fsutil/fsutil
 -include Makefile.user
 
 TOPSRC=		$(shell pwd)
-DESTDIR?=	${TOPSRC}
-#DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
+DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
 all:		symlinks
@@ -47,7 +46,7 @@ all:		symlinks
 		$(MAKE) -C include includes
 		$(MAKE) -C src
 		$(MAKE) -C src DESTDIR=${DESTDIR} install
-#		$(MAKE) -C etc DESTDIR=${DESTDIR} distribution
+		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 
 kernel:         $(KCONFIG)
@@ -60,7 +59,7 @@ $(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
 		rm -f $@ distrib/$(MACHINE)/_manifest
 		cat distrib/base/mi distrib/$(MACHINE)/md.$(MACHINE) > distrib/$(MACHINE)/_manifest
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
-		$(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ ${DESTDIR}
+		sudo $(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ ${DESTDIR}
 # In case you need a separate /home partition,
 # uncomment the following line.
 		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ home
@@ -73,27 +72,17 @@ $(KCONFIG):
 
 clean:
 		rm -f *~
-		for dir in tools src sys/$(MACHINE); do $(MAKE) -C $$dir -k clean; done
+		rm -f etc/motd
+		rm -f include/machine
+		for dir in tools src; do $(MAKE) -C $$dir -k clean; done
 
 cleanfs:
 		rm -f distrib/$(MACHINE)/_manifest
 		rm -f $(FSIMG)
 
 cleanall:       clean
+		$(MAKE) -C sys/$(MACHINE) -k clean
 		rm -f sys/$(MACHINE)/*/unix.hex
-		rm -f bin/* sbin/* libexec/*
-		rm -f games/[a-k]* games/[m-z]*
-		rm -rf games/lib/*
-		rm -f share/re.help share/emg.keys
-		rm -rf share/calendar share/zoneinfo share/unixbench
-		rm -f share/man/cat*/* share/man/man.template share/man/whatis
-		rm -f share/misc/more.help share/misc/yaccpar
-		rm -f etc/termcap etc/termcap.full
-		rm -f etc/localtime etc/remote etc/phones etc/motd
-		rm -rf include/readline
-		rm -f include/machine
-		rm -f var/log/aculog
-		rm -rf var/lock
 
 symlinks:
 		rm -f include/machine

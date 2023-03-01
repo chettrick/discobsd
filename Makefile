@@ -46,7 +46,7 @@ all:		symlinks
 		$(MAKE) -C include includes
 		$(MAKE) -C src
 		$(MAKE) -C src DESTDIR=${DESTDIR} install
-		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} distribution
+		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
 		$(MAKE) fs
 
 kernel:         $(KCONFIG)
@@ -72,7 +72,6 @@ $(KCONFIG):
 
 clean:
 		rm -f *~
-		rm -f etc/motd
 		rm -f include/machine
 		for dir in tools src; do $(MAKE) -C $$dir -k clean; done
 
@@ -87,9 +86,6 @@ cleanall:       clean
 symlinks:
 		rm -f include/machine
 		ln -s $(MACHINE) include/machine
-		if [ -f etc/etc.$(MACHINE)/motd ]; then \
-			cp -p etc/etc.$(MACHINE)/motd etc/motd; \
-		fi
 
 installfs:
 ifdef SDCARD

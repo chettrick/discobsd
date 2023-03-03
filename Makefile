@@ -44,7 +44,9 @@ all:		symlinks
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
+		$(MAKE) -C share
 		$(MAKE) -C src
+		$(MAKE) -C share DESTDIR=${DESTDIR} install
 		$(MAKE) -C src DESTDIR=${DESTDIR} install
 		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
 		$(MAKE) fs

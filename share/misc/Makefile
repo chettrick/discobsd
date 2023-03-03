@@ -3,7 +3,7 @@
 #
 #  Makefile for misc data files (lib.b from 'bc', usw.)
 #
-TOPSRC		= $(shell cd ../../..; pwd)
+TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
 SRCS		=

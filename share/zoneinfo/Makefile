@@ -1,5 +1,5 @@
 # @(#)Makefile	1.6 Makefile 1997/12/28
-TOPSRC          = $(shell cd ../../..; pwd)
+TOPSRC          = $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
 # If you want something other than Western United States time used on your

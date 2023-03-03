@@ -3,7 +3,7 @@
 #
 #	@(#)Makefile	1.1 (2.11BSD) 1996/11/29
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC		= $(shell cd ..; pwd)
 include $(TOPSRC)/target.mk
 
 SUBDIR		= dict examples misc zoneinfo

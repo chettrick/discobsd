@@ -10,7 +10,7 @@ include $(TOPSRC)/target.mk
 #
 SUBDIR		= startup-$(MACHINE_ARCH) libc libm libutil libtermlib \
 		  libcurses libvmf libtcl libwiznet libreadline libgpanel \
-		  libc_aout cmd games man
+		  libc_aout cmd games
 
 all:		$(SUBDIR)
 

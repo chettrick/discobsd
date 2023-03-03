@@ -75,7 +75,7 @@ $(KCONFIG):
 clean:
 		rm -f *~
 		rm -f include/machine
-		for dir in tools src; do $(MAKE) -C $$dir -k clean; done
+		for dir in tools share src; do $(MAKE) -C $$dir -k clean; done
 
 cleanfs:
 		rm -f distrib/$(MACHINE)/_manifest

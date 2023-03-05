@@ -38,7 +38,7 @@ lint:           ${SRCS}
 tags:           ${SRCS}
 		ctags ${SRCS}
 
-stat_flags.o:   ../ls/stat_flags.c
+stat_flags.o:   ${TOPSRC}/bin/ls/stat_flags.c
 		${CC} ${CFLAGS} -c $< -o $@
 
 # DO NOT DELETE THIS LINE -- mkdep uses it.

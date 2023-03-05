@@ -1,7 +1,7 @@
 #
 # Public Domain.  1997/3/27 - Steven Schultz
 #
-TOPSRC		= $(shell cd ../../..; pwd)
+TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		= -O -Werror -g

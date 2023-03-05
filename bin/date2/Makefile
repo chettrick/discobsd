@@ -1,11 +1,10 @@
 #
 # Public Domain.  1995/03/13 - Steven Schultz
 #
-TOPSRC		= $(shell cd ../../..; pwd)
+TOPSRC		= $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror -I../../../sys/include
-CFLAGS		+= -I../../../sys/include
+# XXX CFLAGS		+= -Werror
 
 BIN		= date
 SRCS            = $(BIN).c

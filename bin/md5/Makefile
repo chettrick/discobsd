@@ -5,7 +5,7 @@
 #	Last Modified: 1998/ 7/22
 #==========================================
 
-TOPSRC          = $(shell cd ../../..; pwd)
+TOPSRC          = $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
 OBJS            = md5.o md5c.o

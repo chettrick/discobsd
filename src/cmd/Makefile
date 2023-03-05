@@ -12,11 +12,11 @@ include $(TOPSRC)/target.mk
 # /bin
 SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   chpass cpp dc diff emg env fdisk find fold forth \
-                  fstat glcdtest hostname id la lcc lcpp ld ls login make \
-                  man md5 med more nm passwd pdc picoc portio printf pwm \
-                  ranlib re renice retroforth scm sed setty sh sl smallc \
-                  smux stty sysctl test uname wiznet xargs \
-                  zmodem gtest msec cron compress date2 tip tclsh \
+                  fstat glcdtest id la lcc lcpp ld login make \
+                  man med more nm passwd pdc picoc portio printf pwm \
+                  ranlib re renice retroforth scm sed setty sl smallc \
+                  smux sysctl uname wiznet xargs \
+                  zmodem gtest msec cron compress tip tclsh \
                   talloc uucp yacc
 
 # /bin, mips-specific programs
@@ -38,15 +38,15 @@ SCRIPT		= false nohup true #lorder mkdep
 # C programs that live in the current directory and do not need
 # explicit make lines.
 #
-STD		= basename cal cat cb chgrp chmod cmp col comm cp dd \
-                  diskspeed du echo ed fgrep file grep head hostid join \
-                  kill last ln mesg mkdir mv nice od pagesize pr printenv \
-                  pwd rev rm rmail rmdir size sleep sort split sum sync \
-                  tail tar tee time touch tr tsort tty uniq w wc whereis who
+STD		= basename cal cb cmp col comm \
+                  diskspeed du fgrep file grep head hostid join \
+                  last mesg nice od pagesize pr printenv \
+                  rev size sort split sum \
+                  tail tee time touch tr tsort tty uniq w wc whereis who
 
 # C programs that live in the current directory and need explicit make lines.
 #
-NSTD		= bc expr egrep
+NSTD		= bc egrep
 
 # Programs that must run setuid to root
 #
@@ -54,11 +54,11 @@ SETUID		= mail su
 
 # Programs that run set-group-id operator
 #
-OPERATOR	= df
+OPERATOR	=
 
 # Programs that must run set-group-id kmem.
 #
-KMEM		= ps iostat vmstat
+KMEM		= iostat vmstat
 
 # Programs that must run set-group-id tty.
 #
@@ -85,7 +85,7 @@ FRC:
 
 # Files listed in $(NSTD) have explicit make lines given below.
 
-# bc egrep expr
+# bc egrep
 %.c: %.y
 		$(YACC) $(YFLAGS) $<
 		-/bin/mv y.tab.c $@
@@ -108,10 +108,10 @@ install:	$(BINS)
 			install -m 2751 $$i $(DESTDIR)/bin/$$i; done
 
 clean:
-		/bin/rm -f $(BINS) expr.c a.out core *.s *.o *.dis *.elf *~ y.tab.c errs
+		/bin/rm -f $(BINS) a.out core *.s *.o *.dis *.elf *~ y.tab.c errs
 		for i in $(SUBDIR); do (cd $$i; $(MAKE) $(MFLAGS) clean); done
 
-depend:		expr.c
+depend:
 		for i in $(BINS); do \
 		    cc -M $(INCPATH) $$i.c | sed 's/\.o//' | \
 		    awk ' ( if ($$1 != prev) \

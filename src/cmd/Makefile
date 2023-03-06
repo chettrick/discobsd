@@ -16,8 +16,8 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   man med more nm passwd pdc picoc portio printf pwm \
                   ranlib re renice retroforth scm sed setty sl smallc \
                   smux uname wiznet xargs \
-                  zmodem gtest msec cron compress tip tclsh \
-                  talloc uucp yacc
+                  zmodem gtest msec compress tip tclsh \
+                  uucp yacc
 
 # /bin, mips-specific programs
 ifeq ($(MACHINE_ARCH), mips)
@@ -25,9 +25,8 @@ SUBDIR         += adb adc-demo smlrc
 endif
 
 # /sbin
-SUBDIR         += chroot disktool getty \
-                  mkpasswd pstat \
-                  update vipw virus
+SUBDIR         += getty \
+                  virus
 
 # TODO: ccom lex m4 yacc reloc sre pforth
 
@@ -58,7 +57,7 @@ OPERATOR	=
 
 # Programs that must run set-group-id kmem.
 #
-KMEM		= iostat vmstat
+KMEM		= vmstat
 
 # Programs that must run set-group-id tty.
 #

@@ -11,11 +11,11 @@ include $(TOPSRC)/target.mk
 # Programs that live in subdirectories, and have makefiles of their own.
 # /bin
 SUBDIR		= aout ar arch as awk basic calendar cc chflags \
-                  chpass cpp dc diff emg env fdisk find fold forth \
+                  chpass cpp dc diff emg env find fold forth \
                   fstat glcdtest id la lcc lcpp ld login make \
                   man med more nm passwd pdc picoc portio printf pwm \
                   ranlib re renice retroforth scm sed setty sl smallc \
-                  smux sysctl uname wiznet xargs \
+                  smux uname wiznet xargs \
                   zmodem gtest msec cron compress tip tclsh \
                   talloc uucp yacc
 
@@ -25,9 +25,9 @@ SUBDIR         += adb adc-demo smlrc
 endif
 
 # /sbin
-SUBDIR         += chown chroot disktool fsck getty init \
-                  mkfs mknod mkpasswd mount pstat \
-                  reboot shutdown umount update vipw virus
+SUBDIR         += chroot disktool getty \
+                  mkpasswd pstat \
+                  update vipw virus
 
 # TODO: ccom lex m4 yacc reloc sre pforth
 

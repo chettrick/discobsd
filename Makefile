@@ -48,11 +48,13 @@ all:		symlinks
 		$(MAKE) -C src
 		$(MAKE) -C bin
 		$(MAKE) -C sbin
+		$(MAKE) -C usr.sbin
 		$(MAKE) -C games
 		$(MAKE) -C share DESTDIR=${DESTDIR} install
 		$(MAKE) -C src DESTDIR=${DESTDIR} install
 		$(MAKE) -C bin DESTDIR=${DESTDIR} install
 		$(MAKE) -C sbin DESTDIR=${DESTDIR} install
+		$(MAKE) -C usr.sbin DESTDIR=${DESTDIR} install
 		$(MAKE) -C games DESTDIR=${DESTDIR} install
 		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
 		$(MAKE) fs
@@ -81,7 +83,7 @@ $(KCONFIG):
 clean:
 		rm -f *~
 		rm -f include/machine
-		for dir in tools share src bin sbin games; do $(MAKE) -C $$dir -k clean; done
+		for dir in tools share src bin sbin usr.sbin games; do $(MAKE) -C $$dir -k clean; done
 
 cleanfs:
 		rm -f distrib/$(MACHINE)/_manifest

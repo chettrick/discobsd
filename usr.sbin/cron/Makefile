@@ -45,7 +45,7 @@
 #
 #	there's more configuration info in config.h; edit that first!
 
-TOPSRC          = $(shell cd ../../..; pwd)
+TOPSRC          = $(shell cd ../..; pwd)
 include $(TOPSRC)/target.mk
 
 # XXX CFLAGS          += -Werror -I.

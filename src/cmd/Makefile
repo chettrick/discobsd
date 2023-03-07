@@ -17,18 +17,14 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   ranlib re renice retroforth scm sed setty sl smallc \
                   smux uname wiznet xargs \
                   zmodem gtest msec compress tip tclsh \
-                  uucp yacc
+                  uucp virus yacc
 
 # /bin, mips-specific programs
 ifeq ($(MACHINE_ARCH), mips)
 SUBDIR         += adb adc-demo smlrc
 endif
 
-# /sbin
-SUBDIR         += getty \
-                  virus
-
-# TODO: ccom lex m4 yacc reloc sre pforth
+# TODO: ccom lccom lex m4 pforth sre unixbench
 
 # Shell scripts that need only be installed and are never removed.
 #

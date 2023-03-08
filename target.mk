@@ -133,8 +133,8 @@ ifeq ($(MACHINE_ARCH), mips)
 
 CC		= $(GCCPREFIX)gcc -mips32r2 -EL -msoft-float -nostdinc -fshort-double -I$(TOPSRC)/include $(INCLUDES)
 OBJDUMP         = $(GCCPREFIX)objdump -mmips:isa32r2
-LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/src/elf32-mips.ld \
-		   $(TOPSRC)/src/crt0.o -L$(TOPSRC)/src
+LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/lib/elf32-mips.ld \
+		   $(TOPSRC)/lib/crt0.o -L$(TOPSRC)/lib
 # Enable mips16e instruction set by default
 CFLAGS		+= -mips16
 
@@ -143,8 +143,8 @@ ifeq ($(MACHINE_ARCH), arm)
 
 CC		= $(GCCPREFIX)gcc -mcpu=cortex-m4 -mabi=aapcs -mlittle-endian -mthumb -mfloat-abi=soft -nostdinc -I$(TOPSRC)/include $(INCLUDES)
 OBJDUMP         = $(GCCPREFIX)objdump -marm -M force-thumb
-LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/src/elf32-arm.ld \
-		   $(TOPSRC)/src/crt0.o -L$(TOPSRC)/src
+LDFLAGS		+= -N -nostartfiles -fno-dwarf2-cfi-asm -T$(TOPSRC)/lib/elf32-arm.ld \
+		   $(TOPSRC)/lib/crt0.o -L$(TOPSRC)/lib
 
 endif # MACHINE_ARCH == arm
 

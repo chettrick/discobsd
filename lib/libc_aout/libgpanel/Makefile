@@ -1,12 +1,12 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/src/libgpanel
+vpath %.c $(TOPSRC)/lib/libgpanel
 
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
 endif
 
 OBJS            = open.o clear.o pixel.o line.o rect.o fill.o fill_triangle.o \

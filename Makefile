@@ -45,7 +45,7 @@ all:		symlinks
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
 		$(MAKE) -C share
-		$(MAKE) -C src
+		$(MAKE) -C lib
 		$(MAKE) -C bin
 		$(MAKE) -C sbin
 		$(MAKE) -C libexec
@@ -53,7 +53,7 @@ all:		symlinks
 		$(MAKE) -C usr.sbin
 		$(MAKE) -C games
 		$(MAKE) -C share DESTDIR=${DESTDIR} install
-		$(MAKE) -C src DESTDIR=${DESTDIR} install
+		$(MAKE) -C lib DESTDIR=${DESTDIR} install
 		$(MAKE) -C bin DESTDIR=${DESTDIR} install
 		$(MAKE) -C sbin DESTDIR=${DESTDIR} install
 		$(MAKE) -C libexec DESTDIR=${DESTDIR} install
@@ -87,7 +87,7 @@ $(KCONFIG):
 clean:
 		rm -f *~
 		rm -f include/machine
-		for dir in tools share src bin sbin libexec usr.bin usr.sbin games; do \
+		for dir in tools share lib bin sbin libexec usr.bin usr.sbin games; do \
 			$(MAKE) -C $$dir -k clean; done
 
 cleanfs:

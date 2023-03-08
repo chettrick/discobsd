@@ -1,12 +1,12 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/src/libreadline
+vpath %.c $(TOPSRC)/lib/libreadline
 
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
 endif
 
 OBJS		= readline.o

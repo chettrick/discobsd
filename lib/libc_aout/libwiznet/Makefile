@@ -1,12 +1,12 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/src/libwiznet
+vpath %.c $(TOPSRC)/lib/libwiznet
 
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
 endif
 
 OBJS		= w5100.o socket.o ethernet.o client.o server.o udp.o

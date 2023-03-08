@@ -5,8 +5,8 @@ PROG		= ar as aout ld nm ranlib size strip
 # XXX Add back -Werror to CFLAGS
 CFLAGS          = -Os -std=gnu89 -fno-builtin -g -Wall -DCROSS -I. \
                    -idirafter $(TOPSRC)/include \
-                   -idirafter $(TOPSRC)/src/cmd/ar \
-                   -idirafter $(TOPSRC)/src/cmd/as
+                   -idirafter $(TOPSRC)/usr.bin/ar \
+                   -idirafter $(TOPSRC)/usr.bin/as
 LDFLAGS         += -g
 
 AR_OBJS         = ar.o append.o archive.o contents.o delete.o extract.o \
@@ -15,9 +15,9 @@ AOUT_OBJS       = aout.o mips-dis.o # XXX use MACHINE_ARCH
 RANLIB_OBJS     = ranlib.o archive.o
 HEADERS         = a.out.h ar.h nlist.h ranlib.h
 
-vpath %.c $(TOPSRC)/src/cmd/aout $(TOPSRC)/src/cmd/ar $(TOPSRC)/src/cmd/as \
-    $(TOPSRC)/src/cmd/ld $(TOPSRC)/src/cmd/nm $(TOPSRC)/src/cmd/ranlib \
-    $(TOPSRC)/src/cmd
+vpath %.c $(TOPSRC)/usr.bin/aout $(TOPSRC)/usr.bin/ar $(TOPSRC)/usr.bin/as \
+    $(TOPSRC)/usr.bin/ld $(TOPSRC)/usr.bin/nm $(TOPSRC)/usr.bin/ranlib \
+    $(TOPSRC)/usr.bin
 
 all install depend: $(HEADERS) $(SUBDIR) $(PROG)
 		-for i in $(SUBDIR); do $(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) $@; done

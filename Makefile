@@ -49,6 +49,7 @@ all:		symlinks
 		$(MAKE) -C bin
 		$(MAKE) -C sbin
 		$(MAKE) -C libexec
+		$(MAKE) -C usr.bin
 		$(MAKE) -C usr.sbin
 		$(MAKE) -C games
 		$(MAKE) -C share DESTDIR=${DESTDIR} install
@@ -56,6 +57,7 @@ all:		symlinks
 		$(MAKE) -C bin DESTDIR=${DESTDIR} install
 		$(MAKE) -C sbin DESTDIR=${DESTDIR} install
 		$(MAKE) -C libexec DESTDIR=${DESTDIR} install
+		$(MAKE) -C usr.bin DESTDIR=${DESTDIR} install
 		$(MAKE) -C usr.sbin DESTDIR=${DESTDIR} install
 		$(MAKE) -C games DESTDIR=${DESTDIR} install
 		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
@@ -85,7 +87,7 @@ $(KCONFIG):
 clean:
 		rm -f *~
 		rm -f include/machine
-		for dir in tools share src bin sbin libexec usr.sbin games; do \
+		for dir in tools share src bin sbin libexec usr.bin usr.sbin games; do \
 			$(MAKE) -C $$dir -k clean; done
 
 cleanfs:

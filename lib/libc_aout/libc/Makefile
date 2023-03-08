@@ -5,7 +5,7 @@ include $(TOPSRC)/target.mk
 .SUFFIXES:
 .SUFFIXES: .o .S .c
 
-LIBCDIR          = $(TOPSRC)/src/libc
+LIBCDIR          = $(TOPSRC)/lib/libc
 vpath %.S $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/$(MACHINE_ARCH)/string \
           $(LIBCDIR)/$(MACHINE_ARCH)/gen $(LIBCDIR)/runtime
 vpath %.c $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
@@ -16,8 +16,8 @@ CFLAGS		= -Os $(DEFS) -Wall -Werror
 ASFLAGS		= $(DEFS) -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
-ASFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/ \
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
+ASFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/ \
 		   -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl
 endif
 

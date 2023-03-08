@@ -1,12 +1,12 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/src/libtermlib
+vpath %.c $(TOPSRC)/lib/libtermlib
 
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
 endif
 
 OBJS		= termcap.o tgoto.o tputs.o tcattr.o

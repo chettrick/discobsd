@@ -1,12 +1,12 @@
 TOPSRC		= $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/src/libcurses
+vpath %.c $(TOPSRC)/lib/libcurses
 
 CFLAGS		= -Os $(DEFS) -Wall -Werror
 
 ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/src/libc_aout/
+CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
 endif
 
 OBJS		= addch.o addstr.o box.o clear.o clrtobot.o clrtoeol.o cr_put.o \

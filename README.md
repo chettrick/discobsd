@@ -8,8 +8,8 @@ DiscoBSD is a 2.11BSD-based UNIX-like operating system for microcontrollers,
 with a focus on high portability to memory constrained devices without a
 memory management unit.
 
-This microcontroller-focused operating system is the continuation of RetroBSD,
-a 2.11BSD-based OS targeting only the MIPS-based PIC32MX7.
+This microcontroller-focused operating system is an independent continuation
+of RetroBSD, a 2.11BSD-based OS targeting the MIPS-based PIC32MX7.
 DiscoBSD is multi-platform, as it also supports Arm Cortex-M4 STM32F4 devices.
 
 Source code to the system is freely available under a BSD-like license.
@@ -79,6 +79,9 @@ Building
 
 DiscoBSD is cross-built on UNIX-like host operating systems.
 
+Instructions to configure an OpenBSD host development environment for
+Arm and MIPS targets is available [here][5].
+
 From the source tree root, run:
 
     $ gmake
@@ -92,6 +95,8 @@ DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 
 which will build a file system image in the file `distrib/pic32/sdcard.img`
 and kernels in the files `sys/pic32/${BOARD}/unix.hex`.
+
+[5]: tools/openbsd/README.md
 
 Debugging
 ---------
@@ -113,10 +118,10 @@ Additional Information
 ----------------------
 
 Port-specific information can be found in `distrib/${MACHINE}/README.md`
-for [stm32][5] and [pic32][6].
+for [stm32][6] and [pic32][7].
 
-[5]: distrib/stm32/README.md
-[6]: distrib/pic32/README.md
+[6]: distrib/stm32/README.md
+[7]: distrib/pic32/README.md
 
 DiscoBSD/stm32 dmesg
 --------------------

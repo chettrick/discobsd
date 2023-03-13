@@ -14,9 +14,9 @@ dir /bin
 dir /dev
 dir /etc
 dir /lib
-dir /libexec
 dir /sbin
 dir /tmp
+dir /usr
 dir /home
 
 #

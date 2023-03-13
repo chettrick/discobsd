@@ -14,9 +14,9 @@ dir /bin
 dir /dev
 dir /etc
 dir /lib
-dir /libexec
 dir /sbin
 dir /tmp
+dir /usr
 dir /home
 
 #
@@ -920,15 +920,16 @@ file /lib/libwiznet.a
 file /lib/retroImage
 
 #
-# Files: /libexec
+# Files: /usr/libexec
 #
 default
 filemode 0775
-file /libexec/bigram
-file /libexec/code
-file /libexec/diffh
-file /libexec/getty
-file /libexec/smallc
+dir /usr/libexec
+file /usr/libexec/bigram
+file /usr/libexec/code
+file /usr/libexec/diffh
+file /usr/libexec/getty
+file /usr/libexec/smallc
 
 #
 # Files: /share

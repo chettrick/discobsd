@@ -38,7 +38,7 @@ char *cpp[] = {
 0 };
 
 char *com[] = {
-        "/libexec/lccom", "-target=mips/eb", "$1", "$2", "$3", "",
+        "/usr/libexec/lccom", "-target=mips/eb", "$1", "$2", "$3", "",
 0 };
 
 char *include[] = {

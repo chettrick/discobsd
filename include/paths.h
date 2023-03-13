@@ -38,7 +38,7 @@
 #define _PATH_SHADOW    "/etc/shadow"
 #define _PATH_TERMCAP   "/etc/termcap"
 #define _PATH_USRLIB    "/lib/"
-#define _PATH_CTIMED    "/libexec/ctimed"
+#define _PATH_CTIMED    "/usr/libexec/ctimed"
 #define _PATH_LOCALLIB  "/local/lib/"
 #define _PATH_SBIN      "/sbin/"
 #define _PATH_USRSBIN   "/sbin/"

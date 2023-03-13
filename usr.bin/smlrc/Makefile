@@ -26,7 +26,7 @@ smlrc:          $(OBJS)
 		${ELF2AOUT} $@.elf $@
 
 install:        smlrc
-		install smlrc ${DESTDIR}/libexec/
+		install smlrc ${DESTDIR}/usr/libexec/
 
 
 clean:

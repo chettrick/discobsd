@@ -31,7 +31,7 @@ clean:
                     $Tstruct $Tswitch $Twf1 $Tyacc
 
 install:        all
-		install lccom $(DESTDIR)/libexec/
+		install lccom $(DESTDIR)/usr/libexec/
 
 build:
 		mkdir -p $(BUILDDIR)

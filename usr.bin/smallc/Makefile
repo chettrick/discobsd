@@ -19,7 +19,7 @@ smallc: 	$(OBJS)
 		${ELF2AOUT} $@.elf $@
 
 install:        smallc
-		install smallc ${DESTDIR}/libexec/
+		install smallc ${DESTDIR}/usr/libexec/
 
 clean:
 		rm -f *.o smallc smallc.dis smallc.elf

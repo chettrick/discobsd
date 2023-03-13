@@ -26,7 +26,7 @@ static char *bindirs[] = {
     "/bin",
     "/sbin",
     "/games",
-    "/libexec",
+    "/usr/libexec",
     "/local",
     "/local/bin",
     "/new",

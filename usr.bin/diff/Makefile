@@ -7,7 +7,7 @@ SRCS		= diff.c diffdir.c diffreg.c
 OBJS		= diff.o diffdir.o diffreg.o
 
 DIFF            = /bin/diff
-DIFFH           = /libexec/diffh
+DIFFH           = /usr/libexec/diffh
 PR              = /bin/pr
 CFLAGS          += -DDIFF='"${DIFF}"' -DDIFFH='"${DIFFH}"' -DPR='"${PR}"'
 
@@ -30,4 +30,4 @@ clean:
 
 install:        all
 		install diff ${DESTDIR}/bin/diff
-		install diffh ${DESTDIR}/libexec/diffh
+		install diffh ${DESTDIR}/usr/libexec/diffh

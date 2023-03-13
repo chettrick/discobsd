@@ -34,7 +34,7 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} ccom *.elf *.dis a.out *~ scan.c cgram.[ch] mkext
 
 install:        all
-		install ccom $(DESTDIR)/libexec/
+		install ccom $(DESTDIR)/usr/libexec/
 		cp ccom.0 $(DESTDIR)/share/man/cat1/
 
 local.o: $(ARCHDIR)/local.c external.h

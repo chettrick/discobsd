@@ -30,8 +30,8 @@ clean:
 
 install:        all
 		install find ${DESTDIR}/bin/find
-		install bigram ${DESTDIR}/libexec/bigram
-		install code ${DESTDIR}/libexec/code
+		install bigram ${DESTDIR}/usr/libexec/bigram
+		install code ${DESTDIR}/usr/libexec/code
 		install updatedb.sh ${DESTDIR}/sbin/updatedb
 
 depend:

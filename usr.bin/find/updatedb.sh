@@ -3,7 +3,7 @@
 #	@(#)updatedb.csh	4.6.1	(2.11BSD)	1996/10/23
 #
 SRCHPATHS="/"			# directories to be put in the database
-LIBDIR=/libexec			# for subprograms
+LIBDIR=/usr/libexec		# for subprograms
 FINDHONCHO=root			# for error messages
 FCODES=/var/db/find.codes	# the database
 

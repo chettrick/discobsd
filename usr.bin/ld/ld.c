@@ -721,7 +721,7 @@ int getfile (cp)
 {
 	int c;
 	struct stat x;
-        static char libname [] = "/lib/libxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        static char libname [] = "/usr/lib/libxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
         char magic [SARMAG];
 
 	text = 0;
@@ -731,10 +731,10 @@ int getfile (cp)
                         cp = "-la";
                 filname = libname;
 		for (c = 0; cp [c+2]; c++)
-                        filname [c + 8] = cp [c+2];
-		filname [c + 8] = '.';
-		filname [c + 8 + 1] = 'a';
-		filname [c + 8 + 2] = '\0';
+                        filname [c + 12] = cp [c+2];
+		filname [c + 12] = '.';
+		filname [c + 12 + 1] = 'a';
+		filname [c + 12 + 2] = '\0';
 	}
 	text = fopen (filname, "r");
 	if (! text)

@@ -13,7 +13,6 @@ filemode 0664
 dir /bin
 dir /dev
 dir /etc
-dir /lib
 dir /sbin
 dir /tmp
 dir /usr
@@ -907,17 +906,18 @@ symlink /include/syslog.h
 target sys/syslog.h
 
 #
-# Files: /lib
+# Files: /usr/lib
 #
-file /lib/crt0.o
-file /lib/libc.a
-file /lib/libm.a
-file /lib/libcurses.a
-file /lib/libgpanel.a
-file /lib/libreadline.a
-file /lib/libtermlib.a
-file /lib/libwiznet.a
-file /lib/retroImage
+dir /usr/lib
+file /usr/lib/crt0.o
+file /usr/lib/libc.a
+file /usr/lib/libm.a
+file /usr/lib/libcurses.a
+file /usr/lib/libgpanel.a
+file /usr/lib/libreadline.a
+file /usr/lib/libtermlib.a
+file /usr/lib/libwiznet.a
+file /usr/lib/retroImage
 
 #
 # Files: /usr/libexec

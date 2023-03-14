@@ -45,9 +45,9 @@ ${ALL}:		FRC
 FRC:
 
 install:	../libc.a
-#		${INSTALLDIR} ${DESTDIR}/lib
-#		${INSTALL} ../libc.a ${DESTDIR}/lib/libc.a
-#		$(RANLIB) ${DESTDIR}/lib/libc.a
+#		${INSTALLDIR} ${DESTDIR}/usr/lib
+#		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
+#		$(RANLIB) ${DESTDIR}/usr/lib/libc.a
 
 clean:
 		for i in ${ALL}; \

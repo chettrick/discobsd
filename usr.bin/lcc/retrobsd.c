@@ -3,10 +3,10 @@
 #include <string.h>
 
 #ifndef LCCDIR
-#define LCCDIR "/lib/lcc/"
+#define LCCDIR "/usr/lib/lcc/"
 #endif
 #ifndef LIBDIR
-#define LIBDIR "/lib/"
+#define LIBDIR "/usr/lib/"
 #endif
 
 char *suffixes[] = { ".c", ".i", ".s", ".o", ".out", 0 };

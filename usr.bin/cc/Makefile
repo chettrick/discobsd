@@ -7,10 +7,10 @@ OBJS            = cc.o
 CFLAGS          += -Werror -Wall
 CFLAGS          += -DVERSSTR=\"1.0\" \
                    -DSTDINC=\"/include\" \
-                   -DLIBDIR=\"/lib\" \
+                   -DLIBDIR=\"/usr/lib\" \
                    -DLIBEXECDIR=\"/usr/libexec\" \
-                   -DCRT0FILE=\"/lib/crt0.o\" \
-                   -DCRT0FILE_PROFILE=\"/lib/mcrt0.o\"
+                   -DCRT0FILE=\"/usr/lib/crt0.o\" \
+                   -DCRT0FILE_PROFILE=\"/usr/lib/mcrt0.o\"
 
 all:            cc
 

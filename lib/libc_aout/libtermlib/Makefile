@@ -18,8 +18,8 @@ all:            ../libtermlib.a
 		../ranlib $@
 
 install:	../libtermlib.a
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../libtermlib.a ${DESTDIR}/lib/libtermlib.a
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../libtermlib.a ${DESTDIR}/usr/lib/libtermlib.a
 
 clean:
 		rm -f *~ *.o a.out *.a

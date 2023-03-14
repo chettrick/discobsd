@@ -49,7 +49,7 @@
 #define MAX_FILE_NAME      1024
 #define MAX_REQUEST_LENGTH 1024
 #define MAX_OPEN_FILES        8
-#define LOCAL                 "/lib/retroImage"
+#define LOCAL                 "/usr/lib/retroImage"
 #define CELLSIZE             32
 
 #ifdef RX64

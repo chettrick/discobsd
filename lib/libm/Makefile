@@ -14,9 +14,9 @@ all:            ../libm.a
 		$(RANLIB) $@
 
 install:	all
-#		${INSTALLDIR} ${DESTDIR}/lib
-#		${INSTALL} ../libm.a ${DESTDIR}/lib/libm.a
-#		$(RANLIB) ${DESTDIR}/lib/libm.a
+#		${INSTALLDIR} ${DESTDIR}/usr/lib
+#		${INSTALL} ../libm.a ${DESTDIR}/usr/lib/libm.a
+#		$(RANLIB) ${DESTDIR}/usr/lib/libm.a
 
 clean:
 		rm -f ../libm.a *.o *~ tags

@@ -18,8 +18,8 @@ all:            ../libwiznet.a
 		../ranlib $@
 
 install:	../libwiznet.a
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../libwiznet.a ${DESTDIR}/lib/libwiznet.a
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../libwiznet.a ${DESTDIR}/usr/lib/libwiznet.a
 
 clean:
 		rm -f *~ *.o a.out *.a

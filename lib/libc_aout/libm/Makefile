@@ -19,8 +19,8 @@ all:            ../libm.a
 		../ranlib $@
 
 install:	../libm.a
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../libm.a ${DESTDIR}/lib/libm.a
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../libm.a ${DESTDIR}/usr/lib/libm.a
 
 clean:
 		rm -f *~ *.o a.out *.a

@@ -32,7 +32,7 @@ cleandir:       clean
 		rm -f .depend
 
 install:        all
-#		cp ../libgcc.a ${DESTDIR}/lib/
-#		$(RANLIB) -t ${DESTDIR}/lib/libgcc.a
-#		cp libgcc_p.a ${DESTDIR}/lib/
-#		$(RANLIB) -t ${DESTDIR}/lib/libgcc_p.a
+#		cp ../libgcc.a ${DESTDIR}/usr/lib/
+#		$(RANLIB) -t ${DESTDIR}/usr/lib/libgcc.a
+#		cp libgcc_p.a ${DESTDIR}/usr/lib/
+#		$(RANLIB) -t ${DESTDIR}/usr/lib/libgcc_p.a

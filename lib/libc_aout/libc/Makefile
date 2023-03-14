@@ -118,8 +118,8 @@ $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 		@printf '#include "SYS.h"\nSYS($*)\n' | $(AS) $(ASFLAGS) - -c -o $*.o
 
 install:	../libc.a
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../libc.a ${DESTDIR}/lib/libc.a
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
 
 clean:
 		rm -f *~ *.o a.out *.a

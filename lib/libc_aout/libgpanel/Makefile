@@ -19,8 +19,8 @@ all:            ../libgpanel.a
 		../ranlib $@
 
 install:	../libgpanel.a
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../libgpanel.a ${DESTDIR}/lib/libgpanel.a
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../libgpanel.a ${DESTDIR}/usr/lib/libgpanel.a
 
 clean:
 		rm -f *~ *.o a.out *.a

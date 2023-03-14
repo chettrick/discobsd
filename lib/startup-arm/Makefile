@@ -19,9 +19,9 @@ all:		${OBJS}
 		cp crt0.o ../
 
 install:	${OBJS}
-#		$(INSTALLDIR) ${DESTDIR}/lib
-#		$(INSTALL) crt0.o ${DESTDIR}/lib/crt0.o
-#		$(INSTALL) mcrt0.o ${DESTDIR}/lib/mcrt0.o
+#		$(INSTALLDIR) ${DESTDIR}/usr/lib
+#		$(INSTALL) crt0.o ${DESTDIR}/usr/lib/crt0.o
+#		$(INSTALL) mcrt0.o ${DESTDIR}/usr/lib/mcrt0.o
 #		$(INSTALL) gcrt0.o ${DESTDIR}/usr/lib/gcrt0.o
 
 crt0.o:		crt0.c

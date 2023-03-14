@@ -18,8 +18,8 @@ all:            ../libreadline.a
 		../ranlib $@
 
 install:	../libreadline.a
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../libreadline.a ${DESTDIR}/lib/libreadline.a
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../libreadline.a ${DESTDIR}/usr/lib/libreadline.a
 
 clean:
 		rm -f *~ *.o a.out *.a

@@ -24,8 +24,8 @@ all:		$(OBJS)
 		$(CC) $(DEFS) $(CFLAGS) -c $< -o $@
 
 install:	../crt0.o
-		${INSTALLDIR} ${DESTDIR}/lib
-		${INSTALL} ../crt0.o ${DESTDIR}/lib/crt0.o
+		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} ../crt0.o ${DESTDIR}/usr/lib/crt0.o
 
 clean:
 		rm -f $(OBJS) *~

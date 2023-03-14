@@ -13,7 +13,6 @@ filemode 0664
 dir /bin
 dir /dev
 dir /etc
-dir /lib
 dir /sbin
 dir /tmp
 dir /usr

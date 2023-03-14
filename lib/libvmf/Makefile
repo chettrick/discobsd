@@ -35,10 +35,10 @@ $(MAN):         $(MANSRC)
 
 install: 	all
 		cp $(MAN) $(DESTDIR)/share/man/cat3/
-#		cp ../libvmf.a ${DESTDIR}/lib/libvmf.a
-#		$(RANLIB) ${DESTDIR}/lib/libvmf.a
-#		cp ../libvmf_p.a ${DESTDIR}/lib/libvmf_p.a
-#		$(RANLIB) ${DESTDIR}/lib/libvmf_p.a
+#		cp ../libvmf.a ${DESTDIR}/usr/lib/libvmf.a
+#		$(RANLIB) ${DESTDIR}/usr/lib/libvmf.a
+#		cp ../libvmf_p.a ${DESTDIR}/usr/lib/libvmf_p.a
+#		$(RANLIB) ${DESTDIR}/usr/lib/libvmf_p.a
 
 clean:
 	rm -f *.o profiled/*.o a.out core test errs ../libvmf*.a vmf.0

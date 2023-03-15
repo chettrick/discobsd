@@ -42,8 +42,8 @@ char *com[] = {
 0 };
 
 char *include[] = {
-        "-I/include",
-	"-I/include/lcc",
+	"-I/usr/include",
+	"-I/usr/include/lcc",
 0 };
 
 char *as[] = {

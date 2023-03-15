@@ -6,7 +6,7 @@ OBJS            = env.o
 
 CFLAGS		+= -Werror -Wall -DGCC_COMPAT
 CFLAGS          += -DVERSSTR=\"1.0\" \
-                   -DSTDINC=\"/include\" \
+                   -DSTDINC=\"/usr/include\" \
                    -DLIBDIR=\"/usr/lib\" \
                    -DLIBEXECDIR=\"/usr/libexec\"
                    -DCRT0FILE=\"/usr/lib/crt0.o\" \

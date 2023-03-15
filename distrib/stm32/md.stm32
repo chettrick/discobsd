@@ -19,25 +19,25 @@ dir /usr
 dir /home
 
 #
-# Files: /include
+# Files: /usr/include
 #
 default
 filemode 0664
-dir /include
-dir /include/machine
-file /include/machine/cpu.h
-file /include/machine/debug.h
-file /include/machine/elf_machdep.h
-file /include/machine/float.h
-file /include/machine/frame.h
-file /include/machine/io.h
-file /include/machine/intr.h
-file /include/machine/limits.h
-file /include/machine/machparam.h
-file /include/machine/sd.h
-file /include/machine/sdio.h
-file /include/machine/sdio_card.h
-file /include/machine/setjmp.h
-file /include/machine/signal.h
-file /include/machine/types.h
-file /include/machine/uart.h
+dir /usr/include
+dir /usr/include/machine
+file /usr/include/machine/cpu.h
+file /usr/include/machine/debug.h
+file /usr/include/machine/elf_machdep.h
+file /usr/include/machine/float.h
+file /usr/include/machine/frame.h
+file /usr/include/machine/io.h
+file /usr/include/machine/intr.h
+file /usr/include/machine/limits.h
+file /usr/include/machine/machparam.h
+file /usr/include/machine/sd.h
+file /usr/include/machine/sdio.h
+file /usr/include/machine/sdio_card.h
+file /usr/include/machine/setjmp.h
+file /usr/include/machine/signal.h
+file /usr/include/machine/types.h
+file /usr/include/machine/uart.h

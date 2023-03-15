@@ -13,8 +13,8 @@ all:            ../libreadline.a
 		$(RANLIB) $@
 
 install: 	all ${HDRS}
-		install -d $(DESTDIR)/include/readline/
-		cp -p ${HDRS} ${DESTDIR}/include/readline/
+		install -d ${DESTDIR}/usr/include/readline/
+		cp -p ${HDRS} ${DESTDIR}/usr/include/readline/
 
 clean:
 		rm -f *~ *.o a.out ../libreadline*.a

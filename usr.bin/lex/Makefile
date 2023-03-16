@@ -21,11 +21,11 @@ header.o: header.c ldefs.c
 	cc -c -O header.c
 
 install: all
-	-mkdir -p ${DESTDIR}/share/lex
-	chmod 755 ${DESTDIR}/share/lex
+	-mkdir -p ${DESTDIR}/usr/share/lex
+	chmod 755 ${DESTDIR}/usr/share/lex
 	install -s -m 755 lex $(DESTDIR)/bin
-	install -c -m 444 ncform $(DESTDIR)/share/lex
-	install -c -m 444 nrform $(DESTDIR)/share/lex
+	install -c -m 444 ncform ${DESTDIR}/usr/share/lex
+	install -c -m 444 nrform ${DESTDIR}/usr/share/lex
 
 clean:
 	rm -f *.o lex y.tab.c

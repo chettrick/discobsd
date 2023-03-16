@@ -46,7 +46,7 @@ depend:         ${SRCS}
 
 install:        ${MAN} passwd
 		install -m 4755 passwd ${DESTDIR}/bin/passwd
-		cp ${MAN} ${DESTDIR}/share/man/cat1/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}
 		lint ${CFLAGS} ${SRCS}

@@ -38,7 +38,7 @@ clean:
 
 install:        all
 		install monop $(DESTDIR)/games/
-		cp $(MAN) $(DESTDIR)/share/man/cat6/
+		cp $(MAN) $(DESTDIR)/usr/share/man/cat6/
 		cp cards.pck $(DESTDIR)/games/lib/
 ###
 cards.o: cards.c extern.h monop.h deck.h

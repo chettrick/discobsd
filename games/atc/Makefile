@@ -39,4 +39,4 @@ install:        all
 		install atc $(DESTDIR)/games/
 		mkdir -p ${DESTDIR}/games/lib/atc
 		cp -p games/* ${DESTDIR}/games/lib/atc
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

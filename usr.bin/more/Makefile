@@ -24,5 +24,5 @@ clean:
 
 install:        all more.help
 		install more ${DESTDIR}/bin/more
-		@-rm -f ${DESTDIR}/share/misc/more.help
-		cp more.help ${DESTDIR}/share/misc/more.help
+		@-rm -f ${DESTDIR}/usr/share/misc/more.help
+		cp more.help ${DESTDIR}/usr/share/misc/more.help

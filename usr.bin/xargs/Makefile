@@ -30,7 +30,7 @@ depend:         ${SRCS}
 
 install:        all
 		install xargs ${DESTDIR}/bin/
-		cp xargs.0 ${DESTDIR}/share/man/cat1/
+		cp xargs.0 ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

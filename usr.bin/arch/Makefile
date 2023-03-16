@@ -25,4 +25,4 @@ clean:
 install:	all
 		install ${PROG} ${DESTDIR}/bin/
 		install ${PROG} ${DESTDIR}/bin/machine
-		cp ${MAN} ${DESTDIR}/share/man/cat1/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

@@ -19,7 +19,7 @@
 TOPSRC = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-MDIR=	/share/man/cat1
+MDIR=	/usr/share/man/cat1
 SRCS=	adb.1 addbib.1 apply.1 apropos.1 as.1 at.1 atq.1 atrm.1 \
 	awk.1 basename.1 bc.1 biff.1 binmail.1 cal.1 calendar.1 cat.1 \
 	cb.1 cc.1 cd.1 checknr.1 chgrp.1 chmod.1 clear.1 cmp.1 col.1 \

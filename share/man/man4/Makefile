@@ -19,7 +19,7 @@
 TOPSRC = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-MDIR=	${DESTDIR}/share/man/cat4
+MDIR=	${DESTDIR}/usr/share/man/cat4
 SRCS=	acc.4 arp.4 bk.4 br.4 cons.4 css.4 de.4 dh.4 dhu.4 dhv.4 \
 	dmc.4 dr.4 dz.4  \
 	ec.4 en.4 fd.4 hk.4 ht.4 hy.4 icmp.4 idp.4 il.4 imp.4 impconf.4 inet.4 \

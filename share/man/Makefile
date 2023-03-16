@@ -30,7 +30,7 @@ all:
 
 whatis.db:
 	cp /dev/null whatis_tmp
-	for dirext in ${DESTDIR}/share/man/cat* ; do \
+	for dirext in ${DESTDIR}/usr/share/man/cat* ; do \
 	echo $$dirext; \
 	for file in `find $$dirext -type f -name '*.0' -print`; do \
 		sed -n -f makewhatis.sed $$file; \
@@ -44,10 +44,10 @@ install: FRC
 		${MAKE} -C $$i install; \
 	done
 	${MAKE} whatis.db
-	cp whatis.db ${DESTDIR}/share/man/whatis
-	cp man.template ${DESTDIR}/share/man/man.template
-#	cp makewhatis.sed ${DESTDIR}/share/man/makewhatis.sed
-#	install -c -m 755 manroff ${DESTDIR}/share/man/manroff
+	cp whatis.db ${DESTDIR}/usr/share/man/whatis
+	cp man.template ${DESTDIR}/usr/share/man/man.template
+#	cp makewhatis.sed ${DESTDIR}/usr/share/man/makewhatis.sed
+#	install -c -m 755 manroff ${DESTDIR}/usr/share/man/manroff
 
 clean: FRC
 	for i in ${DIRS}; do \

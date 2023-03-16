@@ -28,7 +28,7 @@ clean:
 
 install:        all
 		install cpp $(DESTDIR)/bin/
-		cp cpp.0 $(DESTDIR)/share/man/cat1/
+		cp cpp.0 ${DESTDIR}/usr/share/man/cat1/
 
 cpp.o:          cpp.c cpp.h y.tab.h config.h
 

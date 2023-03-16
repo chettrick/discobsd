@@ -21,10 +21,10 @@ wishing to sharpen their skills at Boggle.
 If you invoke the program with 4 arguments of 4 letters each,
 (e.g. "boggle appl epie moth erhd")
 the program forms the obvious Boggle grid and lists all the
-words from /usr/dict/words found therein.
+words from /usr/share/dict/words found therein.
 If you invoke the program without arguments, it will generate
 a board for you, let you enter words for 3 minutes, and then
-tell you how well you did relative to /usr/dict/words.
+tell you how well you did relative to /usr/share/dict/words.
 .ti +5
 In interactive play, enter your words separated by spaces, tabs, or newlines.
 A bell will ring when there is 2:00, 1:00, 0:10, 0:02, 0:01, and 0:00 time

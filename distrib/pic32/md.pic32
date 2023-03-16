@@ -69,14 +69,14 @@ dir /usr/libexec
 file /usr/libexec/smlrc
 
 #
-# Files: /share/man
+# Files: /usr/share/man
 #
 default
 dirmode 0775
-dir /share/man
-dir /share/man/cat1
+dir /usr/share/man
+dir /usr/share/man/cat1
 
 #
 # Single pages
 #
-file /share/man/cat1/adb.0
+file /usr/share/man/cat1/adb.0

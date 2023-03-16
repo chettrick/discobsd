@@ -44,8 +44,8 @@
 #define _PATH_USRSBIN   "/sbin/"
 #define _PATH_MKPASSWD  "/sbin/mkpasswd"
 #define _PATH_SENDMAIL  "/sbin/sendmail"
-#define _PATH_SHARE     "/share/"
-#define _PATH_ZONEINFO  "/share/zoneinfo"   /* Time zone object file directory */
+#define _PATH_SHARE     "/usr/share/"
+#define _PATH_ZONEINFO  "/usr/share/zoneinfo"   /* Time zone object file directory */
 #define _PATH_TMP       "/tmp/"
 #define _PATH_USRTMP    "/tmp/"
 #define _PATH_LASTLOG   "/var/log/lastlog"
@@ -60,7 +60,7 @@
 
 #define _PATH_STDPATH   "/bin"
 #define _PATH_SYSPATH   "/bin:/sbin:/local"
-#define _PATH_MAN       "/share/man:/local/man"
+#define _PATH_MAN       "/usr/share/man"
 #define _PATH_LOCALMAN  "/local/man"
 
 #define _PATH_HUSHLOGIN ".hushlogin"

@@ -30,7 +30,7 @@ chroot:         ${OBJS}
 		${SIZE} chroot.elf
 		${ELF2AOUT} chroot.elf $@ && rm chroot.elf
 
-chroot.0:       ${MANSRC}
+${MAN}:         ${MANSRC}
 		${MANROFF} ${MANSRC} > ${MAN}
 
 clean:
@@ -44,7 +44,7 @@ depend:         ${SRCS}
 
 install:        all
 		install -m 4751 chroot ${DESTDIR}/sbin
-		cp ${MAN} ${DESTDIR}/share/man/cat8/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 
 lint:           ${SRCS}
 		lint ${CFLAGS} ${SRCS}

@@ -50,7 +50,7 @@ clean:
 
 install:        warp $(PRIVATE)
 		install warp $(DESTDIR)/games/
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 		mkdir -p $(PRIVLIB)
 		cp $(PRIVATE) $(PRIVLIB)
 		cp /dev/null $(PRIVLIB)/save.blurfl

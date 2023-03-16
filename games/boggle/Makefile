@@ -23,7 +23,7 @@ boggle:         ${OBJS}
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
 bogdict:        comp sfile
-		sed -f sfile $(TOPSRC)/share/dict/words | uniq | ./comp > bogdict
+		sed -f sfile ${TOPSRC}/share/dict/words | uniq | ./comp > bogdict
 
 comp:           comp.c
 		cc -O comp.c -o comp
@@ -37,4 +37,4 @@ clean:
 install:
 		install boggle $(DESTDIR)/games/
 		install -m 644 bogdict $(DESTDIR)/games/lib/bogdict
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

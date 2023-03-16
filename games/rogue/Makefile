@@ -58,6 +58,6 @@ clean:
 
 install:        all
 		install rogue $(DESTDIR)/games/
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 
 #$(OBJS):        rogue.h

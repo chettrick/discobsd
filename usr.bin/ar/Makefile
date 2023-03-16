@@ -30,5 +30,5 @@ clean:
 
 install:        all
 		install ar $(DESTDIR)/bin/
-		cp ar.1.0 $(DESTDIR)/share/man/cat1/ar.0
-		cp ar.5.0 $(DESTDIR)/share/man/cat5/ar.0
+		cp ar.1.0 ${DESTDIR}/usr/share/man/cat1/ar.0
+		cp ar.5.0 ${DESTDIR}/usr/share/man/cat5/ar.0

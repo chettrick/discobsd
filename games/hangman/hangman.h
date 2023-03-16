@@ -10,7 +10,7 @@
 #ifdef CROSS
 #   define DICT	"/usr/local/share/dict/words"
 #else
-#   define DICT	"/share/dict/words"
+#   define DICT	"/usr/share/dict/words"
 #endif
 
 #define MESGY	12

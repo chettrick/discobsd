@@ -36,4 +36,4 @@ clean:
 
 install:        all
 		install lcc $(DESTDIR)/bin/
-		cp lcc.0 $(DESTDIR)/share/man/cat1/
+		cp lcc.0 ${DESTDIR}/usr/share/man/cat1/

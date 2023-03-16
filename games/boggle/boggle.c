@@ -175,10 +175,10 @@ void printinst ()
         printf("     This program is intended  for  people  wishing  to  sharpen  their\n");
         printf("skills  at  Boggle.   If  you  invoke the program with 4 arguments of 4\n");
         printf("letters each, (e.g. \"boggle appl epie moth erhd\") the program forms the\n");
-        printf("obvious  Boggle grid and lists all the words from /share/dict/words found\n");
-        printf("therein.  If you invoke the program without arguments, it will generate\n");
-        printf("a  board  for you, let you enter words for 3 minutes, and then tell you\n");
-        printf("how well you did relative to /share/dict/words.\n");
+        printf("obvious  Boggle grid and lists all the words from /usr/share/dict/words\n");
+        printf("found therein.  If  you  invoke  the program without arguments, it will\n");
+        printf("generate a  board  for you, let you enter words for 3 minutes, and then\n");
+        printf("tell you how well you did relative to /usr/share/dict/words.\n");
         printf("     In interactive play, enter your words separated by  spaces,  tabs,\n");
         printf("or  newlines.   A  bell will ring when there is 2:00, 1:00, 0:10, 0:02,\n");
         printf("0:01, and 0:00 time left.  You may complete any word started before the\n");
@@ -186,7 +186,7 @@ void printinst ()
         printf("'break'.  While entering words, your erase character is only  effective\n");
         printf("within the current word and your line kill character is ignored.\n");
         printf("     Advanced players may wish to invoke the program with 1 or 2 +'s as\n");
-        printf("the  first argument.  The first + removes the restriction that positions\n");
+        printf("the first argument.  The first + removes the restriction that positions\n");
         printf("can only be used once in each word.  The second + causes a position  to\n");
         printf("be  considered  adjacent  to itself as well as its (up to) 8 neighbors.\n");
         printf("Hit any key to begin.\n");

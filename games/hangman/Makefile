@@ -25,4 +25,4 @@ clean:
 
 install:        all
 		install hangman $(DESTDIR)/games/
-		install -m 644 $(MAN) $(DESTDIR)/share/man/cat6/
+		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/

@@ -45,8 +45,8 @@ install:        $(STD) $(NSTD)
 		-for i in $(STD) $(NSTD); do \
 			install $$i $(DESTDIR)/games/$$i; done
 		-for i in *.6; do \
-			${MANROFF} $$i > $(DESTDIR)/share/man/cat6/`basename $$i .6`.0; done
-		ln -f $(DESTDIR)/share/man/cat6/canfield.0 $(DESTDIR)/share/man/cat6/cfscores.0
+			${MANROFF} $$i > ${DESTDIR}/usr/share/man/cat6/`basename $$i .6`.0; done
+		ln -f ${DESTDIR}/usr/share/man/cat6/canfield.0 ${DESTDIR}/usr/share/man/cat6/cfscores.0
 		cat < /dev/null > $(DESTDIR)/games/lib/cfscores
 		chmod 666 $(DESTDIR)/games/lib/cfscores
 

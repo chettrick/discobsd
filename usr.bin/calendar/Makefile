@@ -26,9 +26,9 @@ depend:         ${SRCS}
 
 install:        all
 		install calendar ${DESTDIR}/bin/calendar
-		cp ${MAN} ${DESTDIR}/share/man/cat1/
-		@mkdir -p ${DESTDIR}/share/calendar
-		install calendars/calendar.* ${DESTDIR}/share/calendar/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
+		@mkdir -p ${DESTDIR}/usr/share/calendar
+		install calendars/calendar.* ${DESTDIR}/usr/share/calendar/
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

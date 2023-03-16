@@ -29,7 +29,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        pstat
-		cp ${MAN} ${DESTDIR}/share/man/cat8/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 		install -m 2755 pstat ${DESTDIR}/sbin/pstat
 
 lint:           ${SRCS}

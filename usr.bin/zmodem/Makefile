@@ -39,17 +39,17 @@ clean:
 install:        all
 		install rz $(DESTDIR)/bin/
 		install sz $(DESTDIR)/bin/
-		cp rz.0 $(DESTDIR)/share/man/cat1/
-		cp sz.0 $(DESTDIR)/share/man/cat1/
+		cp rz.0 $(DESTDIR)/usr/share/man/cat1/
+		cp sz.0 $(DESTDIR)/usr/share/man/cat1/
 		@rm -f $(DESTDIR)/bin/sb $(DESTDIR)/bin/sx
 		ln $(DESTDIR)/bin/sz $(DESTDIR)/bin/sb
 		ln $(DESTDIR)/bin/sz $(DESTDIR)/bin/sx
 		@rm -f $(DESTDIR)/bin/rb $(DESTDIR)/bin/rx
 		ln $(DESTDIR)/bin/rz $(DESTDIR)/bin/rb
 		ln $(DESTDIR)/bin/rz $(DESTDIR)/bin/rx
-		@rm -f $(DESTDIR)/share/man/cat1/sb.0 $(DESTDIR)/share/man/cat1/sx.0
-		ln $(DESTDIR)/share/man/cat1/sz.0 $(DESTDIR)/share/man/cat1/sb.0
-		ln $(DESTDIR)/share/man/cat1/sz.0 $(DESTDIR)/share/man/cat1/sx.0
-		@rm -f $(DESTDIR)/share/man/cat1/rb.0 $(DESTDIR)/share/man/cat1/rx.0
-		ln $(DESTDIR)/share/man/cat1/rz.0 $(DESTDIR)/share/man/cat1/rb.0
-		ln $(DESTDIR)/share/man/cat1/rz.0 $(DESTDIR)/share/man/cat1/rx.0
+		@rm -f $(DESTDIR)/usr/share/man/cat1/sb.0 $(DESTDIR)/usr/share/man/cat1/sx.0
+		ln $(DESTDIR)/usr/share/man/cat1/sz.0 $(DESTDIR)/usr/share/man/cat1/sb.0
+		ln $(DESTDIR)/usr/share/man/cat1/sz.0 $(DESTDIR)/usr/share/man/cat1/sx.0
+		@rm -f $(DESTDIR)/usr/share/man/cat1/rb.0 $(DESTDIR)/usr/share/man/cat1/rx.0
+		ln $(DESTDIR)/usr/share/man/cat1/rz.0 $(DESTDIR)/usr/share/man/cat1/rb.0
+		ln $(DESTDIR)/usr/share/man/cat1/rz.0 $(DESTDIR)/usr/share/man/cat1/rx.0

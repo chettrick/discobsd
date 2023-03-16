@@ -19,7 +19,7 @@
 TOPSRC = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-MDIR=	/share/man/cat5
+MDIR=	/usr/share/man/cat5
 SRCS=	L-devices.5 L-dialcodes.5 L.aliases.5 L.cmds.5 L.sys.5 \
 	USERFILE.5 a.out.5 acct.5 aliases.5 core.5 dbx.5 \
 	dir.5 disktab.5 dtab.5 dump.5 fs.5 fstab.5 gettytab.5 \

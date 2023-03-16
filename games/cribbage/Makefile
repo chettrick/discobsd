@@ -39,4 +39,4 @@ clean:
 install:        all
 		install cribbage $(DESTDIR)/games/
 		install -m 644 crib.instr $(DESTDIR)/games/lib/crib.instr
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

@@ -30,6 +30,6 @@ clean:
 install:        all
 		install adventure $(DESTDIR)/games/
 		cp adventure.dat $(DESTDIR)/games/lib/
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 
 $(OBJS):        hdr.h

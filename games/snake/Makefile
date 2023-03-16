@@ -39,6 +39,6 @@ clean:
 install:        all
 		install snake $(DESTDIR)/games/
 		install snscore $(DESTDIR)/games/
-		install -m 644 $(MAN) $(DESTDIR)/share/man/cat6/
-		ln -f $(DESTDIR)/share/man/cat6/$(MAN) ${DESTDIR}/share/man/cat6/snscore.0
+		install -m 644 ${MAN} ${DESTDIR}/usr/share/man/cat6/
+		ln -f ${DESTDIR}/usr/share/man/cat6/${MAN} ${DESTDIR}/usr/share/man/cat6/snscore.0
 		install -c -m 644 /dev/null ${DESTDIR}/games/lib/snakerawscores

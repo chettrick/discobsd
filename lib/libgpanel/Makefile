@@ -18,7 +18,7 @@ $(MAN):         $(MANSRC)
 		${MANROFF} $< > $@
 
 install: 	all
-		cp $(MAN) $(DESTDIR)/share/man/cat3/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat3/
 
 clean:
 		rm -f *.o a.out core test errs ../libgpanel*.a $(MAN)

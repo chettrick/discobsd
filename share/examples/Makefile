@@ -3,5 +3,5 @@
 all clean cleandir depend lint tags:
 
 install:
-	install -d ${DESTDIR}/share/examples
-	tar cf - . | (cd ${DESTDIR}/share/examples && tar xpf -)
+	install -d ${DESTDIR}/usr/share/examples
+	tar cf - . | (cd ${DESTDIR}/usr/share/examples && tar xpf -)

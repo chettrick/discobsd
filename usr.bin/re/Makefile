@@ -29,4 +29,4 @@ clean:
 
 install:        all help.txt
 		install re $(DESTDIR)/bin/re
-		cp -p help.txt $(DESTDIR)/share/re.help
+		cp -p help.txt ${DESTDIR}/usr/share/re.help

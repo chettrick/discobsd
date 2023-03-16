@@ -32,4 +32,4 @@ clean:
 
 install:        all
 		install phantasia $(DESTDIR)/games/
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

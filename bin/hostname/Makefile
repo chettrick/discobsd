@@ -31,7 +31,7 @@ depend:         ${SRCS}
 
 install:        all
 		install hostname ${DESTDIR}/bin/
-		cp hostname.0 ${DESTDIR}/share/man/cat1/
+		cp hostname.0 ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

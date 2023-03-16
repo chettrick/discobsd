@@ -26,8 +26,7 @@ clean:
 
 install:        all yaccpar
 		install yacc $(DESTDIR)/bin/
-		install yaccpar $(DESTDIR)/share/misc
-# XXX		install yaccpar $(DESTDIR)/usr/share/misc
+		install yaccpar ${DESTDIR}/usr/share/misc
 
 y1.o: y1.c dextern
 y2.o: y2.c dextern

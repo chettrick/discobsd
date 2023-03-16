@@ -6,7 +6,7 @@ include $(TOPSRC)/target.mk
 # system, change the line below (after finding the zone you want in the
 # time zone files, or adding it to a time zone file).
 # Alternately, if you discover you've got the wrong time zone, you can just
-#	install -c -m 444 /share/zoneinfo/right_zone /etc/localtime
+#	install -c -m 444 /usr/share/zoneinfo/right_zone /etc/localtime
 
 LOCALTIME=	US/Pacific
 
@@ -36,8 +36,8 @@ ZDUMAN=		zdump.0
 ZDUMANSRC=	zdump.8
 MAN=		$(ZICMAN) $(ZDUMAN)
 MANSRC=		$(ZICMANSRC) $(ZDUMAN)
-SHARDIR=	${DESTDIR}/share/zoneinfo
-MANDIR=		${DESTDIR}/man/cat8
+SHARDIR=	${DESTDIR}/usr/share/zoneinfo
+MANDIR=		${DESTDIR}/usr/share/man/cat8
 
 all:		zdump zic ${ZICMAN} ${ZDUMAN}
 

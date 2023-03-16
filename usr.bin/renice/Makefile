@@ -29,7 +29,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        renice
-		cp ${MAN} ${DESTDIR}/share/man/cat8/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 		install renice ${DESTDIR}/bin/renice
 
 lint:           ${SRCS}

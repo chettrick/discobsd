@@ -19,7 +19,7 @@
 TOPSRC = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-MDIR=	/share/man/cat3
+MDIR=	/usr/share/man/cat3
 SRCS1=	abort.3 abs.3 alarm.3 asinh.3 assert.3 atof.3 bstring.3 byteorder.3 \
 	compat-sys5.3 crypt.3 ctime.3 ctype.3 curses.3 dbm.3 daemon.3 \
 	devname.3 directory.3 ecvt.3 end.3 erf.3 err.3 execl.3 exit.3 \

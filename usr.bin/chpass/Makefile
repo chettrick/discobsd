@@ -48,11 +48,11 @@ install: 	all
 		install -m 4755 chpass ${DESTDIR}/bin/chpass
 		rm -f ${DESTDIR}/bin/chfn; ln ${DESTDIR}/bin/chpass ${DESTDIR}/bin/chfn
 		rm -f ${DESTDIR}/bin/chsh; ln ${DESTDIR}/bin/chpass ${DESTDIR}/bin/chsh
-		cp ${MAN} ${DESTDIR}/share/man/cat1/
-		rm -f ${DESTDIR}/share/man/cat1/chfn.0
-		rm -f ${DESTDIR}/share/man/cat1/chsh.0
-		-ln ${DESTDIR}/share/man/cat1/chpass.0 ${DESTDIR}/share/man/cat1/chfn.0
-		-ln ${DESTDIR}/share/man/cat1/chpass.0 ${DESTDIR}/share/man/cat1/chsh.0
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
+		rm -f ${DESTDIR}/usr/share/man/cat1/chfn.0
+		rm -f ${DESTDIR}/usr/share/man/cat1/chsh.0
+		-ln ${DESTDIR}/usr/share/man/cat1/chpass.0 ${DESTDIR}/usr/share/man/cat1/chfn.0
+		-ln ${DESTDIR}/usr/share/man/cat1/chpass.0 ${DESTDIR}/usr/share/man/cat1/chsh.0
 
 lint:           ${SRCS}
 		lint ${CFLAGS} ${SRCS}

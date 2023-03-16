@@ -5,5 +5,5 @@ FILES=	words
 all clean cleandir depend lint tags:
 
 install:
-	install -d ${DESTDIR}/share/dict
-	install -c -m 444 ${FILES} ${DESTDIR}/share/dict
+	install -d ${DESTDIR}/usr/share/dict
+	install -c -m 444 ${FILES} ${DESTDIR}/usr/share/dict

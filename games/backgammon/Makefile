@@ -40,7 +40,7 @@ clean:
 install:        all
 		install backgammon $(DESTDIR)/games/
 		install teachgammon $(DESTDIR)/games/
-		cp $(MAN) $(DESTDIR)/share/man/cat6/
+		cp $(MAN) $(DESTDIR)/usr/share/man/cat6/
 
 $(OBJS) $(TOBJS): back.h
 data.o tutor.o: tutor.h

@@ -19,7 +19,7 @@
 TOPSRC = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-MDIR=	/share/man/cat8
+MDIR=	/usr/share/man/cat8
 SRCS=	XNSrouted.8 adduser.8 autoconfig.8 \
 	bugfiler.8 crash.8 \
 	boot.8 \

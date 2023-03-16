@@ -26,7 +26,7 @@ depend:		${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:	all
-		cp ${MAN} ${DESTDIR}/share/man/cat8/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 		install -m 700 init ${DESTDIR}/sbin/init
 
 lint:		${SRCS}

@@ -37,6 +37,6 @@ clean:
 
 install:        all
 		install trek $(DESTDIR)/games/
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 
 #$(OBJS):        trek.h

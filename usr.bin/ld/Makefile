@@ -29,4 +29,4 @@ clean:
 
 install:        all
 		install ld ${DESTDIR}/bin/ld
-		cp ${MAN} ${DESTDIR}/share/man/cat1/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

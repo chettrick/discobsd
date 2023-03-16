@@ -33,4 +33,4 @@ clean:
 
 install:        all
 		install sail $(DESTDIR)/games/
-		cp ${MAN} $(DESTDIR)/share/man/cat6/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

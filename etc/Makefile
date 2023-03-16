@@ -67,8 +67,8 @@ distribution-etc-root-var: distrib-dirs
 #	install -c -o uucp -g daemon -m 600 /dev/null \
 #	    ${DESTDIR}/usr/adm/aculog
 
-DIRS_DISTRIB=	bin sbin etc share games/lib var/log root \
-		usr/include usr/lib usr/libexec
+DIRS_DISTRIB=	bin sbin etc games/lib var/log root \
+		usr/include usr/lib usr/libexec usr/share
 MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
 
 # Creates an empty DiscoBSD directory tree in DESTDIR.
@@ -80,5 +80,5 @@ distrib-dirs:
 		mkdir -p ${DESTDIR}/$$dir; \
 	done
 	for dir in ${MDIRS_DISTRIB}; do \
-		mkdir -p ${DESTDIR}/share/man/$$dir; \
+		mkdir -p ${DESTDIR}/usr/share/man/$$dir; \
 	done

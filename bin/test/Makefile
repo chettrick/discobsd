@@ -33,4 +33,4 @@ install:        all
 		install test ${DESTDIR}/bin/
 		@rm -f ${DESTDIR}/bin/[
 		ln ${DESTDIR}/bin/test ${DESTDIR}/bin/[
-		cp $(MAN) ${DESTDIR}/share/man/cat1/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

@@ -30,6 +30,6 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} ranlib *.elf *.dis a.out tags *~
 
 install:
-		cp ranlib.5.0 ${DESTDIR}/share/man/cat5/ranlib.0
-		cp ranlib.0 ${DESTDIR}/share/man/cat1/ranlib.0
+		cp ranlib.5.0 ${DESTDIR}/usr/share/man/cat5/ranlib.0
+		cp ranlib.0 ${DESTDIR}/usr/share/man/cat1/ranlib.0
 		install ranlib ${DESTDIR}/bin/ranlib

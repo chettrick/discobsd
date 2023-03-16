@@ -35,7 +35,7 @@ clean:
 
 install:        all
 		install ccom $(DESTDIR)/usr/libexec/
-		cp ccom.0 $(DESTDIR)/share/man/cat1/
+		cp ccom.0 ${DESTDIR}/usr/share/man/cat1/
 
 local.o: $(ARCHDIR)/local.c external.h
 		$(CC) $(CFLAGS) -c -o $@ $(ARCHDIR)/local.c

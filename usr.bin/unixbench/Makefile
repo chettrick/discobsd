@@ -324,8 +324,8 @@ clean:
 	rm -f $(BINS) pgms/*.elf pgms/*.dis
 
 install:
-	mkdir -p $(DESTDIR)/share/unixbench
-	cp $(REQD) $(DESTDIR)/share/unixbench
-	cp Run $(DESTDIR)/share/unixbench
+	mkdir -p ${DESTDIR}/usr/share/unixbench
+	cp ${REQD} ${DESTDIR}/usr/share/unixbench
+	cp Run ${DESTDIR}/usr/share/unixbench
 
 ## END ##

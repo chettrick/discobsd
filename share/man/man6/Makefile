@@ -19,7 +19,7 @@
 TOPSRC = $(shell cd ../../..; pwd)
 include $(TOPSRC)/target.mk
 
-MDIR=	/share/man/cat6
+MDIR=	/usr/share/man/cat6
 SRCS=
 OBJS=
 

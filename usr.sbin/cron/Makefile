@@ -55,7 +55,7 @@ CFLAGS          += -I.
 DESTROOT	=	$(DESTDIR)
 DESTSBIN	=	$(DESTROOT)/sbin
 DESTBIN		=	$(DESTROOT)/bin
-DESTMAN		=	$(DESTROOT)/share/man
+DESTMAN		=	$(DESTROOT)/usr/share/man
 INCLUDE		=	-I.
 OPTIM		=	-O
 #<<lint flags of choice?>>

@@ -13,9 +13,9 @@ SRCS		=
 all:		${SRCS}
 
 install:	${SRCS}
-		-mkdir -p ${DESTDIR}/share/misc
-		-chmod a+r,a+x ${DESTDIR}/share/misc
-#		install -c -m 444 ${SRCS} ${DESTDIR}/share/misc
+		-mkdir -p ${DESTDIR}/usr/share/misc
+		-chmod a+r,a+x ${DESTDIR}/usr/share/misc
+#		install -c -m 444 ${SRCS} ${DESTDIR}/usr/share/misc
 
 clean:
 		rm -f *~

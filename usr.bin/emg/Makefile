@@ -39,8 +39,8 @@ ${MAN}:	${MANSRC}
 
 install: all
 	install emg ${DESTDIR}/bin/emg
-	cp ${MAN} ${DESTDIR}/share/man/cat1/
-	cp -p emg.keys ${DESTDIR}/share/emg.keys
+	cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
+	cp -p emg.keys ${DESTDIR}/usr/share/emg.keys
 
 clean:
 	rm -f *.o *~ *.core *.bak *.dis emg ${MAN}

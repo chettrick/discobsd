@@ -28,10 +28,10 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		cp ${MAN} ${DESTDIR}/share/man/cat8/
-		@-rm -f ${DESTDIR}/share/man/cat8/fastboot.0 ${DESTDIR}/share/man/cat8/halt.0
-		ln ${DESTDIR}/share/man/cat8/reboot.0 ${DESTDIR}/share/man/cat8/fastboot.0
-		ln ${DESTDIR}/share/man/cat8/reboot.0 ${DESTDIR}/share/man/cat8/halt.0
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
+		@-rm -f ${DESTDIR}/usr/share/man/cat8/fastboot.0 ${DESTDIR}/usr/share/man/cat8/halt.0
+		ln ${DESTDIR}/usr/share/man/cat8/reboot.0 ${DESTDIR}/usr/share/man/cat8/fastboot.0
+		ln ${DESTDIR}/usr/share/man/cat8/reboot.0 ${DESTDIR}/usr/share/man/cat8/halt.0
 		install reboot ${DESTDIR}/sbin/reboot
 		@-rm -f ${DESTDIR}/sbin/fastboot ${DESTDIR}/sbin/halt ${DESTDIR}/sbin/poweroff
 		ln -f ${DESTDIR}/sbin/reboot ${DESTDIR}/sbin/halt

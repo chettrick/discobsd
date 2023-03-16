@@ -32,7 +32,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		cp ${MAN} ${DESTDIR}/share/man/cat1/
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 		install id ${DESTDIR}/bin/id
 		install groups.sh ${DESTDIR}/bin/groups
 		install whoami.sh ${DESTDIR}/bin/whoami

@@ -57,7 +57,7 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} rogue *.elf *.dis tags *~
 
 install:        all
-		install rogue $(DESTDIR)/games/
+		install rogue ${DESTDIR}/usr/games/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 
 #$(OBJS):        rogue.h

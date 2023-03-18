@@ -22,7 +22,7 @@
 #ifdef CROSS
 #   define FORTFILE	"/usr/local/games/fortunes.dat"
 #else
-#   define FORTFILE	"/games/lib/fortunes.dat"
+#   define FORTFILE	"/usr/games/lib/fortunes.dat"
 #endif
 
 int	Wflag		= FALSE,	/* wait desired after fortune */

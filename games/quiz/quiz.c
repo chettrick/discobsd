@@ -428,7 +428,7 @@ char *argv[];
 #ifdef CROSS
 	indexfile = "/usr/local/games/quiz.k/index";
 #else
-	indexfile = "/games/lib/quiz.k/index";
+	indexfile = "/usr/games/lib/quiz.k/index";
 #endif
 	time(&tvec);
 	inc = (tvec & 077774) | 01;

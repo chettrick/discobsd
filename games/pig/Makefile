@@ -27,5 +27,5 @@ clean:
 		rm -f *.o core pig *.0 *.dis
 
 install:        all
-		install pig $(DESTDIR)/games/
+		install pig $(DESTDIR)/usr/games/
 		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/

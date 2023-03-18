@@ -9,8 +9,8 @@
 # include	"cribbage.h"
 # include	"cribcur.h"
 
-# define	LOGFILE		"/games/lib/criblog"
-# define	INSTRCMD	"more /games/lib/crib.instr"
+# define	LOGFILE		"/usr/games/lib/criblog"
+# define	INSTRCMD	"more /usr/games/lib/crib.instr"
 
 /*
  * gamescore:

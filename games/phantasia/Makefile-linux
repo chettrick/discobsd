@@ -15,7 +15,7 @@ LIBS =		-lm -lcurses -ltermcap
 
 # DEST is where the program and its support files reside
 #   If this changes then the symbolic link in the 'install' target must change.
-DEST =		/games/lib/phantasia
+DEST =		/usr/games/lib/phantasia
 
 # The following are program constants which are implementation dependent.
 #
@@ -71,7 +71,7 @@ install:	all phantasia.0
 	chmod 4711 ${DESTDIR}${DEST}/phantasia
 	chmod 644 ${DESTDIR}${DEST}/phant.help
 	./setfiles
-	install -m 444 -o bin -g bin  phantasia.0 ${DESTDIR}/usr/man/cat6
+	install -m 444 -o bin -g bin  phantasia.0 ${DESTDIR}/usr/share/man/cat6
 
 phantasia.0: phant.nr
 	tbl -TX phant.nr | nroff -man -h -Tascii > phantasia.0

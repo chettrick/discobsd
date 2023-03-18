@@ -27,5 +27,5 @@ clean:
 		rm -f *.o core caesar *.0 *.dis
 
 install:        all
-		install caesar $(DESTDIR)/games/
+		install caesar $(DESTDIR)/usr/games/
 		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/

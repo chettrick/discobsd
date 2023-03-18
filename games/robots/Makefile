@@ -33,9 +33,9 @@ clean:
 		rm -f *.o core robots *.0 *.dis
 
 install:        all
-		install robots $(DESTDIR)/games/
+		install robots $(DESTDIR)/usr/games/
 		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/
-		install -c -m 644 /dev/null ${DESTDIR}/games/lib/robots_roll
+		install -c -m 644 /dev/null $(DESTDIR)/usr/games/lib/robots_roll
 ###
 extern.o: extern.c robots.h
 flush_in.o: flush_in.c

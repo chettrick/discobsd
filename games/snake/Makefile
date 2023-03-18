@@ -37,8 +37,8 @@ clean:
 		rm -f *.o core snake snscore *.0 *.dis
 
 install:        all
-		install snake $(DESTDIR)/games/
-		install snscore $(DESTDIR)/games/
+		install snake ${DESTDIR}/usr/games/
+		install snscore ${DESTDIR}/usr/games/
 		install -m 644 ${MAN} ${DESTDIR}/usr/share/man/cat6/
 		ln -f ${DESTDIR}/usr/share/man/cat6/${MAN} ${DESTDIR}/usr/share/man/cat6/snscore.0
-		install -c -m 644 /dev/null ${DESTDIR}/games/lib/snakerawscores
+		install -c -m 644 /dev/null ${DESTDIR}/usr/games/lib/snakerawscores

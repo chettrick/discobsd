@@ -12,7 +12,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define PATH(x)		"/games/lib/"#x
+#define PATH(x)		"/usr/games/lib/"#x
 #define logfile		PATH(battlestar.log)
 #define BATTLESTRINGS	PATH(battle_strings)
 

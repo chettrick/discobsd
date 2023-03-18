@@ -25,6 +25,6 @@ clean:
 		rm -f *.o core quiz *.0 *.dis
 
 install:        all
-		install quiz $(DESTDIR)/games/
+		install quiz $(DESTDIR)/usr/games/
 		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/
-		cp -r quiz.k ${DESTDIR}/games/lib
+		cp -r quiz.k ${DESTDIR}/usr/games/lib

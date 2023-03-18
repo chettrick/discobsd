@@ -13,7 +13,7 @@ LIBS            = -ltermcap -lm
 MAN		= warp.0
 MANSRC		= warp.man
 PRIVATE         = warp.doc smap.0 smap.1 smap.2 smap.3 smap.4 smap.5 smap.6 smap.7
-PRIVLIB         = $(DESTDIR)/games/lib/warp
+PRIVLIB         = ${DESTDIR}/usr/games/lib/warp
 
 all:            warp $(MAN) $(PRIVATE)
 
@@ -49,7 +49,7 @@ clean:
 		rm -f *.o *.elf ${MAN} warp *.elf *.dis tags *~ smap.* sm
 
 install:        warp $(PRIVATE)
-		install warp $(DESTDIR)/games/
+		install warp ${DESTDIR}/usr/games/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 		mkdir -p $(PRIVLIB)
 		cp $(PRIVATE) $(PRIVLIB)

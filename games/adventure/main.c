@@ -32,7 +32,7 @@ char **argv;
         /* try local file first */
         datfd = open("adventure.dat", O_RDONLY);
 	if (datfd < 0)
-                datfd = open("/games/lib/adventure.dat", O_RDONLY);
+                datfd = open("/usr/games/lib/adventure.dat", O_RDONLY);
 	if (datfd < 0) {
                 printf("No adventure just now\n");
                 exit(0);

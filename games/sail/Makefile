@@ -32,5 +32,5 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} sail *.elf *.dis tags *~
 
 install:        all
-		install sail $(DESTDIR)/games/
+		install sail ${DESTDIR}/usr/games/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

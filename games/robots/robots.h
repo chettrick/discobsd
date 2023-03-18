@@ -36,7 +36,7 @@
 #ifdef CROSS
 #   define SCOREFILE	"/usr/local/games/robots_roll"
 #else
-#   define SCOREFILE	"/games/lib/robots_roll"
+#   define SCOREFILE	"/usr/games/lib/robots_roll"
 #endif
 
 /*

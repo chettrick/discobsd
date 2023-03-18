@@ -28,8 +28,8 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} adventure *.elf *.dis tags *~
 
 install:        all
-		install adventure $(DESTDIR)/games/
-		cp adventure.dat $(DESTDIR)/games/lib/
+		install adventure ${DESTDIR}/usr/games/
+		cp adventure.dat ${DESTDIR}/usr/games/lib/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 
 $(OBJS):        hdr.h

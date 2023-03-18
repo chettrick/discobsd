@@ -36,7 +36,7 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} trek *.elf *.dis tags *~
 
 install:        all
-		install trek $(DESTDIR)/games/
+		install trek ${DESTDIR}/usr/games/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 
 #$(OBJS):        trek.h

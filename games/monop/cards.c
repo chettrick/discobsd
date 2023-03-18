@@ -10,7 +10,7 @@
 #ifdef CROSS
 static char	*cardfile	= "cards.pck";
 #else
-static char	*cardfile	= "/games/lib/cards.pck";
+static char	*cardfile	= "/usr/games/lib/cards.pck";
 #endif
 
 static FILE	*deckf;

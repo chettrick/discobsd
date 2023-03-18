@@ -1511,7 +1511,7 @@ void initall()
 	uid = getuid();
 	if (uid < 0)
 		return;
-	dbfd = open("/games/lib/cfscores", 2);
+	dbfd = open("/usr/games/lib/cfscores", 2);
 	if (dbfd < 0)
 		return;
 	i = lseek(dbfd, uid * sizeof(struct betinfo), 0);

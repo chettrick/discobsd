@@ -11,7 +11,7 @@
 #ifdef CROSS
 char *recfile = "/usr/local/games/snakerawscores";
 #else
-char *recfile = "/games/lib/snakerawscores";
+char *recfile = "/usr/games/lib/snakerawscores";
 #endif
 
 #define MAXPLAYERS 256

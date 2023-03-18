@@ -147,8 +147,8 @@
 
 #define GOLD_PERCENT 46
 
-#define SCORE_FILE "/games/lib/rogue.scores"
-#define LOCK_FILE  "/games/lib/rogue.lock"
+#define SCORE_FILE "/usr/games/lib/rogue.scores"
+#define LOCK_FILE  "/usr/games/lib/rogue.lock"
 
 #define MAX_OPT_LEN 40
 

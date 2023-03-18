@@ -10,8 +10,8 @@
  */
 
 				/* name of executable object programs */
-char	EXEC[] = "/games/backgammon";
-char	TEACH[] = "/games/teachgammon";
+char	EXEC[] = "/usr/games/backgammon";
+char	TEACH[] = "/usr/games/teachgammon";
 
 int	pnum	= 2;		/* color of player:
 					-1 = white

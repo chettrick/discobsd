@@ -37,9 +37,9 @@ clean:
 		rm -f *.o *.0 *.elf $(MAN) monop initdeck *.elf *.dis tags *~
 
 install:        all
-		install monop $(DESTDIR)/games/
+		install monop $(DESTDIR)/usr/games/
 		cp $(MAN) $(DESTDIR)/usr/share/man/cat6/
-		cp cards.pck $(DESTDIR)/games/lib/
+		cp cards.pck $(DESTDIR)/usr/games/lib/
 ###
 cards.o: cards.c extern.h monop.h deck.h
 execute.o: execute.c extern.h monop.h deck.h

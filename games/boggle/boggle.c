@@ -57,7 +57,7 @@ long logloc;
 char logbuff[100] = {"inst\t"};
 
 /* dictionary interface */
-char defname[] = "/games/lib/bogdict";
+char defname[] = "/usr/games/lib/bogdict";
 char *dictname = &defname[0];
 FILE *dict;
 
@@ -522,7 +522,7 @@ char **argv;
         goodbye(0);
     signal (SIGINT, interrupt);
     timein = time(0L);
-    if (argv[0][0] != 'a' && (logfile = open("/games/lib/boglog", 1)) >= 0) {
+    if (argv[0][0] != 'a' && (logfile = open("/usr/games/lib/boglog", 1)) >= 0) {
         p = &logbuff[5];
         q = getlogin();
         while ((*p++ = *q++));

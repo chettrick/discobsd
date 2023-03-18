@@ -13,7 +13,7 @@
 #define	NIL		(-1)
 #define	MAXGMOV		10
 #define	MAXIMOVES	1000
-#define	RULES		"/games/lib/backrules"
+#define	RULES		"/usr/games/lib/backrules"
 
 char	level;		/*'b'=beginner, 'i'=intermediate, 'e'=expert*/
 

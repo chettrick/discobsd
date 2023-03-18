@@ -43,12 +43,12 @@ install:        $(STD) $(NSTD)
 		-for i in $(SUBDIR); do \
 			${MAKE} -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
 		-for i in $(STD) $(NSTD); do \
-			install $$i $(DESTDIR)/games/$$i; done
+			install $$i ${DESTDIR}/usr/games/$$i; done
 		-for i in *.6; do \
 			${MANROFF} $$i > ${DESTDIR}/usr/share/man/cat6/`basename $$i .6`.0; done
 		ln -f ${DESTDIR}/usr/share/man/cat6/canfield.0 ${DESTDIR}/usr/share/man/cat6/cfscores.0
-		cat < /dev/null > $(DESTDIR)/games/lib/cfscores
-		chmod 666 $(DESTDIR)/games/lib/cfscores
+		cat < /dev/null > ${DESTDIR}/usr/games/lib/cfscores
+		chmod 666 ${DESTDIR}/usr/games/lib/cfscores
 
 clean:
 		rm -f a.out core *.s *.o *.dis *.elf $(STD) $(NSTD)

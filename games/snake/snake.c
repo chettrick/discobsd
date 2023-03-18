@@ -34,7 +34,7 @@
 #ifdef CROSS
 #define BUSY	"/usr/local/games/busy"
 #else
-#define BUSY	"/games/lib/busy"
+#define BUSY	"/usr/games/lib/busy"
 #endif
 #endif
 
@@ -45,7 +45,7 @@
 #ifdef CROSS
 #define SNAKERAWSCORES	"/usr/local/games/snakerawscores"
 #else
-#define SNAKERAWSCORES	"/games/lib/snakerawscores"
+#define SNAKERAWSCORES	"/usr/games/lib/snakerawscores"
 #endif
 #endif
 
@@ -56,7 +56,7 @@
 #ifdef CROSS
 #define LOGFILE	"/usr/local/games/snake.log"
 #else
-#define LOGFILE	"/games/lib/snake.log"
+#define LOGFILE	"/usr/games/lib/snake.log"
 #endif
 #endif
 

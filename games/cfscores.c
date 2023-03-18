@@ -21,7 +21,7 @@ struct betinfo {
 	long	worth;		/* net worth after costs */
 };
 
-char *scorefile = "/games/lib/cfscores";
+char *scorefile = "/usr/games/lib/cfscores";
 int dbfd;
 
 /*

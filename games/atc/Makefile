@@ -11,7 +11,7 @@ include $(TOPSRC)/target.mk
 
 # XXX CFLAGS          += -Os -g -Werror -Wall
 CFLAGS          += -Os -g -Wall -ansi
-CFLAGS          += -DBSD -DDEST=\"/games/lib/atc/\"
+CFLAGS          += -DBSD -DDEST=\"/usr/games/lib/atc/\"
 #CFLAGS          += -DSYSV -DDEST=\"games/\"
 YFLAGS          = -d
 LEX             = lex
@@ -36,7 +36,7 @@ clean:
 		rm -f *.o *.0 *.elf atc ${MAN} *.elf *.dis tags *~ grammar.c lex.c y.tab.h
 
 install:        all
-		install atc $(DESTDIR)/games/
-		mkdir -p ${DESTDIR}/games/lib/atc
-		cp -p games/* ${DESTDIR}/games/lib/atc
+		install atc ${DESTDIR}/usr/games/
+		mkdir -p ${DESTDIR}/usr/games/lib/atc
+		cp -p games/* ${DESTDIR}/usr/games/lib/atc
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

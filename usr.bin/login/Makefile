@@ -42,7 +42,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 4755 login ${DESTDIR}/bin/login
+		install -m 4755 login ${DESTDIR}/usr/bin/login
 
 lint:           ${SRCS}
 		lint ${CFLAGS} ${SRCS}

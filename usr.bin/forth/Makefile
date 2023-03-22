@@ -23,7 +23,7 @@ func.txt:	func.c
 		sed 's/^ \*+ //' > func.txt
 
 install:        all
-		install forth $(DESTDIR)/bin/
+		install forth ${DESTDIR}/usr/bin/
 
 ###
 forth.o: forth.c io.h forth.h

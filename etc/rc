@@ -1,6 +1,6 @@
 #!/bin/sh
 HOME=/; export HOME
-PATH=/bin:/sbin; export PATH
+PATH=/sbin:/bin:/usr/sbin:/usr/bin; export PATH
 exec >/dev/console 2>&1
 
 if test "$1" != "autoboot"; then

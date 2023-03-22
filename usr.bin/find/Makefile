@@ -29,10 +29,10 @@ clean:
 		rm -f *.o *.elf find bigram code *.elf *.dis tags *~
 
 install:        all
-		install find ${DESTDIR}/bin/find
+		install find ${DESTDIR}/usr/bin/find
 		install bigram ${DESTDIR}/usr/libexec/bigram
 		install code ${DESTDIR}/usr/libexec/code
-		install updatedb.sh ${DESTDIR}/sbin/updatedb
+		install updatedb.sh ${DESTDIR}/usr/libexec/updatedb
 
 depend:
 		chmod u+w Makefile

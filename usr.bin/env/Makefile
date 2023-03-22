@@ -24,4 +24,4 @@ clean:
 		rm -f *.o *.0 *.elf env *.elf *.dis tags *~
 
 install:        all
-		install env $(DESTDIR)/bin/
+		install env ${DESTDIR}/usr/bin/

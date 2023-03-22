@@ -28,5 +28,5 @@ clean:
 		rm -f *.o *.elf re *.elf *.dis *~
 
 install:        all help.txt
-		install re $(DESTDIR)/bin/re
+		install re ${DESTDIR}/usr/bin/re
 		cp -p help.txt ${DESTDIR}/usr/share/re.help

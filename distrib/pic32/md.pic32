@@ -19,12 +19,13 @@ dir /usr
 dir /home
 
 #
-# Files: /bin
+# Files: /usr/bin
 #
 default
 filemode 0775
-file /bin/adb
-file /bin/adc-demo
+dir /usr/bin
+file /usr/bin/adb
+file /usr/bin/adc-demo
 
 #
 # Files: /usr/include

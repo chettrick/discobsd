@@ -47,11 +47,11 @@ char *include[] = {
 0 };
 
 char *as[] = {
-        "/bin/as", "-o", "$3", "$1", "$2",
+        "/usr/bin/as", "-o", "$3", "$1", "$2",
 0 };
 
 char *ld[] = {
-        "/bin/ld", "-o", "$3", LIBDIR "crt0.o",
+        "/usr/bin/ld", "-o", "$3", LIBDIR "crt0.o",
 	"$1", "$2", "", "-L" LCCDIR, "-llcc", "-lc",
 0 };
 

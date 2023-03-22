@@ -26,5 +26,5 @@ clean:
 		rm -f *.o basic renumber *.elf *.dis *~
 
 install:        all
-		install basic $(DESTDIR)/bin/
-		install renumber $(DESTDIR)/bin/
+		install basic ${DESTDIR}/usr/bin/
+		install renumber ${DESTDIR}/usr/bin/

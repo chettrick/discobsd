@@ -24,6 +24,6 @@ clean:
 		rm -f *.o *.0 *.elf cc *.elf *.dis tags *~
 
 install:        all
-		install cc $(DESTDIR)/bin/
-		install cc $(DESTDIR)/bin/scc
-		install cc $(DESTDIR)/bin/lcc
+		install cc ${DESTDIR}/usr/bin/
+		install cc ${DESTDIR}/usr/bin/scc
+		install cc ${DESTDIR}/usr/bin/lcc

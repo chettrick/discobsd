@@ -6,9 +6,9 @@ include $(TOPSRC)/target.mk
 SRCS		= diff.c diffdir.c diffreg.c
 OBJS		= diff.o diffdir.o diffreg.o
 
-DIFF            = /bin/diff
+DIFF            = /usr/bin/diff
 DIFFH           = /usr/libexec/diffh
-PR              = /bin/pr
+PR              = /usr/bin/pr
 CFLAGS          += -DDIFF='"${DIFF}"' -DDIFFH='"${DIFFH}"' -DPR='"${PR}"'
 
 all:            diff diffh
@@ -29,5 +29,5 @@ clean:
 		rm -f *.o *.elf ${MAN} diff diffh *.elf *.dis tags *~
 
 install:        all
-		install diff ${DESTDIR}/bin/diff
+		install diff ${DESTDIR}/usr/bin/diff
 		install diffh ${DESTDIR}/usr/libexec/diffh

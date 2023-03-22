@@ -45,7 +45,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        ${MAN} passwd
-		install -m 4755 passwd ${DESTDIR}/bin/passwd
+		install -m 4755 passwd ${DESTDIR}/usr/bin/passwd
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}

@@ -38,7 +38,7 @@ CFLAGS=		-O $(DEFS)
 LDFLAGS=
 SEPFLAG= -i
 PROFLAGS=
-LD=		/bin/ld
+LD=		/usr/bin/ld
 .SUFFIXES:	.uu .obj .c,v
 
 .obj.uu:

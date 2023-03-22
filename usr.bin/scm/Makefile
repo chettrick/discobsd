@@ -19,7 +19,7 @@ clean:
 		rm -f *.o scm *.elf *.dis *~ tests/*.out
 
 install:        all
-		install scm $(DESTDIR)/bin/
+		install scm ${DESTDIR}/usr/bin/
 
 tests:          scm $(TESTS) ALWAYS
 		for i in $(TESTS); do \

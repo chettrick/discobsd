@@ -33,9 +33,9 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
-		install id ${DESTDIR}/bin/id
-		install groups.sh ${DESTDIR}/bin/groups
-		install whoami.sh ${DESTDIR}/bin/whoami
+		install id ${DESTDIR}/usr/bin/id
+		install groups.sh ${DESTDIR}/usr/bin/groups
+		install whoami.sh ${DESTDIR}/usr/bin/whoami
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

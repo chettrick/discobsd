@@ -9,7 +9,7 @@ include $(TOPSRC)/target.mk
 # XXX CFLAGS          += -Werror
 
 # Programs that live in subdirectories, and have makefiles of their own.
-# /bin
+# /usr/bin
 SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   chpass cpp dc diff emg env find fold forth \
                   fstat glcdtest id la lcc lcpp ld login make \
@@ -19,7 +19,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   zmodem gtest msec compress tip tclsh \
                   uucp virus yacc
 
-# /bin, mips-specific programs
+# /usr/bin, mips-specific programs
 ifeq ($(MACHINE_ARCH), mips)
 SUBDIR         += adb adc-demo smlrc
 endif
@@ -89,18 +89,18 @@ $(SCRIPT):
 		install -c $@.sh $@
 
 install:	$(BINS)
-		install $(STD) $(NSTD) strip $(DESTDIR)/bin/
+		install $(STD) $(NSTD) strip $(DESTDIR)/usr/bin/
 		-for i in $(SUBDIR); do \
 			$(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
-		-for i in $(SCRIPT); do install $$i.sh $(DESTDIR)/bin/$$i; done
+		-for i in $(SCRIPT); do install $$i.sh $(DESTDIR)/usr/bin/$$i; done
 		-for i in $(SETUID); do \
-			install -m 4751 $$i $(DESTDIR)/bin/$$i; done
+			install -m 4751 $$i $(DESTDIR)/usr/bin/$$i; done
 		-for i in $(OPERATOR); do \
-			install -m 2751 $$i $(DESTDIR)/bin/$$i; done
+			install -m 2751 $$i $(DESTDIR)/usr/bin/$$i; done
 		-for i in $(KMEM); do \
-			install -m 2751 $$i $(DESTDIR)/bin/$$i; done
+			install -m 2751 $$i $(DESTDIR)/usr/bin/$$i; done
 		-for i in $(TTY); do \
-			install -m 2751 $$i $(DESTDIR)/bin/$$i; done
+			install -m 2751 $$i $(DESTDIR)/usr/bin/$$i; done
 
 clean:
 		/bin/rm -f $(BINS) a.out core *.s *.o *.dis *.elf *~ y.tab.c errs

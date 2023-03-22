@@ -24,4 +24,4 @@ clean:
 		-rm -f setty ${OBJS} setty.elf setty.dis
 
 install:        all
-		install setty $(DESTDIR)/bin/
+		install setty ${DESTDIR}/usr/bin/

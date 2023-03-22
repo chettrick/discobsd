@@ -43,10 +43,10 @@ depend:         FRC
 		mkdep ${CFLAGS} ${ASRCS} ${MSRCS}
 
 install:        all
-		@rm -f ${DESTDIR}/bin/whatis ${DESTDIR}/bin/apropos
-		install apropos ${DESTDIR}/bin/apropos
-		install man ${DESTDIR}/bin/man
-		ln ${DESTDIR}/bin/apropos ${DESTDIR}/bin/whatis
+		@rm -f ${DESTDIR}/usr/bin/whatis ${DESTDIR}/usr/bin/apropos
+		install apropos ${DESTDIR}/usr/bin/apropos
+		install man ${DESTDIR}/usr/bin/man
+		ln ${DESTDIR}/usr/bin/apropos ${DESTDIR}/usr/bin/whatis
 
 lint:           FRC
 		lint ${CFLAGS} ${ASRCS}

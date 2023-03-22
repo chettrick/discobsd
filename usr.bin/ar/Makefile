@@ -29,6 +29,6 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} ar *.elf *.dis tags *~
 
 install:        all
-		install ar $(DESTDIR)/bin/
+		install ar ${DESTDIR}/usr/bin/
 		cp ar.1.0 ${DESTDIR}/usr/share/man/cat1/ar.0
 		cp ar.5.0 ${DESTDIR}/usr/share/man/cat5/ar.0

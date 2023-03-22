@@ -37,16 +37,16 @@ clean:
 		rm -f *.o *.elf $(MAN) rz sz *.elf *.dis tags *~
 
 install:        all
-		install rz $(DESTDIR)/bin/
-		install sz $(DESTDIR)/bin/
+		install rz $(DESTDIR)/usr/bin/
+		install sz $(DESTDIR)/usr/bin/
 		cp rz.0 $(DESTDIR)/usr/share/man/cat1/
 		cp sz.0 $(DESTDIR)/usr/share/man/cat1/
-		@rm -f $(DESTDIR)/bin/sb $(DESTDIR)/bin/sx
-		ln $(DESTDIR)/bin/sz $(DESTDIR)/bin/sb
-		ln $(DESTDIR)/bin/sz $(DESTDIR)/bin/sx
-		@rm -f $(DESTDIR)/bin/rb $(DESTDIR)/bin/rx
-		ln $(DESTDIR)/bin/rz $(DESTDIR)/bin/rb
-		ln $(DESTDIR)/bin/rz $(DESTDIR)/bin/rx
+		@rm -f $(DESTDIR)/usr/bin/sb $(DESTDIR)/usr/bin/sx
+		ln $(DESTDIR)/usr/bin/sz $(DESTDIR)/usr/bin/sb
+		ln $(DESTDIR)/usr/bin/sz $(DESTDIR)/usr/bin/sx
+		@rm -f $(DESTDIR)/usr/bin/rb $(DESTDIR)/usr/bin/rx
+		ln $(DESTDIR)/usr/bin/rz $(DESTDIR)/usr/bin/rb
+		ln $(DESTDIR)/usr/bin/rz $(DESTDIR)/usr/bin/rx
 		@rm -f $(DESTDIR)/usr/share/man/cat1/sb.0 $(DESTDIR)/usr/share/man/cat1/sx.0
 		ln $(DESTDIR)/usr/share/man/cat1/sz.0 $(DESTDIR)/usr/share/man/cat1/sb.0
 		ln $(DESTDIR)/usr/share/man/cat1/sz.0 $(DESTDIR)/usr/share/man/cat1/sx.0

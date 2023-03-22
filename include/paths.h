@@ -18,9 +18,9 @@
 #define _PATH_CSHELL    "/bin/csh"
 #define _PATH_CP        "/bin/cp"
 #define _PATH_ECHO      "/bin/echo"
-#define _PATH_MORE      "/bin/more"
+#define _PATH_MORE      "/usr/bin/more"
 #define _PATH_RSH       "/bin/rsh"
-#define _PATH_VI        "/bin/vi"
+#define _PATH_VI        "/usr/bin/vi"
 #define _PATH_CORE      "/core"
 #define _PATH_DEV       "/dev/"
 #define _PATH_CONSOLE   "/dev/console"
@@ -41,8 +41,8 @@
 #define _PATH_CTIMED    "/usr/libexec/ctimed"
 #define _PATH_LOCALLIB  "/local/lib/"
 #define _PATH_SBIN      "/sbin/"
-#define _PATH_USRSBIN   "/sbin/"
-#define _PATH_MKPASSWD  "/sbin/mkpasswd"
+#define _PATH_USRSBIN   "/usr/sbin/"
+#define _PATH_MKPASSWD  "/usr/sbin/mkpasswd"
 #define _PATH_SENDMAIL  "/sbin/sendmail"
 #define _PATH_SHARE     "/usr/share/"
 #define _PATH_ZONEINFO  "/usr/share/zoneinfo"   /* Time zone object file directory */
@@ -58,8 +58,8 @@
 #define _PATH_ARTMP     "/tmp/ar.XXXXXX"
 #define _PATH_RANTMP    "/tmp/ranlib.XXXXXX"
 
-#define _PATH_STDPATH   "/bin"
-#define _PATH_SYSPATH   "/bin:/sbin:/local"
+#define _PATH_STDPATH   "/usr/bin:/bin:/usr/sbin:/sbin"
+#define _PATH_SYSPATH   "/usr/bin:/bin:/usr/sbin:/sbin:/local"
 #define _PATH_MAN       "/usr/share/man"
 #define _PATH_LOCALMAN  "/local/man"
 

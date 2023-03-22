@@ -32,4 +32,4 @@ clean:
 install:
 		cp ranlib.5.0 ${DESTDIR}/usr/share/man/cat5/ranlib.0
 		cp ranlib.0 ${DESTDIR}/usr/share/man/cat1/ranlib.0
-		install ranlib ${DESTDIR}/bin/ranlib
+		install ranlib ${DESTDIR}/usr/bin/ranlib

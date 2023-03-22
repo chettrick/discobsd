@@ -19,7 +19,7 @@ clean:
 		rm -f *.o *.elf ${MAN} nm *.elf *.dis tags *~
 
 install:        all
-		install nm ${DESTDIR}/bin/nm
+		install nm ${DESTDIR}/usr/bin/nm
 
 lint:
 		lint -havx -I../ar ${SRCS}

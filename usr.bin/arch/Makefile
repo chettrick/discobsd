@@ -23,6 +23,6 @@ clean:
 		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~
 
 install:	all
-		install ${PROG} ${DESTDIR}/bin/
-		install ${PROG} ${DESTDIR}/bin/machine
+		install ${PROG} ${DESTDIR}/usr/bin/
+		install ${PROG} ${DESTDIR}/usr/bin/machine
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

@@ -29,7 +29,7 @@ depend:		${SRCS}
 
 install:	all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install update ${DESTDIR}/sbin/update
+		install update ${DESTDIR}/usr/sbin/update
 
 lint:		${SRCS}
 		lint -hax ${SRCS}

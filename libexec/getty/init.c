@@ -26,7 +26,7 @@ struct	gettystrs gettystrs[] = {
 	{ "pc", "" },			/* pad character */
 	{ "tt" },			/* terminal type */
 	{ "ev" },			/* enviroment */
-	{ "lo", "/bin/login" },		/* login program */
+	{ "lo", "/usr/bin/login" },	/* login program */
 	{ "hn", hostname },		/* host name */
 	{ "he" },			/* host name edit */
 	{ "in", &tc.t_intrc },		/* interrupt char */

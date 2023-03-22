@@ -29,7 +29,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install xargs ${DESTDIR}/bin/
+		install xargs ${DESTDIR}/usr/bin/
 		cp xargs.0 ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}

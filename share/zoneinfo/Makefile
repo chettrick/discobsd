@@ -46,7 +46,7 @@ install:	zic $(DATA) $(MAN)
 		install -c ${SHARDIR}/${LOCALTIME} ${DESTDIR}/etc/localtime
 #		install -c $(ZICMAN) ${MANDIR}/${ZICMAN}
 #		install -c $(ZDUMAN) ${MANDIR}/${ZDUMAN}
-#		install -c -s zic ${DESTDIR}/sbin/zic
+#		install -c -s zic ${DESTDIR}/usr/sbin/zic
 
 zdump.0:	$(ZDUMANSRC)
 		nroff -man $(ZDUMANSRC) > $(ZDUMAN)

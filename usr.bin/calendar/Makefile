@@ -25,7 +25,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install calendar ${DESTDIR}/bin/calendar
+		install calendar ${DESTDIR}/usr/bin/calendar
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 		@mkdir -p ${DESTDIR}/usr/share/calendar
 		install calendars/calendar.* ${DESTDIR}/usr/share/calendar/

@@ -13,7 +13,7 @@ dc:             ${OBJS}
 		${ELF2AOUT} dc.elf $@ && rm dc.elf
 
 install:        dc
-		install dc ${DESTDIR}/bin/dc
+		install dc ${DESTDIR}/usr/bin/dc
 
 clean:
 		rm -f *.o *.elf ${MAN} dc *.elf *.dis tags *~

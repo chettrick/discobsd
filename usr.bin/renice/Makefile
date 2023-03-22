@@ -30,7 +30,7 @@ depend:         ${SRCS}
 
 install:        renice
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install renice ${DESTDIR}/bin/renice
+		install renice ${DESTDIR}/usr/bin/renice
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

@@ -29,7 +29,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install sysctl ${DESTDIR}/bin/sysctl
+		install sysctl ${DESTDIR}/sbin/sysctl
 		cp ${MAN} $(DESTDIR)/usr/share/man/cat8/
 
 lint:           ${SRCS}

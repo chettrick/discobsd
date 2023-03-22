@@ -23,7 +23,7 @@ header.o: header.c ldefs.c
 install: all
 	-mkdir -p ${DESTDIR}/usr/share/lex
 	chmod 755 ${DESTDIR}/usr/share/lex
-	install -s -m 755 lex $(DESTDIR)/bin
+	install -s -m 755 lex ${DESTDIR}/usr/bin
 	install -c -m 444 ncform ${DESTDIR}/usr/share/lex
 	install -c -m 444 nrform ${DESTDIR}/usr/share/lex
 

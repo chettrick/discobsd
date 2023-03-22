@@ -46,4 +46,4 @@ clean:
 		rm -f *.o *.elf *.dis $(EXAMPLES)
 
 install:        all
-		install $(EXAMPLES) $(DESTDIR)/bin/
+		install ${EXAMPLES} ${DESTDIR}/usr/bin/

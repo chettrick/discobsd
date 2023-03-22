@@ -31,7 +31,7 @@ $(TARGET):      $(OBJS)
 		${ELF2AOUT} ${TARGET}.elf $@
 
 install:        $(TARGET)
-		install ${TARGET} ${DESTDIR}/bin/
+		install ${TARGET} ${DESTDIR}/usr/bin/
 
 test:           all
 		(cd tests; make test)

@@ -22,7 +22,7 @@ clean:
 		rm -f *.o *.0 *.elf pdc *.dis tags *~ y.tab.[ch]
 
 install:        all
-		install pdc $(DESTDIR)/bin/
+		install pdc ${DESTDIR}/usr/bin/
 
 pdc.o:          pdc.y
 		$(YACC) -d $(YFLAGS) pdc.y

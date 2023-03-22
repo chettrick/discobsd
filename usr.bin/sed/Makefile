@@ -18,7 +18,7 @@ clean:
 		rm -f *.o *.elf ${MAN} sed *.elf *.dis tags *~
 
 install:        all
-		install sed $(DESTDIR)/bin/
+		install sed ${DESTDIR}/usr/bin/
 
 sed0.o: sed0.c sed.h
 sed1.o: sed1.c sed.h

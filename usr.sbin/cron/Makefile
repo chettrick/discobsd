@@ -52,10 +52,10 @@ include $(TOPSRC)/target.mk
 CFLAGS          += -I.
 
 
-DESTROOT	=	$(DESTDIR)
+DESTROOT	=	$(DESTDIR)/usr
 DESTSBIN	=	$(DESTROOT)/sbin
 DESTBIN		=	$(DESTROOT)/bin
-DESTMAN		=	$(DESTROOT)/usr/share/man
+DESTMAN		=	$(DESTROOT)/share/man
 INCLUDE		=	-I.
 OPTIM		=	-O
 #<<lint flags of choice?>>

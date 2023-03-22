@@ -35,7 +35,7 @@ install: FRC
 	-for i in ${SUBDIR}; do \
 		(cd $$i; ${MAKE} ${MFLAGS} DESTDIR=${DESTDIR} install); done
 	-for i in ${KMEM}; do \
-		install -m 2751 $$i ${DESTDIR}/bin/$$i; done
+		install -m 2751 $$i ${DESTDIR}/usr/sbin/$$i; done
 
 clean:
 	/bin/rm -f ${BINS} a.out core *.s *.o *.dis *.elf *~ errs

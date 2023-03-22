@@ -30,7 +30,7 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
-		install uname ${DESTDIR}/bin/uname
+		install uname ${DESTDIR}/usr/bin/uname
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

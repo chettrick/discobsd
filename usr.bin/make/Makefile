@@ -20,7 +20,7 @@ clean:
 		rm -f *.o *.elf xmake *.elf *.dis tags *~ gram.c
 
 install:        all
-		install xmake $(DESTDIR)/bin/make
+		install xmake ${DESTDIR}/usr/bin/make
 
 gram.c:         gram.y
 		$(YACC) gram.y

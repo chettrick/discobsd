@@ -27,7 +27,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 755 glcdtest ${DESTDIR}/bin
+		install -m 755 glcdtest ${DESTDIR}/usr/bin
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

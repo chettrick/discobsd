@@ -45,9 +45,9 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install: 	all
-		install -m 4755 chpass ${DESTDIR}/bin/chpass
-		rm -f ${DESTDIR}/bin/chfn; ln ${DESTDIR}/bin/chpass ${DESTDIR}/bin/chfn
-		rm -f ${DESTDIR}/bin/chsh; ln ${DESTDIR}/bin/chpass ${DESTDIR}/bin/chsh
+		install -m 4755 chpass ${DESTDIR}/usr/bin/chpass
+		rm -f ${DESTDIR}/usr/bin/chfn; ln ${DESTDIR}/usr/bin/chpass ${DESTDIR}/usr/bin/chfn
+		rm -f ${DESTDIR}/usr/bin/chsh; ln ${DESTDIR}/usr/bin/chpass ${DESTDIR}/usr/bin/chsh
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 		rm -f ${DESTDIR}/usr/share/man/cat1/chfn.0
 		rm -f ${DESTDIR}/usr/share/man/cat1/chsh.0

@@ -27,7 +27,7 @@ clean:
 		rm -f *.o *.0 *.elf cpp *.dis tags *~ lex.yy.c y.tab.[ch] tests/run*
 
 install:        all
-		install cpp $(DESTDIR)/bin/
+		install cpp ${DESTDIR}/usr/bin/
 		cp cpp.0 ${DESTDIR}/usr/share/man/cat1/
 
 cpp.o:          cpp.c cpp.h y.tab.h config.h

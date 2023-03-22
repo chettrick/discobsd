@@ -22,4 +22,4 @@ clean:
 		rm -f *.o *.0 *.elf aout tags *~ *.dis
 
 install:        all
-		install aout $(DESTDIR)/bin/
+		install aout ${DESTDIR}/usr/bin/

@@ -22,6 +22,6 @@ clean:
 		rm -f *.o *.0 *.elf adb *.elf *.dis tags *~
 
 install:        all
-		install adb $(DESTDIR)/bin/
+		install adb ${DESTDIR}/usr/bin/
 
 $(OBJS): defs.h

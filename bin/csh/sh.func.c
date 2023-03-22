@@ -164,7 +164,7 @@ dologin(v)
 	islogin();
 	rechist();
 	(void) signal(SIGTERM, parterm);
-	execl("/bin/login", "login", v[1], (char*)0);
+	execl("/usr/bin/login", "login", v[1], (char*)0);
 	untty();
 	exit(1);
 }

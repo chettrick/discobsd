@@ -39,10 +39,6 @@ SIZE            = ${MIPS_GCC_PREFIX}size
 OBJCOPY         = ${MIPS_GCC_PREFIX}objcopy
 OBJDUMP         = ${MIPS_GCC_PREFIX}objdump
 
-ifneq (${MIPS_GCC_FORMAT},)
-    LDFLAGS     += -Wl,--oformat=${MIPS_GCC_FORMAT}
-endif
-
 # sources are located via $S relative to the compilation directory
 S               = ../..
 
@@ -92,15 +88,18 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/pic32/pwm.c $S/pic32/sd.c $S/pic32/spi.c $S/pic32/spi_bus.c \
 	$S/pic32/uart.c swapunix.c 
 
+DEVCFG!=if [ -f devcfg.c ] ; then \
+		echo "devcfg.o" ; \
+	else \
+		echo "" ; \
+	fi
+
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = startup.o ${OBJS} ioconf.o
-ifeq (devcfg.c,$(wildcard devcfg.c))
-    SYSTEM_OBJ  += devcfg.o
-endif
+SYSTEM_OBJ      = startup.o ${OBJS} ioconf.o ${DEVCFG}
 SYSTEM_DEP      = Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD  = sh ../newvers.sh > vers.c; ${CC} $(CFLAGS) -c vers.c; rm -f $@
 SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \

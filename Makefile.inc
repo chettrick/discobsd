@@ -38,7 +38,7 @@ ifeq ($(BOARD), f4discovery)
 		-verbose -verbose \
 		-s \
 		-S \
-		-image ${KERNDIR}/${KERN}.elf
+		-image ${KERNDIR}/${KERN}
 #		--nographic
 else
 	@echo "Board ${BOARD} is not supported by qemu" 1>&2
@@ -49,7 +49,7 @@ gdb-qemu: kernel
 	arm-none-eabi-gdb -q \
 		-ex 'cd ${KERNDIR}' \
 		-ex 'target remote :1234' \
-		${KERNDIR}/${KERN}.elf
+		${KERNDIR}/${KERN}
 
 ocd: kernel
 	cd ${KERNDIR}
@@ -73,6 +73,6 @@ gdb-ocd: kernel
 		-ex 'target extended-remote :3333' \
 		-ex 'mon reset halt' \
 		-ex 'load' \
-		${KERNDIR}/${KERN}.elf
+		${KERNDIR}/${KERN}
 
 .PHONY: help flash ocd gdb-ocd qemu gdb-qemu

@@ -563,9 +563,7 @@ do_systemspec(f, fl, first)
     register struct file_list *fl;
     int first;
 {
-    fprintf(f, "%s: %s.elf\n\n", fl->f_needs, fl->f_needs);
-
-    fprintf(f, "%s.elf: ${SYSTEM_DEP} swap%s.o", fl->f_needs, fl->f_fn);
+    fprintf(f, "%s: ${SYSTEM_DEP} swap%s.o", fl->f_needs, fl->f_fn);
     // Don't use newvers target.
     // A preferred way is to run newvers.sh from SYSTEM_LD_HEAD macro.
     //if (first)

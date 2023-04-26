@@ -87,14 +87,15 @@ From the source tree root, run:
     $ gmake
 
 which will build a file system image in the file `distrib/stm32/sdcard.img`
-and kernels in the files `sys/stm32/${BOARD}/unix.elf`.
+and ELF-formatted kernels in the files `sys/stm32/${BOARD}/unix`.
 
 DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 
     $ MACHINE=pic32 MACHINE_ARCH=mips gmake
 
 which will build a file system image in the file `distrib/pic32/sdcard.img`
-and kernels in the files `sys/pic32/${BOARD}/unix.hex`.
+and ELF-formatted kernels in the files `sys/pic32/${BOARD}/unix` and
+Intel HEX-formatted kernels in the files `sys/pic32/${BOARD}/unix.hex`.
 
 [5]: tools/openbsd/README.md
 

@@ -23,7 +23,7 @@ Provide the path to the SD card via the command line:
     $ SDCARD=/path/to/SD/card gmake installfs
   ```
 
-The board-specific kernel `unix.elf` must be loaded into the MCU's flash memory.
+The board-specific ELF-formatted kernel `unix` must be loaded into the MCU's flash memory.
 Using OpenOCD or `st-flash` from the stlink-org project are two of the many methods.
 
 

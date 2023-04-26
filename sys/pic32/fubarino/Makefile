@@ -33,7 +33,7 @@ AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
 CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -Werror -Wall
 CPP             = ${MIPS_GCC_PREFIX}cpp
 LD              = ${MIPS_GCC_PREFIX}gcc -mips32r2 -EL
-LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$(basename $@).map
+LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$@.map
 SIZE            = ${MIPS_GCC_PREFIX}size
 OBJCOPY         = ${MIPS_GCC_PREFIX}objcopy
 OBJDUMP         = ${MIPS_GCC_PREFIX}objdump
@@ -106,13 +106,11 @@ SYSTEM_LD_HEAD  = sh ../newvers.sh > vers.c; ${CC} $(CFLAGS) -c vers.c; rm -f $@
 SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \
                   ${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@
 SYSTEM_LD_TAIL  = ${SIZE} $@; \
-                  $(OBJCOPY) -O ihex --change-addresses=0x80000000 $@ $(basename $@).hex; \
-                  $(OBJCOPY) -O binary -R .boot -R .config $@ $(basename $@).bin; \
-                  $(OBJDUMP) -d -S $@ > $(basename $@).dis
+                  $(OBJCOPY) -O ihex --change-addresses=0x80000000 $@ $@.hex; \
+                  $(OBJCOPY) -O binary -R .boot -R .config $@ $@.bin; \
+                  $(OBJDUMP) -d -S $@ > $@.dis
 
-unix: unix.elf
-
-unix.elf: ${SYSTEM_DEP} swapunix.o
+unix: ${SYSTEM_DEP} swapunix.o
 	${SYSTEM_LD_HEAD}
 	${SYSTEM_LD} swapunix.o
 	${SYSTEM_LD_TAIL}
@@ -123,7 +121,7 @@ swapunix.o: swapunix.c
 all: unix
 
 clean:
-	rm -rf .deps *.elf *.o *.map *.dis *.bin machine sys
+	rm -rf .deps unix *.elf *.o *.map *.dis *.bin machine sys
 
 clean-all: clean
 	rm -f *.h *.hex ioconf.c swap*.c vers.c
@@ -133,7 +131,7 @@ reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
 	$(MAKE) clean
 	rm -f *.hex
 
-load:   unix.elf
+load:   unix
 	pic32prog unix.hex
 
 machine:
@@ -353,6 +351,4 @@ usb_uart.o: $S/pic32/usb_uart.c
 	${COMPILE_C}
 
 
-ifeq (.deps, $(wildcard .deps))
 -include .deps/*.dep
-endif

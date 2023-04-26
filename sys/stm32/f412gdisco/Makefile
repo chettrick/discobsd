@@ -47,7 +47,7 @@ CMACHFLAGS+=	${CMACHCPU}
 COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
-LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -nopie -Map=$(basename $@).map
+LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -nopie -Map=$@.map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}
@@ -110,11 +110,9 @@ SYSTEM_LD_HEAD=	sh ../newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
 SYSTEM_LD=	-@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@ ${LDADD}; \
 		${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@ ${LDADD}
 SYSTEM_LD_TAIL=	${SIZE} $@; \
-		${OBJDUMP} -d -S $@ > $(basename $@).dis
+		${OBJDUMP} -d -S $@ > $@.dis
 
-unix: unix.elf
-
-unix.elf: ${SYSTEM_DEP} swapunix.o
+unix: ${SYSTEM_DEP} swapunix.o
 	${SYSTEM_LD_HEAD}
 	${SYSTEM_LD} swapunix.o
 	${SYSTEM_LD_TAIL}
@@ -125,7 +123,7 @@ swapunix.o: swapunix.c
 all: unix
 
 clean:
-	rm -rf .deps *.elf *.o *.map *.dis *.bin machine sys
+	rm -rf .deps unix *.elf *.o *.map *.dis *.bin machine sys
 
 clean-all: clean
 	rm -f *.h *.hex ioconf.c swap*.c vers.c
@@ -133,10 +131,6 @@ clean-all: clean
 reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
 	../../../tools/kconfig/kconfig -g Config
 	${MAKE} clean
-	rm -f *.hex
-
-load:   unix.elf
-	pic32prog unix.hex
 
 machine:
 	ln -s .. $@
@@ -367,6 +361,4 @@ stm32469i_discovery_sd.o: $S/stm32/stm32469i_discovery_sd.c
 	${COMPILE_C}
 
 
-ifeq (.deps, $(wildcard .deps))
 -include .deps/*.dep
-endif

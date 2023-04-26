@@ -3,6 +3,7 @@
 .oldversion
 machine
 sys
+unix
 unix.bin
 unix.map
 usbboot.map

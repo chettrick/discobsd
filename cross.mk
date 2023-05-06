@@ -1,6 +1,10 @@
+# Override the default port with:
+# $ gmake MACHINE=pic32 MACHINE_ARCH=mips
+#
+MACHINE=	stm32
+MACHINE_ARCH=	arm
+
 DESTDIR		= /usr/local/retrobsd
-MACHINE		?= stm32
-MACHINE_ARCH	?= arm
 
 UNAME_S		= $(shell uname -s)
 

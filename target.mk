@@ -1,5 +1,9 @@
-MACHINE		?= stm32
-MACHINE_ARCH	?= arm
+# Override the default port with:
+# $ gmake MACHINE=pic32 MACHINE_ARCH=mips
+#
+MACHINE=	stm32
+MACHINE_ARCH=	arm
+
 DESTDIR		?= ${TOPSRC}/distrib/obj/destdir.${MACHINE}
 RELEASE		= 0.0
 BUILD		= $(shell git rev-list HEAD --count)

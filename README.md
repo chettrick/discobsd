@@ -91,7 +91,7 @@ and ELF-formatted kernels in the files `sys/stm32/${BOARD}/unix`.
 
 DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 
-    $ MACHINE=pic32 MACHINE_ARCH=mips gmake
+    $ gmake MACHINE=pic32 MACHINE_ARCH=mips
 
 which will build a file system image in the file `distrib/pic32/sdcard.img`
 and ELF-formatted kernels in the files `sys/pic32/${BOARD}/unix` and

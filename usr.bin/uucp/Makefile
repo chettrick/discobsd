@@ -18,9 +18,9 @@ LIBOBJ  = logent.o ulockf.o uucpdefs.o subdir.o gename.o assert.o expfile.o \
           conn.o condevs.o chksum.o setline.o gnsys.o
 
 ifeq ($(MACHINE_ARCH), mips)
-CC      = $(GCCPREFIX)gcc -mips16 -EL -msoft-float -nostdinc -fshort-double -I$(TOPSRC)/include $(INCLUDES)
+CC      = $(GCCPREFIX)-gcc -mips16 -EL -msoft-float -nostdinc -fshort-double -I$(TOPSRC)/include $(INCLUDES)
 else
-CC      = $(GCCPREFIX)gcc -msoft-float -nostdinc -I$(TOPSRC)/include $(INCLUDES)
+CC      = $(GCCPREFIX)-gcc -msoft-float -nostdinc -I$(TOPSRC)/include $(INCLUDES)
 endif
 
 

@@ -38,7 +38,7 @@ FSUTIL		= tools/fsutil/fsutil
 
 -include Makefile.user
 
-TOPSRC=		$(shell pwd)
+TOPSRC!=	pwd
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
@@ -106,12 +106,9 @@ symlinks:
 		ln -s $(MACHINE) include/machine
 
 installfs:
-ifdef SDCARD
+		@[ -n "${SDCARD}" ] || (echo "SDCARD not defined." && exit 1)
 		@[ -f $(FSIMG) ] || $(MAKE) $(FSIMG)
 		sudo dd bs=32k if=$(FSIMG) of=$(SDCARD)
-else
-		@echo "Error: No SDCARD defined."
-endif
 
 # TODO: make it relative to Target
 installflash:
@@ -121,5 +118,5 @@ installflash:
 installboot:
 		sudo pic32prog sys/pic32/fubarino/bootloader.hex
 
-# STM32-specific emulator and debugger.
+# STM32-specific debugger.
 -include Makefile.inc

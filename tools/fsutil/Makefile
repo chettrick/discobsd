@@ -5,14 +5,18 @@ OBJS		= fsutil.o superblock.o block.c inode.o create.o check.o \
                   file.o mount.o manifest.o
 PROG		= fsutil
 
+_HOST_OSNAME!=	uname -s
+
 # For Mac OS X
-ifneq ($(wildcard /usr/local/lib/pkgconfig),)
-    FUSE_PATH   = /usr/local/lib/pkgconfig
-endif
+FUSE_PATH!=if [ x"${_HOST_OSNAME}" = x"Darwin" ] ; then \
+		echo "/usr/local/lib/pkgconfig" ; \
+	else \
+		echo "" ; \
+	fi
 
 # Fuse
-MOUNT_CFLAGS    = $(shell PKG_CONFIG_PATH=$(FUSE_PATH) pkg-config fuse --cflags)
-LIBS            += $(shell PKG_CONFIG_PATH=$(FUSE_PATH) pkg-config fuse --libs)
+MOUNT_CFLAGS!=	PKG_CONFIG_PATH=${FUSE_PATH} pkg-config fuse --cflags
+LIBS!=		PKG_CONFIG_PATH=${FUSE_PATH} pkg-config fuse --libs
 
 all:		$(PROG)
 

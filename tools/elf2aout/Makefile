@@ -1,4 +1,4 @@
-CC		= ${HOSTCC}gcc -g
+CC		= gcc -g
 CFLAGS		= -O -Wall
 DESTDIR		= /usr/local
 OBJS		= elf2aout.o

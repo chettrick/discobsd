@@ -22,18 +22,19 @@ LIBS		= -lpthread -lelf
 
 LIBS		+= -L/usr/local/lib/elftoolchain
 
-ifneq ($(wildcard /usr/lib/librt.a),)
-LIBS		+= -lrt                             # Linux
-endif
-ifneq ($(wildcard /usr/lib/i386-linux-gnu/librt.a),)
-LIBS		+= -lrt                             # Linux
-endif
-ifneq ($(wildcard /opt/local/lib/libintl.a),)
-LIBS		+= -L/opt/local/lib -lintl          # Mac OS X
-endif
-ifneq ($(wildcard /usr/local/lib/libintl.a),)
-LIBS		+= -L/usr/local/lib -lintl          # OpenBSD
-endif
+_HOST_OSNAME!=	uname -s
+
+ADDLIBS!=if [ x"${_HOST_OSNAME}" = x"OpenBSD" ] ; then \
+		echo "-L/usr/local/lib -lintl" ; \
+	elif [ x"${_HOST_OSNAME}" = x"Darwin" ] ; then \
+		echo "-L/opt/local/lib -lintl" ; \
+	elif [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
+		echo "-lrt" ; \
+	else \
+		echo "" ; \
+	fi
+
+LIBS		+= ${ADDLIBS}
 
 # Optimization.
 CFLAGS		+= -O
@@ -87,6 +88,4 @@ $(PROG):	$(OBJS)
 clean:
 			rm -rf *.o *~ *_log.txt .deps pavo m4k pic32 pic32-log.txt
 
-ifeq (.deps, $(wildcard .deps))
 -include .deps/*.dep
-endif

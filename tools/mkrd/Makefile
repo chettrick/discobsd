@@ -5,7 +5,7 @@ CFLAGS  = -Wall -Werror -O
 all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) -o $@ $< $(LIBS) $(LDFLAGS)
+	$(CC) -o $@ $(OBJS) $(LIBS) $(LDFLAGS)
 
 clean:
 	@rm -f $(BIN) $(OBJS)

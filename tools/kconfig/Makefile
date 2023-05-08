@@ -1,25 +1,26 @@
 CC		= gcc -g
 CFLAGS		= -O -Wall -Werror
 
-UNAME_S		= $(shell uname -s)
+_HOST_OSNAME!=	uname -s
 
-ifeq ($(UNAME_S), Linux)
-YACC            = byacc -d
-else
-YACC            = yacc -d
-endif
+YACC!=		if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
+			echo "byacc -d" ; \
+		else \
+			echo "yacc -d" ; \
+		fi
 
 DESTDIR		= /usr/local
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
 PROG		= kconfig
+MANSRC		= kconfig.8
 
 all:		$(PROG) $(PROG).0
 
 install:	$(PROG)
 		install -s $(PROG) ${DESTDIR}/bin/$(PROG)
 
-$(PROG).0:      $(PROG).8
-		nroff -man $< > $@
+${PROG}.0:	${MANSRC}
+		nroff -man ${MANSRC} > $@
 
 clean:
 		rm -rf *~ *.o *.lst *.dis $(PROG) $(PROG).0 $(PROG).dSYM y.tab.[ch] lang.c config.c

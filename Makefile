@@ -43,7 +43,7 @@ DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
 all:		symlinks
-		$(MAKE) -C tools
+		$(MAKE) -C tools MACHINE=${MACHINE}
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes

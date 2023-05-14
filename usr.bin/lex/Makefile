@@ -1,6 +1,8 @@
 CFLAGS = -O
 SEPFLAG= -i
 
+YFLAGS=
+
 all: lex
 
 lex: lmain.o y.tab.o sub1.o sub2.o header.o
@@ -10,7 +12,7 @@ smallex:
 	cc ${SEPFLAG} lmain.o y.tab.o sub1.o sub2.o header.o -o lex
 
 y.tab.c: parser.y
-	yacc parser.y
+	${YACC} ${YFLAGS} parser.y
 lmain.o:lmain.c ldefs.c once.c
 	cc -c -O lmain.c
 sub1.o: sub1.c ldefs.c
@@ -28,4 +30,4 @@ install: all
 	install -c -m 444 nrform ${DESTDIR}/usr/share/lex
 
 clean:
-	rm -f *.o lex y.tab.c
+	rm -f *.o lex y.tab.[ch]

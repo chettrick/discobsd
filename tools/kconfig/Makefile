@@ -4,10 +4,12 @@ CFLAGS		= -O -Wall -Werror
 _HOST_OSNAME!=	uname -s
 
 YACC!=		if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
-			echo "byacc -d" ; \
+			echo "byacc" ; \
 		else \
-			echo "yacc -d" ; \
+			echo "yacc" ; \
 		fi
+
+YFLAGS=		-d
 
 DESTDIR		= /usr/local
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o

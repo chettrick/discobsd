@@ -13,7 +13,6 @@ include $(TOPSRC)/target.mk
 CFLAGS          += -Os -g -Wall -ansi
 CFLAGS          += -DBSD -DDEST=\"/usr/games/lib/atc/\"
 #CFLAGS          += -DSYSV -DDEST=\"games/\"
-YFLAGS          = -d
 LEX             = lex
 LIBS            = -lm -lcurses -ltermcap -lc
 OBJS            = extern.o grammar.o input.o lex.o list.o log.o main.o tunable.o \
@@ -33,7 +32,7 @@ ${MAN}:         ${MANSRC}
 		${MANROFF} $< > $@
 
 clean:
-		rm -f *.o *.0 *.elf atc ${MAN} *.elf *.dis tags *~ grammar.c lex.c y.tab.h
+		rm -f *.o *.0 *.elf atc ${MAN} *.elf *.dis tags *~ grammar.c lex.c y.tab.[ch]
 
 install:        all
 		install atc ${DESTDIR}/usr/games/

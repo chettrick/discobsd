@@ -10,6 +10,8 @@ CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC -DHAVE_READLINE
 CPPFLAGS	+= -I${TOPSRC}/lib/libreadline
 LIBS            = -lreadline -lc
 
+YFLAGS		=
+
 all:            pdc
 
 pdc:            $(OBJS)
@@ -25,5 +27,5 @@ install:        all
 		install pdc ${DESTDIR}/usr/bin/
 
 pdc.o:          pdc.y
-		$(YACC) -d $(YFLAGS) pdc.y
+		$(YACC) $(YFLAGS) pdc.y
 		$(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) -c -o pdc.o y.tab.c

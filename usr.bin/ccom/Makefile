@@ -31,7 +31,7 @@ ccom.0:         ccom.1
 		${MANROFF} $< > $@
 
 clean:
-		rm -f *.o *.0 *.elf ${MAN} ccom *.elf *.dis a.out *~ scan.c cgram.[ch] mkext
+		rm -f *.o *.0 *.elf ${MAN} ccom *.elf *.dis a.out *~ scan.c cgram.[ch] y.tab.[ch] mkext
 
 install:        all
 		install ccom $(DESTDIR)/usr/libexec/
@@ -94,7 +94,7 @@ pass1.h: 	external.h
 pass2.h: 	external.h
 
 cgram.c: 	cgram.y
-		$(YACC) $(YFLAGS) -d $<
+		$(YACC) $(YFLAGS) $<
 		mv y.tab.c cgram.c
 		mv y.tab.h cgram.h
 

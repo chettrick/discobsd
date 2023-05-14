@@ -5,6 +5,7 @@ include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
 CFLAGS		+= -Werror -Wall -I../ar -g
+YFLAGS		=
 
 OBJS            = main.o doname.o misc.o files.o dosys.o gram.o
 
@@ -17,12 +18,12 @@ xmake:          ${OBJS}
 		${ELF2AOUT} make.elf $@ && rm make.elf
 
 clean:
-		rm -f *.o *.elf xmake *.elf *.dis tags *~ gram.c
+		rm -f *.o *.elf xmake *.elf *.dis tags *~ gram.c y.tab.[ch]
 
 install:        all
 		install xmake ${DESTDIR}/usr/bin/make
 
 gram.c:         gram.y
-		$(YACC) gram.y
+		${YACC} ${YFLAGS} gram.y
 		fgrep -v "static char yaccpar_sccsid" y.tab.c >gram.c
 		rm -f y.tab.c

@@ -8,6 +8,8 @@ include ${TOPSRC}/target.mk
 
 # XXX CFLAGS+=	-Wall
 
+YFLAGS=
+
 # Programs that live in subdirectories, and have makefiles of their own.
 # /bin
 SUBDIR=		date2 hostname ls md5 sh stty test
@@ -82,7 +84,7 @@ install:	${BINS}
 			install -m 2751 $$i ${DESTDIR}/bin/$$i; done
 
 clean:
-		/bin/rm -f ${BINS} expr.c a.out core *.s *.o *.dis *.elf *~ y.tab.c errs
+		/bin/rm -f ${BINS} expr.c a.out core *.s *.o *.dis *.elf *~ y.tab.[ch] errs
 		for i in ${SUBDIR}; do (cd $$i; ${MAKE} ${MFLAGS} clean); done
 
 depend:		expr.c

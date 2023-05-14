@@ -5,7 +5,6 @@ include $(TOPSRC)/target.mk
 CFLAGS		+= -Os -ansi
 
 YACC            = bison -y
-YFLAGS          = -d
 LIBS            = -lm -lc
 FILES           = awk.lx.o b.o main.o tran.o lib.o run.o parse.o proctab.o freeze.o
 SOURCE          = awk.def.h awk.g.y awk.lx.l b.c lib.c main.c parse.c \

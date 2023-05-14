@@ -68,6 +68,8 @@ YACC!=	if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
 		echo "yacc" ; \
 	fi
 
+YFLAGS=	-d
+
 LD=		${GCCPREFIX}-ld
 AR=		${GCCPREFIX}-ar
 RANLIB=		${GCCPREFIX}-ranlib

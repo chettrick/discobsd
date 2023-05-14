@@ -9,6 +9,8 @@ include $(TOPSRC)/target.mk
 # XXX CFLAGS		+= -Wall -Werror -DNDEBUG
 CFLAGS		+= -Wall -DNDEBUG
 
+YFLAGS=
+
 OBJS            = $Balloc.o $Bbind.o $Bdag.o $Bdagcheck.o $Bdecl.o $Benode.o \
 		  $Berror.o $Bexpr.o $Bevent.o $Binit.o $Binits.o $Binput.o \
 		  $Blex.o $Blist.o $Boutput.o $Bprof.o $Bprofio.o \
@@ -28,7 +30,7 @@ clean:
 		rm -rf lccom *.a *.dis *~ $B $T/*.1 $T/*.2 $T/*.s
 		rm -f $T8q $Tarray $Tcf $Tcq $Tcvt $Tfields $Tfront $Tincr \
                     $Tinit $Tlimits $Tparanoia $Tsort $Tspill $Tstdarg \
-                    $Tstruct $Tswitch $Twf1 $Tyacc
+                    $Tstruct $Tswitch $Twf1 $Tyacc y.tab.[ch] lburg/gram.c
 
 install:        all
 		install lccom $(DESTDIR)/usr/libexec/

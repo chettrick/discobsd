@@ -37,7 +37,7 @@ cpp.o:          cpp.c cpp.h y.tab.h config.h
 		$(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) -c -o $@ lex.yy.c
 
 cpy.o y.tab.h:  cpy.y
-		$(YACC) -d $(YFLAGS) cpy.y
+		$(YACC) $(YFLAGS) cpy.y
 		$(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) -c -o cpy.o y.tab.c
 
 test:

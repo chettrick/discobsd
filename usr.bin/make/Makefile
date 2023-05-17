@@ -1,6 +1,6 @@
 # Description file for the Make command
 # Makefile 4.5 94/1/3
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 

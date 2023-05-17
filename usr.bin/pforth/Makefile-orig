@@ -10,7 +10,7 @@
 # Options include: PF_SUPPORT_FP PF_NO_MALLOC PF_NO_INIT PF_DEBUG
 # See "docs/pf_ref.htm" file for more info.
 
-TOPSRC       = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include      $(TOPSRC)/target.mk
 
 FULL_WARNINGS =  \

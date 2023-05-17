@@ -3,7 +3,7 @@
 #	Program:  Ken Arnold
 #	Makefile:  K.S.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 #CFLAGS = -DCROSS -O

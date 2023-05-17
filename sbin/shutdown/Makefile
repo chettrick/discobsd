@@ -2,7 +2,7 @@
 # Public Domain.  1996/11/16 - Steven Schultz
 # Should be installed with group operator.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		+= -Werror

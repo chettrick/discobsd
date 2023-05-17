@@ -1,6 +1,6 @@
 #	Makefile	4.4	86/02/12
 
-TOPSRC          = $(shell cd ../../..; pwd)
+TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
 DEBUG           =

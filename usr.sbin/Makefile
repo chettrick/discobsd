@@ -3,7 +3,7 @@
 #
 #	@(#)Makefile	1.2 (2.11BSD) 1997/6/27
 #
-TOPSRC=	$(shell cd ..; pwd)
+TOPSRC!=cd ..; pwd
 include	${TOPSRC}/target.mk
 
 SUBDIR=	chroot cron disktool mkpasswd pstat talloc \

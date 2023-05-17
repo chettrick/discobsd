@@ -5,7 +5,7 @@
 #	Last Modified: 29/01/2012
 #==========================================
 
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 OBJS            = setty.o

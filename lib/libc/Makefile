@@ -23,7 +23,7 @@
 # have hardware floating point.  To compile a non-separate I&D version add
 # -DNONSEPARATE.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 DEFS		= -Wall -Werror

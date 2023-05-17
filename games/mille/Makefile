@@ -1,7 +1,7 @@
 #
 # mille bourne game makefile
 #
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 #CFLAGS  	= -O -DCROSS -Werror -Wall

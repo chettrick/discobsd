@@ -3,7 +3,7 @@
 # All rights reserved.  Redistribution permitted subject to
 # the terms of the Berkeley Software License Agreement.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 

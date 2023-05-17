@@ -5,7 +5,7 @@
 #
 #	Version 1.2
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		+= -Werror

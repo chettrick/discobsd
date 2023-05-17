@@ -1,7 +1,7 @@
 #
 #	@(#)Makefile	5.5 (Berkeley) 9/18/85
 #
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 OBJS 		= compress.o

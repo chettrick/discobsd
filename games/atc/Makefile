@@ -5,7 +5,7 @@
 #
 #	@(#)Makefile	5.1.2	(2.11BSD)	1999/10/25
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 

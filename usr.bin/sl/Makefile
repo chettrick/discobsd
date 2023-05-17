@@ -5,7 +5,7 @@
 #	Last Modified: 1998/ 7/22
 #==========================================
 
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 OBJS            = sl.o

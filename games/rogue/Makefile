@@ -9,7 +9,7 @@
 # software without specific written prior permission. This software
 # is provided ``as is'' without express or implied warranty.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		+= -Os -DUNIX -DUNIX_BSD4_2 -DCURSES -DANSI -Werror -Wall

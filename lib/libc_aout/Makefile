@@ -1,4 +1,4 @@
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
 PROG		= ar as aout ld nm ranlib size strip
 

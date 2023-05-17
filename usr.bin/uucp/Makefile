@@ -5,7 +5,7 @@
 #
 # Common object files are assembled into a library {uulib.a}
 #
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 ALL=	uucico uucp uux uuxqt uulog uuclean uuname uupoll uusnap \

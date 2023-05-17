@@ -1,4 +1,4 @@
-TOPSRC          = $(shell cd ../../..; pwd)
+TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/lib/libm

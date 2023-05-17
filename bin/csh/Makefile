@@ -8,7 +8,7 @@
 #
 # To profile, put -DPROF in DEFS and -pg in CFLAGS, and recompile.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 

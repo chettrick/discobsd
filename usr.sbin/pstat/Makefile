@@ -1,7 +1,7 @@
 #
 # Should be installed with kmem group.
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 # XXX CFLAGS		+= -Werror

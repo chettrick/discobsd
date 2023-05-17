@@ -4,7 +4,7 @@
 #
 # curses package
 #
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 CFILES=	addch.c addstr.c box.c clear.c clrtobot.c clrtoeol.c cr_put.c \

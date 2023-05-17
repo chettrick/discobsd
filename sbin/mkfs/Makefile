@@ -1,7 +1,7 @@
 #
 # Public Domain.  1996/11/16 - Steven Schultz
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 

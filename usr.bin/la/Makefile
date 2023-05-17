@@ -1,7 +1,7 @@
 #
 # la Makefile.  Revised 1996/1/28
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 CFLAGS		+= -Werror -Wall

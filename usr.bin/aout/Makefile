@@ -1,7 +1,7 @@
 #
 # aout    - Display information from a.out files
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 

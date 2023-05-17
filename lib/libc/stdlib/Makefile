@@ -3,7 +3,7 @@
 # libc/stdlib directory go here but existing libc/gen files are being left
 # where they are.
 #
-TOPSRC		= $(shell cd ../../..; pwd)
+TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
 DEFS		=

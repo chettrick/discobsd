@@ -5,7 +5,7 @@
 #
 # Alex P. Roudnev, Moscow, KIAE, 1984
 #
-TOPSRC		= $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 CFLAGS		+= -Wall -Werror -DMULTIWIN=0

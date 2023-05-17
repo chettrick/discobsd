@@ -28,7 +28,7 @@
 #                          checking for gcc and DEC's cc on
 #                          Digital Unix 4.x (kahn@zk3.dec.com)
 ##############################################################################
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 ID="@(#)Makefile:3.9 -- 5/15/91 19:30:15";

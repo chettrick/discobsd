@@ -16,7 +16,7 @@
 # The ``rm -rf''s used below are safe because rm doesn't
 # follow symbolic links.
 #
-TOPSRC=	$(shell cd ..; pwd)
+TOPSRC!=cd ..; pwd
 include	${TOPSRC}/target.mk
 
 STD=	a.out.h alloca.h ar.h assert.h \

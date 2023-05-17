@@ -4,7 +4,7 @@
 #
 # vmf package
 #
-TOPSRC          = $(shell cd ../..; pwd)
+TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 CFILES  	= vmf.c

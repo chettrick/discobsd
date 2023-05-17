@@ -5,7 +5,7 @@
 #
 # Machine dependent routines for the MIPS are located here
 #
-TOPSRC		= $(shell cd ../../..; pwd)
+TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
 ALL		= gen string sys

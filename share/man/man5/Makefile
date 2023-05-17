@@ -16,7 +16,7 @@
 #
 #	@(#)Makefile	5.4.3 (2.11BSD GTE) 1996/3/20
 #
-TOPSRC = $(shell cd ../../..; pwd)
+TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
 MDIR=	/usr/share/man/cat5

@@ -16,6 +16,7 @@ OBJS            = extern.o init_field.o main.o make_level.o move.o \
 		  move_robs.o play_level.o query.o rnd_pos.o score.o \
 		  flush_in.o
 MAN             = robots.0
+MANSRC          = robots.6
 LIBS            = -lcurses -ltermcap -lc
 
 all:            robots $(MAN)
@@ -26,8 +27,8 @@ robots:         $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         robots.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core robots *.0 *.dis

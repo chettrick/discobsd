@@ -37,7 +37,7 @@ swap.bin:
 		dd bs=1k count=2048 < /dev/zero > $@
 
 mount.o: mount.c bsdfs.h
-		$(CC) $(CFLAGS) $(MOUNT_CFLAGS) -c -o $@ $<
+		$(CC) $(CFLAGS) $(MOUNT_CFLAGS) -c -o $@ mount.c
 
 block.o: block.c bsdfs.h
 check.o: check.c bsdfs.h

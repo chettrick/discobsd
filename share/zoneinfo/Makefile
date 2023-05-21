@@ -49,10 +49,10 @@ install:	zic $(DATA) $(MAN)
 #		install -c -s zic ${DESTDIR}/usr/sbin/zic
 
 zdump.0:	$(ZDUMANSRC)
-		nroff -man $(ZDUMANSRC) > $(ZDUMAN)
+		${MANROFF} ${ZDUMANSRC} > ${ZDUMAN}
 
 zic.0:		$(ZICMANSRC)
-		nroff -man $(ZICMANSRC) > $(ZICMAN)
+		${MANROFF} ${ZICMANSRC} > ${ZICMAN}
 
 zdump:		$(TZDOBJS)
 		$(CC) $(CFLAGS) $(LFLAGS) $(TZDOBJS) -o $@

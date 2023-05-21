@@ -31,7 +31,7 @@ all:    	../libvmf.a $(MAN)
 		$(RANLIB) ../libvmf_p.a
 
 $(MAN):         $(MANSRC)
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 install: 	all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat3/

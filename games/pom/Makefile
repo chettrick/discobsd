@@ -11,6 +11,7 @@ LIBS		= -lm -lc
 
 OBJS            = pom.o
 MAN             = pom.0
+MANSRC          = pom.6
 
 all:            pom $(MAN)
 
@@ -20,8 +21,8 @@ pom:           $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         pom.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core pom *.0 *.dis

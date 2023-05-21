@@ -14,6 +14,7 @@ CFLAGS  	+= -Werror -Wall
 
 OBJS            = snake.o move.o
 MAN             = snake.0
+MANSRC          = snake.6
 LIBS            = -lm -ltermcap -lc
 
 all:            snake snscore $(MAN)
@@ -30,8 +31,8 @@ snscore:        snscore.o
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         snake.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core snake snscore *.0 *.dis

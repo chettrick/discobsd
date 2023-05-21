@@ -88,10 +88,10 @@ _make_01: ${OBJS1}
 
 _make_02: ${OBJS2}
 
-ifdef USE_GROFF
-eqn.0:
-	eqn eqn.1 | ${MANROFF} > $@
-endif
+# mandoc accepts and processes the eqn language,
+# and gives cleaner output than "eqn | nroff"
+#eqn.0:
+#	eqn eqn.1 | ${MANROFF} > $@
 
 clean: FRC
 	rm -f ${OBJS1}

@@ -11,6 +11,7 @@ LIBS		= -lm -lc
 
 OBJS            = pig.o
 MAN             = pig.0
+MANSRC          = pig.6
 
 all:            pig $(MAN)
 
@@ -20,8 +21,8 @@ pig:           $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         pig.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core pig *.0 *.dis

@@ -29,7 +29,7 @@ ops:            ops.o ../lccom/c.h ../lccom/ops.h
 		${ELF2AOUT} ops.elf $@ && rm ops.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf lcc bprint ops *.dis *~

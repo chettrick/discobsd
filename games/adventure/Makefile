@@ -22,7 +22,7 @@ adventure:      ${OBJS}
 		${ELF2AOUT} adventure.elf $@ && rm adventure.elf
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} adventure *.elf *.dis tags *~

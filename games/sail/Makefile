@@ -26,7 +26,7 @@ sail:           ${OBJS}
 		${ELF2AOUT} sail.elf $@ && rm sail.elf
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} sail *.elf *.dis tags *~

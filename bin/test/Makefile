@@ -24,7 +24,7 @@ test:        	${OBJS}
 		${ELF2AOUT} test.elf $@ && rm test.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.elf ${MAN} test *.elf *.dis tags *~

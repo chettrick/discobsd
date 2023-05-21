@@ -30,25 +30,25 @@ ar:             $(AR_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(AR_OBJS) $(LIBS)
 
 as:             as.o
-		$(CC) $(LDFLAGS) -o $@ $< $(LIBS)
+		$(CC) $(LDFLAGS) -o $@ as.o $(LIBS)
 
 aout:           $(AOUT_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(AOUT_OBJS) $(LIBS)
 
 ld:             ld.o
-		$(CC) $(LDFLAGS) -o $@ $< $(LIBS)
+		$(CC) $(LDFLAGS) -o $@ ld.o $(LIBS)
 
 nm:             nm.o
-		$(CC) $(LDFLAGS) -o $@ $< $(LIBS)
+		$(CC) $(LDFLAGS) -o $@ nm.o $(LIBS)
 
 ranlib:         $(RANLIB_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(RANLIB_OBJS) $(LIBS)
 
 size:           size.o
-		$(CC) $(LDFLAGS) -o $@ $< $(LIBS)
+		$(CC) $(LDFLAGS) -o $@ size.o $(LIBS)
 
 strip:          strip.o
-		$(CC) $(LDFLAGS) -o $@ $< $(LIBS)
+		$(CC) $(LDFLAGS) -o $@ strip.o $(LIBS)
 
 $(HEADERS):
 		-ln -s -f $(TOPSRC)/include/a.out.h .

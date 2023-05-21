@@ -57,31 +57,31 @@ clean:
 # Files listed in $(NSTD) have explicit make lines given below.
 
 canfield:       canfield.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< -lcurses -ltermcap $(LIBS)
+		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf canfield.c -lcurses -ltermcap $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
 
 primes:         primes.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< -lm $(LIBS)
+		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf primes.c -lm $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
 
 rain:           rain.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< -ltermcap $(LIBS)
+		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf rain.c -ltermcap $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
 
 worm:           worm.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< -lcurses -ltermcap $(LIBS)
+		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf worm.c -lcurses -ltermcap $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
 
 worms:          worms.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< -ltermcap $(LIBS)
+		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf worms.c -ltermcap $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf

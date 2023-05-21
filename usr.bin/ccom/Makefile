@@ -27,8 +27,8 @@ ccom:           ${OBJS}
 		${SIZE} ccom.elf
 		${ELF2AOUT} ccom.elf $@ && rm ccom.elf
 
-ccom.0:         ccom.1
-		${MANROFF} $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} ccom *.elf *.dis a.out *~ scan.c cgram.[ch] y.tab.[ch] mkext
@@ -94,12 +94,12 @@ pass1.h: 	external.h
 pass2.h: 	external.h
 
 cgram.c: 	cgram.y
-		$(YACC) $(YFLAGS) $<
+		${YACC} ${YFLAGS} cgram.y
 		mv y.tab.c cgram.c
 		mv y.tab.h cgram.h
 
 scan.c: 	scan.l
-		$(LEX) $(LFLAGS) $<
+		${LEX} ${LFLAGS} scan.l
 		mv lex.yy.c scan.c
 
 optim2.o reader.o optim.o : external.h

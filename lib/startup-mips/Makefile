@@ -25,7 +25,7 @@ install:	${OBJS}
 #		$(INSTALL) gcrt0.o ${DESTDIR}/usr/lib/gcrt0.o
 
 crt0.o:		crt0.c
-		$(CC) ${DEFS} ${CFLAGS} -c $< -o $@
+		${CC} ${DEFS} ${CFLAGS} -c crt0.c -o $@
 
 tags:
 		cwd=`pwd`; \

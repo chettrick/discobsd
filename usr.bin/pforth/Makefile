@@ -44,7 +44,7 @@ pfdicdat.h pforth.dic:
 		mv fth/pfdicdat.h $@
 
 ../../lib/pforth.dic: pforth.dic
-		cp -p $< $@
+		cp -p pforth.dic $@
 
 clean:
 		rm -f *.o ${MAN} ../id ../groups ../whoami *.elf *.dis tags *~

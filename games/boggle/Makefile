@@ -29,7 +29,7 @@ comp:           comp.c
 		cc -O comp.c -o comp
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.dis core boggle comp bogdict

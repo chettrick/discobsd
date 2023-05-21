@@ -17,7 +17,7 @@ basic:          ${OBJS}
 		${ELF2AOUT} basic.elf $@ && rm basic.elf
 
 renumber:       renumber.o
-		${CC} ${LDFLAGS} -o renumber.elf $< ${LIBS}
+		${CC} ${LDFLAGS} -o renumber.elf renumber.o ${LIBS}
 		${OBJDUMP} -S renumber.elf > renumber.dis
 		${SIZE} renumber.elf
 		${ELF2AOUT} renumber.elf $@ && rm renumber.elf

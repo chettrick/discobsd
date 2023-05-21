@@ -17,7 +17,7 @@ ${PROG}:	${OBJS}
 		${ELF2AOUT} $@.elf $@ && rm $@.elf
 
 ${MAN}:		${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~

@@ -32,7 +32,7 @@ teachgammon:    $(TOBJS)
 		$(ELF2AOUT) teachgammon.elf $@ && rm teachgammon.elf
 
 $(MAN):         $(MANSRC)
-		$(MANROFF) $< > $@
+		$(MANROFF) $(MANSRC) > $@
 
 clean:
 		rm -f *.o *.0 *.elf $(MAN) backgammon teachgammon *.elf *.dis tags *~

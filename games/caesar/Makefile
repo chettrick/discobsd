@@ -11,6 +11,7 @@ LIBS		= -lm -lc
 
 OBJS            = caesar.o
 MAN             = caesar.0
+MANSRC          = caesar.6
 
 all:            caesar $(MAN)
 
@@ -20,8 +21,8 @@ caesar:           $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         caesar.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core caesar *.0 *.dis

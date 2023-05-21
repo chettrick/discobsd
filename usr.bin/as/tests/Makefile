@@ -16,4 +16,4 @@ clean:
 		rm -f *.o *.dis *.gcc-dis
 
 hello.s:        hello.c
-		$(CC) $(CFLAGS) -S $<
+		${CC} ${CFLAGS} -S hello.c

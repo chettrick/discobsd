@@ -31,7 +31,7 @@ crib.instr:     cribbage.n macro
 		nroff cribbage.n > $@
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core cribbage ${MAN} *.dis crib.instr

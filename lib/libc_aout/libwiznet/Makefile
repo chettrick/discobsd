@@ -3,11 +3,13 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/lib/libwiznet
 
-CFLAGS		= -Os $(DEFS) -Wall -Werror
+COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+	else \
+		echo "" ; \
+	fi
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
-endif
+CFLAGS		= -Os ${DEFS} -Wall -Werror ${COPTS}
 
 OBJS		= w5100.o socket.o ethernet.o client.o server.o udp.o
 

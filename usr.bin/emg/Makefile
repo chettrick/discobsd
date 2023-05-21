@@ -11,9 +11,13 @@ CFLAGS =	-Os -Wall -Werror
 CFLAGS +=	-ffunction-sections -fdata-sections
 
 # This reduces code size significantly.
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS +=	-mips16
-endif
+COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-mips16" ; \
+	else \
+		echo "" ; \
+	fi
+
+CFLAGS +=	${COPTS}
 
 # with CFLAGS+=	-ffunction-sections -fdata-sections
 LDFLAGS +=	-Wl,--gc-sections

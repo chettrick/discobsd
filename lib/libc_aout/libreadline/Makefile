@@ -3,11 +3,13 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/lib/libreadline
 
-CFLAGS		= -Os $(DEFS) -Wall -Werror
+COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+	else \
+		echo "" ; \
+	fi
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
-endif
+CFLAGS		= -Os ${DEFS} -Wall -Werror ${COPTS}
 
 OBJS		= readline.o
 

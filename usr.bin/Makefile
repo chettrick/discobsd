@@ -10,6 +10,14 @@ include $(TOPSRC)/target.mk
 
 YFLAGS=
 
+MDSUBDIR!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
+		echo "" ; \
+	elif [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "adb adc-demo smlrc" ; \
+	else \
+		echo "" ; \
+	fi
+
 # Programs that live in subdirectories, and have makefiles of their own.
 # /usr/bin
 SUBDIR		= aout ar arch as awk basic calendar cc chflags \
@@ -19,12 +27,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   ranlib re renice retroforth scm sed setty sl smallc \
                   smux uname wiznet xargs \
                   zmodem gtest msec compress tip tclsh \
-                  uucp virus yacc
-
-# /usr/bin, mips-specific programs
-ifeq ($(MACHINE_ARCH), mips)
-SUBDIR         += adb adc-demo smlrc
-endif
+                  uucp virus yacc ${MDSUBDIR}
 
 # TODO: ccom lccom lex m4 pforth sre unixbench
 

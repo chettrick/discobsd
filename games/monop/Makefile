@@ -31,7 +31,7 @@ cards.pck:      #initdeck cards.inp
 		./initdeck
 
 $(MAN):         $(MANSRC)
-		$(MANROFF) $< > $@
+		$(MANROFF) $(MANSRC) > $@
 
 clean:
 		rm -f *.o *.0 *.elf $(MAN) monop initdeck *.elf *.dis tags *~

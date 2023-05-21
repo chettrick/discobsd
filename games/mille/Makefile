@@ -11,6 +11,7 @@ CFLAGS  	+= -Werror -Wall
 OBJS            = comp.o end.o extern.o init.o mille.o misc.o move.o print.o \
                   roll.o save.o types.o varpush.o
 MAN             = mille.0
+MANSRC          = mille.6
 LIBS            = -lcurses -ltermcap -lc
 
 all:            mille $(MAN)
@@ -21,8 +22,8 @@ mille:          $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         mille.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core mille *.0 *.dis

@@ -29,7 +29,7 @@ atc:            $(OBJS)
 		$(ELF2AOUT) atc.elf $@ && rm atc.elf
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf atc ${MAN} *.elf *.dis tags *~ grammar.c lex.c y.tab.[ch]

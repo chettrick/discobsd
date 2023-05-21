@@ -16,22 +16,22 @@ MANSRC		= rz.1 sz.1
 all:            rz sz $(MAN)
 
 rz:             rz.o
-		$(CC) $(LDFLAGS) -o rz.elf $< $(LIBS)
+		$(CC) $(LDFLAGS) -o rz.elf rz.o $(LIBS)
 		$(OBJDUMP) -S rz.elf > rz.dis
 		$(SIZE) rz.elf
 		$(ELF2AOUT) rz.elf $@ && rm rz.elf
 
 sz:             sz.o
-		$(CC) $(LDFLAGS) -o sz.elf $< $(LIBS)
+		$(CC) $(LDFLAGS) -o sz.elf sz.o $(LIBS)
 		$(OBJDUMP) -S sz.elf > sz.dis
 		$(SIZE) sz.elf
 		$(ELF2AOUT) sz.elf $@ && rm sz.elf
 
 rz.0:           rz.1
-		$(MANROFF) $< > $@
+		$(MANROFF) rz.1 > $@
 
 sz.0:           sz.1
-		$(MANROFF) $< > $@
+		$(MANROFF) sz.1 > $@
 
 clean:
 		rm -f *.o *.elf $(MAN) rz sz *.elf *.dis tags *~

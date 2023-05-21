@@ -16,7 +16,7 @@ chown:          ${OBJS}
 		${ELF2AOUT} chown.elf $@ && rm chown.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o chown chown.elf chown.dis tags *~ chown.0

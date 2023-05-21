@@ -7,6 +7,7 @@ CFLAGS  	+= -Werror -Wall
 OBJS            = endgame.o extern.o getguess.o getword.o main.o playgame.o \
 		  prdata.o prman.o prword.o setup.o
 MAN             = hangman.0
+MANSRC          = hangman.6
 LIBS            = -lcurses -ltermcap -lc
 
 all:            hangman $(MAN)
@@ -17,8 +18,8 @@ hangman:       $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         hangman.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core hangman *.0 *.dis

@@ -39,7 +39,7 @@ tags:           ${SRCS}
 		ctags ${SRCS}
 
 stat_flags.o:   ${TOPSRC}/bin/ls/stat_flags.c
-		${CC} ${CFLAGS} -c $< -o $@
+		${CC} ${CFLAGS} -c ${TOPSRC}/bin/ls/stat_flags.c -o $@
 
 # DO NOT DELETE THIS LINE -- mkdep uses it.
 # DO NOT PUT ANYTHING AFTER THIS LINE, IT WILL GO AWAY.

@@ -25,7 +25,7 @@ phantasia:      ${OBJS}
 		${ELF2AOUT} phantasia.elf $@ && rm phantasia.elf
 
 ${MAN}:         ${MANSRC}
-		tbl -TX $< | ${MANROFF} > phantasia.0
+		tbl -TX ${MANSRC} | ${MANROFF} > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} phantasia setfiles phant.help *.elf *.dis tags *~

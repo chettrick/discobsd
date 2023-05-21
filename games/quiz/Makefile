@@ -9,6 +9,7 @@ CFLAGS  	+= -Werror -Wall
 
 OBJS            = quiz.o
 MAN             = quiz.0
+MANSRC          = quiz.6
 
 all:            quiz $(MAN)
 
@@ -18,8 +19,8 @@ quiz:           $(OBJS)
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
-$(MAN):         quiz.6
-		nroff -man $< > $@
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o core quiz *.0 *.dis

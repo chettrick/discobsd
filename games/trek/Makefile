@@ -30,7 +30,7 @@ trek:           ${OBJS}
 		${ELF2AOUT} trek.elf $@ && rm trek.elf
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} trek *.elf *.dis tags *~

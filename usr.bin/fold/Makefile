@@ -16,7 +16,7 @@ fold:          ${OBJS}
 		${ELF2AOUT} fold.elf $@ && rm fold.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o fold fold.elf fold.dis tags *~ fold.0

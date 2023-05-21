@@ -16,7 +16,7 @@ calendar:          ${OBJS}
 		${ELF2AOUT} calendar.elf $@ && rm calendar.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o calendar calendar.elf calendar.dis tags *~ calendar.0

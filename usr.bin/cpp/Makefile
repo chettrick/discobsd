@@ -21,7 +21,7 @@ cpp:            $(OBJS)
 		${ELF2AOUT} cpp.elf $@ && rm cpp.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf cpp *.dis tags *~ lex.yy.c y.tab.[ch] tests/run*

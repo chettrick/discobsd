@@ -20,7 +20,7 @@ diff:           ${OBJS}
 		${ELF2AOUT} diff.elf $@ && rm diff.elf
 
 diffh:          diffh.o
-		${CC} ${LDFLAGS} -o diffh.elf $< ${LIBS}
+		${CC} ${LDFLAGS} -o diffh.elf diffh.o ${LIBS}
 		${OBJDUMP} -S diffh.elf > diffh.dis
 		${SIZE} diffh.elf
 		${ELF2AOUT} diffh.elf $@ && rm diffh.elf

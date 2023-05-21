@@ -32,7 +32,7 @@ fortunes:       scene obscene
 		cat obscene >> fortunes
 
 $(MAN):         $(MANSRC)
-		$(MANROFF) $< > $@
+		$(MANROFF) $(MANSRC) > $@
 
 clean:
 		rm -f *.o *.0 *.elf $(MAN) fortune strfile unstr fortunes *.elf *.dis tags *~

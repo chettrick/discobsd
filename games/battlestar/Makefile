@@ -30,10 +30,10 @@ battle_strings _globals.c _dayfile.c _nightfile.c: mkstr globals.c dayfile.c nig
 		./mkstr battle_strings _ globals.c dayfile.c nightfile.c
 
 mkstr:          mkstr.c
-		cc -O $< -o $@
+		cc -O mkstr.c -o $@
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} battlestar mkstr *.elf *.dis tags *~ battle_strings _globals.c _dayfile.c _nightfile.c

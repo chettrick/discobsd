@@ -20,10 +20,10 @@ ar:             ${OBJS}
 		${ELF2AOUT} ar.elf $@ && rm ar.elf
 
 ar.1.0:         ar.1
-		${MANROFF} $< > $@
+		${MANROFF} ar.1 > $@
 
 ar.5.0:         ar.5.5
-		${MANROFF} $< > $@
+		${MANROFF} ar.5.5 > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} ar *.elf *.dis tags *~

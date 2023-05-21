@@ -15,7 +15,7 @@ all:    	../libgpanel.a $(MAN)
 		$(RANLIB) $@
 
 $(MAN):         $(MANSRC)
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 install: 	all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat3/

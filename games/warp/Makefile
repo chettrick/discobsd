@@ -43,7 +43,7 @@ sm:             sm.c
 		cc -O -Wall -Werror sm.c -o sm
 
 ${MAN}:         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.elf ${MAN} warp *.elf *.dis tags *~ smap.* sm

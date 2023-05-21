@@ -18,13 +18,13 @@ ranlib:         ${OBJS}
 		${ELF2AOUT} ranlib.elf $@
 
 archive.o:      ../ar/archive.c
-		${CC} ${CFLAGS} -c -o $@ $<
+		${CC} ${CFLAGS} -c -o $@ ../ar/archive.c
 
 ranlib.0:       ranlib.1
-		${MANROFF} $< > $@
+		${MANROFF} ranlib.1 > $@
 
-ranlib.5.0: ranlib.5.5
-		${MANROFF} $< > $@
+ranlib.5.0:     ranlib.5.5
+		${MANROFF} ranlib.5.5 > $@
 
 clean:
 		rm -f *.o *.0 *.elf ${MAN} ranlib *.elf *.dis a.out tags *~

@@ -20,7 +20,7 @@ sysctl:      	${OBJS}
 		${ELF2AOUT} sysctl.elf $@ && rm sysctl.elf
 
 $(MAN):         ${MANSRC}
-		${MANROFF} $< > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -f *.o *.elf ${MAN} sysctl *.elf *.dis tags *~

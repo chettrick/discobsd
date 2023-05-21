@@ -11,6 +11,9 @@ YACC!=		if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
 
 YFLAGS=		-d
 
+#MANROFF=	nroff -man -h -Tascii
+MANROFF=	mandoc -Tascii
+
 DESTDIR		= /usr/local
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
 PROG		= kconfig
@@ -22,7 +25,7 @@ install:	$(PROG)
 		install -s $(PROG) ${DESTDIR}/bin/$(PROG)
 
 ${PROG}.0:	${MANSRC}
-		nroff -man ${MANSRC} > $@
+		${MANROFF} ${MANSRC} > $@
 
 clean:
 		rm -rf *~ *.o *.lst *.dis $(PROG) $(PROG).0 $(PROG).dSYM y.tab.[ch] lang.c config.c

@@ -6,26 +6,27 @@
 #	crt0	Normal C run time startoff
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/target.mk
 
-vpath %.c $(TOPSRC)/lib/startup-$(MACHINE_ARCH)
+COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+	else \
+		echo "" ; \
+	fi
 
-CFLAGS          = -Os $(DEFS) -Wall -Werror
+CFLAGS=		-Os ${DEFS} -Wall -Werror ${COPTS}
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS          += -Wa,-x -B$(TOPSRC)/lib/libc_aout/
-endif
+SRCS=		${TOPSRC}/lib/startup-${MACHINE_ARCH}/crt0.c
+OBJS=		../crt0.o
 
-OBJS		= ../crt0.o
+all:		${OBJS}
 
-all:		$(OBJS)
+${OBJS}:	${SRCS}
+		${CC} ${DEFS} ${CFLAGS} -c ${SRCS} -o $@
 
-../crt0.o:	crt0.c
-		$(CC) $(DEFS) $(CFLAGS) -c $< -o $@
-
-install:	../crt0.o
+install:	${OBJS}
 		${INSTALLDIR} ${DESTDIR}/usr/lib
-		${INSTALL} ../crt0.o ${DESTDIR}/usr/lib/crt0.o
+		${INSTALL} ${OBJS} ${DESTDIR}/usr/lib/crt0.o
 
 clean:
-		rm -f $(OBJS) *~
+		rm -f ${OBJS} *~

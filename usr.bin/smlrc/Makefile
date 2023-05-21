@@ -33,8 +33,4 @@ clean:
 		rm -f *.o smlrc smlrc.dis smlrc.elf
 ###
 smlrc.o: smlrc.c fp.c cgmips.c
-ifeq ($(MACHINE_ARCH), mips)
 		${CC} ${CFLAGS} -mips16 smlrc.c -c -o $@
-else
-		${CC} ${CFLAGS} smlrc.c -c -o $@
-endif

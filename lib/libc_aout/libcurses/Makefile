@@ -3,11 +3,13 @@ include $(TOPSRC)/target.mk
 
 vpath %.c $(TOPSRC)/lib/libcurses
 
-CFLAGS		= -Os $(DEFS) -Wall -Werror
+COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+	else \
+		echo "" ; \
+	fi
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
-endif
+CFLAGS		= -Os ${DEFS} -Wall -Werror ${COPTS}
 
 OBJS		= addch.o addstr.o box.o clear.o clrtobot.o clrtoeol.o cr_put.o \
                   cr_tty.o curses.o delch.o deleteln.o delwin.o endwin.o erase.o \

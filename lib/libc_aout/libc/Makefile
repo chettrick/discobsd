@@ -12,14 +12,20 @@ vpath %.c $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
           $(LIBCDIR)/stdlib $(LIBCDIR)/string $(LIBCDIR)/inet \
           $(LIBCDIR)/compat $(LIBCDIR)/runtime
 
-CFLAGS		= -Os $(DEFS) -Wall -Werror
-ASFLAGS		= $(DEFS) -I$(LIBCDIR)/$(MACHINE_ARCH)/sys
+COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+	else \
+		echo "" ; \
+	fi
 
-ifeq ($(MACHINE_ARCH), mips)
-CFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/
-ASFLAGS		+= -Wa,-x -B$(TOPSRC)/lib/libc_aout/ \
-		   -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl
-endif
+ASOPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
+		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/ -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl" ; \
+	else \
+		echo "" ; \
+	fi
+
+CFLAGS		= -Os ${DEFS} -Wall -Werror ${COPTS}
+ASFLAGS		= ${DEFS} -I${LIBCDIR}/${MACHINE_ARCH}/sys ${ASOPTS}
 
 # modules which can not use SYSCALL and must be assembled from sources.  The
 # rest of the system calls are generated with printf(1) and do not have

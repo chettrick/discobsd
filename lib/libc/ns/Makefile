@@ -21,9 +21,9 @@ TAGSFILE=tags
 
 nslib nslib_p: ${OBJS}
 	@echo "building profiled nslib"
-	@cd profiled; ar cru ../nslib_p ${OBJS}
+	@cd profiled; ${AR} cru ../nslib_p ${OBJS}
 	@echo "building normal nslib"
-	@ar cru nslib ${OBJS}
+	@${AR} cru nslib ${OBJS}
 
 tags:
 	cwd=`pwd`; \

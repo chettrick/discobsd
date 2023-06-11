@@ -35,9 +35,9 @@ TAGSFILE=tags
 
 netlib netlib_p: ${OBJS}
 	@echo "building profiled netlib"
-	@cd profiled; ar cru ../netlib_p ${OBJS}
+	@cd profiled; ${AR} cru ../netlib_p ${OBJS}
 	@echo "building normal netlib"
-	@ar cru netlib ${OBJS}
+	@${AR} cru netlib ${OBJS}
 
 tags:
 	cwd=`pwd`; \

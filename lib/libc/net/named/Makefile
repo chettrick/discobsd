@@ -12,7 +12,6 @@ SRCS=	gethnamadr.c sethostent.c
 
 CFLAGS= -O ${DEFS}
 TAGSFILE= tags
-DESTDIR=
 
 .c.o:
 	${CC} -p -c ${CFLAGS} $*.c
@@ -24,9 +23,9 @@ DESTDIR=
 
 hostlib hostlib_p: ${OBJS} 
 	@echo "building profiled hostlib"
-	@cd profiled; ar cru ../hostlib_p ${OBJS}
+	@cd profiled; ${AR} cru ../hostlib_p ${OBJS}
 	@echo "building normal hostlib"
-	@ar cru hostlib ${OBJS}
+	@${AR} cru hostlib ${OBJS}
 	
 tags:
 	cwd=`pwd`; \

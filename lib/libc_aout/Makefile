@@ -1,8 +1,8 @@
 TOPSRC!=cd ../..; pwd
+
 SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
 PROG		= ar as aout ld nm ranlib size strip
 
-# XXX Add back -Werror to CFLAGS
 CFLAGS          = -Os -std=gnu89 -fno-builtin -g -Wall -DCROSS -I. \
                    -idirafter $(TOPSRC)/include \
                    -idirafter $(TOPSRC)/usr.bin/ar \
@@ -15,9 +15,7 @@ AOUT_OBJS       = aout.o mips-dis.o # XXX use MACHINE_ARCH
 RANLIB_OBJS     = ranlib.o archive.o
 HEADERS         = a.out.h ar.h nlist.h ranlib.h
 
-vpath %.c $(TOPSRC)/usr.bin/aout $(TOPSRC)/usr.bin/ar $(TOPSRC)/usr.bin/as \
-    $(TOPSRC)/usr.bin/ld $(TOPSRC)/usr.bin/nm $(TOPSRC)/usr.bin/ranlib \
-    $(TOPSRC)/usr.bin
+D		= ${TOPSRC}/usr.bin
 
 all install depend: $(HEADERS) $(SUBDIR) $(PROG)
 		-for i in $(SUBDIR); do $(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) $@; done
@@ -25,6 +23,28 @@ all install depend: $(HEADERS) $(SUBDIR) $(PROG)
 clean:
 		rm -f *~ *.o *.a *.h $(PROG) retroImage gccdump.s
 		for i in $(SUBDIR); do $(MAKE) -C $$i $(MFLAGS) clean; done
+
+%.o:		$D/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		$D/ar/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		$D/as/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		$D/aout/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		$D/ld/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		$D/nm/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		$D/ranlib/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
 
 ar:             $(AR_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(AR_OBJS) $(LIBS)
@@ -55,3 +75,31 @@ $(HEADERS):
 		-ln -s -f $(TOPSRC)/include/ar.h .
 		-ln -s -f $(TOPSRC)/include/nlist.h .
 		-ln -s -f $(TOPSRC)/include/ranlib.h .
+
+
+ar.o:		$D/ar/ar.c
+append.o:	$D/ar/append.c
+archive.o:	$D/ar/archive.c
+contents.o:	$D/ar/contents.c
+delete.o:	$D/ar/delete.c
+extract.o:	$D/ar/extract.c
+misc.o:		$D/ar/misc.c
+move.o:		$D/ar/move.c
+print.o:	$D/ar/print.c
+replace.o:	$D/ar/replace.c
+strmode.o:	$D/ar/strmode.c
+
+as.o:		$D/as/as.c
+
+aout.o:		$D/aout/aout.c
+mips-dis.o:	$D/aout/mips-dis.c
+
+ld.o:		$D/ld/ld.c
+
+nm.o:		$D/nm/nm.c
+
+ranlib.o:	$D/ranlib/ranlib.c
+
+size.o:		$D/size.c
+
+strip.o:	$D/strip.c

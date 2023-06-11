@@ -1,6 +1,6 @@
 .\" No copyright (2015) - Serge Vakulenko (serge@vak.ru)
 .\"
-.TH GPANEL 3 "October 9, 2015"
+.TH GPANEL 3 "June 10, 2023"
 .UC 6
 .SH NAME
 gpanel_open, gpanel_close, gpanel_clear, gpanel_pixel, gpanel_line, gpanel_rect, gpanel_fill, gpanel_circle, gpanel_image, gpanel_char, gpanel_text, panel_text_width \- graphics panel routines
@@ -152,9 +152,9 @@ struct gpanel_font_t {
 .PP
 Fonts are specified via a data structure
 .I struct\ gpanel_font_t
-, which defines character sizez and glyph images.
+, which defines character sizes and glyph images.
 Font data for some commonly used fonts are available in
-.I /share/examples/gpanel/fonts
+.I /usr/share/examples/gpanel/fonts
 directory.
 A utility
 .I convbdf
@@ -167,7 +167,7 @@ like Verdana or Lucida Sans Unicode.
 Data and font pointers in gpanel_image and gpanel_text routines
 are not checked for validity, and can cause unexpected errors when not correct.
 .SH FILES
-.ta \w'/share/examples/gpanel'u
-/share/examples/gpanel  Examples of using the \fIlibgpanel\fP library.
+.ta \w'/usr/share/examples/gpanel  'u
+/usr/share/examples/gpanel  Examples of using the \fIlibgpanel\fP library.
 .PP
-/dev/tft0               Device name for hx8357 TFT display driver.
+/dev/tft0                   Device name for hx8357 TFT display driver.

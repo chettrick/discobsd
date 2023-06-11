@@ -9,7 +9,6 @@
 # (in reverse order from n'th to 1'st most commonly used)
 # to move them to the front of termcap
 #
-DESTDIR = ../../..
 
 termcap.full: reorder termcap.src
 	ex - termcap.src < reorder

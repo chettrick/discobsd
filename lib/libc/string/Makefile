@@ -16,7 +16,7 @@ all:		string.a
 
 string.a:	${OBJS}
 		@echo "building normal string.a"
-		@ar cru string.a ${OBJS}
+		@${AR} cru string.a ${OBJS}
 
 clean:
 		rm -f *.o *~ profiled/*.o tags Makefile.bak string.a string_p.a

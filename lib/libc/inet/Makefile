@@ -15,7 +15,7 @@ CFLAGS		+= ${DEFS} -Os
 
 inet.a: ${OBJS}
 		@echo "building inet.a"
-		@ar cru inet.a ${OBJS}
+		@${AR} cru inet.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

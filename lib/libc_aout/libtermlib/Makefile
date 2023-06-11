@@ -1,7 +1,7 @@
 TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/lib/libtermlib
+LIBDIR=		${TOPSRC}/lib/libtermlib
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
@@ -15,6 +15,9 @@ OBJS		= termcap.o tgoto.o tputs.o tcattr.o
 
 all:            ../libtermlib.a
 
+%.o:		${LIBDIR}/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
 ../libtermlib.a: ../ar ../ranlib $(OBJS)
 		../ar rc $@ $(OBJS)
 		../ranlib $@
@@ -24,4 +27,10 @@ install:	../libtermlib.a
 		${INSTALL} ../libtermlib.a ${DESTDIR}/usr/lib/libtermlib.a
 
 clean:
-		rm -f *~ *.o a.out *.a
+		rm -f *~ *.o a.out *.a ../libtermlib.a
+
+
+termcap.o:	${LIBDIR}/termcap.c
+tgoto.o:	${LIBDIR}/tgoto.c
+tputs.o:	${LIBDIR}/tputs.c
+tcattr.o:	${LIBDIR}/tcattr.c

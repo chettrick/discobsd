@@ -1,7 +1,7 @@
 TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/lib/libwiznet
+LIBDIR=		${TOPSRC}/lib/libwiznet
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
@@ -15,6 +15,9 @@ OBJS		= w5100.o socket.o ethernet.o client.o server.o udp.o
 
 all:            ../libwiznet.a
 
+%.o:		${LIBDIR}/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
 ../libwiznet.a: ../ar ../ranlib $(OBJS)
 		../ar rc $@ $(OBJS)
 		../ranlib $@
@@ -24,4 +27,12 @@ install:	../libwiznet.a
 		${INSTALL} ../libwiznet.a ${DESTDIR}/usr/lib/libwiznet.a
 
 clean:
-		rm -f *~ *.o a.out *.a
+		rm -f *~ *.o a.out *.a ../libwiznet.a
+
+
+w5100.o:	${LIBDIR}/w5100.c
+socket.o:	${LIBDIR}/socket.c
+ethernet.o:	${LIBDIR}/ethernet.c
+client.o:	${LIBDIR}/client.c
+server.o:	${LIBDIR}/server.c
+udp.o:		${LIBDIR}/udp.c

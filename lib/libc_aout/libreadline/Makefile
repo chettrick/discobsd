@@ -1,7 +1,7 @@
 TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
-vpath %.c $(TOPSRC)/lib/libreadline
+LIBDIR=		${TOPSRC}/lib/libreadline
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
@@ -15,6 +15,9 @@ OBJS		= readline.o
 
 all:            ../libreadline.a
 
+%.o:		${LIBDIR}/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
 ../libreadline.a: ../ar ../ranlib $(OBJS)
 		../ar rc $@ $(OBJS)
 		../ranlib $@
@@ -24,4 +27,7 @@ install:	../libreadline.a
 		${INSTALL} ../libreadline.a ${DESTDIR}/usr/lib/libreadline.a
 
 clean:
-		rm -f *~ *.o a.out *.a
+		rm -f *~ *.o a.out *.a ../libreadline.a
+
+
+readline.o:	${LIBDIR}/readline.c

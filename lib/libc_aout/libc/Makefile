@@ -6,11 +6,11 @@ include $(TOPSRC)/target.mk
 .SUFFIXES: .o .S .c
 
 LIBCDIR          = $(TOPSRC)/lib/libc
-vpath %.S $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/$(MACHINE_ARCH)/string \
-          $(LIBCDIR)/$(MACHINE_ARCH)/gen $(LIBCDIR)/runtime
-vpath %.c $(LIBCDIR)/$(MACHINE_ARCH)/sys $(LIBCDIR)/gen $(LIBCDIR)/stdio \
-          $(LIBCDIR)/stdlib $(LIBCDIR)/string $(LIBCDIR)/inet \
-          $(LIBCDIR)/compat $(LIBCDIR)/runtime
+
+.PATH:	${LIBCDIR}/${MACHINE_ARCH}/sys ${LIBCDIR}/${MACHINE_ARCH}/string \
+	${LIBCDIR}/${MACHINE_ARCH}/gen ${LIBCDIR}/gen ${LIBCDIR}/stdio \
+	${LIBCDIR}/stdlib ${LIBCDIR}/string ${LIBCDIR}/inet \
+	${LIBCDIR}/compat ${LIBCDIR}/runtime
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
@@ -115,6 +115,45 @@ OBJS            += addsf3.o comparesf2.o divsf3.o fixsfsi.o floatsisf.o \
 
 all:            ../libc.a
 
+
+%.o:		${LIBCDIR}/${MACHINE_ARCH}/sys/%.S
+		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/${MACHINE_ARCH}/string/%.S
+		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/${MACHINE_ARCH}/gen/%.S
+		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/runtime/%.S
+		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
+
+
+%.o:		${LIBCDIR}/${MACHINE_ARCH}/sys/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/gen/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/stdio/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/stdlib/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/string/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/inet/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/compat/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+%.o:		${LIBCDIR}/runtime/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
+
 ../libc.a:      ../ar ../ranlib $(OBJS)
 		../ar rc $@ $(OBJS)
 		../ranlib $@
@@ -128,4 +167,4 @@ install:	../libc.a
 		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
 
 clean:
-		rm -f *~ *.o a.out *.a
+		rm -f *~ *.o a.out *.a ../libc.a

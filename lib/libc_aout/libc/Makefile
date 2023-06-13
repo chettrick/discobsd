@@ -165,6 +165,7 @@ $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 install:	../libc.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
+		../ranlib -t ${DESTDIR}/usr/lib/libc.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libc.a

@@ -30,6 +30,7 @@ all:            ../libcurses.a
 install:	../libcurses.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libcurses.a ${DESTDIR}/usr/lib/libcurses.a
+		../ranlib -t ${DESTDIR}/usr/lib/libcurses.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libcurses.a

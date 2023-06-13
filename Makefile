@@ -42,27 +42,17 @@ TOPSRC!=	pwd
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
+SUBDIR=		share lib bin sbin libexec usr.bin usr.sbin games
+
 all:		symlinks
 		$(MAKE) -C tools MACHINE=${MACHINE}
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
-		$(MAKE) -C share
-		$(MAKE) -C lib
-		$(MAKE) -C bin
-		$(MAKE) -C sbin
-		$(MAKE) -C libexec
-		$(MAKE) -C usr.bin
-		$(MAKE) -C usr.sbin
-		$(MAKE) -C games
-		$(MAKE) -C share DESTDIR=${DESTDIR} install
-		$(MAKE) -C lib DESTDIR=${DESTDIR} install
-		$(MAKE) -C bin DESTDIR=${DESTDIR} install
-		$(MAKE) -C sbin DESTDIR=${DESTDIR} install
-		$(MAKE) -C libexec DESTDIR=${DESTDIR} install
-		$(MAKE) -C usr.bin DESTDIR=${DESTDIR} install
-		$(MAKE) -C usr.sbin DESTDIR=${DESTDIR} install
-		$(MAKE) -C games DESTDIR=${DESTDIR} install
+		for dir in ${SUBDIR} ; do \
+			${MAKE} -C $$dir ; done
+		for dir in ${SUBDIR} ; do \
+			${MAKE} -C $$dir DESTDIR=${DESTDIR} install ; done
 		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
 		$(MAKE) fs
 
@@ -90,7 +80,7 @@ $(KCONFIG):
 clean:
 		rm -f *~
 		rm -f include/machine
-		for dir in tools share lib bin sbin libexec usr.bin usr.sbin games; do \
+		for dir in tools ${SUBDIR} ; do \
 			$(MAKE) -C $$dir -k clean; done
 
 cleanfs:

@@ -25,6 +25,7 @@ all:            ../libreadline.a
 install:	../libreadline.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libreadline.a ${DESTDIR}/usr/lib/libreadline.a
+		../ranlib -t ${DESTDIR}/usr/lib/libreadline.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libreadline.a

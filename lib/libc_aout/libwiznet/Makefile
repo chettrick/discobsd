@@ -25,6 +25,7 @@ all:            ../libwiznet.a
 install:	../libwiznet.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libwiznet.a ${DESTDIR}/usr/lib/libwiznet.a
+		../ranlib -t ${DESTDIR}/usr/lib/libwiznet.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libwiznet.a

@@ -26,6 +26,7 @@ all:            ../libm.a
 install:	../libm.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libm.a ${DESTDIR}/usr/lib/libm.a
+		../ranlib -t ${DESTDIR}/usr/lib/libm.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libm.a

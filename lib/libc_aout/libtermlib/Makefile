@@ -25,6 +25,7 @@ all:            ../libtermlib.a
 install:	../libtermlib.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libtermlib.a ${DESTDIR}/usr/lib/libtermlib.a
+		../ranlib -t ${DESTDIR}/usr/lib/libtermlib.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libtermlib.a

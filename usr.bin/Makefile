@@ -27,7 +27,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   ranlib re renice retroforth scm sed setty sl smallc \
                   smux uname wiznet xargs \
                   zmodem gtest msec compress tip tclsh \
-                  uucp virus yacc ${MDSUBDIR}
+                  uucp virus whereis yacc ${MDSUBDIR}
 
 # TODO: ccom lccom lex m4 pforth sre unixbench
 
@@ -42,7 +42,7 @@ STD		= basename cal cb cmp col comm \
                   diskspeed du fgrep file grep head hostid join \
                   last mesg nice od pagesize pr printenv \
                   rev size sort split sum \
-                  tail tee time touch tr tsort tty uniq w wc whereis who
+                  tail tee time touch tr tsort tty uniq w wc who
 
 # C programs that live in the current directory and need explicit make lines.
 #

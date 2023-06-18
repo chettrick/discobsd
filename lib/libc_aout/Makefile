@@ -45,6 +45,9 @@ clean:
 %.o:		$D/ranlib/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
+%.o:		$D/size/%.c
+		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
+
 
 ar:             $(AR_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(AR_OBJS) $(LIBS)
@@ -100,6 +103,6 @@ nm.o:		$D/nm/nm.c
 
 ranlib.o:	$D/ranlib/ranlib.c
 
-size.o:		$D/size.c
+size.o:		$D/size/size.c
 
 strip.o:	$D/strip.c

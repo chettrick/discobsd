@@ -50,9 +50,12 @@ CFLAGS!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "" ; \
 	fi
 
+AFLAGS=	${ASFLAGS}
+
 LDFLAGS=-N -nostartfiles -fno-dwarf2-cfi-asm -T${TOPSRC}/lib/elf32-${MACHINE_ARCH}.ld ${TOPSRC}/lib/crt0.o -L${TOPSRC}/lib
 
 LIBS=	-lc
+LDLIBS=	${LIBS}
 
 OBJDUMP!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "${GCCPREFIX}-objdump -marm -M force-thumb" ; \

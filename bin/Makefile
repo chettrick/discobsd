@@ -12,19 +12,15 @@ YFLAGS=
 
 # Programs that live in subdirectories, and have makefiles of their own.
 # /bin
-SUBDIR=		date2 hostname ls md5 sh stty test
+SUBDIR=		date2 hostname ls md5 sh stty test \
+		cat chgrp chmod cp dd echo ed kill ln mkdir mv \
+		pwd rm rmail rmdir sleep sync tar
 
 # TODO: csh
 
 # Shell scripts that need only be installed and are never removed.
 #
 SCRIPT=
-
-# C programs that live in the current directory and do not need
-# explicit make lines.
-#
-STD=		cat chgrp chmod cp dd echo ed kill ln mkdir mv \
-		pwd rm rmail rmdir sleep sync tar
 
 # C programs that live in the current directory and need explicit make lines.
 #
@@ -46,7 +42,7 @@ KMEM=		ps
 #
 TTY=
 
-BINS=		${STD} ${NSTD} ${SETUID} ${OPERATOR} ${KMEM} ${TTY}
+BINS=		${NSTD} ${SETUID} ${OPERATOR} ${KMEM} ${TTY}
 
 all:		${SUBDIR} ${BINS}
 
@@ -55,7 +51,7 @@ ${SUBDIR}:	FRC
 
 FRC:
 
-# ${STD} ${SETUID} ${KMEM} ${OPERATOR} ${TTY}
+# ${SETUID} ${KMEM} ${OPERATOR} ${TTY}
 %: %.c
 		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf $< ${LIBS}
 		${OBJDUMP} -S $@.elf > $@.dis
@@ -70,7 +66,7 @@ FRC:
 		-/bin/mv y.tab.c $@
 
 install:	${BINS}
-		install ${STD} ${NSTD} ${DESTDIR}/bin/
+		install ${NSTD} ${DESTDIR}/bin/
 		-for i in ${SUBDIR}; do \
 			${MAKE} -C $$i ${MFLAGS} DESTDIR=${DESTDIR} install; done
 		-for i in ${SCRIPT}; do (install -c $$i.sh ${DESTDIR}/bin/$$i); done

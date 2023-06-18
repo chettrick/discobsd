@@ -27,22 +27,18 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   ranlib re renice retroforth scm sed setty sl smallc \
                   smux uname wiznet xargs \
                   zmodem gtest msec compress tip tclsh \
-                  uucp virus whereis yacc ${MDSUBDIR}
+                  uucp virus whereis yacc ${MDSUBDIR} \
+                  basename cal cb cmp col comm \
+                  diskspeed du fgrep file grep head hostid join \
+                  last mesg nice od pagesize pr printenv \
+                  rev size sort split sum \
+                  tail tee time touch tr tsort tty uniq w wc who
 
 # TODO: ccom lccom lex m4 pforth sre unixbench
 
 # Shell scripts that need only be installed and are never removed.
 #
 SCRIPT		= false nohup true #lorder mkdep
-
-# C programs that live in the current directory and do not need
-# explicit make lines.
-#
-STD		= basename cal cb cmp col comm \
-                  diskspeed du fgrep file grep head hostid join \
-                  last mesg nice od pagesize pr printenv \
-                  rev size sort split sum \
-                  tail tee time touch tr tsort tty uniq w wc who
 
 # C programs that live in the current directory and need explicit make lines.
 #
@@ -67,7 +63,7 @@ TTY		= wall write
 # 'strip' is handled specially because 'install -s' now uses 'strip' and
 # thus we can't do a 'install -s strip /bin/strip' without an error.
 #
-BINS		= $(STD) $(NSTD) $(SETUID) $(OPERATOR) $(KMEM) $(TTY) $(SCRIPT) strip
+BINS		= $(NSTD) $(SETUID) $(OPERATOR) $(KMEM) $(TTY) $(SCRIPT) strip
 
 all:		$(SUBDIR) $(BINS)
 
@@ -76,7 +72,7 @@ $(SUBDIR):	FRC
 
 FRC:
 
-# $(STD) $(SETUID) $(KMEM) $(OPERATOR) $(TTY) strip
+# $(SETUID) $(KMEM) $(OPERATOR) $(TTY) strip
 %: %.c
 		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
@@ -94,7 +90,7 @@ $(SCRIPT):
 		install -c $@.sh $@
 
 install:	$(BINS)
-		install $(STD) $(NSTD) strip $(DESTDIR)/usr/bin/
+		install $(NSTD) strip $(DESTDIR)/usr/bin/
 		-for i in $(SUBDIR); do \
 			$(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
 		-for i in $(SCRIPT); do install $$i.sh $(DESTDIR)/usr/bin/$$i; done

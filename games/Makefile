@@ -13,13 +13,14 @@ CFLAGS          += -Werror -Wall -Os
 #
 SUBDIR          = adventure atc backgammon battlestar boggle btlgammon \
                   caesar cribbage fortune hangman mille monop pom pig quiz \
-                  robots rogue sail snake trek
+                  robots rogue sail snake trek \
+                  banner aclock arithmetic bcd factor fish morse \
+                  number ppt wump
 
 # C programs that live in the current directory and do not need
 # explicit make lines.
 #
-STD             = banner aclock arithmetic bcd cfscores factor fish morse \
-                  number ppt wump
+STD             = cfscores
 
 # C programs that live in the current directory and need explicit make lines.
 #

@@ -15,7 +15,7 @@ SUBDIR          = adventure atc backgammon battlestar boggle btlgammon \
                   caesar cribbage fortune hangman mille monop pom pig quiz \
                   robots rogue sail snake trek \
                   banner aclock arithmetic bcd factor fish morse \
-                  number ppt wump
+                  number ppt wump primes rain worm worms
 
 # C programs that live in the current directory and do not need
 # explicit make lines.
@@ -24,7 +24,7 @@ STD             = cfscores
 
 # C programs that live in the current directory and need explicit make lines.
 #
-NSTD            = canfield primes rain worm worms
+NSTD            = canfield
 
 all:            $(SUBDIR) $(STD) $(NSTD)
 
@@ -59,30 +59,6 @@ clean:
 
 canfield:       canfield.c
 		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf canfield.c -lcurses -ltermcap $(LIBS)
-		$(OBJDUMP) -S $@.elf > $@.dis
-		$(SIZE) $@.elf
-		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
-
-primes:         primes.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf primes.c -lm $(LIBS)
-		$(OBJDUMP) -S $@.elf > $@.dis
-		$(SIZE) $@.elf
-		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
-
-rain:           rain.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf rain.c -ltermcap $(LIBS)
-		$(OBJDUMP) -S $@.elf > $@.dis
-		$(SIZE) $@.elf
-		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
-
-worm:           worm.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf worm.c -lcurses -ltermcap $(LIBS)
-		$(OBJDUMP) -S $@.elf > $@.dis
-		$(SIZE) $@.elf
-		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
-
-worms:          worms.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf worms.c -ltermcap $(LIBS)
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf

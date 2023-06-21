@@ -23,8 +23,6 @@ FRC:
 install:
 		-for i in $(SUBDIR); do \
 			${MAKE} -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
-		-for i in *.6; do \
-			${MANROFF} $$i > ${DESTDIR}/usr/share/man/cat6/`basename $$i .6`.0; done
 
 clean:
 		rm -f a.out core *.s *.o *.dis *.elf

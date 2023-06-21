@@ -6,37 +6,22 @@
 TOPSRC!=cd ..; pwd
 include	${TOPSRC}/target.mk
 
-SUBDIR=	chroot cron disktool mkpasswd pstat talloc \
+SUBDIR=	chroot cron disktool iostat mkpasswd pstat talloc \
 	update vipw
 
 # TODO: devupdate
 
-# Programs that must run set-group-id kmem.
-#
-KMEM=	iostat
-
-BINS=	${KMEM}
-
-all:	${SUBDIR} ${BINS}
+all:	${SUBDIR}
 
 ${SUBDIR}: FRC
 	cd $@; ${MAKE} ${MFLAGS} all
 
 FRC:
 
-# ${KMEM}
-%: %.c
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf $< ${LIBS}
-	${OBJDUMP} -S $@.elf > $@.dis
-	${SIZE} $@.elf
-	${ELF2AOUT} $@.elf $@ && /bin/rm $@.elf
-
 install: FRC
 	-for i in ${SUBDIR}; do \
 		(cd $$i; ${MAKE} ${MFLAGS} DESTDIR=${DESTDIR} install); done
-	-for i in ${KMEM}; do \
-		install -m 2751 $$i ${DESTDIR}/usr/sbin/$$i; done
 
 clean:
-	/bin/rm -f ${BINS} a.out core *.s *.o *.dis *.elf *~ errs
+	/bin/rm -f a.out core *.s *.o *.dis *.elf *~ errs
 	for i in ${SUBDIR}; do (cd $$i; ${MAKE} ${MFLAGS} clean); done

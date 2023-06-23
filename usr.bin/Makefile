@@ -8,8 +8,6 @@ include $(TOPSRC)/target.mk
 
 # XXX CFLAGS          += -Werror
 
-YFLAGS=
-
 MDSUBDIR!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "" ; \
 	elif [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
@@ -32,17 +30,14 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   diskspeed du fgrep file grep head hostid join \
                   last mesg nice od pagesize pr printenv \
                   rev size sort split sum \
-                  tail tee time touch tr tsort tty uniq w wc who
+                  tail tee time touch tr tsort tty uniq w wc who \
+                  bc egrep
 
 # TODO: ccom lccom lex m4 pforth sre unixbench
 
 # Shell scripts that need only be installed and are never removed.
 #
 SCRIPT		= false nohup true #lorder mkdep
-
-# C programs that live in the current directory and need explicit make lines.
-#
-NSTD		= bc egrep
 
 # Programs that must run setuid to root
 #
@@ -63,7 +58,7 @@ TTY		= wall write
 # 'strip' is handled specially because 'install -s' now uses 'strip' and
 # thus we can't do a 'install -s strip /bin/strip' without an error.
 #
-BINS		= $(NSTD) $(SETUID) $(OPERATOR) $(KMEM) $(TTY) $(SCRIPT) strip
+BINS		= $(SETUID) $(OPERATOR) $(KMEM) $(TTY) $(SCRIPT) strip
 
 all:		$(SUBDIR) $(BINS)
 
@@ -79,18 +74,11 @@ FRC:
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
 
-# Files listed in $(NSTD) have explicit make lines given below.
-
-# bc egrep
-%.c: %.y
-		$(YACC) $(YFLAGS) $<
-		-/bin/mv y.tab.c $@
-
 $(SCRIPT):
 		install -c $@.sh $@
 
 install:	$(BINS)
-		install $(NSTD) strip $(DESTDIR)/usr/bin/
+		install strip $(DESTDIR)/usr/bin/
 		-for i in $(SUBDIR); do \
 			$(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
 		-for i in $(SCRIPT); do install $$i.sh $(DESTDIR)/usr/bin/$$i; done

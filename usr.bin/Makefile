@@ -28,31 +28,22 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   rev size sort split sum \
                   tail tee time touch tr tsort tty uniq w wc who \
                   bc egrep mail su vmstat wall write \
-                  strip
+                  strip false nohup true
 
 # TODO: ccom lccom lex m4 pforth sre unixbench
+#       lorder mkdep
 
-# Shell scripts that need only be installed and are never removed.
-#
-SCRIPT		= false nohup true #lorder mkdep
-
-BINS		= $(SCRIPT)
-
-all:		$(SUBDIR) $(BINS)
+all:		$(SUBDIR)
 
 $(SUBDIR):	FRC
 		$(MAKE) -C $@ $(MFLAGS)
 
 FRC:
 
-$(SCRIPT):
-		install -c $@.sh $@
-
-install:	$(BINS)
+install:
 		-for i in $(SUBDIR); do \
 			$(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
-		-for i in $(SCRIPT); do install $$i.sh $(DESTDIR)/usr/bin/$$i; done
 
 clean:
-		/bin/rm -f $(BINS) a.out core *.s *.o *.dis *.elf *~ y.tab.[ch] errs
+		/bin/rm -f a.out core *.s *.o *.dis *.elf *~ y.tab.[ch] errs
 		for i in $(SUBDIR); do (cd $$i; $(MAKE) $(MFLAGS) clean); done

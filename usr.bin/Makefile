@@ -27,7 +27,8 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   last mesg nice od pagesize pr printenv \
                   rev size sort split sum \
                   tail tee time touch tr tsort tty uniq w wc who \
-                  bc egrep mail su vmstat wall write
+                  bc egrep mail su vmstat wall write \
+                  strip
 
 # TODO: ccom lccom lex m4 pforth sre unixbench
 
@@ -35,10 +36,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
 #
 SCRIPT		= false nohup true #lorder mkdep
 
-# 'strip' is handled specially because 'install -s' now uses 'strip' and
-# thus we can't do a 'install -s strip /bin/strip' without an error.
-#
-BINS		= $(SCRIPT) strip
+BINS		= $(SCRIPT)
 
 all:		$(SUBDIR) $(BINS)
 
@@ -47,18 +45,10 @@ $(SUBDIR):	FRC
 
 FRC:
 
-# strip
-%: %.c
-		$(CC) $(CFLAGS) $(LDFLAGS) -o $@.elf $< $(LIBS)
-		$(OBJDUMP) -S $@.elf > $@.dis
-		$(SIZE) $@.elf
-		$(ELF2AOUT) $@.elf $@ && /bin/rm $@.elf
-
 $(SCRIPT):
 		install -c $@.sh $@
 
 install:	$(BINS)
-		install strip $(DESTDIR)/usr/bin/
 		-for i in $(SUBDIR); do \
 			$(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) install; done
 		-for i in $(SCRIPT); do install $$i.sh $(DESTDIR)/usr/bin/$$i; done

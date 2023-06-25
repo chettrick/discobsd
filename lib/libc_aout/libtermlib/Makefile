@@ -18,14 +18,14 @@ all:            ../libtermlib.a
 %.o:		${LIBDIR}/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-../libtermlib.a: ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libtermlib.a: ${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 install:	../libtermlib.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libtermlib.a ${DESTDIR}/usr/lib/libtermlib.a
-		../ranlib -t ${DESTDIR}/usr/lib/libtermlib.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libtermlib.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libtermlib.a

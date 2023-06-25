@@ -19,14 +19,14 @@ all:            ../libgpanel.a
 %.o:		${LIBDIR}/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-../libgpanel.a: ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libgpanel.a:	${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 install:	../libgpanel.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libgpanel.a ${DESTDIR}/usr/lib/libgpanel.a
-		../ranlib -t ${DESTDIR}/usr/lib/libgpanel.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libgpanel.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libgpanel.a

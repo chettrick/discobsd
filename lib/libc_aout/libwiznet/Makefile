@@ -18,14 +18,14 @@ all:            ../libwiznet.a
 %.o:		${LIBDIR}/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-../libwiznet.a: ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libwiznet.a:	${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 install:	../libwiznet.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libwiznet.a ${DESTDIR}/usr/lib/libwiznet.a
-		../ranlib -t ${DESTDIR}/usr/lib/libwiznet.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libwiznet.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libwiznet.a

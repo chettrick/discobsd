@@ -23,14 +23,14 @@ all:            ../libcurses.a
 %.o:		${LIBDIR}/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-../libcurses.a: ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libcurses.a:	${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 install:	../libcurses.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libcurses.a ${DESTDIR}/usr/lib/libcurses.a
-		../ranlib -t ${DESTDIR}/usr/lib/libcurses.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libcurses.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libcurses.a

@@ -19,14 +19,14 @@ all:            ../libm.a
 %.o:		${LIBDIR}/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-../libm.a: ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libm.a:	${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 install:	../libm.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libm.a ${DESTDIR}/usr/lib/libm.a
-		../ranlib -t ${DESTDIR}/usr/lib/libm.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libm.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libm.a

@@ -12,6 +12,11 @@ LIBCDIR          = $(TOPSRC)/lib/libc
 	${LIBCDIR}/stdlib ${LIBCDIR}/string ${LIBCDIR}/inet \
 	${LIBCDIR}/compat ${LIBCDIR}/runtime
 
+VPATH=	${LIBCDIR}/${MACHINE_ARCH}/sys ${LIBCDIR}/${MACHINE_ARCH}/string \
+	${LIBCDIR}/${MACHINE_ARCH}/gen ${LIBCDIR}/gen ${LIBCDIR}/stdio \
+	${LIBCDIR}/stdlib ${LIBCDIR}/string ${LIBCDIR}/inet \
+	${LIBCDIR}/compat ${LIBCDIR}/runtime
+
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
 	else \
@@ -115,51 +120,16 @@ OBJS            += addsf3.o comparesf2.o divsf3.o fixsfsi.o floatsisf.o \
 
 all:            ../libc.a
 
-
-%.o:		${LIBCDIR}/${MACHINE_ARCH}/sys/%.S
-		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/${MACHINE_ARCH}/string/%.S
-		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/${MACHINE_ARCH}/gen/%.S
-		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/runtime/%.S
-		${CC} ${DEFS} ${ASFLAGS} -c $< -o $@
-
-
-%.o:		${LIBCDIR}/${MACHINE_ARCH}/sys/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/gen/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/stdio/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/stdlib/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/string/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/inet/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/compat/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		${LIBCDIR}/runtime/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-
 ../libc.a:	${OBJS}
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 
+${OBJS}:	FRC
+
+FRC:
+
 $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
-		@echo creating $*.o
+#		@echo creating $*.o
 		@printf '#include "SYS.h"\nSYS($*)\n' | $(AS) $(ASFLAGS) - -c -o $*.o
 
 install:	../libc.a

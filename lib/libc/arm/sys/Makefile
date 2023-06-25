@@ -44,7 +44,7 @@ sys.a:		${OBJS}
 		@$(AR) cru sys.a ${OBJS}
 
 ${SYSOBJS}:	SYS.h
-		@echo creating $*.o
+#		@echo creating $*.o
 		@printf '#include "SYS.h"\nSYS($*)\n' | $(AS) ${ASFLAGS} - -c -o $*.o
 
 clean:

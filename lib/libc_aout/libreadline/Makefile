@@ -18,14 +18,14 @@ all:            ../libreadline.a
 %.o:		${LIBDIR}/%.c
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-../libreadline.a: ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libreadline.a: ${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 install:	../libreadline.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libreadline.a ${DESTDIR}/usr/lib/libreadline.a
-		../ranlib -t ${DESTDIR}/usr/lib/libreadline.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libreadline.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libreadline.a

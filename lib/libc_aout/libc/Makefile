@@ -154,9 +154,9 @@ all:            ../libc.a
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
 
-../libc.a:      ../ar ../ranlib $(OBJS)
-		../ar rc $@ $(OBJS)
-		../ranlib $@
+../libc.a:	${OBJS}
+		../ar_aout rc $@ ${OBJS}
+		../ranlib_aout $@
 
 $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 		@echo creating $*.o
@@ -165,7 +165,7 @@ $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 install:	../libc.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
-		../ranlib -t ${DESTDIR}/usr/lib/libc.a
+		../ranlib_aout -t ${DESTDIR}/usr/lib/libc.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libc.a

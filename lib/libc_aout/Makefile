@@ -1,7 +1,8 @@
 TOPSRC!=cd ../..; pwd
 
 SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
-PROG		= ar as aout ld nm ranlib size strip
+
+PROG		= ar_aout as_aout aout_aout ld_aout nm_aout ranlib_aout size_aout strip_aout
 
 CFLAGS          = -Os -std=gnu89 -fno-builtin -g -Wall -DCROSS -I. \
                    -idirafter $(TOPSRC)/include \
@@ -17,6 +18,8 @@ HEADERS         = a.out.h ar.h nlist.h ranlib.h
 
 D		= ${TOPSRC}/usr.bin
 
+VPATH		= $D/ar $D/as $D/aout $D/ld $D/nm $D/ranlib $D/size $D/strip
+
 all install depend: $(HEADERS) $(SUBDIR) $(PROG)
 		-for i in $(SUBDIR); do $(MAKE) -C $$i $(MFLAGS) DESTDIR=$(DESTDIR) $@; done
 
@@ -24,56 +27,29 @@ clean:
 		rm -f *~ *.o *.a *.h $(PROG) retroImage gccdump.s
 		for i in $(SUBDIR); do $(MAKE) -C $$i $(MFLAGS) clean; done
 
-%.o:		$D/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
-%.o:		$D/ar/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/as/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/aout/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/ld/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/nm/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/ranlib/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/size/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-%.o:		$D/strip/%.c
-		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
-
-
-ar:             $(AR_OBJS)
+ar_aout:	$(AR_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(AR_OBJS) $(LIBS)
 
-as:             as.o
+as_aout:	as.o
 		$(CC) $(LDFLAGS) -o $@ as.o $(LIBS)
 
-aout:           $(AOUT_OBJS)
+aout_aout:	$(AOUT_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(AOUT_OBJS) $(LIBS)
 
-ld:             ld.o
+ld_aout:	ld.o
 		$(CC) $(LDFLAGS) -o $@ ld.o $(LIBS)
 
-nm:             nm.o
+nm_aout:	nm.o
 		$(CC) $(LDFLAGS) -o $@ nm.o $(LIBS)
 
-ranlib:         $(RANLIB_OBJS)
+ranlib_aout:	$(RANLIB_OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(RANLIB_OBJS) $(LIBS)
 
-size:           size.o
+size_aout:	size.o
 		$(CC) $(LDFLAGS) -o $@ size.o $(LIBS)
 
-strip:          strip.o
+strip_aout:	strip.o
 		$(CC) $(LDFLAGS) -o $@ strip.o $(LIBS)
 
 $(HEADERS):

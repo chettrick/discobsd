@@ -44,13 +44,15 @@ CC!=	if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 	fi
 
 # Enable mips16e instruction set by default
-CFLAGS!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
+COPTS!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "-Os" ; \
 	elif [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Os -mips16" ; \
 	else \
 		echo "" ; \
 	fi
+
+CFLAGS+=${COPTS}
 
 AFLAGS=	${ASFLAGS}
 

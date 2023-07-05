@@ -5,19 +5,10 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 # Some basic CFLAGS.
-CFLAGS =	-Os -Wall -Werror
+CFLAGS +=	-Os -Wall -Werror
 
 # With the extra LDFLAGS, save some bytes.
 CFLAGS +=	-ffunction-sections -fdata-sections
-
-# This reduces code size significantly.
-COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-mips16" ; \
-	else \
-		echo "" ; \
-	fi
-
-CFLAGS +=	${COPTS}
 
 # with CFLAGS+=	-ffunction-sections -fdata-sections
 LDFLAGS +=	-Wl,--gc-sections

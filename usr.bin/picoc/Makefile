@@ -8,14 +8,6 @@ CFLAGS          += -g -DUNIX_HOST -DVER='"1.0"' -DFILENAME_MAX=64 \
                    -DL_tmpnam=30 -DCLOCKS_PER_SEC=80000000 -DPATH_MAX=200 \
                    -DNO_FP -Os
 
-COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-mips16" ; \
-	else \
-		echo "" ; \
-	fi
-
-CFLAGS         	+= ${COPTS}
-
 LIBS            = -lm -lc
 
 TARGET          = picoc

@@ -65,9 +65,8 @@ int     maxusers;
  * Config builds a set of files for building a UNIX
  * system given a description of the desired system.
  */
-int main(argc, argv)
-    int argc;
-    char **argv;
+int
+main(int argc, char *argv[])
 {
     int ch;
 
@@ -125,8 +124,7 @@ usage:  fputs("usage: kconfig [-gp] sysname\n", stderr);
  *  pointer to the word otherwise
  */
 char *
-get_word(fp)
-    register FILE *fp;
+get_word(FILE *fp)
 {
     static char line[80];
     register int ch;
@@ -159,8 +157,7 @@ get_word(fp)
  *  (to allow embedded spaces).
  */
 char *
-get_quoted_word(fp)
-    register FILE *fp;
+get_quoted_word(FILE *fp)
 {
     static char line[256];
     register int ch;

@@ -44,8 +44,8 @@ static char    *wnum(int num);
 /*
  * print controller initialization structures
  */
-static void ctlr_ioconf(fp)
-    register FILE *fp;
+static void
+ctlr_ioconf(FILE *fp)
 {
     register struct device *dp;
 
@@ -77,8 +77,8 @@ static void ctlr_ioconf(fp)
 /*
  * print service initialization structures
  */
-static void service_ioconf(fp)
-    register FILE *fp;
+static void
+service_ioconf(FILE *fp)
 {
     register struct device *dp;
 
@@ -96,7 +96,8 @@ static void service_ioconf(fp)
     fprintf(fp, "    { 0 }\n};\n");
 }
 
-static char *wnum(int num)
+static char *
+wnum(int num)
 {
     if (num == QUES || num == UNKNOWN)
         return ("?");
@@ -104,7 +105,8 @@ static char *wnum(int num)
     return (errbuf);
 }
 
-void pic32_ioconf()
+void
+pic32_ioconf(void)
 {
     register struct device *dp, *mp;
     FILE *fp;
@@ -165,7 +167,8 @@ void pic32_ioconf()
     fclose(fp);
 }
 
-void stm32_ioconf()
+void
+stm32_ioconf(void)
 {
     register struct device *dp, *mp;
     FILE *fp;

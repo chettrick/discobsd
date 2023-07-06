@@ -62,8 +62,7 @@ char *tail();
  * Lookup a file, by name.
  */
 struct file_list *
-fl_lookup(file)
-    register char *file;
+fl_lookup(char *file)
 {
     register struct file_list *fp;
 
@@ -78,8 +77,7 @@ fl_lookup(file)
  * Lookup a file, by final component name.
  */
 struct file_list *
-fltail_lookup(file)
-    register char *file;
+fltail_lookup(char *file)
 {
     register struct file_list *fp;
 
@@ -94,7 +92,7 @@ fltail_lookup(file)
  * Make a new file list entry
  */
 struct file_list *
-new_fent()
+new_fent(void)
 {
     register struct file_list *fp;
 
@@ -108,8 +106,8 @@ new_fent()
     return (fp);
 }
 
-int opteq(cp, dp)
-    char *cp, *dp;
+int
+opteq(char *cp, char *dp)
 {
     char c, d;
 
@@ -129,7 +127,8 @@ int opteq(cp, dp)
  * Read in the information about files used in making the system.
  * Store it in the ftab linked list.
  */
-void read_files()
+void
+read_files(void)
 {
     FILE *fp;
     register struct file_list *tp, *pf;
@@ -281,8 +280,8 @@ doneparam:
     goto next;
 }
 
-void do_objs(fp)
-    FILE *fp;
+void
+do_objs(FILE *fp)
 {
     register struct file_list *tp, *fl;
     register int lpos, len;
@@ -319,8 +318,8 @@ cont:
         putc('\n', fp);
 }
 
-void do_cfiles(fp)
-    FILE *fp;
+void
+do_cfiles(FILE *fp)
 {
     register struct file_list *tp, *fl;
     register int lpos, len;
@@ -362,8 +361,8 @@ void do_cfiles(fp)
  * Create the makerules for each file
  * which is part of the system.
  */
-void do_rules(f)
-    FILE *f;
+void
+do_rules(FILE *f)
 {
     register char *cp, *np, och;
     register struct file_list *ftp;
@@ -394,8 +393,8 @@ void do_rules(f)
 /*
  * Create the load strings
  */
-void do_load(f)
-    register FILE *f;
+void
+do_load(FILE *f)
 {
     register struct file_list *fl;
     register int first;
@@ -414,7 +413,8 @@ void do_load(f)
 /*
  * Build the makefile from the skeleton
  */
-void makefile()
+void
+makefile(void)
 {
     FILE *ifp, *ofp;
     char line[BUFSIZ];
@@ -425,7 +425,7 @@ void makefile()
 
     read_files();
     strcpy(line, "../Makefile.kconf");
-    //strcat(line, archname);
+    /*strcat(line, archname);*/
     ifp = fopen(line, "r");
     if (ifp == 0) {
         perror(line);
@@ -534,8 +534,7 @@ void makefile()
 }
 
 char *
-tail(fn)
-    char *fn;
+tail(char *fn)
 {
     register char *cp;
 
@@ -545,9 +544,8 @@ tail(fn)
     return (cp+1);
 }
 
-void do_swapspec(f, name)
-    FILE *f;
-    register char *name;
+void
+do_swapspec(FILE *f, char *name)
 {
 
     if (!eq(name, "generic"))
@@ -558,16 +556,13 @@ void do_swapspec(f, name)
 }
 
 struct file_list *
-do_systemspec(f, fl, first)
-    FILE *f;
-    register struct file_list *fl;
-    int first;
+do_systemspec(FILE *f, struct file_list *fl, int first)
 {
     fprintf(f, "%s: ${SYSTEM_DEP} swap%s.o", fl->f_needs, fl->f_fn);
-    // Don't use newvers target.
-    // A preferred way is to run newvers.sh from SYSTEM_LD_HEAD macro.
-    //if (first)
-    //  fprintf(f, " newvers");
+    /* Don't use newvers target. */
+    /* A preferred way is to run newvers.sh from SYSTEM_LD_HEAD macro. */
+    /*if (first)*/
+    /*  fprintf(f, " newvers");*/
     fprintf(f, "\n\t${SYSTEM_LD_HEAD}\n");
     fprintf(f, "\t${SYSTEM_LD} swap%s.o\n", fl->f_fn);
     fprintf(f, "\t${SYSTEM_LD_TAIL}\n\n");
@@ -583,8 +578,7 @@ do_systemspec(f, fl, first)
  * Return a pointer to a static buffer.
  */
 char *
-raise(str)
-    register char *str;
+raise(char *str)
 {
     static char buf[100];
     register char *cp = buf;

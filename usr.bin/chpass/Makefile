@@ -17,8 +17,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS		= chpass.c field.c util.c
 OBJS		= chpass.o field.o util.o
 MAN		= chpass.0

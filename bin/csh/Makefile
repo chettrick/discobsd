@@ -12,7 +12,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS          += -DTELL -DVFORK -DFILEC -DNOLIMITS -Os #-Werror -g
+CFLAGS          += -DTELL -DVFORK -DFILEC -DNOLIMITS -Os
 
 OBJS            = alloc.o printf.o sh.char.o sh.dir.o sh.dol.o \
                   sh.err.o sh.exp.o sh.file.o sh.func.o sh.glob.o sh.hist.o \

@@ -8,7 +8,6 @@
 
 CC      = gcc
 CFLAGS  = -O -Wall
-# XXX CFLAGS  = -O -Wall -Werror
 
 sl: sl.c sl.h
 	$(CC) $(CFLAGS) -o sl sl.c -lncurses

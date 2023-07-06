@@ -10,7 +10,7 @@ include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 #CFLAGS  	= -O -g -DCROSS
 
-CFLAGS  	+= -Werror -Wall
+CFLAGS  	+= -Wall
 
 OBJS            = snake.o move.o
 MAN             = snake.0

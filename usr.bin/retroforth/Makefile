@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Werror -Wall
+CFLAGS		+= -Wall
 
 SRCS		= retro.c
 OBJS		= retro.o

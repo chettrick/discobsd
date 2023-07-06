@@ -1,8 +1,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS            = find.c bigram.c code.c
 
 all:            find bigram code

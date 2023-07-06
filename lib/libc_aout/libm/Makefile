@@ -9,7 +9,7 @@ COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "" ; \
 	fi
 
-CFLAGS          = -Os ${DEFS} -Wall -Werror ${COPTS}
+CFLAGS          = -Os ${DEFS} -Wall ${COPTS}
 
 OBJS            = asin.o atan.o exp.o erf.o floor.o fmod.o hypot.o j0.o j1.o \
                   jn.o log.o pow.o sin.o sinh.o sqrt.o tan.o tanh.o

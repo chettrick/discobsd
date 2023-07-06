@@ -4,7 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror -I${TOPSRC}/sys/include
 CFLAGS		+= -I${TOPSRC}/sys/include
 
 SRCS            = globread.c globwrite.c

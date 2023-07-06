@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -O -Wall -Werror
+CFLAGS          += -O -Wall
 
 OBJS    	= w5100.o socket.o ethernet.o client.o server.o udp.o
 

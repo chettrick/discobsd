@@ -20,7 +20,6 @@ LIBOBJ  = logent.o ulockf.o uucpdefs.o subdir.o gename.o assert.o expfile.o \
 OWNER=	uucp
 GROUP=	daemon
 
-# XXX CFLAGS += -Os -Werror
 CFLAGS += -Os -ansi
 
 SBINDIR=	${DESTDIR}/usr/sbin

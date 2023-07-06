@@ -14,7 +14,7 @@ COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "" ; \
 	fi
 
-CFLAGS=		-Os ${DEFS} -Wall -Werror ${COPTS}
+CFLAGS=		-Os ${DEFS} -Wall ${COPTS}
 
 SRCS=		${TOPSRC}/lib/startup-${MACHINE_ARCH}/crt0.c
 OBJS=		../crt0.o

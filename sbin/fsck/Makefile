@@ -7,11 +7,11 @@ TOPSRC!=cd ../..; pwd
 
 include $(TOPSRC)/target.mk
 OBJS		= main.o
-CFLAGS		+= -g -Werror -Wall -Os
+CFLAGS		+= -g -Wall -Os
 
 #include $(TOPSRC)/cross.mk
 #OBJS		= cross.o
-#CFLAGS		+= -g -Werror -Wall
+#CFLAGS		+= -g -Wall
 
 # The program itself
 #

@@ -4,7 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		= -O -Werror -g
 CFLAGS		= -O -g
 
 SRCS		= stty.c

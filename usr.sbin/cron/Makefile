@@ -48,7 +48,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS          += -Werror -I.
 CFLAGS          += -I.
 
 

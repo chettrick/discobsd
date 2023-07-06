@@ -5,8 +5,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS		= shutdown.c
 OBJS		= shutdown.o
 MAN		= shutdown.0

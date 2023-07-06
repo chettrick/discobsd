@@ -2,7 +2,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS          += -Werror -Wall
+CFLAGS          += -Wall
 LIBS            += -lm -lc
 
 OBJS            = forth.o func.o

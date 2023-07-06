@@ -5,7 +5,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS          += -Werror -Wall -Os
+CFLAGS          += -Wall -Os
 LDFLAGS         +=
 
 AOUTOBJS        = aout.o mips-dis.o

@@ -4,8 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS		= mknod.c
 OBJS		= mknod.o
 MAN		= mknod.0

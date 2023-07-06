@@ -17,8 +17,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS		= passwd.c
 OBJS		= passwd.o
 MAN		= passwd.0

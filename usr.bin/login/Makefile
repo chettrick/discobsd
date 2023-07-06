@@ -17,7 +17,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
 LIBS            := -lutil $(LIBS)
 
 SRCS		= login.c

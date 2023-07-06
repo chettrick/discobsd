@@ -9,7 +9,7 @@
 # software without specific written prior permission. This software
 # is provided ``as is'' without express or implied warranty.
 #
-CFLAGS		= -DUNIX -DUNIX_SYSV -Werror -Wall -DCROSS -g -O0
+CFLAGS		= -DUNIX -DUNIX_SYSV -Wall -DCROSS -g -O0
 LDFLAGS         = -g
 LIBS            = -lncurses
 

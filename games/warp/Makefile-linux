@@ -10,7 +10,7 @@
 # Split into separate files.  Added amoebas and pirates.
 #
 #
-CFLAGS          = -g -O -Werror -DTERMIO #-Wall
+CFLAGS          = -g -O -DTERMIO #-Wall
 LDFLAGS         =
 PRIVLIB         = /usr/games/lib/warp
 LIBS            = -ltermcap -lm
@@ -54,4 +54,4 @@ smap.6: smp.6 sm
 smap.7: smp.7 sm
 	./sm <smp.7 >smap.7
 sm: sm.c
-	cc -O -Wall -Werror sm.c -o sm
+	cc -O -Wall sm.c -o sm

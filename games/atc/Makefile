@@ -9,7 +9,6 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-# XXX CFLAGS          += -Os -g -Werror -Wall
 CFLAGS          += -Os -g -Wall -ansi
 CFLAGS          += -DBSD -DDEST=\"/usr/games/lib/atc/\"
 #CFLAGS          += -DSYSV -DDEST=\"games/\"

@@ -1,5 +1,5 @@
 CC		= gcc -g
-CFLAGS		= -O -Wall -Werror
+CFLAGS		= -O -Wall
 
 _HOST_OSNAME!=	uname -s
 

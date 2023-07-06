@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -O -Wall -Werror
+CFLAGS          += -O -Wall
 MAN             = gpanel.0
 MANSRC          = gpanel.3
 

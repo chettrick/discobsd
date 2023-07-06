@@ -4,8 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 BIN		= date
 SRCS            = $(BIN).c
 OBJS            = $(BIN).o

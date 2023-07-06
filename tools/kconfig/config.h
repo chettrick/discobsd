@@ -128,8 +128,8 @@ struct config {
 /*
  * Config has a global notion of which architecture is being used.
  */
-int     arch;
-char    *archname;
+extern int      arch;
+extern char     *archname;
 #define ARCH_PIC32      1
 #define ARCH_STM32      2
 
@@ -140,7 +140,7 @@ char    *archname;
 struct cputype {
     char    *cpu_name;
     struct  cputype *cpu_next;
-} *cputype;
+};
 
 /*
  * A set of options may also be specified which are like CPU types,
@@ -151,7 +151,7 @@ struct opt {
     char    *op_name;
     char    *op_value;
     struct  opt *op_next;
-} *opt, *mkopt;
+};
 
 /*
  * Mapping of signal names to pins.
@@ -161,25 +161,27 @@ struct signal {
     int     sig_pin;
     int     sig_invert;
     struct  signal *sig_next;
-} *siglist;
+};
 
-char    *board;
-char    *ldscript;
+extern struct   file_list *ftab, *conf_list, **confp, *comp_list, **compp;
+extern struct   device *dtab;
+extern struct   cputype *cputype;
+extern struct   opt *opt, *mkopt;
+extern struct   signal *siglist;
 
-int do_trace;
+extern char     *board;
+extern char     *ldscript;
 
-struct  device *dtab;
+extern int      do_trace;
 
-char    errbuf[80];
-int     yyline;
+extern char     errbuf[80];
+extern int      yyline;
 
-struct  file_list *ftab, *conf_list, **confp, *comp_list, **compp;
+extern int      zone, hadtz;
+extern int      dst;
+extern int      debugging;
 
-int     zone, hadtz;
-int     dst;
-int     debugging;
-
-int     maxusers;
+extern int      maxusers;
 
 #define eq(a,b) (!strcmp(a,b))
 

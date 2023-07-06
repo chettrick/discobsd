@@ -38,6 +38,29 @@
 #include "y.tab.h"
 #include "config.h"
 
+struct  file_list *ftab, *conf_list, **confp, *comp_list, **compp;
+struct  device *dtab;
+struct  cputype *cputype;
+struct  opt *opt, *mkopt;
+struct  signal *siglist;
+
+int     arch;
+char    *archname;
+
+char    *board;
+char    *ldscript;
+
+int     do_trace;
+
+char    errbuf[80];
+int     yyline;
+
+int     zone, hadtz;
+int     dst;
+int     debugging;
+
+int     maxusers;
+
 /*
  * Config builds a set of files for building a UNIX
  * system given a description of the desired system.

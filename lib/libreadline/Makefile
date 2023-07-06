@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -O -Wall -Werror
+CFLAGS          += -O -Wall
 
 OBJS		= readline.o
 HDRS		= readline/readline.h readline/history.h

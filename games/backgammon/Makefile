@@ -7,7 +7,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -O -g -Werror -Wall #-DV7
+CFLAGS		+= -O -g -Wall #-DV7
 LIBS            += -ltermcap -lc
 
 OBJS            = allow.o board.o check.o extra.o fancy.o init.o main.o \

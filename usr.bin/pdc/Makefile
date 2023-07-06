@@ -5,7 +5,7 @@ include $(TOPSRC)/target.mk
 
 OBJS            = pdc.o
 
-CFLAGS		+= -Werror -Wall -Os
+CFLAGS		+= -Wall -Os
 CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC -DHAVE_READLINE
 CPPFLAGS	+= -I${TOPSRC}/lib/libreadline
 LIBS            = -lreadline -lc

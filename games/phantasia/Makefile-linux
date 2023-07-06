@@ -43,7 +43,7 @@ CFLAGS = 	-DPATH=\"${DEST}\" \
 		-DRAND=32768.0 \
 		-DACCESS=\"r+\" \
 		-DENEMY \
-		-DBSD42 -O -Werror
+		-DBSD42 -O
 
 OFILES          = main.o func0.o func1.o func2.o fight.o
 

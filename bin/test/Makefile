@@ -8,8 +8,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS            = test.c operators.c
 OBJS            = test.o operators.o
 MAN             = test.0

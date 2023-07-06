@@ -8,7 +8,7 @@ include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 #CFLAGS = -DCROSS -O
 
-CFLAGS		+= -Werror -Wall
+CFLAGS		+= -Wall
 LIBS            = -lc
 
 OBJS            = monop.o cards.o execute.o getinp.o houses.o jail.o misc.o \

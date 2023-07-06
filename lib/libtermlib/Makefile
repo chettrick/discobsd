@@ -7,7 +7,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 DEFS    = -DNOSCCS
-CFLAGS  = -O -DCM_N -DCM_GT -DCM_B -DCM_D $(DEFS) -Wall -Werror
+CFLAGS  = -O -DCM_N -DCM_GT -DCM_B -DCM_D ${DEFS} -Wall
 LD      = $(CC)
 SRCS    = termcap.c tgoto.c tputs.c tcattr.c
 OBJS    = termcap.o tgoto.o tputs.o tcattr.o

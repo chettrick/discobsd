@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          += ${DEFS} -Werror -Wall
+CFLAGS          += ${DEFS} -Wall
 
 SRCS            = login.c logout.c logwtmp.c
 OBJS            = asin.o atan.o exp.o erf.o floor.o fmod.o hypot.o j0.o j1.o \

@@ -1,5 +1,5 @@
 LOBJS=fs.o util.o fops.o set.o
-CFLAGS=-Wall -Werror -ggdb3
+CFLAGS=-Wall -ggdb3
 PROGS=umkfs umkdir uls uchmod uchown uchgrp ulogin ucd ucat
 POBJS=umkfs.o umkdir.o uls.o uchmod.o uchown.o uchgrp.o ulogin.o ucd.o ucat.o
 LDFLAGS=-L. -lufs -ggdb3

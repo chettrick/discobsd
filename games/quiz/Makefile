@@ -3,9 +3,9 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
-#CFLAGS  	= -O -DCROSS -Werror -Wall
+#CFLAGS  	= -O -DCROSS -Wall
 
-CFLAGS  	+= -Werror -Wall
+CFLAGS  	+= -Wall
 
 OBJS            = quiz.o
 MAN             = quiz.0

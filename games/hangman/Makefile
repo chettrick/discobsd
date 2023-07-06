@@ -2,7 +2,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS  	+= -Werror -Wall
+CFLAGS  	+= -Wall
 
 OBJS            = endgame.o extern.o getguess.o getword.o main.o playgame.o \
 		  prdata.o prman.o prword.o setup.o

@@ -10,7 +10,6 @@ HOSTINC         += -I/usr/include/i386-linux-gnu
 
 CFLAGS		= -m32 -g -DCROSS -nostdinc -I. $(HOSTINC) -I.. -D__mips__
 CFLAGS		+= -Wall -DNUM_SYMS_CACHE=50 -fno-builtin
-# XXX CFLAGS		+= -Wall -Werror -DNUM_SYMS_CACHE=50 -fno-builtin
 LDFLAGS         += -m32 -g
 
 OBJS            = message.o access.o command.o expr.o findfn.o format.o input.o \

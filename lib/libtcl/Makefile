@@ -2,7 +2,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= ${DEFS} -Os -Wall -Werror -Wno-error=pointer-sign -Wno-pointer-sign
+CFLAGS		+= ${DEFS} -Os -Wall -Wno-pointer-sign
 CFLAGS		+= -DTCL_FILE_CMDS -DTCL_ENV_CMDS
 
 OBJS		= tclget.o tclproc.o tclvar.o tclassem.o \

@@ -1,7 +1,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror -Os
 CFLAGS		+= -Os -ansi
 
 YACC            = bison -y
@@ -38,7 +37,6 @@ lint:
 
 proctab.c:	proc.c token.h awk.h
 		cc -std=gnu89 -Wall -o proc proc.c
-# XXX		cc -std=gnu89 -Wall -Werror -o proc proc.c
 		./proc > proctab.c
 
 clean:

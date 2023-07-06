@@ -6,8 +6,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 OBJS		= main.o init.o subr.o gettytab.o get_date.o
 
 all:            getty

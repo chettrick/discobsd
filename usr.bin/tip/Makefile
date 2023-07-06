@@ -44,7 +44,7 @@ OWNER   = uucp
 GROUP   = daemon
 CONFIG  = -DHAYES
 LIBS    += -lacu -L./aculib
-CFLAGS  += -DDEFBR=1200 -DDEFFS=BUFSIZ -DACULOG -DPRISTINE -Wall -Werror
+CFLAGS  += -DDEFBR=1200 -DDEFFS=BUFSIZ -DACULOG -DPRISTINE -Wall
 SRCS    = acu.c acutab.c cmds.c cmdtab.c cu.c hunt.c log.c partab.c remcap.c \
 	  remote.c tip.c tipout.c uucplock.c value.c vars.c
 OBJS    = acu.o acutab.o cmds.o cmdtab.o cu.o hunt.o log.o partab.o remcap.o \

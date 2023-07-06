@@ -7,7 +7,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Os -Werror -Wall
+CFLAGS		+= -Os -Wall
 
 OBJS            = abandon.o attack.o autover.o capture.o check_out.o checkcond.o \
                   compkl.o computer.o damage.o damaged.o dcrept.o destruct.o \

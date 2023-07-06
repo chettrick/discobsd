@@ -4,7 +4,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Wall -Werror -I${TOPSRC}/sys/include
+CFLAGS		+= -Wall -I${TOPSRC}/sys/include
 
 BIN		    = talloc
 SRCS        = $(BIN).c

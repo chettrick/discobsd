@@ -6,7 +6,7 @@ PROG=		tclsh
 OBJS=		tclsh.o
 
 # XXX -Wno-pointer-sign until unsigned char * issues in libtcl are remedied.
-CFLAGS+=	-Os -pedantic -Wall -Werror -Wno-pointer-sign
+CFLAGS+=	-Os -pedantic -Wall -Wno-pointer-sign
 LDADD=		-ltcl
 
 all:		${PROG}

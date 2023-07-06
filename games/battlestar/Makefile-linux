@@ -4,7 +4,7 @@
 # the terms of the Berkeley Software License Agreement.
 #
 
-CFLAGS		+= -g -O -DEXT_MESSAGE_FILE -Werror -Wall
+CFLAGS		+= -g -O -DEXT_MESSAGE_FILE -Wall
 
 OBJS            = battlestar.o cmd1.o cmd2.o cmd3.o cmd4.o cmd5.o cmd6.o cmd7.o \
 		  init.o cypher.o getcom.o parse.o room.o save.o fly.o misc.o \

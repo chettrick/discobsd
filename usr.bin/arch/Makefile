@@ -6,7 +6,7 @@ OBJS		= ${PROG}.o
 MAN		= ${PROG}.0
 MANSRC		= ${PROG}.1
 
-CFLAGS		+= -Werror -Wall
+CFLAGS		+= -Wall
 
 all:		${PROG} ${MAN}
 

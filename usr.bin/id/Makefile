@@ -4,8 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-# XXX CFLAGS		+= -Werror
-
 SRCS		= id.c
 OBJS		= id.o
 MAN		= id.0 groups.0 whoami.0

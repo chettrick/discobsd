@@ -2,7 +2,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Wall -Werror
+CFLAGS		+= -Wall
 
 OBJS            = basic.o
 

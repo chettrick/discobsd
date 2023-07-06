@@ -6,7 +6,6 @@ include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 #CFLAGS		= -O0 -g -DCROSS
 
-# XXX CFLAGS		+= -Wall -Werror -DNDEBUG
 CFLAGS		+= -Wall -DNDEBUG
 
 YFLAGS=

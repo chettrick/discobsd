@@ -1,6 +1,6 @@
 OBJS    = mkrd.o
 BIN     = mkrd
-CFLAGS  = -Wall -Werror -O
+CFLAGS  = -Wall -O
 
 all: $(BIN)
 

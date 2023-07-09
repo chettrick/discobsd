@@ -14,8 +14,9 @@ termcap.full: reorder termcap.src
 	ex - termcap.src < reorder
 
 install: termcap.small termcap.full
-	install -c -m 444 termcap.small ${DESTDIR}/etc/termcap
-	install -c -m 444 termcap.full ${DESTDIR}/etc/termcap.full
+	rm -f ${DESTDIR}/usr/share/misc/termcap
+	install -c -m 444 termcap.small ${DESTDIR}/usr/share/misc/termcap
+#	install -c -m 444 termcap.full ${DESTDIR}/etc/termcap.full
 
 tabset: FRC
 	rm -fr ${DESTDIR}/usr/share/tabset

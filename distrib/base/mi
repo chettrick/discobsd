@@ -960,6 +960,8 @@ file /usr/share/emg.keys
 file /usr/share/re.help
 file /usr/share/dict/words
 file /usr/share/misc/more.help
+file /usr/share/misc/termcap
+mode 0444
 file /usr/share/misc/yaccpar
 file /usr/share/zoneinfo/Australia/North
 file /usr/share/zoneinfo/Australia/NSW

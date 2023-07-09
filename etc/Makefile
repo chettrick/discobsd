@@ -15,6 +15,9 @@ DESTDIR=/foobar
 OWN=	root
 GRP=	wheel
 
+TZDIR=		/usr/share/zoneinfo
+LOCALTIME=	US/Pacific
+
 FILES=	fstab gettytab group etc.${MACHINE}/motd passwd rc rc.local shells ttys
 
 all install depend lint tags:
@@ -44,6 +47,7 @@ distribution-etc-root-var: distrib-dirs
 		    ${DESTDIR}/root/.profile; \
 		install -c -o root -g wheel -m 644 dot.profile \
 		    ${DESTDIR}/.profile
+	ln -sf ${TZDIR}/${LOCALTIME} ${DESTDIR}/etc/localtime
 #	install -c -o ${OWN} -g operator -m 664 /dev/null \
 #	    ${DESTDIR}/etc/dumpdates
 	-@mkdir -p ${DESTDIR}/var/run

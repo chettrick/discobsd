@@ -43,7 +43,6 @@ all:		zdump zic ${ZICMAN} ${ZDUMAN}
 
 install:	zic $(DATA) $(MAN)
 		(umask 22; ./zic -v -d ${SHARDIR} $(DATA))
-		install -c ${SHARDIR}/${LOCALTIME} ${DESTDIR}/etc/localtime
 #		install -c $(ZICMAN) ${MANDIR}/${ZICMAN}
 #		install -c $(ZDUMAN) ${MANDIR}/${ZDUMAN}
 #		install -c -s zic ${DESTDIR}/usr/sbin/zic

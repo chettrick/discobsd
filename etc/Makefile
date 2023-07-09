@@ -48,6 +48,8 @@ distribution-etc-root-var: distrib-dirs
 		install -c -o root -g wheel -m 644 dot.profile \
 		    ${DESTDIR}/.profile
 	ln -sf ${TZDIR}/${LOCALTIME} ${DESTDIR}/etc/localtime
+	install -c -m 444 ${DESTDIR}/usr/share/misc/termcap \
+	    ${DESTDIR}/etc/termcap
 #	install -c -o ${OWN} -g operator -m 664 /dev/null \
 #	    ${DESTDIR}/etc/dumpdates
 	-@mkdir -p ${DESTDIR}/var/run

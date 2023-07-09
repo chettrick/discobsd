@@ -19,6 +19,7 @@ all:            ../libtermlib.a
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
 ../libtermlib.a: ${OBJS}
+		rm -f $@
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 

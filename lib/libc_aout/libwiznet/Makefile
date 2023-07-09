@@ -19,6 +19,7 @@ all:            ../libwiznet.a
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
 ../libwiznet.a:	${OBJS}
+		rm -f $@
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 

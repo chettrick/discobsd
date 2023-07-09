@@ -20,6 +20,7 @@ all:            ../libgpanel.a
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
 ../libgpanel.a:	${OBJS}
+		rm -f $@
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 

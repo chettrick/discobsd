@@ -121,6 +121,7 @@ OBJS            += addsf3.o comparesf2.o divsf3.o fixsfsi.o floatsisf.o \
 all:            ../libc.a
 
 ../libc.a:	${OBJS}
+		rm -f $@
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 

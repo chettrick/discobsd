@@ -19,6 +19,7 @@ all:            ../libreadline.a
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
 ../libreadline.a: ${OBJS}
+		rm -f $@
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 

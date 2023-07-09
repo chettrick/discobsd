@@ -20,6 +20,7 @@ all:            ../libm.a
 		${CC} ${DEFS} ${CFLAGS} -c $< -o $@
 
 ../libm.a:	${OBJS}
+		rm -f $@
 		../ar_aout rc $@ ${OBJS}
 		../ranlib_aout $@
 

@@ -310,7 +310,7 @@ cpuidentify()
 
     printf("cpu: ");
     switch (devid) {
-    case 0x0411:
+    case 0x0411:case 0x0413:
         physmem = 192 * 1024;   /* Total 192kb RAM size. */
         copystr("STM32F407xx", cpu_model, sizeof(cpu_model), NULL);
         printf("STM32F407xx");
@@ -318,6 +318,9 @@ cpuidentify()
         switch (revid) {
         case 0x2000:
             printf("A");
+            break;
+	case 0x1001:
+            printf("VG");
             break;
         default:
             printf("unknown 0x%04x", revid);

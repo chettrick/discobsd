@@ -39,7 +39,7 @@ DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
 CWARNFLAGS=	-Wall
 
 CMACHCPU=	-mcpu=cortex-m4
-CMACHFLAGS=	-ffreestanding -fno-builtin
+CMACHFLAGS=	-ffreestanding -fno-builtin -fcommon
 CMACHFLAGS+=	-mfloat-abi=soft
 CMACHFLAGS+=	-mthumb -mabi=aapcs -mlittle-endian
 CMACHFLAGS+=	${CMACHCPU}
@@ -47,7 +47,7 @@ CMACHFLAGS+=	${CMACHCPU}
 COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
-LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -nopie -Map=$@.map
+LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -Map=$@.map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}

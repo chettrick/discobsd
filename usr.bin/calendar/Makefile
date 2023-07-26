@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          = -O
+CFLAGS         += -O
 SRCS            = calendar.c
 OBJS            = calendar.o
 MAN             = calendar.0
@@ -10,7 +10,7 @@ MANSRC          = calendar.1
 all:            calendar $(MAN)
 
 calendar:          ${OBJS}
-		${CC} ${LDFLAGS} -o calendar.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o calendar.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S calendar.elf > calendar.dis
 		${SIZE} calendar.elf
 		${ELF2AOUT} calendar.elf $@ && rm calendar.elf

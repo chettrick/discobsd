@@ -12,13 +12,13 @@ CFLAGS          += -DDIFF='"${DIFF}"' -DDIFFH='"${DIFFH}"' -DPR='"${PR}"'
 all:            diff diffh
 
 diff:           ${OBJS}
-		${CC} ${LDFLAGS} -o diff.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o diff.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S diff.elf > diff.dis
 		${SIZE} diff.elf
 		${ELF2AOUT} diff.elf $@ && rm diff.elf
 
 diffh:          diffh.o
-		${CC} ${LDFLAGS} -o diffh.elf diffh.o ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o diffh.elf diffh.o ${LIBS}
 		${OBJDUMP} -S diffh.elf > diffh.dis
 		${SIZE} diffh.elf
 		${ELF2AOUT} diffh.elf $@ && rm diffh.elf

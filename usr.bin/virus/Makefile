@@ -1,10 +1,10 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          += -Wall -Os
+CFLAGS          += -Wall -O0
 
 virus:          virus.c
-		$(CC) $(LDFLAGS) -o virus.elf virus.c $(LIBS) -ltermcap
+		${CC} ${CFLAGS} ${LDFLAGS} -o virus.elf virus.c ${LIBS} -ltermcap
 		$(SIZE) virus.elf
 		$(ELF2AOUT) virus.elf $@
 

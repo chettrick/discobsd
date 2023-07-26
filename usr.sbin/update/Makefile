@@ -4,7 +4,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS		= -O
+CFLAGS		+= -O
 SRCS		= update.c
 OBJS		= update.o
 MAN		= update.0
@@ -13,7 +13,7 @@ MANSRC		= update.8
 all:		update ${MAN}
 
 update:		${OBJS}
-		${CC} ${LDFLAGS} -o update.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o update.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S update.elf > update.dis
 		${SIZE} update.elf
 		${ELF2AOUT} update.elf $@ && rm update.elf

@@ -14,7 +14,7 @@ MANSRC          = quiz.6
 all:            quiz $(MAN)
 
 quiz:           $(OBJS)
-		$(CC) $(LDFLAGS) -o $@.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf

@@ -11,7 +11,7 @@ OBJS		= main.o init.o subr.o gettytab.o get_date.o
 all:            getty
 
 getty:          ${OBJS}
-		${CC} ${LDFLAGS} -o getty.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o getty.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S getty.elf > getty.dis
 		${SIZE} getty.elf
 		${ELF2AOUT} getty.elf $@ && rm getty.elf

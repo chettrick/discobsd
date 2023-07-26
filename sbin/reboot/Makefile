@@ -11,7 +11,7 @@ CFLAGS          += -Wall
 all:            reboot ${MAN}
 
 reboot:         ${OBJS}
-		${CC} ${LDFLAGS} -o reboot.elf ${OBJS} -lc
+		${CC} ${CFLAGS} ${LDFLAGS} -o reboot.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S reboot.elf > reboot.dis
 		${SIZE} reboot.elf
 		${ELF2AOUT} reboot.elf $@

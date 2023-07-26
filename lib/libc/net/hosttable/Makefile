@@ -9,7 +9,7 @@
 
 OBJS=	gethnamadr.o gethostent.o
 SRCS=	gethnamadr.c gethostent.c
-CFLAGS=	-O ${DEFS}
+CFLAGS+=-O ${DEFS}
 
 .c.o: 
 	${CC} -p -c ${CFLAGS} $*.c

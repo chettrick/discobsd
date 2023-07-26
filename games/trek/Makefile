@@ -24,7 +24,7 @@ MANSRC		= trek.6
 all:            trek $(MAN)
 
 trek:           ${OBJS}
-		${CC} ${LDFLAGS} -o trek.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o trek.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S trek.elf > trek.dis
 		${SIZE} trek.elf
 		${ELF2AOUT} trek.elf $@ && rm trek.elf

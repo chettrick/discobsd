@@ -4,7 +4,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS		= -O -g
+CFLAGS		+= -O
 
 SRCS		= stty.c
 OBJS		= stty.o
@@ -14,7 +14,7 @@ MANSRC		= stty.1
 all:		stty ${MAN}
 
 stty:		${OBJS}
-		${CC} ${LDFLAGS} -o stty.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o stty.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S stty.elf > stty.dis
 		${SIZE} stty.elf
 		${ELF2AOUT} stty.elf $@ && rm stty.elf

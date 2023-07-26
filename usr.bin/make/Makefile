@@ -4,7 +4,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Wall -I../ar -g
+CFLAGS		+= -Wall -I../ar
 YFLAGS		=
 
 OBJS            = main.o doname.o misc.o files.o dosys.o gram.o
@@ -12,7 +12,7 @@ OBJS            = main.o doname.o misc.o files.o dosys.o gram.o
 all:            xmake
 
 xmake:          ${OBJS}
-		${CC} ${LDFLAGS} -o make.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o make.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S make.elf > make.dis
 		${SIZE} make.elf
 		${ELF2AOUT} make.elf $@ && rm make.elf

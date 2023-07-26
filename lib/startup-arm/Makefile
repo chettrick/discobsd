@@ -8,7 +8,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          = -O ${DEFS}
+CFLAGS		+= -O ${DEFS}
 
 SRCS		= crt0.c
 OBJS		= crt0.o

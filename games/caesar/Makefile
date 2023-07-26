@@ -16,7 +16,7 @@ MANSRC          = caesar.6
 all:            caesar $(MAN)
 
 caesar:           $(OBJS)
-		$(CC) $(LDFLAGS) -o $@.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf

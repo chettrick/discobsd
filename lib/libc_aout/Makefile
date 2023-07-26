@@ -4,7 +4,7 @@ SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
 
 PROG		= ar_aout as_aout aout_aout ld_aout nm_aout ranlib_aout size_aout strip_aout
 
-CFLAGS          = -Os -std=gnu89 -fno-builtin -g -Wall -DCROSS -I. \
+CFLAGS          = -Os -std=gnu89 -fno-builtin -Wall -DCROSS -I. \
                    -idirafter $(TOPSRC)/include \
                    -idirafter $(TOPSRC)/usr.bin/ar \
                    -idirafter $(TOPSRC)/usr.bin/as
@@ -12,7 +12,7 @@ LDFLAGS         += -g
 
 AR_OBJS         = ar.o append.o archive.o contents.o delete.o extract.o \
                   misc.o move.o print.o replace.o strmode.o
-AOUT_OBJS       = aout.o mips-dis.o # XXX use MACHINE_ARCH
+AOUT_OBJS       = aout.o mips-dis.o
 RANLIB_OBJS     = ranlib.o archive.o
 HEADERS         = a.out.h ar.h nlist.h ranlib.h
 

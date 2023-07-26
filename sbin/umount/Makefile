@@ -12,7 +12,7 @@ MANSRC		= umount.8
 all:            umount umount.0
 
 umount:         ${OBJS}
-		${CC} ${LDFLAGS} -o umount.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o umount.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S umount.elf > umount.dis
 		${SIZE} umount.elf
 		${ELF2AOUT} umount.elf $@ && rm umount.elf

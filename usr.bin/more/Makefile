@@ -12,7 +12,7 @@ OBJS		= more.o
 all:            more
 
 more:        	${OBJS}
-		${CC} ${LDFLAGS} -o more.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o more.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S more.elf > more.dis
 		${SIZE} more.elf
 		${ELF2AOUT} more.elf $@ && rm more.elf

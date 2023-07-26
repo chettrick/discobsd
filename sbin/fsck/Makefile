@@ -7,7 +7,7 @@ TOPSRC!=cd ../..; pwd
 
 include $(TOPSRC)/target.mk
 OBJS		= main.o
-CFLAGS		+= -g -Wall -Os
+CFLAGS		+= -Wall -Os
 
 #include $(TOPSRC)/cross.mk
 #OBJS		= cross.o
@@ -35,7 +35,7 @@ HDRS		= fsck.h
 all:		${PROG}
 
 ${PROG}:	${OBJS} ${HDRS}
-		${CC} ${LDFLAGS} -o fsck.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o fsck.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S fsck.elf > fsck.dis
 		${SIZE} fsck.elf
 		${ELF2AOUT} fsck.elf $@ && rm fsck.elf

@@ -15,7 +15,7 @@ YFLAGS		=
 all:            pdc
 
 pdc:            $(OBJS)
-		${CC} ${LDFLAGS} -o pdc.elf $(OBJS) ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o pdc.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S pdc.elf > pdc.dis
 		${SIZE} pdc.elf
 		${ELF2AOUT} pdc.elf $@ && rm pdc.elf

@@ -2,7 +2,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Wall -g -I. -I../ar
+CFLAGS		+= -Wall -I. -I../ar
 
 SRCS            = ../ar/archive.c ranlib.c
 OBJS            = archive.o ranlib.o
@@ -12,7 +12,7 @@ MANSRC		= ranlib.1
 all:            ranlib $(MAN)
 
 ranlib:         ${OBJS}
-		${CC} ${LDFLAGS} -o ranlib.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o ranlib.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S ranlib.elf > ranlib.dis
 		${SIZE} ranlib.elf
 		${ELF2AOUT} ranlib.elf $@

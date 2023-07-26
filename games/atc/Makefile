@@ -9,7 +9,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS          += -Os -g -Wall -ansi
+CFLAGS          += -Os -Wall -ansi
 CFLAGS          += -DBSD -DDEST=\"/usr/games/lib/atc/\"
 #CFLAGS          += -DSYSV -DDEST=\"games/\"
 LEX             = lex
@@ -22,7 +22,7 @@ MANSRC		= atc.6
 all:            atc $(MAN)
 
 atc:            $(OBJS)
-		$(CC) $(LDFLAGS) -o atc.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o atc.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S atc.elf > atc.dis
 		$(SIZE) atc.elf
 		$(ELF2AOUT) atc.elf $@ && rm atc.elf

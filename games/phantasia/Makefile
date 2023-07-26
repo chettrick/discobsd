@@ -18,7 +18,7 @@ MANSRC		= phant.nr
 all:            phantasia $(MAN)
 
 phantasia:      ${OBJS}
-		${CC} ${LDFLAGS} -o phantasia.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o phantasia.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S phantasia.elf > phantasia.dis
 		${SIZE} phantasia.elf
 		${ELF2AOUT} phantasia.elf $@ && rm phantasia.elf

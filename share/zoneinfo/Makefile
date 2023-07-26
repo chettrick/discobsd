@@ -21,7 +21,7 @@ LOCALTIME=	US/Pacific
 CFLAGS= -O
 LINTFLAGS=	-phbaxc
 CC=		cc
-CFLAGS+=	-g -Wall -idirafter $(TOPSRC)/include
+CFLAGS+=	-Wall -idirafter ${TOPSRC}/include
 
 TZCSRCS=	zic.c scheck.c ialloc.c
 TZCOBJS=	zic.o scheck.o ialloc.o

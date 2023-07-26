@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          = -ansi
+CFLAGS         += -ansi
 
 OBJS            = setbrk.o blok.o stak.o cmd.o fault.o main.o word.o \
                   string.o name.o args.o xec.o service.o error.o io.o \

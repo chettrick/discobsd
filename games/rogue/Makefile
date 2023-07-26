@@ -44,7 +44,7 @@ MANSRC		= rogue.6
 all:            rogue $(MAN)
 
 rogue:          ${OBJS}
-		${CC} ${LDFLAGS} -o rogue.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o rogue.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S rogue.elf > rogue.dis
 		${SIZE} rogue.elf
 		${ELF2AOUT} rogue.elf $@ && rm rogue.elf

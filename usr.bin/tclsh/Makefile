@@ -12,7 +12,7 @@ LDADD=		-ltcl
 all:		${PROG}
 
 ${PROG}:	${OBJS}
-		${CC} ${LDFLAGS} -o $@.elf ${OBJS} ${LDADD} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LDADD} ${LIBS}
 		${OBJDUMP} -S $@.elf > $@.dis
 		${SIZE} $@.elf
 		${ELF2AOUT} $@.elf $@ && rm $@.elf

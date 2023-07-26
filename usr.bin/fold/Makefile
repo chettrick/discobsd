@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          = -O
+CFLAGS         += -O
 SRCS            = fold.c
 OBJS            = fold.o
 MAN             = fold.0
@@ -10,7 +10,7 @@ MANSRC          = fold.1
 all:            fold $(MAN)
 
 fold:          ${OBJS}
-		${CC} ${LDFLAGS} -o fold.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o fold.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S fold.elf > fold.dis
 		${SIZE} fold.elf
 		${ELF2AOUT} fold.elf $@ && rm fold.elf

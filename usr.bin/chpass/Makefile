@@ -25,7 +25,7 @@ MANSRC		= chpass.1
 all:            chpass chpass.0
 
 chpass:         ${OBJS}
-		${CC} ${LDFLAGS} -o chpass.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o chpass.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S chpass.elf > chpass.dis
 		${SIZE} chpass.elf
 		${ELF2AOUT} chpass.elf $@ && rm chpass.elf

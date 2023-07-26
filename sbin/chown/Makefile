@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          = -O
+CFLAGS         += -O
 SRCS            = chown.c
 OBJS            = chown.o
 MAN             = chown.0
@@ -10,7 +10,7 @@ MANSRC          = chown.8
 all:            chown $(MAN)
 
 chown:          ${OBJS}
-		${CC} ${LDFLAGS} -o chown.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o chown.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S chown.elf > chown.dis
 		${SIZE} chown.elf
 		${ELF2AOUT} chown.elf $@ && rm chown.elf

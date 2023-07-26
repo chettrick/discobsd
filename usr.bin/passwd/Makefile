@@ -25,7 +25,7 @@ MANSRC		= passwd.1
 all:            passwd ${MAN}
 
 passwd:     	${OBJS}
-		${CC} ${LDFLAGS} -o passwd.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o passwd.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S passwd.elf > passwd.dis
 		${SIZE} passwd.elf
 		${ELF2AOUT} passwd.elf $@ && rm passwd.elf

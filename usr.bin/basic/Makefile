@@ -11,13 +11,13 @@ LIBS		= -lcurses -ltermcap -lm -lc
 all:            basic renumber
 
 basic:          ${OBJS}
-		${CC} ${LDFLAGS} -o basic.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o basic.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S basic.elf > basic.dis
 		${SIZE} basic.elf
 		${ELF2AOUT} basic.elf $@ && rm basic.elf
 
 renumber:       renumber.o
-		${CC} ${LDFLAGS} -o renumber.elf renumber.o ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o renumber.elf renumber.o ${LIBS}
 		${OBJDUMP} -S renumber.elf > renumber.dis
 		${SIZE} renumber.elf
 		${ELF2AOUT} renumber.elf $@ && rm renumber.elf

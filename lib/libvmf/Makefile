@@ -15,7 +15,7 @@ MANSRC		= vmf.3
 
 CTAGS   	= ctags
 #DEFS   	= -DNOSCCS
-#CFLAGS 	= -O $(DEFS)
+#CFLAGS		+= -O ${DEFS}
 TAGSFILE	= tags
 
 all:    	../libvmf.a $(MAN)

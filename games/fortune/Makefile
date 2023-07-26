@@ -12,7 +12,7 @@ MANSRC		= fortune.6
 all:            fortune $(MAN) fortunes.dat
 
 fortune:        $(OBJS)
-		$(CC) $(LDFLAGS) -o fortune.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o fortune.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S fortune.elf > fortune.dis
 		$(SIZE) fortune.elf
 		$(ELF2AOUT) fortune.elf $@ && rm fortune.elf

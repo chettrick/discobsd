@@ -20,13 +20,13 @@ LIBS            = -lm -ltermcap -lc
 all:            snake snscore $(MAN)
 
 snake:          $(OBJS)
-		$(CC) $(LDFLAGS) -o $@.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf
 
 snscore:        snscore.o
-		$(CC) $(LDFLAGS) -o $@.elf snscore.o $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf snscore.o ${LIBS}
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf

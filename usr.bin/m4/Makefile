@@ -1,7 +1,7 @@
 #	@(#)Makefile	1.0 (2.11BSD GTE) 4/5/94
 
 DEFS= 	-DEXTENDED -I.
-CFLAGS=	-O ${DEFS}
+CFLAGS+=-O ${DEFS}
 DESTDIR=
 SEPFLAG= -i
 SRCS=	eval.c expr.c look.c main.c misc.c

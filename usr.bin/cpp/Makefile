@@ -14,7 +14,7 @@ CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC
 all:            cpp $(MAN)
 
 cpp:            $(OBJS)
-		${CC} ${LDFLAGS} -o cpp.elf $(OBJS) ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o cpp.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S cpp.elf > cpp.dis
 		${SIZE} cpp.elf
 		${ELF2AOUT} cpp.elf $@ && rm cpp.elf

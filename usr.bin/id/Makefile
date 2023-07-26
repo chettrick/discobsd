@@ -13,7 +13,7 @@ all:            id ${MAN}
 		install -c whoami.sh whoami
 
 id:             ${OBJS}
-		${CC} ${LDFLAGS} -o id.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o id.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S id.elf > id.dis
 		${SIZE} id.elf
 		${ELF2AOUT} id.elf $@ && rm id.elf

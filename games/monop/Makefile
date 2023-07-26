@@ -19,7 +19,7 @@ MANSRC		= monop.6
 all:            monop $(MAN) cards.pck
 
 monop:          $(OBJS)
-		$(CC) $(LDFLAGS) -o monop.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o monop.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S monop.elf > monop.dis
 		$(SIZE) monop.elf
 		$(ELF2AOUT) monop.elf $@ && rm monop.elf

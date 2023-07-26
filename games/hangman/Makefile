@@ -13,7 +13,7 @@ LIBS            = -lcurses -ltermcap -lc
 all:            hangman $(MAN)
 
 hangman:       $(OBJS)
-		$(CC) $(LDFLAGS) -o $@.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S $@.elf > $@.dis
 		$(SIZE) $@.elf
 		$(ELF2AOUT) $@.elf $@ && rm $@.elf

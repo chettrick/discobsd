@@ -13,7 +13,7 @@ MANSRC		= shutdown.8
 all:            shutdown ${MAN}
 
 shutdown:       ${OBJS}
-		${CC} ${LDFLAGS} -o shutdown.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o shutdown.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S shutdown.elf > shutdown.dis
 		${SIZE} shutdown.elf
 		${ELF2AOUT} shutdown.elf $@ && rm shutdown.elf

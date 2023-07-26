@@ -8,7 +8,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS          = -ansi
+CFLAGS         += -ansi -O0
 
 OBJS            = y1.o y2.o y3.o y4.o
 SRCS            = y1.c y2.c y3.c y4.c

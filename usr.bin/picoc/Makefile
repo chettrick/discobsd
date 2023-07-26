@@ -4,7 +4,7 @@ include $(TOPSRC)/target.mk
 VPATH           = cstdlib platform
 
 #CC=gcc
-CFLAGS          += -g -DUNIX_HOST -DVER='"1.0"' -DFILENAME_MAX=64 \
+CFLAGS          += -DUNIX_HOST -DVER='"1.0"' -DFILENAME_MAX=64 \
                    -DL_tmpnam=30 -DCLOCKS_PER_SEC=80000000 -DPATH_MAX=200 \
                    -DNO_FP -Os
 
@@ -22,7 +22,7 @@ OBJS            = picoc.o table.o lex.o parse.o expression.o heap.o type.o \
 all:            $(TARGET)
 
 $(TARGET):      $(OBJS)
-		${CC} ${LDFLAGS} -o ${TARGET}.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o ${TARGET}.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S ${TARGET}.elf > ${TARGET}.dis
 		${SIZE} ${TARGET}.elf
 		${ELF2AOUT} ${TARGET}.elf $@

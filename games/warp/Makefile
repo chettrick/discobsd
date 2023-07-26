@@ -17,7 +17,7 @@ PRIVLIB         = ${DESTDIR}/usr/games/lib/warp
 all:            warp $(MAN) $(PRIVATE)
 
 warp:           ${OBJS}
-		${CC} ${LDFLAGS} -o warp.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o warp.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S warp.elf > warp.dis
 		${SIZE} warp.elf
 		${ELF2AOUT} warp.elf $@ && rm warp.elf

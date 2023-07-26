@@ -12,7 +12,7 @@ MANSRC          = pstat.8
 all:            pstat ${MAN}
 
 pstat:          ${OBJS}
-		${CC} ${LDFLAGS} -o pstat.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o pstat.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S pstat.elf > pstat.dis
 		${SIZE} pstat.elf
 		${ELF2AOUT} pstat.elf $@ && rm pstat.elf

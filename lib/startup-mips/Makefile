@@ -8,6 +8,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
+# Do not include -mips16 as it chokes on `la $gp,_gp'.
 CFLAGS          = -O ${DEFS}
 
 SRCS		= crt0.c

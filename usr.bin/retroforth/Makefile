@@ -1,7 +1,7 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= -Wall
+CFLAGS		+= -Wall -O0
 
 SRCS		= retro.c
 OBJS		= retro.o
@@ -11,7 +11,7 @@ LIBS            += -ltermcap
 all:            $(BIN)
 
 $(BIN):         ${SRCS}
-		${CC} ${LDFLAGS} -o $(BIN).elf $(SRCS) ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o ${BIN}.elf ${SRCS} ${LIBS}
 		${SIZE} $(BIN).elf
 		${OBJDUMP} -S $(BIN).elf > $(BIN).dis
 		${ELF2AOUT} $(BIN).elf $@ && rm $(BIN).elf

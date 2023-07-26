@@ -10,7 +10,7 @@ OBJS=	gethnamadr.o sethostent.o
 
 SRCS=	gethnamadr.c sethostent.c
 
-CFLAGS= -O ${DEFS}
+CFLAGS+=-O ${DEFS}
 TAGSFILE= tags
 
 .c.o:

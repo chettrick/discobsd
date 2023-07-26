@@ -25,7 +25,7 @@ OBJS		= login.o
 all:            login
 
 login:       	${OBJS}
-		${CC} ${LDFLAGS} -o login.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o login.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S login.elf > login.dis
 		${SIZE} login.elf
 		${ELF2AOUT} login.elf $@ && rm login.elf

@@ -7,7 +7,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -O -g -Wall #-DV7
+CFLAGS		+= -O -Wall #-DV7
 LIBS            += -ltermcap -lc
 
 OBJS            = allow.o board.o check.o extra.o fancy.o init.o main.o \
@@ -20,13 +20,13 @@ MANSRC		= backgammon.6
 all:            backgammon teachgammon $(MAN)
 
 backgammon:     $(OBJS)
-		$(CC) $(LDFLAGS) -o backgammon.elf $(OBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o backgammon.elf ${OBJS} ${LIBS}
 		$(OBJDUMP) -S backgammon.elf > backgammon.dis
 		$(SIZE) backgammon.elf
 		$(ELF2AOUT) backgammon.elf $@ && rm backgammon.elf
 
 teachgammon:    $(TOBJS)
-		$(CC) $(LDFLAGS) -o teachgammon.elf $(TOBJS) $(LIBS)
+		${CC} ${CFLAGS} ${LDFLAGS} -o teachgammon.elf ${TOBJS} ${LIBS}
 		$(OBJDUMP) -S teachgammon.elf > teachgammon.dis
 		$(SIZE) teachgammon.elf
 		$(ELF2AOUT) teachgammon.elf $@ && rm teachgammon.elf

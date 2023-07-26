@@ -19,7 +19,7 @@ MANSRC		= sail.6
 all:            sail $(MAN)
 
 sail:           ${OBJS}
-		${CC} ${LDFLAGS} -o sail.elf ${OBJS} ${LIBS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o sail.elf ${OBJS} ${LIBS}
 		${OBJDUMP} -S sail.elf > sail.dis
 		${SIZE} sail.elf
 		${ELF2AOUT} sail.elf $@ && rm sail.elf

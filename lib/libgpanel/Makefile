@@ -11,7 +11,7 @@ OBJS    	= open.o clear.o pixel.o line.o rect.o fill.o fill_triangle.o \
 all:    	../libgpanel.a $(MAN)
 
 ../libgpanel.a: ${OBJS}
-		@$(AR) cru $@ ${OBJS}
+		@${AR} cr $@ ${OBJS}
 		$(RANLIB) $@
 
 $(MAN):         $(MANSRC)

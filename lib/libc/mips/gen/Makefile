@@ -13,7 +13,7 @@ OBJS		= _setjmp.o htonl.o htons.o setjmp.o sigsetjmp.o
 
 gen.a:		${OBJS}
 		@echo "building gen.a"
-		@$(AR) cru gen.a ${OBJS}
+		@${AR} cr gen.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

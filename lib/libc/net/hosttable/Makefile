@@ -21,9 +21,9 @@ CFLAGS+=-O ${DEFS}
 
 hostlib hostlib_p: ${OBJS} 
 	@echo "building profiled hostlib"
-	@cd profiled; ${AR} cru ../hostlib_p ${OBJS}
+	@cd profiled; ${AR} cr ../hostlib_p ${OBJS}
 	@echo "building normal netlib"
-	@${AR} cru hostlib ${OBJS}
+	@${AR} cr hostlib ${OBJS}
 	
 tags:
 	cwd=`pwd`; \

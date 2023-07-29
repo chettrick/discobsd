@@ -49,7 +49,7 @@ STDOBJ		= abort.o alarm.o atof.o atoi.o atol.o bcmp.o bcopy.o \
 
 gen.a:		${OBJS}
 		@echo "building gen.a"
-		@$(AR) cru gen.a ${OBJS}
+		@${AR} cr gen.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

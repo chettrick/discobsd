@@ -16,7 +16,7 @@ all:		stdlib.a
 
 stdlib.a:	${OBJS}
 		@echo "building stdlib.a"
-		@${AR} cru stdlib.a ${OBJS}
+		@${AR} cr stdlib.a ${OBJS}
 
 clean:
 		rm -f *.o *~ profiled/*.o tags Makefile.bak stdlib.a stdlib_p.s

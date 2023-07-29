@@ -25,7 +25,7 @@ OBJS            = login.o logout.o logwtmp.o
 all:            ../libutil.a
 
 ../libutil.a:	${OBJS}
-		$(AR) cru $@ ${OBJS}
+		${AR} cr $@ ${OBJS}
 		$(RANLIB) $@
 
 clean:

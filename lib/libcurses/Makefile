@@ -35,12 +35,12 @@ all:    ../libcurses.a
 
 ../libcurses.a: ${OBJS}
 	@echo building normal ../libcurses.a
-	@$(AR) cru ../libcurses.a ${OBJS}
+	@${AR} cr ../libcurses.a ${OBJS}
 	$(RANLIB) ../libcurses.a
 
 ../libcurses_p.a: ${OBJS}
 	@echo building profiled ../libcurses.a
-	@cd profiled; $(AR) cru ../../libcurses_p.a ${POBJS}
+	@cd profiled; ${AR} cr ../../libcurses_p.a ${POBJS}
 	$(RANLIB) ../libcurses_p.a
 
 install: all

@@ -19,7 +19,7 @@ OBJS		= creat.o ftime.o gethostid.o memccpy.o memchr.o memcmp.o \
 
 compat.a:	${OBJS}
 		@echo "building compat.a"
-		@$(AR) cru compat.a ${OBJS}
+		@${AR} cr compat.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

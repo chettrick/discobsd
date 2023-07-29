@@ -14,7 +14,7 @@ OBJS		= tclget.o tclproc.o tclvar.o tclassem.o \
 all:		../libtcl.a
 
 ../libtcl.a:    ${OBJS}
-		$(AR) cru $@ ${OBJS}
+		${AR} cr $@ ${OBJS}
 		$(RANLIB) $@
 
 install:	all

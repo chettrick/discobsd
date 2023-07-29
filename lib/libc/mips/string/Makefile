@@ -21,7 +21,7 @@ OBJS		= bcopy.o bzero.o ffs.o memcpy.o memmove.o memset.o \
 
 string.a:	${OBJS}
 		@echo "building string.a"
-		@$(AR) cru string.a ${OBJS}
+		@${AR} cr string.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

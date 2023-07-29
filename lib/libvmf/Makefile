@@ -22,12 +22,12 @@ all:    	../libvmf.a $(MAN)
 
 ../libvmf.a: 	${OBJS}
 		@echo building normal ../libvmf.a
-		@$(AR) cru ../libvmf.a ${OBJS}
+		@${AR} cr ../libvmf.a ${OBJS}
 		$(RANLIB) ../libvmf.a
 
 ../libvmf_p.a: 	${OBJS}
 		@echo building profiled ../libvmf.a
-		@cd profiled; $(AR) cru ../../libvmf_p.a ${POBJS}
+		@cd profiled; ${AR} cr ../../libvmf_p.a ${POBJS}
 		$(RANLIB) ../libvmf_p.a
 
 $(MAN):         $(MANSRC)

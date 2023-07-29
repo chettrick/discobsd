@@ -17,11 +17,11 @@ fortune:        $(OBJS)
 		$(SIZE) fortune.elf
 		$(ELF2AOUT) fortune.elf $@ && rm fortune.elf
 
-strfile:        strfile.o
-		$(CC) $(LDFLAGS) -o strfile strfile.o
+strfile:	strfile.c
+		${HOST_CC} -o strfile strfile.c
 
-unstr:          unstr.o
-		$(CC) $(LDFLAGS) -o unstr unstr.o
+unstr:		unstr.c
+		${HOST_CC} -ansi -o unstr unstr.c
 
 fortunes.dat:   #fortunes strfile
 		./strfile -r fortunes

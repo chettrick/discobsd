@@ -59,7 +59,6 @@ INCLUDE		=	-I.
 OPTIM		=	-O
 #<<lint flags of choice?>>
 LINTFLAGS	=	-hbxa $(INCLUDE)
-#CC		=	cc
 DEFS		=
 INSTALL 	= install
 #LDFLAGS		= -i

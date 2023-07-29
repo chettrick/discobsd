@@ -28,15 +28,15 @@ token.h:	awk.h tokenscript
 install:        awk
 		install awk ${DESTDIR}/usr/bin/
 
-profile:	awk.g.o $(FILES) mon.o
-		cc -p -i awk.g.o $(FILES) mon.o -lm
+#profile:	awk.g.o $(FILES) mon.o
+#		${HOST_CC} -p -i awk.g.o ${FILES} mon.o -lm
 
 lint:
 		lint -spu b.c main.c tran.c run.c lib.c parse.c -lm |\
 			egrep -v '^(error|free|malloc)'
 
 proctab.c:	proc.c token.h awk.h
-		cc -std=gnu89 -Wall -o proc proc.c
+		${HOST_CC} -std=gnu89 -Wall -o proc proc.c
 		./proc > proctab.c
 
 clean:

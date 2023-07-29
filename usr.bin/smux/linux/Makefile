@@ -1,3 +1,7 @@
+TOPSRC!=cd ../../../; pwd
+include ${TOPSRC}/target.mk
+
+CC      = ${HOST_CC}
 OBJS    = smux.o
 BIN     = smux
 CFLAGS  = -O -Wall

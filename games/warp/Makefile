@@ -39,7 +39,7 @@ smap.6:         smp.6 sm
 smap.7:         smp.7 sm
 		./sm <smp.7 >smap.7
 sm:             sm.c
-		cc -O -Wall sm.c -o sm
+		${HOST_CC} -O -Wall sm.c -o sm
 
 ${MAN}:         ${MANSRC}
 		${MANROFF} ${MANSRC} > $@

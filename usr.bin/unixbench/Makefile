@@ -35,7 +35,6 @@ ID="@(#)Makefile:3.9 -- 5/15/91 19:30:15";
 SHELL = /bin/sh
 HZ = 20
 CFLAGS += -DTIME
-#CC=gcc
 
 ## For Linux 486/Pentium, GCC 2.7.x and 2.8.x
 #OPTON = -O2 -fomit-frame-pointer -fforce-addr -fforce-mem -ffast-math \

@@ -13,7 +13,7 @@ OBJS		= memmove.o strcmp.o
 
 string.a:	${OBJS}
 		@echo "building string.a"
-		@$(AR) cru string.a ${OBJS}
+		@${AR} cr string.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

@@ -41,7 +41,7 @@ TAGSFILE	= tags
 
 sys.a:		${OBJS}
 		@echo "building sys.a"
-		@$(AR) cru sys.a ${OBJS}
+		@${AR} cr sys.a ${OBJS}
 
 ${SYSOBJS}:	SYS.h
 #		@echo creating $*.o

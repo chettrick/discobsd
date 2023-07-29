@@ -30,7 +30,7 @@ TAGSFILE	= tags
 
 stdio.a:	${OBJS}
 		@echo "building stdio.a"
-		@${AR} cru stdio.a ${OBJS}
+		@${AR} cr stdio.a ${OBJS}
 
 tags:
 		cwd=`pwd`; \

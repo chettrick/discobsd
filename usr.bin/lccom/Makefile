@@ -109,7 +109,7 @@ $Bgram.o:	lburg/gram.c;	cc -g -Wall -O -c -Ilburg -o $@ $<
 LIBOBJS         = $Bassert.o $Bbbexit.o $Byynull.o
 
 liblcc.a:	$(LIBOBJS)
-		$(AR) ruv $@ $Bassert.o $Bbbexit.o $Byynull.o; $(RANLIB) $@ || true
+		$(AR) rv $@ $Bassert.o $Bbbexit.o $Byynull.o; $(RANLIB) $@ || true
 
 $Bassert.o:	lib/assert.c;	$(CC) $(CFLAGS) -c -o $@ $<
 $Byynull.o:	lib/yynull.c;	$(CC) $(CFLAGS) -c -o $@ $<

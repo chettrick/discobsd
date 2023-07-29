@@ -8,7 +8,7 @@ OBJS    	= w5100.o socket.o ethernet.o client.o server.o udp.o
 all:    	../libwiznet.a
 
 ../libwiznet.a: ${OBJS}
-		@$(AR) cru $@ ${OBJS}
+		@${AR} cr $@ ${OBJS}
 		$(RANLIB) $@
 
 install: 	all

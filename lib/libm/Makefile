@@ -10,7 +10,7 @@ OBJS            = asin.o atan.o exp.o erf.o floor.o fmod.o hypot.o j0.o j1.o \
 all:            ../libm.a
 
 ../libm.a:	${OBJS}
-		$(AR) cru $@ ${OBJS}
+		${AR} cr $@ ${OBJS}
 		$(RANLIB) $@
 
 install:	all

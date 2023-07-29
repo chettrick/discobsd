@@ -1,4 +1,5 @@
-CC		= gcc -g
+-include ../Makefile.inc
+
 CFLAGS		= -O -Wall
 DESTDIR		= /usr/local
 OBJS		= ice2aout.o

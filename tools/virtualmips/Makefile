@@ -1,3 +1,5 @@
+-include ../Makefile.inc
+
 #
 # Build VirtualMIPS simulator.
 #
@@ -15,7 +17,6 @@ CFLAGS		= -DSIM_PIC32 -DPIC32MX7 -DMAX32
 # UBW32 with UART console
 #CFLAGS		= -DSIM_PIC32 -DPIC32MX7 -DUBW32
 
-CC          = gcc -g
 #CFLAGS		+= -Wall -MT $@ -MD -MP -MF .deps/$*.dep -I/opt/local/include -I/opt/local/include/libelf
 CFLAGS		+= -Wall -Wno-format-truncation -MT $@ -MD -MP -MF .deps/$*.dep -I/usr/local/include -I/usr/local/include/elftoolchain
 LIBS		= -lpthread -lelf

@@ -20,7 +20,7 @@ LOCALTIME=	US/Pacific
 
 CFLAGS= -O
 LINTFLAGS=	-phbaxc
-CC=		cc
+CC=		${HOST_CC}
 CFLAGS+=	-Wall -idirafter ${TOPSRC}/include
 
 TZCSRCS=	zic.c scheck.c ialloc.c

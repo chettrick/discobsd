@@ -9,6 +9,8 @@ RELEASE=	0.0
 BUILD!=		git rev-list HEAD --count
 VERSION=	${RELEASE}-${BUILD}
 
+HOST_CC?=	cc
+
 _HOST_OSNAME!=	uname -s
 
 GCCPREFIX!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \

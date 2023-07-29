@@ -76,7 +76,7 @@ compat.o: $(MIPDIR)/compat.c external.h
 		$(CC) $(CFLAGS) -c -o $@ $(MIPDIR)/compat.c
 
 external.h external.c: ${MIPDIR}/mkext.c $(ARCHDIR)/table.c
-		gcc $(CFLAGS) -DMKEXT -o mkext ${MIPDIR}/mkext.c $(ARCHDIR)/table.c ${MIPDIR}/common.c
+		${HOST_CC} ${CFLAGS} -DMKEXT -o mkext ${MIPDIR}/mkext.c ${ARCHDIR}/table.c ${MIPDIR}/common.c
 		./mkext
 
 trees.c: 	mip/pass2.h external.h

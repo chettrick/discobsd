@@ -1,5 +1,9 @@
 TOPSRC!=cd ../..; pwd
 
+HOST_CC?=	cc
+
+CC=		${HOST_CC}
+
 SUBDIR		= startup libc libm libcurses libtermlib libwiznet libreadline libgpanel
 
 PROG		= ar_aout as_aout aout_aout ld_aout nm_aout ranlib_aout size_aout strip_aout

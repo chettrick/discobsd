@@ -26,7 +26,7 @@ bogdict:        comp sfile
 		sed -f sfile ${TOPSRC}/share/dict/words | uniq | ./comp > bogdict
 
 comp:           comp.c
-		cc -O comp.c -o comp
+		${HOST_CC} -O comp.c -o comp
 
 ${MAN}:         ${MANSRC}
 		${MANROFF} ${MANSRC} > $@

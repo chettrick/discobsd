@@ -25,7 +25,7 @@ monop:          $(OBJS)
 		$(ELF2AOUT) monop.elf $@ && rm monop.elf
 
 initdeck:       initdeck.c deck.h
-		$(CC) -o initdeck $(LDFLAGS) $(CFLAGS) initdeck.c
+		${HOST_CC} -o initdeck initdeck.c
 
 cards.pck:      #initdeck cards.inp
 		./initdeck

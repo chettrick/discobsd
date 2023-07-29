@@ -1,4 +1,5 @@
-CC		= gcc -g
+-include ../Makefile.inc
+
 CFLAGS		= -O -Wall
 
 _HOST_OSNAME!=	uname -s

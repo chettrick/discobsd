@@ -1,4 +1,5 @@
-CC		= gcc -g
+-include ../Makefile.inc
+
 CFLAGS		= -O -Wall
 DESTDIR		= /usr/local
 OBJS		= fsutil.o superblock.o block.c inode.o create.o check.o \

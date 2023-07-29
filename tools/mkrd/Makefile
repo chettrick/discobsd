@@ -1,3 +1,5 @@
+-include ../Makefile.inc
+
 OBJS    = mkrd.o
 BIN     = mkrd
 CFLAGS  = -Wall -O

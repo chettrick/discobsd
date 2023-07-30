@@ -122,7 +122,7 @@ uucico: cico.o libuucp.a
 	${ELF2AOUT} uucico.elf $@
 
 libuucp.a: $(LIBOBJ)
-	$(AR) cru libuucp.a $(LIBOBJ)
+	$(AR) cr libuucp.a $(LIBOBJ)
 	$(RANLIB) libuucp.a
 
 

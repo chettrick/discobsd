@@ -61,14 +61,17 @@ static long ipow (long x, long p)
 
 #define CXR(func,op) lisp_t func (lisp_t a, lisp_t ctx) { \
 	if (! istype (a, TPAIR) || ! istype (a = car (a), TPAIR)) \
-	return (NIL); return (op (a)); }
+		return (NIL); \
+	return (op (a)); }
 
 CXR (Fcar, car)
 CXR (Fcdr, cdr)
 
 #define CXXR(func,op1,op2) lisp_t func (lisp_t a, lisp_t ctx) { \
 	if (! istype (a, TPAIR) || ! istype (a = car (a), TPAIR) || \
-	! istype (a = op1 (a), TPAIR)) return (NIL); return (op2 (a)); }
+	    ! istype (a = op1 (a), TPAIR)) \
+		return (NIL); \
+	return (op2 (a)); }
 
 CXXR (Fcaar, car, car)
 CXXR (Fcadr, cdr, car)
@@ -77,8 +80,9 @@ CXXR (Fcddr, cdr, cdr)
 
 #define CXXXR(func,op1,op2,op3) lisp_t func (lisp_t a, lisp_t ctx) { \
 	if (! istype (a, TPAIR) || ! istype (a = car (a), TPAIR) || \
-	! istype (a = op1 (a), TPAIR) || ! istype (a = op2 (a), TPAIR)) \
-	return (NIL); return (op3 (a)); }
+	    ! istype (a = op1 (a), TPAIR) || ! istype (a = op2 (a), TPAIR)) \
+		return (NIL); \
+	return (op3 (a)); }
 
 #if 0
 CXXXR (Fcaaar, car, car, car)
@@ -92,8 +96,10 @@ CXXXR (Fcdddr, cdr, cdr, cdr)
 
 #define CXXXXR(func,op1,op2,op3,op4) lisp_t func (lisp_t a, lisp_t ctx) { \
 	if (! istype (a, TPAIR) || ! istype (a = car (a), TPAIR) || \
-	! istype (a = op1 (a), TPAIR) || ! istype (a = op2 (a), TPAIR) || \
-	! istype (a = op3 (a), TPAIR)) return (NIL); return (op4 (a)); }
+	    ! istype (a = op1 (a), TPAIR) || ! istype (a = op2 (a), TPAIR) || \
+	    ! istype (a = op3 (a), TPAIR)) \
+		return (NIL); \
+	return (op4 (a)); }
 
 CXXXXR (Fcaaaar, car, car, car, car)
 CXXXXR (Fcaaadr, cdr, car, car, car)
@@ -310,10 +316,16 @@ lisp_t Feq (lisp_t arg, lisp_t ctx)
 }
 
 #define DEFLOG(func,op) lisp_t func (lisp_t a, lisp_t ctx) { \
-	long v, nv; if (! istype (a, TPAIR)) return (T); v = numval (car (a)); \
-	while (istype (a = cdr (a), TPAIR)) { lisp_t b = car (a); \
-	if (! istype (b, TINTEGER) || ! (v op (nv = numval (b)))) return (NIL); \
-	v = nv; } return (T); }
+	long v, nv; \
+	if (! istype (a, TPAIR)) \
+		return (T); \
+	v = numval (car (a)); \
+	while (istype (a = cdr (a), TPAIR)) { \
+		lisp_t b = car (a); \
+		if (! istype (b, TINTEGER) || ! (v op (nv = numval (b)))) \
+			return (NIL); \
+		v = nv; } \
+	return (T); }
 
 DEFLOG (Flt, <);
 DEFLOG (Fgt, >);
@@ -354,9 +366,12 @@ lisp_t Fifpair (lisp_t arg, lisp_t ctx)
 }
 
 #define DEFNUMLOG(func,test) lisp_t func (lisp_t arg, lisp_t ctx) { \
-	while (istype (arg, TPAIR)) { lisp_t a = car (arg); \
-		if (! (istype (a, TINTEGER) test)) return (NIL); \
-		arg = cdr (arg); } return (T); }
+	while (istype (arg, TPAIR)) { \
+		lisp_t a = car (arg); \
+		if (! (istype (a, TINTEGER) test)) \
+			return (NIL); \
+		arg = cdr (arg); } \
+	return (T); }
 
 DEFNUMLOG (Fifnumber, )
 DEFNUMLOG (Fifzero, && numval (a) == 0)

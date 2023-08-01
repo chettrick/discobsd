@@ -8,8 +8,8 @@
 #include <fcntl.h>
 
 int	datfd;
-char *wd1, *wd2;
-int delhit;
+char	*wd1, *wd2;
+int	delhit;
 
 int
 main(argc, argv)

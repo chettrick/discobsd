@@ -2,6 +2,7 @@
  * Re-coding of advent in C: subroutines from main
  */
 #include "hdr.h"
+
 struct travlist *tkk;                   /* travel is closer to keys(...)*/
 
 /* Statement functions */

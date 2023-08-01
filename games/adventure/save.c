@@ -5,6 +5,7 @@
 #include "hdr.h"
 #include <unistd.h>
 #include <fcntl.h>
+struct game_struct game;
 
 void
 save(savfile, offset)                   /* save game state to file      */

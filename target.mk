@@ -17,7 +17,7 @@ GCCPREFIX!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		if [ x"${_HOST_OSNAME}" = x"OpenBSD" ] ; then \
 			echo "/usr/local/bin/arm-none-eabi" ; \
 		elif [ x"${_HOST_OSNAME}" = x"FreeBSD" ] ; then \
-			echo "/usr/local/bin/arm-none-eabi" ; \
+			echo "/usr/local/gcc-arm-embedded/bin/arm-none-eabi" ; \
 		elif [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
 			echo "/usr/bin/arm-none-eabi" ; \
 		else \

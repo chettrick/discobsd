@@ -120,16 +120,7 @@ exec_elf_check(struct exec_params *epp)
     }
     if (epp->hdr.elf.e_type != ET_EXEC)
         return ENOEXEC;
-#ifdef __mips__
-    if (epp->hdr.elf.e_machine != EM_MIPS)
-        return ENOEXEC;
-#elif defined(__thumb2__)
-    if (epp->hdr.elf.e_machine != EM_ARM)
-        return ENOEXEC;
-#else
-#error "Only thumb2 and mips architecture are supported at this time"
-#endif
-    if (epp->hdr.elf.e_version != EV_CURRENT)
+    if (epp->hdr.elf.e_machine != ELF32_MACHDEP_ID || epp->hdr.elf.e_version != EV_CURRENT)
         return ENOEXEC;
     if (epp->hdr.elf.e_phentsize != sizeof(struct elf_phdr) || epp->hdr.elf.e_phoff == 0 || epp->hdr.elf.e_phnum == 0)
         return ENOEXEC;

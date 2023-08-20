@@ -1,7 +1,8 @@
+TOPSRC!=cd ../..; pwd
+
 -include ../Makefile.inc
 
 CFLAGS		= -O -Wall
-DESTDIR		= /usr/local
 OBJS		= fsutil.o superblock.o block.c inode.o create.o check.o \
                   file.o mount.o manifest.o
 PROG		= fsutil
@@ -21,8 +22,9 @@ LIBS!=		PKG_CONFIG_PATH=${FUSE_PATH} pkg-config fuse --libs
 
 all:		$(PROG)
 
-install:	$(PROG)
-		install -s $(PROG) ${DESTDIR}/bin/$(PROG)
+install:	all
+		install ${PROG} ${TOOLBINDIR}/${PROG}
+
 clean:
 		rm -rf *~ *.o *.lst *.dis $(PROG) $(PROG).dSYM
 

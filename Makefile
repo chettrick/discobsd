@@ -45,7 +45,7 @@ KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 SUBDIR=		share lib bin sbin libexec usr.bin usr.sbin games
 
 all:		symlinks
-		$(MAKE) -C tools MACHINE=${MACHINE}
+		$(MAKE) -C tools MACHINE=${MACHINE} install
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes

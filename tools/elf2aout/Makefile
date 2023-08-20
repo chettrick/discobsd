@@ -1,7 +1,8 @@
+TOPSRC!=cd ../..; pwd
+
 -include ../Makefile.inc
 
 CFLAGS		= -O -Wall
-DESTDIR		= /usr/local
 OBJS		= elf2aout.o
 PROG		= elf2aout
 
@@ -10,8 +11,9 @@ PROG		= elf2aout
 
 all:		$(PROG)
 
-install:	$(PROG)
-		install -s $(PROG) ${DESTDIR}/bin/$(PROG)
+install:	all
+		install ${PROG} ${TOOLBINDIR}/${PROG}
+
 clean:
 		rm -f *~ *.o *.lst *.dis $(PROG)
 

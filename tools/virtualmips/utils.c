@@ -308,7 +308,7 @@ void *m_memalign (size_t boundary, size_t size)
 {
     void *p;
 
-#if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__)
     if (posix_memalign ((void *) &p, boundary, size))
 #else
 #if defined(__CYGWIN__) || defined(SUNOS)

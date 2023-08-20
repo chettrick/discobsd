@@ -1,13 +1,18 @@
+TOPSRC!=cd ../..; pwd
+
 -include ../Makefile.inc
 
 OBJS    = mkrd.o
-BIN     = mkrd
+PROG    = mkrd
 CFLAGS  = -Wall -O
 
-all: $(BIN)
+all: ${PROG}
 
-$(BIN): $(OBJS)
+${PROG}: ${OBJS}
 	$(CC) -o $@ $(OBJS) $(LIBS) $(LDFLAGS)
 
+install: all
+	install ${PROG} ${TOOLBINDIR}/${PROG}
+
 clean:
-	@rm -f $(BIN) $(OBJS)
+	rm -f ${PROG} ${OBJS}

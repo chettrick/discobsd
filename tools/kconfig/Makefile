@@ -1,3 +1,5 @@
+TOPSRC!=cd ../..; pwd
+
 -include ../Makefile.inc
 
 CFLAGS		= -O -Wall
@@ -15,15 +17,14 @@ YFLAGS=		-d
 #MANROFF=	nroff -man -h -Tascii
 MANROFF=	mandoc -Tascii
 
-DESTDIR		= /usr/local
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
 PROG		= kconfig
 MANSRC		= kconfig.8
 
 all:		$(PROG) $(PROG).0
 
-install:	$(PROG)
-		install -s $(PROG) ${DESTDIR}/bin/$(PROG)
+install:	all
+		install ${PROG} ${TOOLBINDIR}/${PROG}
 
 ${PROG}.0:	${MANSRC}
 		${MANROFF} ${MANSRC} > $@

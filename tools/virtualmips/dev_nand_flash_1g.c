@@ -68,7 +68,7 @@ m_uint8_t nand_status = NAND_STATUS_READY | NAND_STATUS_WP;
 /*Create nand flash file. 1 block 1 file.*/
 static unsigned char *create_nand_flash_file (m_uint32_t block_no)
 {
-    char file_path[64];
+    char file_path[512];
     char page[NAND_FLASH_1G_PAGE_SIZE];
     int i, n;
     int fd;
@@ -110,7 +110,7 @@ static void nand_flash_erase_block (unsigned char *block_start)
 }
 
 /*write data to nand file (1 page)*/
-static void write_nand_fiash_page_file (m_uint32_t row_addr,
+static void write_nand_flash_page_file (m_uint32_t row_addr,
     unsigned char *block_start, unsigned char *write_data)
 {
     unsigned char *page_ptr;
@@ -254,7 +254,7 @@ void *dev_nand_flash_1g_access (cpu_mips_t * cpu, struct vdevice *dev,
                     d->flash_map[block_no] =
                         create_nand_flash_file (block_no);
 
-                write_nand_fiash_page_file (d->row_addr,
+                write_nand_flash_page_file (d->row_addr,
                     d->flash_map[block_no], d->write_buffer);
                 d->write_offset = 0;
             } else if (((*data) & 0xff) == 0x85) {
@@ -271,7 +271,7 @@ void *dev_nand_flash_1g_access (cpu_mips_t * cpu, struct vdevice *dev,
                 if (d->flash_map[block_no] == NULL)
                     d->flash_map[block_no] =
                         create_nand_flash_file (block_no);
-                write_nand_fiash_page_file (d->row_addr,
+                write_nand_flash_page_file (d->row_addr,
                     d->flash_map[block_no], d->write_buffer);
                 d->write_offset = 0;
             } else if (((*data) & 0xff) == 0x85) {
@@ -297,7 +297,7 @@ void *dev_nand_flash_1g_access (cpu_mips_t * cpu, struct vdevice *dev,
                 if (d->flash_map[block_no] == NULL)
                     d->flash_map[block_no] =
                         create_nand_flash_file (block_no);
-                write_nand_fiash_page_file (d->row_addr,
+                write_nand_flash_page_file (d->row_addr,
                     d->flash_map[block_no], d->write_buffer);
                 d->write_offset = 0;
             } else if (((*data) & 0xff) == 0x85) {
@@ -373,7 +373,7 @@ static int load_nand_flash_file (nand_flash_1g_data_t * d)
     int i, j = 0;
     struct dirent *ent = NULL;
     DIR *p_dir;
-    char file_path[64];
+    char file_path[512];
     char *file_name;
     char block_number[16];
     int fd;

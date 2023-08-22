@@ -1,6 +1,10 @@
 TOPSRC!=cd ../../..; pwd
 
-include	../../Makefile.inc
+TOOLDIR?=	${TOPSRC}/tools
+TOOLBINDIR?=	${TOOLDIR}/bin
+
+HOST_CC?=	cc
+CC=		${HOST_CC}
 
 CFLAGS=	-Os -Wall -std=gnu89 -fno-builtin -DCROSS \
 	-I. -I../include \

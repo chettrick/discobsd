@@ -4,7 +4,7 @@ include $(TOPSRC)/target.mk
 LIBDIR=		${TOPSRC}/lib/libwiznet
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/" ; \
 	else \
 		echo "" ; \
 	fi
@@ -20,13 +20,13 @@ all:            ../libwiznet.a
 
 ../libwiznet.a:	${OBJS}
 		rm -f $@
-		../ar_aout rc $@ ${OBJS}
-		../ranlib_aout $@
+		${AOUT_AR} rc $@ ${OBJS}
+		${AOUT_RANLIB} $@
 
 install:	../libwiznet.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libwiznet.a ${DESTDIR}/usr/lib/libwiznet.a
-		../ranlib_aout -t ${DESTDIR}/usr/lib/libwiznet.a
+		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libwiznet.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libwiznet.a

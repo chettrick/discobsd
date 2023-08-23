@@ -4,7 +4,7 @@ include $(TOPSRC)/target.mk
 LIBDIR=		${TOPSRC}/lib/libcurses
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/" ; \
 	else \
 		echo "" ; \
 	fi
@@ -25,13 +25,13 @@ all:            ../libcurses.a
 
 ../libcurses.a:	${OBJS}
 		rm -f $@
-		../ar_aout rc $@ ${OBJS}
-		../ranlib_aout $@
+		${AOUT_AR} rc $@ ${OBJS}
+		${AOUT_RANLIB} $@
 
 install:	../libcurses.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libcurses.a ${DESTDIR}/usr/lib/libcurses.a
-		../ranlib_aout -t ${DESTDIR}/usr/lib/libcurses.a
+		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libcurses.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libcurses.a

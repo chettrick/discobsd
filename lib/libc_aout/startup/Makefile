@@ -9,7 +9,7 @@ TOPSRC!=cd ../../..; pwd
 include ${TOPSRC}/target.mk
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/" ; \
 	else \
 		echo "" ; \
 	fi

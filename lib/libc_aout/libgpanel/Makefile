@@ -4,7 +4,7 @@ include $(TOPSRC)/target.mk
 LIBDIR=		${TOPSRC}/lib/libgpanel
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/" ; \
 	else \
 		echo "" ; \
 	fi
@@ -21,13 +21,13 @@ all:            ../libgpanel.a
 
 ../libgpanel.a:	${OBJS}
 		rm -f $@
-		../ar_aout rc $@ ${OBJS}
-		../ranlib_aout $@
+		${AOUT_AR} rc $@ ${OBJS}
+		${AOUT_RANLIB} $@
 
 install:	../libgpanel.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libgpanel.a ${DESTDIR}/usr/lib/libgpanel.a
-		../ranlib_aout -t ${DESTDIR}/usr/lib/libgpanel.a
+		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libgpanel.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libgpanel.a

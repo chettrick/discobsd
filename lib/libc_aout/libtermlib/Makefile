@@ -4,7 +4,7 @@ include $(TOPSRC)/target.mk
 LIBDIR=		${TOPSRC}/lib/libtermlib
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/" ; \
 	else \
 		echo "" ; \
 	fi
@@ -20,13 +20,13 @@ all:            ../libtermlib.a
 
 ../libtermlib.a: ${OBJS}
 		rm -f $@
-		../ar_aout rc $@ ${OBJS}
-		../ranlib_aout $@
+		${AOUT_AR} rc $@ ${OBJS}
+		${AOUT_RANLIB} $@
 
 install:	../libtermlib.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libtermlib.a ${DESTDIR}/usr/lib/libtermlib.a
-		../ranlib_aout -t ${DESTDIR}/usr/lib/libtermlib.a
+		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libtermlib.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libtermlib.a

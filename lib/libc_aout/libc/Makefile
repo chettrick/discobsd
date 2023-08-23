@@ -18,13 +18,13 @@ VPATH=	${LIBCDIR}/${MACHINE_ARCH}/sys ${LIBCDIR}/${MACHINE_ARCH}/string \
 	${LIBCDIR}/compat ${LIBCDIR}/runtime
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/" ; \
 	else \
 		echo "" ; \
 	fi
 
 ASOPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "-Wa,-x -B${TOPSRC}/lib/libc_aout/ -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl" ; \
+		echo "-Wa,-x -B${TOOLBINDIR}/ -DLWHI=lwr -DLWLO=lwl -DSWHI=swr -DSWLO=swl" ; \
 	else \
 		echo "" ; \
 	fi
@@ -122,8 +122,8 @@ all:            ../libc.a
 
 ../libc.a:	${OBJS}
 		rm -f $@
-		../ar_aout rc $@ ${OBJS}
-		../ranlib_aout $@
+		${AOUT_AR} rc $@ ${OBJS}
+		${AOUT_RANLIB} $@
 
 ${OBJS}:	FRC
 
@@ -136,7 +136,7 @@ $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 install:	../libc.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
-		../ranlib_aout -t ${DESTDIR}/usr/lib/libc.a
+		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libc.a
 
 clean:
 		rm -f *~ *.o a.out *.a ../libc.a

@@ -9,6 +9,9 @@ RELEASE=	0.0
 BUILD!=		git rev-list HEAD --count
 VERSION=	${RELEASE}-${BUILD}
 
+TOOLDIR?=	${TOPSRC}/tools
+TOOLBINDIR?=	${TOOLDIR}/bin
+
 HOST_CC?=	cc
 
 _HOST_OSNAME!=	uname -s
@@ -94,3 +97,12 @@ TAGSFILE=	tags
 MANROFF=	mandoc -Tascii
 
 ELF2AOUT=	${TOPSRC}/tools/elf2aout/elf2aout
+
+AOUT_AOUT=	${TOOLBINDIR}/aout
+AOUT_AR=	${TOOLBINDIR}/ar
+AOUT_AS=	${TOOLBINDIR}/as
+AOUT_LD=	${TOOLBINDIR}/ld
+AOUT_NM=	${TOOLBINDIR}/nm
+AOUT_RANLIB=	${TOOLBINDIR}/ranlib
+AOUT_SIZE=	${TOOLBINDIR}/size
+AOUT_STRIP=	${TOOLBINDIR}/strip

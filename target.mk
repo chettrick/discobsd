@@ -57,7 +57,7 @@ COPTS!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "" ; \
 	fi
 
-CFLAGS+=${COPTS}
+CFLAGS=	${COPTS}
 
 AFLAGS=	${ASFLAGS}
 

@@ -133,6 +133,9 @@ $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 #		@echo creating $*.o
 		@printf '#include "SYS.h"\nSYS($*)\n' | $(AS) $(ASFLAGS) - -c -o $*.o
 
+# Build objects here instead of ${LIBCDIR} with BSD make.
+.OBJDIR:	${.CURDIR}
+
 install:	../libc.a
 		${INSTALLDIR} ${DESTDIR}/usr/lib
 		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a

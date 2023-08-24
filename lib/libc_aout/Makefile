@@ -2,8 +2,8 @@
 # libc_aout - a.out libraries, built with a.out utilities
 #
 
-SUBDIR=	startup libc libm libcurses libreadline libtermlib \
-	libgpanel libwiznet
+SUBDIR=	startup libc libm libcurses libtermlib \
+	libreadline libgpanel libwiznet
 
 all install:
 	-for dir in ${SUBDIR}; do \

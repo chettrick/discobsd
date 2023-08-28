@@ -12,7 +12,7 @@ initialize()
 {
 	register struct File *fp;
 	register struct ship *sp;
-	char captain[80];
+	char captain[MAXNAMESIZE];
 	char message[60];
 	int load;
 	register int n;
@@ -169,7 +169,7 @@ reprint:
 		printf("\nInitial broadside %s (grape, chain, round, double): ",
 			n ? "right" : "left");
 		(void) fflush(stdout);
-		if (scanf("%s", buf) != 1) {
+		if (scanf("%9s", buf) != 1) {
                         puts("Bad value.");
                         exit(1);
                 }

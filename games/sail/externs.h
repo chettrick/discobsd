@@ -29,6 +29,7 @@ char nobells;				/* -b, don't ring bell before Signal */
 
 	/* other initial modes */
 char issetuid;				/* running setuid */
+#define MAXNAMESIZE	20
 
 #define die()		((rand() >> 3) % 6 + 1)
 #define sqr(a)		((a) * (a))
@@ -121,7 +122,7 @@ char issetuid;				/* running setuid */
 
 #define NLOG 10
 struct logs {
-	char l_name[20];
+	char l_name[MAXNAMESIZE];
 	int l_uid;
 	int l_shipnum;
 	int l_gamenum;
@@ -155,7 +156,7 @@ struct snag {
 
 struct File {
 	int index;
-	char captain[20];		/* 0 */
+	char captain[MAXNAMESIZE];	/* 0 */
 	short points;			/* 20 */
 	char loadL;			/* 22 */
 	char loadR;			/* 24 */

@@ -6,7 +6,7 @@
 TOPSRC!=cd ../../..; pwd
 include $(TOPSRC)/target.mk
 
-CFLAGS		+= ${DEFS} -Os -Wall
+CFLAGS		+= ${DEFS} -Os -Wno-attributes -Wno-attribute-alias
 
 SRCS		= ${STDSRC}
 OBJS		= ${STDOBJ}

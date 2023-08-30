@@ -2,7 +2,7 @@ TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 #include $(TOPSRC)/cross.mk
 
-CFLAGS		+= -Wall -I. -I../ar
+CFLAGS		+= -Wall -Wno-format -I. -I../ar
 
 SRCS            = ../ar/archive.c ranlib.c
 OBJS            = archive.o ranlib.o

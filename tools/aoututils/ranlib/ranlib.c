@@ -277,7 +277,7 @@ void symobj()
         ransize += 4 - (ransize & 3);
 
 	/* Put out the ranlib archive file header. */
-	(void)sprintf(hb, HDR2, RANLIBMAG, 0L, getuid(), getgid(),
+	(void)snprintf(hb, sizeof hb, HDR2, RANLIBMAG, 0L, getuid(), getgid(),
 	    0666 & ~umask(0), ransize, ARFMAG);
 	if (! fwrite(hb, sizeof(struct ar_hdr), 1, fp))
 		error(tname);

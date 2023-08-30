@@ -570,7 +570,7 @@ char **argv;
         evalboard(getdword, tputword);
         endline();
         if (logfile >= 0) {
-            strncpy(&logbuff[0], "eval", 4);
+            strncpy(&logbuff[0], "eval", 5);
             lseek(logfile, logloc, 0);
             write(logfile, &logbuff[0], 4);
         }

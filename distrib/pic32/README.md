@@ -42,7 +42,8 @@ $ sudo apt-get install bison byacc flex groff-base libelf-dev libfuse-dev
 You can change a desired filesystem size and swap area size, as required.
 Default is:
 ```Makefile
-FS_MBYTES   = 100
+FS_MBYTES   = 200
+U_MBYTES    = 200
 SWAP_MBYTES = 2
 ```
 To compile the kernel and build a filesystem image, run:

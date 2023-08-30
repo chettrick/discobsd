@@ -59,7 +59,7 @@ letter, as the case may be.
 For example, imaging an SD card attached at `sd2` on an OpenBSD host
 operating system through the raw i/o device:
 
-    $ SDCARD=/dev/rsd2c gmake installfs
+    $ SDCARD=/dev/rsd2c make installfs
 
 Communication with the DiscoBSD console requires a serial port. A USB to TTL
 device or the built-in VCP USB serial port on development boards can be used.
@@ -82,16 +82,18 @@ DiscoBSD is cross-built on UNIX-like host operating systems.
 Instructions to configure an OpenBSD host development environment for
 Arm and MIPS targets is available [here][5].
 
+The build system fully supports both BSD make and GNU make.
+
 From the source tree root, run:
 
-    $ gmake
+    $ make
 
 which will build a file system image in the file `distrib/stm32/sdcard.img`
 and ELF-formatted kernels in the files `sys/stm32/${BOARD}/unix`.
 
 DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 
-    $ gmake MACHINE=pic32 MACHINE_ARCH=mips
+    $ make MACHINE=pic32 MACHINE_ARCH=mips
 
 which will build a file system image in the file `distrib/pic32/sdcard.img`
 and ELF-formatted kernels in the files `sys/pic32/${BOARD}/unix` and
@@ -107,11 +109,11 @@ debugging are `ocd` and `gdb-ocd`.
 
 Debug a particular development board via:
 
-    $ BOARD=f412gdisco gmake ocd
+    $ BOARD=f412gdisco make ocd
 
 in one terminal, and:
 
-    $ BOARD=f412gdisco gmake gdb-ocd
+    $ BOARD=f412gdisco make gdb-ocd
 
 in another terminal.
 

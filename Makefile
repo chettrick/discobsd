@@ -15,8 +15,8 @@ MACHINE=	stm32
 MACHINE_ARCH=	arm
 
 # Filesystem and swap sizes.
-FS_MBYTES       = 100
-U_MBYTES        = 100
+FS_MBYTES       = 200
+U_MBYTES        = 200
 SWAP_MBYTES     = 2
 
 # SD card filesystem image for $(MACHINE).

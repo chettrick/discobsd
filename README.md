@@ -43,7 +43,7 @@ The kernel is loaded into the flash and only uses 32 Kbytes of RAM.
 User programs each use the remaining 96 Kbytes of RAM, via swapping.
 Devices with more RAM can be used to run larger user programs.
 
-An SD card, at least 256 Mbytes in size, is required for the root file system.
+An SD card, at least 512 Mbytes in size, is required for the root file system.
 
 Installing and Running
 ----------------------

@@ -54,23 +54,10 @@ typedef unsigned size_t;
 #define SEEK_CUR    1   /* set file offset to current plus offset */
 #define SEEK_END    2   /* set file offset to EOF plus offset */
 
-#ifndef lint
-#define getc(p)     (--(p)->_cnt>=0? (int)(*(unsigned char *)(p)->_ptr++):_filbuf(p))
-#define putc(x, p)  (--(p)->_cnt >= 0 ?\
-    (int)(*(unsigned char *)(p)->_ptr++ = (x)) :\
-    (((p)->_flag & _IOLBF) && -(p)->_cnt < (p)->_bufsiz ?\
-        ((*(p)->_ptr = (x)) != '\n' ?\
-            (int)(*(unsigned char *)(p)->_ptr++) :\
-            _flsbuf(*(unsigned char *)(p)->_ptr, p)) :\
-        _flsbuf((unsigned char)(x), p)))
-#endif /* not lint */
-
-#define getchar()   getc(stdin)
-#define putchar(x)  putc(x,stdout)
-#define feof(p)     (((p)->_flag&_IOEOF)!=0)
-#define ferror(p)   (((p)->_flag&_IOERR)!=0)
-#define fileno(p)   ((p)->_file)
-#define clearerr(p) ((p)->_flag &= ~(_IOERR|_IOEOF))
+void    clearerr(FILE *);
+int     feof(FILE *);
+int     ferror(FILE *);
+int     fileno(FILE *);
 
 FILE    *fopen (const char *, const char *);
 FILE    *fdopen (int, const char *);
@@ -140,5 +127,28 @@ int     _doscan (FILE *, const char *, va_list);
 #endif
 
 void    perror (const char *);
+
+#ifndef lint
+#define getc(p)     (--(p)->_cnt>=0? (int)(*(unsigned char *)(p)->_ptr++):_filbuf(p))
+#define putc(x, p)  (--(p)->_cnt >= 0 ?\
+    (int)(*(unsigned char *)(p)->_ptr++ = (x)) :\
+    (((p)->_flag & _IOLBF) && -(p)->_cnt < (p)->_bufsiz ?\
+        ((*(p)->_ptr = (x)) != '\n' ?\
+            (int)(*(unsigned char *)(p)->_ptr++) :\
+            _flsbuf(*(unsigned char *)(p)->_ptr, p)) :\
+        _flsbuf((unsigned char)(x), p)))
+#endif /* not lint */
+
+#define getchar()       getc(stdin)
+#define putchar(x)      putc(x,stdout)
+#define __sfeof(p)      (((p)->_flag&_IOEOF)!=0)
+#define __sferror(p)    (((p)->_flag&_IOERR)!=0)
+#define __sfileno(p)    ((p)->_file)
+#define __sclearerr(p)  ((p)->_flag &= ~(_IOERR|_IOEOF))
+
+#define feof(p)         __sfeof(p)
+#define ferror(p)       __sferror(p)
+#define fileno(p)       __sfileno(p)
+#define clearerr(p)     __sclearerr(p)
 
 #endif /* _FILE */

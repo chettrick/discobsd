@@ -310,6 +310,13 @@ cpuidentify()
 
     printf("cpu: ");
     switch (devid) {
+    /*
+     * Device errata 2.2.2: MCU device ID is incorrect
+     *
+     * Revision A STM32F40x and STM32F41x devices have the same MCU device
+     * ID as the STM32F20x and STM32F21x devices.
+     * Reading the revision identifier returns 0x2000 instead of 0x1000.
+     */
     case 0x0411:
         physmem = 192 * 1024;   /* Total 192kb RAM size. */
         copystr("STM32F407xx", cpu_model, sizeof(cpu_model), NULL);
@@ -318,6 +325,35 @@ cpuidentify()
         switch (revid) {
         case 0x2000:
             printf("A");
+            break;
+        default:
+            printf("unknown 0x%04x", revid);
+            break;
+        }
+        break;
+    case 0x0413:
+        physmem = 192 * 1024;   /* Total 192kb RAM size. */
+        copystr("STM32F407xx", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F407xx");
+        printf(" rev ");
+        switch (revid) {
+        case 0x1000:
+            printf("A");
+            break;
+        case 0x1001:
+            printf("Z");
+            break;
+        case 0x1003:
+            printf("1");
+            break;
+        case 0x1007:
+            printf("2");
+            break;
+        case 0x100f:
+            printf("Y");        /* Also device marking revision 4. */
+            break;
+        case 0x101f:
+            printf("5");        /* Also device marking revision 6. */
             break;
         default:
             printf("unknown 0x%04x", revid);
@@ -375,7 +411,7 @@ cpuidentify()
     default:
         physmem = 128 * 1024;   /* Minimum of 128kb total RAM size. */
         copystr("STM32 device unknown", cpu_model, sizeof(cpu_model), NULL);
-        printf("device unknown 0x%03x", devid);
+        printf("device unknown 0x%04x", devid);
         printf(" rev unknown 0x%04x", revid);
         break;
     }

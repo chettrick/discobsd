@@ -5,7 +5,7 @@ MACHINE=	stm32
 MACHINE_ARCH=	arm
 
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
-RELEASE=	0.0
+RELEASE=	2.1
 BUILD!=		git rev-list HEAD --count
 VERSION=	${RELEASE}-${BUILD}
 

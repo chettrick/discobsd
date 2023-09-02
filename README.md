@@ -8,6 +8,9 @@ DiscoBSD is a 2.11BSD-based UNIX-like operating system for microcontrollers,
 with a focus on high portability to memory constrained devices without a
 memory management unit.
 
+The current and second official release of DiscoBSD is [DiscoBSD 2.1][1],
+released on August 31, 2023.
+
 This microcontroller-focused operating system is an independent continuation
 of RetroBSD, a 2.11BSD-based OS targeting the MIPS-based PIC32MX7.
 DiscoBSD is multi-platform, as it also supports Arm Cortex-M4 STM32F4 devices.
@@ -17,11 +20,11 @@ Source code to the system is freely available under a BSD-like license.
 History
 -------
 
-[DiscoBSD][1] began as an undergraduate [Directed Study][2] in the winter of
-2020 at the University of Victoria, Canada, as a case study of [RetroBSD][3]
+[DiscoBSD][2] began as an undergraduate [Directed Study][3] in the winter of
+2020 at the University of Victoria, Canada, as a case study of [RetroBSD][4]
 to port the operating system to the Arm Cortex-M4 architecture, and to enable
 portabilty in the hosting environment and target architectures and platforms.
-The paper [*Porting the Unix Kernel*][4] details this initial porting effort.
+The paper [*Porting the Unix Kernel*][5] details this initial porting effort.
 
 Work on DiscoBSD has progressed in earnest since the completion of the
 Directed Study, with the DiscoBSD/stm32 port booting multi-user in
@@ -29,10 +32,11 @@ August 2022. The system is quite usable on supported development boards.
 
 And work continues...
 
-[1]: http://DiscoBSD.org
-[2]: https://github.com/chettrick/CSC490
-[3]: https://RetroBSD.org
-[4]: https://github.com/chettrick/CSC490/raw/master/project_outputs/Porting_the_Unix_Kernel-CSC490-Christopher_Hettrick.pdf
+[1]: https://github.com/chettrick/discobsd/releases/tag/DISCOBSD_2_1
+[2]: http://DiscoBSD.org
+[3]: https://github.com/chettrick/CSC490
+[4]: https://RetroBSD.org
+[5]: https://github.com/chettrick/CSC490/raw/master/project_outputs/Porting_the_Unix_Kernel-CSC490-Christopher_Hettrick.pdf
 
 DiscoBSD Resource Requirements
 ------------------------------
@@ -80,7 +84,7 @@ Building
 DiscoBSD is cross-built on UNIX-like host operating systems.
 
 Instructions to configure an OpenBSD host development environment for
-Arm and MIPS targets is available [here][5].
+Arm and MIPS targets is available [here][6].
 
 The build system fully supports both BSD make and GNU make.
 
@@ -99,7 +103,7 @@ which will build a file system image in the file `distrib/pic32/sdcard.img`
 and ELF-formatted kernels in the files `sys/pic32/${BOARD}/unix` and
 Intel HEX-formatted kernels in the files `sys/pic32/${BOARD}/unix.hex`.
 
-[5]: tools/openbsd/README.md
+[6]: tools/openbsd/README.md
 
 Debugging
 ---------
@@ -121,44 +125,44 @@ Additional Information
 ----------------------
 
 Port-specific information can be found in `distrib/${MACHINE}/README.md`
-for [stm32][6] and [pic32][7].
+for [stm32][7] and [pic32][8].
 
-[6]: distrib/stm32/README.md
-[7]: distrib/pic32/README.md
+[7]: distrib/stm32/README.md
+[8]: distrib/pic32/README.md
 
 DiscoBSD/stm32 dmesg
 --------------------
 
 ```
-2.11 BSD UNIX for STM32, rev G279 #1: Sat Dec 31 18:17:10 PST 2022
+2.11 BSD UNIX for STM32, rev G417 #1: Thu Aug 31 19:41:58 PDT 2023
      chris@stm32.discobsd.org:/sys/stm32/f412gdisco
 cpu: STM32F412xx rev C, 100 MHz, bus 50 MHz
 oscillator: phase-locked loop, clock source: high speed external
 uart2: pins tx=PA2/rx=PA3, af=7, console
 sd0: port sdio0
 sd0: type SDHC, size 31178752 kbytes
-sd0a: partition type b7, sector 2, size 102400 kbytes
-sd0b: partition type b8, sector 204802, size 2048 kbytes
-sd0c: partition type b7, sector 208898, size 102400 kbytes
+sd0a: partition type b7, sector 2, size 204800 kbytes
+sd0b: partition type b8, sector 409602, size 2048 kbytes
+sd0c: partition type b7, sector 413698, size 204800 kbytes
 phys mem  = 256 kbytes
 user mem  = 96 kbytes
 root dev  = (0,1)
 swap dev  = (0,2)
-root size = 102400 kbytes
+root size = 204800 kbytes
 swap size = 2048 kbytes
 Automatic boot in progress: starting file system checks.
-/dev/sd0a: 1448 files, 11897 used, 90102 free
-/dev/sd0c: 3 files, 3 used, 101996 free
+/dev/sd0a: 1453 files, 11910 used, 192089 free
+/dev/sd0c: 3 files, 3 used, 203996 free
 Updating motd... done
 Starting daemons: update cron 
-Sat Dec 31 18:23:07 PST 2022
+Thu Aug 31 19:31:52 PDT 2023
 
 
 2.11 BSD UNIX (name.my.domain) (console)
 
 login: root
 Password:
-2.11 BSD UNIX for STM32, rev G279 #1: Sat Dec 31 18:17:10 PST 2022
+2.11 BSD UNIX for STM32, rev G417 #1: Thu Aug 31 19:41:58 PDT 2023
 
 Welcome to DiscoBSD.
 
@@ -170,8 +174,8 @@ DiscoBSD/pic32 dmesg
 --------------------
 
 ```
-2.11 BSD Unix for PIC32, revision G279 build 1:
-     Compiled 2022-12-31 by chris@pic32.discobsd.org:
+2.11 BSD Unix for PIC32, revision G417 build 1:
+     Compiled 2023-08-31 by chris@pic32.discobsd.org:
      /discobsd/sys/pic32/max32
 cpu: 795F512L 80 MHz, bus 80 MHz
 oscillator: HS crystal, PLL div 1:2 mult x20
@@ -190,28 +194,28 @@ gpio6: portG, pins iiii--i-----iiii
 adc: 15 channels
 pwm: 5 channels
 sd0: type I, size 348160 kbytes, speed 10 Mbit/sec
-sd0a: partition type b7, sector 2, size 102400 kbytes
-sd0b: partition type b8, sector 204802, size 2048 kbytes
-sd0c: partition type b7, sector 208898, size 102400 kbytes
+sd0a: partition type b7, sector 2, size 204800 kbytes
+sd0b: partition type b8, sector 409602, size 2048 kbytes
+sd0c: partition type b7, sector 413698, size 204800 kbytes
 phys mem  = 128 kbytes
 user mem  = 96 kbytes
 root dev  = (0,1)
 swap dev  = (0,2)
-root size = 102400 kbytes
+root size = 204800 kbytes
 swap size = 2048 kbytes
 Automatic boot in progress: starting file system checks.
-/dev/sd0a: 1462 files, 12370 used, 89629 free
-/dev/sd0c: 3 files, 3 used, 101996 free
+/dev/sd0a: 1466 files, 12289 used, 191710 free
+/dev/sd0c: 3 files, 3 used, 203996 free
 Updating motd... done
 Starting daemons: update cron 
-Sat Dec 31 18:36:57 PST 2022
+Thu Aug 31 20:22:12 PDT 2023
 
 
 2.11 BSD UNIX (name.my.domain) (console)
 
 login: root
 Password:
-2.11 BSD Unix for PIC32, revision G279 build 1:
+2.11 BSD Unix for PIC32, revision G417 build 1:
 
 Welcome to RetroBSD!
 

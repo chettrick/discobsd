@@ -30,7 +30,7 @@ LDSCRIPT = "32mxsdram/bootloader.ld"
 include ../gcc-config.mk
 
 AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
-CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -Wall
+CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -fcommon -Wall
 CPP             = ${MIPS_GCC_PREFIX}cpp
 LD              = ${MIPS_GCC_PREFIX}gcc -mips32r2 -EL
 LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$@.map

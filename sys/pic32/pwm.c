@@ -139,6 +139,8 @@ int pwm_duty(int unit, unsigned int duty)
 int
 pwm_open (dev, flag, mode)
     dev_t dev;
+    int flag;
+    int mode;
 {
     int unit = minor(dev);
 
@@ -153,6 +155,8 @@ pwm_open (dev, flag, mode)
 int
 pwm_close (dev, flag, mode)
     dev_t dev;
+    int flag;
+    int mode;
 {
     return 0;
 }
@@ -177,6 +181,7 @@ pwm_ioctl (dev, cmd, addr, flag)
     dev_t dev;
     register u_int cmd;
     caddr_t addr;
+    int flag;
 {
     int unit;
     int *val;

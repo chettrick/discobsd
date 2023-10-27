@@ -96,7 +96,7 @@ TAGSFILE=	tags
 #MANROFF=	nroff -man -h -Tascii
 MANROFF=	mandoc -Tascii
 
-ELF2AOUT=	${TOPSRC}/tools/elf2aout/elf2aout
+ELF2AOUT=	${TOOLBINDIR}/elf2aout
 
 AOUT_AOUT=	${TOOLBINDIR}/aout
 AOUT_AR=	${TOOLBINDIR}/ar

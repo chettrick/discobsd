@@ -1,83 +1,151 @@
-/*      $NetBSD: elf_machdep.h,v 1.7 2000/04/02 15:35:50 minoura Exp $  */
+/*	$NetBSD: elf_machdep.h,v 1.19 2017/11/06 03:47:45 christos Exp $	*/
 
-#define ELF_MACHDEP_ID_CASES                                            \
-                case EM_MIPS:                                           \
-                        break;
+#ifndef _ARM_ELF_MACHDEP_H_
+#define _ARM_ELF_MACHDEP_H_
 
-#define ARCH_ELFSIZE            32      /* MD native binary size */
+#if defined(__ARMEB__)
+#define ELF32_MACHDEP_ENDIANNESS	ELFDATA2MSB
+#else
+#define ELF32_MACHDEP_ENDIANNESS	ELFDATA2LSB
+#endif
 
-/* mips relocs.  */
+#define ELF64_MACHDEP_ENDIANNESS	XXX	/* break compilation */
+#define ELF64_MACHDEP_ID_CASES                                          \
+		/* no 64-bit ELF machine types supported */
 
-#define R_MIPS_NONE             0
-#define R_MIPS_16               1
-#define R_MIPS_32               2
-#define R_MIPS_REL32            3
-#define R_MIPS_REL              R_MIPS_REL32
-#define R_MIPS_26               4
-#define R_MIPS_HI16             5       /* high 16 bits of symbol value */
-#define R_MIPS_LO16             6       /* low 16 bits of symbol value */
-#define R_MIPS_GPREL16          7       /* GP-relative reference  */
-#define R_MIPS_LITERAL          8       /* Reference to literal section  */
-#define R_MIPS_GOT16            9       /* Reference to global offset table */
-#define R_MIPS_GOT              R_MIPS_GOT16
-#define R_MIPS_PC16             10      /* 16 bit PC relative reference */
-#define R_MIPS_CALL16           11      /* 16 bit call thru glbl offset tbl */
-#define R_MIPS_CALL             R_MIPS_CALL16
-#define R_MIPS_GPREL32          12
+/* Processor specific flags for the ELF header e_flags field.  */
+#define EF_ARM_RELEXEC		0x00000001
+#define EF_ARM_HASENTRY		0x00000002
+#define EF_ARM_INTERWORK	0x00000004 /* GNU binutils 000413 */
+#define EF_ARM_SYMSARESORTED	0x00000004 /* ARM ELF A08 */
+#define EF_ARM_APCS_26		0x00000008 /* GNU binutils 000413 */
+#define EF_ARM_DYNSYMSUSESEGIDX	0x00000008 /* ARM ELF B01 */
+#define EF_ARM_APCS_FLOAT	0x00000010 /* GNU binutils 000413 */
+#define EF_ARM_MAPSYMSFIRST	0x00000010 /* ARM ELF B01 */
+#define EF_ARM_PIC		0x00000020
+#define EF_ARM_ALIGN8		0x00000040 /* 8-bit structure alignment.  */
+#define EF_ARM_NEW_ABI		0x00000080
+#define EF_ARM_OLD_ABI		0x00000100
+#define EF_ARM_SOFT_FLOAT	0x00000200
+#define EF_ARM_BE8		0x00800000
+#define EF_ARM_EABIMASK		0xff000000
+#define	EF_ARM_EABI_VER1	0x01000000
+#define	EF_ARM_EABI_VER2	0x02000000
+#define	EF_ARM_EABI_VER3	0x03000000
+#define	EF_ARM_EABI_VER4	0x04000000
+#define	EF_ARM_EABI_VER5	0x05000000
 
-/* 13, 14, 15 are not defined at this point. */
-#define R_MIPS_UNUSED1          13
-#define R_MIPS_UNUSED2          14
-#define R_MIPS_UNUSED3          15
+#define	ELF32_MACHDEP_ID_CASES						\
+		case EM_ARM:						\
+			break;
 
-/*
- * The remaining relocs are apparently part of the 64-bit Irix ELF ABI.
- */
-#define R_MIPS_SHIFT5           16
-#define R_MIPS_SHIFT6           17
+#define	ELF32_MACHDEP_ID	EM_ARM
 
-#define R_MIPS_64               18
-#define R_MIPS_GOT_DISP         19
-#define R_MIPS_GOT_PAGE         20
-#define R_MIPS_GOT_OFST         21
-#define R_MIPS_GOT_HI16         22
-#define R_MIPS_GOT_LO16         23
-#define R_MIPS_SUB              24
-#define R_MIPS_INSERT_A         25
-#define R_MIPS_INSERT_B         26
-#define R_MIPS_DELETE           27
-#define R_MIPS_HIGHER           28
-#define R_MIPS_HIGHEST          29
-#define R_MIPS_CALL_HI16        30
-#define R_MIPS_CALL_LO16        31
-#define R_MIPS_SCN_DISP         32
-#define R_MIPS_REL16            33
-#define R_MIPS_ADD_IMMEDIATE    34
-#define R_MIPS_PJUMP            35
-#define R_MIPS_RELGOT           36
+#define	KERN_ELFSIZE		32
+#define ARCH_ELFSIZE		32	/* MD native binary size */
 
-#define R_MIPS_max              37
-#define R_TYPE(name)            __CONCAT(R_MIPS_,name)
+/* Processor specific relocation types */
 
+#define R_ARM_NONE		0
+#define R_ARM_PC24		1
+#define R_ARM_ABS32		2
+#define R_ARM_REL32		3
+#define R_ARM_PC13		4
+#define R_ARM_ABS16		5
+#define R_ARM_ABS12		6
+#define R_ARM_THM_ABS5		7
+#define R_ARM_ABS8		8
+#define R_ARM_SBREL32		9
+#define R_ARM_THM_PC22		10
+#define R_ARM_THM_PC8		11
+#define R_ARM_AMP_VCALL9	12
+#define R_ARM_SWI24		13
+#define R_ARM_THM_SWI8		14
+#define R_ARM_XPC25		15
+#define R_ARM_THM_XPC22		16
 
-/* mips dynamic tags */
+/* TLS relocations */
+#define R_ARM_TLS_DTPMOD32	17	/* ID of module containing symbol */
+#define R_ARM_TLS_DTPOFF32	18	/* Offset in TLS block */
+#define R_ARM_TLS_TPOFF32	19	/* Offset in static TLS block */
 
-#define DT_MIPS_RLD_VERSION     0x70000001
-#define DT_MIPS_TIME_STAMP      0x70000002
-#define DT_MIPS_ICHECKSUM       0x70000003
-#define DT_MIPS_IVERSION        0x70000004
-#define DT_MIPS_FLAGS           0x70000005
-#define DT_MIPS_BASE_ADDRESS    0x70000006
-#define DT_MIPS_CONFLICT        0x70000008
-#define DT_MIPS_LIBLIST         0x70000009
-#define DT_MIPS_CONFLICTNO      0x7000000b
-#define DT_MIPS_LOCAL_GOTNO     0x7000000a      /* number of local got ents */
-#define DT_MIPS_LIBLISTNO       0x70000010
-#define DT_MIPS_SYMTABNO        0x70000011      /* number of .dynsym entries */
-#define DT_MIPS_UNREFEXTNO      0x70000012
-#define DT_MIPS_GOTSYM          0x70000013      /* first dynamic sym in got */
-#define DT_MIPS_HIPAGENO        0x70000014
-#define DT_MIPS_RLD_MAP         0x70000016      /* address of loader map */
+/* 20-31 are reserved for ARM Linux. */
+#define R_ARM_COPY		20
+#define R_ARM_GLOB_DAT		21
+#define	R_ARM_JUMP_SLOT		22
+#define R_ARM_RELATIVE		23
+#define	R_ARM_GOTOFF		24
+#define R_ARM_GOTPC		25
+#define R_ARM_GOT32		26
+#define R_ARM_PLT32		27
+#define R_ARM_CALL		28
+#define R_ARM_JUMP24		29
+#define R_ARM_THM_JUMP24	30
+#define R_ARM_BASE_ABS		31
+#define R_ARM_ALU_PCREL_7_0	32
+#define R_ARM_ALU_PCREL_15_8	33
+#define R_ARM_ALU_PCREL_23_15	34
+#define R_ARM_ALU_SBREL_11_0	35
+#define R_ARM_ALU_SBREL_19_12	36
+#define R_ARM_ALU_SBREL_27_20	37	// depcreated
+#define R_ARM_TARGET1		38
+#define R_ARM_SBREL31		39	// deprecated
+#define R_ARM_V4BX		40
+#define R_ARM_TARGET2		41
+#define R_ARM_PREL31		42
+#define R_ARM_MOVW_ABS_NC	43
+#define R_ARM_MOVT_ABS		44
+#define R_ARM_MOVW_PREL_NC	45
+#define R_ARM_MOVT_PREL		46
+#define R_ARM_THM_MOVW_ABS_NC	47
+#define R_ARM_THM_MOVT_ABS	48
+#define R_ARM_THM_MOVW_PREL_NC	49
+#define R_ARM_THM_MOVT_PREL	50
+
+/* 96-111 are reserved to G++. */
+#define R_ARM_GNU_VTENTRY	100
+#define R_ARM_GNU_VTINHERIT	101
+#define R_ARM_THM_PC11		102
+#define R_ARM_THM_PC9		103
+
+/* More TLS relocations */
+#define R_ARM_TLS_GD32		104	/* PC-rel 32 bit for global dynamic */
+#define R_ARM_TLS_LDM32		105	/* PC-rel 32 bit for local dynamic */
+#define R_ARM_TLS_LDO32		106	/* 32 bit offset relative to TLS */
+#define R_ARM_TLS_IE32		107	/* PC-rel 32 bit for GOT entry of */
+#define R_ARM_TLS_LE32		108
+#define R_ARM_TLS_LDO12		109
+#define R_ARM_TLS_LE12		110
+#define R_ARM_TLS_IE12GP	111
+
+/* 112-127 are reserved for private experiments. */
+
+#define R_ARM_IRELATIVE		160
+
+#define R_ARM_RXPC25		249
+#define R_ARM_RSBREL32		250
+#define R_ARM_THM_RPC22		251
+#define R_ARM_RREL32		252
+#define R_ARM_RABS32		253
+#define R_ARM_RPC24		254
+#define R_ARM_RBASE		255
+
+#define R_TYPE(name)		__CONCAT(R_ARM_,name)
+
+/* Processor specific program header flags */
+#define PF_ARM_SB		0x10000000
+#define PF_ARM_PI		0x20000000
+#define PF_ARM_ENTRY		0x80000000
+
+/* Processor specific program header types */
+#define PT_ARM_EXIDX		(PT_LOPROC + 1)
+
+/* Processor specific section header flags */
+#define SHF_ENTRYSECT		0x10000000
+#define SHF_COMDEF		0x80000000
+
+/* Processor specific symbol types */
+#define STT_ARM_TFUNC		STT_LOPROC
 
 /*
  * Tell the kernel ELF exec code not to try relocating the interpreter
@@ -86,3 +154,5 @@
 #ifdef _KERNEL
 #define ELF_INTERP_NON_RELOCATABLE
 #endif
+
+#endif /* _ARM_ELF_MACHDEP_H_ */

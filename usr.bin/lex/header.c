@@ -67,10 +67,12 @@ ptail(void)
 void
 statistics(void)
 {
-	fprintf(errorf,"%d/%d nodes(%%e), %d/%d positions(%%p), %d/%d (%%n), %ld transitions\n",
-		tptr, treesize, (int)(nxtpos-positions), maxpos, stnum+1, nstates, rcount);
-	fprintf(errorf, ", %d/%d packed char classes(%%k)", (int)(pcptr-pchar), pchlen);
-	if(optim)fprintf(errorf,", %d/%d packed transitions(%%a)",nptr, ntrans);
-	fprintf(errorf, ", %d/%d output slots(%%o)", yytop, outsize);
+	fprintf(errorf, "%d/%d nodes(%%e), %d/%d positions(%%p), %d/%d states(%%n),\n",
+	    tptr, treesize, (int)(nxtpos-positions), maxpos, stnum+1, nstates);
+	fprintf(errorf, "%ld transitions, %d/%d packed char classes(%%k),\n",
+	    rcount, (int)(pcptr-pchar), pchlen);
+	if (optim)
+		fprintf(errorf, "%d/%d packed transitions(%%a), ", nptr, ntrans);
+	fprintf(errorf, "%d/%d output slots(%%o)", yytop, outsize);
 	putc('\n',errorf);
 }

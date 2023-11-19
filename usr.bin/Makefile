@@ -7,7 +7,7 @@ TOPSRC!=cd ..; pwd
 include $(TOPSRC)/target.mk
 
 MDSUBDIR!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
-		echo "" ; \
+		echo "lex" ; \
 	elif [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "adb adc-demo smlrc" ; \
 	else \
@@ -30,7 +30,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   bc egrep mail su vmstat wall write \
                   strip false nohup true
 
-# TODO: ccom lccom lex m4 pforth sre unixbench
+# TODO: ccom lccom m4 pforth sre unixbench
 #       lorder mkdep
 
 all:		$(SUBDIR)

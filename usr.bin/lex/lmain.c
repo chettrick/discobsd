@@ -1,12 +1,17 @@
-/* lex [-[dynvt]] [file] ... [file] */
+/*
+ * lex [-[dyvntf]] [file] ... [file]
+ *
+ * Copyright 1976, Bell Telephone Laboratories, Inc.,
+ * written by Eric Schmidt, August 27, 1976
+ */
 
-/* Copyright 1976, Bell Telephone Laboratories, Inc.,
-   written by Eric Schmidt, August 27, 1976   */
+#ifdef DEBUG
+#include <signal.h>
+#endif
 
 # include "ldefs.h"
-Biobuf	fout;
-int	foutopen;
-int	errorf = 1;
+
+FILE	*fout = NULL, *errorf = {stdout};
 int	sect = DEFSECTION;
 int	prev = '\n';	/* previous input character */
 int	pres = '\n';	/* present input character */
@@ -14,9 +19,8 @@ int	peek = '\n';	/* next input character */
 uchar	*pushptr = pushc;
 uchar	*slptr = slist;
 
-char	*cname = "/sys/lib/lex/ncform";
+char	*cname = _PATH_SHARE "lex/ncform";
 
-int nine;
 int ccount = 1;
 int casecount = 1;
 int aptr = 1;
@@ -25,6 +29,7 @@ int treesize = TREESIZE, ntrans = NTRANS;
 int yytop;
 int outsize = NOUTPUT;
 int sptr = 1;
+int optim = TRUE;
 int report = 2;
 int debug;		/* 1 = on */
 int charc;
@@ -39,11 +44,11 @@ int divflg;
 int funcflag;
 int pflag;
 int chset;	/* 1 = char set modified */
-Biobuf *fin = 0, *fother;
+FILE *fin, *fother;
 int fptr;
 int *name;
 int *left;
-int *right;
+uintptr *right;
 int *parent;
 uchar *nullstr;
 uchar **ptr;
@@ -83,60 +88,65 @@ int *verify, *advance, *stoff;
 int scon;
 uchar *psave;
 
+# ifdef DEBUG
+void buserr(), segviol();
+# endif
+
 static void	free1core(void);
 static void	free2core(void);
+#ifdef DEBUG
 static void	free3core(void);
+#endif
 static void	get1core(void);
 static void	get2core(void);
 static void	get3core(void);
 
-void
+int
 main(int argc, char **argv)
 {
 	int i;
 
-	ARGBEGIN {
 # ifdef DEBUG
-		case 'd': debug++; break;
-		case 'y': yydebug = TRUE; break;
+	signal(SIGBUS,buserr);
+	signal(SIGSEGV,segviol);
 # endif
-		case 't': case 'T':
-			Binit(&fout, 1, OWRITE);
-			errorf= 2;
-			foutopen = 1;
-			break;
-		case 'v': case 'V':
-			report = 1;
-			break;
-		case 'n': case 'N':
-			report = 0;
-			break;
-		case '9':
-			nine = 1;
-			break;
-		default:
-			warning("Unknown option %c", ARGC());
-	} ARGEND
+	while (argc > 1 && argv[1][0] == '-' ){
+		i = 0;
+		while(argv[1][++i]){
+			switch (argv[1][i]){
+# ifdef DEBUG
+				case 'd': debug++; break;
+				case 'y': yydebug = TRUE; break;
+# endif
+				case 't': case 'T':
+					fout = stdout;
+					errorf = stderr;
+					break;
+				case 'v': case 'V':
+					report = 1;
+					break;
+				case 'f': case 'F':
+					optim = FALSE;
+					break;
+				case 'n': case 'N':
+					report = 0;
+					break;
+				default:
+					warning("Unknown option %c",argv[1][i]);
+			}
+		}
+		argc--;
+		argv++;
+	}
 	sargc = argc;
 	sargv = argv;
-	if (argc > 0){
-		yyfile = argv[fptr++];
-		fin = Bopen(yyfile, OREAD);
-		if(fin == 0)
-			error ("%s - can't open file: %r", yyfile);
+	if (argc > 1){
+		fin = fopen(argv[++fptr], "r");		/* open argv[1] */
 		sargc--;
-		sargv++;
 	}
-	else {
-		yyfile = "/fd/0";
-		fin = myalloc(sizeof(Biobuf), 1);
-		if(fin == 0)
-			exits("core");
-		Binit(fin, 0, OREAD);
-	}
-	if(Bgetc(fin) == Beof)		/* no input */
-		exits(0);
-	Bseek(fin, 0, 0);
+	else fin = stdin;
+	if(fin == NULL)
+		error ("Can't read input file %s",argc>1?argv[1]:"standard input");
 	gch();
 		/* may be gotten: def, subs, sname, stchar, ccl, dchar */
 	get1core();
@@ -145,7 +155,7 @@ main(int argc, char **argv)
 	sname[0] = sp;
 	sp += strlen("INITIAL") + 1;
 	sname[1] = 0;
-	if(yyparse()) exits("error");	/* error return code */
+	if(yyparse()) exit(1);	/* error return code */
 		/* may be disposed of: def, subs, dchar */
 	free1core();
 		/* may be gotten: tmpstat, foll, positions, gotof, nexts, nchar, state, atable, sfall, cpackflg */
@@ -163,9 +173,9 @@ main(int argc, char **argv)
 	cgoto();
 # ifdef DEBUG
 	if(debug){
-		print("Print %d states:\n",stnum+1);
+		printf("Print %d states:\n",stnum+1);
 		for(i=0;i<=stnum;i++)stprt(i);
-		}
+	}
 # endif
 		/* may be disposed of: positions, tmpstat, foll, state, name, left, right, parent, ccl, stchar, sname */
 		/* may be gotten: verify, advance, stoff */
@@ -177,22 +187,22 @@ main(int argc, char **argv)
 # ifdef DEBUG
 	free3core();
 # endif
-	fother = Bopen(cname,OREAD);
-	if(fother == 0)
-		error("Lex driver missing, file %s: %r",cname);
-	while ( (i=Bgetc(fother)) != Beof)
-		Bputc(&fout, i);
+	fother = fopen(cname,"r");
+	if(fother == NULL)
+		error("Lex driver missing, file %s",cname);
+	while ( (i=getc(fother)) != EOF)
+		putc(i,fout);
 
-	Bterm(fother);
-	Bterm(&fout);
+	fclose(fother);
+	fclose(fout);
 	if(
 # ifdef DEBUG
 		debug   ||
 # endif
 			report == 1)statistics();
-	if (fin)
-		Bterm(fin);
-	exits(0);	/* success return code */
+	fclose(stdout);
+	fclose(stderr);
+	exit(0);	/* success return code */
 }
 
 static void
@@ -265,9 +275,11 @@ get3core(void)
 	if(verify == 0 || advance == 0 || stoff == 0)
 		error("Too little core for final packing");
 }
+
 # ifdef DEBUG
 static void
-free3core(void){
+free3core(void)
+{
 	free(advance);
 	free(verify);
 	free(stoff);
@@ -279,6 +291,7 @@ free3core(void){
 	free(cpackflg);
 }
 # endif
+
 void *
 myalloc(int a, int b)
 {
@@ -286,11 +299,42 @@ myalloc(int a, int b)
 	i = calloc(a, b);
 	if(i==0)
 		warning("OOPS - calloc returns a 0");
+	else if(i == (char *)-1){
+# ifdef DEBUG
+		warning("calloc returns a -1");
+# endif
+		return(0);
+	}
 	return(i);
 }
+
+# ifdef DEBUG
+void
+buserr(void)
+{
+	fflush(errorf);
+	fflush(fout);
+	fflush(stdout);
+	fprintf(errorf,"Bus error\n");
+	if(report == 1)statistics();
+	fflush(errorf);
+}
+
+void
+segviol(void)
+{
+	fflush(errorf);
+	fflush(fout);
+	fflush(stdout);
+	fprintf(errorf,"Segmentation violation\n");
+	if(report == 1)statistics();
+	fflush(errorf);
+}
+# endif
 
 void
 yyerror(char *s)
 {
-	fprint(2, "%s:%d %s\n", yyfile, yyline, s);
+	fprintf(stderr, "\"%s\", line %d: %s\n",
+		fptr > 0 ? sargv[fptr] : "<stdin>", yyline, s);
 }

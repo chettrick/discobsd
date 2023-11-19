@@ -1,7 +1,14 @@
-# include <u.h>
-# include <libc.h>
 # include <ctype.h>
-# include <bio.h>
+# include <paths.h>
+# include <stdarg.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+
+typedef unsigned char uchar;
+typedef unsigned long uintptr;
+
 # define PP 1
 
 # define CWIDTH 8
@@ -16,11 +23,21 @@
 # define STARTSIZE 256
 # define CCLSIZE 1000
 
+# ifdef SMALL
+# define TREESIZE 650
+# define NSTATES 300
+# define MAXPOS 1500
+# define NTRANS 1500
+# define NOUTPUT 1500
+# endif
+
+# ifndef SMALL
 # define TREESIZE 1000
 # define NSTATES 500
-# define MAXPOS 2500
+# define MAXPOS 3500
 # define NTRANS 2000
-# define NOUTPUT 5000
+# define NOUTPUT 3000
+# endif
 
 # define NACTIONS 100
 # define ALITTLEEXTRA 30
@@ -77,9 +94,7 @@ extern int funcflag;
 extern int pflag;
 extern int casecount;
 extern int chset;	/* 1 = char set modified */
-extern Biobuf *fin, fout, *fother;
-extern int foutopen;
-extern int errorf;
+extern FILE *fin, *fout, *fother, *errorf;
 extern int fptr;
 extern char *cname;
 extern int prev;	/* previous input character */
@@ -87,7 +102,7 @@ extern int pres;	/* present input character */
 extern int peek;	/* next input character */
 extern int *name;
 extern int *left;
-extern int *right;
+extern uintptr *right;
 extern int *parent;
 extern uchar **ptr;
 extern uchar *nullstr;
@@ -130,6 +145,7 @@ extern int yytop;
 extern int report;
 extern int ntrans, treesize, outsize;
 extern long rcount;
+extern int optim;
 extern int *verify, *advance, *stoff;
 extern int scon;
 extern uchar *psave;
@@ -142,7 +158,7 @@ extern void	cgoto(void);
 extern void	cfoll(int);
 extern int	cpyact(void);
 extern int	dupl(int);
-extern void	error(char *,...);
+extern void	error(char *, ...);
 extern void	first(int);
 extern void	follow(int);
 extern int	gch(void);
@@ -152,9 +168,9 @@ extern void	lgate(void);
 extern int	lookup(uchar *, uchar **);
 extern int	member(int, uchar *);
 extern void	mkmatch(void);
+extern int	mnp(int, void *);
 extern int	mn0(int);
 extern int	mn1(int, int);
-extern int	mnp(int, void*);
 extern int	mn2(int, int, uintptr);
 extern void	munputc(int);
 extern void	munputs(uchar *);
@@ -162,20 +178,30 @@ extern void	*myalloc(int, int);
 extern void	nextstate(int, int);
 extern int	notin(int);
 extern void	packtrans(int, uchar *, int *, int, int);
+#ifdef PP
 extern void	padd(int **, int);
-extern void	pccl(void);
-extern void	pfoll(void);
+#endif
 extern void	phead1(void);
 extern void	phead2(void);
-extern void	pstate(int);
 extern void	ptail(void);
+extern void	statistics(void);
+extern int	usescape(int);
+extern void	warning(char *, ...);
+extern int	yyparse(void);
+extern void	yyerror(char *);
+
+#ifdef DEBUG
+extern void	pccl(void);
+extern void	pfoll(void);
+extern void	pstate(int);
 extern void	sect1dump(void);
 extern void	sect2dump(void);
-extern void	statistics(void);
 extern void	stprt(int);
 extern void	strpt(uchar *);
 extern void	treedump(void);
-extern int	usescape(int);
-extern void	warning(char *,...);
-extern int	yyparse(void);
-extern void	yyerror(char *);
+#endif
+
+#ifdef DEBUG
+extern void	buserr(void);
+extern void	segviol(void);
+#endif

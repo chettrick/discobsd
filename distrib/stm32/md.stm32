@@ -19,6 +19,14 @@ dir /usr
 dir /home
 
 #
+# Files: /usr/bin
+#
+default
+filemode 0775
+dir /usr/bin
+file /usr/bin/lex
+
+#
 # Files: /usr/include
 #
 default
@@ -41,3 +49,25 @@ file /usr/include/machine/setjmp.h
 file /usr/include/machine/signal.h
 file /usr/include/machine/types.h
 file /usr/include/machine/uart.h
+
+#
+# Files: /usr/share
+#
+default
+filemode 0444
+dir /usr/share
+dir /usr/share/lex
+file /usr/share/lex/ncform
+
+#
+# Files: /usr/share/examples/lex
+#
+default
+filemode 0644
+dir /usr/share/examples
+dir /usr/share/examples/lex
+file /usr/share/examples/lex/Makefile
+file /usr/share/examples/lex/awk.lx.l
+file /usr/share/examples/lex/example.l
+file /usr/share/examples/lex/scan.l
+file /usr/share/examples/lex/scanner.l

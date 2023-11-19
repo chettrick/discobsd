@@ -1,4 +1,3 @@
-#pragma lib	"libl.a"
 int yylineno =1;
 # define YYU(x) x
 char yytext[YYLMAX];
@@ -11,6 +10,7 @@ int yyprevious = YYNEWLINE;
 # ifdef LEXDEBUG
 extern void allprint(int);
 # endif
+int
 yylook(void){
 	struct yysvf *yystate, **lsp;
 	struct yywork *yyt;
@@ -156,7 +156,9 @@ yylook(void){
 		if(debug)putchar('\n');
 # endif
 		}
+	/* not reached */
 	}
+int
 yyback(int *p, int m)
 {
 if (p==0) return(0);
@@ -168,12 +170,18 @@ while (*p)
 return(0);
 }
 	/* the following are only used in the lex library */
-yyinput(void){
+int
+yyinput(void)
+{
+	if(yyin == ((void*)0))
+		yyin = stdin;
 	return(input());
 }
 void
 yyoutput(int c)
 {
+	if(yyout == ((void*)0))
+		yyout = stdin;
 	output(c);
 }
 void

@@ -1,33 +1,41 @@
-CFLAGS = -O
-SEPFLAG= -i
+TOPSRC!=cd ../../; pwd
+include	${TOPSRC}/target.mk
+
+PROG=		lex
+
+CFLAGS+=	-O0
+CFLAGS+=	-DSMALL
+#CFLAGS+=	-ggdb
+#CFLAGS+=	-DDEBUG
 
 YFLAGS=
 
-all: lex
+OBJS=		y.tab.o lmain.o sub1.o sub2.o header.o
 
-lex: lmain.o y.tab.o sub1.o sub2.o header.o
-	cc ${SEPFLAG} lmain.o y.tab.o sub1.o sub2.o header.o -o lex
+all:		${PROG}
 
-smallex:
-	cc ${SEPFLAG} lmain.o y.tab.o sub1.o sub2.o header.o -o lex
+${PROG}:	${OBJS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o ${PROG}.elf ${OBJS} ${LIBS}
+		${OBJDUMP} -S ${PROG}.elf > ${PROG}.dis
+		${SIZE} ${PROG}.elf
+		${ELF2AOUT} ${PROG}.elf $@ && rm ${PROG}.elf
 
-y.tab.c: parser.y
-	${YACC} ${YFLAGS} parser.y
-lmain.o:lmain.c ldefs.c once.c
-	cc -c -O lmain.c
-sub1.o: sub1.c ldefs.c
-	cc -c -O sub1.c
-sub2.o: sub2.c ldefs.c
-	cc -c -O sub2.c
-header.o: header.c ldefs.c
-	cc -c -O header.c
+y.tab.c:	parser.y
+		${YACC} ${YFLAGS} parser.y
+lmain.o:	lmain.c ldefs.h
+		${CC} -c ${CFLAGS} lmain.c
+sub1.o:		sub1.c ldefs.h
+		${CC} -c ${CFLAGS} sub1.c
+sub2.o:		sub2.c ldefs.h
+		${CC} -c ${CFLAGS} sub2.c
+header.o:	header.c ldefs.h
+		${CC} -c ${CFLAGS} header.c
 
-install: all
-	-mkdir -p ${DESTDIR}/usr/share/lex
-	chmod 755 ${DESTDIR}/usr/share/lex
-	install -s -m 755 lex ${DESTDIR}/usr/bin
-	install -c -m 444 ncform ${DESTDIR}/usr/share/lex
-	install -c -m 444 nrform ${DESTDIR}/usr/share/lex
+install:	all
+		-mkdir -p ${DESTDIR}/usr/share/${PROG}
+		chmod 755 ${DESTDIR}/usr/share/${PROG}
+		install -c -m 444 ncform ${DESTDIR}/usr/share/${PROG}
+		install -m 755 ${PROG} ${DESTDIR}/usr/bin
 
 clean:
-	rm -f *.o lex y.tab.[ch]
+		rm -f *.o ${PROG} ${PROG}.dis ${PROG}.elf y.tab.[ch]

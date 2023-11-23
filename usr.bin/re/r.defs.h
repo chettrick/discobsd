@@ -28,7 +28,7 @@
 #define MAXCOLS     256     /* max. width of screen */
 #define MAXLINES    64      /* max. height of screen */
 #define LBUFFER     256     /* lower limit for the current line buffer */
-#define PARAMWIDTH  (NCOLS-18) /* input field of paramwin */
+#define PARAMWIDTH  (NCOLS-19) /* input field of paramwin */
 #define FILEMODE    0664    /* access mode for newly created files */
 #define MAXFILES    14      /* max. files under edit */
 #define MAXWINLIST  10      /* max.windows */

@@ -25,7 +25,7 @@ int defmiline  = 10;                /* -LINE        */
 int defloffset = 24;                /* LEFT OFFSET  */
 int defroffset = 24;                /* RIGHT OFFSET */
 
-char deffile[] = "/share/re.help";  /* Help file    */
+char deffile[] = "/usr/share/misc/re.help"; /* Help file    */
 
 /* Initial values. */
 int cline_max  = 0;

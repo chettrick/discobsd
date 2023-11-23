@@ -56,8 +56,8 @@ file /usr/include/machine/uart.h
 default
 filemode 0444
 dir /usr/share
-dir /usr/share/lex
-file /usr/share/lex/ncform
+dir /usr/share/misc
+file /usr/share/misc/ncform
 
 #
 # Files: /usr/share/examples/lex

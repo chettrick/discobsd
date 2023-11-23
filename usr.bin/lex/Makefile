@@ -32,9 +32,8 @@ header.o:	header.c ldefs.h
 		${CC} -c ${CFLAGS} header.c
 
 install:	all
-		-mkdir -p ${DESTDIR}/usr/share/${PROG}
-		chmod 755 ${DESTDIR}/usr/share/${PROG}
-		install -c -m 444 ncform ${DESTDIR}/usr/share/${PROG}
+		-mkdir -p ${DESTDIR}/usr/share/misc
+		install -c -m 444 ncform ${DESTDIR}/usr/share/misc
 		install -m 755 ${PROG} ${DESTDIR}/usr/bin
 
 clean:

@@ -19,7 +19,7 @@ int	peek = '\n';	/* next input character */
 uchar	*pushptr = pushc;
 uchar	*slptr = slist;
 
-char	*cname = _PATH_SHARE "lex/ncform";
+char	*cname = _PATH_SHARE "misc/ncform";
 
 int ccount = 1;
 int casecount = 1;

@@ -959,6 +959,7 @@ file /usr/share/calendar/calendar.usholiday
 file /usr/share/misc/emg.keys
 file /usr/share/misc/re.help
 file /usr/share/dict/words
+file /usr/share/misc/lib.b
 file /usr/share/misc/more.help
 file /usr/share/misc/termcap
 mode 0444

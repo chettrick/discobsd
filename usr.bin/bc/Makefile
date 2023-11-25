@@ -20,5 +20,6 @@ ${PROG}:	${OBJS}
 clean:
 		rm -f *.o *.elf ${PROG} *.dis tags *~ y.tab.[ch]
 
-install:	all
+install:	all lib.b
+		install -c -m 444 lib.b ${DESTDIR}/usr/share/misc
 		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}

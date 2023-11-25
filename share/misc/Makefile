@@ -1,13 +1,13 @@
 #
 # Public domain - 1996/10/21 - sms
 #
-#  Makefile for misc data files (lib.b from 'bc', usw.)
+#  Makefile for misc data files
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
 SRCS		=
-# eign lib.b Mail.help Mail.tildehelp units gprof.callg gprof.flat \
+# eign Mail.help Mail.tildehelp units gprof.callg gprof.flat \
 # vlpmacs mkproto.data
 
 all:		${SRCS}

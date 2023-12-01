@@ -440,7 +440,7 @@ file /usr/bin/as
 file /usr/bin/awk
 file /usr/bin/basename
 file /usr/bin/basic
-file /usr/bin/bc
+#file /usr/bin/bc
 file /usr/bin/cal
 file /usr/bin/calendar
 file /bin/cat
@@ -959,7 +959,7 @@ file /usr/share/calendar/calendar.usholiday
 file /usr/share/misc/emg.keys
 file /usr/share/misc/re.help
 file /usr/share/dict/words
-file /usr/share/misc/lib.b
+#file /usr/share/misc/lib.b
 file /usr/share/misc/more.help
 file /usr/share/misc/termcap
 mode 0444
@@ -1262,7 +1262,7 @@ file /usr/share/man/cat1/atq.0
 file /usr/share/man/cat1/atrm.0
 file /usr/share/man/cat1/awk.0
 file /usr/share/man/cat1/basename.0
-file /usr/share/man/cat1/bc.0
+#file /usr/share/man/cat1/bc.0
 file /usr/share/man/cat1/biff.0
 file /usr/share/man/cat1/binmail.0
 file /usr/share/man/cat1/cal.0

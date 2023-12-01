@@ -27,10 +27,10 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   last mesg nice od pagesize pr printenv \
                   rev size sort split sum \
                   tail tee time touch tr tsort tty uniq w wc who \
-                  bc egrep mail su vmstat wall write \
+                  egrep mail su vmstat wall write \
                   strip false nohup true
 
-# TODO: ccom lccom m4 pforth sre unixbench
+# TODO: bc ccom lccom m4 pforth sre unixbench
 #       lorder mkdep
 
 all:		$(SUBDIR)

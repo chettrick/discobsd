@@ -1,13 +1,13 @@
 %{
-	#include	<u.h>
-	#include	<libc.h>
-	#include	<bio.h>
+	#include	<signal.h>
+	#include	<stdarg.h>
+	#include	<stdio.h>
+	#include	<stdlib.h>
+	#include	<unistd.h>
 
 	#define	bsp_max	5000
 
-	Biobuf	*in;
-	Biobuf	bstdin;
-	Biobuf	bstdout;
+	FILE	*in;
 	char	cary[1000];
 	char*	cp = { cary };
 	char	string[1000];
@@ -781,7 +781,7 @@ loop:
 		if(in == 0)
 			ch = -1;
 		else
-			ch = Bgetc(in);
+			ch = getc(in);
 	}
 	peekc = -1;
 	if(ch >= 0)
@@ -790,14 +790,13 @@ loop:
 	if(ifile > sargc) {
 		if(ifile >= sargc+2)
 			getout();
-		in = &bstdin;
-		Binit(in, 0, OREAD);
+		in = stdin;
 		ln = 0;
 		goto loop;
 	}
 	if(in)
-		Bterm(in);
-	if((in = Bopen(sargv[ifile], OREAD)) != 0){
+		fclose(in);
+	if((in = fopen(sargv[ifile], "r")) != NULL) {
 		ln = 0;
 		ss = sargv[ifile];
 		goto loop;
@@ -817,7 +816,7 @@ bundle(int a, ...)
 	va_start(arg, a);
 	q = bsp_nxt;
 	if(bdebug)
-		fprint(2, "bundle %d elements at %lx\n", i, q);
+		fprintf(stderr, "bundle %d elements at %lx\n", i, q);
 	while(i-- > 0) {
 		if(bsp_nxt >= &bspace[bsp_max])
 			yyerror("bundling space exceeded");
@@ -835,14 +834,14 @@ routput(char *p)
 	char **pp;
 	
 	if(bdebug)
-		fprint(2, "routput(%lx)\n", p);
+		fprintf(stderr, "routput(%lx)\n", p);
 	if((char**)p >= &bspace[0] && (char**)p < &bspace[bsp_max]) {
 		/* part of a bundle */
 		pp = (char**)p;
 		while(*pp != 0)
 			routput(*pp++);
 	} else
-		Bprint(&bstdout, p);	/* character string */
+		printf("%s", p);	/* character string */
 }
 
 void
@@ -850,8 +849,8 @@ output(char *p)
 {
 	routput(p);
 	bsp_nxt = &bspace[0];
-	Bprint(&bstdout, "\n");
-	Bflush(&bstdout);
+	printf("\n");
+	fflush(stdout);
 	cp = cary;
 	crs = rcrs;
 }
@@ -859,10 +858,10 @@ output(char *p)
 void
 conout(char *p, char *s)
 {
-	Bprint(&bstdout, "[");
+	printf("[");
 	routput(p);
-	Bprint(&bstdout, "]s%s\n", s);
-	Bflush(&bstdout);
+	printf("]s%s\n", s);
+	fflush(stdout);
 	lev--;
 }
 
@@ -871,8 +870,8 @@ yyerror(char *s, ...)
 {
 	if(ifile > sargc)
 		ss = "stdin";
-	Bprint(&bstdout, "c[%s:%d %s]pc\n", ss, ln+1, s);
-	Bflush(&bstdout);
+	printf("c[%s:%d %s]pc\n", ss, ln+1, s);
+	fflush(stdout);
 	cp = cary;
 	crs = rcrs;
 	bindx = 0;
@@ -903,14 +902,15 @@ tp(char *s)
 void
 yyinit(int argc, char **argv)
 {
-	Binit(&bstdout, 1, OWRITE);
+	signal(SIGINT, SIG_IGN);	/* ignore all interrupts */
 	sargv = argv;
 	sargc = argc - 1;
 	if(sargc == 0) {
-		in = &bstdin;
-		Binit(in, 0, OREAD);
-	} else if((in = Bopen(sargv[1], OREAD)) == 0)
+		in = stdin;
+	} else if((in = fopen(sargv[1], "r")) == NULL) {
 		yyerror("cannot open input file");
+		in = stdin;
+	}
 	ifile = 1;
 	ln = 0;
 	ss = sargv[1];
@@ -919,9 +919,9 @@ yyinit(int argc, char **argv)
 void
 getout(void)
 {
-	Bprint(&bstdout, "q");
-	Bflush(&bstdout);
-	exits(0);
+	printf("q");
+	fflush(stdout);
+	exit(0);
 }
 
 char*
@@ -936,7 +936,7 @@ geta(char *p)
 	return atab[*p - 'a'];
 }
 
-void
+int
 main(int argc, char **argv)
 {
 	int p[2];
@@ -956,8 +956,8 @@ main(int argc, char **argv)
 			sflag++;
 			break;
 		default:
-			fprint(2, "Usage: bc [-cdls] [file ...]\n");
-			exits("usage");
+			fprintf(stderr, "usage: bc [-cdls] [file ...]\n");
+			exit(0);
 		}
 		argc--;
 		argv++;
@@ -965,7 +965,7 @@ main(int argc, char **argv)
 	if(lflag) {
 		argv--;
 		argc++;
-		argv[1] = "/sys/lib/bclib";
+		argv[1] = "/usr/share/misc/lib.b";
 	}
 	if(cflag) {
 		yyinit(argc, argv);
@@ -975,15 +975,17 @@ main(int argc, char **argv)
 	}
 	pipe(p);
 	if(fork() == 0) {
-		dup(p[1], 1);
+		close(1);
+		dup(p[1]);
 		close(p[0]);
 		close(p[1]);
 		yyinit(argc, argv);
 		for(;;)
 			yyparse();
 	}
-	dup(p[0], 0);
+	close(0);
+	dup(p[0]);
 	close(p[0]);
 	close(p[1]);
-	execl("/bin/dc", "dc", nil);
+	execl("/usr/bin/dc", "dc", "-", (char *)NULL);
 }

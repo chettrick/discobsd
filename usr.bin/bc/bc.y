@@ -91,7 +91,7 @@
 }
 
 %type	<cptr>	pstat stat stat1 def slist dlets e ase nase
-%type	<cptr>	slist re fprefix cargs eora cons constant lora
+%type	<cptr>	re fprefix cargs eora cons constant lora
 %type	<cptr>	crs
 
 %token	<cptr>	LETTER EQOP _AUTO DOT
@@ -238,7 +238,6 @@ fprefix:
 	}
 
 BLEV:
-	=
 	{
 		--bindx;
 	}
@@ -404,7 +403,8 @@ nase:
 	{
 		bundle(3, "l", getf($1), "x");
 	}
-|	LETTER = {
+|	LETTER
+	{
 		bundle(2, "l", $1);
 	}
 |	LENGTH '(' e ')'
@@ -527,7 +527,6 @@ constant:
 	}
 
 crs:
-	=
 	{
 		$$ = cp;
 		*cp++ = '<';
@@ -811,7 +810,7 @@ bundle(int a, ...)
 	int i;
 	char **q;
 	va_list arg;
-	
+
 	i = a;
 	va_start(arg, a);
 	q = bsp_nxt;
@@ -832,7 +831,7 @@ void
 routput(char *p)
 {
 	char **pp;
-	
+
 	if(bdebug)
 		fprintf(stderr, "routput(%lx)\n", p);
 	if((char**)p >= &bspace[0] && (char**)p < &bspace[bsp_max]) {

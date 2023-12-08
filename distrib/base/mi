@@ -460,7 +460,7 @@ file /bin/cp
 file /usr/bin/cpp
 file /usr/bin/crontab
 file /bin/date
-file /usr/bin/dc
+#file /usr/bin/dc
 file /bin/dd
 file /bin/df
 mode 02755
@@ -1287,7 +1287,7 @@ file /usr/share/man/cat1/crontab.0
 file /usr/share/man/cat1/csh.0
 file /usr/share/man/cat1/ctags.0
 file /usr/share/man/cat1/date.0
-file /usr/share/man/cat1/dc.0
+#file /usr/share/man/cat1/dc.0
 file /usr/share/man/cat1/dd.0
 file /usr/share/man/cat1/deroff.0
 file /usr/share/man/cat1/df.0

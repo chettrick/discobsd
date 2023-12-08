@@ -1,4 +1,5 @@
-.TH BC 1 
+.TH BC 1 "December 7, 2023"
+.AT 3
 .SH NAME
 bc \- arbitrary-precision arithmetic language
 .SH SYNOPSIS
@@ -10,7 +11,7 @@ bc \- arbitrary-precision arithmetic language
 .I file ...
 ]
 .SH DESCRIPTION
-.I Bc
+.I bc
 is an interactive processor for a language that resembles
 C but provides arithmetic on numbers of arbitrary length with up
 to 100 digits right of the decimal point.
@@ -31,7 +32,7 @@ of calculation results; all output is via the
 .B print
 command.
 .PP
-The following syntax for 
+The following syntax for
 .I bc
 programs is like that of C;
 .I L
@@ -41,7 +42,6 @@ means letter
 means expression,
 .I S
 means statement.
-.TF length(E)
 .TP
 Lexical
 .RS
@@ -53,22 +53,24 @@ newlines end statements
 .RE
 .TP
 Names
-.IP
+.RS
+.HP
 simple variables:
 .I L
-.br
+.HP
 array elements:
 .IB L [ E ]
-.br
+.HP
 The words
 .BR ibase ,
 .BR obase ,
 and
 .B scale
+.RE
 .TP
 Other operands
 .IP
-arbitrarily long numbers with optional sign and decimal point.
+arbitrarily long numbers with optional sign and decimal point
 .RS
 .TP
 .BI ( E )
@@ -134,7 +136,7 @@ Statements
 .B ;
 .I E
 .B ")"
-.I  S
+.I S
 .br
 null statement
 .br
@@ -142,7 +144,7 @@ null statement
 .br
 .B quit
 .br
-\fL"\fRtext\fL"\fR
+a string of characters, enclosed in double quotes
 .RE
 .TP
 Function definitions
@@ -156,8 +158,9 @@ Function definitions
 \&...
 .B ,
 .I L
-.B ){
-.PD0
+.B ) {
+.PD 0
+.IP
 .br
 .B auto
 .I L
@@ -170,17 +173,19 @@ Function definitions
 .B ;
 \&...
 .B ;
-.I  S
+.I S
 .br
 .B return
 .I E
 .LP
 .B }
+.PD
 .RE
-.TP
-Functions in 
+.HP
+Functions in
 .B -l
 math library
+.PD 0
 .RS
 .TP
 .BI s( x )
@@ -201,10 +206,10 @@ arctangent
 .BI j( "n, x" )
 Bessel function
 .RE
+.PD
 .PP
 .DT
 All function arguments are passed by value.
-.PD
 .PP
 The value of an expression at the top level is printed
 unless the main operator is an assignment or the
@@ -231,7 +236,7 @@ In a declaration of an array as a function argument
 or automatic variable
 empty square brackets must follow the array name.
 .PP
-.I Bc
+.I bc
 is actually a preprocessor for
 .IR dc (1),
 which it invokes automatically, unless the
@@ -241,13 +246,13 @@ option is present.
 In this case the
 .I dc
 input is sent to the standard output instead.
-.SH EXAMPLE
+.SH EXAMPLES
 Define a function to compute an approximate value of
 the exponential.
 Use it to print 10 values.
 (The exponential function in the library gives better answers.)
 .PP
-.EX
+.nf
 scale = 20
 define e(x) {
 	auto a, b, c, i, s
@@ -263,28 +268,29 @@ define e(x) {
 	}
 }
 for(i=1; i<=10; i++) print e(i)
-.EE
+.fi
 .SH FILES
-.B /sys/lib/bclib
+.B /usr/share/misc/lib.b
 mathematical library
-.SH SOURCE
-.B /sys/src/cmd/bc.y
 .SH "SEE ALSO"
-.IR dc (1), 
-.IR hoc (1)
+.IR dc (1)
+.br
+L. L. Cherry and R. Morris,
+.I
+BC \- An arbitrary precision desk-calculator language
 .SH BUGS
 No
-.LR && ,
-.LR || ,
+.IR && ,
+.IR || ,
 or
-.L !
+.I !
 operators.
 .PP
 A
-.L for
+.I for
 statement must have all three
-.LR E s.
+.IR E s.
 .PP
 A
-.L quit
+.I quit
 is interpreted when read, not when executed.

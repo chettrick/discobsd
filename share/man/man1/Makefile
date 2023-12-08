@@ -23,7 +23,7 @@ MDIR=	/usr/share/man/cat1
 SRCS=	adb.1 addbib.1 apply.1 apropos.1 as.1 at.1 atq.1 atrm.1 \
 	awk.1 basename.1 biff.1 binmail.1 cal.1 calendar.1 cat.1 \
 	cb.1 cc.1 cd.1 checknr.1 chgrp.1 chmod.1 clear.1 cmp.1 col.1 \
-	colcrt.1 colrm.1 comm.1 compress.1 cp.1 csh.1 ctags.1 date.1 dc.1 \
+	colcrt.1 colrm.1 comm.1 compress.1 cp.1 csh.1 ctags.1 date.1 \
 	dd.1 deroff.1 df.1 diction.1 diff.1 diff3.1 du.1 echo.1 ed.1 \
 	efl.1 eqn.1 error.1 ex.1 expand.1 expr.1 f77.1 false.1 file.1 \
 	find.1 fmt.1 fold.1 fpr.1 from.1 fsplit.1 gcore.1 \
@@ -51,7 +51,7 @@ SRCS1=	nroff.1 nslookup.1 od.1 pagesize.1 pdx.1 pi.1 pix.1 \
 OBJS1=	adb.0 addbib.0 apply.0 apropos.0 as.0 at.0 atq.0 atrm.0 \
 	awk.0 basename.0 biff.0 binmail.0 cal.0 calendar.0 cat.0 \
 	cb.0 cc.0 cd.0 checknr.0 chgrp.0 chmod.0 clear.0 cmp.0 col.0 \
-	colcrt.0 colrm.0 comm.0 compress.0 cp.0 csh.0 ctags.0 date.0 dc.0 \
+	colcrt.0 colrm.0 comm.0 compress.0 cp.0 csh.0 ctags.0 date.0 \
 	dd.0 deroff.0 df.0 diction.0 diff.0 diff3.0 du.0 echo.0 ed.0 \
 	efl.0 eqn.0 error.0 ex.0 expand.0 expr.0 f77.0 false.0 file.0 \
 	find.0 fmt.0 fold.0 fpr.0 from.0 fsplit.0 gcore.0 \

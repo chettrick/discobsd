@@ -15,7 +15,7 @@ MDSUBDIR!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 	fi
 
 SUBDIR		= aout ar arch as awk basic calendar cc chflags \
-                  chpass cpp diff emg env find fold forth \
+                  chpass cpp dc diff emg env find fold forth \
                   fstat glcdtest id la lcc lcpp ld login make \
                   man med more nm passwd pdc picoc portio printf pwm \
                   ranlib re renice retroforth scm sed setty sl smallc \
@@ -30,7 +30,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   bc egrep mail su vmstat wall write \
                   strip false nohup true
 
-# TODO: ccom dc lccom m4 pforth sre unixbench
+# TODO: ccom lccom m4 pforth sre unixbench
 #       lorder mkdep
 
 all:		$(SUBDIR)

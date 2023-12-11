@@ -1,9 +1,15 @@
-#include <u.h>
-#include <libc.h>
-#include <bio.h>
+#include <sys/wait.h>
+
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 typedef	void*	pointer;
 #pragma	varargck	type	"lx"	pointer
+
+#define USED(x) (void)(x)
 
 #define FATAL 0
 #define NFATAL 1
@@ -43,14 +49,14 @@ typedef	void*	pointer;
 #define sclobber(p)	((p)->rd = --(p)->wt)
 #define zero(p)		for(pp=(p)->beg;pp<(p)->last;)\
 				*pp++='\0'
-#define OUTC(x)		{Bputc(&bout,x); if(--count == 0){Bprint(&bout,"\\\n"); count=ll;} }
-#define TEST2		{if((count -= 2) <=0){Bprint(&bout,"\\\n");count=ll;}}
-#define EMPTY		if(stkerr != 0){Bprint(&bout,"stack empty\n"); continue; }
-#define EMPTYR(x)	if(stkerr!=0){pushp(x);Bprint(&bout,"stack empty\n");continue;}
-#define EMPTYS		if(stkerr != 0){Bprint(&bout,"stack empty\n"); return(1);}
-#define EMPTYSR(x)	if(stkerr !=0){Bprint(&bout,"stack empty\n");pushp(x);return(1);}
-#define error(p)	{Bprint(&bout,p); continue; }
-#define errorrt(p)	{Bprint(&bout,p); return(1); }
+#define OUTC(x)		{printf("%c",x); if(--count == 0){printf("\\\n"); count=ll;} }
+#define TEST2		{if((count -= 2) <=0){printf("\\\n");count=ll;}}
+#define EMPTY		if(stkerr != 0){printf("stack empty\n"); continue; }
+#define EMPTYR(x)	if(stkerr != 0){pushp(x);printf("stack empty\n");continue;}
+#define EMPTYS		if(stkerr != 0){printf("stack empty\n"); return(1);}
+#define EMPTYSR(x)	if(stkerr != 0){printf("stack empty\n");pushp(x);return(1);}
+#define error(p)	{printf(p); continue; }
+#define errorrt(p)	{printf(p); return(1); }
 
 #define LASTFUN 026
 
@@ -77,9 +83,11 @@ struct	Wblk
 	Blk	**lastw;
 };
 
-Biobuf	*curfile, *fsave;
+FILE	*curfile, *fsave;
 Blk	*arg1, *arg2;
-uchar	savk;
+int	svargc;
+unsigned char	savk;
+char	**svargv;
 int	dbg;
 int	ifile;
 Blk	*scalptr, *basptr, *tenptr, *inbas;
@@ -115,18 +123,16 @@ char	*dummy;
 long	longest, maxsize, active;
 int	lall, lrel, lcopy, lmore, lbytes;
 int	inside;
-Biobuf	bin;
-Biobuf	bout;
 
-void	main(int argc, char *argv[]);
+int	main(int argc, char *argv[]);
 void	commnds(void);
 Blk*	readin(void);
-Blk*	div(Blk *ddivd, Blk *ddivr);
+Blk*	dcdiv(Blk *ddivd, Blk *ddivr);
 int	dscale(void);
 Blk*	removr(Blk *p, int n);
 Blk*	dcsqrt(Blk *p);
 void	init(int argc, char *argv[]);
-void	onintr(void);
+void	onintr(int sig);
 void	pushp(Blk *p);
 Blk*	pop(void);
 Blk*	readin(void);
@@ -152,7 +158,7 @@ int	subt(void);
 int	command(void);
 int	cond(char c);
 void	load(void);
-int	log2(long n);
+int	dclog2(long n);
 Blk*	salloc(int size);
 Blk*	morehd(void);
 Blk*	copy(Blk *hptr, int size);
@@ -172,26 +178,24 @@ int	getstk(void);
 void
 tpr(char *cp, Blk *bp)
 {
-	print("%s-> ", cp);
-	print("beg: %lx rd: %lx wt: %lx last: %lx\n", bp->beg, bp->rd,
+	printf("%s-> ", cp);
+	printf("beg: %lx rd: %lx wt: %lx last: %lx\n", bp->beg, bp->rd,
 		bp->wt, bp->last);
 	for (cp = bp->beg; cp != bp->wt; cp++) {
-		print("%d", *cp);
+		printf("%d", *cp);
 		if (cp != bp->wt-1)
-			print("/");
+			printf("/");
 	}
-	print("\n");
+	printf("\n");
 }
 /************/
 
-void
+int
 main(int argc, char *argv[])
 {
-	Binit(&bin, 0, OREAD);
-	Binit(&bout, 1, OWRITE);
 	init(argc,argv);
 	commnds();
-	exits(0);
+	exit(0);
 }
 
 void
@@ -203,7 +207,7 @@ commnds(void)
 	int sk, sk1, sk2, c, sign, n, d;
 
 	while(1) {
-		Bflush(&bout);
+		fflush(stdout);
 		if(((c = readc())>='0' && c <= '9') ||
 		    (c>='A' && c <='F') || c == '.') {
 			unreadc(c);
@@ -215,15 +219,16 @@ commnds(void)
 		case ' ':
 		case '\t':
 		case '\n':
+		case 0377:
 		case -1:
 			continue;
 		case 'Y':
 			sdump("stk",*stkptr);
-			Bprint(&bout, "all %ld rel %ld headmor %ld\n",all,rel,headmor);
-			Bprint(&bout, "nbytes %ld\n",nbytes);
-			Bprint(&bout, "longest %ld active %ld maxsize %ld\n", longest,
+			printf("all %ld rel %ld headmor %ld\n",all,rel,headmor);
+			printf("nbytes %ld\n",nbytes);
+			printf("longest %ld active %ld maxsize %ld\n", longest,
 				active, maxsize);
-			Bprint(&bout, "new all %d rel %d copy %d more %d lbytes %d\n",
+			printf("new all %d rel %d copy %d more %d lbytes %d\n",
 				lall, lrel, lcopy, lmore, lbytes);
 			lall = lrel = lcopy = lmore = lbytes = 0;
 			continue;
@@ -338,8 +343,7 @@ commnds(void)
 			c = sgetc(arg1);
 			if(c == -1)
 				c = 0;
-			else
-			if(sfeof(arg1) == 0)
+			else if(sfeof(arg1) == 0)
 				c = sgetc(arg1)*100 + c;
 			d = c*savk;
 			release(arg1);
@@ -394,12 +398,10 @@ commnds(void)
 					else {
 						if((c = sbackc(p)) == 0)
 							n++;
-						else
-						if(c > 90)
+						else if(c > 90)
 							n--;
 					}
-				} else
-				if(c < 10)
+				} else if(c < 10)
 					n--;
 			}
 			release(p);
@@ -446,7 +448,7 @@ commnds(void)
 						l = l*100+sbackc(q);
 				}
 			}
-			logo = log2(l);
+			logo = dclog2(l);
 			obase = l;
 			release(basptr);
 			if(sign == 1)
@@ -555,7 +557,7 @@ commnds(void)
 			continue;
 		case 'q':
 			if(readptr <= &readstk[1])
-				exits(0);
+				exit(0);
 			if(*readptr != 0)
 				release(*readptr);
 			readptr--;
@@ -565,7 +567,7 @@ commnds(void)
 			continue;
 		case 'f':
 			if(stkptr == &stack[0])
-				Bprint(&bout,"empty stack\n");
+				printf("empty stack\n");
 			else {
 				for(ptr = stkptr; ptr > &stack[0];) {
 					dcprint(*ptr--);
@@ -574,7 +576,7 @@ commnds(void)
 			continue;
 		case 'p':
 			if(stkptr == &stack[0])
-				Bprint(&bout,"empty stack\n");
+				printf("empty stack\n");
 			else {
 				dcprint(*stkptr);
 			}
@@ -583,12 +585,12 @@ commnds(void)
 			p = pop();
 			EMPTY;
 			sputc(p,0);
-			Bprint(&bout,"%s",p->beg);
+			printf("%s",p->beg);
 			release(p);
 			continue;
 		case 'd':
 			if(stkptr == &stack[0]) {
-				Bprint(&bout,"empty stack\n");
+				printf("empty stack\n");
 				continue;
 			}
 			q = *stkptr;
@@ -784,7 +786,7 @@ commnds(void)
 			}
 			*readptr = 0;
 			fsave = curfile;
-			curfile = &bin;
+			curfile = stdin;
 			while((c = readc()) == '!')
 				command();
 			p = salloc(0);
@@ -808,13 +810,13 @@ commnds(void)
 				goto execute;
 			continue;
 		default:
-			Bprint(&bout,"%o is unimplemented\n",c);
+			printf("%o is unimplemented\n",c);
 		}
 	}
 }
 
 Blk*
-div(Blk *ddivd, Blk *ddivr)
+dcdiv(Blk *ddivd, Blk *ddivr)
 {
 	int divsign, remsign, offset, divcarry,
 		carry, dig, magic, d, dd, under, first;
@@ -828,7 +830,7 @@ div(Blk *ddivd, Blk *ddivr)
 	p = salloc(0);
 	if(length(ddivr) == 0) {
 		pushp(ddivr);
-		Bprint(&bout,"divide by 0\n");
+		printf("divide by 0\n");
 		return(p);
 	}
 	divsign = remsign = first = 0;
@@ -990,7 +992,7 @@ dscale(void)
 	if(sfbeg(dr) == 1 || (sfbeg(dr) == 0 && sbackc(dr) == 0)) {
 		sputc(dr,skr);
 		pushp(dr);
-		Bprint(&bout,"divide by 0\n");
+		printf("divide by 0\n");
 		return(1);
 	}
 	if(sfbeg(dd) == 1 || (sfbeg(dd) == 0 && sbackc(dd) == 0)) {
@@ -1033,7 +1035,7 @@ removr(Blk *p, int n)
 		sputc(r,sgetc(p));
 	release(p);
 	if(n == 1){
-		s = div(r,tenptr);
+		s = dcdiv(r,tenptr);
 		release(r);
 		rewind(rem);
 		if(sfeof(rem) == 0)
@@ -1086,11 +1088,11 @@ dcsqrt(Blk *p)
 	} else
 		salterc(r,c);
 	for(;;){
-		q = div(p,r);
+		q = dcdiv(p,r);
 		s = add(q,r);
 		release(q);
 		release(rem);
-		q = div(s,sqtemp);
+		q = dcdiv(s,sqtemp);
 		release(s);
 		release(rem);
 		s = copy(r,length(r));
@@ -1131,7 +1133,7 @@ dcexp(Blk *base, Blk *ex)
 		chsign(e);
 	}
 	while(length(e) != 0) {
-		e1=div(e,sqtemp);
+		e1 = dcdiv(e,sqtemp);
 		release(e);
 		e = e1;
 		n = length(rem);
@@ -1169,41 +1171,51 @@ edone:
 }
 
 void
+onintr(int sig)
+{
+	signal(SIGINT, onintr);
+	while (readptr != &readstk[0]) {
+		if (*readptr != 0)
+			release(*readptr);
+		readptr--;
+	}
+	curfile = stdin;
+	commnds();
+}
+
+void
 init(int argc, char *argv[])
 {
 	Sym *sp;
-	Dir *d;
 
-	ARGBEGIN {
-	default:
-		dbg = 1;
-		break;
-	} ARGEND
-	ifile = 1;
-	curfile = &bin;
-	if(*argv){
-		d = dirstat(*argv);
-		if(d == nil) {
-			fprint(2, "dc: can't open file %s\n", *argv);
-			exits("open");
+	if (signal(SIGINT, SIG_IGN) != SIG_IGN)
+		signal(SIGINT, onintr);
+	setbuf(stdout, (char *)NULL);
+	svargc = --argc;
+	svargv = argv;
+	while(svargc>0 && svargv[1][0] == '-'){
+		switch(svargv[1][1]){
+		default:
+			dbg = 1;
 		}
-		if(d->mode & DMDIR) {
-			fprint(2, "dc: file %s is a directory\n", *argv);
-			exits("open");
-		}
-		free(d);
-		if((curfile = Bopen(*argv, OREAD)) == 0) {
-			fprint(2,"dc: can't open file %s\n", *argv);
-			exits("open");
-		}
+		svargc--;
+		svargv++;
 	}
-/*	dummy = malloc(0);  /* prepare for garbage-collection */
+	ifile = 1;
+	if (svargc <= 0)
+		curfile = stdin;
+	else if((curfile = fopen(svargv[1],"r")) == NULL){
+		fprintf(stderr, "dc: can't open file %s\n", svargv[1]);
+		exit(1);
+	}
+
+/* XXX	dummy = malloc(0); */	/* prepare for garbage-collection */
 	scalptr = salloc(1);
 	sputc(scalptr,0);
 	basptr = salloc(1);
 	sputc(basptr,10);
 	obase=10;
-	logten=log2(10L);
+	logten = dclog2(10L);
 	ll=70;
 	fw=1;
 	fw1=0;
@@ -1235,7 +1247,7 @@ void
 pushp(Blk *p)
 {
 	if(stkptr == stkend) {
-		Bprint(&bout,"out of stack space\n");
+		printf("out of stack space\n");
 		return;
 	}
 	stkerr=0;
@@ -1415,7 +1427,7 @@ chsign(Blk *p)
 			truncate(p);
 			sputc(p,-1);
 		}
-	} else{
+	} else {
 		fsfile(p);
 		ct = sbackc(p);
 		if(ct == 0)
@@ -1435,21 +1447,21 @@ loop:
 		readptr--;
 		goto loop;
 	}
-	lastchar = Bgetc(curfile);
+	lastchar = getc(curfile);
 	if(lastchar != -1)
 		return(lastchar);
 	if(readptr != &readptr[0]) {
 		readptr--;
 		if(*readptr == 0)
-			curfile = &bin;
+			curfile = stdin;
 		goto loop;
 	}
-	if(curfile != &bin) {
-		Bterm(curfile);
-		curfile = &bin;
+	if(curfile != stdin) {
+		fclose(curfile);
+		curfile = stdin;
 		goto loop;
 	}
-	exits(0);
+	exit(0);
 	return 0;	/* shut up ken */
 }
 
@@ -1460,7 +1472,7 @@ unreadc(char c)
 	if((readptr != &readstk[0]) && (*readptr != 0)) {
 		sungetc(*readptr,c);
 	} else
-		Bungetc(curfile);
+		ungetc(c,curfile);
 	return;
 }
 
@@ -1478,7 +1490,7 @@ binop(char c)
 		r = mult(arg1,arg2);
 		break;
 	case '/':
-		r = div(arg1,arg2);
+		r = dcdiv(arg1,arg2);
 		break;
 	}
 	release(arg1);
@@ -1498,16 +1510,16 @@ dcprint(Blk *hptr)
 		if(sgetc(hptr)>99) {
 			rewind(hptr);
 			while(sfeof(hptr) == 0) {
-				Bprint(&bout,"%c",sgetc(hptr));
+				printf("%c",sgetc(hptr));
 			}
-			Bprint(&bout,"\n");
+			printf("\n");
 			return;
 		}
 	}
 	fsfile(hptr);
 	sc = sbackc(hptr);
 	if(sfbeg(hptr) != 0) {
-		Bprint(&bout,"0\n");
+		printf("0\n");
 		return;
 	}
 	count = ll;
@@ -1540,7 +1552,7 @@ dcprint(Blk *hptr)
 	pushp(p);
 	if(dscale() != 0)
 		return;
-	p = div(arg1, arg2);
+	p = dcdiv(arg1, arg2);
 	release(arg1);
 	release(arg2);
 	sc = savk;
@@ -1551,7 +1563,7 @@ dcprint(Blk *hptr)
 	dec = getdec(p,sc);
 	p = removc(p,sc);
 	while(length(p) != 0) {
-		q = div(p,basptr);
+		q = dcdiv(p,basptr);
 		release(p);
 		p = q;
 		(*outdit)(rem,0);
@@ -1562,7 +1574,7 @@ dcprint(Blk *hptr)
 		OUTC(sbackc(strptr));
 	if(sc == 0) {
 		release(dec);
-		Bprint(&bout,"\n");
+		printf("\n");
 		return;
 	}
 	create(strptr);
@@ -1579,7 +1591,7 @@ dcprint(Blk *hptr)
 	rewind(strptr);
 	while(sfeof(strptr) == 0)
 		OUTC(sgetc(strptr));
-	Bprint(&bout,"\n");
+	printf("\n");
 }
 
 Blk*
@@ -1607,7 +1619,7 @@ getdec(Blk *p, int sc)
 			sputc(s,sgetc(t));
 		sputc(s,0);
 		release(t);
-		t = div(s,tenptr);
+		t = dcdiv(s,tenptr);
 		release(s);
 		release(rem);
 		return(t);
@@ -1625,20 +1637,20 @@ tenot(Blk *p, int sc)
 	while((sfbeg(p) == 0) && ((p->rd-p->beg-1)*2 >= sc)) {
 		c = sbackc(p);
 		if((c<10) && (f == 1))
-			Bprint(&bout,"0%d",c);
+			printf("0%d",c);
 		else
-			Bprint(&bout,"%d",c);
+			printf("%d",c);
 		f=1;
 		TEST2;
 	}
 	if(sc == 0) {
-		Bprint(&bout,"\n");
+		printf("\n");
 		release(p);
 		return;
 	}
 	if((p->rd-p->beg)*2 > sc) {
 		c = sbackc(p);
-		Bprint(&bout,"%d.",c/10);
+		printf("%d.",c/10);
 		TEST2;
 		OUTC(c%10 +'0');
 		sc--;
@@ -1652,16 +1664,16 @@ tenot(Blk *p, int sc)
 	while(sc > 1) {
 		c = sbackc(p);
 		if(c<10)
-			Bprint(&bout,"0%d",c);
+			printf("0%d",c);
 		else
-			Bprint(&bout,"%d",c);
+			printf("%d",c);
 		sc -= 2;
 		TEST2;
 	}
 	if(sc == 1) {
 		OUTC(sbackc(p)/10 +'0');
 	}
-	Bprint(&bout,"\n");
+	printf("\n");
 	release(p);
 }
 
@@ -1680,7 +1692,7 @@ oneot(Blk *p, int sc, char ch)
 		OUTC(ch);
 	}
 	release(q);
-	Bprint(&bout,"\n");
+	printf("\n");
 }
 
 void
@@ -1698,7 +1710,7 @@ hexot(Blk *p, int flg)
 	c = sgetc(p);
 	release(p);
 	if(c >= 16) {
-		Bprint(&bout,"hex digit > 16");
+		printf("hex digit > 16");
 		return;
 	}
 	sputc(strptr,c<10?c+'0':c-10+'a');
@@ -1725,7 +1737,7 @@ bigot(Blk *p, int flg)
 			chsign(p);
 		}
 		while(length(p) != 0) {
-			q = div(p,tenptr);
+			q = dcdiv(p,tenptr);
 			release(p);
 			p = q;
 			rewind(rem);
@@ -1776,8 +1788,7 @@ add(Blk *a1, Blk *a2)
 		if(n>=100) {
 			carry=1;
 			n -= 100;
-		} else
-		if(n<0) {
+		} else if (n<0) {
 			carry = -1;
 			n += 100;
 		} else
@@ -1852,7 +1863,7 @@ removc(Blk *p, int n)
 	while(sfeof(p) == 0)
 		sputc(q,sgetc(p));
 	if(n == 1) {
-		r = div(q,tenptr);
+		r = dcdiv(q,tenptr);
 		release(q);
 		release(rem);
 		q = r;
@@ -1881,7 +1892,7 @@ scale(Blk *p, int n)
 	sputc(q,n);
 	s = dcexp(inbas,q);
 	release(q);
-	q = div(t,s);
+	q = dcdiv(t,s);
 	release(t);
 	release(s);
 	release(rem);
@@ -1908,7 +1919,8 @@ int
 command(void)
 {
 	char line[100], *sl;
-	int pid, p, c;
+	void (*savint)(int);
+	int pid, rpid, c, retcode;
 
 	switch(c = readc()) {
 	case '<':
@@ -1924,16 +1936,14 @@ command(void)
 			*sl++ = c;
 		*sl = 0;
 		if((pid = fork()) == 0) {
-			execl("/bin/rc","rc","-c",line,nil);
-			exits("shell");
+			execl("/bin/sh", "sh", "-c", line, (char *)NULL);
+			exit(0100);
 		}
-		for(;;) {
-			if((p = waitpid()) < 0)
-				break;
-			if(p== pid)
-				break;
-		}
-		Bprint(&bout,"!\n");
+		savint = signal(SIGINT, SIG_IGN);
+		while((rpid = wait(&retcode)) != pid && rpid != -1)
+			;
+		signal(SIGINT, savint);
+		printf("!\n");
 		return(0);
 	}
 }
@@ -2009,7 +2019,7 @@ load(void)
 	} else {
 		q = salloc(1);
 		if(c <= LASTFUN) {
-			Bprint(&bout,"function %c undefined\n",c+'a'-1);
+			printf("function %c undefined\n",c+'a'-1);
 			sputc(q,'c');
 			sputc(q,'0');
 			sputc(q,' ');
@@ -2023,7 +2033,7 @@ load(void)
 }
 
 int
-log2(long n)
+dclog2(long n)
 {
 	int i;
 
@@ -2043,6 +2053,8 @@ salloc(int size)
 	Blk *hdr;
 	char *ptr;
 
+	if (size == 0)
+		size++;		/* malloc returns NULL for 0 length requests */
 	all++;
 	lall++;
 	if(all - rel > active)
@@ -2053,10 +2065,10 @@ salloc(int size)
 		maxsize = nbytes;
 	if(size > longest)
 		longest = size;
-	ptr = malloc((unsigned)size);
+	ptr = malloc((unsigned int)size);
 	if(ptr == 0){
 		garbage("salloc");
-		if((ptr = malloc((unsigned)size)) == 0)
+		if((ptr = malloc((unsigned int)size)) == 0)
 			ospace("salloc");
 	}
 	if((hdr = hfree) == 0)
@@ -2091,7 +2103,7 @@ Blk*
 copy(Blk *hptr, int size)
 {
 	Blk *hdr;
-	unsigned sz;
+	unsigned int sz;
 	char *ptr;
 
 	all++;
@@ -2106,7 +2118,7 @@ copy(Blk *hptr, int size)
 	sz = length(hptr);
 	ptr = malloc(size);
 	if(ptr == 0) {
-		Bprint(&bout,"copy size %d\n",size);
+		printf("copy size %d\n",size);
 		ospace("copy");
 	}
 	memmove(ptr, hptr->beg, sz);
@@ -2129,16 +2141,16 @@ sdump(char *s1, Blk *hptr)
 {
 	char *p;
 
-	if(hptr == nil) {
-		Bprint(&bout, "%s no block\n", s1);
+	if(hptr == NULL) {
+		printf("%s no block\n", s1);
 		return;
 	}
-	Bprint(&bout,"%s %lx rd %lx wt %lx beg %lx last %lx\n",
+	printf("%s %lx rd %lx wt %lx beg %lx last %lx\n",
 		s1,hptr,hptr->rd,hptr->wt,hptr->beg,hptr->last);
 	p = hptr->beg;
 	while(p < hptr->wt)
-		Bprint(&bout,"%d ",*p++);
-	Bprint(&bout,"\n");
+		printf("%d ",*p++);
+	printf("\n");
 }
 
 void
@@ -2154,13 +2166,15 @@ seekc(Blk *hptr, int n)
 		lbytes += nn - hptr->last;
 		if(n > longest)
 			longest = n;
-/*		free(hptr->beg); /**/
+/* XXX		free(hptr->beg); */
 		p = realloc(hptr->beg, n);
 		if(p == 0) {
-/*			hptr->beg = realloc(hptr->beg, hptr->last-hptr->beg);
-**			garbage("seekc");
-**			if((p = realloc(hptr->beg, n)) == 0)
-*/				ospace("seekc");
+#if 0 /* XXX */
+			hptr->beg = realloc(hptr->beg, hptr->last-hptr->beg);
+			garbage("seekc");
+			if((p = realloc(hptr->beg, n)) == 0)
+#endif /* XXX */
+				ospace("seekc");
 		}
 		hptr->beg = p;
 		hptr->wt = hptr->last = hptr->rd = p+n;
@@ -2187,7 +2201,7 @@ salterwd(Blk *ahptr, Blk *n)
 void
 more(Blk *hptr)
 {
-	unsigned size;
+	unsigned int size;
 	char *p;
 
 	if((size=(hptr->last-hptr->beg)*2) == 0)
@@ -2199,14 +2213,16 @@ more(Blk *hptr)
 		longest = size;
 	lbytes += size/2;
 	lmore++;
-/*	free(hptr->beg);/**/
+/* XXX	free(hptr->beg); */
 	p = realloc(hptr->beg, size);
 
 	if(p == 0) {
-/*		hptr->beg = realloc(hptr->beg, (hptr->last-hptr->beg));
-**		garbage("more");
-**		if((p = realloc(hptr->beg,size)) == 0)
-*/			ospace("more");
+#if 0 /* XXX */
+		hptr->beg = realloc(hptr->beg, (hptr->last-hptr->beg));
+		garbage("more");
+		if((p = realloc(hptr->beg,size)) == 0)
+#endif /* XXX */
+			ospace("more");
 	}
 	hptr->rd = p + (hptr->rd - hptr->beg);
 	hptr->wt = p + (hptr->wt - hptr->beg);
@@ -2217,9 +2233,9 @@ more(Blk *hptr)
 void
 ospace(char *s)
 {
-	Bprint(&bout,"out of space: %s\n",s);
-	Bprint(&bout,"all %ld rel %ld headmor %ld\n",all,rel,headmor);
-	Bprint(&bout,"nbytes %ld\n",nbytes);
+	printf("out of space: %s\n",s);
+	printf("all %ld rel %ld headmor %ld\n",all,rel,headmor);
+	printf("nbytes %ld\n",nbytes);
 	sdump("stk",*stkptr);
 	abort();
 }
@@ -2258,7 +2274,7 @@ putwd(Blk *p, Blk *c)
 	Wblk *wp;
 
 	wp = (Wblk*)p;
-	if(wp->wtw == wp->lastw)
+	if (wp->wtw == wp->lastw)
 		more(p);
 	*wp->wtw++ = c;
 }
@@ -2269,7 +2285,7 @@ lookwd(Blk *p)
 	Wblk *wp;
 
 	wp = (Wblk*)p;
-	if(wp->rdw == wp->wtw)
+	if (wp->rdw == wp->wtw)
 		return(0);
 	return(*wp->rdw);
 }
@@ -2278,7 +2294,7 @@ int
 getstk(void)
 {
 	int n;
-	uchar c;
+	unsigned char c;
 
 	c = readc();
 	if(c != '<')

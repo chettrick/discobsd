@@ -1,19 +1,30 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
 
-SRCS            = dc.c dc.h
-OBJS            = dc.o
+BINDIR=		/usr/bin
 
-all:            dc
+PROG=		dc
 
-dc:             ${OBJS}
-		${CC} ${CFLAGS} ${LDFLAGS} -o dc.elf ${OBJS} ${LIBS}
-		${OBJDUMP} -S dc.elf > dc.dis
-		${SIZE} dc.elf
-		${ELF2AOUT} dc.elf $@ && rm dc.elf
+SRCS=		${PROG}.c
+OBJS=		${PROG}.o
 
-install:        dc
-		install dc ${DESTDIR}/usr/bin/dc
+MAN=		${PROG}.0
+MANSRC=		${PROG}.1
+
+all:		${PROG} ${MAN}
+
+${PROG}:	${OBJS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
+		${OBJDUMP} -S $@.elf > $@.dis
+		${SIZE} $@.elf
+		${ELF2AOUT} $@.elf $@ && rm $@.elf
+
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
+
+install:	all
+		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
 clean:
-		rm -f *.o *.elf ${MAN} dc *.elf *.dis tags *~
+		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~

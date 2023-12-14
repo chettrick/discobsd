@@ -1,4 +1,5 @@
-.TH DC 1
+.TH DC 1 "December 14, 2023"
+.AT 3
 .SH NAME
 dc \- desk calculator
 .SH SYNOPSIS
@@ -7,7 +8,7 @@ dc \- desk calculator
 .I file
 ]
 .SH DESCRIPTION
-.I Dc
+.I dc
 is an arbitrary precision desk calculator.
 Ordinarily it operates on decimal integers,
 but one may specify an input base, output base,
@@ -21,10 +22,10 @@ input is taken from that file until its end,
 then from the standard input.
 The following constructions are recognized:
 .TP
-number
+.I number
 The value of the number is pushed on the stack.
-A number is an unbroken string of the digits 
-.B 0-9A-F 
+A number is an unbroken string of the digits
+.B 0-9A-F
 or
 .BR 0-9a-f .
 A hexadecimal number beginning with a lower case
@@ -36,30 +37,31 @@ to input a
 negative number.
 Numbers may contain decimal points.
 .TP
-.L
-+  - /  *  %  ^
+.I + \- * / % ^
 Add
-.LR + ,
+.IR + ,
 subtract
-.LR - ,
+.IR \- ,
 multiply
-.LR * ,
+.IR * ,
 divide
-.LR / ,
+.IR / ,
 remainder
-.LR % ,
+.IR % ,
 or exponentiate
-.L ^
+.I ^
 the top two values on the stack.
 The two entries are popped off the stack;
 the result is pushed on the stack in their place.
 Any fractional part of an exponent is ignored.
 .TP
+.PD 0
 .BI s x
 .br
 .ns
 .TP
 .BI S x
+.PD
 Pop the top of the stack and store into
 a register named
 .IR x ,
@@ -72,11 +74,13 @@ register
 .I x
 is treated as a stack and the value is pushed on it.
 .TP
+.PD 0
 .BI l x
 .br
 .ns
 .TP
 .BI L x
+.PD
 Push the value in register
 .I x
 onto the stack.
@@ -90,27 +94,29 @@ register
 .I x
 is treated as a stack and its top value is popped onto the main stack.
 .TP
-.B  d
+.B d
 Duplicate the
 top value on the stack.
 .TP
-.B  p
+.B p
 Print the top value on the stack.
 The top value remains unchanged.
 .B P
-interprets the top of the stack as an
+interprets the top of the stack as a
 text
 string,
 removes it, and prints it.
 .TP
-.B  f
+.B f
 Print the values on the stack.
 .TP
-.B  q
+.PD 0
+.B q
 .br
 .ns
 .TP
 .B Q
+.PD
 Exit the program.
 If executing a string, the recursion level is
 popped by two.
@@ -119,21 +125,21 @@ Under operation
 the top value on the stack is popped and the string execution level is popped
 by that value.
 .TP
-.B  x
+.B x
 Treat the top element of the stack as a character string
 and execute it as a string of
 .I dc
 commands.
 .TP
-.B  X
+.B X
 Replace the number on the top of the stack with its scale factor.
 .TP
-.B "[ ... ]"
+.BR [ ... ]
 Put the bracketed
 text
 string on the top of the stack.
 .TP
-.PD0
+.PD 0
 .BI < x
 .TP
 .BI > x
@@ -147,25 +153,25 @@ Register
 is executed if they obey the stated
 relation.
 .TP
-.B  v
+.B v
 Replace the top element on the stack by its square root.
 Any existing fractional part of the argument is taken
 into account, but otherwise the scale factor is ignored.
 .TP
-.B  !
+.B !
 Interpret the rest of the line as a shell command.
 .TP
-.B  c
+.B c
 Clear the stack.
 .TP
-.B  i
+.B i
 The top value on the stack is popped and used as the
 number base for further input.
 .TP
 .B I
 Push the input base on the top of the stack.
 .TP
-.B  o
+.B o
 The top value on the stack is popped and used as the
 number base for further output.
 In bases larger than 10, each `digit' prints as a group of decimal digits.
@@ -173,7 +179,7 @@ In bases larger than 10, each `digit' prints as a group of decimal digits.
 .B O
 Push the output base on the top of the stack.
 .TP
-.B  k
+.B k
 Pop the top of the stack, and use that value as
 a non-negative scale factor:
 the appropriate number of places
@@ -183,18 +189,18 @@ The interaction of scale factor,
 input base, and output base will be reasonable if all are changed
 together.
 .TP
-.B  z
+.B z
 Push the stack level onto the stack.
 .TP
-.B  Z
+.B Z
 Replace the number on the top of the stack with its length.
 .TP
-.B  ?
+.B ?
 A line of input is taken from the input source (usually the terminal)
 and executed.
 .TP
 .B "; :"
-Used by 
+Used by
 .I bc
 for array operations.
 .PP
@@ -212,46 +218,66 @@ is the scale of the second,
 and
 .I b
 is the (integer) second operand,
-results are truncated to the following scales.
-.IP
-.nf
-\fL+\fR,\fL-\fR	max(\fIsa,sb\fR)
-\fL*\fR	min(\fIsa\fR+\fIsb \fR, max\fR(\fIs,sa,sb\fR))
-\fL/\fI	s
-\fL%\fR	so that dividend = divisor*quotient + remainder; remainder has sign of dividend
-\fL^\fR	min(\fIsa\fR\(mu|\fIb\fR|, max(\fIs,sa\fR))
-\fLv\fR	max(\fIs,sa\fR)
-.fi
+results are truncated to the following scales:
+.PP
+.PD 0
+.RS
+.TP
+.BR + , \-
+.BI max( sa , sb )
+.TP
+.B *
+.BI min( sa + sb ,
+.BI max( s , sa , sb ))
+.TP
+.B /
+.I s
+.TP
+.B %
+so that dividend = divisor * quotient + remainder;
+remainder has sign of dividend
+.TP
+.B ^
+.BI min( sa *| b |,
+.BI max( s , sa ))
+.TP
+.B v
+.BI max( s , sa )
+.RE
+.PD
 .SH EXAMPLES
-.LP
 Print the first ten values of
 .IR n !
 .IP
-.EX
+.nf
 [la1+dsa*pla10>y]sy
 0sa1
 lyx
-.EE
-.SH SOURCE
-.B /sys/src/cmd/dc.c
+.fi
 .SH "SEE ALSO"
-.IR bc (1),
-.IR hoc (1)
+.IR bc (1)
 .SH DIAGNOSTICS
-.I x
-.LR "is unimplemented" ,
+.TP
+.I x is unimplemented
 where
 .I x
 is an octal number: an internal error.
-.br
-`Out of headers'
+.TP
+.I stack empty
+for not enough elements on the stack to do what was asked.
+.TP
+.I out of space
+when the free list is exhausted (too many digits).
+.TP
+.I out of headers
 for too many numbers being kept around.
-.br
-`Nesting depth'
+.TP
+.I divide by 0
+for trying to divide by zero.
+.TP
+.I nesting depth
 for too many levels of nested execution.
 .SH BUGS
 When the input base exceeds 16,
 there is no notation for digits greater than
 .BR F .
-.PP
-Past its time.

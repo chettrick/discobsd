@@ -91,7 +91,7 @@ main(argc, argv)
     argc--, argv++;
     if (argc == 0) {
 usage:
-        fprintf(stderr, "whereis [ -sbmu ] [ -SBM dir ... -f ] name...\n");
+        fprintf(stderr, "whereis [ -bms ] [ -u ] [ -BMS dir ... -f ] name ...\n");
         exit(1);
     }
     do

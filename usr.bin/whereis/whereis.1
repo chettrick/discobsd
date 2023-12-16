@@ -4,50 +4,52 @@
 .\"
 .\"	@(#)whereis.1	5.1 (Berkeley) 4/29/85
 .\"
-.TH WHEREIS 1 "24 February 1979"
+.TH WHEREIS 1 "December 15, 2023"
 .UC
 .SH NAME
 whereis \- locate source, binary, and or manual for program
 .SH SYNOPSIS
 .B whereis
 [
-.B \-sbm
+.B \-bms
 ] [
 .B \-u
 ] [
-.B \-SBM
+.B \-BMS
 dir ...
 .B \-f
 ] name ...
 .SH DESCRIPTION
-.I Whereis
+.I whereis
 locates source/binary and manuals sections for specified files.
 The supplied names are first stripped of leading pathname components
 and any (single) trailing extension of the form ``.ext'', e.g. ``.c''.
 Prefixes of ``s.'' resulting from use of source code control are also
 dealt with.
-.I Whereis
+.I whereis
 then attempts to locate the desired program in a list of standard places.
+.PP
 If any of the
-.B \-b,
-.B \-s
+.BR \-b ,
+.BR \-m ,
 or
-.B \-m
+.B \-s
 flags are given then
 .I whereis
-searches only for binaries, sources or manual sections respectively
+searches only for binaries, manual sections, or sources, respectively
 (or any two thereof).
+.PP
 The
 .B \-u
 flag may be used to search for unusual entries.
 A file is said to be unusual if it does not have one entry of
 each requested type.
-Thus ``whereis -m -u *'' asks for those files in the current
+Thus ``whereis \-m \-u *'' asks for those files in the current
 directory which have no documentation.
-.sp
+.PP
 Finally, the
-.B \-B
-.B \-M
+.BR \-B ,
+.BR \-M ,
 and
 .B \-S
 flags may be used to change or otherwise limit the places where
@@ -55,29 +57,33 @@ flags may be used to change or otherwise limit the places where
 searches.
 The
 .B \-f
-file flags is used to terminate the last such directory list
+file flag is used to terminate the last such directory list
 and signal the start of file names.
-.SH EXAMPLE
-The following finds all the files in /usr/bin which are not documented
-in /usr/man/man1 with source in /usr/src/cmd:
+.SH EXAMPLES
+The following finds all the files in
+.I /usr/sbin
+which are not documented in
+.I /usr/share/man/cat8
+with source in
+.IR /usr/src/usr.sbin :
 .IP
-cd /usr/ucb
+cd /usr/sbin
 .br
-whereis \-u \-M /usr/man/man1 \-S /usr/src/cmd \-f *
+whereis \-u \-M /usr/share/man/cat8 \-S /usr/src/usr.sbin \-f *
 .SH FILES
 /usr/src/*
 .br
-/usr/{doc,man}/*
+/usr/share/man/*
 .br
-/lib, /etc, /usr/{lib,bin,ucb,old,new,local}
+/etc, /bin. /sbin, /usr/{bin,sbin,games,libexec,local}
 .SH AUTHOR
 William Joy
 .SH BUGS
 Since the program uses
 .IR chdir (2)
-to run faster, pathnames given with the
-.B \-M
-.B \-S
+to run faster, pathnames given with
+.BR \-B ,
+.BR \-M ,
 and
-.B \-B
-must be full; i.e. they must begin with a ``/''.
+.B \-S
+must be full pathnames; i.e., they must begin with a ``/''.

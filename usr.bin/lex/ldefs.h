@@ -189,6 +189,7 @@ extern int	usescape(int);
 extern void	warning(char *, ...);
 extern int	yyparse(void);
 extern void	yyerror(char *);
+extern int	yylex(void);
 
 #ifdef DEBUG
 extern void	pccl(void);

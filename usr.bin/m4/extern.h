@@ -61,8 +61,8 @@ int	hash __P((char *));
 int	indx __P((char *, char *));
 ndptr	lookup __P((char *));
 void	map __P((char *, char *, char *, char *));
-int	onintr __P((int));
-void	oops __P((const char *, ...));
+void	onintr(int);
+void	oops(const char *, ...);
 void	pbnum __P((int));
 void	pbstr __P((char *));
 void	putback __P((int));
@@ -93,6 +93,3 @@ extern char *null;		/* as it says.. just a null. */
 extern char *progname;		/* program name */
 extern char rquote;		/* right quote character (') */
 extern char scommt;		/* start character for comment */
-
-extern	char	*mktemp();
-extern	char	*malloc();

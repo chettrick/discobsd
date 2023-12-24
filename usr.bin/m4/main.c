@@ -51,9 +51,11 @@ static char sccsid[] = "@(#)main.c	8.1 (Berkeley) 6/6/93";
 #include <sys/types.h>
 #include <signal.h>
 #include <errno.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 #include "mdef.h"
 #include "stdd.h"
 #include "extern.h"
@@ -86,47 +88,47 @@ char scommt = SCOMMT;		/* start character for comment */
 char ecommt = ECOMMT;		/* end character for comment   */
 
 struct keyblk keywrds[] = {	/* m4 keywords to be installed */
-	"include",      INCLTYPE,
-	"sinclude",     SINCTYPE,
-	"define",       DEFITYPE,
-	"defn",         DEFNTYPE,
-	"divert",       DIVRTYPE,
-	"expr",         EXPRTYPE,
-	"eval",         EXPRTYPE,
-	"substr",       SUBSTYPE,
-	"ifelse",       IFELTYPE,
-	"ifdef",        IFDFTYPE,
-	"len",          LENGTYPE,
-	"incr",         INCRTYPE,
-	"decr",         DECRTYPE,
-	"dnl",          DNLNTYPE,
-	"changequote",  CHNQTYPE,
-	"changecom",    CHNCTYPE,
-	"index",        INDXTYPE,
+	{ "include",      INCLTYPE },
+	{ "sinclude",     SINCTYPE },
+	{ "define",       DEFITYPE },
+	{ "defn",         DEFNTYPE },
+	{ "divert",       DIVRTYPE },
+	{ "expr",         EXPRTYPE },
+	{ "eval",         EXPRTYPE },
+	{ "substr",       SUBSTYPE },
+	{ "ifelse",       IFELTYPE },
+	{ "ifdef",        IFDFTYPE },
+	{ "len",          LENGTYPE },
+	{ "incr",         INCRTYPE },
+	{ "decr",         DECRTYPE },
+	{ "dnl",          DNLNTYPE },
+	{ "changequote",  CHNQTYPE },
+	{ "changecom",    CHNCTYPE },
+	{ "index",        INDXTYPE },
 #ifdef EXTENDED
-	"paste",        PASTTYPE,
-	"spaste",       SPASTYPE,
+	{ "paste",        PASTTYPE },
+	{ "spaste",       SPASTYPE },
 #endif
-	"popdef",       POPDTYPE,
-	"pushdef",      PUSDTYPE,
-	"dumpdef",      DUMPTYPE,
-	"shift",        SHIFTYPE,
-	"translit",     TRNLTYPE,
-	"undefine",     UNDFTYPE,
-	"undivert",     UNDVTYPE,
-	"divnum",       DIVNTYPE,
-	"maketemp",     MKTMTYPE,
-	"errprint",     ERRPTYPE,
-	"m4wrap",       M4WRTYPE,
-	"m4exit",       EXITTYPE,
-	"syscmd",       SYSCTYPE,
-	"sysval",       SYSVTYPE,
+	{ "popdef",       POPDTYPE },
+	{ "pushdef",      PUSDTYPE },
+	{ "dumpdef",      DUMPTYPE },
+	{ "shift",        SHIFTYPE },
+	{ "translit",     TRNLTYPE },
+	{ "undefine",     UNDFTYPE },
+	{ "undivert",     UNDVTYPE },
+	{ "divnum",       DIVNTYPE },
+	{ "maketemp",     MKTMTYPE },
+	{ "errprint",     ERRPTYPE },
+	{ "m4wrap",       M4WRTYPE },
+	{ "m4exit",       EXITTYPE },
+	{ "syscmd",       SYSCTYPE },
+	{ "sysval",       SYSVTYPE },
 
 #ifdef unix
-	"unix",         MACRTYPE,
+	{ "unix",         MACRTYPE },
 #else
 #ifdef vms
-	"vms",          MACRTYPE,
+	{ "vms",          MACRTYPE },
 #endif
 #endif
 };

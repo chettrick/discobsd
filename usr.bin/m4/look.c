@@ -46,6 +46,7 @@ static char sccsid[] = "@(#)look.c	8.1 (Berkeley) 6/6/93";
 
 #include <sys/types.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "mdef.h"
 #include "stdd.h"

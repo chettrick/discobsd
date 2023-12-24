@@ -40,7 +40,9 @@ static char sccsid[] = "@(#)misc.c	8.1 (Berkeley) 6/6/93";
 
 #include <sys/types.h>
 #include <errno.h>
+#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "mdef.h"
 #include "stdd.h"
@@ -166,8 +168,8 @@ int n;
 		oops("%s: cannot unlink.", m4temp);
 }
 
-int
-onintr()
+void
+onintr(int signo)
 {
 	oops("interrupted.");
 }

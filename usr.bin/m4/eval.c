@@ -47,6 +47,7 @@ static char sccsid[] = "@(#)eval.c	8.1 (Berkeley) 6/6/93";
 #include <sys/types.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "mdef.h"
 #include "stdd.h"
@@ -772,7 +773,7 @@ register char *to;
 				sch = dch;
 				dch = mapvec[sch];
 			}
-			if (*dest = dch)
+			if ((*dest = dch))
 				dest++;
 		}
 	/*

@@ -1,28 +1,27 @@
 #	@(#)Makefile	1.0 (2.11BSD GTE) 4/5/94
+TOPSRC!=cd ../..; pwd
+include ${TOPSRC}/target.mk
 
-DEFS= 	-DEXTENDED -I.
-CFLAGS+=-O ${DEFS}
-DESTDIR=
-SEPFLAG= -i
-SRCS=	eval.c expr.c look.c main.c misc.c
-OBJS=	eval.o expr.o look.o main.o misc.o
+BINDIR=		/usr/bin
 
-all:	m4 tags
+PROG=		m4
 
-m4:	${OBJS}
-	cc ${SEPFLAG} -o m4 ${OBJS}
+SRCS=		eval.c expr.c look.c main.c misc.c
+OBJS=		eval.o expr.o look.o main.o misc.o
 
-install: all
-	install -s -m 755 m4 ${DESTDIR}/usr/bin/m4
+DEFS= 		-DEXTENDED -Dunix -I.
+CFLAGS+=	-O ${DEFS}
 
-lint:
-	lint -hax ${DEFS} ${SRCS}
+all:		${PROG}
 
-tags:
-	ctags -t *.h ${SRCS}
+${PROG}:	${OBJS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
+		${OBJDUMP} -S $@.elf > $@.dis
+		${SIZE} $@.elf
+		${ELF2AOUT} $@.elf $@ && rm $@.elf
+
+install:	all
+		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 
 clean:
-	-rm -f *.o m4 core
-
-depend: ${SRCS}
-	mkdep -p ${CFLAGS} ${SRCS}
+		rm -f *.o *.elf ${PROG} *.dis tags *~

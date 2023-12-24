@@ -505,6 +505,7 @@ file /usr/bin/login
 mode 04755
 file /usr/bin/lol
 file /bin/ls
+file /usr/bin/m4
 file /usr/bin/mail
 mode 04755
 file /usr/bin/make

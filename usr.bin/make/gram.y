@@ -1,22 +1,6 @@
 %{
 #include "defs.h"
-%}
 
-%term NAME SHELLINE START MACRODEF COLON DOUBLECOLON GREATER
-%union
-    {
-    struct shblock *yshblock;
-    struct depblock *ydepblock;
-    struct nameblock *ynameblock;
-    }
-
-%type <yshblock> SHELLINE, shlist, shellist
-%type <ynameblock> NAME, namelist
-%type <ydepblock> deplist, dlist
-
-%%
-
-%{
 struct depblock *pp;
 FSTATIC struct shblock *prevshp;
 
@@ -27,15 +11,29 @@ FSTATIC int nlefts;
 struct lineblock *lp, *lpp;
 FSTATIC struct depblock *prevdep;
 FSTATIC int sepc;
+
 %}
+
+%term NAME SHELLINE START MACRODEF COLON DOUBLECOLON GREATER
+%union {
+    struct shblock *yshblock;
+    struct depblock *ydepblock;
+    struct nameblock *ynameblock;
+}
+
+%type <yshblock> SHELLINE shlist shellist
+%type <ynameblock> NAME namelist
+%type <ydepblock> deplist dlist
+
+%%
 
 file:
     | file comline
     ;
 
-comline:  START
+comline: START
     | MACRODEF
-    | START namelist deplist shellist = {
+    | START namelist deplist shellist {
         while ( --nlefts >= 0)
         {
         leftp = lefts[nlefts];
@@ -73,8 +71,8 @@ comline:  START
     | error
     ;
 
-namelist: NAME      = { lefts[0] = $1; nlefts = 1; }
-    | namelist NAME = { lefts[nlefts++] = $2;
+namelist: NAME      { lefts[0] = $1; nlefts = 1; }
+    | namelist NAME { lefts[nlefts++] = $2;
             if (nlefts>=NLEFTS) fatal("Too many lefts"); }
     ;
 
@@ -87,8 +85,8 @@ deplist:
     | dlist
     ;
 
-dlist:  sepchar  = { prevdep = 0;  $$ = 0; }
-    | dlist NAME = {
+dlist: sepchar   { prevdep = 0; $$ = 0; }
+    | dlist NAME {
               pp = ALLOC(depblock);
               pp->nxtdepblock = NULL;
               pp->depname = $2;
@@ -98,16 +96,16 @@ dlist:  sepchar  = { prevdep = 0;  $$ = 0; }
               }
     ;
 
-sepchar:  COLON     = { sepc = ALLDEPS; }
-    | DOUBLECOLON   = { sepc = SOMEDEPS; }
+sepchar: COLON      { sepc = ALLDEPS; }
+    | DOUBLECOLON   { sepc = SOMEDEPS; }
     ;
 
-shellist:    = {$$ = 0; }
-    | shlist = { $$ = $1; }
+shellist:    { $$ = 0; }
+    | shlist { $$ = $1; }
     ;
 
-shlist: SHELLINE      = { $$ = $1;  prevshp = $1; }
-    | shlist SHELLINE = { $$ = $1;
+shlist: SHELLINE      { $$ = $1; prevshp = $1; }
+    | shlist SHELLINE { $$ = $1;
             prevshp->nxtshblock = $2;
             prevshp = $2;
             }

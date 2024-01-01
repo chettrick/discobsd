@@ -9,8 +9,6 @@
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
-#CFLAGS  	= -O -DCROSS
 
 CFLAGS          += -Wall
 OBJS            = extern.o crib.o support.o cards.o score.o io.o

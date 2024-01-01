@@ -5,7 +5,6 @@
 #
 TOPSRC!=cd ..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 SUBDIR          = adventure atc backgammon battlestar boggle btlgammon \
                   caesar cribbage fortune hangman mille monop pom pig quiz \

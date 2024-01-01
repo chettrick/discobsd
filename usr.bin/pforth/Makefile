@@ -14,7 +14,6 @@
 
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 # Options include: PF_SUPPORT_FP PF_NO_MALLOC PF_NO_INIT PF_DEBUG
 # See "docs/pf_ref.htm" file for more info.

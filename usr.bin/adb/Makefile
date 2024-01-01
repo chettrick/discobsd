@@ -1,7 +1,5 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
-#CFLAGS		= -DCROSS -I$(TOPSRC)/include -I/usr/include -D__mips__ -ggdb3
 
 OBJS            = message.o access.o command.o expr.o findfn.o format.o input.o \
                   main.o opset.o output.o pcs.o print.o \

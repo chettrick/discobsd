@@ -1,15 +1,13 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
-#CFLAGS          = -DCROSS
 
 OBJS            = cpp.o cpy.o token.o compat.o doprnt.o
 MAN             = cpp.0
 MANSRC          = cpp.1
 
 CFLAGS		+= -Wall -Os
-#CFLAGS          += -DCPP_DEBUG -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC
 CFLAGS          += -DGCC_COMPAT -DHAVE_CPP_VARARG_MACRO_GCC
+#CFLAGS          += -DCPP_DEBUG
 
 all:            cpp $(MAN)
 

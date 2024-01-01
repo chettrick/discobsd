@@ -2,7 +2,6 @@
 # Makefile 4.5 94/1/3
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 CFLAGS		+= -Wall -I../ar
 YFLAGS		=

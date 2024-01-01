@@ -5,7 +5,6 @@
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 CFLAGS          += -DPATH=\"${DEST}\" -DWIZARD=\"daemon\" -DUID=1 \
                    -DRAND=32768.0 -DACCESS=\"r+\" -DENEMY -DBSD42 -O

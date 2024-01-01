@@ -6,11 +6,6 @@ CFLAGS          = -Os -Wall -DMIPS -DNO_ANNOTATIONS -DNO_PREPROCESSOR \
                   -D__SMALLER_C__ -D__SMALLER_C_32__ -DSTATIC \
                   -DNO_EXTRA_WARNS -DSYNTAX_STACK_MAX=3200
 
-# For cross compile
-#include $(TOPSRC)/cross.mk
-#CFLAGS          = -Os -Wall -DMIPS -m32
-#LDFLAGS         = -m32
-
 LIBS		= -lc
 
 ARCH            = mips

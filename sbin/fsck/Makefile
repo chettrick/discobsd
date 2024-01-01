@@ -4,14 +4,12 @@
 # specifies the terms and conditions for redistribution.
 #
 TOPSRC!=cd ../..; pwd
-
 include $(TOPSRC)/target.mk
-OBJS		= main.o
-CFLAGS		+= -Wall -Os
 
-#include $(TOPSRC)/cross.mk
+OBJS		= main.o
 #OBJS		= cross.o
-#CFLAGS		+= -g -Wall
+
+CFLAGS		+= -Wall -Os
 
 # The program itself
 #

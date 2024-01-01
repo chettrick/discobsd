@@ -5,7 +5,6 @@
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 CFLAGS		+= -Os -Wall
 

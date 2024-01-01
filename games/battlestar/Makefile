@@ -5,7 +5,6 @@
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 CFLAGS		+= -Os -DUNIX_BSD4_2 -DANSI -DEXT_MESSAGE_FILE -Wall
 

@@ -7,7 +7,6 @@
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 CFLAGS  	+= -O -Wall
 OBJS    	= boggle.o

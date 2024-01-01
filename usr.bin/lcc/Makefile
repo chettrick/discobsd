@@ -1,6 +1,5 @@
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
 
 OBJS            = lcc.o retrobsd.o
 MAN             = lcc.0

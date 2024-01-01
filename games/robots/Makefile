@@ -7,10 +7,9 @@
 #
 TOPSRC!=cd ../..; pwd
 include $(TOPSRC)/target.mk
-#include $(TOPSRC)/cross.mk
-#CFLAGS  	= -O -DCROSS -g -DFANCY
 
 CFLAGS  	+= -DMAX_PER_UID=5 -Wall
+#CFLAGS  	+= -DFANCY
 
 OBJS            = extern.o init_field.o main.o make_level.o move.o \
 		  move_robs.o play_level.o query.o rnd_pos.o score.o \

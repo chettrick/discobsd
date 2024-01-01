@@ -9,7 +9,7 @@
 # and a root filesystem image.
 
 # Override the default port with:
-# $ gmake MACHINE=pic32 MACHINE_ARCH=mips
+# $ make MACHINE=pic32 MACHINE_ARCH=mips
 #
 MACHINE=	stm32
 MACHINE_ARCH=	arm
@@ -100,13 +100,5 @@ installfs:
 		@[ -f $(FSIMG) ] || $(MAKE) $(FSIMG)
 		sudo dd bs=32k if=$(FSIMG) of=$(SDCARD)
 
-# TODO: make it relative to Target
-installflash:
-		sudo pic32prog sys/pic32/fubarino/unix.hex
-
-# TODO: make it relative to Target
-installboot:
-		sudo pic32prog sys/pic32/fubarino/bootloader.hex
-
-# STM32-specific debugger.
--include Makefile.inc
+# Architecture-specific debugging and loading.
+-include sys/${MACHINE}/Makefile.inc

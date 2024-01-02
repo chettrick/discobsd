@@ -2,7 +2,7 @@
 # Public Domain.  1/15/1995 - Steven Schultz
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS		= sysctl.c
 OBJS		= sysctl.o

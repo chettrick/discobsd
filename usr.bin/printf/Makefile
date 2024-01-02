@@ -2,7 +2,7 @@
 # Public Domain.  1995/05/02 - Steven Schultz
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -DNOFPU
 

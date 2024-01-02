@@ -6,7 +6,7 @@
 #	@(#)Makefile	5.1.1 (2.11BSD GTE) 1/16/95
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS  	+= -Wall
 

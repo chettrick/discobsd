@@ -4,7 +4,7 @@
 #	@(#)Makefile	1.3 (2.11BSD) 1999/7/21
 #
 TOPSRC!=cd ..; pwd
-include	${TOPSRC}/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SUBDIR=	chown fdisk fsck init mkfs mknod mount \
 	reboot shutdown sysctl umount

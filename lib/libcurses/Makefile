@@ -5,7 +5,7 @@
 # curses package
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFILES=	addch.c addstr.c box.c clear.c clrtobot.c clrtoeol.c cr_put.c \
 	cr_tty.c curses.c delch.c deleteln.c delwin.c endwin.c erase.c \

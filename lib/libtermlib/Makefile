@@ -4,7 +4,7 @@
 # specifies the terms and conditions for redistribution.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 DEFS    = -DNOSCCS
 CFLAGS += -O -DCM_N -DCM_GT -DCM_B -DCM_D ${DEFS} -Wall

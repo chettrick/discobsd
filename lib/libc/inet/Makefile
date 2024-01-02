@@ -4,7 +4,7 @@
 # specifies the terms and conditions for redistribution.
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS		= inet_addr.c inet_network.c inet_netof.c \
 		  inet_ntoa.c inet_lnaof.c inet_maddr.c

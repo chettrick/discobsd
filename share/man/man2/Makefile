@@ -17,7 +17,7 @@
 #	@(#)Makefile	2.11 (2.11BSD) 2000/3/4
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	/usr/share/man/cat2
 SRCS=	accept.2 access.2 acct.2 adjtime.2 bind.2 brk.2 chdir.2 chmod.2 \

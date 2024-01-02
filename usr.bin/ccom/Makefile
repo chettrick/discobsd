@@ -2,7 +2,7 @@
 # Makefile for ccom
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 ARCHDIR         = arch-mips
 MIPDIR          = mip

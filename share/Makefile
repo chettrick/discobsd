@@ -4,7 +4,7 @@
 #	@(#)Makefile	1.1 (2.11BSD) 1996/11/29
 #
 TOPSRC!=cd ..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SUBDIR		= dict examples man misc zoneinfo
 

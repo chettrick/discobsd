@@ -6,7 +6,7 @@
 #	crt0	Normal C run time startoff
 #
 TOPSRC!=cd ../../..; pwd
-include ${TOPSRC}/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 COPTS!=if [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
 		echo "-Wa,-x -B${TOOLBINDIR}/" ; \

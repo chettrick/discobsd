@@ -2,7 +2,7 @@
 # Public Domain.  1995/03/13 - Steven Schultz
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -Wall -I${TOPSRC}/sys/include
 

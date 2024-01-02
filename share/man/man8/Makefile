@@ -17,7 +17,7 @@
 #	@(#)Makefile	5.4.7 (2.11BSD) 1997/1/10
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	/usr/share/man/cat8
 SRCS=	XNSrouted.8 adduser.8 autoconfig.8 \

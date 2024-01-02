@@ -1,5 +1,5 @@
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 # Favor assembler source files over their C source equivalent.
 .SUFFIXES:

@@ -8,7 +8,7 @@
 # make file for cribbage
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS          += -Wall
 OBJS            = extern.o crib.o support.o cards.o score.o io.o

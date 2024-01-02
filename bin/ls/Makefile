@@ -2,7 +2,7 @@
 # Public Domain.  12/3/1994 - Steven Schultz
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -O
 SRCS		= ls.c stat_flags.c

@@ -6,7 +6,7 @@
 # Common object files are assembled into a library {uulib.a}
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 ALL=	uucico uucp uux uuxqt uulog uuclean uuname uupoll uusnap \
 	uuencode uudecode uusend uuq

@@ -1,6 +1,6 @@
 # @(#)Makefile	1.6 Makefile 1997/12/28
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 # If you want something other than Western United States time used on your
 # system, change the line below (after finding the zone you want in the

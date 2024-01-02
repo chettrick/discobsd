@@ -17,7 +17,7 @@
 #	@(#)Makefile	5.3 (Berkeley) 7/9/88
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 DIRS=	man1 man2 man3 man4 man5 man6 man7 man8
 CDIRS=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8

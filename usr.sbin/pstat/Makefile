@@ -2,7 +2,7 @@
 # Should be installed with kmem group.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS            = pstat.c
 OBJS            = pstat.o

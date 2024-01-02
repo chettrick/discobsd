@@ -6,7 +6,7 @@
 #	crt0	Normal C run time startoff
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -O ${DEFS}
 

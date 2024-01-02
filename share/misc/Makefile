@@ -4,7 +4,7 @@
 #  Makefile for misc data files
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS		=
 # eign Mail.help Mail.tildehelp units gprof.callg gprof.flat \

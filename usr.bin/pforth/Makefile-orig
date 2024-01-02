@@ -11,7 +11,7 @@
 # See "docs/pf_ref.htm" file for more info.
 
 TOPSRC!=cd ../..; pwd
-include      $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 FULL_WARNINGS =  \
 #        -c89 \

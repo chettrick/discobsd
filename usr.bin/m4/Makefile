@@ -1,6 +1,6 @@
 #	@(#)Makefile	1.0 (2.11BSD GTE) 4/5/94
 TOPSRC!=cd ../..; pwd
-include ${TOPSRC}/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 BINDIR=		/usr/bin
 

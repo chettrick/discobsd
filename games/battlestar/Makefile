@@ -4,7 +4,7 @@
 # the terms of the Berkeley Software License Agreement.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -Os -DUNIX_BSD4_2 -DANSI -DEXT_MESSAGE_FILE -Wall
 

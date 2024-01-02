@@ -17,7 +17,7 @@
 # follow symbolic links.
 #
 TOPSRC!=cd ..; pwd
-include	${TOPSRC}/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 STD=	a.out.h alloca.h ar.h assert.h \
 	ctype.h curses.h \

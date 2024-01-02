@@ -2,7 +2,7 @@
 # la Makefile.  Revised 1996/1/28
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -Wall
 

@@ -3,7 +3,7 @@
 # Should be installed with group operator.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS		= shutdown.c
 OBJS		= shutdown.o

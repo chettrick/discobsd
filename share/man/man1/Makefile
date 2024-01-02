@@ -17,7 +17,7 @@
 #	@(#)Makefile	1.9 (2.11BSD) 1998/1/24
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	/usr/share/man/cat1
 SRCS=	adb.1 addbib.1 apply.1 apropos.1 as.1 at.1 atq.1 atrm.1 \

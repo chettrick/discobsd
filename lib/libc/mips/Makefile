@@ -6,7 +6,7 @@
 # Machine dependent routines for the MIPS are located here
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 ALL		= gen string sys
 

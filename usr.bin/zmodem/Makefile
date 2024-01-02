@@ -2,7 +2,7 @@
 # Driver makefile for zmodem.  Calls makefile.generic.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -ansi -DV7 -DMD=2 -DTXBSIZE=4096  -DNFGVMIN -DSEGMENTS=2
 #CFLAGS		+= -ansi -DV7 -DMD=2 -DTXBSIZE=1024  -DNFGVMIN -DSEGMENTS=8

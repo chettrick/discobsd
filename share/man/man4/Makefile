@@ -17,7 +17,7 @@
 #	@(#)Makefile	5.4.3 (2.11BSD) 1997/5/31
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	${DESTDIR}/usr/share/man/cat4
 SRCS=	acc.4 arp.4 bk.4 br.4 cons.4 css.4 de.4 dh.4 dhu.4 dhv.4 \

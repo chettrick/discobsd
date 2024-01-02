@@ -9,7 +9,7 @@
 # To profile, put -DPROF in DEFS and -pg in CFLAGS, and recompile.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS          += -DTELL -DVFORK -DFILEC -DNOLIMITS -Os
 

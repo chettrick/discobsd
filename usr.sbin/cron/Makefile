@@ -46,7 +46,7 @@
 #	there's more configuration info in config.h; edit that first!
 
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS          += -I.
 

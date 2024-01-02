@@ -4,7 +4,7 @@
 # specifies the terms and conditions for redistribution.
 #
 TOPSRC!=cd ..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 MDSUBDIR!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "lex" ; \

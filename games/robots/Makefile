@@ -6,7 +6,7 @@
 #	@(#)Makefile	5.2 (Berkeley) 5/15/86
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS  	+= -DMAX_PER_UID=5 -Wall
 #CFLAGS  	+= -DFANCY

@@ -2,7 +2,7 @@
 # Version 2.2 January 24, 1998
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -Wall -Os
 LDFLAGS		+=

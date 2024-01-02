@@ -10,7 +10,7 @@
 # is provided ``as is'' without express or implied warranty.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -Os -DUNIX -DUNIX_BSD4_2 -DCURSES -DANSI -Wall -Wno-format-truncation
 

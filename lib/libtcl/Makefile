@@ -1,5 +1,5 @@
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= ${DEFS} -Os -Wall -Wno-pointer-sign
 CFLAGS		+= -DTCL_FILE_CMDS -DTCL_ENV_CMDS

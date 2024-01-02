@@ -2,7 +2,7 @@
 # for RetroBSD
 
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 # Some basic CFLAGS.
 CFLAGS +=	-Os -Wall

@@ -4,7 +4,7 @@
 # specifies the terms and conditions for redistribution.
 #
 TOPSRC!=cd ..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SUBDIR          = adventure atc backgammon battlestar boggle btlgammon \
                   caesar cribbage fortune hangman mille monop pom pig quiz \

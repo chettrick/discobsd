@@ -1,5 +1,5 @@
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS		= diff.c diffdir.c diffreg.c
 OBJS		= diff.o diffdir.o diffreg.o

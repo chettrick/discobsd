@@ -1,5 +1,5 @@
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 #
 # Copyright (c) 1987 Regents of the University of California.

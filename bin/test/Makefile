@@ -6,7 +6,7 @@
 #	Version 1.2
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS            = test.c operators.c
 OBJS            = test.o operators.o

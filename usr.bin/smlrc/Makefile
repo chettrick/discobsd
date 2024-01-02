@@ -1,5 +1,5 @@
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS          = -Os -Wall -DMIPS -DNO_ANNOTATIONS -DNO_PREPROCESSOR \
                   -DNO_PPACK -D_RETROBSD -D__SMALLER_C_SCHAR__ \

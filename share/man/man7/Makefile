@@ -17,7 +17,7 @@
 #	@(#)Makefile	5.4.1 (2.11BSD) 1996/01/26
 #
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	/usr/share/man/cat7
 SRCS=	ascii.7 environ.7 eqnchar.7 hier.7 hostname.7  intro.7 mailaddr.7 \

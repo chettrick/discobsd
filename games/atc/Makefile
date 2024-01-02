@@ -6,7 +6,7 @@
 #	@(#)Makefile	5.1.2	(2.11BSD)	1999/10/25
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS          += -Os -Wall -ansi
 CFLAGS          += -DBSD -DDEST=\"/usr/games/lib/atc/\"

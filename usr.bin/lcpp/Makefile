@@ -1,5 +1,5 @@
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 OBJS            = cpp.o lex.o nlist.o tokens.o macro.o eval.o \
                   include.o hideset.o unix.o

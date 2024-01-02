@@ -6,7 +6,7 @@
 #==========================================
 
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 OBJS            = md5.o md5c.o
 SRCS            = md5.c md5c.c

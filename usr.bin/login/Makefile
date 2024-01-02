@@ -15,7 +15,7 @@
 # FITNESS FOR A PARTICULAR PURPOSE.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 LIBS            := -lutil $(LIBS)
 

@@ -1,7 +1,7 @@
 #	Makefile	4.4	86/02/12
 
 TOPSRC!=cd ../../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 DEBUG           =
 CFLAGS         += -Os -ansi ${DEBUG}

@@ -4,7 +4,7 @@
 #	@(#)Makefile	1.2 (2.11BSD) 1997/6/27
 #
 TOPSRC!=cd ..; pwd
-include	${TOPSRC}/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SUBDIR=	chroot cron disktool iostat mkpasswd pstat talloc \
 	update vipw

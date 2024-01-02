@@ -4,7 +4,7 @@
 # specifies the terms and conditions for redistribution.
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 OBJS		= main.o init.o subr.o gettytab.o get_date.o
 

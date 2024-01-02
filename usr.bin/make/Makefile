@@ -1,7 +1,7 @@
 # Description file for the Make command
 # Makefile 4.5 94/1/3
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 CFLAGS		+= -Wall -I../ar
 YFLAGS		=

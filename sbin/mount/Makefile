@@ -2,7 +2,7 @@
 # Public Domain.  1996/1/15 - Steven Schultz
 #
 TOPSRC!=cd ../..; pwd
-include $(TOPSRC)/target.mk
+include ${TOPSRC}/share/mk/sys.mk
 
 SRCS            = mount.c getmntopts.c mount_ufs.c
 OBJS            = mount.o getmntopts.o mount_ufs.o

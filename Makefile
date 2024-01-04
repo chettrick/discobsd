@@ -69,7 +69,7 @@ $(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
 		sudo $(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ ${DESTDIR}
 # In case you need a separate /home partition,
 # uncomment the following line.
-		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ home
+		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ distrib/home
 
 $(FSUTIL):
 		cd tools/fsutil; $(MAKE)

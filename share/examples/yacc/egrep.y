@@ -87,45 +87,45 @@ char    *fname;
 
 %%
 s:  t
-        ={ unary(FINAL, $1);
+        { unary(FINAL, $1);
           line--;
         }
     ;
 t:  b r
-        ={ $$ = node(CAT, $1, $2); }
+        { $$ = node(CAT, $1, $2); }
     | OR b r OR
-        ={ $$ = node(CAT, $2, $3); }
+        { $$ = node(CAT, $2, $3); }
     | OR b r
-        ={ $$ = node(CAT, $2, $3); }
+        { $$ = node(CAT, $2, $3); }
     | b r OR
-        ={ $$ = node(CAT, $1, $2); }
+        { $$ = node(CAT, $1, $2); }
     ;
 b:
-        ={ $$ = enter(DOT);
+        { $$ = enter(DOT);
            $$ = unary(STAR, $$); }
     ;
 r:  CHAR
-        ={ $$ = enter($1); }
+        { $$ = enter($1); }
     | DOT
-        ={ $$ = enter(DOT); }
+        { $$ = enter(DOT); }
     | CCL
-        ={ $$ = cclenter(CCL); }
+        { $$ = cclenter(CCL); }
     | NCCL
-        ={ $$ = cclenter(NCCL); }
+        { $$ = cclenter(NCCL); }
     ;
 
 r:  r OR r
-        ={ $$ = node(OR, $1, $3); }
+        { $$ = node(OR, $1, $3); }
     | r r %prec CAT
-        ={ $$ = node(CAT, $1, $2); }
+        { $$ = node(CAT, $1, $2); }
     | r STAR
-        ={ $$ = unary(STAR, $1); }
+        { $$ = unary(STAR, $1); }
     | r PLUS
-        ={ $$ = unary(PLUS, $1); }
+        { $$ = unary(PLUS, $1); }
     | r QUEST
-        ={ $$ = unary(QUEST, $1); }
+        { $$ = unary(QUEST, $1); }
     | '(' r ')'
-        ={ $$ = $2; }
+        { $$ = $2; }
     | error
     ;
 

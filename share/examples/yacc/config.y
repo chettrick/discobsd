@@ -573,8 +573,8 @@ Pin_list:
     ;
 %%
 
-void yyerror(s)
-    char *s;
+void
+yyerror(char *s)
 {
     fprintf(stderr, "config: line %d: %s\n", yyline + 1, s);
 }
@@ -582,8 +582,8 @@ void yyerror(s)
 /*
  * add a device to the list of devices
  */
-void newdev(dp)
-    register struct device *dp;
+void
+newdev(struct device *dp)
 {
     register struct device *np;
 
@@ -600,8 +600,8 @@ void newdev(dp)
 /*
  * note that a configuration should be made
  */
-void mkconf(sysname)
-    char *sysname;
+void
+mkconf(char *sysname)
 {
     register struct file_list *fl, **flp;
 
@@ -619,8 +619,7 @@ void mkconf(sysname)
 }
 
 struct file_list *
-newflist(ftype)
-    u_char ftype;
+newflist(u_char ftype)
 {
     struct file_list *fl = (struct file_list *)malloc(sizeof (*fl));
 
@@ -636,9 +635,8 @@ newflist(ftype)
 /*
  * Add a swap device to the system's configuration
  */
-void mkswap(system, fl, size, flag)
-    struct file_list *system, *fl;
-    int size, flag;
+void
+mkswap(struct file_list *system, struct file_list *fl, int size, int flag)
 {
     register struct file_list **flp;
 
@@ -680,9 +678,7 @@ void mkswap(system, fl, size, flag)
  * returns 0 if no such device and prints an error message
  */
 struct device *
-connect(dev, num)
-    register char *dev;
-    register int num;
+connect(char *dev, int num)
 {
     register struct device *dp;
 
@@ -708,8 +704,7 @@ connect(dev, num)
  * connect to an unspecific thing
  */
 struct device *
-huhcon(dev)
-    register char *dev;
+huhcon(char *dev)
 {
     register struct device *dp, *dcp;
     struct device rdev;
@@ -766,8 +761,8 @@ huhcon(dev)
     return (dp);
 }
 
-void init_dev(dp)
-    register struct device *dp;
+void
+init_dev(struct device *dp)
 {
     dp->d_name = "OHNO!!!";
     dp->d_type = DEVICE;
@@ -789,9 +784,8 @@ void init_dev(dp)
 /*
  * make certain that this is a reasonable type of thing to connect to a nexus
  */
-void check_nexus(dev, num)
-    register struct device *dev;
-    int num;
+void
+check_nexus(struct device *dev, int num)
 {
     switch (arch) {
 
@@ -805,7 +799,8 @@ void check_nexus(dev, num)
 /*
  * Check the timezone to make certain it is sensible
  */
-void check_tz(void)
+void
+check_tz(void)
 {
     if (abs(zone) > 12 * 60)
         yyerror("timezone is unreasonable");
@@ -817,8 +812,8 @@ void check_tz(void)
  * Check system specification and apply defaulting
  * rules on root, argument, dump, and swap devices.
  */
-void checksystemspec(fl)
-    register struct file_list *fl;
+void
+checksystemspec(struct file_list *fl)
 {
     char buf[BUFSIZ];
     register struct file_list *swap;
@@ -891,7 +886,8 @@ void checksystemspec(fl)
  * Verify all devices specified in the system specification
  * are present in the device specifications.
  */
-void verifysystemspecs(void)
+void
+verifysystemspecs(void)
 {
     register struct file_list *fl;
     dev_t checked[50];
@@ -920,10 +916,7 @@ void verifysystemspecs(void)
  * Do as above, but for swap devices.
  */
 dev_t *
-verifyswap(fl, checked, pchecked)
-    register struct file_list *fl;
-    dev_t checked[];
-    register dev_t *pchecked;
+verifyswap(struct file_list *fl, dev_t checked[], dev_t *pchecked)
 {
     for (;fl && fl->f_type == SWAPSPEC; fl = fl->f_next) {
         if (eq(fl->f_fn, "generic"))
@@ -942,9 +935,8 @@ verifyswap(fl, checked, pchecked)
  * Has a device already been checked
  * for it's existence in the configuration?
  */
-int alreadychecked(dev, list, last)
-    dev_t dev, list[];
-    register dev_t *last;
+int
+alreadychecked(dev_t dev, dev_t *list, dev_t *last)
 {
     register dev_t *p;
 
@@ -954,8 +946,8 @@ int alreadychecked(dev, list, last)
     return (0);
 }
 
-void deverror(systemname, devtype)
-    char *systemname, *devtype;
+void
+deverror(char *systemname, char *devtype)
 {
 
     fprintf(stderr, "config: %s: %s device not configured\n",
@@ -968,8 +960,8 @@ void deverror(systemname, devtype)
  * take into account stuff wildcarded.
  */
 /*ARGSUSED*/
-int finddev(dev)
-    dev_t dev;
+int
+finddev(dev_t dev)
 {
     /* punt on this right now */
     return (1);

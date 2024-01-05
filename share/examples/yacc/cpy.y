@@ -81,13 +81,13 @@ int setd(int l, int r);
 	if (r.nd_val) { EVALUBIN(tok, d, l, r, 0); } else d.op = 0
 %}
 
-%term stop
-%term EQ NE LE GE LS RS
-%term ANDAND OROR IDENT NUMBER UNUMBER DEFINED
+%token stop
+%token EQ NE LE GE LS RS
+%token ANDAND OROR IDENT NUMBER UNUMBER DEFINED
 /*
  * The following terminals are not used in the yacc code.
  */
-%term STRING WSPACE CMNT
+%token STRING WSPACE CMNT
 
 %left ','
 %right '?' ':'
@@ -95,8 +95,8 @@ int setd(int l, int r);
 %left ANDAND
 %left '|' '^'
 %left '&'
-%binary EQ NE
-%binary '<' '>' LE GE
+%nonassoc EQ NE
+%nonassoc '<' '>' LE GE
 %left LS RS
 %left '+' '-'
 %left '*' '/' '%'

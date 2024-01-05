@@ -17,7 +17,7 @@
 
 /* a single `expression' is evaluated and printed: */
 
-expression: expr NOARG = {
+expression: expr NOARG {
             printf("%s\n", $1);
             exit((! strcmp((char*) $1, "0") ||
                   ! strcmp((char*) $1, "\0")) ? 1 : 0);
@@ -25,25 +25,25 @@ expression: expr NOARG = {
     ;
 
 
-expr:   '(' expr ')'            = { $$ = (int) $2; }
-    | expr OR expr          = { $$ = (int) conju(OR, $1, $3); }
-    | expr AND expr         = { $$ = (int) conju(AND, $1, $3); }
-    | expr EQ expr          = { $$ = (int) rel(EQ, $1, $3); }
-    | expr GT expr          = { $$ = (int) rel(GT, $1, $3); }
-    | expr GEQ expr         = { $$ = (int) rel(GEQ, $1, $3); }
-    | expr LT expr          = { $$ = (int) rel(LT, $1, $3); }
-    | expr LEQ expr         = { $$ = (int) rel(LEQ, $1, $3); }
-    | expr NEQ expr         = { $$ = (int) rel(NEQ, $1, $3); }
-    | expr ADD expr         = { $$ = (int) arith(ADD, $1, $3); }
-    | expr SUBT expr        = { $$ = (int) arith(SUBT, $1, $3); }
-    | expr MULT expr        = { $$ = (int) arith(MULT, $1, $3); }
-    | expr DIV expr         = { $$ = (int) arith(DIV, $1, $3); }
-    | expr REM expr         = { $$ = (int) arith(REM, $1, $3); }
-    | expr MCH expr         = { $$ = (int) match($1, $3); }
-    | MATCH expr expr       = { $$ = (int) match($2, $3); }
-    | SUBSTR expr expr expr = { $$ = (int) substr($2, $3, $4); }
-    | LENGTH expr           = { $$ = (int) length($2); }
-    | INDEX expr expr       = { $$ = (int) cindex($2, $3); }
+expr: '(' expr ')'          { $$ = (int) $2; }
+    | expr OR expr          { $$ = (int) conju(OR, $1, $3); }
+    | expr AND expr         { $$ = (int) conju(AND, $1, $3); }
+    | expr EQ expr          { $$ = (int) rel(EQ, $1, $3); }
+    | expr GT expr          { $$ = (int) rel(GT, $1, $3); }
+    | expr GEQ expr         { $$ = (int) rel(GEQ, $1, $3); }
+    | expr LT expr          { $$ = (int) rel(LT, $1, $3); }
+    | expr LEQ expr         { $$ = (int) rel(LEQ, $1, $3); }
+    | expr NEQ expr         { $$ = (int) rel(NEQ, $1, $3); }
+    | expr ADD expr         { $$ = (int) arith(ADD, $1, $3); }
+    | expr SUBT expr        { $$ = (int) arith(SUBT, $1, $3); }
+    | expr MULT expr        { $$ = (int) arith(MULT, $1, $3); }
+    | expr DIV expr         { $$ = (int) arith(DIV, $1, $3); }
+    | expr REM expr         { $$ = (int) arith(REM, $1, $3); }
+    | expr MCH expr         { $$ = (int) match($1, $3); }
+    | MATCH expr expr       { $$ = (int) match($2, $3); }
+    | SUBSTR expr expr expr { $$ = (int) substr($2, $3, $4); }
+    | LENGTH expr           { $$ = (int) length($2); }
+    | INDEX expr expr       { $$ = (int) cindex($2, $3); }
     | A_STRING
     ;
 %%

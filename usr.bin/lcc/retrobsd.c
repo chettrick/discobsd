@@ -14,7 +14,7 @@ char *suffixes[] = { ".c", ".i", ".s", ".o", ".out", 0 };
 char inputs[256] = "";
 
 char *cpp[] = {
-        "/bin/lcpp",
+        "/usr/bin/lcpp",
         "-D__STDC__=1",
 	"-DLANGUAGE_C",
 	"-DMIPSEB",

@@ -14,7 +14,8 @@ FSTATIC int sepc;
 
 %}
 
-%term NAME SHELLINE START MACRODEF COLON DOUBLECOLON GREATER
+%token NAME SHELLINE START MACRODEF COLON DOUBLECOLON GREATER
+
 %union {
     struct shblock *yshblock;
     struct depblock *ydepblock;

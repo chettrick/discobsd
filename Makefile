@@ -34,18 +34,16 @@ FSIMG		= distrib/$(MACHINE)/sdcard.img
 #
 DEFS		=
 
-FSUTIL		= tools/fsutil/fsutil
+FSUTIL=		tools/bin/fsutil
 
 -include Makefile.user
 
 TOPSRC!=	pwd
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
-KCONFIG=	${TOPSRC}/tools/kconfig/kconfig
 
 SUBDIR=		share lib bin sbin libexec usr.bin usr.sbin games
 
-all:		symlinks
-		$(MAKE) -C tools MACHINE=${MACHINE} install
+all:		symlinks tools
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
@@ -56,13 +54,16 @@ all:		symlinks
 		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
 		$(MAKE) fs
 
-kernel:         $(KCONFIG)
+tools:
+		${MAKE} -C tools MACHINE=${MACHINE} install
+
+kernel:		tools
 		$(MAKE) -C sys/$(MACHINE) all
 
 fs:		$(FSIMG)
 
-.PHONY:		$(FSIMG)
-$(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
+.PHONY:		tools ${FSIMG}
+${FSIMG}:	distrib/${MACHINE}/md.${MACHINE} distrib/base/mi.home
 		rm -f $@ distrib/$(MACHINE)/_manifest
 		cat distrib/base/mi distrib/$(MACHINE)/md.$(MACHINE) > distrib/$(MACHINE)/_manifest
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
@@ -71,23 +72,20 @@ $(FSIMG):	$(FSUTIL) distrib/$(MACHINE)/md.$(MACHINE) distrib/base/mi.home
 # uncomment the following line.
 		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ distrib/home
 
-$(FSUTIL):
-		cd tools/fsutil; $(MAKE)
-
-$(KCONFIG):
-		$(MAKE) -C tools/kconfig
-
 clean:
 		rm -f *~
 		rm -f include/machine
-		for dir in tools ${SUBDIR} ; do \
+		for dir in ${SUBDIR} ; do \
 			$(MAKE) -C $$dir -k clean; done
+
+cleantools:
+		${MAKE} -C tools clean
 
 cleanfs:
 		rm -f distrib/$(MACHINE)/_manifest
 		rm -f $(FSIMG)
 
-cleanall:       clean
+cleanall:	cleantools clean
 		$(MAKE) -C sys/$(MACHINE) -k clean
 		rm -f sys/$(MACHINE)/*/unix.hex
 

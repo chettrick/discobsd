@@ -36,14 +36,16 @@
 #ifndef _SYS_UTSNAME_H
 #define _SYS_UTSNAME_H
 
+#define SYS_NMLN	256
+
 struct utsname {
-    char    sysname[128];   /* Name of this OS. */
-    char    nodename[128];  /* Name of this network node. */
-    char    release[128];   /* Release level. */
-    char    version[128];   /* Version level. */
-    char    machine[128];   /* Hardware type. */
+	char	sysname[SYS_NMLN];	/* Name of this OS. */
+	char	nodename[SYS_NMLN];	/* Name of this network node. */
+	char	release[SYS_NMLN];	/* Release level. */
+	char	version[SYS_NMLN];	/* Version level. */
+	char	machine[SYS_NMLN];	/* Hardware type. */
 };
 
-int uname (struct utsname *name);
+int	uname(struct utsname *name);
 
 #endif  /* !_SYS_UTSNAME_H */

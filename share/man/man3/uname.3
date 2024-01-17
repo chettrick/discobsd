@@ -41,8 +41,7 @@ uname \- get system identification
 #include <sys/utsname.h>
 
 int
-uname(name)
-struct utsname *name
+uname(struct utsname *name);
 .ft R
 .fi
 .SH DESCRIPTION
@@ -83,7 +82,7 @@ The
 .B uname
 function may fail and set
 .I errno
-for any of the errors specified for the library functions
+for any of the errors specified for the library function
 sysctl(3).
 .SH SEE ALSO
 uname(1), sysctl(3)

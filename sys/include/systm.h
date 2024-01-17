@@ -36,6 +36,9 @@
 extern int securelevel;         /* system security level */
 
 extern const char version[];    /* system version */
+extern const char ostype[];     /* operating system name */
+extern const char osversion[];  /* operating system version */
+extern const char osrelease[];  /* operating system release */
 
 /*
  * Nblkdev is the number of entries (rows) in the block switch.

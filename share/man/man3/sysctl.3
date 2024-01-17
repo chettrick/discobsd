@@ -47,7 +47,7 @@ sysctl(name, namelen, oldp, *oldlenp, *newp, newlen)
    void *oldp;
    size_t *oldlenp;
    void *newp;
-   size_t newlen
+   size_t newlen;
 .ft R
 .fi
 .SH DESCRIPTION
@@ -72,13 +72,13 @@ are serialized to avoid deadlock.
 .PP
 The state is described using a ``Management Information Base'' (MIB)
 style name, listed in
-\fIname\fP ,
+\fIname\fP,
 which is a
 \fInamelen\fP
 length array of integers.
 .PP
 The information is copied into the buffer specified by
-\fIoldp\fP .
+\fIoldp\fP.
 The size of the buffer is given by the location specified by
 \fIoldlenp\fP
 before the call,
@@ -285,6 +285,7 @@ information.
 	KERN\_OSRELEASE	string	no
 	KERN\_OSREV	integer	no
 	KERN\_OSTYPE	string	no
+	KERN\_OSVERSION	string	no
 .\"KERN\_PATH\_MAX	integer	no
 .\"KERN\_PIPE\_BUF	integer	no
 	KERN\_POSIX1	integer	no
@@ -403,13 +404,19 @@ The system release string.
 KERN_OSREV
 .br
 .in +.5i
-The system revision string.
+The system revision number.
 .sp
 .in -.5i
 KERN_OSTYPE
 .br
 .in +.5i
 The system type string.
+.sp
+.in -.5i
+KERN_OSVERSION
+.br
+.in +.5i
+The kernel build version.
 .sp
 .in -.5i
 .\"KERN_PATH_MAX
@@ -889,8 +896,8 @@ The following errors may be reported:
 EFAULT
 The buffer
 \fIname\fP,
-\fIoldp\fP ,
-\fInewp\fP ,
+\fIoldp\fP,
+\fInewp\fP,
 or length pointer
 \fIoldlenp\fP
 contains an invalid address.

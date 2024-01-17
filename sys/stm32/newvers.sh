@@ -46,7 +46,11 @@ fi
 echo $CV >.compileversion
 echo $GITREV >.oldversion
 
-echo $GITREV $CV ${USER-root} `hostname` ${PWD#$GITDIR}| \
+H=`hostname`
+D=${PWD#$GITDIR}
+ID=`basename "${D}"`
+
+echo $GITREV $CV ${USER-root} $H $D $OST $ID $OSR| \
 awk ' {
     version = $1;
     cv = $2;
@@ -54,6 +58,12 @@ awk ' {
     host = $4;
     dir = $5;
     date = strftime();
+    ost = $6;
+    id = $7;
+    osr = $8;
     printf "const char version[] = \"2.11 BSD UNIX for STM32, rev G%s #%d: %s\\n", version, cv, date;
     printf "     %s@%s:%s\\n\";\n", user, host, dir;
+    printf "const char ostype[] = \"%s\";\n", ost;
+    printf "const char osversion[] = \"%s#%d\";\n", toupper(id), cv;
+    printf "const char osrelease[] = \"%s\";\n", osr;
 }'

@@ -126,13 +126,19 @@ main(argc, argv)
 	}
 	if (flags & VFLAG) {
 		mib[0] = CTL_KERN;
-		mib[1] = KERN_VERSION;
+		mib[1] = KERN_OSVERSION;
 		len = sizeof(buf);
-		if (sysctl(mib, 2, &buf, &len, NULL, 0) == -1)
-			err(1, "sysctl");
-		for (p = buf, tlen = len; tlen--; ++p)
-			if (*p == '\n' || *p == '\t')
-				*p = ' ';
+		if (sysctl(mib, 2, &buf, &len, NULL, 0) == -1) {
+			/* Fall back to old behaviour. */
+			mib[0] = CTL_KERN;
+			mib[1] = KERN_VERSION;
+			len = sizeof(buf);
+			if (sysctl(mib, 2, &buf, &len, NULL, 0) == -1)
+				err(1, "sysctl");
+			for (p = buf, tlen = len; tlen--; ++p)
+				if (*p == '\n' || *p == '\t')
+					*p = ' ';
+		}
 		(void)printf("%s%.*s", prefix, len, buf);
 		prefix = " ";
 	}

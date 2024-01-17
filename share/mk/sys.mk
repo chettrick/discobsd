@@ -4,6 +4,12 @@
 MACHINE=	stm32
 MACHINE_ARCH=	arm
 
+unix=		We run DiscoBSD.
+OSMAJOR=	2
+OSMINOR=	1
+OSREV=		${OSMAJOR}.${OSMINOR}
+OSrev=		${OSMAJOR}${OSMINOR}
+
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 RELEASE=	2.1
 BUILD!=		git rev-list HEAD --count

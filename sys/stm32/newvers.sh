@@ -5,6 +5,19 @@
 # specifies the terms and conditions for redistribution.
 #
 
+# Things which need version number upgrades:
+#	sys/${MACHINE}/newvers.sh:
+#		OSR
+#	sys/include/param.h:
+#		DiscoBSD
+#		DiscoBSD_X_X
+#	share/mk/sys.mk:
+#		OSMAJOR
+#		OSMINOR
+
+OST="DiscoBSD"
+OSR="2.1"
+
 if [ ! -r .compileversion -o ! -s .compileversion ]
 then
     echo 0 >.compileversion

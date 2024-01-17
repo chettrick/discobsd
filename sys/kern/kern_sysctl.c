@@ -184,7 +184,6 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen)
 {
     int error, level;
     u_long longhostid;
-    char bsd[10];
 
     /* all sysctl names at this level are terminal */
     if (namelen != 1 && !(name[0] == KERN_PROC || name[0] == KERN_PROF))
@@ -192,13 +191,13 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen)
 
     switch (name[0]) {
     case KERN_OSTYPE:
+        return (sysctl_rdstring(oldp, oldlenp, newp, ostype));
     case KERN_OSRELEASE:
-        /* code is cheaper than D space */
-        bsd[0]='2';bsd[1]='.';bsd[2]='1';bsd[3]='1';bsd[4]='B';
-        bsd[5]='S';bsd[6]='D';bsd[7]='\0';
-        return (sysctl_rdstring(oldp, oldlenp, newp, bsd));
+        return (sysctl_rdstring(oldp, oldlenp, newp, osrelease));
     case KERN_OSREV:
-        return (sysctl_rdlong(oldp, oldlenp, newp, (long)BSD));
+        return (sysctl_rdlong(oldp, oldlenp, newp, (long)DiscoBSD));
+    case KERN_OSVERSION:
+        return (sysctl_rdstring(oldp, oldlenp, newp, osversion));
     case KERN_VERSION:
         return (sysctl_rdstring(oldp, oldlenp, newp, version));
     case KERN_MAXINODES:

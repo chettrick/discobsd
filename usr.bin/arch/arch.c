@@ -68,7 +68,7 @@ main(int argc, char *argv[])
 	if (optind != argc)
 		usage();
 
-	printf("%s%s\n", short_form ? "" : "2.11BSD.", arch);
+	printf("%s%s\n", short_form ? "" : "DiscoBSD.", arch);
 	return (0);
 }
 

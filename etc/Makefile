@@ -18,7 +18,7 @@ GRP=	wheel
 TZDIR=		/usr/share/zoneinfo
 LOCALTIME=	US/Pacific
 
-FILES=	fstab gettytab group etc.${MACHINE}/motd passwd rc rc.local shells ttys
+FILES=	fstab gettytab group motd passwd rc rc.local shells ttys
 
 all install depend lint tags:
 

@@ -98,7 +98,7 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 #	${SYSTEM_LD_TAIL}
 SYSTEM_OBJ=	locore.o startup_stm32f407xx.o ${OBJS} ioconf.o
 SYSTEM_DEP=	Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
-SYSTEM_LD_HEAD=	sh ../newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
+SYSTEM_LD_HEAD=	sh $S/conf/newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
 SYSTEM_LD=	-@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@ ${LDADD}; \
 		${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@ ${LDADD}
 SYSTEM_LD_TAIL=	${SIZE} $@; \

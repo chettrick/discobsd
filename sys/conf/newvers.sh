@@ -6,7 +6,7 @@
 #
 
 # Things which need version number upgrades:
-#	sys/${MACHINE}/newvers.sh:
+#	sys/conf/newvers.sh:
 #		OSR
 #	sys/include/param.h:
 #		DiscoBSD

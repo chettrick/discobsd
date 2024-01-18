@@ -1318,7 +1318,6 @@ file /usr/share/man/cat1/hostname.0
 file /usr/share/man/cat1/id.0
 file /usr/share/man/cat1/indent.0
 file /usr/share/man/cat1/intro.0
-file /usr/share/man/cat1/iostat.0
 file /usr/share/man/cat1/join.0
 file /usr/share/man/cat1/kill.0
 file /usr/share/man/cat1/la.0
@@ -1749,6 +1748,7 @@ file /usr/share/man/cat8/getty.0
 file /usr/share/man/cat8/htable.0
 file /usr/share/man/cat8/init.0
 file /usr/share/man/cat8/intro.0
+file /usr/share/man/cat8/iostat.0
 file /usr/share/man/cat8/lpc.0
 file /usr/share/man/cat8/lpd.0
 file /usr/share/man/cat8/makedev.0

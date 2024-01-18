@@ -28,7 +28,7 @@ SRCS=	adb.1 addbib.1 apply.1 apropos.1 as.1 at.1 atq.1 atrm.1 \
 	efl.1 eqn.1 error.1 ex.1 expand.1 expr.1 f77.1 false.1 file.1 \
 	find.1 fmt.1 fold.1 fpr.1 from.1 fsplit.1 gcore.1 \
 	graph.1 grep.1 head.1 hostid.1 indent.1 \
-	intro.1 iostat.1 join.1 kill.1 last.1 lastcomm.1 \
+	intro.1 join.1 kill.1 last.1 lastcomm.1 \
 	learn.1 leave.1 lex.1 lint.1 lisp.1 ln.1 logger.1 login.1 \
 	look.1 lookbib.1 lorder.1 lpq.1 lpr.1 lprm.1 lptest.1 ls.1 \
 	lxref.1 m4.1 mail.1 make.1 man.1 mesg.1 mkdep.1 mkdir.1 mkstr.1 \
@@ -56,7 +56,7 @@ OBJS1=	adb.0 addbib.0 apply.0 apropos.0 as.0 at.0 atq.0 atrm.0 \
 	efl.0 eqn.0 error.0 ex.0 expand.0 expr.0 f77.0 false.0 file.0 \
 	find.0 fmt.0 fold.0 fpr.0 from.0 fsplit.0 gcore.0 \
 	graph.0 grep.0 head.0 hostid.0 indent.0 \
-	intro.0 iostat.0 join.0 kill.0 last.0 lastcomm.0 \
+	intro.0 join.0 kill.0 last.0 lastcomm.0 \
 	learn.0 leave.0 lex.0 lint.0 lisp.0 ln.0 logger.0 login.0 \
 	look.0 lookbib.0 lorder.0 lpq.0 lpr.0 lprm.0 lptest.0 ls.0 \
 	lxref.0 m4.0 mail.0 make.0 man.0 mesg.0 mkdep.0 mkdir.0 mkstr.0 \

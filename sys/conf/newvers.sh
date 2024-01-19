@@ -50,20 +50,21 @@ H=`hostname`
 D=${PWD#$GITDIR}
 ID=`basename "${D}"`
 
-echo $GITREV $CV ${USER-root} $H $D $OST $ID $OSR| \
-awk ' {
-    version = $1;
+echo $GITREV $CV ${USER-root} $H $D $OST $OSR $ID| \
+awk '{
+    gitrev = $1;
     cv = $2;
     user = $3;
     host = $4;
     dir = $5;
     date = strftime();
     ost = $6;
-    id = $7;
-    osr = $8;
-    printf "const char version[] = \"2.11 BSD UNIX for STM32, rev G%s #%d: %s\\n", version, cv, date;
+    osr = $7;
+    id = toupper($8);
+    printf "const char version[] = \"%s %s (%s) #%d %s: %s\\n", \
+        ost, osr, id, cv, gitrev, date;
     printf "     %s@%s:%s\\n\";\n", user, host, dir;
     printf "const char ostype[] = \"%s\";\n", ost;
-    printf "const char osversion[] = \"%s#%d\";\n", toupper(id), cv;
+    printf "const char osversion[] = \"%s#%d\";\n", id, cv;
     printf "const char osrelease[] = \"%s\";\n", osr;
 }'

@@ -14,9 +14,17 @@
 #	share/mk/sys.mk:
 #		OSMAJOR
 #		OSMINOR
+#
+# After a release, move to S="-current" and keep same version number.
+# Before a release, move to S="-beta" and increment version number.
+# For a release, move to S="" and keep same version number.
 
 OST="DiscoBSD"
 OSR="2.1"
+
+#S="-current"
+#S="-beta"
+S=""
 
 if [ ! -r .compileversion -o ! -s .compileversion ]
 then
@@ -50,7 +58,7 @@ H=`hostname`
 D=${PWD#$GITDIR}
 ID=`basename "${D}"`
 
-echo $GITREV $CV ${USER-root} $H $D $OST $OSR $ID| \
+echo $GITREV $CV ${USER-root} $H $D $OST $OSR $ID $S| \
 awk '{
     gitrev = $1;
     cv = $2;
@@ -61,8 +69,9 @@ awk '{
     ost = $6;
     osr = $7;
     id = toupper($8);
-    printf "const char version[] = \"%s %s (%s) #%d %s: %s\\n", \
-        ost, osr, id, cv, gitrev, date;
+    status = $9;
+    printf "const char version[] = \"%s %s%s (%s) #%d %s: %s\\n", \
+        ost, osr, status, id, cv, gitrev, date;
     printf "     %s@%s:%s\\n\";\n", user, host, dir;
     printf "const char ostype[] = \"%s\";\n", ost;
     printf "const char osversion[] = \"%s#%d\";\n", id, cv;

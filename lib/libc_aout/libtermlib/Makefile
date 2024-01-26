@@ -24,7 +24,7 @@ all:            ../libtermlib.a
 		${AOUT_RANLIB} $@
 
 install:	../libtermlib.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libtermlib.a ${DESTDIR}/usr/lib/libtermlib.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libtermlib.a
 

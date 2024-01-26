@@ -95,8 +95,8 @@ SIZE=		${GCCPREFIX}-size
 AS=		${CC} -x assembler-with-cpp -c
 
 LEX=		flex
-INSTALL=	install -m 644
-INSTALLDIR=	install -m 755 -d
+INSTALL=	install
+
 TAGSFILE=	tags
 
 #MANROFF=	nroff -man -h -Tascii

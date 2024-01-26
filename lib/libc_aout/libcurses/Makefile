@@ -29,7 +29,7 @@ all:            ../libcurses.a
 		${AOUT_RANLIB} $@
 
 install:	../libcurses.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libcurses.a ${DESTDIR}/usr/lib/libcurses.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libcurses.a
 

@@ -25,7 +25,7 @@ ${OBJS}:	${SRCS}
 		${CC} ${DEFS} ${CFLAGS} -c ${SRCS} -o $@
 
 install:	${OBJS}
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ${OBJS} ${DESTDIR}/usr/lib/crt0.o
 
 clean:

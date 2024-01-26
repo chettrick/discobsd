@@ -24,7 +24,7 @@ all:            ../libreadline.a
 		${AOUT_RANLIB} $@
 
 install:	../libreadline.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libreadline.a ${DESTDIR}/usr/lib/libreadline.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libreadline.a
 

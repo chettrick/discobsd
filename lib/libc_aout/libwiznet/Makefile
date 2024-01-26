@@ -24,7 +24,7 @@ all:            ../libwiznet.a
 		${AOUT_RANLIB} $@
 
 install:	../libwiznet.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libwiznet.a ${DESTDIR}/usr/lib/libwiznet.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libwiznet.a
 

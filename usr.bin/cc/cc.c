@@ -163,7 +163,7 @@ int	pthreads;
 int	xcflag;
 int 	ascpp;
 
-char	*passp = "/bin/" PREPROCESSOR;
+char	*passp = "/usr/bin/" PREPROCESSOR;
 char	*pass0 = LIBEXECDIR "/" COMPILER;
 char	*as = ASSEMBLER;
 char	*ld = LINKER;
@@ -177,7 +177,8 @@ enum {
 } mode;
 
 /* common cpp predefines */
-char *cppadd[] = { "-D__LCC__", "-D__unix__", "-D__BSD__", "-D__RETROBSD__", NULL };
+char *cppadd[] = { "-D__LCC__", "-D__unix__", "-D__BSD__",
+    "-D__RETROBSD__", "-D__DISCOBSD__", NULL };
 
 #ifdef __mips__
 #   define	CPPMDADD { "-D__mips__", NULL, }

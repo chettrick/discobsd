@@ -25,7 +25,7 @@ all:            ../libm.a
 		${AOUT_RANLIB} $@
 
 install:	../libm.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libm.a ${DESTDIR}/usr/lib/libm.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libm.a
 

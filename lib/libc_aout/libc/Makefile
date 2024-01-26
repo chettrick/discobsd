@@ -138,7 +138,7 @@ $(SYSOBJS):	$(LIBCDIR)/$(MACHINE_ARCH)/sys/SYS.h
 .OBJDIR:	${.CURDIR}
 
 install:	../libc.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libc.a ${DESTDIR}/usr/lib/libc.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libc.a
 

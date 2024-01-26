@@ -14,7 +14,7 @@ all:            ../libm.a
 		$(RANLIB) $@
 
 install:	all
-#		${INSTALLDIR} ${DESTDIR}/usr/lib
+#		${INSTALL} -d ${DESTDIR}/usr/lib
 #		${INSTALL} ../libm.a ${DESTDIR}/usr/lib/libm.a
 #		$(RANLIB) ${DESTDIR}/usr/lib/libm.a
 

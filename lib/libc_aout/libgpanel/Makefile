@@ -25,7 +25,7 @@ all:            ../libgpanel.a
 		${AOUT_RANLIB} $@
 
 install:	../libgpanel.a
-		${INSTALLDIR} ${DESTDIR}/usr/lib
+		${INSTALL} -d ${DESTDIR}/usr/lib
 		${INSTALL} ../libgpanel.a ${DESTDIR}/usr/lib/libgpanel.a
 		${AOUT_RANLIB} -t ${DESTDIR}/usr/lib/libgpanel.a
 

@@ -28,12 +28,8 @@ clean:
 distribution: distribution-etc-root-var
 
 distribution-etc-root-var: distrib-dirs
-	-@mkdir -p ${DESTDIR}/dev
-	@chmod 755 ${DESTDIR}/dev
-	-@mkdir -p ${DESTDIR}/etc
-	@chmod 755 ${DESTDIR}/etc
-	@chown ${OWN} ${DESTDIR}/dev ${DESTDIR}/etc
-	@chgrp ${GRP} ${DESTDIR}/dev ${DESTDIR}/etc
+	${INSTALL} -d -o ${OWN} -g ${GRP} -m 755 ${DESTDIR}/dev
+	${INSTALL} -d -o ${OWN} -g ${GRP} -m 755 ${DESTDIR}/etc
 
 	install -c -o ${OWN} -g ${GRP} -m 644 ${FILES} ${DESTDIR}/etc
 	install -c -o root -g wheel -m 600 shadow ${DESTDIR}/etc
@@ -52,10 +48,7 @@ distribution-etc-root-var: distrib-dirs
 	    ${DESTDIR}/etc/termcap
 #	install -c -o ${OWN} -g operator -m 664 /dev/null \
 #	    ${DESTDIR}/etc/dumpdates
-	-@mkdir -p ${DESTDIR}/var/run
-	@chmod 655 ${DESTDIR}/var/run
-	@chown ${OWN} ${DESTDIR}/var/run
-	@chgrp ${GRP} ${DESTDIR}/var/run
+	${INSTALL} -d -o ${OWN} -g ${GRP} -m 655 ${DESTDIR}/var/run
 	install -c -o ${OWN} -g wheel -m 644 /dev/null \
 	    ${DESTDIR}/var/log/messages
 #	install -c -o ${OWN} -g ${GRP} -m 644 /dev/null \
@@ -73,7 +66,7 @@ distribution-etc-root-var: distrib-dirs
 #	install -c -o uucp -g daemon -m 600 /dev/null \
 #	    ${DESTDIR}/usr/adm/aculog
 
-DIRS_DISTRIB=	bin sbin etc var/log root usr usr/bin usr/sbin \
+DIRS_DISTRIB=	bin sbin dev etc var/log var/run root usr usr/bin usr/sbin \
 		usr/include usr/lib usr/libexec usr/share usr/games/lib
 MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
 

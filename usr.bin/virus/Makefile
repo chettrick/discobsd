@@ -9,7 +9,7 @@ virus:          virus.c
 		$(ELF2AOUT) virus.elf $@
 
 install:        virus
-		install virus ${DESTDIR}/usr/bin/vi
+		${INSTALL} virus ${DESTDIR}/usr/bin/vi
 
 clean:
 		rm -f *.o virus.elf virus

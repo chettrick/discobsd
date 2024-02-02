@@ -24,5 +24,5 @@ clean:
 		rm -f *.o core hangman *.0 *.dis
 
 install:        all
-		install hangman $(DESTDIR)/usr/games/
-		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/
+		${INSTALL} hangman ${DESTDIR}/usr/games/
+		${INSTALL} -m 644 ${MAN} ${DESTDIR}/usr/share/man/cat6/

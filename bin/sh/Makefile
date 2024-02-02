@@ -17,7 +17,7 @@ sh:		${OBJS}
 		${ELF2AOUT} sh.elf $@ && rm sh.elf
 
 install:	all
-		install sh $(DESTDIR)/bin/
+		${INSTALL} sh ${DESTDIR}/bin/
 
 clean:
 		rm -f sh *.o *~ *.elf *.dis

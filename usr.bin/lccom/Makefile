@@ -30,7 +30,7 @@ clean:
                     $Tstruct $Tswitch $Twf1 $Tyacc y.tab.[ch] lburg/gram.c
 
 install:        all
-		install lccom $(DESTDIR)/usr/libexec/
+		${INSTALL} lccom ${DESTDIR}/usr/libexec/
 
 build:
 		mkdir -p $(BUILDDIR)

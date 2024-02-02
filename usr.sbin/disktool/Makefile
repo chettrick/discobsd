@@ -18,4 +18,4 @@ clean:
 		rm -f *.o *.elf disktool *.elf *.dis *~
 
 install:        all
-		install disktool ${DESTDIR}/usr/sbin/
+		${INSTALL} disktool ${DESTDIR}/usr/sbin/

@@ -43,7 +43,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install vipw ${DESTDIR}/usr/sbin/
+		${INSTALL} vipw ${DESTDIR}/usr/sbin/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 
 lint:           ${SRCS}

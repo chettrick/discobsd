@@ -25,8 +25,8 @@ clean:
 		-rm -f yacc ${OBJS} yacc.elf yacc.dis
 
 install:        all yaccpar
-		install yacc ${DESTDIR}/usr/bin/
-		install yaccpar ${DESTDIR}/usr/share/misc
+		${INSTALL} yacc ${DESTDIR}/usr/bin/
+		${INSTALL} yaccpar ${DESTDIR}/usr/share/misc
 
 y1.o: y1.c dextern
 y2.o: y2.c dextern

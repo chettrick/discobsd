@@ -31,7 +31,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 755 ${BIN} ${DESTDIR}/usr/bin
+		${INSTALL} -m 755 ${BIN} ${DESTDIR}/usr/bin
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

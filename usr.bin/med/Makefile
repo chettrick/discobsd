@@ -24,4 +24,4 @@ clean:
 		-rm -f med ${OBJS} med.elf med.dis
 
 install:        all
-		install med ${DESTDIR}/usr/bin/
+		${INSTALL} med ${DESTDIR}/usr/bin/

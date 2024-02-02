@@ -28,5 +28,5 @@ clean:
 		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~
 
 install:	all
-		install -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/

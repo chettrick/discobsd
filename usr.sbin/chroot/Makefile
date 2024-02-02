@@ -43,7 +43,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 4751 chroot ${DESTDIR}/usr/sbin
+		${INSTALL} -m 4751 chroot ${DESTDIR}/usr/sbin
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 
 lint:           ${SRCS}

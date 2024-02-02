@@ -33,7 +33,7 @@ ${MAN}:	${MANSRC}
 	${MANROFF} ${MANSRC} > ${MAN}
 
 install: all
-	install emg ${DESTDIR}/usr/bin/emg
+	${INSTALL} emg ${DESTDIR}/usr/bin/emg
 	cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 	cp -p emg.keys ${DESTDIR}/usr/share/misc/emg.keys
 

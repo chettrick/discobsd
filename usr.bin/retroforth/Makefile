@@ -20,7 +20,7 @@ clean:
 		rm -f *.o *.elf $(BIN) *.elf *.dis *~
 
 install:        all
-		install $(BIN) $(DESTDIR)/usr/bin/
+		${INSTALL} ${BIN} ${DESTDIR}/usr/bin/
 		cp retroImage $(DESTDIR)/usr/lib/
 
 image:          $(BIN)

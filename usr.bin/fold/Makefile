@@ -25,7 +25,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install fold ${DESTDIR}/usr/bin/fold
+		${INSTALL} fold ${DESTDIR}/usr/bin/fold
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}

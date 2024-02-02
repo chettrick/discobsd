@@ -21,6 +21,6 @@ clean:
 		rm -f *.o *.elf ${MAN} more *.elf *.dis tags *~
 
 install:        all more.help
-		install more ${DESTDIR}/usr/bin/more
+		${INSTALL} more ${DESTDIR}/usr/bin/more
 		@-rm -f ${DESTDIR}/usr/share/misc/more.help
 		cp more.help ${DESTDIR}/usr/share/misc/more.help

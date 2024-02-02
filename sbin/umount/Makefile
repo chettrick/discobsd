@@ -28,7 +28,7 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install umount ${DESTDIR}/sbin/umount
+		${INSTALL} umount ${DESTDIR}/sbin/umount
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

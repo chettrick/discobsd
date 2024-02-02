@@ -25,5 +25,5 @@ clean:
 		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~
 
 install:	all
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

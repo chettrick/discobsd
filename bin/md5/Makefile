@@ -28,5 +28,5 @@ clean:
 		-rm -f md5 ${OBJS} ${MAN} md5.elf md5.dis
 
 install:        all
-		install md5 $(DESTDIR)/bin/
+		${INSTALL} md5 ${DESTDIR}/bin/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1

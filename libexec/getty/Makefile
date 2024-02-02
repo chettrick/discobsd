@@ -20,7 +20,7 @@ clean:
 		rm -f *.o *.elf ${MAN} getty *.elf *.dis tags *~
 
 install:        all
-		install getty ${DESTDIR}/usr/libexec/getty
+		${INSTALL} getty ${DESTDIR}/usr/libexec/getty
 
 main.o: gettytab.h
 init.o: gettytab.h

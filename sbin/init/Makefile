@@ -27,7 +27,7 @@ depend:		${SRCS}
 
 install:	all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install -m 700 init ${DESTDIR}/sbin/init
+		${INSTALL} -m 700 init ${DESTDIR}/sbin/init
 
 lint:		${SRCS}
 		lint -hax ${SRCS}

@@ -37,8 +37,8 @@ clean:
 		rm -f *.o *.0 *.elf $(MAN) backgammon teachgammon *.elf *.dis tags *~
 
 install:        all
-		install backgammon $(DESTDIR)/usr/games/
-		install teachgammon $(DESTDIR)/usr/games/
+		${INSTALL} backgammon ${DESTDIR}/usr/games/
+		${INSTALL} teachgammon ${DESTDIR}/usr/games/
 		cp $(MAN) $(DESTDIR)/usr/share/man/cat6/
 
 $(OBJS) $(TOBJS): back.h

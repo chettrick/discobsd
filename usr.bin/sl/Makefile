@@ -24,4 +24,4 @@ clean:
 		-rm -f sl ${OBJS} sl.elf sl.dis
 
 install:        all
-		install sl ${DESTDIR}/usr/bin/
+		${INSTALL} sl ${DESTDIR}/usr/bin/

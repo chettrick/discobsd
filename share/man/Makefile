@@ -47,7 +47,7 @@ install: FRC
 	cp whatis.db ${DESTDIR}/usr/share/man/whatis
 	cp man.template ${DESTDIR}/usr/share/man/man.template
 #	cp makewhatis.sed ${DESTDIR}/usr/share/man/makewhatis.sed
-#	install -c -m 755 manroff ${DESTDIR}/usr/share/man/manroff
+#	${INSTALL} -c -m 755 manroff ${DESTDIR}/usr/share/man/manroff
 
 clean: FRC
 	for i in ${DIRS}; do \

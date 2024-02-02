@@ -30,7 +30,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install hostname ${DESTDIR}/bin/
+		${INSTALL} hostname ${DESTDIR}/bin/
 		cp hostname.0 ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}

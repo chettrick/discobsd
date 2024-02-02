@@ -33,7 +33,7 @@ clean:
 		rm -f *.o *.0 *.elf atc ${MAN} *.elf *.dis tags *~ grammar.c lex.c y.tab.[ch]
 
 install:        all
-		install atc ${DESTDIR}/usr/games/
+		${INSTALL} atc ${DESTDIR}/usr/games/
 		mkdir -p ${DESTDIR}/usr/games/lib/atc
 		cp -p games/* ${DESTDIR}/usr/games/lib/atc
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

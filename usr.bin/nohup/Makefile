@@ -10,4 +10,4 @@ all:
 clean:
 
 install:
-		install -c ${SCRIPT} ${DESTDIR}${BINDIR}/nohup
+		${INSTALL} -c ${SCRIPT} ${DESTDIR}${BINDIR}/nohup

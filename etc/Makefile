@@ -31,39 +31,39 @@ distribution-etc-root-var: distrib-dirs
 	${INSTALL} -d -o ${OWN} -g ${GRP} -m 755 ${DESTDIR}/dev
 	${INSTALL} -d -o ${OWN} -g ${GRP} -m 755 ${DESTDIR}/etc
 
-	install -c -o ${OWN} -g ${GRP} -m 644 ${FILES} ${DESTDIR}/etc
-	install -c -o root -g wheel -m 600 shadow ${DESTDIR}/etc
-#	install -c -o root -g wheel -m 600 master.passwd ${DESTDIR}/etc
-#	install -c -o ${OWN} -g ${GRP} -m 555 MAKEDEV.local MAKEDEV \
+	${INSTALL} -c -o ${OWN} -g ${GRP} -m 644 ${FILES} ${DESTDIR}/etc
+	${INSTALL} -c -o root -g wheel -m 600 shadow ${DESTDIR}/etc
+#	${INSTALL} -c -o root -g wheel -m 600 master.passwd ${DESTDIR}/etc
+#	${INSTALL} -c -o ${OWN} -g ${GRP} -m 555 MAKEDEV.local MAKEDEV \
 #	    ${DESTDIR}/dev
-	install -c -o ${OWN} -g ${GRP} -m 555 MAKEDEV \
+	${INSTALL} -c -o ${OWN} -g ${GRP} -m 555 MAKEDEV \
 	    ${DESTDIR}/etc
 	cd root; \
-		install -c -o root -g wheel -m 644 dot.profile \
+		${INSTALL} -c -o root -g wheel -m 644 dot.profile \
 		    ${DESTDIR}/root/.profile; \
-		install -c -o root -g wheel -m 644 dot.profile \
+		${INSTALL} -c -o root -g wheel -m 644 dot.profile \
 		    ${DESTDIR}/.profile
 	ln -sf ${TZDIR}/${LOCALTIME} ${DESTDIR}/etc/localtime
-	install -c -m 444 ${DESTDIR}/usr/share/misc/termcap \
+	${INSTALL} -c -m 444 ${DESTDIR}/usr/share/misc/termcap \
 	    ${DESTDIR}/etc/termcap
-#	install -c -o ${OWN} -g operator -m 664 /dev/null \
+#	${INSTALL} -c -o ${OWN} -g operator -m 664 /dev/null \
 #	    ${DESTDIR}/etc/dumpdates
 	${INSTALL} -d -o ${OWN} -g ${GRP} -m 655 ${DESTDIR}/var/run
-	install -c -o ${OWN} -g wheel -m 644 /dev/null \
+	${INSTALL} -c -o ${OWN} -g wheel -m 644 /dev/null \
 	    ${DESTDIR}/var/log/messages
-#	install -c -o ${OWN} -g ${GRP} -m 644 /dev/null \
+#	${INSTALL} -c -o ${OWN} -g ${GRP} -m 644 /dev/null \
 #	    ${DESTDIR}/usr/adm/daemonlog
-#	install -c -o ${OWN} -g operator -m 664 /dev/null \
+#	${INSTALL} -c -o ${OWN} -g operator -m 664 /dev/null \
 #	    ${DESTDIR}/usr/adm/shutdownlog
-#	install -c -o ${OWN} -g ${GRP} -m 644 /dev/null \
+#	${INSTALL} -c -o ${OWN} -g ${GRP} -m 644 /dev/null \
 #	    ${DESTDIR}/var/run/utmp
-#	install -c -o nobody -g ${GRP} -m 644 /dev/null \
+#	${INSTALL} -c -o nobody -g ${GRP} -m 644 /dev/null \
 #	    ${DESTDIR}/var/db/find.codes
-#	install -c -o ${OWN} -g wheel -m 644 /dev/null \
+#	${INSTALL} -c -o ${OWN} -g wheel -m 644 /dev/null \
 #	    ${DESTDIR}/usr/adm/lastlog
-	install -c -o ${OWN} -g wheel -m 644 /dev/null \
+	${INSTALL} -c -o ${OWN} -g wheel -m 644 /dev/null \
 	    ${DESTDIR}/var/log/wtmp
-#	install -c -o uucp -g daemon -m 600 /dev/null \
+#	${INSTALL} -c -o uucp -g daemon -m 600 /dev/null \
 #	    ${DESTDIR}/usr/adm/aculog
 
 DIRS_DISTRIB=	bin sbin dev etc var/log var/run root usr usr/bin usr/sbin \
@@ -73,7 +73,7 @@ MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
 # Creates an empty DiscoBSD directory tree in DESTDIR.
 distrib-dirs:
 	if [ ! -d ${DESTDIR}/. ]; then \
-		install -d -m 755 ${DESTDIR}; \
+		${INSTALL} -d -m 755 ${DESTDIR}; \
 	fi
 	for dir in ${DIRS_DISTRIB}; do \
 		mkdir -p ${DESTDIR}/$$dir; \

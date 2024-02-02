@@ -24,5 +24,5 @@ clean:
 		rm -f *.o *.elf portio lol *.elf *.dis *~
 
 install:        all
-		install portio ${DESTDIR}/usr/bin/
-		install lol ${DESTDIR}/usr/bin/
+		${INSTALL} portio ${DESTDIR}/usr/bin/
+		${INSTALL} lol ${DESTDIR}/usr/bin/

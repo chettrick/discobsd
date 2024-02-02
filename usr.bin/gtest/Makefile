@@ -37,9 +37,9 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 755 globread ${DESTDIR}/usr/bin
-		install -m 755 globdump ${DESTDIR}/usr/bin
-		install -m 755 globwrite ${DESTDIR}/usr/bin
+		${INSTALL} -m 755 globread ${DESTDIR}/usr/bin
+		${INSTALL} -m 755 globdump ${DESTDIR}/usr/bin
+		${INSTALL} -m 755 globwrite ${DESTDIR}/usr/bin
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

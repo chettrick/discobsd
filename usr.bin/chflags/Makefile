@@ -29,7 +29,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install chflags ${DESTDIR}/usr/bin/chflags
+		${INSTALL} chflags ${DESTDIR}/usr/bin/chflags
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
 lint:           ${SRCS}

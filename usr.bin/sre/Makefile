@@ -10,4 +10,4 @@ clean:
 		rm -f sre *.o *~
 
 install:        all
-		install sre $(DESTDIR)/bin/
+		${INSTALL} sre ${DESTDIR}/bin/

@@ -10,4 +10,4 @@ all:
 clean:
 
 install:
-		install -c ${SCRIPT} ${DESTDIR}${BINDIR}/lorder
+		${INSTALL} -c ${SCRIPT} ${DESTDIR}${BINDIR}/lorder

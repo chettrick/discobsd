@@ -23,9 +23,9 @@ USERMEM:
 	sh usermem.sh > USERMEM
 
 install: compress
-	install compress ${DESTDIR}/usr/bin/compress
-	install compress ${DESTDIR}/usr/bin/uncompress
-	install compress ${DESTDIR}/usr/bin/zcat
+	${INSTALL} compress ${DESTDIR}/usr/bin/compress
+	${INSTALL} compress ${DESTDIR}/usr/bin/uncompress
+	${INSTALL} compress ${DESTDIR}/usr/bin/zcat
 
 # Temporarily don't delete USERMEM.  When chroot'ed to /nbsd, usermem.sh
 # fails totally.

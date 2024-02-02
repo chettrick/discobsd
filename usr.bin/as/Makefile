@@ -19,4 +19,4 @@ clean:
 		rm -f *.o *.0 *.elf as tags *~ *.dis tests/*.dis tests/*.gcc-dis tests/*.o
 
 install:        all
-		install as ${DESTDIR}/usr/bin/
+		${INSTALL} as ${DESTDIR}/usr/bin/

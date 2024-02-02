@@ -31,7 +31,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 755 ${BIN} ${DESTDIR}/usr/sbin
+		${INSTALL} -m 755 ${BIN} ${DESTDIR}/usr/sbin
 #		cp ${MAN} ${DESTDIR}/usr/share/man/cat8
 
 lint:           ${SRCS}

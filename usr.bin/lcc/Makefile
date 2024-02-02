@@ -34,5 +34,5 @@ clean:
 		rm -f *.o *.0 *.elf lcc bprint ops *.dis *~
 
 install:        all
-		install lcc ${DESTDIR}/usr/bin/
+		${INSTALL} lcc ${DESTDIR}/usr/bin/
 		cp lcc.0 ${DESTDIR}/usr/share/man/cat1/

@@ -33,8 +33,8 @@ header.o:	header.c ldefs.h
 
 install:	all
 		-mkdir -p ${DESTDIR}/usr/share/misc
-		install -c -m 444 ncform ${DESTDIR}/usr/share/misc
-		install -m 755 ${PROG} ${DESTDIR}/usr/bin
+		${INSTALL} -c -m 444 ncform ${DESTDIR}/usr/share/misc
+		${INSTALL} -m 755 ${PROG} ${DESTDIR}/usr/bin
 
 clean:
 		rm -f *.o ${PROG} ${PROG}.dis ${PROG}.elf y.tab.[ch]

@@ -35,7 +35,7 @@ clean:
 		rm -f *.o *.0 *.elf $(MAN) monop initdeck *.elf *.dis tags *~
 
 install:        all
-		install monop $(DESTDIR)/usr/games/
+		${INSTALL} monop ${DESTDIR}/usr/games/
 		cp $(MAN) $(DESTDIR)/usr/share/man/cat6/
 		cp cards.pck $(DESTDIR)/usr/games/lib/
 ###

@@ -37,7 +37,7 @@ clean:
 		rm -f *.o *.0 *.elf $(MAN) fortune strfile unstr fortunes *.elf *.dis tags *~
 
 install:        all
-		install fortune $(DESTDIR)/usr/games/
+		${INSTALL} fortune ${DESTDIR}/usr/games/
 		cp $(MAN) $(DESTDIR)/usr/share/man/cat6/
 		cp fortunes.dat $(DESTDIR)/usr/games/lib/
 

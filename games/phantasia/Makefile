@@ -29,5 +29,5 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} phantasia setfiles phant.help *.elf *.dis tags *~
 
 install:        all
-		install phantasia ${DESTDIR}/usr/games/
+		${INSTALL} phantasia ${DESTDIR}/usr/games/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

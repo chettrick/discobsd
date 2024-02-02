@@ -47,7 +47,7 @@ clean:
 		rm -f *.o *.elf ${MAN} warp *.elf *.dis tags *~ smap.* sm
 
 install:        warp $(PRIVATE)
-		install warp ${DESTDIR}/usr/games/
+		${INSTALL} warp ${DESTDIR}/usr/games/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/
 		mkdir -p $(PRIVLIB)
 		cp $(PRIVATE) $(PRIVLIB)

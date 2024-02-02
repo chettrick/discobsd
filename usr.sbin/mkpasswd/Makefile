@@ -40,7 +40,7 @@ depend:         ${SRCS}
 		mkdep -p ${CFLAGS} ${SRCS}
 
 install:        all
-		install mkpasswd ${DESTDIR}/usr/sbin/mkpasswd
+		${INSTALL} mkpasswd ${DESTDIR}/usr/sbin/mkpasswd
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 
 lint:           ${SRCS}

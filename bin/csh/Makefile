@@ -27,7 +27,7 @@ csh:		${OBJS}
 		${ELF2AOUT} csh.elf $@ && rm csh.elf
 
 install:	all
-		install csh $(DESTDIR)/bin/
+		${INSTALL} csh ${DESTDIR}/bin/
 clean:
 		rm -f csh *.o *~ *.elf *.dis
 

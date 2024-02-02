@@ -37,6 +37,6 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} battlestar mkstr *.elf *.dis tags *~ battle_strings _globals.c _dayfile.c _nightfile.c
 
 install:        all
-		install battlestar ${DESTDIR}/usr/games/
+		${INSTALL} battlestar ${DESTDIR}/usr/games/
 		cp battle_strings ${DESTDIR}/usr/games/lib/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

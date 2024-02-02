@@ -35,6 +35,6 @@ clean:
 		rm -f *.o core cribbage ${MAN} *.dis crib.instr
 
 install:        all
-		install cribbage ${DESTDIR}/usr/games/
-		install -m 644 crib.instr ${DESTDIR}/usr/games/lib/crib.instr
+		${INSTALL} cribbage ${DESTDIR}/usr/games/
+		${INSTALL} -m 644 crib.instr ${DESTDIR}/usr/games/lib/crib.instr
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

@@ -43,9 +43,9 @@ all:		zdump zic ${ZICMAN} ${ZDUMAN}
 
 install:	zic $(DATA) $(MAN)
 		(umask 22; ./zic -v -d ${SHARDIR} $(DATA))
-#		install -c $(ZICMAN) ${MANDIR}/${ZICMAN}
-#		install -c $(ZDUMAN) ${MANDIR}/${ZDUMAN}
-#		install -c -s zic ${DESTDIR}/usr/sbin/zic
+#		${INSTALL} -c ${ZICMAN} ${MANDIR}/${ZICMAN}
+#		${INSTALL} -c ${ZDUMAN} ${MANDIR}/${ZDUMAN}
+#		${INSTALL} -c -s zic ${DESTDIR}/usr/sbin/zic
 
 zdump.0:	$(ZDUMANSRC)
 		${MANROFF} ${ZDUMANSRC} > ${ZDUMAN}

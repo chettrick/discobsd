@@ -23,7 +23,7 @@ depend:		${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:	all
-		install ls ${DESTDIR}/bin/ls
+		${INSTALL} ls ${DESTDIR}/bin/ls
 
 lint:		${SRCS}
 		lint -hax ${SRCS}

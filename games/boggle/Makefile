@@ -34,6 +34,6 @@ clean:
 		rm -f *.o *.0 *.dis core boggle comp bogdict
 
 install:
-		install boggle ${DESTDIR}/usr/games/
-		install -m 644 bogdict ${DESTDIR}/usr/games/lib/bogdict
+		${INSTALL} boggle ${DESTDIR}/usr/games/
+		${INSTALL} -m 644 bogdict ${DESTDIR}/usr/games/lib/bogdict
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat6/

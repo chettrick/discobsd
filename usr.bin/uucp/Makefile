@@ -128,7 +128,7 @@ libuucp.a: $(LIBOBJ)
 
 
 install: uuencode uuencode
-	install ${ALL} ${DESTDIR}/usr/bin/
+	${INSTALL} ${ALL} ${DESTDIR}/usr/bin/
 
 clean:
 	rm -f *.o $(ALL) libuucp.a *.dis *.elf

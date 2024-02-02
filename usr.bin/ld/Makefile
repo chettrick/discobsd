@@ -27,5 +27,5 @@ clean:
 		rm -f *.o *.0 *.elf ${MAN} ld *.elf *.dis a.out tags *~
 
 install:        all
-		install ld ${DESTDIR}/usr/bin/ld
+		${INSTALL} ld ${DESTDIR}/usr/bin/ld
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

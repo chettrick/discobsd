@@ -60,7 +60,6 @@ OPTIM		=	-O
 #<<lint flags of choice?>>
 LINTFLAGS	=	-hbxa $(INCLUDE)
 DEFS		=
-INSTALL 	= install
 #LDFLAGS		= -i
 #################################### end configurable stuff
 
@@ -95,8 +94,8 @@ crontab:	$(CRONTAB_OBJ)
 		${ELF2AOUT} $@.elf $@
 
 install:	all
-	install cron $(DESTSBIN)/
-	install crontab $(DESTBIN)/
+	${INSTALL} cron ${DESTSBIN}/
+	${INSTALL} crontab ${DESTBIN}/
 	sh putman.sh crontab.1 $(DESTMAN)
 	sh putman.sh cron.8    $(DESTMAN)
 	sh putman.sh crontab.5 $(DESTMAN)

@@ -25,7 +25,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install chown ${DESTDIR}/sbin/chown
+		${INSTALL} chown ${DESTDIR}/sbin/chown
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
 
 lint:           ${SRCS}

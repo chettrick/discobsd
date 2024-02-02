@@ -28,5 +28,5 @@ clean:
 		rm -f *.o *.elf ${PROG} *.0 *.dis tags *~
 
 install:	all
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
-		install -m 444 ${MAN} ${DESTDIR}${MANDIR}/${MAN}
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} -m 444 ${MAN} ${DESTDIR}${MANDIR}/${MAN}

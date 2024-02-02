@@ -28,7 +28,7 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install mount ${DESTDIR}/sbin/mount
+		${INSTALL} mount ${DESTDIR}/sbin/mount
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

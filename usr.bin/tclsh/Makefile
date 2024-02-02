@@ -20,4 +20,4 @@ clean:
 		rm -f *.o *.0 *.elf ${PROG} *.dis a.out tags *~
 
 install:	all
-		install ${PROG} ${DESTDIR}/usr/bin/
+		${INSTALL} ${PROG} ${DESTDIR}/usr/bin/

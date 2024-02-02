@@ -34,9 +34,9 @@ clean:
 		rm -f *.o *.elf ${PROG} cfscores *.0 *.dis tags *~
 
 install:	all
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
-		install cfscores ${DESTDIR}${BINDIR}/cfscores
-		install -m 644 ${MAN} ${DESTDIR}${MANDIR}/${MAN}
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} cfscores ${DESTDIR}${BINDIR}/cfscores
+		${INSTALL} -m 644 ${MAN} ${DESTDIR}${MANDIR}/${MAN}
 		ln -f ${DESTDIR}${MANDIR}/${MAN} ${DESTDIR}${MANDIR}/cfscores.0
 		cat < /dev/null > ${DESTDIR}/usr/games/lib/cfscores
 		chmod 666 ${DESTDIR}/usr/games/lib/cfscores

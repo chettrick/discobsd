@@ -22,4 +22,4 @@ clean:
 		rm -f *.o *.elf ${PROG} *.dis tags *~
 
 install:	all
-		install -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/${PROG}

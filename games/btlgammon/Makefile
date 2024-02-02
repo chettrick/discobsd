@@ -18,5 +18,5 @@ clean:
 		rm -f *.o *.dis core btlgammon
 
 install:
-		install btlgammon ${DESTDIR}/usr/games/
-		install -m 644 backrules ${DESTDIR}/usr/games/lib/backrules
+		${INSTALL} btlgammon ${DESTDIR}/usr/games/
+		${INSTALL} -m 644 backrules ${DESTDIR}/usr/games/lib/backrules

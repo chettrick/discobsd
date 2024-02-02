@@ -23,4 +23,4 @@ clean:
 		-rm -f adc-demo ${OBJS} adc-demo.elf adc-demo.dis
 
 install:        all
-		install adc-demo ${DESTDIR}/usr/bin/
+		${INSTALL} adc-demo ${DESTDIR}/usr/bin/

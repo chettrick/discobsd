@@ -27,5 +27,5 @@ clean:
 		rm -f *.o *.elf ${MAN} diff diffh *.elf *.dis tags *~
 
 install:        all
-		install diff ${DESTDIR}/usr/bin/diff
-		install diffh ${DESTDIR}/usr/libexec/diffh
+		${INSTALL} diff ${DESTDIR}/usr/bin/diff
+		${INSTALL} diffh ${DESTDIR}/usr/libexec/diffh

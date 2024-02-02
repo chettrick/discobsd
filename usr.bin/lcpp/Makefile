@@ -18,7 +18,7 @@ clean:
 		rm -rf *.o *.elf lcpp *.dis *~ tests
 
 install:        all
-		install lcpp ${DESTDIR}/usr/bin/
+		${INSTALL} lcpp ${DESTDIR}/usr/bin/
 
 $(OBJS):	cpp.h
 

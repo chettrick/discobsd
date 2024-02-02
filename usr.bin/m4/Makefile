@@ -21,7 +21,7 @@ ${PROG}:	${OBJS}
 		${ELF2AOUT} $@.elf $@ && rm $@.elf
 
 install:	all
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 
 clean:
 		rm -f *.o *.elf ${PROG} *.dis tags *~

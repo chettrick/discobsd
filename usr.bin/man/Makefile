@@ -42,8 +42,8 @@ depend:         FRC
 
 install:        all
 		@rm -f ${DESTDIR}/usr/bin/whatis ${DESTDIR}/usr/bin/apropos
-		install apropos ${DESTDIR}/usr/bin/apropos
-		install man ${DESTDIR}/usr/bin/man
+		${INSTALL} apropos ${DESTDIR}/usr/bin/apropos
+		${INSTALL} man ${DESTDIR}/usr/bin/man
 		ln ${DESTDIR}/usr/bin/apropos ${DESTDIR}/usr/bin/whatis
 
 lint:           FRC

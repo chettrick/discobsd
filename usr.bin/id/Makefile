@@ -9,8 +9,6 @@ OBJS		= id.o
 MAN		= id.0 groups.0 whoami.0
 
 all:            id ${MAN}
-		install -c groups.sh groups
-		install -c whoami.sh whoami
 
 id:             ${OBJS}
 		${CC} ${CFLAGS} ${LDFLAGS} -o id.elf ${OBJS} ${LIBS}
@@ -31,9 +29,9 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
-		install id ${DESTDIR}/usr/bin/id
-		install groups.sh ${DESTDIR}/usr/bin/groups
-		install whoami.sh ${DESTDIR}/usr/bin/whoami
+		${INSTALL} id ${DESTDIR}/usr/bin/id
+		${INSTALL} groups.sh ${DESTDIR}/usr/bin/groups
+		${INSTALL} whoami.sh ${DESTDIR}/usr/bin/whoami
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

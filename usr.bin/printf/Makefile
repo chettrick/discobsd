@@ -30,7 +30,7 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
-		install printf ${DESTDIR}/usr/bin/printf
+		${INSTALL} printf ${DESTDIR}/usr/bin/printf
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

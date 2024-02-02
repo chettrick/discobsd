@@ -83,8 +83,8 @@ hunt.obj:	$(POBJ) pathname.o
 # System installation
 #
 install:	standard
-	install -s hunt.driver $(DESTDIR)/usr/games/lib/hunt.driver
-	install -s hunt $(DESTDIR)/usr/games/hunt
+	${INSTALL} -s hunt.driver ${DESTDIR}/usr/games/lib/hunt.driver
+	${INSTALL} -s hunt ${DESTDIR}/usr/games/hunt
 
 hunt:	$(POBJ) pathname.o
 	$(CC) ${SEPFLAG} $(LDFLAGS) -o hunt $(POBJ) \

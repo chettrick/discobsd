@@ -19,4 +19,4 @@ clean:
 		rm -f *.o *.elf ${PROG} *.dis tags *~
 
 install:	all
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}

@@ -52,7 +52,7 @@ all:
 includes: ${SHARED}
 	-for i in ${STD}; do \
 		cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		    install -c -m 444 $$i ${DESTDIR}/usr/include/$$i; \
+		    ${INSTALL} -c -m 444 $$i ${DESTDIR}/usr/include/$$i; \
 	done
 	-for i in ${SUBDIRS}; do \
 		if [ ! -d ${DESTDIR}/usr/include/$$i ]; \
@@ -61,11 +61,11 @@ includes: ${SHARED}
 		fi; \
 		(cd $$i; for j in *.[ih]; do \
 			cmp -s $$j ${DESTDIR}/usr/include/$$i/$$j || \
-			install -c -m 444 $$j ${DESTDIR}/usr/include/$$i/$$j; \
+			${INSTALL} -c -m 444 $$j ${DESTDIR}/usr/include/$$i/$$j; \
 		done); \
 	done
 # XXX	-cmp -s Makefile.install ${DESTDIR}/usr/include/Makefile || \
-# XXX	    install -c -m 444 Makefile.install ${DESTDIR}/usr/include/Makefile
+# XXX	    ${INSTALL} -c -m 444 Makefile.install ${DESTDIR}/usr/include/Makefile
 	-for i in ${LINKS}; do \
 		rm -f ${DESTDIR}/usr/include/$$i; \
 		ln -s sys/$$i ${DESTDIR}/usr/include/$$i; \

@@ -28,7 +28,7 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install mknod ${DESTDIR}/sbin/mknod
+		${INSTALL} mknod ${DESTDIR}/sbin/mknod
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

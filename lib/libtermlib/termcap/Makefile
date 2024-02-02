@@ -15,14 +15,14 @@ termcap.full: reorder termcap.src
 
 install: termcap.small termcap.full
 	rm -f ${DESTDIR}/usr/share/misc/termcap
-	install -c -m 444 termcap.small ${DESTDIR}/usr/share/misc/termcap
-#	install -c -m 444 termcap.full ${DESTDIR}/etc/termcap.full
+	${INSTALL} -c -m 444 termcap.small ${DESTDIR}/usr/share/misc/termcap
+#	${INSTALL} -c -m 444 termcap.full ${DESTDIR}/etc/termcap.full
 
 tabset: FRC
 	rm -fr ${DESTDIR}/usr/share/tabset
 	mkdir ${DESTDIR}/usr/share/tabset
 	chmod 755 ${DESTDIR}/usr/share/tabset
-	install -c -m 444 tabset/* ${DESTDIR}/usr/share/tabset
+	${INSTALL} -c -m 444 tabset/* ${DESTDIR}/usr/share/tabset
 
 clean:
 	rm -f termcap.full

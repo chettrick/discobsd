@@ -27,7 +27,7 @@ $(TARGET):      $(OBJS)
 		${ELF2AOUT} ${TARGET}.elf $@
 
 install:        $(TARGET)
-		install ${TARGET} ${DESTDIR}/usr/bin/
+		${INSTALL} ${TARGET} ${DESTDIR}/usr/bin/
 
 test:           all
 		(cd tests; make test)

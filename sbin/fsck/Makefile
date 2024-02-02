@@ -39,7 +39,7 @@ ${PROG}:	${OBJS} ${HDRS}
 		${ELF2AOUT} fsck.elf $@ && rm fsck.elf
 
 install:	all
-		install ${PROG} ${DESTDIR}/sbin/${PROG}
+		${INSTALL} ${PROG} ${DESTDIR}/sbin/${PROG}
 
 clean:
 		rm -f *.o *~ *.elf *.dis a.out core ${PROG}

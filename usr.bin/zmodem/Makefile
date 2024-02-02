@@ -36,8 +36,8 @@ clean:
 		rm -f *.o *.elf $(MAN) rz sz *.elf *.dis tags *~
 
 install:        all
-		install rz $(DESTDIR)/usr/bin/
-		install sz $(DESTDIR)/usr/bin/
+		${INSTALL} rz ${DESTDIR}/usr/bin/
+		${INSTALL} sz ${DESTDIR}/usr/bin/
 		cp rz.0 $(DESTDIR)/usr/share/man/cat1/
 		cp sz.0 $(DESTDIR)/usr/share/man/cat1/
 		@rm -f $(DESTDIR)/usr/bin/sb $(DESTDIR)/usr/bin/sx

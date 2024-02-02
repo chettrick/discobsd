@@ -26,5 +26,5 @@ clean:
 		rm -f *.o *.elf ${MAN} la *.elf *.dis tags *~
 
 install:        all
-		install la ${DESTDIR}/usr/bin/
+		${INSTALL} la ${DESTDIR}/usr/bin/
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

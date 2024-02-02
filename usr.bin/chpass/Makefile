@@ -43,7 +43,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install: 	all
-		install -m 4755 chpass ${DESTDIR}/usr/bin/chpass
+		${INSTALL} -m 4755 chpass ${DESTDIR}/usr/bin/chpass
 		rm -f ${DESTDIR}/usr/bin/chfn; ln ${DESTDIR}/usr/bin/chpass ${DESTDIR}/usr/bin/chfn
 		rm -f ${DESTDIR}/usr/bin/chsh; ln ${DESTDIR}/usr/bin/chpass ${DESTDIR}/usr/bin/chsh
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

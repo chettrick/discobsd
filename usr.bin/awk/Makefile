@@ -26,7 +26,7 @@ token.h:	awk.h tokenscript
 		ex - < tokenscript
 
 install:        awk
-		install awk ${DESTDIR}/usr/bin/
+		${INSTALL} awk ${DESTDIR}/usr/bin/
 
 #profile:	awk.g.o $(FILES) mon.o
 #		${HOST_CC} -p -i awk.g.o ${FILES} mon.o -lm

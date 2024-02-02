@@ -27,6 +27,6 @@ clean:
 		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~ y.tab.[ch]
 
 install:	all lib.b
-		install -c -m 444 lib.b ${DESTDIR}/usr/share/misc
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} -c -m 444 lib.b ${DESTDIR}/usr/share/misc
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

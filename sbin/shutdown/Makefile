@@ -29,7 +29,7 @@ depend:         ${SRCS}
 
 install:        all
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat8/
-		install -m 4750 shutdown ${DESTDIR}/sbin/shutdown
+		${INSTALL} -m 4750 shutdown ${DESTDIR}/sbin/shutdown
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

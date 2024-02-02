@@ -23,7 +23,7 @@ ${MAN}:		${MANSRC}
 		${MANROFF} ${MANSRC} > $@
 
 install:	all
-		install ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
 clean:

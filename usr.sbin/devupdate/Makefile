@@ -27,7 +27,7 @@ depend:         ${SRCS}
 		mkdep ${CFLAGS} ${SRCS}
 
 install:        all
-		install -m 755 $(BIN) ${DESTDIR}/usr/sbin
+		${INSTALL} -m 755 ${BIN} ${DESTDIR}/usr/sbin
 
 lint:           ${SRCS}
 		lint -hax ${SRCS}

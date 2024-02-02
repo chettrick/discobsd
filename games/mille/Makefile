@@ -27,5 +27,5 @@ clean:
 		rm -f *.o core mille *.0 *.dis
 
 install:        all
-		install mille $(DESTDIR)/usr/games/
-		install -m 644 $(MAN) $(DESTDIR)/usr/share/man/cat6/
+		${INSTALL} mille ${DESTDIR}/usr/games/
+		${INSTALL} -m 644 ${MAN} ${DESTDIR}/usr/share/man/cat6/

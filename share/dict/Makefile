@@ -1,4 +1,6 @@
 #	@(#)Makefile	8.1 (Berkeley) 6/5/93
+TOPSRC!=cd ../..; pwd
+include ${TOPSRC}/share/mk/sys.mk
 
 FILES=	words
 

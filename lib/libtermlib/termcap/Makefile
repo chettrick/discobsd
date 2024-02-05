@@ -9,6 +9,8 @@
 # (in reverse order from n'th to 1'st most commonly used)
 # to move them to the front of termcap
 #
+TOPSRC!=cd ../../..; pwd
+include ${TOPSRC}/share/mk/sys.mk
 
 termcap.full: reorder termcap.src
 	ex - termcap.src < reorder

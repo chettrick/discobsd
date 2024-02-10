@@ -8,6 +8,9 @@
 # The `make' will compile everything, including a kernel, utilities
 # and a root filesystem image.
 
+TOPSRC!=	pwd
+DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
+
 # Override the default port with:
 # $ make MACHINE=pic32 MACHINE_ARCH=mips
 #
@@ -19,8 +22,8 @@ FS_MBYTES       = 200
 U_MBYTES        = 200
 SWAP_MBYTES     = 2
 
-# SD card filesystem image for $(MACHINE).
-FSIMG		= distrib/$(MACHINE)/sdcard.img
+# SD card filesystem image for ${MACHINE}.
+FSIMG=		${TOPSRC}/distrib/${MACHINE}/sdcard.img
 
 # Set this to the device name for your SD card.  With this
 # enabled you can use "make installfs" to copy the sdcard.img
@@ -34,12 +37,9 @@ FSIMG		= distrib/$(MACHINE)/sdcard.img
 #
 DEFS		=
 
-FSUTIL=		tools/bin/fsutil
+FSUTIL=		${TOPSRC}/tools/bin/fsutil
 
 -include Makefile.user
-
-TOPSRC!=	pwd
-DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 
 SUBDIR=		share lib bin sbin libexec usr.bin usr.sbin games
 
@@ -51,7 +51,7 @@ all:		symlinks tools
 			${MAKE} -C $$dir ; done
 		for dir in ${SUBDIR} ; do \
 			${MAKE} -C $$dir DESTDIR=${DESTDIR} install ; done
-		sudo $(MAKE) -C etc DESTDIR=${DESTDIR} MACHINE=${MACHINE} distribution
+		sudo ${MAKE} -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 
 tools:

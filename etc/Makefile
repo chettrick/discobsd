@@ -11,6 +11,9 @@
 #	mount /dev/ra1a /mnt
 #	make DESTDIR=/mnt distribution
 
+TOPSRC!=cd ..; pwd
+include ${TOPSRC}/share/mk/sys.mk
+
 DESTDIR=/foobar
 OWN=	root
 GRP=	wheel

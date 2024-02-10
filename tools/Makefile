@@ -1,7 +1,7 @@
 SUBDIR!=if [ x"${MACHINE}" = x"pic32" ] ; then \
-		echo "binstall aoututils elf2aout fsutil kconfig icache mkrd virtualmips" ; \
+		echo "aoututils elf2aout fsutil kconfig icache mkrd virtualmips" ; \
 	else \
-		echo "binstall aoututils elf2aout fsutil kconfig" ; \
+		echo "aoututils elf2aout fsutil kconfig" ; \
 	fi
 
 all install depend: ${SUBDIR}

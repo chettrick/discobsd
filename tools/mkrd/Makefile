@@ -12,7 +12,7 @@ ${PROG}: ${OBJS}
 	$(CC) -o $@ $(OBJS) $(LIBS) $(LDFLAGS)
 
 install: all
-	install ${PROG} ${TOOLBINDIR}/${PROG}
+	${INSTALL} ${PROG} ${TOOLBINDIR}/${PROG}
 
 clean:
 	rm -f ${PROG} ${OBJS}

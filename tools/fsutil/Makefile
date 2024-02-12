@@ -23,10 +23,10 @@ LIBS!=		PKG_CONFIG_PATH=${FUSE_PATH} pkg-config fuse --libs
 all:		$(PROG)
 
 install:	all
-		install ${PROG} ${TOOLBINDIR}/${PROG}
+		${INSTALL} ${PROG} ${TOOLBINDIR}/${PROG}
 
 clean:
-		rm -rf *~ *.o *.lst *.dis $(PROG) $(PROG).dSYM
+		rm -f *~ *.o ${PROG} ${PROG}.dSYM
 
 $(PROG):	$(OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)

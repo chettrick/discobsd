@@ -25,7 +25,7 @@ MANSRC		= kconfig.8
 all:		${PROG} ${MAN}
 
 install:	all
-		install ${PROG} ${TOOLBINDIR}/${PROG}
+		${INSTALL} ${PROG} ${TOOLBINDIR}/${PROG}
 
 ${MAN}:		${MANSRC}
 		${MANROFF} ${MANSRC} > $@

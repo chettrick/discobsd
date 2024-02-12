@@ -19,18 +19,19 @@ MANROFF=	mandoc -Tascii
 
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
 PROG		= kconfig
+MAN		= kconfig.0
 MANSRC		= kconfig.8
 
-all:		$(PROG) $(PROG).0
+all:		${PROG} ${MAN}
 
 install:	all
 		install ${PROG} ${TOOLBINDIR}/${PROG}
 
-${PROG}.0:	${MANSRC}
+${MAN}:		${MANSRC}
 		${MANROFF} ${MANSRC} > $@
 
 clean:
-		rm -rf *~ *.o *.lst *.dis $(PROG) $(PROG).0 $(PROG).dSYM y.tab.[ch] lang.c config.c
+		rm -f *~ *.o ${PROG} ${MAN} ${PROG}.dSYM y.tab.[ch] lang.c config.c
 
 $(PROG):	$(OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)

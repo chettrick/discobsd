@@ -12,10 +12,10 @@ PROG		= elf2aout
 all:		$(PROG)
 
 install:	all
-		install ${PROG} ${TOOLBINDIR}/${PROG}
+		${INSTALL} ${PROG} ${TOOLBINDIR}/${PROG}
 
 clean:
-		rm -f *~ *.o *.lst *.dis $(PROG)
+		rm -f *~ *.o ${PROG}
 
 $(PROG):	$(OBJS)
 		$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)

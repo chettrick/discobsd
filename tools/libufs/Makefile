@@ -1,3 +1,5 @@
+TOPSRC!=cd ../..; pwd
+
 -include ../Makefile.inc
 
 LOBJS=fs.o util.o fops.o set.o

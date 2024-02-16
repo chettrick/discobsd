@@ -7,8 +7,6 @@ OBJS		= fsutil.o superblock.o block.c inode.o create.o check.o \
                   file.o mount.o manifest.o
 PROG		= fsutil
 
-_HOST_OSNAME!=	uname -s
-
 # For Mac OS X
 FUSE_PATH!=if [ x"${_HOST_OSNAME}" = x"Darwin" ] ; then \
 		echo "/usr/local/lib/pkgconfig" ; \

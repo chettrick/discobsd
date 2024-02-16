@@ -30,7 +30,7 @@
 .\"
 .\"     @(#)install.1	8.1 (Berkeley) 6/6/93
 .\"
-.Dd $Mdocdate: February 8 2019 $
+.Dd $Mdocdate: February 10 2024 $
 .Dt INSTALL 1
 .Os
 .Sh NAME
@@ -38,7 +38,7 @@
 .Nd install binaries
 .Sh SYNOPSIS
 .Nm install
-.Op Fl bCcDdFpSs
+.Op Fl bCcDdFpSsU
 .Op Fl B Ar suffix
 .Op Fl f Ar flags
 .Op Fl g Ar group
@@ -155,6 +155,14 @@ number of systems and binary types.
 If the environment variable
 .Ev STRIP
 is set, it is used instead.
+.It Fl U
+Unprivileged mode.
+Do not attempt to modify the default
+.Ar owner ,
+.Ar group ,
+and file
+.Ar flags
+of the target.
 .El
 .Pp
 By default,
@@ -206,8 +214,9 @@ The
 .Fl D ,
 .Fl F ,
 .Fl p ,
+.Fl S ,
 and
-.Fl S
+.Fl U
 flags are non-standard and should not be relied upon for portability.
 .Pp
 Temporary files may be left in the target directory if

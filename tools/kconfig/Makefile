@@ -4,19 +4,6 @@ TOPSRC!=cd ../..; pwd
 
 CFLAGS		= -O -Wall
 
-_HOST_OSNAME!=	uname -s
-
-YACC!=		if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
-			echo "byacc" ; \
-		else \
-			echo "yacc" ; \
-		fi
-
-YFLAGS=		-d
-
-#MANROFF=	nroff -man -h -Tascii
-MANROFF=	mandoc -Tascii
-
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
 PROG		= kconfig
 MAN		= kconfig.0

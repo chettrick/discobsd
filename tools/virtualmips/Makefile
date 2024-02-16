@@ -1,3 +1,5 @@
+TOPSRC!=cd ../..; pwd
+
 -include ../Makefile.inc
 
 #
@@ -22,8 +24,6 @@ CFLAGS		+= -Wall -MT $@ -MD -MP -MF .deps/$*.dep -I/usr/local/include -I/usr/loc
 LIBS		= -lpthread -lelf
 
 LIBS		+= -L/usr/local/lib/elftoolchain
-
-_HOST_OSNAME!=	uname -s
 
 ADDLIBS!=if [ x"${_HOST_OSNAME}" = x"OpenBSD" ] ; then \
 		echo "-L/usr/local/lib -lintl" ; \

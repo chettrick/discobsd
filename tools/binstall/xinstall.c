@@ -61,7 +61,7 @@
 #define NOCHANGEBITS	(UF_IMMUTABLE | UF_APPEND | SF_IMMUTABLE | SF_APPEND)
 #define BACKUP_SUFFIX	".old"
 
-int dobackup, docompare, dodest, dodir, dopreserve, dostrip;
+int dobackup, docompare, dodest, dodir, dopreserve, dostrip, dounpriv;
 int mode = S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH;
 char pathbuf[PATH_MAX], tempfile[PATH_MAX];
 char *suffix = BACKUP_SUFFIX;
@@ -90,7 +90,7 @@ main(int argc, char *argv[])
 	const char *errstr;
 
 	iflags = 0;
-	while ((ch = getopt(argc, argv, "B:bCcDdFf:g:m:o:pSs")) != -1)
+	while ((ch = getopt(argc, argv, "B:bCcDdFf:g:m:o:pSsU")) != -1)
 		switch(ch) {
 		case 'C':
 			docompare = 1;
@@ -140,6 +140,9 @@ main(int argc, char *argv[])
 		case 'd':
 			dodir = 1;
 			break;
+		case 'U':
+			dounpriv = 1;
+			break;
 		default:
 			usage();
 		}
@@ -155,12 +158,12 @@ main(int argc, char *argv[])
 		usage();
 
 	/* get group and owner id's */
-	if (group != NULL && gid_from_group(group, &gid) == -1) {
+	if (group != NULL && !dounpriv && gid_from_group(group, &gid) == -1) {
 		gid = strtonum(group, 0, GID_MAX, &errstr);
 		if (errstr != NULL)
 			errx(1, "unknown group %s", group);
 	}
-	if (owner != NULL && uid_from_user(owner, &uid) == -1) {
+	if (owner != NULL && !dounpriv && uid_from_user(owner, &uid) == -1) {
 		uid = strtonum(owner, 0, UID_MAX, &errstr);
 		if (errstr != NULL)
 			errx(1, "unknown user %s", owner);
@@ -220,7 +223,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 {
 	struct stat from_sb, to_sb;
 	struct timespec ts[2];
-	int devnull, from_fd, to_fd, serrno, files_match = 0;
+	int devnull, from_fd, to_fd, serrno, tmpmode, files_match = 0;
 	char *p;
 	char *target_name = tempfile;
 
@@ -325,7 +328,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	/*
 	 * Preserve the timestamp of the source file if necessary.
 	 */
-	if (dopreserve && !files_match) {
+	if (dopreserve && !dounpriv && !files_match) {
 		ts[0] = from_sb.st_atim;
 		ts[1] = from_sb.st_mtim;
 		futimens(to_fd, ts);
@@ -335,14 +338,19 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	 * Set owner, group, mode for target; do the chown first,
 	 * chown may lose the setuid bits.
 	 */
-	if ((gid != (gid_t)-1 || uid != (uid_t)-1) &&
+	if (!dounpriv && (gid != (gid_t)-1 || uid != (uid_t)-1) &&
 	    fchown(to_fd, uid, gid)) {
 		serrno = errno;
 		if (target_name == tempfile)
 			(void)unlink(target_name);
 		errx(1, "%s: chown/chgrp: %s", target_name, strerror(serrno));
 	}
-	if (fchmod(to_fd, mode)) {
+
+	/* If unprivileged, still do a chmod of the lower 0777 bits. */
+	tmpmode = mode;
+	if (dounpriv)
+		tmpmode &= S_IRWXU|S_IRWXG|S_IRWXO;
+	if (fchmod(to_fd, tmpmode)) {
 		serrno = errno;
 		if (target_name == tempfile)
 			(void)unlink(target_name);
@@ -353,7 +361,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	 * If provided a set of flags, set them, otherwise, preserve the
 	 * flags, except for the dump flag.
 	 */
-	if (fchflags(to_fd,
+	if (!dounpriv && fchflags(to_fd,
 	    flags & SETFLAGS ? fset : from_sb.st_flags & ~UF_NODUMP)) {
 		if (errno != EOPNOTSUPP || (from_sb.st_flags & ~UF_NODUMP) != 0)
 			warnx("%s: chflags: %s", target_name, strerror(errno));
@@ -593,8 +601,8 @@ install_dir(char *path, int mode)
 				break;
 		}
 
-	if (((gid != (gid_t)-1 || uid != (uid_t)-1) && chown(path, uid, gid)) ||
-	    chmod(path, mode)) {
+	if (!dounpriv && (((gid != (gid_t)-1 || uid != (uid_t)-1) &&
+	    chown(path, uid, gid)) || chmod(path, mode))) {
 		warn("%s", path);
 	}
 }
@@ -606,8 +614,9 @@ install_dir(char *path, int mode)
 void
 usage(void)
 {
-	(void)fprintf(stderr, "\
-usage: install [-bCcDdFpSs] [-B suffix] [-f flags] [-g group] [-m mode] [-o owner]\n	       source ... target ...\n");
+	(void)fprintf(stderr, "usage: install [-bCcDdFpSsU] [-B suffix] ");
+	(void)fprintf(stderr, "[-f flags] [-g group] [-m mode]\n");
+	(void)fprintf(stderr, "\t       [-o owner] source ... target ...\n");
 	exit(1);
 	/* NOTREACHED */
 }

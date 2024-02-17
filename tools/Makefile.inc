@@ -9,7 +9,7 @@ HOST_CC?=	cc
 
 CC=		${HOST_CC}
 
-INSTALL=	install
+INSTALL=	${TOOLBINDIR}/binstall -U
 
 YACC!=		if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
 			echo "byacc" ; \

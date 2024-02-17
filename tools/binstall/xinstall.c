@@ -51,6 +51,20 @@
 
 #include "pathnames.h"
 
+#define	HAVE_CHFLAGS	1
+#define	HAVE_ISSETUGID	1
+#ifdef	__linux__
+#undef	HAVE_CHFLAGS
+#undef	HAVE_ISSETUGID
+#endif
+
+#ifndef	UID_MAX
+#define	UID_MAX		UINT_MAX
+#endif
+#ifndef	GID_MAX
+#define	GID_MAX		UINT_MAX
+#endif
+
 #define _MAXBSIZE (64 * 1024)
 
 #define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
@@ -58,7 +72,6 @@
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
 #define	USEFSYNC	0x04		/* Tell install to use fsync(2). */
-#define NOCHANGEBITS	(UF_IMMUTABLE | UF_APPEND | SF_IMMUTABLE | SF_APPEND)
 #define BACKUP_SUFFIX	".old"
 
 int dobackup, docompare, dodest, dodir, dopreserve, dostrip, dounpriv;
@@ -83,7 +96,7 @@ main(int argc, char *argv[])
 {
 	struct stat from_sb, to_sb;
 	void *set;
-	u_int32_t fset;
+	u_int32_t fset = 0;
 	u_int iflags;
 	int ch, no_target;
 	char *flags, *to_name, *group = NULL, *owner = NULL;
@@ -109,9 +122,11 @@ main(int argc, char *argv[])
 			break;
 		case 'f':
 			flags = optarg;
+#if HAVE_CHFLAGS
 			if (strtofflags(&flags, &fset, NULL))
 				errx(1, "%s: invalid flag", flags);
 			iflags |= SETFLAGS;
+#endif
 			break;
 		case 'g':
 			group = optarg;
@@ -204,7 +219,7 @@ main(int argc, char *argv[])
 		if (stat(*argv, &from_sb))
 			err(1, "%s", *argv);
 		if (!S_ISREG(to_sb.st_mode))
-			errc(1, EFTYPE, "%s", to_name);
+			errx(1, "%s: not a regular file", to_name);
 		if (to_sb.st_dev == from_sb.st_dev &&
 		    to_sb.st_ino == from_sb.st_ino)
 			errx(1, "%s and %s are the same file", *argv, to_name);
@@ -235,7 +250,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		if (stat(from_name, &from_sb))
 			err(1, "%s", from_name);
 		if (!S_ISREG(from_sb.st_mode))
-			errc(1, EFTYPE, "%s", from_name);
+			errx(1, "%s: not a regular file", from_name);
 		/* Build the target path. */
 		if (flags & DIRECTORY) {
 			(void)snprintf(pathbuf, sizeof(pathbuf), "%s/%s",
@@ -252,7 +267,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		/* Only compare against regular files. */
 		if (docompare && !S_ISREG(to_sb.st_mode)) {
 			docompare = 0;
-			warnc(EFTYPE, "%s", to_name);
+			warnx("%s: not a regular file", to_name);
 		}
 	} else if (docompare) {
 		/* File does not exist so silently ignore compare flag. */
@@ -357,6 +372,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		errx(1, "%s: chmod: %s", target_name, strerror(serrno));
 	}
 
+#if HAVE_CHFLAGS
 	/*
 	 * If provided a set of flags, set them, otherwise, preserve the
 	 * flags, except for the dump flag.
@@ -366,6 +382,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		if (errno != EOPNOTSUPP || (from_sb.st_flags & ~UF_NODUMP) != 0)
 			warnx("%s: chflags: %s", target_name, strerror(errno));
 	}
+#endif
 
 	if (flags & USEFSYNC)
 		fsync(to_fd);
@@ -378,9 +395,12 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	 * or were not compared.
 	 */
 	if (!files_match) {
+#if HAVE_CHFLAGS
+#define NOCHANGEBITS	(UF_IMMUTABLE | UF_APPEND | SF_IMMUTABLE | SF_APPEND)
 		/* Try to turn off the immutable bits. */
 		if (to_sb.st_flags & (NOCHANGEBITS))
 			(void)chflags(to_name, to_sb.st_flags & ~(NOCHANGEBITS));
+#endif
 		if (dobackup) {
 			char backup[PATH_MAX];
 			(void)snprintf(backup, PATH_MAX, "%s%s", to_name,
@@ -546,7 +566,9 @@ strip(char *to_name)
 	char * volatile path_strip;
 	pid_t pid;
 
+#if HAVE_ISSETUGID
 	if (issetugid() || (path_strip = getenv("STRIP")) == NULL)
+#endif
 		path_strip = _PATH_STRIP;
 
 	switch ((pid = vfork())) {

@@ -95,7 +95,7 @@ SIZE=		${GCCPREFIX}-size
 AS=		${CC} -x assembler-with-cpp -c
 
 LEX=		flex
-INSTALL=	install
+INSTALL=	${TOOLBINDIR}/binstall -U
 
 TAGSFILE=	tags
 

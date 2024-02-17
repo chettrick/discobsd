@@ -51,7 +51,7 @@ all:		symlinks tools
 			${MAKE} -C $$dir ; done
 		for dir in ${SUBDIR} ; do \
 			${MAKE} -C $$dir DESTDIR=${DESTDIR} install ; done
-		sudo ${MAKE} -C etc DESTDIR=${DESTDIR} distribution
+		${MAKE} -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 
 tools:
@@ -67,7 +67,7 @@ ${FSIMG}:	distrib/${MACHINE}/md.${MACHINE} distrib/base/mi.home
 		rm -f $@ distrib/$(MACHINE)/_manifest
 		cat distrib/base/mi distrib/$(MACHINE)/md.$(MACHINE) > distrib/$(MACHINE)/_manifest
 		$(FSUTIL) --repartition=fs=$(FS_MBYTES)M:swap=$(SWAP_MBYTES)M:fs=$(U_MBYTES)M $@
-		sudo $(FSUTIL) --new --partition=1 --manifest=distrib/$(MACHINE)/_manifest $@ ${DESTDIR}
+		${FSUTIL} --new --partition=1 --manifest=distrib/${MACHINE}/_manifest $@ ${DESTDIR}
 # In case you need a separate /home partition,
 # uncomment the following line.
 		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ distrib/home

@@ -11,7 +11,7 @@ OSREV=		${OSMAJOR}.${OSMINOR}
 OSrev=		${OSMAJOR}${OSMINOR}
 
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
-RELEASE=	2.1
+RELEASE=	${OSREV}
 BUILD!=		git rev-list HEAD --count
 VERSION=	${RELEASE}-${BUILD}
 

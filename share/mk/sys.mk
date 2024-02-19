@@ -100,7 +100,7 @@ INSTALL=	${TOOLBINDIR}/binstall -U
 TAGSFILE=	tags
 
 #MANROFF=	nroff -man -h -Tascii
-MANROFF=	mandoc -Tascii
+MANROFF=	mandoc -Tascii -Ios="DiscoBSD ${OSREV}"
 
 ELF2AOUT=	${TOOLBINDIR}/elf2aout
 

@@ -83,6 +83,8 @@ Building
 
 DiscoBSD is cross-built on UNIX-like host operating systems.
 
+Currently supported host operating systems: OpenBSD, Linux, FreeBSD.
+
 Instructions to configure an OpenBSD host development environment for
 Arm and MIPS targets is available [here][6].
 
@@ -102,6 +104,19 @@ DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 which will build a file system image in the file `distrib/pic32/sdcard.img`
 and ELF-formatted kernels in the files `sys/pic32/${BOARD}/unix` and
 Intel HEX-formatted kernels in the files `sys/pic32/${BOARD}/unix.hex`.
+
+Using BSD make on a FreeBSD host requires the system makefile include
+directory to be specified on the command line or via the MAKESYSPATH
+environment variable. For example:
+
+    $ make -m /usr/share/mk
+
+or
+
+    $ MAKESYSPATH=/usr/share/mk
+    $ export MAKESYSPATH
+
+    $ make
 
 [6]: tools/openbsd/README.md
 

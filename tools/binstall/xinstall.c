@@ -96,7 +96,11 @@ main(int argc, char *argv[])
 {
 	struct stat from_sb, to_sb;
 	void *set;
+#ifdef __FreeBSD__
+	u_long fset = 0;
+#else
 	u_int32_t fset = 0;
+#endif
 	u_int iflags;
 	int ch, no_target;
 	char *flags, *to_name, *group = NULL, *owner = NULL;

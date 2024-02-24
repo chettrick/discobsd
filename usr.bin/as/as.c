@@ -84,6 +84,7 @@ enum {
     LWEAK,              /* .weak */
     LLOCAL,             /* .local */
     LNAN,               /* .nan */
+    LMODULE,            /* .module */
 };
 
 /*
@@ -733,6 +734,7 @@ int lookacmd ()
         break;
     case 'm':
         if (! strcmp (".mask", name)) return (LMASK);
+        if (! strcmp (".module", name)) return (LMODULE);
         break;
     case 'n':
         if (! strcmp (".nan", name)) return (LNAN);
@@ -2348,6 +2350,20 @@ done:       reorder_flush();
             nbytes = getexpr (&csegm);
             if (csegm != SABS)
                 uerror ("bad value of .size");
+            break;
+        case LMODULE:
+            /* .module name[=name] */
+            clex = getlex (&cval);
+            if (clex != LNAME)
+                uerror ("bad parameter of .module");
+            clex = getlex (&cval);
+            if (clex != '=') {
+                ungetlex (clex, cval);
+                break;
+            }
+            clex = getlex (&cval);
+            if (clex != LNAME)
+                uerror ("bad parameter of .module");
             break;
         default:
             uerror ("bad syntax");

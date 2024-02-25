@@ -6,7 +6,7 @@ MACHINE_ARCH=	arm
 
 unix=		We run DiscoBSD.
 OSMAJOR=	2
-OSMINOR=	1
+OSMINOR=	2
 OSREV=		${OSMAJOR}.${OSMINOR}
 OSrev=		${OSMAJOR}${OSMINOR}
 

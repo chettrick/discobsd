@@ -8,8 +8,8 @@ DiscoBSD is a 2.11BSD-based UNIX-like operating system for microcontrollers,
 with a focus on high portability to memory constrained devices without a
 memory management unit.
 
-The current and second official release of DiscoBSD is [DiscoBSD 2.1][1],
-released on August 31, 2023.
+The current and third official release of DiscoBSD is [DiscoBSD 2.2][1],
+released on February 29, 2024.
 
 This microcontroller-focused operating system is an independent continuation
 of RetroBSD, a 2.11BSD-based OS targeting the MIPS-based PIC32MX7.
@@ -32,7 +32,7 @@ August 2022. The system is quite usable on supported development boards.
 
 And work continues...
 
-[1]: https://github.com/chettrick/discobsd/releases/tag/DISCOBSD_2_1
+[1]: https://github.com/chettrick/discobsd/releases/tag/DISCOBSD_2_2
 [2]: http://DiscoBSD.org
 [3]: https://github.com/chettrick/CSC490
 [4]: https://RetroBSD.org
@@ -149,7 +149,7 @@ DiscoBSD/stm32 dmesg
 --------------------
 
 ```
-2.11 BSD UNIX for STM32, rev G417 #1: Thu Aug 31 19:41:58 PDT 2023
+DiscoBSD 2.2 (F412GDISCO) #1 502: Thu Feb 29 22:06:34 MST 2024
      chris@stm32.discobsd.org:/sys/stm32/f412gdisco
 cpu: STM32F412xx rev C, 100 MHz, bus 50 MHz
 oscillator: phase-locked loop, clock source: high speed external
@@ -166,18 +166,18 @@ swap dev  = (0,2)
 root size = 204800 kbytes
 swap size = 2048 kbytes
 Automatic boot in progress: starting file system checks.
-/dev/sd0a: 1453 files, 11910 used, 192089 free
+/dev/sd0a: 1463 files, 12037 used, 191962 free
 /dev/sd0c: 3 files, 3 used, 203996 free
 Updating motd... done
 Starting daemons: update cron 
-Thu Aug 31 19:31:52 PDT 2023
+Thu Feb 29 22:06:34 MST 2024
 
 
 2.11 BSD UNIX (name.my.domain) (console)
 
 login: root
 Password:
-2.11 BSD UNIX for STM32, rev G417 #1: Thu Aug 31 19:41:58 PDT 2023
+DiscoBSD 2.2 (F412GDISCO) #1 502: Thu Feb 29 22:06:34 MST 2024
 
 Welcome to DiscoBSD.
 
@@ -189,9 +189,8 @@ DiscoBSD/pic32 dmesg
 --------------------
 
 ```
-2.11 BSD Unix for PIC32, revision G417 build 1:
-     Compiled 2023-08-31 by chris@pic32.discobsd.org:
-     /discobsd/sys/pic32/max32
+DiscoBSD 2.2 (MAX32) #1 502: Thu Feb 29 22:06:34 MST 2024
+     chris@pic32.discobsd.org:/sys/pic32/max32
 cpu: 795F512L 80 MHz, bus 80 MHz
 oscillator: HS crystal, PLL div 1:2 mult x20
 spi2: pins sdi=RG7/sdo=RG8/sck=RG6
@@ -219,20 +218,20 @@ swap dev  = (0,2)
 root size = 204800 kbytes
 swap size = 2048 kbytes
 Automatic boot in progress: starting file system checks.
-/dev/sd0a: 1466 files, 12289 used, 191710 free
+/dev/sd0a: 1469 files, 12328 used, 191671 free
 /dev/sd0c: 3 files, 3 used, 203996 free
 Updating motd... done
 Starting daemons: update cron 
-Thu Aug 31 20:22:12 PDT 2023
+Thu Feb 29 22:06:34 MST 2024
 
 
 2.11 BSD UNIX (name.my.domain) (console)
 
 login: root
 Password:
-2.11 BSD Unix for PIC32, revision G417 build 1:
+DiscoBSD 2.2 (MAX32) #1 502: Thu Feb 29 22:06:34 MST 2024
 
-Welcome to RetroBSD!
+Welcome to DiscoBSD.
 
 erase ^?, kill ^U, intr ^C
 # 

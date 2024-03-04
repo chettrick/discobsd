@@ -49,7 +49,7 @@ int Twostop;		/* Use two stop bits */
  * mode(n)
  *  3: save old tty stat, set raw mode with flow control
  *  2: set XON/XOFF for sb/sz with ZMODEM or YMODEM-g
- *  1: save old tty stat, set raw mode 
+ *  1: save old tty stat, set raw mode
  *  0: restore original tty mode
  */
 mode(n)
@@ -69,7 +69,7 @@ mode(n)
 		system("set b3");
 */
 		reset(1);
-		binary(1); 
+		binary(1);
 		/* Assume fd 1 is stdout (not documented in GEnie) */
 		fcntl(1, F_SETFL,
 		  ((fcntl(1, F_GETFL, 0)|O_BINARY)& ~O_POST_BREAK));

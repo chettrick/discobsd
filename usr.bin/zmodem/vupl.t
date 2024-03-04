@@ -7,7 +7,7 @@
 	wait -f15
 	if 1 goto frog
 	if !2 echo "Unexpected response from VMS!"; abort
-	expand vuplfile.t vmodem.h rz.c sz.c vrzsz.c vvmodem.c 
+	expand vuplfile.t vmodem.h rz.c sz.c vrzsz.c vvmodem.c
 	expand vuplfile.t zm.c zmr.c zmodem.h crctab.c init.com
 	goto endmsg
 frog:	send vmodem.h rz.c sz.c vrzsz.c vvmodem.c zm.c

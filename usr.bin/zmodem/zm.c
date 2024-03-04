@@ -11,13 +11,13 @@
  *	zrdata(buf, len) receive data
  *	stohdr(pos) store position data in Txhdr
  *	long rclhdr(hdr) recover position offset from header
- * 
+ *
  *
  *	This version implements numerous enhancements including ZMODEM
  *	Run Length Encoding and variable length headers.  These
  *	features were not funded by the original Telenet development
  *	contract.
- * 
+ *
  * This software may be freely used for non commercial and
  * educational (didactic only) purposes.  This software may also
  * be freely used to support file transfer operations to or from
@@ -25,7 +25,7 @@
  * part or all of this software must be provided in source form
  * with this notice intact except by written permission from Omen
  * Technology Incorporated.
- * 
+ *
  * Use of this software for commercial or administrative purposes
  * except when exclusively limited to interfacing Omen Technology
  * products requires a per port license payment of $20.00 US per
@@ -164,8 +164,8 @@ register char *hdr;
 	register int n;
 	register UNSL long crc;
 
-	xsendline(flavour); 
-	if (Usevhdrs) 
+	xsendline(flavour);
+	if (Usevhdrs)
 		zsendline(len);
 	zsendline(type);
 	crc = 0xFFFFFFFFL; crc = UPDC32(type, crc);
@@ -336,7 +336,7 @@ crcfoo:
 		crc = updcrc(c, crc);
 	}
 #ifdef DSZ
-	garbitch(); 
+	garbitch();
 #else
 	zperr("Data subpacket too long");
 #endif

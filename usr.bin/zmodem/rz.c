@@ -518,7 +518,7 @@ wcrx()
 	for (;;) {
 		sendline(sendchar);	/* send it now, we're ready! */
 		Lleft=0;	/* Do read next time ... */
-		sectcurr=wcgetsec(secbuf, (sectnum&0177)?50:130);  
+		sectcurr=wcgetsec(secbuf, (sectnum&0177)?50:130);
 		report(sectcurr);
 		if (sectcurr==(sectnum+1 &0377)) {
 			sectnum++;
@@ -643,7 +643,7 @@ humbug:
 			sendline(Crcflg?WANTCRC:NAK);
 			Lleft=0;	/* Do read next time ... */
 		} else {
-			maxtime=40; sendline(NAK);  
+			maxtime=40; sendline(NAK);
 			Lleft=0;	/* Do read next time ... */
 		}
 	}

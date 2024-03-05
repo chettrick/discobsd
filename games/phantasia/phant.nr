@@ -5,7 +5,7 @@
 \fB\\$1\fR
 .PP
 ..
-.TH PHANTASIA 6 GAMES
+.TH PHANTASIA 6 "May 20, 1986"
 .UC 4
 .SH NAME
 phantasia \- an interterminal fantasy game

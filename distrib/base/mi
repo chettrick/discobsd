@@ -875,6 +875,7 @@ file /usr/include/sys/spi.h
 file /usr/include/sys/stat.h
 file /usr/include/sys/swap.h
 file /usr/include/sys/sysctl.h
+file /usr/include/sys/syslimits.h
 file /usr/include/sys/syslog.h
 file /usr/include/sys/systm.h
 file /usr/include/sys/time.h

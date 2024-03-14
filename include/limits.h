@@ -38,4 +38,6 @@
 
 #include <machine/limits.h>
 
+#include <sys/syslimits.h>
+
 #endif /* !_LIMITS_H_ */

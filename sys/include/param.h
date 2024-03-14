@@ -20,6 +20,8 @@
 /*
  * Machine-independent constants
  */
+#include <sys/syslimits.h>
+
 #ifndef NMOUNT
 #define NMOUNT      2       /* number of mountable file systems */
 #endif
@@ -79,7 +81,7 @@
 #define MAXBSIZE    1024
 
 /*
- * MAXPATHLEN defines the longest permissable path length
+ * MAXPATHLEN defines the longest permissible path length
  * after expanding symbolic links. It is used to allocate
  * a temporary buffer from the buffer pool in which to do the
  * name expansion, hence should be a power of two, and must
@@ -89,7 +91,7 @@
  * enough to allow all legitimate uses, but halt infinite loops
  * reasonably quickly.
  */
-#define MAXPATHLEN  256
+#define MAXPATHLEN  PATH_MAX
 #define MAXSYMLINKS 8
 
 /*

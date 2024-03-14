@@ -4,7 +4,7 @@ include ${TOPSRC}/share/mk/sys.mk
 VPATH           = cstdlib platform
 
 CFLAGS          += -DUNIX_HOST -DVER='"1.0"' -DFILENAME_MAX=64 \
-                   -DL_tmpnam=30 -DCLOCKS_PER_SEC=80000000 -DPATH_MAX=200 \
+                   -DL_tmpnam=30 -DCLOCKS_PER_SEC=80000000 \
                    -DNO_FP -Os
 
 LIBS            = -lm -lc

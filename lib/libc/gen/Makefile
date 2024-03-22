@@ -11,9 +11,11 @@ CFLAGS		+= ${DEFS} -Os -Wno-attributes -Wno-attribute-alias
 SRCS		= ${STDSRC}
 OBJS		= ${STDOBJ}
 
-STDSRC		= abort.c alarm.c atof.c atoi.c atol.c bcmp.c bcopy.c \
+STDSRC		= abort.c alarm.c atof.c atoi.c atol.c \
+		  basename.c bcmp.c bcopy.c \
 		  bzero.c calloc.c closedir.c crypt.c ctime.c ctype_.c \
-		  daemon.c devname.c ecvt.c err.c execvp.c fakcu.c ffs.c \
+		  daemon.c devname.c dirname.c \
+		  ecvt.c err.c execvp.c fakcu.c ffs.c \
 		  frexp.c fstab.c gcvt.c getenv.c getgrent.c getgrgid.c \
 		  getgrnam.c getgrouplist.c gethostname.c getloadavg.c \
 		  getlogin.c getmntinfo.c getpagesize.c getpass.c \
@@ -29,9 +31,11 @@ STDSRC		= abort.c alarm.c atof.c atoi.c atol.c bcmp.c bcopy.c \
 		  system.c telldir.c time.c timezone.c ttyname.c ttyslot.c \
 		  ualarm.c uname.c usleep.c wait.c wait3.c waitpid.c
 
-STDOBJ		= abort.o alarm.o atof.o atoi.o atol.o bcmp.o bcopy.o \
+STDOBJ		= abort.o alarm.o atof.o atoi.o atol.o \
+		  basename.o bcmp.o bcopy.o \
 		  bzero.o calloc.o closedir.o crypt.o ctime.o ctype_.o \
-		  daemon.o devname.o ecvt.o err.o execvp.o fakcu.o ffs.o \
+		  daemon.o devname.o dirname.o \
+		  ecvt.o err.o execvp.o fakcu.o ffs.o \
 		  frexp.o fstab.o gcvt.o getenv.o getgrent.o getgrgid.o \
 		  getgrnam.o getgrouplist.o gethostname.o getloadavg.o \
 		  getlogin.o getmntinfo.o getpagesize.o getpass.o \

@@ -802,6 +802,7 @@ file /usr/include/fstab.h
 file /usr/include/grp.h
 file /usr/include/kmem.h
 file /usr/include/lastlog.h
+file /usr/include/libgen.h
 file /usr/include/limits.h
 file /usr/include/math.h
 file /usr/include/mtab.h
@@ -1550,9 +1551,11 @@ file /usr/share/man/cat3/abort.0
 file /usr/share/man/cat3/abs.0
 file /usr/share/man/cat3/alarm.0
 file /usr/share/man/cat3/assert.0
+file /usr/share/man/cat3/basename.0
 file /usr/share/man/cat3/curses.0
 file /usr/share/man/cat3/daemon.0
 file /usr/share/man/cat3/devname.0
+file /usr/share/man/cat3/dirname.0
 file /usr/share/man/cat3/exit.0
 file /usr/share/man/cat3/getgrouplist.0
 file /usr/share/man/cat3/getloadavg.0

@@ -14,7 +14,7 @@
 /*
  * Process priority specifications to get/setpriority.
  */
-#define PRIO_MIN        -20
+#define PRIO_MIN        (-20)
 #define PRIO_MAX        20
 
 #define PRIO_PROCESS    0
@@ -26,7 +26,7 @@
  */
 
 #define RUSAGE_SELF     0
-#define RUSAGE_CHILDREN -1
+#define RUSAGE_CHILDREN (-1)
 
 struct  rusage {
     struct timeval  ru_utime;       /* user time used */
@@ -102,7 +102,10 @@ void ruadd (struct k_rusage *ru, struct k_rusage *ru2);
 
 #else
 
+int getpriority (int which, int who);
+int getrlimit (int resource, struct rlimit *rlp);
 int getrusage (int who, struct rusage *usage);
+int setpriority (int which, int who, int prio);
 int setrlimit (int resource, struct rlimit *rlp);
 
 #endif

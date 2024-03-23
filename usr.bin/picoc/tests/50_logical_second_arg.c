@@ -22,6 +22,6 @@ int main()
     printf("%d\n", fred() || (0 + joe()));
     printf("%d\n", joe() && (0 + fred()));
     printf("%d\n", joe() || (1 + fred()));
-    
+
     return 0;
 }

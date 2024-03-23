@@ -25,7 +25,7 @@ void DebugCleanup()
     struct TableEntry *Entry;
     struct TableEntry *NextEntry;
     int Count;
-    
+
     for (Count = 0; Count < BreakpointTable.Size; Count++)
     {
         for (Entry = BreakpointHashTable[Count]; Entry != NULL; Entry = NextEntry)
@@ -41,13 +41,13 @@ static struct TableEntry *DebugTableSearchBreakpoint(struct ParseState *Parser, 
 {
     struct TableEntry *Entry;
     int HashValue = BREAKPOINT_HASH(Parser) % BreakpointTable.Size;
-    
+
     for (Entry = BreakpointHashTable[HashValue]; Entry != NULL; Entry = Entry->Next)
     {
         if (Entry->p.b.FileName == Parser->FileName && Entry->p.b.Line == Parser->Line && Entry->p.b.CharacterPos == Parser->CharacterPos)
             return Entry;   /* found */
     }
-    
+
     *AddAt = HashValue;    /* didn't find it in the chain */
     return NULL;
 }
@@ -57,14 +57,14 @@ void DebugSetBreakpoint(struct ParseState *Parser)
 {
     int AddAt;
     struct TableEntry *FoundEntry = DebugTableSearchBreakpoint(Parser, &AddAt);
-    
+
     if (FoundEntry == NULL)
-    {   
+    {
         /* add it to the table */
         struct TableEntry *NewEntry = HeapAllocMem(sizeof(struct TableEntry));
         if (NewEntry == NULL)
             ProgramFail(NULL, "out of memory");
-            
+
         NewEntry->p.b.FileName = Parser->FileName;
         NewEntry->p.b.Line = Parser->Line;
         NewEntry->p.b.CharacterPos = Parser->CharacterPos;
@@ -79,7 +79,7 @@ int DebugClearBreakpoint(struct ParseState *Parser)
 {
     struct TableEntry **EntryPtr;
     int HashValue = BREAKPOINT_HASH(Parser) % BreakpointTable.Size;
-    
+
     for (EntryPtr = &BreakpointHashTable[HashValue]; *EntryPtr != NULL; EntryPtr = &(*EntryPtr)->Next)
     {
         struct TableEntry *DeleteEntry = *EntryPtr;
@@ -101,18 +101,18 @@ void DebugCheckStatement(struct ParseState *Parser)
 {
     int DoBreak = FALSE;
     int AddAt;
-    
+
     /* has the user manually pressed break? */
     if (DebugManualBreak)
     {
         DoBreak = TRUE;
         DebugManualBreak = FALSE;
     }
-    
+
     /* is this a breakpoint location? */
     if (BreakpointCount != 0 && DebugTableSearchBreakpoint(Parser, &AddAt) != NULL)
         DoBreak = TRUE;
-    
+
     /* handle a break */
     if (DoBreak)
     {

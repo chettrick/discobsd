@@ -3,7 +3,7 @@
 int main()
 {
     int Count = 0;
-    
+
     for (;;)
     {
         Count++;
@@ -11,6 +11,6 @@ int main()
         if (Count >= 10)
             break;
     }
-    
+
     return 0;
 }

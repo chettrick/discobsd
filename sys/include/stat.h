@@ -100,6 +100,7 @@ int     chmod (const char *path, mode_t mode);
 int     fchmod (int fd, mode_t mode);
 int     mknod (const char *path, mode_t mode, dev_t dev);
 int     mkdir (const char *path, mode_t mode);
+int     stat (const char *path, struct stat *sb);
 mode_t  umask (mode_t cmask);
 
 #endif

@@ -1984,6 +1984,10 @@ target /usr/share/man/cat3/index.0
 link /usr/share/man/cat3/strncpy.0
 target /usr/share/man/cat3/index.0
 
+file /usr/share/man/cat3/strlcpy.0
+link /usr/share/man/cat3/strlcat.0
+target /usr/share/man/cat3/strlcpy.0
+
 file /usr/share/man/cat3/gtty.0
 link /usr/share/man/cat3/stty.0
 target /usr/share/man/cat3/gtty.0

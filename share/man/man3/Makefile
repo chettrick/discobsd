@@ -38,7 +38,8 @@ SRCS2=	insque.3 intro.3 j0.3 l3tol.3 ldfps.3 lgamma.3 lib2648.3 \
 	scanf.3 setbuf.3 setjmp.3 siginterrupt.3 signal.3 sin.3 \
 	sinh.3 sleep.3 sqrt.3 stdio.3 strftime.3 string.3 strtok.3 stty.3 \
 	setmode.3 setruid.3 sigsetops.3 \
-	strcspn.3 strpbrk.3 strsep.3 strspn.3 strtol.3 strtoul.3 strstr.3 \
+	strcspn.3 strlcpy.3 strpbrk.3 \
+	strsep.3 strspn.3 strtol.3 strtoul.3 strstr.3 \
 	swab.3 sysctl.3 syslog.3 \
 	system.3 termcap.3 time.3 times.3 ttyname.3 ualarm.3 uname.3 ungetc.3 \
 	syserrlst.3 \
@@ -61,7 +62,8 @@ OBJS2=	insque.0 intro.0 j0.0 l3tol.0 ldfps.0 lgamma.0 lib2648.0 \
 	scanf.0 setbuf.0 setjmp.0 siginterrupt.0 signal.0 sin.0 \
 	sinh.0 sleep.0 sqrt.0 stdio.0 strftime.0 string.0 strtok.0 stty.0 \
 	setmode.0 setruid.0 sigsetops.0 \
-	strcspn.0 strpbrk.0 strsep.0 strspn.0 strtol.0 strtoul.0 strstr.0 \
+	strcspn.0 strlcpy.0 strpbrk.0 \
+	strsep.0 strspn.0 strtol.0 strtoul.0 strstr.0 \
 	swab.0 sysctl.0 syslog.0 \
 	system.0 termcap.0 time.0 times.0 ttyname.0 ualarm.0 uname.0 ungetc.0 \
 	syserrlst.0 \
@@ -292,6 +294,7 @@ install: _make_01 _make_02
 	ln -f ${DESTDIR}${MDIR}/string.0 ${DESTDIR}${MDIR}/strncpy.0
 	ln -f ${DESTDIR}${MDIR}/string.0 ${DESTDIR}${MDIR}/strcasecmp.0
 	ln -f ${DESTDIR}${MDIR}/string.0 ${DESTDIR}${MDIR}/strncasecmp.0
+	ln -f ${DESTDIR}${MDIR}/strlcpy.0 ${DESTDIR}${MDIR}/strlcat.0
 	ln -f ${DESTDIR}${MDIR}/printf.0 ${DESTDIR}${MDIR}/sprintf.0
 	ln -f ${DESTDIR}${MDIR}/printf.0 ${DESTDIR}${MDIR}/vfprintf.0
 	ln -f ${DESTDIR}${MDIR}/printf.0 ${DESTDIR}${MDIR}/vprintf.0

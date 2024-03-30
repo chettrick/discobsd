@@ -14,8 +14,10 @@ typedef unsigned size_t;
 
 char    *strcat (char *, const char *);
 char    *strncat (char *, const char *, size_t);
+size_t  strlcat (char *, const char *, size_t);
 char    *strcpy (char *, const char *);
 char    *strncpy (char *, const char *, size_t);
+size_t  strlcpy (char *, const char *, size_t);
 
 char    *strstr (const char *, const char *);
 

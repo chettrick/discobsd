@@ -162,7 +162,7 @@ SystemClock_Config(void)
 #if defined(STM32F407xx) || defined(STM32F469xx)
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 #endif
-#if defined(STM32F411xE) || defined(STM32F412Zx)
+#if defined(STM32F411xE) || defined(STM32F412Rx) || defined(STM32F412Zx)
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_3);
 #endif
 
@@ -192,6 +192,9 @@ SystemClock_Config(void)
 #ifdef STM32F411xE      /* 100 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 400, LL_RCC_PLLP_DIV_4);
 #endif
+#ifdef STM32F412Rx      /* 100 MHz */
+    LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 200, LL_RCC_PLLP_DIV_2);
+#endif
 #ifdef STM32F412Zx      /* 100 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 200, LL_RCC_PLLP_DIV_2);
 #endif
@@ -219,6 +222,10 @@ SystemClock_Config(void)
 #ifdef STM32F411xE      /* 100 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+#endif
+#ifdef STM32F412Rx      /* 100 MHz */
+    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 #endif
 #ifdef STM32F412Zx      /* 100 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);

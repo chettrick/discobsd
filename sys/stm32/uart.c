@@ -55,6 +55,7 @@ static const struct uart_inst uart[NUART] = {
 #define PIN3             LL_GPIO_PIN_3
 #define PIN6             LL_GPIO_PIN_6
 #define PIN7             LL_GPIO_PIN_7
+#define PIN9             LL_GPIO_PIN_9
 #define PIN10            LL_GPIO_PIN_10
 #define PIN11            LL_GPIO_PIN_11
 #define AF7              LL_GPIO_AF_7
@@ -71,6 +72,14 @@ static const struct uart_inst uart[NUART] = {
     { /* USART1 */ },
     { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 2, AF7 },
     { /* none */ },
+    { /* none */ },
+    { /* none */ },
+    { /* USART6 */ },
+#endif
+#ifdef STM32F412Rx
+    { USART1, { GPIOA, 'A', PIN9 }, { GPIOA, 'A', PIN10 }, 2, AF7 },
+    { /* USART2 */ },
+    { /* USART3 */ },
     { /* none */ },
     { /* none */ },
     { /* USART6 */ },
@@ -176,6 +185,13 @@ uartinit(int unit)
 #ifdef USART1
         arm_intr_set_priority(USART1_IRQn, IPL_TTY);
         arm_intr_enable_irq(USART1_IRQn);
+
+#ifdef STM32F412Rx
+        /* USART1: APB2 100 MHz AF7: TX on PA.09, RX on PA.10 */
+        LL_GPIO_EnableClock(GPIOA);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+#endif
+
 #endif /* USART1 */
         break;
 

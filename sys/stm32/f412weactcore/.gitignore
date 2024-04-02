@@ -1,0 +1,12 @@
+.compileversion
+.deps/
+.oldversion
+machine
+sys
+unix
+unix.bin
+unix.map
+vers.c
+*.h
+ioconf.c
+swapunix.c

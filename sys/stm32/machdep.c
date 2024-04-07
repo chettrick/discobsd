@@ -326,8 +326,8 @@ cpuidentify()
      */
     case 0x0411:
         physmem = 192 * 1024;   /* Total 192kb RAM size. */
-        copystr("STM32F407xx", cpu_model, sizeof(cpu_model), NULL);
-        printf("STM32F407xx");
+        copystr("STM32F405/407xx", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F405/407xx");
         printf(" rev ");
         switch (revid) {
         case 0x2000:
@@ -340,8 +340,8 @@ cpuidentify()
         break;
     case 0x0413:
         physmem = 192 * 1024;   /* Total 192kb RAM size. */
-        copystr("STM32F407xx", cpu_model, sizeof(cpu_model), NULL);
-        printf("STM32F407xx");
+        copystr("STM32F405/407xx", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F405/407xx");
         printf(" rev ");
         switch (revid) {
         case 0x1000:
@@ -357,10 +357,10 @@ cpuidentify()
             printf("2");
             break;
         case 0x100f:
-            printf("Y");        /* Also device marking revision 4. */
+            printf("4/Y");      /* Device marking revisions 4 and Y. */
             break;
         case 0x101f:
-            printf("5");        /* Also device marking revision 6. */
+            printf("5/6");      /* Device marking revisions 5 and 6. */
             break;
         default:
             printf("unknown 0x%04x", revid);
@@ -369,12 +369,12 @@ cpuidentify()
         break;
     case 0x0431:
         physmem = 128 * 1024;   /* Total 128kb RAM size. */
-        copystr("STM32F411xx", cpu_model, sizeof(cpu_model), NULL);
-        printf("STM32F411xx");
+        copystr("STM32F411xC/E", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F411xC/E");
         printf(" rev ");
         switch (revid) {
         case 0x1000:
-            printf("A");
+            printf("1/2/A");    /* Device marking revisions 1, 2, and A. */
             break;
         default:
             printf("unknown 0x%04x", revid);
@@ -383,12 +383,12 @@ cpuidentify()
         break;
     case 0x0434:
         physmem = 384 * 1024;   /* Total 384kb RAM size. */
-        copystr("STM32F469xx", cpu_model, sizeof(cpu_model), NULL);
-        printf("STM32F469xx");
+        copystr("STM32F469/479xx", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F469/479xx");
         printf(" rev ");
         switch (revid) {
         case 0x1000:
-            printf("A");
+            printf("1/A");      /* Device marking revisions 1 and A. */
             break;
         default:
             printf("unknown 0x%04x", revid);
@@ -397,8 +397,8 @@ cpuidentify()
         break;
     case 0x0441:
         physmem = 256 * 1024;   /* Total 256kb RAM size. */
-        copystr("STM32F412xx", cpu_model, sizeof(cpu_model), NULL);
-        printf("STM32F412xx");
+        copystr("STM32F412xE/G", cpu_model, sizeof(cpu_model), NULL);
+        printf("STM32F412xE/G");
         printf(" rev ");
         switch (revid) {
         case 0x1001:
@@ -408,7 +408,7 @@ cpuidentify()
             printf("B");
             break;
         case 0x3000:
-            printf("C");
+            printf("1/C");      /* Device marking revisions 1 and C. */
             break;
         default:
             printf("unknown 0x%04x", revid);

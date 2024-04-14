@@ -1,11 +1,10 @@
 /**
   ******************************************************************************
-  * @file    stm32469i_discovery_sd.c
+  * @file    stm32_sdio_sd.c
   * @author  MCD Application Team
   * @version V2.0.0
   * @date    27-January-2017
-  * @brief   This file includes the uSD card driver mounted on STM32469I-Discovery
-  *          board.
+  * @brief   This file includes the SDIO driver for micro SD cards on boards.
   ******************************************************************************
   * @attention
   *
@@ -40,8 +39,7 @@
                                    User NOTES
 1. How To use this driver:
 --------------------------
-   - This driver is used to drive the micro SD external card mounted on STM32469I-Discovery
-     board.
+   - This driver is used to drive the external micro SD card mounted on boards.
    - This driver does not need a specific component driver for the micro SD device
      to be included with.
 

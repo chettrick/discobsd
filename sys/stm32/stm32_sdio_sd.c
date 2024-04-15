@@ -99,7 +99,12 @@ BSP_SD_Init(void)
   uSdHandle.Init.ClockPowerSave      = SDIO_CLOCK_POWER_SAVE_DISABLE;
   uSdHandle.Init.BusWide             = SDIO_BUS_WIDE_1B;
   uSdHandle.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_ENABLE;
+
+#if defined(SDIO_XFER_CLK_DIV)       /* Kernel Config 'options' definition. */
+  uSdHandle.Init.ClockDiv            = SDIO_XFER_CLK_DIV;
+#else                                /* Default in stm32f4xx_ll_sdmmc.h */
   uSdHandle.Init.ClockDiv            = SDIO_TRANSFER_CLK_DIV;
+#endif
 
   /* Msp SD initialization */
   BSP_SD_MspInit(&uSdHandle, NULL);

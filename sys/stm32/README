@@ -1,5 +1,6 @@
 Build directories:
 
+    f405weactcore/      - WeAct Studio STM32F405RGT6 Core board.
     f411renucleo/       - NUCLEO-F411RE board.
     f412gdisco/         - STM32F412G-DISCO board.
     f412weactcore/      - WeAct Studio STM32F412RET6 Core board.

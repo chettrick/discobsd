@@ -159,7 +159,7 @@ SystemClock_Config(void)
     };
 
     /* Set FLASH latency */
-#if defined(STM32F407xx) || defined(STM32F469xx)
+#if defined(STM32F405xx) || defined(STM32F407xx) || defined(STM32F469xx)
     LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 #endif
 #if defined(STM32F411xE) || defined(STM32F412Rx) || defined(STM32F412Zx)
@@ -186,6 +186,9 @@ SystemClock_Config(void)
 #endif
 
     /* Main PLL configuration and activation */
+#ifdef STM32F405xx      /* 168 MHz */
+    LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+#endif
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
 #endif
@@ -215,6 +218,10 @@ SystemClock_Config(void)
     };
 
     /* Set APB1 & APB2 prescaler */
+#ifdef STM32F405xx      /* 168 MHz */
+    LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
+    LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+#endif
 #ifdef STM32F407xx      /* 168 MHz */
     LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
     LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);

@@ -6,7 +6,9 @@ BOARD?=		f412gdisco
 KERNDIR=	${TOPSRC}/sys/stm32/${BOARD}
 KERN=		unix
 
-CONFSCRIPT!=if [ x"${BOARD}" = x"f411renucleo" ] ; then \
+CONFSCRIPT!=if [ x"${BOARD}" = x"f405weactcore" ] ; then \
+		echo "board/st_nucleo_f4.cfg" ; \
+	elif [ x"${BOARD}" = x"f411renucleo" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
 	elif [ x"${BOARD}" = x"f412gdisco" ] ; then \
 		echo "board/stm32f412g-disco.cfg" ; \

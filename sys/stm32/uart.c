@@ -60,6 +60,14 @@ static const struct uart_inst uart[NUART] = {
 #define PIN11            LL_GPIO_PIN_11
 #define AF7              LL_GPIO_AF_7
 #define AF8              LL_GPIO_AF_8
+#ifdef STM32F405xx
+    { USART1, { GPIOA, 'A', PIN9 }, { GPIOA, 'A', PIN10 }, 2, AF7 },
+    { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 },
+    { /* USART3 */ },
+    { /* UART4 */ },
+    { /* UART5 */ },
+    { /* USART6 */ },
+#endif
 #ifdef STM32F407xx
     { /* USART1 */ },
     { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 },
@@ -186,6 +194,11 @@ uartinit(int unit)
         arm_intr_set_priority(USART1_IRQn, IPL_TTY);
         arm_intr_enable_irq(USART1_IRQn);
 
+#ifdef STM32F405xx
+        /* USART1: APB2 84 MHz AF7: TX on PA.09, RX on PA.10 */
+        LL_GPIO_EnableClock(GPIOA);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+#endif
 #ifdef STM32F412Rx
         /* USART1: APB2 100 MHz AF7: TX on PA.09, RX on PA.10 */
         LL_GPIO_EnableClock(GPIOA);
@@ -200,6 +213,11 @@ uartinit(int unit)
         arm_intr_set_priority(USART2_IRQn, IPL_TTY);
         arm_intr_enable_irq(USART2_IRQn);
 
+#ifdef STM32F405xx
+        /* USART2: APB1 42 MHz AF7: TX on PA.02, RX on PA.03 */
+        LL_GPIO_EnableClock(GPIOA);
+        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+#endif
 #ifdef STM32F407xx
         /* USART2: APB1 42 MHz AF7: TX on PA.02, RX on PA.03 */
         LL_GPIO_EnableClock(GPIOA);

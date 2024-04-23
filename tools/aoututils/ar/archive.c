@@ -300,17 +300,19 @@ put_arobj(cfp, sb)
 				    name, OLDARMAXNAME, name);
 				(void)fflush(stderr);
 			}
-			(void)sprintf(hb, HDR3, name, sb->st_mtime, sb->st_uid,
-			    sb->st_gid, sb->st_mode, (long) sb->st_size, ARFMAG);
+			(void)snprintf(hb, sizeof(hb), HDR3,
+			    name, (long)sb->st_mtime, sb->st_uid, sb->st_gid,
+			    sb->st_mode, (long)sb->st_size, ARFMAG);
 			lname = 0;
 		} else if (lname > sizeof(hdr->ar_name) || index(name, ' '))
-			(void)sprintf(hb, HDR1, AR_EFMT1, lname, sb->st_mtime,
-			    sb->st_uid, sb->st_gid, sb->st_mode,
-			    (long) sb->st_size + lname, ARFMAG);
+			(void)snprintf(hb, sizeof(hb), HDR1, AR_EFMT1,
+			    lname, (long)sb->st_mtime, sb->st_uid, sb->st_gid,
+			    sb->st_mode, (long) sb->st_size + lname, ARFMAG);
 		else {
 			lname = 0;
-			(void)sprintf(hb, HDR2, name, sb->st_mtime, sb->st_uid,
-			    sb->st_gid, sb->st_mode, (long) sb->st_size, ARFMAG);
+			(void)snprintf(hb, sizeof(hb), HDR2,
+			    name, (long)sb->st_mtime, sb->st_uid, sb->st_gid,
+			    sb->st_mode, (long) sb->st_size, ARFMAG);
 		}
 		size = sb->st_size;
 	} else {

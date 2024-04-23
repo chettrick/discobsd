@@ -661,7 +661,7 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 			/* Copy the symbol into the new table, but prepend an
 			 * underscore. */
 			*nsp = '_';
-			strcpy(nsp + 1, oldstrings + inbuf[i].st_name);
+			strlcpy(nsp + 1, oldstrings + inbuf[i].st_name, sizeof(nsp - 1));
 			outbuf[i].n_un.n_strx = nsp - newstrings + 4;
 			nsp += strlen(nsp) + 1;
 

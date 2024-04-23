@@ -348,7 +348,7 @@ failed:                 free (h->ar_name);
                 h->ar_name = malloc (len + 1);
                 if (! h->ar_name)
                         return 0;
-                strcpy (h->ar_name, buf);
+		strlcpy(h->ar_name, buf, sizeof(h->ar_name));
 	}
 
 	/* Read arhive date. */

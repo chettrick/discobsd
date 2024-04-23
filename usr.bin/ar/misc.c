@@ -79,10 +79,10 @@ tmp()
 	}
 
 	if (envtmp) {
-		strcpy(path, envtmp);
-		strcat(path, strrchr (artmp, '/'));
+		strlcpy(path, envtmp, sizeof(path));
+		strlcat(path, strrchr(artmp, '/'), sizeof(path));
 	} else {
-		strcpy(path, artmp);
+		strlcpy(path, artmp, sizeof(path));
         }
 #ifndef CROSS
 	(void)sigfillset(&set);

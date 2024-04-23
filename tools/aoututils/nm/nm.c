@@ -353,7 +353,7 @@ void namelist()
                         symp[i].n_name = malloc(c - 5);
                         if (! symp[i].n_name)
                                 error(1, "out of memory");
-                        strcpy (symp[i].n_name, name);
+                        strlcpy(symp[i].n_name, name, sizeof(symp[i].n_name));
 			i++;
 		}
 

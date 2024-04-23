@@ -919,7 +919,7 @@ char *alloc (len)
 
 int lookname ()
 {
-    register int i, h;
+    int i, h, n_name_len;
 
     /* Search for symbol name. */
     h = hash_rot13 (name) & (HASHSZ-1);
@@ -934,8 +934,10 @@ int lookname ()
     if ((i = stabfree++) >= STSIZE)
         uerror ("symbol table overflow");
     stab[i].n_len = strlen (name);
-    stab[i].n_name = alloc (1 + stab[i].n_len);
-    strcpy (stab[i].n_name, name);
+    n_name_len = stab[i].n_len + 1;     /* With the NUL. */
+    stab[i].n_name = alloc(n_name_len);
+    if (strlcpy(stab[i].n_name, name, n_name_len) >= n_name_len)
+        uerror("truncation during symbol copy");
     stab[i].n_value = 0;
     stab[i].n_type = N_UNDF;
     hashtab[h] = i;

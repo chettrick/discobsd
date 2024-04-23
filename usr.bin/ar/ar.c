@@ -130,7 +130,7 @@ main(argc, argv)
 			exit(1);
 		}
 		*p = '-';
-		(void)strcpy(p + 1, argv[1]);
+		(void)strlcpy(p + 1, argv[1], sizeof(p - 1));
 		argv[1] = p;
 	}
 

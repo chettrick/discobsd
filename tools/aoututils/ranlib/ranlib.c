@@ -322,7 +322,8 @@ void settime(afd)
 	size = SARMAG + sizeof(hdr->ar_name);
 	if (lseek(afd, size, SEEK_SET) == (off_t)-1)
 		error(archive);
-	(void)sprintf(buf, "%-12ld", time((time_t *)NULL) + RANLIBSKEW);
+	(void)snprintf(buf, sizeof(buf), "%-12ld",
+	    time((time_t *)NULL) + RANLIBSKEW);
 	if (write(afd, buf, sizeof(hdr->ar_date)) != sizeof(hdr->ar_date))
 		error(archive);
 }

@@ -9,6 +9,19 @@ HOST_CC?=	cc
 
 CC=		${HOST_CC}
 
+# libbsd-dev package on Linux in overlay mode.
+_LIBBSD_CFLAGS!=if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
+			pkg-config libbsd-overlay --cflags ; \
+		else \
+			echo "" ; \
+		fi
+
+_LIBBSD_LIBS!=	if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
+			pkg-config libbsd-overlay --libs ; \
+		else \
+			echo "" ; \
+		fi
+
 INSTALL=	${TOOLBINDIR}/binstall -U
 
 YACC!=		if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \

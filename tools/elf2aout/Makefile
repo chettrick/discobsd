@@ -2,12 +2,16 @@ TOPSRC!=cd ../..; pwd
 
 -include ../Makefile.inc
 
-CFLAGS		= -O -Wall
-OBJS		= elf2aout.o
-PROG		= elf2aout
+CFLAGS=		-O -Wall
+
+CFLAGS+=	${_LIBBSD_CFLAGS}
+LIBS+=		${_LIBBSD_LIBS}
+
+OBJS=		elf2aout.o
+PROG=		elf2aout
 
 # For Mac OS X
-#LIBS		= -largp
+#LIBS+=		-largp
 
 all:		$(PROG)
 

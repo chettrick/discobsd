@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_ll_cortex.h
   * @author  MCD Application Team
-  * @version V1.7.1
-  * @date    14-April-2017
+  * @version V1.8.2
+  * @date    08-November-2023
   * @brief   Header file of CORTEX LL module.
   @verbatim
   ==============================================================================
@@ -12,7 +12,7 @@
     [..]
     The LL CORTEX driver contains a set of generic APIs that can be
     used by user:
-      (+) SYSTICK configuration used by @ref LL_mDelay and @ref LL_Init1msTick
+      (+) SYSTICK configuration used by LL_mDelay and LL_Init1msTick
           functions
       (+) Low power mode configuration (SCB register of Cortex-MCU)
       (+) MPU API to configure and enable regions
@@ -389,6 +389,16 @@ __STATIC_INLINE void LL_LPM_DisableEventOnPend(void)
 {
   /* Clear SEVEONPEND bit of Cortex System Control Register */
   CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SEVONPEND_Msk));
+}
+
+/**
+  * @brief  Clear pending events.
+  * @retval None
+  */
+__STATIC_INLINE void LL_LPM_ClearEvent(void)
+{
+  __SEV();
+  __WFE();
 }
 
 /**

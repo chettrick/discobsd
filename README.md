@@ -92,22 +92,33 @@ The build system fully supports both BSD make and GNU make.
 
 From the source tree root, run:
 
+    $ make build
+
+or just:
+
     $ make
 
-which will build a file system image in the file `distrib/stm32/sdcard.img`
-and ELF-formatted kernels in the files `sys/stm32/${BOARD}/unix`.
+which builds ELF-formatted kernels in the files `sys/stm32/${BOARD}/unix`
+and builds and populates a whole file system userland in `DESTDIR`.
+
+Running:
+
+    $ make distribution
+
+will build everything from a `make build`, plus generate a file system
+image in the file `distrib/stm32/sdcard.img` for imaging to an SD card.
 
 DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 
-    $ make MACHINE=pic32 MACHINE_ARCH=mips
+    $ make MACHINE=pic32 MACHINE_ARCH=mips distribution
 
-which will build a file system image in the file `distrib/pic32/sdcard.img`
-and ELF-formatted kernels in the files `sys/pic32/${BOARD}/unix` and
-Intel HEX-formatted kernels in the files `sys/pic32/${BOARD}/unix.hex`.
+to generate a file system image in the file `distrib/pic32/sdcard.img`
+for imaging to an SD card, `sys/pic32/${BOARD}/unix` ELF-formatted
+kernels, and `sys/pic32/${BOARD}/unix.hex` Intel HEX-formatted kernels.
 
-Using BSD make on a FreeBSD host requires the system makefile include
-directory to be specified on the command line or via the MAKESYSPATH
-environment variable. For example:
+Note that using BSD make on a FreeBSD host requires the system makefile
+include directory to be specified on the command line or via the
+`MAKESYSPATH` environment variable. For example:
 
     $ make -m /usr/share/mk
 
@@ -144,6 +155,24 @@ for [stm32][7] and [pic32][8].
 
 [7]: distrib/stm32/README.md
 [8]: distrib/pic32/README.md
+
+Source Tree Roadmap
+-------------------
+
+    bin         User utilities in both single and multi-user environments.
+    distrib     System distributions and releases.
+    etc         Templates for system configuration files and scripts in /etc.
+    games       Useful and semi-frivolous programs. The important stuff.
+    include     Standard C include files.
+    lib         System libraries.
+    libexec     System daemons and utilities (executed by other programs).
+    sbin        System administration utilities in both single and
+                multi-user environments.
+    share       Architecture-independent shared resource data files.
+    sys         Kernel sources.
+    tools       Build tools and simulators.
+    usr.bin     User utilities in multi-user environments.
+    usr.sbin    System administration utilities in multi-user environments.
 
 DiscoBSD/stm32 dmesg
 --------------------

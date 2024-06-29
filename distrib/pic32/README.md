@@ -1,16 +1,4 @@
-# This is the RetroBSD source directory.
-
-## Source Roadmap
-
-    bin         User commands.
-    etc         Template files for /etc.
-    include     System include files.
-    lib         System libraries.
-    libexec     System binaries.
-    sbin        System administration commands.
-    share       Shared resources.
-    sys         Kernel sources.
-    tools       Build tools and simulators.
+# DiscoBSD/pic32 - 2.11BSD-based OS for PIC32MX7 MIPS MCUs
 
 
 ## Supported hardware
@@ -49,7 +37,7 @@ SWAP_MBYTES = 2
 To compile the kernel and build a filesystem image, run:
 
 ```shell
-$ make
+$ make MACHINE=pic32 MACHINE_ARCH=mips distribution
 ```
 
 A resulting root filesystem image is in file `sdcard.img`.

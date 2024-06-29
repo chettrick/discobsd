@@ -48,7 +48,7 @@ Shutdown DiscoBSD with:
 
 ## Building the DiscoBSD/stm32 kernel and operating system on a Unix-like host
   ```sh
-    $ make
+    $ make distribution
   ```
 
 The kernel (for the f412gdisco board) can be built independently by:

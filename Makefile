@@ -43,7 +43,9 @@ FSUTIL=		${TOPSRC}/tools/bin/fsutil
 
 SUBDIR=		share lib bin sbin libexec usr.bin usr.sbin games
 
-all:		symlinks tools
+all:		build
+
+build:		symlinks tools
 		$(MAKE) kernel
 		$(MAKE) -C etc DESTDIR=${DESTDIR} distrib-dirs
 		$(MAKE) -C include includes
@@ -51,6 +53,8 @@ all:		symlinks tools
 			${MAKE} -C $$dir ; done
 		for dir in ${SUBDIR} ; do \
 			${MAKE} -C $$dir DESTDIR=${DESTDIR} install ; done
+
+distribution:	build
 		${MAKE} -C etc DESTDIR=${DESTDIR} distribution
 		$(MAKE) fs
 
@@ -62,7 +66,6 @@ kernel:		tools
 
 fs:		$(FSIMG)
 
-.PHONY:		tools ${FSIMG}
 ${FSIMG}:	distrib/${MACHINE}/md.${MACHINE} distrib/base/mi.home
 		rm -f $@ distrib/$(MACHINE)/_manifest
 		cat distrib/base/mi distrib/$(MACHINE)/md.$(MACHINE) > distrib/$(MACHINE)/_manifest
@@ -97,6 +100,10 @@ installfs:
 		@[ -n "${SDCARD}" ] || (echo "SDCARD not defined." && exit 1)
 		@[ -f $(FSIMG) ] || $(MAKE) $(FSIMG)
 		sudo dd bs=32k if=$(FSIMG) of=$(SDCARD)
+
+.PHONY:		all build distribution tools kernel symlinks \
+		${FSIMG} fs installfs \
+		clean cleantools cleanfs cleanall
 
 # Architecture-specific debugging and loading.
 -include sys/${MACHINE}/Makefile.inc

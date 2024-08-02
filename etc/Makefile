@@ -14,14 +14,15 @@
 TOPSRC!=cd ..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-DESTDIR=/foobar
-OWN=	root
-GRP=	wheel
+DESTDIR=	/foobar
+RELEASEDIR=	/foobaz
+OWN=		root
+GRP=		wheel
 
 TZDIR=		/usr/share/zoneinfo
 LOCALTIME=	US/Pacific
 
-FILES=	fstab gettytab group motd passwd rc rc.local shells ttys
+FILES=		fstab gettytab group motd passwd rc rc.local shells ttys
 
 all install depend lint tags:
 
@@ -73,6 +74,19 @@ DIRS_DISTRIB=	bin sbin dev etc var/log var/run root usr usr/bin usr/sbin \
 		usr/include usr/lib usr/libexec usr/share usr/games/lib
 MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
 
+# XXX Keep release directories in sync with SUBDIR in sys/${MACHINE}/Makefile
+DIRS_RELEASE!=if [ x"${MACHINE}" = x"stm32" ] ; then \
+		echo "f405weactcore f411renucleo f412gdisco f412weactcore \
+			f469idisco f4discovery" ; \
+	elif [ x"${MACHINE}" = x"pic32" ] ; then \
+		echo "baremetal duinomite duinomite-emega explorer16 \
+			fubarino max32 maximite maximite-color mmb-mx7 \
+			picadillo pinguino-micro sdxl snadpic starter-kit \
+			ubw32 wf32" ; \
+	else \
+		echo "FAIL" ; \
+	fi
+
 # Creates an empty DiscoBSD directory tree in DESTDIR.
 distrib-dirs:
 	if [ ! -d ${DESTDIR}/. ]; then \
@@ -84,3 +98,26 @@ distrib-dirs:
 	for dir in ${MDIRS_DISTRIB}; do \
 		mkdir -p ${DESTDIR}/usr/share/man/$$dir; \
 	done
+
+# Creates and populates a DiscoBSD release directory tree in RELEASEDIR.
+release-dirs:
+	if [ ! -d ${RELEASEDIR}/. ]; then \
+		${INSTALL} -d -m 755 ${RELEASEDIR}; \
+	fi
+	${INSTALL} -d -m 755 ${RELEASEDIR}/${MACHINE}
+	cd ${RELEASEDIR}/${MACHINE} && \
+	for dir in ${DIRS_RELEASE}; do \
+		mkdir -p $$dir; \
+		cp ${TOPSRC}/sys/${MACHINE}/$$dir/unix* $$dir; \
+		cp ${TOPSRC}/distrib/${MACHINE}/sdcard.img .; \
+		cp ${TOPSRC}/distrib/${MACHINE}/README.md .; \
+		cp -f ${TOPSRC}/README.md ${RELEASEDIR}; \
+	done
+
+release: release-dirs
+	cd ${RELEASEDIR} && \
+	tar czvf DiscoBSD_${OSRev}_${MACHINE}.tar.gz ${MACHINE} && \
+	zip -r DiscoBSD_${OSRev}_${MACHINE}.zip ${MACHINE}
+
+.PHONY:	all distribution distribution-etc-root-var \
+	distrib-dirs release-dirs release clean

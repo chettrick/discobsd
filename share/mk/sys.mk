@@ -8,6 +8,7 @@ unix=		We run DiscoBSD.
 OSMAJOR=	2
 OSMINOR=	2
 OSREV=		${OSMAJOR}.${OSMINOR}
+OSRev=		${OSMAJOR}_${OSMINOR}
 OSrev=		${OSMAJOR}${OSMINOR}
 
 DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}

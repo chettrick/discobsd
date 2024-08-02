@@ -9,13 +9,15 @@
 # and a root filesystem image.
 
 TOPSRC!=	pwd
-DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
 
 # Override the default port with:
 # $ make MACHINE=pic32 MACHINE_ARCH=mips
 #
 MACHINE=	stm32
 MACHINE_ARCH=	arm
+
+DESTDIR?=	${TOPSRC}/distrib/obj/destdir.${MACHINE}
+RELEASEDIR?=	${TOPSRC}/distrib/obj/releasedir
 
 # Filesystem and swap sizes.
 FS_MBYTES       = 200
@@ -75,6 +77,9 @@ ${FSIMG}:	distrib/${MACHINE}/md.${MACHINE} distrib/base/mi.home
 # uncomment the following line.
 		$(FSUTIL) --new --partition=3 --manifest=distrib/base/mi.home $@ distrib/home
 
+release:
+		${MAKE} -C etc MACHINE=${MACHINE} RELEASEDIR=${RELEASEDIR} release
+
 clean:
 		rm -f *~
 		rm -f include/machine
@@ -101,7 +106,7 @@ installfs:
 		@[ -f $(FSIMG) ] || $(MAKE) $(FSIMG)
 		sudo dd bs=32k if=$(FSIMG) of=$(SDCARD)
 
-.PHONY:		all build distribution tools kernel symlinks \
+.PHONY:		all build distribution release tools kernel symlinks \
 		${FSIMG} fs installfs \
 		clean cleantools cleanfs cleanall
 

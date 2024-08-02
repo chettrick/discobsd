@@ -23,7 +23,7 @@ History
 [DiscoBSD][2] began as an undergraduate [Directed Study][3] in the winter of
 2020 at the University of Victoria, Canada, as a case study of [RetroBSD][4]
 to port the operating system to the Arm Cortex-M4 architecture, and to enable
-portabilty in the hosting environment and target architectures and platforms.
+portability in the hosting environment and target architectures and platforms.
 The paper [*Porting the Unix Kernel*][5] details this initial porting effort.
 
 Work on DiscoBSD has progressed in earnest since the completion of the
@@ -110,6 +110,7 @@ image in the file `distrib/stm32/sdcard.img` for imaging to an SD card.
 
 DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
 
+    $ make clean
     $ make MACHINE=pic32 MACHINE_ARCH=mips distribution
 
 to generate a file system image in the file `distrib/pic32/sdcard.img`
@@ -131,6 +132,41 @@ or
 
 [6]: tools/openbsd/README.md
 
+Building a DiscoBSD Release
+---------------------------
+
+A DiscoBSD release consists of, for each supported architecture:
+
+* a file system image that contains the full base system
+* kernels, in various file formats, for each supported development board
+* the README.md file for the architecture
+* this README.md file
+
+Before making a release, first create a distribution in `DESTDIR`
+with kernels in `sys/${MACHINE}/${BOARD}` by following the steps
+in [Building](#building):
+
+    $ make distribution
+
+Once all the distribution source objects exist then a release can
+be created; one release for each architecture.
+
+A DiscoBSD/stm32 release, as the default architecture, is created by:
+
+    $ make release
+
+A DiscoBSD/pic32 release is created by:
+
+    $ make MACHINE=pic32 MACHINE_ARCH=mips release
+
+A DiscoBSD release is created from an already-populated `DESTDIR`,
+and it is placed in `RELEASEDIR`, `distrib/obj/releasedir` by default.
+
+[Releases][7] are available, for each architecture, as a `.tar.gz`
+gzip-compressed tar archive and as a `.zip` zip-compressed archive.
+
+[7]: https://github.com/chettrick/discobsd/releases
+
 Debugging
 ---------
 
@@ -151,10 +187,10 @@ Additional Information
 ----------------------
 
 Port-specific information can be found in `distrib/${MACHINE}/README.md`
-for [stm32][7] and [pic32][8].
+for [stm32][8] and [pic32][9].
 
-[7]: distrib/stm32/README.md
-[8]: distrib/pic32/README.md
+[8]: distrib/stm32/README.md
+[9]: distrib/pic32/README.md
 
 Source Tree Roadmap
 -------------------

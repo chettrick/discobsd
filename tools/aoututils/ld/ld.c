@@ -314,7 +314,7 @@ int fgetarhdr (fd, h)
 	register char *p;
 	char buf[20];
 
-	/* Read arhive name.  Spaces should never happen. */
+	/* Read archive name.  Spaces should never happen. */
 	nr = fread (buf, 1, sizeof (hdr.ar_name), fd);
 	if (nr != sizeof (hdr.ar_name) || buf[0] == ' ')
 		return 0;
@@ -348,10 +348,10 @@ failed:                 free (h->ar_name);
                 h->ar_name = malloc (len + 1);
                 if (! h->ar_name)
                         return 0;
-		strlcpy(h->ar_name, buf, sizeof(h->ar_name));
+		strlcpy(h->ar_name, buf, len + 1);
 	}
 
-	/* Read arhive date. */
+	/* Read archive date. */
 	nr = fread (buf, 1, sizeof (hdr.ar_date), fd);
 	if (nr != sizeof (hdr.ar_date))
 		goto failed;

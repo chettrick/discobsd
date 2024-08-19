@@ -10,7 +10,7 @@
 #
 architecture    "stm32"
 cpu             "STM32F412Rx"               # Processor variant
-board           "f412WEACTCORE"             # Board type
+board           "F412WEACTCORE"             # Board type
 ldscript        "f412weactcore/STM32F412RETX.ld" # Linker script
 
 # Standard system options

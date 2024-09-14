@@ -132,6 +132,8 @@ int     getdtablesize (void);
 int     getpagesize (void);
 int     rmdir (const char *pathname);
 int     reboot(int howto);
+mode_t  getmode(void *set, mode_t mode);
+void    *setmode(char *mode_str);
 
 struct stat;
 int     stat (const char *path, struct stat *buf);

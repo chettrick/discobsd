@@ -49,6 +49,7 @@ static char sccsid[] = "@(#)xinstall.c	8.1.1 (2.11BSD) 1996/2/21";
 #include <grp.h>
 #include <paths.h>
 #include <pwd.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,7 +67,7 @@ char *group, *owner, pathbuf[MAXPATHLEN];
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
 
 void	copy();
-void	err();
+void	xerr(const char *, ...);
 void	install();
 u_short	string_to_flags();
 void	strip();
@@ -93,7 +94,7 @@ main(argc, argv)
 		case 'f':
 			flags = optarg;
 			if (string_to_flags(&flags, &fset, NULL))
-				err("%s: invalid flag", flags);
+				xerr("%s: invalid flag", flags);
 			iflags |= SETFLAGS;
 			break;
 		case 'g':
@@ -101,7 +102,7 @@ main(argc, argv)
 			break;
 		case 'm':
 			if (!(set = (mode_t *)setmode(optarg)))
-				err("%s: invalid file mode", optarg);
+				xerr("%s: invalid file mode", optarg);
 			mode = getmode(set, 0);
 			break;
 		case 'o':
@@ -121,9 +122,9 @@ main(argc, argv)
 
 	/* get group and owner id's */
 	if (group && !(gp = getgrnam(group)))
-		err("unknown group %s", group);
+		xerr("unknown group %s", group);
 	if (owner && !(pp = getpwnam(owner)))
-		err("unknown user %s", owner);
+		xerr("unknown user %s", owner);
 
 	no_target = stat(to_name = argv[argc - 1], &to_sb);
 	if (!no_target && (to_sb.st_mode & S_IFMT) == S_IFDIR) {
@@ -138,12 +139,12 @@ main(argc, argv)
 
 	if (!no_target) {
 		if (stat(*argv, &from_sb))
-			err("%s: %s", *argv, strerror(errno));
+			xerr("%s: %s", *argv, strerror(errno));
 		if ((to_sb.st_mode & S_IFMT) != S_IFREG)
-			err("%s: %s", to_name, strerror(EFTYPE));
+			xerr("%s: %s", to_name, strerror(EFTYPE));
 		if (to_sb.st_dev == from_sb.st_dev &&
 		    to_sb.st_ino == from_sb.st_ino)
-			err("%s and %s are the same file", *argv, to_name);
+			xerr("%s and %s are the same file", *argv, to_name);
 		/*
 		 * Unlink now... avoid ETXTBSY errors later.  Try and turn
 		 * off the append/immutable bits -- if we fail, go ahead,
@@ -176,9 +177,9 @@ install(from_name, to_name, fset, flags)
 	/* If try to install NULL file to a directory, fails. */
 	if (flags & DIRECTORY || strcmp(from_name, _PATH_DEVNULL)) {
 		if (stat(from_name, &from_sb))
-			err("%s: %s", from_name, strerror(errno));
+			xerr("%s: %s", from_name, strerror(errno));
 		if ((from_sb.st_mode & S_IFMT) != S_IFREG)
-			err("%s: %s", from_name, strerror(EFTYPE));
+			xerr("%s: %s", from_name, strerror(EFTYPE));
 		/* Build the target path. */
 		if (flags & DIRECTORY) {
 			(void)sprintf(pathbuf, "%s/%s", to_name,
@@ -204,11 +205,11 @@ install(from_name, to_name, fset, flags)
 	/* Create target. */
 	if ((to_fd = open(to_name,
 	    O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR)) < 0)
-		err("%s: %s", to_name, strerror(errno));
+		xerr("%s: %s", to_name, strerror(errno));
 	if (!devnull) {
 		if ((from_fd = open(from_name, O_RDONLY, 0)) < 0) {
 			(void)unlink(to_name);
-			err("%s: %s", from_name, strerror(errno));
+			xerr("%s: %s", from_name, strerror(errno));
 		}
 		copy(from_fd, from_name, to_fd, to_name, from_sb.st_size);
 		(void)close(from_fd);
@@ -223,12 +224,12 @@ install(from_name, to_name, fset, flags)
 	    fchown(to_fd, owner ? pp->pw_uid : -1, group ? gp->gr_gid : -1)) {
 		serrno = errno;
 		(void)unlink(to_name);
-		err("%s: chown/chgrp: %s", to_name, strerror(serrno));
+		xerr("%s: chown/chgrp: %s", to_name, strerror(serrno));
 	}
 	if (fchmod(to_fd, mode)) {
 		serrno = errno;
 		(void)unlink(to_name);
-		err("%s: chmod: %s", to_name, strerror(serrno));
+		xerr("%s: chmod: %s", to_name, strerror(serrno));
 	}
 
 	/*
@@ -239,12 +240,12 @@ install(from_name, to_name, fset, flags)
 	    flags & SETFLAGS ? fset : from_sb.st_flags & ~UF_NODUMP)) {
 		serrno = errno;
 		(void)unlink(to_name);
-		err("%s: chflags: %s", to_name, strerror(serrno));
+		xerr("%s: chflags: %s", to_name, strerror(serrno));
 	}
 
 	(void)close(to_fd);
 	if (!docopy && !devnull && unlink(from_name))
-		err("%s: %s", from_name, strerror(errno));
+		xerr("%s: %s", from_name, strerror(errno));
 }
 
 /*
@@ -265,13 +266,13 @@ copy(from_fd, from_name, to_fd, to_name, size)
 		if ((nw = write(to_fd, buf, nr)) != nr) {
 			serrno = errno;
 			(void)unlink(to_name);
-			err("%s: %s",
+			xerr("%s: %s",
 			    to_name, strerror(nw > 0 ? EIO : serrno));
 		}
 	if (nr != 0) {
 		serrno = errno;
 		(void)unlink(to_name);
-		err("%s: %s", from_name, strerror(serrno));
+		xerr("%s: %s", from_name, strerror(serrno));
 	}
 }
 
@@ -290,10 +291,10 @@ strip(to_name)
 	case -1:
 		serrno = errno;
 		(void)unlink(to_name);
-		err("forks: %s", strerror(errno));
+		xerr("forks: %s", strerror(errno));
 	case 0:
 		execl(_PATH_STRIP, "strip", to_name, NULL);
-		err("%s: %s", _PATH_STRIP, strerror(errno));
+		xerr("%s: %s", _PATH_STRIP, strerror(errno));
 	default:
 		if (wait(&status) == -1 || status)
 			(void)unlink(to_name);
@@ -312,27 +313,12 @@ usage()
 	exit(1);
 }
 
-#if __STDC__
-#include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
-
 void
-#if __STDC__
-err(const char *fmt, ...)
-#else
-err(fmt, va_alist)
-	char *fmt;
-        va_dcl
-#endif
+xerr(const char *fmt, ...)
 {
 	va_list ap;
-#if __STDC__
+
 	va_start(ap, fmt);
-#else
-	va_start(ap);
-#endif
 	(void)fprintf(stderr, "install: ");
 	(void)vfprintf(stderr, fmt, ap);
 	va_end(ap);

@@ -33,4 +33,4 @@
  *	@(#)pathnames.h	8.1.1 (2.11BSD) 1996/2/20
  */
 
-#define	_PATH_STRIP	"/bin/strip"
+#define	_PATH_STRIP	"/usr/bin/strip"

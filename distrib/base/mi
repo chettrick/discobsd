@@ -491,6 +491,7 @@ file /usr/bin/head
 file /usr/bin/hostid
 file /bin/hostname
 file /usr/bin/id
+file /usr/bin/install
 file /usr/sbin/iostat
 mode 02755
 file /usr/bin/join
@@ -1319,6 +1320,7 @@ file /usr/share/man/cat1/hostid.0
 file /usr/share/man/cat1/hostname.0
 file /usr/share/man/cat1/id.0
 file /usr/share/man/cat1/indent.0
+file /usr/share/man/cat1/install.0
 file /usr/share/man/cat1/intro.0
 file /usr/share/man/cat1/join.0
 file /usr/share/man/cat1/kill.0

@@ -208,8 +208,9 @@ install(from_name, to_name, fset, flags)
 		xerr("%s: %s", to_name, strerror(errno));
 	if (!devnull) {
 		if ((from_fd = open(from_name, O_RDONLY, 0)) < 0) {
+			serrno = errno;
 			(void)unlink(to_name);
-			xerr("%s: %s", from_name, strerror(errno));
+			xerr("%s: %s", from_name, strerror(serrno));
 		}
 		copy(from_fd, from_name, to_fd, to_name, from_sb.st_size);
 		(void)close(from_fd);
@@ -262,6 +263,9 @@ copy(from_fd, from_name, to_fd, to_name, size)
 	int serrno;
 	char buf[MAXBSIZE];
 
+	if (size == 0)
+		return;
+
 	while ((nr = read(from_fd, buf, sizeof(buf))) > 0)
 		if ((nw = write(to_fd, buf, nr)) != nr) {
 			serrno = errno;
@@ -291,9 +295,9 @@ strip(to_name)
 	case -1:
 		serrno = errno;
 		(void)unlink(to_name);
-		xerr("forks: %s", strerror(errno));
+		xerr("forks: %s", strerror(serrno));
 	case 0:
-		execl(_PATH_STRIP, "strip", to_name, NULL);
+		execl(_PATH_STRIP, "strip", to_name, (char *)NULL);
 		xerr("%s: %s", _PATH_STRIP, strerror(errno));
 	default:
 		if (wait(&status) == -1 || status)

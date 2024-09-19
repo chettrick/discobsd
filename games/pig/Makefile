@@ -3,10 +3,6 @@
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-#CFLAGS  	+= -Wall
-
-LIBS		= -lm -lc
-
 OBJS            = pig.o
 MAN             = pig.0
 MANSRC          = pig.6

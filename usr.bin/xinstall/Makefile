@@ -3,36 +3,32 @@
 #
 #	@(#)Makefile	1.0 (2.11BSD GTE) 1996/2/20
 #
-CFLAGS=	 -O
-SEPFLAG= -i
-VPATH=	/usr/src/bin/ls
+TOPSRC!=cd ../..; pwd
+include ${TOPSRC}/share/mk/sys.mk
+
+PROG=	xinstall
 SRCS=	xinstall.c stat_flags.c
 OBJS=	xinstall.o stat_flags.o
 MAN=	install.0
 MANSRC=	install.1
 
-all: xinstall ${MAN}
+all:	${PROG} ${MAN}
 
-xinstall: ${OBJS}
-	${CC} ${CFLAGS} ${SEPFLAG} -o $@ ${OBJS}
+${PROG}: ${OBJS}
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
+	${OBJDUMP} -S $@.elf > $@.dis
+	${SIZE} $@.elf
+	${ELF2AOUT} $@.elf $@ && rm $@.elf
 
-install.0: ${MANSRC}
-	/usr/man/manroff ${MANSRC} > ${MAN}
+${MAN}:	${MANSRC}
+	${MANROFF} ${MANSRC} > $@
 
 clean:
-	rm -f ${OBJS} ${MAN} xinstall tags 
-
-depend: ${SRCS}
-	mkdep ${CFLAGS} ${SRCS}
+	rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~
 
 install: all
-	install -c -o bin -g bin -m 444 ${MAN} ${DESTDIR}/usr/man/cat1
-	install -s -o root -g bin -m 755 xinstall ${DESTDIR}/usr/bin/install
+	${INSTALL} ${PROG} ${DESTDIR}/usr/bin/install
+	cp ${MAN} ${DESTDIR}/usr/share/man/cat1/
 
-lint: ${SRCS}
-	lint -hax ${SRCS}
-
-tags: ${SRCS}
-	ctags ${SRCS}
-# DO NOT DELETE THIS LINE -- mkdep uses it.
-# DO NOT PUT ANYTHING AFTER THIS LINE, IT WILL GO AWAY.
+stat_flags.o: ${TOPSRC}/bin/ls/stat_flags.c
+	${CC} ${CFLAGS} -c ${TOPSRC}/bin/ls/stat_flags.c -o $@

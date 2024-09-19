@@ -19,7 +19,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   fstat glcdtest id la lcc lcpp ld login m4 make \
                   man med more nm passwd pdc picoc portio printf pwm \
                   ranlib re renice retroforth scm sed setty sl smallc \
-                  smux uname wiznet xargs \
+                  smux uname wiznet xargs xinstall \
                   zmodem gtest msec compress tip tclsh \
                   uucp virus whereis yacc ${MDSUBDIR} \
                   basename cal cb cmp col comm \

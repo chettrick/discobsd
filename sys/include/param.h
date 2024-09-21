@@ -8,7 +8,7 @@
 #define DiscoBSD	202408	/* DiscoBSD version (year & month). */
 #define DiscoBSD_2_3	1	/* DiscoBSD 2.3 */
 
-#ifndef offsetof
+#if !defined(offsetof) && defined(KERNEL)
 #define offsetof(type, member)  ((size_t)(&((type *)0)->member))
 #endif
 

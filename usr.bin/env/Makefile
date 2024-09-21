@@ -1,26 +1,30 @@
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-OBJS            = env.o
+BINDIR=		/usr/bin
 
-CFLAGS		+= -Wall -DGCC_COMPAT
-CFLAGS          += -DVERSSTR=\"1.0\" \
-                   -DSTDINC=\"/usr/include\" \
-                   -DLIBDIR=\"/usr/lib\" \
-                   -DLIBEXECDIR=\"/usr/libexec\"
-                   -DCRT0FILE=\"/usr/lib/crt0.o\" \
-                   -DCRT0FILE_PROFILE=\"/usr/lib/gcrt0.o\"
+PROG=		env
 
-all:            env
+OBJS=		${PROG}.o
+MAN=		${PROG}.0
+MANSRC=		${PROG}.1
 
-env:            $(OBJS)
-		${CC} ${CFLAGS} ${LDFLAGS} -o env.elf ${OBJS} ${LIBS}
-		${OBJDUMP} -S env.elf > env.dis
-		${SIZE} env.elf
-		${ELF2AOUT} env.elf $@ && rm env.elf
+CFLAGS+=	-Wall
+
+all:		${PROG} ${MAN}
+
+${PROG}:	${OBJS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
+		${OBJDUMP} -S $@.elf > $@.dis
+		${SIZE} $@.elf
+		${ELF2AOUT} $@.elf $@ && rm $@.elf
+
+${MAN}:		${MANSRC}
+		${MANROFF} ${MANSRC} > $@
 
 clean:
-		rm -f *.o *.0 *.elf env *.elf *.dis tags *~
+		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~
 
-install:        all
-		${INSTALL} env ${DESTDIR}/usr/bin/
+install:	all
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		cp ${MAN} ${DESTDIR}/usr/share/man/cat1/

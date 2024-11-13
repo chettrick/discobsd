@@ -183,7 +183,7 @@ install(from_name, to_name, fset, flags)
 		/* Build the target path. */
 		if (flags & DIRECTORY) {
 			(void)sprintf(pathbuf, "%s/%s", to_name,
-			    (p = rindex(from_name, '/')) ? ++p : from_name);
+			    (p = strrchr(from_name, '/')) ? ++p : from_name);
 			to_name = pathbuf;
 		}
 		devnull = 0;

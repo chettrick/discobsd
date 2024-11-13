@@ -53,7 +53,7 @@ extern cell	*nfloc;		/* NF */
 
 awkfloat setfval(), getfval();
 char	*setsval(), *getsval();
-char	*tostring(), *tokname();
+char	*tostring();
 
 /* function types */
 #define	FLENGTH	1

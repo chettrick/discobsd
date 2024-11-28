@@ -394,7 +394,8 @@ unsigned getexpr (int *s);
 /*
  * Fatal error message.
  */
-void uerror (char *fmt, ...)
+void
+uerror(char *fmt, ...)
 {
     va_list ap;
 
@@ -414,8 +415,8 @@ void uerror (char *fmt, ...)
  * Read a 4-byte word from the file.
  * Little-endian.
  */
-unsigned fgetword (f)
-    FILE *f;
+unsigned int
+fgetword(FILE *f)
 {
     unsigned int w;
 
@@ -428,9 +429,8 @@ unsigned fgetword (f)
  * Write a 4-byte word to the file.
  * Little-endian.
  */
-void fputword (w, f)
-    unsigned int w;
-    FILE *f;
+void
+fputword(unsigned int w, FILE *f)
 {
     fwrite (&w, sizeof(w), 1, f);
 }
@@ -438,9 +438,8 @@ void fputword (w, f)
 /*
 * Read a relocation record: 1 to 6 bytes.
 */
-void fgetrel (f, r)
-    register FILE *f;
-    register struct reloc *r;
+void
+fgetrel(FILE *f, struct reloc *r)
 {
     r->flags = getc (f);
     if ((r->flags & RSMASK) == REXT) {
@@ -460,9 +459,8 @@ void fgetrel (f, r)
 * Emit a relocation record: 1 to 6 bytes.
 * Return a written length.
 */
-unsigned fputrel (r, f)
-    register struct reloc *r;
-    register FILE *f;
+unsigned int
+fputrel(struct reloc *r, FILE *f)
 {
     register unsigned nbytes = 1;
 
@@ -487,9 +485,8 @@ unsigned fputrel (r, f)
  * Write the a.out header to the file.
  * Little-endian.
  */
-void fputhdr (filhdr, coutb)
-    register struct exec *filhdr;
-    register FILE *coutb;
+void
+fputhdr(struct exec *filhdr, FILE *coutb)
 {
     fputword (filhdr->a_magic, coutb);
     fputword (filhdr->a_text, coutb);
@@ -504,9 +501,8 @@ void fputhdr (filhdr, coutb)
 /*
  * Emit the nlist record for the symbol.
  */
-void fputsym (s, file)
-    register struct nlist *s;
-    register FILE *file;
+void
+fputsym(struct nlist *s, FILE *file)
 {
     register int i;
 
@@ -520,7 +516,8 @@ void fputsym (s, file)
 /*
  * Create temporary files for STEXT, SDATA and SSTRNG segments.
  */
-void startup ()
+void
+startup(void)
 {
     register int i;
 
@@ -547,8 +544,8 @@ void startup ()
  * Suboptimal 32-bit hash function.
  * Copyright (C) 2006 Serge Vakulenko.
  */
-unsigned hash_rot13 (s)
-    register const char *s;
+unsigned int
+hash_rot13(const char *s)
 {
     register unsigned hash, c;
 
@@ -560,7 +557,8 @@ unsigned hash_rot13 (s)
     return hash;
 }
 
-void hashinit ()
+void
+hashinit(void)
 {
     register int i, h;
     register const struct optable *p;
@@ -578,8 +576,8 @@ void hashinit ()
         hashtab[i] = -1;
 }
 
-int hexdig (c)
-    register int c;
+int
+hexdig(int c)
 {
     if (c <= '9')
         return (c - '0');
@@ -592,7 +590,8 @@ int hexdig (c)
 /*
  * Get hexadecimal number 0xZZZ
  */
-void gethnum ()
+void
+gethnum(void)
 {
     register int c;
     register char *cp;
@@ -614,8 +613,8 @@ void gethnum ()
  * 1234 - decimal
  * 01234 - octal
  */
-void getnum (c)
-    register int c;
+void
+getnum(int c)
 {
     register char *cp;
     int leadingzero;
@@ -645,8 +644,8 @@ void getnum (c)
     }
 }
 
-void getname (c)
-    register int c;
+void
+getname(int c)
 {
     register char *cp;
 
@@ -656,7 +655,8 @@ void getname (c)
     ungetc (c, stdin);
 }
 
-int looktype ()
+int
+looktype(void)
 {
     switch (name [1]) {
     case 'c':
@@ -692,7 +692,8 @@ int looktype ()
     return (-1);
 }
 
-int lookacmd ()
+int
+lookacmd(void)
 {
     switch (name [1]) {
     case 'a':
@@ -767,7 +768,8 @@ int lookacmd ()
 /*
  * Change a segment based on a section name.
  */
-void setsection ()
+void
+setsection(void)
 {
     struct {
         const char *name;
@@ -796,7 +798,8 @@ void setsection ()
     uerror ("bad .section name");
 }
 
-int lookreg ()
+int
+lookreg(void)
 {
     int val;
     char *cp;
@@ -891,7 +894,8 @@ int lookreg ()
     return -1;
 }
 
-int lookcmd ()
+int
+lookcmd(void)
 {
     register int i, h;
 
@@ -905,8 +909,8 @@ int lookcmd ()
     return (-1);
 }
 
-char *alloc (len)
-    int len;
+char *
+alloc(int len)
 {
     register int r;
 
@@ -917,7 +921,8 @@ char *alloc (len)
     return (space + r);
 }
 
-int lookname ()
+int
+lookname(void)
 {
     int i, h, n_name_len;
 
@@ -967,8 +972,8 @@ int lookname ()
  * LFILE   - .file assembler instruction.
  * LSECTION - .section assembler instruction.
  */
-int getlex (pval)
-    register int *pval;
+int
+getlex(int *pval)
 {
     register int c;
 
@@ -1050,15 +1055,16 @@ skiptoeol:  while ((c = getchar()) != '\n')
     }
 }
 
-void ungetlex (val, type)
-    int val, type;
+void
+ungetlex(int val, int type)
 {
     blexflag = 1;
     backlex = val;
     blextype = type;
 }
 
-int getterm ()
+int
+getterm(void)
 {
     register int ty;
     int cval, s;
@@ -1127,8 +1133,8 @@ int getterm ()
  * term       = LNAME | LNUM | "." | "(" expression ")"
  * op         = "+" | "-" | "&" | "|" | "^" | "~" | "<<" | ">>" | "/" | "*"
  */
-unsigned getexpr (s)
-    register int *s;
+unsigned int
+getexpr(int *s)
 {
     register int clex;
     int cval, s2;
@@ -1228,7 +1234,8 @@ unsigned getexpr (s)
     /* NOTREACHED */
 }
 
-void reorder_flush ()
+void
+reorder_flush(void)
 {
     if (reorder_full) {
         fputword (reorder_word, sfile[STEXT]);
@@ -1240,10 +1247,8 @@ void reorder_flush ()
 /*
  * Default emit function.
  */
-void emitword (w, r, clobber_reg)
-    register unsigned w;
-    register struct reloc *r;
-    int clobber_reg;
+void
+emitword(unsigned int w, struct reloc *r, int clobber_reg)
 {
     if (mode_reorder && segm == STEXT) {
         reorder_flush();
@@ -1261,9 +1266,8 @@ void emitword (w, r, clobber_reg)
 /*
  * LI pseudo instruction.
  */
-void emit_li (opcode, relinfo)
-    register unsigned opcode;
-    register struct reloc *relinfo;
+void
+emit_li(unsigned int opcode, struct reloc *relinfo)
 {
     register unsigned value;
     int cval, segment, reg;
@@ -1295,9 +1299,8 @@ void emit_li (opcode, relinfo)
 /*
  * LA pseudo instruction.
  */
-void emit_la (opcode, relinfo)
-    register unsigned opcode;
-    register struct reloc *relinfo;
+void
+emit_la(unsigned int opcode, struct reloc *relinfo)
 {
     register unsigned value, hi;
     int cval, segment;
@@ -1329,10 +1332,9 @@ void emit_la (opcode, relinfo)
 /*
  * Build and emit a machine instruction code.
  */
-void makecmd (opcode, type, emitfunc)
-    unsigned opcode;
-    unsigned type;
-    void (*emitfunc) (unsigned, struct reloc*);
+void
+makecmd(unsigned int opcode, unsigned int type,
+    void (*emitfunc)(unsigned, struct reloc*))
 {
     unsigned offset, orig_opcode = 0;
     struct reloc relinfo;
@@ -1759,8 +1761,8 @@ done:
  * Part of data have already been sent to rfile;
  * length specified by 'done' argument.
  */
-void add_space (nbytes, fill_data)
-    unsigned nbytes, fill_data;
+void
+add_space(unsigned int nbytes, unsigned int fill_data)
 {
     unsigned c;
 
@@ -1777,7 +1779,8 @@ void add_space (nbytes, fill_data)
         count[segm] += nbytes;
 }
 
-void makeascii ()
+void
+makeascii(void)
 {
     register int c, nbytes;
     int cval;
@@ -1844,7 +1847,8 @@ void makeascii ()
 /*
  * Skip a string from the input file.
  */
-void skipstring ()
+void
+skipstring(void)
 {
     int c, cval;
 
@@ -1887,7 +1891,8 @@ void skipstring ()
 /*
  * Set assembler option.
  */
-void setoption ()
+void
+setoption(void)
 {
     const char *option = name;
     int enable = 1;
@@ -1929,8 +1934,8 @@ void setoption ()
 /*
  * Align the current segment.
  */
-void align (align_bits)
-    int align_bits;
+void
+align(int align_bits)
 {
     unsigned nbytes, align_mask, c;
 
@@ -1951,7 +1956,8 @@ void align (align_bits)
         count[segm] += nbytes;
 }
 
-void pass1 ()
+void
+pass1(void)
 {
     register int clex;
     int cval, tval, csegm, nbytes;
@@ -2383,7 +2389,8 @@ done:       reorder_flush();
  * by the reference address and the label number.
  * Backward references have negative label numbers.
  */
-int findlabel (int addr, int sym)
+int
+findlabel(int addr, int sym)
 {
     struct labeltab *p;
 
@@ -2407,7 +2414,8 @@ int findlabel (int addr, int sym)
     return 0;
 }
 
-void middle ()
+void
+middle(void)
 {
     register int i, snum, nbytes;
 
@@ -2445,8 +2453,8 @@ void middle ()
     line = 0;
 }
 
-void makeheader (rtsize, rdsize)
-    unsigned rtsize, rdsize;
+void
+makeheader(unsigned int rtsize, unsigned int rdsize)
 {
     struct exec hdr;
 
@@ -2465,9 +2473,8 @@ void makeheader (rtsize, rdsize)
     fputhdr (&hdr, stdout);
 }
 
-unsigned relocate (opcode, offset, relinfo)
-    register unsigned opcode, offset;
-    register struct reloc *relinfo;
+unsigned
+relocate(unsigned int opcode, unsigned int offset, struct reloc *relinfo)
 {
     switch (relinfo->flags & RFMASK) {
     case RBYTE32:                       /* 32 bits of byte address */
@@ -2504,9 +2511,8 @@ unsigned relocate (opcode, offset, relinfo)
     return (opcode);
 }
 
-unsigned makeword (opcode, relinfo, offset)
-    register unsigned opcode, offset;
-    register struct reloc *relinfo;
+unsigned int
+makeword(unsigned int opcode, struct reloc *relinfo, unsigned int offset)
 {
     struct nlist *sym;
     unsigned value;
@@ -2572,7 +2578,8 @@ unsigned makeword (opcode, relinfo, offset)
     return opcode;
 }
 
-void pass2 ()
+void
+pass2(void)
 {
     register int i;
     register unsigned h;
@@ -2629,8 +2636,8 @@ void pass2 ()
 /*
  * Convert symbol type to relocation type.
  */
-int typerel (t)
-    unsigned t;
+int
+typerel(unsigned int t)
 {
     switch (t & N_TYPE) {
     case N_ABS:     return (RABS);
@@ -2650,8 +2657,8 @@ int typerel (t)
  * Remap symbol indexes.
  * Put string pseudo-section to data section.
  */
-void relrel (relinfo)
-    register struct reloc *relinfo;
+void
+relrel(struct reloc *relinfo)
 {
     register unsigned type;
 
@@ -2680,8 +2687,8 @@ void relrel (relinfo)
  * Copy it from scratch file to output.
  * Return a size of relocation data in bytes.
  */
-unsigned makereloc (s)
-    register int s;
+unsigned int
+makereloc(int s)
 {
     register unsigned i, nbytes;
     struct reloc relinfo;
@@ -2701,8 +2708,8 @@ unsigned makereloc (s)
 /*
  * Align the relocation section to an integral number of words.
  */
-unsigned alignreloc (nbytes)
-    register unsigned nbytes;
+unsigned int
+alignreloc(unsigned int nbytes)
 {
     while (nbytes % WORDSZ) {
         putchar (0);
@@ -2711,7 +2718,8 @@ unsigned alignreloc (nbytes)
     return nbytes;
 }
 
-void makesymtab ()
+void
+makesymtab(void)
 {
     register int i;
 
@@ -2726,7 +2734,8 @@ void makesymtab ()
         putchar (0);
 }
 
-void usage ()
+void
+usage(void)
 {
     fprintf (stderr, "Usage:\n");
     fprintf (stderr, "  as [-uxX] [-o outfile] [infile]\n");
@@ -2738,9 +2747,8 @@ void usage ()
     exit (1);
 }
 
-int main (argc, argv)
-    int argc;
-    register char *argv[];
+int
+main(int argc, char *argv[])
 {
     register int i;
     register char *cp;

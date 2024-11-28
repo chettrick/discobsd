@@ -61,7 +61,7 @@ unsigned options;
 char *archive, *envtmp, *posarg, *posname;
 
 static void
-usage()
+usage(void)
 {
 	(void)fprintf(stderr, "Usage:\n");
 	(void)fprintf(stderr, "  ar -d [-Tv] archive file ...\n");
@@ -93,8 +93,7 @@ usage()
 }
 
 static void
-badoptions(arg)
-	char *arg;
+badoptions(char *arg)
 {
 	(void)fprintf(stderr,
 	    "ar: illegal option combination for %s.\n", arg);
@@ -108,14 +107,12 @@ badoptions(arg)
  *	option parsing and sanity checking.
  */
 int
-main(argc, argv)
-	int argc;
-	char **argv;
+main(int argc, char *argv[])
 {
 	extern int optind;
 	int c;
 	char *p;
-	int (*fcall)() = 0;
+	int (*fcall)(char **) = 0;
 
 	if (argc < 3)
 		usage();
@@ -250,7 +247,7 @@ main(argc, argv)
 		(void)fprintf(stderr, "ar: no archive members specified.\n");
 		usage();
 	}
-        if (! fcall)
-                exit(1);
+	if (! fcall)
+		exit(1);
 	exit((*fcall)(argv));
 }

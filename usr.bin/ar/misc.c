@@ -62,7 +62,7 @@ extern char *archive;			/* archive name */
 char *tname = "temporary file";		/* temporary file "name" */
 
 int
-tmp()
+tmp(void)
 {
 	extern char *envtmp;
 #ifndef CROSS
@@ -104,8 +104,7 @@ tmp()
  * 	does, remove it from the argument list.
  */
 char *
-files(argv)
-	char **argv;
+files(char **argv)
 {
 	register char **list;
 	char *p;
@@ -121,8 +120,7 @@ files(argv)
 }
 
 void
-orphans(argv)
-	char **argv;
+orphans(char **argv)
 {
 	for (; *argv; ++argv)
 		(void)fprintf(stderr,
@@ -130,8 +128,7 @@ orphans(argv)
 }
 
 char *
-rname(path)
-	char *path;
+rname(char *path)
 {
 	register char *ind;
 
@@ -140,8 +137,7 @@ rname(path)
 }
 
 int
-compare(dest)
-	char *dest;
+compare(char *dest)
 {
 	if (options & AR_TR)
 		return(!strncmp(chdr.name, rname(dest), OLDARMAXNAME));
@@ -149,15 +145,14 @@ compare(dest)
 }
 
 void
-badfmt()
+badfmt(void)
 {
 	errno = EINVAL;
 	error(archive);
 }
 
 void
-error(name)
-	char *name;
+error(char *name)
 {
 	(void)fprintf(stderr, "ar: %s: %s\n", name, strerror(errno));
 	exit(1);

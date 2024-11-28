@@ -37,6 +37,7 @@
 #   include <sys/types.h>
 #   include <sys/select.h>
 #   include <sys/fcntl.h>
+#   include <sys/stat.h>
 #   include <stdio.h>
 #   include <stdint.h>
 #   include <unistd.h>
@@ -65,8 +66,7 @@ extern char *tname;                     /* temporary file "name" */
  *	are moved to end of archive.
  */
 int
-move(argv)
-	char **argv;
+move(char **argv)
 {
 	extern char *posarg, *posname;	/* positioning file names */
 	CF cf;

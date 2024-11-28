@@ -42,7 +42,6 @@
 #   include <time.h>
 #else
 #   include <sys/param.h>
-#   include <sys/stat.h>
 #   include <sys/dir.h>
 #   include <sys/time.h>
 #   include <stdio.h>
@@ -63,8 +62,7 @@ extern char *archive;			/* archive name */
  *	skipping member contents.
  */
 int
-contents(argv)
-	register char **argv;
+contents(char **argv)
 {
 	register int afd, all;
 	struct tm *tp;

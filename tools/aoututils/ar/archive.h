@@ -112,17 +112,19 @@ typedef struct {
 #define	OLDARMAXNAME	15
 #define	HDR3	"%-16.15s%-12ld%-6u%-6u%-8o%-10ld%2s"
 
-void	close_archive();
-void	skip_arobj();
-void	copy_ar();
-int	get_arobj();
-int	open_archive();
-void	put_arobj();
+struct	stat;
 
-int     delete (register char **argv);
-int     move (register char **argv);
-int     print (register char **argv);
-int     append (register char **argv);
-int     replace (register char **argv);
-int     contents (register char **argv);
-int     extract (register char **argv);
+void	close_archive(int);
+void	skip_arobj(int);
+void	copy_ar(CF *, off_t);
+int	get_arobj(int);
+int	open_archive(int);
+void	put_arobj(CF *, struct stat *);
+
+int	delete(char **);
+int	move(char **);
+int	print(char **);
+int	append(char **);
+int	replace(char **);
+int	contents(char **);
+int	extract(char **);

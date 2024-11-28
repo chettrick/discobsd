@@ -68,7 +68,7 @@ void error(n, s)
  * read the archive header for this member.  Use a file pointer
  * rather than a file descriptor.
  */
-int get_arobj(fp)
+int nm_get_arobj(fp)
 	FILE *fp;
 {
 	struct ar_hdr *hdr;
@@ -131,7 +131,7 @@ off_t nextel(af, off)
         off_t off;
 {
 	fseek(af, off, SEEK_SET);
-	if (get_arobj(af) < 0)
+	if (nm_get_arobj(af) < 0)
 		return 0;
 	off += sizeof (struct ar_hdr) + chdr.size + (chdr.lname & 1);
 	return off;

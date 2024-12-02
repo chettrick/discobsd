@@ -41,9 +41,8 @@ union {
 
 int	narg, errs;
 
-void error(n, s)
-        int n;
-        char *s;
+void
+error(int n, char *s)
 {
 	fprintf(stderr, "nm: %s:", *xargv);
 	if (archive) {
@@ -68,8 +67,8 @@ void error(n, s)
  * read the archive header for this member.  Use a file pointer
  * rather than a file descriptor.
  */
-int nm_get_arobj(fp)
-	FILE *fp;
+int
+nm_get_arobj(FILE *fp)
 {
 	struct ar_hdr *hdr;
 	register int len, nr;
@@ -126,9 +125,8 @@ int nm_get_arobj(fp)
 	return(1);
 }
 
-off_t nextel(af, off)
-        FILE *af;
-        off_t off;
+off_t
+nextel(FILE *af, off_t off)
 {
 	fseek(af, off, SEEK_SET);
 	if (nm_get_arobj(af) < 0)
@@ -137,8 +135,8 @@ off_t nextel(af, off)
 	return off;
 }
 
-unsigned int fgetword (f)
-    register FILE *f;
+unsigned int
+fgetword(FILE *f)
 {
         register unsigned int h;
 
@@ -158,11 +156,8 @@ unsigned int fgetword (f)
  *  4 bytes: value
  *  N bytes: name
  */
-int fgetsym (fi, name, value, type)
-        register FILE *fi;
-        register char *name;
-        unsigned *value;
-        unsigned short *type;
+int
+fgetsym(FILE *fi, char *name, unsigned int *value, unsigned short *type)
 {
         register int len;
         unsigned nbytes;
@@ -182,9 +177,11 @@ int fgetsym (fi, name, value, type)
         return nbytes;
 }
 
-int compare(p1, p2)
-        register struct nlist *p1, *p2;
+int
+compare(const void *a, const void *b)
 {
+	const struct nlist *p1 = (const struct nlist *)a;
+	const struct nlist *p2 = (const struct nlist *)b;
 
 	if (nflg) {
 		if (p1->n_value > p2->n_value)
@@ -195,9 +192,8 @@ int compare(p1, p2)
 	return (rflg * strcmp(p1->n_name, p2->n_name));
 }
 
-void psyms(symp, nsyms)
-	register struct nlist *symp;
-	int nsyms;
+void
+psyms(struct nlist *symp, int nsyms)
 {
 	register int n, c;
 
@@ -259,7 +255,8 @@ void psyms(symp, nsyms)
 	}
 }
 
-void namelist()
+void
+namelist(void)
 {
 	off_t   off;
 	char	ibuf[BUFSIZ];
@@ -374,9 +371,8 @@ out:
 	fclose(fi);
 }
 
-int main(argc, argv)
-	int	argc;
-	char	**argv;
+int
+main(int argc, char *argv[])
 {
 	if (--argc>0 && argv[1][0]=='-' && argv[1][1]!=0) {
 		argv++;

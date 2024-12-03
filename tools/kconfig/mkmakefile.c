@@ -56,7 +56,7 @@
     }
 
 static  struct file_list *fcur;
-char *tail();
+char *  tail(char *);
 
 /*
  * Lookup a file, by name.
@@ -398,7 +398,7 @@ do_load(FILE *f)
 {
     register struct file_list *fl;
     register int first;
-    struct file_list *do_systemspec();
+    struct file_list *do_systemspec(FILE *, struct file_list *, int);
 
     for (first = 1, fl = conf_list; fl; first = 0)
         fl = fl->f_type == SYSTEMSPEC ?

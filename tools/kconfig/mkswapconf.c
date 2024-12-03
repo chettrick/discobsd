@@ -43,7 +43,7 @@ void
 swapconf(void)
 {
     register struct file_list *fl;
-    struct file_list *do_swap();
+    struct file_list *do_swap(struct file_list *);
 
     fl = conf_list;
     while (fl) {

@@ -23,10 +23,7 @@ extern void tzset(void);
 static int	longest;
 
 static void
-show(zone, t, v)
-char *	zone;
-time_t	t;
-int v;
+show(char *zone, time_t t, int v)
 {
 	struct tm *		tmp;
 
@@ -45,10 +42,7 @@ int v;
 }
 
 static void
-readerr(fp, progname, filename)
-FILE *	fp;
-char *	progname;
-char *	filename;
+readerr(FILE *fp, char *progname, char *filename)
 {
 	(void) fprintf(stderr, "%s: Error reading ", progname);
 	if (ferror(fp))
@@ -58,8 +52,7 @@ char *	filename;
 }
 
 static long
-tzdecode(codep)
-char *	codep;
+tzdecode(char *codep)
 {
 	register int	i;
 	register long	result;
@@ -71,9 +64,7 @@ char *	codep;
 }
 
 int
-main(argc, argv)
-int	argc;
-char *	argv[];
+main(int argc, char *argv[])
 {
 	register FILE *	fp;
 	register int	i, j, c;

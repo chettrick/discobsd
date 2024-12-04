@@ -57,10 +57,7 @@ struct	hash {
 } *bucket[NBUCKETS];
 
 static int
-fgetNUL(obuf, rmdr, file)
-	char *obuf;
-	register int rmdr;
-	FILE *file;
+fgetNUL(char *obuf, int rmdr, FILE *file)
 {
 	register int c;
 	register char *buf = obuf;
@@ -75,10 +72,7 @@ fgetNUL(obuf, rmdr, file)
 }
 
 static long
-hashit(str, really, fakept)
-	char *str;
-	int really;
-	unsigned fakept;
+hashit(char *str, int really, unsigned int fakept)
 {
 	int i;
 	register struct hash *hp;
@@ -122,14 +116,13 @@ hashit(str, really, fakept)
 }
 
 static int
-octdigit(c)
-	int c;
+octdigit(int c)
 {
 	return (c >= '0' && c <= '7');
 }
 
 static void
-copystr()
+copystr(void)
 {
 	register int c, ch;
 	char buf[512];
@@ -193,8 +186,7 @@ out:
 }
 
 static int
-match(ocp)
-	char *ocp;
+match(char *ocp)
 {
 	register char *cp;
 	register int c;
@@ -212,7 +204,7 @@ match(ocp)
 }
 
 static void
-process()
+process(void)
 {
 	register int c;
 
@@ -236,7 +228,7 @@ process()
 }
 
 static void
-inithash()
+inithash(void)
 {
 	char buf[512];
 	int mesgpt = 0;
@@ -249,9 +241,7 @@ inithash()
 }
 
 int
-main(argc, argv)
-	int argc;
-	char *argv[];
+main(int argc, char *argv[])
 {
 	char addon = 0;
 

@@ -6,12 +6,10 @@
 #include <ctype.h>
 #include <string.h>
 
-extern char *	imalloc();
+extern char *	imalloc(int);
 
 char *
-scheck(string, format)
-char *	string;
-char *	format;
+scheck(char *string, char *format)
 {
 	register char *	fbuf;
 	register char *	fp;

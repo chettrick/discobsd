@@ -51,9 +51,7 @@ irealloc(char *pointer, int size)
 }
 
 char *
-icatalloc(old, new)
-char *	old;
-char *	new;
+icatalloc(char *old, char *new)
 {
 	register char *	result;
 	register int	oldsize, newsize;
@@ -67,15 +65,13 @@ char *	new;
 }
 
 char *
-icpyalloc(string)
-char *	string;
+icpyalloc(char *string)
 {
 	return icatalloc((char *) NULL, string);
 }
 
 void
-ifree(p)
-char *	p;
+ifree(char *p)
 {
 	if (!NULLMAL(p))
 		free(p);

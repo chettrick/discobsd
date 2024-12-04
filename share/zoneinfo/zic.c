@@ -22,50 +22,55 @@
 #define FALSE	0
 #endif
 
-extern char *	icpyalloc();
-extern char *	imalloc();
-extern char *	irealloc();
-extern char *	scheck();
+/* Forward declaration. */
+struct rule;
+struct zone;
 
-static void	addtt();
-static int	addtype();
-static void	associate();
+extern char *	icpyalloc(char *string);
+extern char *	imalloc(int n);
+extern char *	irealloc(char *pointer, int size);
+extern char *	scheck(char *string, char *format);
+
+static void	addtt(time_t starttime, int type);
+static int	addtype(long gmtoff, char *abbr, int isdst);
+static void	associate(void);
 static int	charcnt;
-static int	ciequal();
-static long	eitol();
+static int	ciequal(char *ap, char *bp);
+static long	eitol(int i);
 static int	errors;
 static char *	filename;
-static char **	getfields();
-static long	gethms();
-static void	infile();
-static void	inlink();
-static void	inrule();
-static int	inzcont();
-static int	inzone();
-static int	inzsub();
+static char **	getfields(char *cp);
+static long	gethms(char *string, char *errstring, int signable);
+static void	infile(char *name);
+static void	inlink(char **fields, int nfields);
+static void	inrule(char **fields, int nfields);
+static int	inzcont(char **fields, int nfields);
+static int	inzone(char **fields, int nfields);
+static int	inzsub(char **fields, int nfields, int iscont);
 static int	linenum;
-static int	lowerit();
+static int	lowerit(int a);
 static time_t	max_time;
 static int	max_year;
 static time_t	min_time;
 static int	min_year;
-static int	mkdirs();
-static void	newabbr();
+static int	mkdirs(char *name);
+static void	newabbr(char *string);
 static int	noise;
-static void	nondunlink();
-static long	oadd();
-static void	outzone();
+static void	nondunlink(char *name);
+static long	oadd(long t1, long t2);
+static void	outzone(struct zone *zpfirst, int zonecount);
 static char *	progname;
 static char *	rfilename;
 static int	rlinenum;
-static time_t	rpytime();
-static void	rulesub();
-static void	setboundaries();
-static time_t	tadd();
+static time_t	rpytime(struct rule *rp, int wantedy);
+static void	rulesub(struct rule *rp, char *loyearp, char *hiyearp, char *typep,
+		    char *monthp, char *dayp, char *timep);
+static void	setboundaries(void);
+static time_t	tadd(time_t t1, long t2);
 static int	timecnt;
 static int	tt_signed;
 static int	typecnt;
-static int	yearistype();
+static int	yearistype(int year, char *type);
 
 /*
 ** Line codes.
@@ -206,7 +211,7 @@ struct lookup {
 	int		l_value;
 };
 
-static struct lookup *	byword();
+static struct lookup *	byword(char *word, struct lookup *table);
 
 static struct lookup	line_codes[] = {
 	{ "Rule",	LC_RULE },
@@ -287,8 +292,7 @@ static char		chars[TZ_MAX_CHARS];
 */
 
 static char *
-memcheck(ptr)
-char *	ptr;
+memcheck(char *ptr)
 {
 	if (ptr == NULL) {
 		perror(progname);
@@ -306,11 +310,7 @@ char *	ptr;
 */
 
 static void
-eats(name, num, rname, rnum)
-char *	name;
-char *	rname;
-int num;
-int rnum;
+eats(char *name, int num, char *rname, int rnum)
 {
 	filename = name;
 	linenum = num;
@@ -319,16 +319,13 @@ int rnum;
 }
 
 static void
-eat(name, num)
-char *	name;
-int num;
+eat(char *name, int num)
 {
 	eats(name, num, (char *) NULL, -1);
 }
 
 static void
-error(string)
-char *	string;
+error(char *string)
 {
 	/*
 	** Match the format of "cc" to allow sh users to
@@ -345,7 +342,7 @@ char *	string;
 }
 
 static void
-usage()
+usage(void)
 {
 	(void) fprintf(stderr,
 "%s: usage is %s [ -v ] [ -l localtime ] [ -d directory ] [ filename ... ]\n",
@@ -357,9 +354,7 @@ static char *	lcltime = NULL;
 static char *	directory = NULL;
 
 int
-main(argc, argv)
-int	argc;
-char *	argv[];
+main(int argc, char *argv[])
 {
 	register int	i, j;
 	register int	c;
@@ -449,7 +444,7 @@ char *	argv[];
 }
 
 static void
-setboundaries()
+setboundaries(void)
 {
 	register time_t bit;
         struct tm zerotm = {0};
@@ -485,8 +480,7 @@ setboundaries()
 */
 
 static void
-nondunlink(name)
-char *	name;
+nondunlink(char *name)
 {
 	struct stat	s;
 
@@ -506,16 +500,14 @@ char *	name;
 */
 
 static int
-rcomp(cp1, cp2)
-char *	cp1;
-char *	cp2;
+rcomp(const void *cp1, const void *cp2)
 {
-	return strcmp(((struct rule *) cp1)->r_name,
-		((struct rule *) cp2)->r_name);
+	return strcmp(((const struct rule *) cp1)->r_name,
+		((const struct rule *) cp2)->r_name);
 }
 
 static void
-associate()
+associate(void)
 {
 	register struct zone *	zp;
 	register struct rule *	rp;
@@ -563,8 +555,7 @@ associate()
 }
 
 static void
-infile(name)
-char *	name;
+infile(char *name)
 {
 	register FILE *			fp;
 	register char **		fields;
@@ -653,10 +644,7 @@ char *	name;
 */
 
 static long
-gethms(string, errstring, signable)
-char *	string;
-char *	errstring;
-int signable;
+gethms(char *string, char *errstring, int signable)
 {
 	int	hh, mm, ss, sign;
 
@@ -689,9 +677,7 @@ int signable;
 }
 
 static void
-inrule(fields, nfields)
-register char **	fields;
-int nfields;
+inrule(char **fields, int nfields)
 {
 	struct rule	r;
 
@@ -716,9 +702,7 @@ int nfields;
 }
 
 static int
-inzone(fields, nfields)
-register char **	fields;
-int nfields;
+inzone(char **fields, int nfields)
 {
 	register int	i;
 	char		buf[132];
@@ -749,9 +733,7 @@ int nfields;
 }
 
 static int
-inzcont(fields,  nfields)
-register char **	fields;
-int nfields;
+inzcont(char **fields, int nfields)
 {
 	if (nfields < ZONEC_MINFIELDS || nfields > ZONEC_MAXFIELDS) {
 		error("wrong number of fields on Zone continuation line");
@@ -761,10 +743,7 @@ int nfields;
 }
 
 static int
-inzsub(fields, nfields, iscont)
-register char **	fields;
-int nfields;
-int  iscont;
+inzsub(char **fields, int nfields, int iscont)
 {
 	register char *	cp;
 	struct zone	z;
@@ -833,9 +812,7 @@ error("Zone continuation line end time is not after end time of previous line");
 }
 
 static void
-inlink(fields, nfields)
-register char **	fields;
-int  nfields;
+inlink(char **fields, int nfields)
 {
 	struct link	l;
 
@@ -861,14 +838,8 @@ int  nfields;
 }
 
 static void
-rulesub(rp, loyearp, hiyearp, typep, monthp, dayp, timep)
-register struct rule *	rp;
-char *			loyearp;
-char *			hiyearp;
-char *			typep;
-char *			monthp;
-char *			dayp;
-char *			timep;
+rulesub(struct rule *rp, char *loyearp, char *hiyearp, char *typep,
+    char *monthp, char *dayp, char *timep)
 {
 	register struct lookup *	lp;
 	register char *			cp;
@@ -1002,9 +973,7 @@ char *			timep;
 }
 
 static void
-puttzcode(val, fp)
-long	val;
-FILE *	fp;
+puttzcode(long val, FILE *fp)
 {
 	register int	c;
 	register int	shift;
@@ -1016,8 +985,7 @@ FILE *	fp;
 }
 
 static void
-writezone(name)
-char *	name;
+writezone(char *name)
 {
 	register FILE *		fp;
 	register int		i;
@@ -1063,9 +1031,7 @@ char *	name;
 }
 
 static void
-outzone(zpfirst, zonecount)
-struct zone *	zpfirst;
-int zonecount;
+outzone(struct zone *zpfirst, int zonecount)
 {
 	register struct zone *		zp;
 	register struct rule *		rp;
@@ -1209,9 +1175,7 @@ addtt(starttime, addtype(startoff, startbuf, startisdst));
 }
 
 static void
-addtt(starttime, type)
-time_t	starttime;
-int type;
+addtt(time_t starttime, int type)
 {
 	if (timecnt != 0 && type == types[timecnt - 1])
 		return;	/* easy enough! */
@@ -1225,10 +1189,7 @@ int type;
 }
 
 static int
-addtype(gmtoff, abbr, isdst)
-long	gmtoff;
-char *	abbr;
-int isdst;
+addtype(long gmtoff, char *abbr, int isdst)
 {
 	register int	i, j;
 
@@ -1263,9 +1224,7 @@ int isdst;
 }
 
 static int
-yearistype(year, type)
-int year;
-char *	type;
+yearistype(int year, char *type)
 {
 	char	buf[BUFSIZ];
 	int	result;
@@ -1296,9 +1255,7 @@ lowerit(int a)
 }
 
 static int
-ciequal(ap, bp)		/* case-insensitive equality */
-register char *	ap;
-register char *	bp;
+ciequal(char *ap, char *bp)	/* case-insensitive equality */
 {
 	while (lowerit(*ap) == lowerit(*bp++))
 		if (*ap++ == '\0')
@@ -1307,9 +1264,7 @@ register char *	bp;
 }
 
 static int
-isabbr(abbr, word)
-register char *	abbr;
-register char *	word;
+isabbr(char *abbr, char *word)
 {
 	if (lowerit(*abbr) != lowerit(*word))
 		return FALSE;
@@ -1322,9 +1277,7 @@ register char *	word;
 }
 
 static struct lookup *
-byword(word, table)
-register char *			word;
-register struct lookup *	table;
+byword(char *word, struct lookup *table)
 {
 	register struct lookup *	foundlp;
 	register struct lookup *	lp;
@@ -1351,8 +1304,7 @@ register struct lookup *	table;
 }
 
 static char **
-getfields(cp)
-register char *	cp;
+getfields(char *cp)
 {
 	register char *		dp;
 	register char **	array;
@@ -1386,9 +1338,7 @@ register char *	cp;
 }
 
 static long
-oadd(t1, t2)
-long	t1;
-long	t2;
+oadd(long t1, long t2)
 {
 	register long	t;
 
@@ -1402,9 +1352,7 @@ long	t2;
 }
 
 static time_t
-tadd(t1, t2)
-time_t	t1;
-long	t2;
+tadd(time_t t1, long t2)
 {
 	register time_t	t;
 
@@ -1427,9 +1375,7 @@ long	t2;
 */
 
 static time_t
-rpytime(rp, wantedy)
-register struct rule *	rp;
-register int		wantedy;
+rpytime(struct rule *rp, int wantedy)
 {
 	register int	y, m, i;
 	register long	dayoff;			/* with a nod to Margaret O. */
@@ -1518,8 +1464,7 @@ register int		wantedy;
 }
 
 static void
-newabbr(string)
-char *	string;
+newabbr(char *string)
 {
 	register int	i;
 
@@ -1533,8 +1478,7 @@ char *	string;
 }
 
 static int
-mkdirs(name)
-char *	name;
+mkdirs(char *name)
 {
 	register char *	cp;
 

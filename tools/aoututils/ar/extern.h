@@ -38,4 +38,3 @@ int	 compare(char *);
 int	 tmp(void);
 char	*files(char **);
 char	*rname(char *);
-void	 strmode(mode_t, char *);

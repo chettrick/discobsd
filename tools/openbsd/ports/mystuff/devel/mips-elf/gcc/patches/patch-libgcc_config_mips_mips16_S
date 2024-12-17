@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: libgcc/config/mips/mips16.S
 --- libgcc/config/mips/mips16.S.orig
 +++ libgcc/config/mips/mips16.S

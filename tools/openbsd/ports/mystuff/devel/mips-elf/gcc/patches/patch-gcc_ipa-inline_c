@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/ipa-inline.c
 --- gcc/ipa-inline.c.orig
 +++ gcc/ipa-inline.c

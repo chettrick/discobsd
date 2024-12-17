@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/dwarf2out.c
 --- gcc/dwarf2out.c.orig
 +++ gcc/dwarf2out.c

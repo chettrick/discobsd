@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/loop-iv.c
 --- gcc/loop-iv.c.orig
 +++ gcc/loop-iv.c

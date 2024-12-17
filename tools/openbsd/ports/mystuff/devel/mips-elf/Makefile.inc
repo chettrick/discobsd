@@ -1,5 +1,3 @@
-# $OpenBSD: Makefile.inc,v 1.3 2019/07/12 21:02:19 sthen Exp $
-
 CONFIG=		mips-elf
 PKGNAME?=	${CONFIG}-${DISTNAME}
 FULLPKGNAME?=	${PKGNAME}

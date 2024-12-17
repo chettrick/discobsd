@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/config.in
 --- gcc/config.in.orig
 +++ gcc/config.in

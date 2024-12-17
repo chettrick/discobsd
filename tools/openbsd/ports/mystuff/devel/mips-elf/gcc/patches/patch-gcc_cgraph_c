@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/cgraph.c
 --- gcc/cgraph.c.orig
 +++ gcc/cgraph.c

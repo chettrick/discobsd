@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/configure.ac
 --- gcc/configure.ac.orig
 +++ gcc/configure.ac

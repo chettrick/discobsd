@@ -1,11 +1,9 @@
-# $OpenBSD: Makefile,v 1.4 2019/05/29 20:33:34 jca Exp $
-
 COMMENT=	gcc for ${CONFIG} cross-development
 
 VERSION=	4.8.1
 DISTNAME=	gcc-${VERSION}
-#EXTRACT_SUFX=	.tar.xz
 PKGNAME=	${CONFIG}-gcc-${VERSION}
+REVISION=	0
 SHARED_LIBS +=  lto_plugin                0.0 # 0.0
 
 SUBST_VARS+=	VERSION
@@ -13,8 +11,7 @@ SUBST_VARS+=	VERSION
 WANTLIB=	${COMPILER_LIBCXX} c gmp m mpc mpfr
 DIST_SUBDIR=	gcc
 
-COMPILER =		base-clang ports-gcc base-gcc
-#COMPILER =		base-gcc
+COMPILER=	base-clang ports-gcc base-gcc
 
 MAKE_GXX=	No
 MAKE_FORTRAN=	No
@@ -22,7 +19,7 @@ MAKE_OBJC=	No
 MAKE_JAVA=	No
 MAKE_ADA=	No
 
-MASTER_SITES= 	${MASTER_SITE_GCC:=releases/gcc-$(VERSION)/}
+SITES=		${SITE_GCC:=releases/gcc-$(VERSION)/}
 
 BUILD_DEPENDS+=	devel/autoconf/2.13 \
 		devel/bison \
@@ -32,11 +29,13 @@ BUILD_DEPENDS+=	devel/autoconf/2.13 \
 LIB_DEPENDS=	devel/mpfr \
 		devel/libmpc
 
-RUN_DEPENDS =	devel/${CONFIG}/binutils
+RUN_DEPENDS=	devel/${CONFIG}/binutils
 
 #LANGS=		c,c++
 LANGS=		c
 CFLAGS=		-O2 -g
+
+CXXFLAGS_base-clang=	-std=c++14
 
 CONFIGURE_ARGS+=--enable-languages=${LANGS} \
 		--with-arch-32=mips32r2 \

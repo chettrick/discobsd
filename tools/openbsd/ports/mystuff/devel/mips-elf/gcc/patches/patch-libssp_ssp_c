@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: libssp/ssp.c
 --- libssp/ssp.c.orig
 +++ libssp/ssp.c

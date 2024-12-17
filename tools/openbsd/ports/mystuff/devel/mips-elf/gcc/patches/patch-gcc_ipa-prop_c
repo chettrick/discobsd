@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/ipa-prop.c
 --- gcc/ipa-prop.c.orig
 +++ gcc/ipa-prop.c

@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/gcc.c
 --- gcc/gcc.c.orig
 +++ gcc/gcc.c

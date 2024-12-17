@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/toplev.c
 --- gcc/toplev.c.orig
 +++ gcc/toplev.c

@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/value-prof.c
 --- gcc/value-prof.c.orig
 +++ gcc/value-prof.c

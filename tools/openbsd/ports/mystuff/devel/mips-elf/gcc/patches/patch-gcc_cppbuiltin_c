@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/cppbuiltin.c
 --- gcc/cppbuiltin.c.orig
 +++ gcc/cppbuiltin.c

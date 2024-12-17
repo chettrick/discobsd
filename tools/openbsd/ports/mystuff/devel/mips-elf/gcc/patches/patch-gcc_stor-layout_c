@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/stor-layout.c
 --- gcc/stor-layout.c.orig
 +++ gcc/stor-layout.c

@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/profile.c
 --- gcc/profile.c.orig
 +++ gcc/profile.c

@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: libstdc++-v3/configure.ac
 --- libstdc++-v3/configure.ac.orig
 +++ libstdc++-v3/configure.ac

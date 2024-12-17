@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/dwarf2cfi.c
 --- gcc/dwarf2cfi.c.orig
 +++ gcc/dwarf2cfi.c

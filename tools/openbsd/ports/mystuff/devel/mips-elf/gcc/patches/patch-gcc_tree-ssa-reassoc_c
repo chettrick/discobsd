@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/tree-ssa-reassoc.c
 --- gcc/tree-ssa-reassoc.c.orig
 +++ gcc/tree-ssa-reassoc.c

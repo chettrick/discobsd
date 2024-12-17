@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/defaults.h
 --- gcc/defaults.h.orig
 +++ gcc/defaults.h

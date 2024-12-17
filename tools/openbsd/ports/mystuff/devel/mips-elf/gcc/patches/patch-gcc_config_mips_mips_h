@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/config/mips/mips.h
 --- gcc/config/mips/mips.h.orig
 +++ gcc/config/mips/mips.h

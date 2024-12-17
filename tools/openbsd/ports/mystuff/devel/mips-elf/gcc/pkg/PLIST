@@ -1,4 +1,3 @@
-@comment $OpenBSD: PLIST,v 1.2 2018/10/27 05:48:32 bentley Exp $
 @bin bin/mips-elf-cpp
 @bin bin/mips-elf-gcc
 @bin bin/mips-elf-gcc-${VERSION}
@@ -24,8 +23,8 @@ lib/gcc/mips-elf/${VERSION}/el/crtbegin.o
 lib/gcc/mips-elf/${VERSION}/el/crtend.o
 lib/gcc/mips-elf/${VERSION}/el/crti.o
 lib/gcc/mips-elf/${VERSION}/el/crtn.o
-lib/gcc/mips-elf/${VERSION}/el/libgcc.a
-lib/gcc/mips-elf/${VERSION}/el/libgcov.a
+@static-lib lib/gcc/mips-elf/${VERSION}/el/libgcc.a
+@static-lib lib/gcc/mips-elf/${VERSION}/el/libgcov.a
 lib/gcc/mips-elf/${VERSION}/include/
 lib/gcc/mips-elf/${VERSION}/include-fixed/
 lib/gcc/mips-elf/${VERSION}/include-fixed/README
@@ -53,8 +52,8 @@ lib/gcc/mips-elf/${VERSION}/install-tools/include/README
 lib/gcc/mips-elf/${VERSION}/install-tools/include/limits.h
 lib/gcc/mips-elf/${VERSION}/install-tools/macro_list
 lib/gcc/mips-elf/${VERSION}/install-tools/mkheaders.conf
-lib/gcc/mips-elf/${VERSION}/libgcc.a
-lib/gcc/mips-elf/${VERSION}/libgcov.a
+@static-lib lib/gcc/mips-elf/${VERSION}/libgcc.a
+@static-lib lib/gcc/mips-elf/${VERSION}/libgcov.a
 lib/gcc/mips-elf/${VERSION}/plugin/
 lib/gcc/mips-elf/${VERSION}/plugin/gtype.state
 lib/gcc/mips-elf/${VERSION}/plugin/include/
@@ -216,11 +215,11 @@ lib/gcc/mips-elf/${VERSION}/soft-float/el/crtbegin.o
 lib/gcc/mips-elf/${VERSION}/soft-float/el/crtend.o
 lib/gcc/mips-elf/${VERSION}/soft-float/el/crti.o
 lib/gcc/mips-elf/${VERSION}/soft-float/el/crtn.o
-lib/gcc/mips-elf/${VERSION}/soft-float/el/libgcc.a
-lib/gcc/mips-elf/${VERSION}/soft-float/el/libgcov.a
-lib/gcc/mips-elf/${VERSION}/soft-float/libgcc.a
-lib/gcc/mips-elf/${VERSION}/soft-float/libgcov.a
-lib/libiberty.a
+@static-lib lib/gcc/mips-elf/${VERSION}/soft-float/el/libgcc.a
+@static-lib lib/gcc/mips-elf/${VERSION}/soft-float/el/libgcov.a
+@static-lib lib/gcc/mips-elf/${VERSION}/soft-float/libgcc.a
+@static-lib lib/gcc/mips-elf/${VERSION}/soft-float/libgcov.a
+@static-lib lib/libiberty.a
 libexec/gcc/
 libexec/gcc/mips-elf/
 libexec/gcc/mips-elf/${VERSION}/
@@ -232,7 +231,7 @@ libexec/gcc/mips-elf/${VERSION}/install-tools/fixinc.sh
 libexec/gcc/mips-elf/${VERSION}/install-tools/mkheaders
 libexec/gcc/mips-elf/${VERSION}/install-tools/mkinstalldirs
 libexec/gcc/mips-elf/${VERSION}/liblto_plugin.la
-libexec/gcc/mips-elf/${VERSION}/liblto_plugin.so
+@so libexec/gcc/mips-elf/${VERSION}/liblto_plugin.so
 @bin libexec/gcc/mips-elf/${VERSION}/lto-wrapper
 @bin libexec/gcc/mips-elf/${VERSION}/lto1
 libexec/gcc/mips-elf/${VERSION}/plugin/
@@ -243,6 +242,3 @@ libexec/gcc/mips-elf/${VERSION}/plugin/
 @comment @man man/man7/fsf-funding.7
 @comment @man man/man7/gfdl.7
 @comment @man man/man7/gpl.7
-mips-elf/lib/el/
-mips-elf/lib/soft-float/
-mips-elf/lib/soft-float/el/

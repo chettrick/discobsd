@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Index: gcc/bitmap.c
 --- gcc/bitmap.c.orig
 +++ gcc/bitmap.c

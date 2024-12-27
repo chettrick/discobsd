@@ -24,8 +24,6 @@
 #include <stdint.h>
 #include <limits.h>
 
-typedef unsigned long long uint64_t;
-
 #define UINT32_C(x)     (x##U)
 
 #if defined SINGLE_PRECISION

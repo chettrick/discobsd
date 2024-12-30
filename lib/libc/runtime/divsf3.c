@@ -146,13 +146,15 @@ __divsf3(fp_t a, fp_t b)
         // If we have overflowed the exponent, return infinity.
         return fromRep(infRep | quotientSign);
     }
+
     else if (writtenExponent < 1) {
         // Flush denormals to zero.  In the future, it would be nice to add
         // code to round them correctly.
         return fromRep(quotientSign);
     }
+
     else {
-        int round = (residual << 1) > bSignificand;
+        const bool round = (residual << 1) > bSignificand;
         // Clear the implicit bit
         rep_t absResult = quotient & significandMask;
         // Insert the exponent

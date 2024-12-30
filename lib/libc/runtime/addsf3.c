@@ -72,7 +72,7 @@ __addsf3(fp_t a, fp_t b)
     // The sign of the result is the sign of the larger operand, a.  If they
     // have opposite signs, we are performing a subtraction; otherwise addition.
     const rep_t resultSign = aRep & signBit;
-    const int subtraction = ((aRep ^ bRep) & signBit) != 0;
+    const bool subtraction = (aRep ^ bRep) & signBit;
 
     // Shift the significands to give us round, guard and sticky, and or in the
     // implicit significand bit.  (If we fell through from the denormal path it
@@ -86,7 +86,7 @@ __addsf3(fp_t a, fp_t b)
     const unsigned int align = aExponent - bExponent;
     if (align) {
         if (align < typeWidth) {
-            const int sticky = (bSignificand << (typeWidth - align)) != 0;
+            const bool sticky = bSignificand << (typeWidth - align);
             bSignificand = bSignificand >> align | sticky;
         } else {
             bSignificand = 1; // sticky; b is known to be non-zero.
@@ -114,7 +114,7 @@ __addsf3(fp_t a, fp_t b)
         // If the addition carried up, we need to right-shift the result and
         // adjust the exponent:
         if (aSignificand & implicitBit << 4) {
-            const int sticky = aSignificand & 1;
+            const bool sticky = aSignificand & 1;
             aSignificand = aSignificand >> 1 | sticky;
             aExponent += 1;
         }
@@ -127,7 +127,7 @@ __addsf3(fp_t a, fp_t b)
         // Result is denormal before rounding; the exponent is zero and we
         // need to shift the significand.
         const int shift = 1 - aExponent;
-        const int sticky = (aSignificand << (typeWidth - shift)) != 0;
+        const bool sticky = aSignificand << (typeWidth - shift);
         aSignificand = aSignificand >> shift | sticky;
         aExponent = 0;
     }

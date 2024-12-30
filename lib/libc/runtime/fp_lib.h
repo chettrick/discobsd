@@ -25,8 +25,6 @@
 #include <stdbool.h>
 #include <limits.h>
 
-#define UINT32_C(x)     (x##U)
-
 #if defined SINGLE_PRECISION
 
 typedef uint32_t rep_t;

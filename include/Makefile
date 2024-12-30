@@ -27,7 +27,7 @@ STD=	a.out.h alloca.h ar.h assert.h \
 	paths.h psout.h pwd.h \
 	ranlib.h regexp.h \
 	setjmp.h sgtty.h \
-	stdarg.h stddef.h stdint.h stdio.h stdlib.h \
+	stdarg.h stdbool.h stddef.h stdint.h stdio.h stdlib.h \
 	string.h strings.h struct.h syscall.h sysexits.h \
 	term.h time.h ttyent.h tzfile.h \
 	unistd.h utmp.h vmf.h

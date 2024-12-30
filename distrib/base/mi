@@ -826,6 +826,7 @@ file /usr/include/smallc/sys/gpio.h
 file /usr/include/smallc/sys/spi.h
 file /usr/include/smallc/wiznet.h
 file /usr/include/stdarg.h
+file /usr/include/stdbool.h
 file /usr/include/stddef.h
 file /usr/include/stdint.h
 file /usr/include/stdio.h

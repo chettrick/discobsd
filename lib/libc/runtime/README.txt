@@ -45,6 +45,7 @@ si_int __ctzsi2(si_int a);  // count trailing zeros
 si_int __ctzdi2(di_int a);  // count trailing zeros
 si_int __ctzti2(ti_int a);  // count trailing zeros
 
+si_int __ffssi2(si_int a);  // find least significant 1 bit
 si_int __ffsdi2(di_int a);  // find least significant 1 bit
 si_int __ffsti2(ti_int a);  // find least significant 1 bit
 
@@ -56,8 +57,8 @@ si_int __popcountsi2(si_int a);  // bit population
 si_int __popcountdi2(di_int a);  // bit population
 si_int __popcountti2(ti_int a);  // bit population
 
-uint32_t __bswapsi2(uint32_t a);   // a byteswapped, arm only
-uint64_t __bswapdi2(uint64_t a);   // a byteswapped, arm only
+uint32_t __bswapsi2(uint32_t a);   // a byteswapped
+uint64_t __bswapdi2(uint64_t a);   // a byteswapped
 
 // Integral arithmetic
 
@@ -198,7 +199,7 @@ long double _Complex __divtc3(long double a, long double b,
 
 // __clear_cache() is used to tell process that new instructions have been
 // written to an address range.  Necessary on processors that do not have
-// a unified instuction and data cache.
+// a unified instruction and data cache.
 void __clear_cache(void* start, void* end);
 
 // __enable_execute_stack() is used with nested functions when a trampoline
@@ -220,7 +221,9 @@ _Unwind_Reason_Code __gcc_personality_v0(int version, _Unwind_Action actions,
 // for use with some implementations of assert() in <assert.h>
 void __eprintf(const char* format, const char* assertion_expression,
 				const char* line, const char* file);
-				
+
+// for systems with emulated thread local storage
+void* __emutls_get_address(struct __emutls_control*);
 
 
 //   Power PC specific functions

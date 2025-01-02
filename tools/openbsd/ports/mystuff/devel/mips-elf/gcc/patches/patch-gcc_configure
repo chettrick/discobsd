@@ -1,42 +1,31 @@
 Index: gcc/configure
 --- gcc/configure.orig
 +++ gcc/configure
-@@ -25720,6 +25720,38 @@ $as_echo "#define HAVE_AS_GNU_ATTRIBUTE 1" >>confdefs.
- 
+@@ -32456,14 +32456,14 @@ if test "$gcc_cv_c_no_fpie" = "yes"; then
  fi
  
-+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking assembler for .module support" >&5
-+$as_echo_n "checking assembler for .module support... " >&6; }
-+if test "${gcc_cv_as_mips_dot_module+set}" = set; then :
-+  $as_echo_n "(cached) " >&6
-+else
-+  gcc_cv_as_mips_dot_module=no
-+  if test x$gcc_cv_as != x; then
-+    $as_echo '.module mips2
-+       .module fp=xx' > conftest.s
-+    if { ac_try='$gcc_cv_as $gcc_cv_as_flags -32 -o conftest.o conftest.s >&5'
-+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
-+  (eval $ac_try) 2>&5
-+  ac_status=$?
-+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-+  test $ac_status = 0; }; }
-+    then
-+       gcc_cv_as_mips_dot_module=yes
-+    else
-+      echo "configure: failed program was" >&5
-+      cat conftest.s >&5
-+    fi
-+    rm -f conftest.o conftest.s
-+  fi
-+fi
-+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gcc_cv_as_mips_dot_module" >&5
-+$as_echo "$gcc_cv_as_mips_dot_module" >&6; }
-+if test $gcc_cv_as_mips_dot_module = yes; then
-+
-+$as_echo "#define HAVE_AS_DOT_MODULE 1" >>confdefs.h
-+
-+fi
-+
-     { $as_echo "$as_me:${as_lineno-$LINENO}: checking assembler for .dtprelword support" >&5
- $as_echo_n "checking assembler for .dtprelword support... " >&6; }
- if test "${gcc_cv_as_mips_dtprelword+set}" = set; then :
+ 
+-# Check if -no-pie works.
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for -no-pie option" >&5
+-$as_echo_n "checking for -no-pie option... " >&6; }
++# Check if -nopie works.
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for -nopie option" >&5
++$as_echo_n "checking for -nopie option... " >&6; }
+ if ${gcc_cv_no_pie+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   saved_LDFLAGS="$LDFLAGS"
+-   LDFLAGS="$LDFLAGS -no-pie"
++   LDFLAGS="$LDFLAGS -nopie"
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ int main(void) {return 0;}
+@@ -32480,7 +32480,7 @@ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gcc_cv_no_pie" >&5
+ $as_echo "$gcc_cv_no_pie" >&6; }
+ if test "$gcc_cv_no_pie" = "yes"; then
+-  NO_PIE_FLAG="-no-pie"
++  NO_PIE_FLAG="-nopie"
+ fi
+ 
+ 

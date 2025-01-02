@@ -24,7 +24,6 @@
 @man man/man1/${CONFIG}-dlltool.1
 @man man/man1/${CONFIG}-elfedit.1
 @man man/man1/${CONFIG}-ld.1
-@man man/man1/${CONFIG}-nlmconv.1
 @man man/man1/${CONFIG}-nm.1
 @man man/man1/${CONFIG}-objcopy.1
 @man man/man1/${CONFIG}-objdump.1
@@ -52,13 +51,22 @@ ${CONFIG}/lib/ldscripts/
 ${CONFIG}/lib/ldscripts/elf32ebmip.x
 ${CONFIG}/lib/ldscripts/elf32ebmip.xbn
 ${CONFIG}/lib/ldscripts/elf32ebmip.xc
+${CONFIG}/lib/ldscripts/elf32ebmip.xce
 ${CONFIG}/lib/ldscripts/elf32ebmip.xd
 ${CONFIG}/lib/ldscripts/elf32ebmip.xdc
+${CONFIG}/lib/ldscripts/elf32ebmip.xdce
+${CONFIG}/lib/ldscripts/elf32ebmip.xde
 ${CONFIG}/lib/ldscripts/elf32ebmip.xdw
+${CONFIG}/lib/ldscripts/elf32ebmip.xdwe
+${CONFIG}/lib/ldscripts/elf32ebmip.xe
 ${CONFIG}/lib/ldscripts/elf32ebmip.xn
 ${CONFIG}/lib/ldscripts/elf32ebmip.xr
 ${CONFIG}/lib/ldscripts/elf32ebmip.xs
 ${CONFIG}/lib/ldscripts/elf32ebmip.xsc
+${CONFIG}/lib/ldscripts/elf32ebmip.xsce
+${CONFIG}/lib/ldscripts/elf32ebmip.xse
 ${CONFIG}/lib/ldscripts/elf32ebmip.xsw
+${CONFIG}/lib/ldscripts/elf32ebmip.xswe
 ${CONFIG}/lib/ldscripts/elf32ebmip.xu
 ${CONFIG}/lib/ldscripts/elf32ebmip.xw
+${CONFIG}/lib/ldscripts/elf32ebmip.xwe

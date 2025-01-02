@@ -1,0 +1,19 @@
+Index: libgcc/config.host
+--- libgcc/config.host.orig
++++ libgcc/config.host
+@@ -166,11 +166,11 @@ mips*-*-*)
+ 	# All MIPS targets provide a full set of FP routines.
+ 	cpu_type=mips
+ 	tmake_file="mips/t-mips"
+-	if test "${libgcc_cv_mips_hard_float}" = yes; then
+-		tmake_file="${tmake_file} t-hardfp-sfdf t-hardfp"
+-	else
++# XXX	if test "${libgcc_cv_mips_hard_float}" = yes; then
++# XXX		tmake_file="${tmake_file} t-hardfp-sfdf t-hardfp"
++# XXX	else
+ 		tmake_file="${tmake_file} t-softfp-sfdf"
+-	fi
++# XXX	fi
+ 	if test "${ac_cv_sizeof_long_double}" = 16; then
+ 		tmake_file="${tmake_file} mips/t-softfp-tf"
+ 	fi

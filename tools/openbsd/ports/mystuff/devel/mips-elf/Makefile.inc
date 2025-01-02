@@ -17,4 +17,4 @@ CONFIGURE_ARGS+=--target=${CONFIG}  \
 		--disable-nls	    \
 		--disable-werror
 
-EXTRACT_SUFX?=	.tar.bz2
+EXTRACT_SUFX?=	.tar.xz

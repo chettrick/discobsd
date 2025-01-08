@@ -38,7 +38,7 @@ file /usr/include/machine/adc.h
 file /usr/include/machine/cpu.h
 file /usr/include/machine/debug.h
 file /usr/include/machine/elf_machdep.h
-file /usr/include/machine/float.h
+file /usr/include/machine/_float.h
 file /usr/include/machine/frame.h
 file /usr/include/machine/io.h
 file /usr/include/machine/limits.h

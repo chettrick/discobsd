@@ -1,5 +1,5 @@
-#ifndef _MACHINE_FLOAT_H_
-#define _MACHINE_FLOAT_H_
+#ifndef _MACHINE__FLOAT_H_
+#define _MACHINE__FLOAT_H_
 
 /* Characteristics of IEEE floating types */
 
@@ -47,4 +47,4 @@
 #define LDBL_MIN_10_EXP (-307)
 #define LDBL_MIN_EXP    (-1021)
 
-#endif /* _MACHINE_FLOAT_H_ */
+#endif /* _MACHINE__FLOAT_H_ */

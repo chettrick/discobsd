@@ -47,20 +47,20 @@ enum LE_RESULT {
     LE_UNORDERED =  1
 };
 
-enum LE_RESULT
-__lesf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI enum LE_RESULT
+__lesf2(fp_t a, fp_t b) {
+    
     const srep_t aInt = toRep(a);
     const srep_t bInt = toRep(b);
     const rep_t aAbs = aInt & absMask;
     const rep_t bAbs = bInt & absMask;
-
+    
     // If either a or b is NaN, they are unordered.
     if (aAbs > infRep || bAbs > infRep) return LE_UNORDERED;
-
+    
     // If a and b are both zeros, they are equal.
     if ((aAbs | bAbs) == 0) return LE_EQUAL;
-
+    
     // If at least one of a and b is positive, we get the same result comparing
     // a and b as signed integers as we would with a fp_ting-point compare.
     if ((aInt & bInt) >= 0) {
@@ -68,7 +68,7 @@ __lesf2(fp_t a, fp_t b)
         else if (aInt == bInt) return LE_EQUAL;
         else return LE_GREATER;
     }
-
+    
     // Otherwise, both are negative, so we need to flip the sense of the
     // comparison to get the correct result.  (This assumes a twos- or ones-
     // complement integer representation; if integers are represented in a
@@ -80,6 +80,11 @@ __lesf2(fp_t a, fp_t b)
     }
 }
 
+#if defined(__ELF__)
+// Alias for libgcc compatibility
+FNALIAS(__cmpsf2, __lesf2);
+#endif
+
 enum GE_RESULT {
     GE_LESS      = -1,
     GE_EQUAL     =  0,
@@ -87,14 +92,14 @@ enum GE_RESULT {
     GE_UNORDERED = -1   // Note: different from LE_UNORDERED
 };
 
-enum GE_RESULT
-__gesf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI enum GE_RESULT
+__gesf2(fp_t a, fp_t b) {
+    
     const srep_t aInt = toRep(a);
     const srep_t bInt = toRep(b);
     const rep_t aAbs = aInt & absMask;
     const rep_t bAbs = bInt & absMask;
-
+    
     if (aAbs > infRep || bAbs > infRep) return GE_UNORDERED;
     if ((aAbs | bAbs) == 0) return GE_EQUAL;
     if ((aInt & bInt) >= 0) {
@@ -108,36 +113,41 @@ __gesf2(fp_t a, fp_t b)
     }
 }
 
-int
-__unordsf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI int
+__unordsf2(fp_t a, fp_t b) {
     const rep_t aAbs = toRep(a) & absMask;
     const rep_t bAbs = toRep(b) & absMask;
     return aAbs > infRep || bAbs > infRep;
 }
 
-// The following are alternative names for the preceeding routines.
+// The following are alternative names for the preceding routines.
 
-enum LE_RESULT
-__eqsf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI enum LE_RESULT
+__eqsf2(fp_t a, fp_t b) {
     return __lesf2(a, b);
 }
 
-enum LE_RESULT
-__ltsf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI enum LE_RESULT
+__ltsf2(fp_t a, fp_t b) {
     return __lesf2(a, b);
 }
 
-enum LE_RESULT
-__nesf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI enum LE_RESULT
+__nesf2(fp_t a, fp_t b) {
     return __lesf2(a, b);
 }
 
-enum GE_RESULT
-__gtsf2(fp_t a, fp_t b)
-{
+COMPILER_RT_ABI enum GE_RESULT
+__gtsf2(fp_t a, fp_t b) {
     return __gesf2(a, b);
 }
+
+#if defined(__ARM_EABI__)
+#if defined(COMPILER_RT_ARMHF_TARGET)
+AEABI_RTABI int __aeabi_fcmpun(fp_t a, fp_t b) {
+  return __unordsf2(a, b);
+}
+#else
+AEABI_RTABI int __aeabi_fcmpun(fp_t a, fp_t b) COMPILER_RT_ALIAS(__unordsf2);
+#endif
+#endif

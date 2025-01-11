@@ -42,7 +42,7 @@ static __inline fp_t __mulXf3__(fp_t a, fp_t b) {
         }
 
         if (bAbs == infRep) {
-            //? non-zero * infinity = +/- infinity
+            // non-zero * infinity = +/- infinity
             if (aAbs) return fromRep(bAbs | productSign);
             // zero * infinity = NaN
             else return fromRep(qnanRep);

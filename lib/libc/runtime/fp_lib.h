@@ -13,7 +13,7 @@
 // implementation of the soft-float routines in compiler-rt.
 //
 // Assumes that float, double and long double correspond to the IEEE-754
-// binary32, binary64 and binary 128 types, respectively, and that integer
+// binary32, binary64 and binary128 types, respectively, and that integer
 // endianness matches floating point endianness on the target platform.
 //
 //===----------------------------------------------------------------------===//

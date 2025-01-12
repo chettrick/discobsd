@@ -101,7 +101,7 @@ wnum(int num)
 {
     if (num == QUES || num == UNKNOWN)
         return ("?");
-    sprintf(errbuf, "%d", num);
+    (void)snprintf(errbuf, sizeof(errbuf), "%d", num);
     return (errbuf);
 }
 

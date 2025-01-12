@@ -384,7 +384,7 @@ device_name:
         {
             char buf[80];
 
-            (void) sprintf(buf, "%s%d", $1, $2);
+            (void)snprintf(buf, sizeof(buf), "%s%d", $1, $2);
             $$ = strdup(buf);
             free($1);
         }
@@ -393,7 +393,7 @@ device_name:
         {
             char buf[80];
 
-            (void) sprintf(buf, "%s%d%s", $1, $2, $3);
+            (void)snprintf(buf, sizeof(buf), "%s%d%s", $1, $2, $3);
             $$ = strdup(buf);
             free($1);
         }
@@ -435,7 +435,8 @@ Opt_value:
     NUMBER
         {
             char nb[16];
-            (void) sprintf(nb, "%d", $1);
+
+            (void)snprintf(nb, sizeof(nb), "%d", $1);
             $$ = val_id = strdup(nb);
         }
     ;
@@ -688,14 +689,14 @@ connect(char *dev, int num)
         if ((num != dp->d_unit) || !eq(dev, dp->d_name))
             continue;
         if (dp->d_type != CONTROLLER) {
-            (void) sprintf(errbuf,
+            (void)snprintf(errbuf, sizeof(errbuf),
                 "%s connected to non-controller", dev);
             yyerror(errbuf);
             return (0);
         }
         return (dp);
     }
-    (void) sprintf(errbuf, "%s %d not defined", dev, num);
+    (void)snprintf(errbuf, sizeof(errbuf), "%s %d not defined", dev, num);
     yyerror(errbuf);
     return (0);
 }
@@ -717,7 +718,7 @@ huhcon(char *dev)
         if (eq(dp->d_name, dev))
             break;
     if (dp == 0) {
-        (void) sprintf(errbuf, "no %s's to wildcard", dev);
+        (void)snprintf(errbuf, sizeof(errbuf), "no %s's to wildcard", dev);
         yyerror(errbuf);
         return (0);
     }
@@ -841,7 +842,7 @@ checksystemspec(struct file_list *fl)
         swap = newflist(SWAPSPEC);
         dev = fl->f_rootdev;
         if (minor(dev) & 07) {
-            sprintf(buf,
+            (void)snprintf(buf, sizeof(buf),
                 "Warning, swap defaulted to 'b' partition with root on '%c' partition",
                 (minor(dev) & 07) + 'a' - 1);
             yyerror(buf);
@@ -876,7 +877,7 @@ checksystemspec(struct file_list *fl)
         for (; p && p->f_type == SWAPSPEC; p = p->f_next)
             if (fl->f_dumpdev == p->f_swapdev)
                 return;
-        (void) sprintf(buf,
+        (void)snprintf(buf, sizeof(buf),
             "Warning: dump device is not a swap partition");
         yyerror(buf);
     }

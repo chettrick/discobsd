@@ -66,7 +66,7 @@ do_swap(struct file_list *fl)
         fl = fl->f_next;
         return (fl->f_next);
     }
-    (void) sprintf(swapname, "swap%s.c", fl->f_fn);
+    (void)snprintf(swapname, sizeof(swapname), "swap%s.c", fl->f_fn);
     fp = fopen(swapname, "w");
     if (fp == 0) {
         perror(swapname);
@@ -130,7 +130,7 @@ initdevtable(void)
     register struct devdescription **dp = &devtable;
     FILE *fp;
 
-    (void) sprintf(buf, "../devices.kconf");
+    (void)snprintf(buf, sizeof(buf), "../devices.kconf");
     fp = fopen(buf, "r");
     if (fp == NULL) {
         fprintf(stderr, "config: can't open %s\n", buf);
@@ -223,10 +223,12 @@ devtoname(dev_t dev)
     if (dp == 0)
         dp = devtable;
 
-    if (minor(dev) == 0)
-        sprintf(buf, "%s%d", dp->dev_name, minor(dev) >> 3);
-    else
-        sprintf(buf, "%s%d%c", dp->dev_name, minor(dev) >> 3,
-            (minor(dev) & 07) + 'a' - 1);
+    if (minor(dev) == 0) {
+        (void)snprintf(buf, sizeof(buf), "%s%d", dp->dev_name,
+            minor(dev) >> 3);
+    } else {
+        (void)snprintf(buf, sizeof(buf), "%s%d%c", dp->dev_name,
+            minor(dev) >> 3, (minor(dev) & 07) + 'a' - 1);
+    }
     return strdup(buf);
 }

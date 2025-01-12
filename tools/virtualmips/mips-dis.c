@@ -195,7 +195,7 @@ const char *cp0reg_name (unsigned cp0reg, unsigned sel)
     if (n != NULL)
         return n->name;
 
-    sprintf (name, "CP0_R[%d,%d]", cp0reg, sel);
+    snprintf (name, sizeof(name), "CP0_R[%d,%d]", cp0reg, sel);
     return name;
 }
 

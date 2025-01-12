@@ -90,7 +90,7 @@ virtual_breakpoint_t *alloc_breakpoint (vm_instance_t * vm, m_uint32_t addr,
 
     if (save) {
         tmp->save = malloc (strlen (save) + 1);
-        strcpy (tmp->save, save);
+        strlcpy (tmp->save, save, sizeof(tmp->save));
     }
     //tmp->cpuno = cpuno;
     tmp->len = len;
@@ -430,7 +430,7 @@ int forced_inline cpu_hit_breakpoint (vm_instance_t * vm, m_uint32_t vaddr)
 
     while (tmp) {
         if (tmp->addr == vaddr) {
-            sprintf (cmd_buf, "S%02x", SIGTRAP);
+            snprintf (cmd_buf, sizeof(cmd_buf), "S%02x", SIGTRAP);
             if (putpkt (vm->gdb_interact_sock, cmd_buf) < 0) {
                 /* the connection was terminated prematurely.  Reset */
                 close (vm->gdb_interact_sock);
@@ -486,8 +486,8 @@ Simdebug_result Simdebug_run (vm_instance_t * vm, int sig)
 
             sig = SIGINT;
             /* Inform the remote debugger we have entered debugging mode. */
-            // sprintf (cmd_buf, "S%02x%02x", sig, debug_cpuno);
-            sprintf (cmd_buf, "S%02x", sig);
+            // snprintf (cmd_buf, sizeof(cmd_buf), "S%02x%02x", sig, debug_cpuno);
+            snprintf (cmd_buf, sizeof(cmd_buf), "S%02x", sig);
             if (putpkt (vm->gdb_interact_sock, cmd_buf) < 0)
                 goto errout;
 
@@ -602,7 +602,7 @@ Simdebug_result Simdebug_run (vm_instance_t * vm, int sig)
                             write_enn (cmd_buf);
                     } else if ('?' == (cmd_tmp)[0]) {
                         /*query */
-                        strcpy (cmd_buf, VCONT ";c");
+                        strlcpy (cmd_buf, VCONT ";c", sizeof(cmd_buf));
                     } else
                         write_enn (cmd_buf);
                 }
@@ -614,10 +614,10 @@ Simdebug_result Simdebug_run (vm_instance_t * vm, int sig)
                 if (strncmp (cmd_buf, QSYMBOL, strlen (QSYMBOL)) == 0)
                     write_ok (cmd_buf);
                 else if (strncmp (cmd_buf, QC, strlen (QC)) == 0) {
-                    strcpy (cmd_buf, "QC0");
+                    strlcpy (cmd_buf, "QC0", sizeof(cmd_buf));
                 } else if (strncmp (cmd_buf, QOFFSETS,
                         strlen (QOFFSETS)) == 0) {
-                    strcpy (cmd_buf, "Text=0;Data=0;Bss=0");
+                    strlcpy (cmd_buf, "Text=0;Data=0;Bss=0", sizeof(cmd_buf));
                 } else {
                     write_enn (cmd_buf);
                 }
@@ -685,7 +685,7 @@ Simdebug_result Simdebug_run (vm_instance_t * vm, int sig)
             }
             break;
         case '?':
-            sprintf (cmd_buf, "S%02x", sig);
+            snprintf (cmd_buf, sizeof(cmd_buf), "S%02x", sig);
             break;
         default:
             write_enn (cmd_buf);
@@ -712,7 +712,7 @@ void bad_memory_access_gdb (vm_instance_t * vm)
     static char cmd_buf[BUFSIZ + 1];
 
     vm->mipsy_break_nexti = MIPS_BREAKANYCPU;
-    sprintf (cmd_buf, "S%02x", SIGTRAP);
+    snprintf (cmd_buf, sizeof(cmd_buf), "S%02x", SIGTRAP);
     if (putpkt (vm->gdb_interact_sock, cmd_buf) < 0) {
         /* the connection was terminated prematurely.  Reset */
         close (vm->gdb_interact_sock);

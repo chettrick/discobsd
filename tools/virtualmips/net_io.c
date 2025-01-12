@@ -215,7 +215,8 @@ static int netio_unix_create_socket (netio_unix_desc_t * nud)
 
     memset (&local_sock, 0, sizeof (local_sock));
     local_sock.sun_family = AF_UNIX;
-    strcpy (local_sock.sun_path, nud->local_filename);
+    strlcpy (local_sock.sun_path, nud->local_filename,
+        sizeof(local_sock.sun_path));
 
     if (bind (nud->fd, (struct sockaddr *) &local_sock,
             sizeof (local_sock)) == -1) {
@@ -258,7 +259,8 @@ static int netio_unix_create (netio_unix_desc_t * nud, char *local,
 
     /* prepare the remote info */
     nud->remote_sock.sun_family = AF_UNIX;
-    strcpy (nud->remote_sock.sun_path, remote);
+    strlcpy (nud->remote_sock.sun_path, remote,
+        sizeof(nud->remote_sock.sun_path));
     return (0);
 
   nomem_error:
@@ -373,7 +375,7 @@ static int netio_vde_create (netio_vde_desc_t * nvd, char *control,
 
     memset (&ctrl_sock, 0, sizeof (ctrl_sock));
     ctrl_sock.sun_family = AF_UNIX;
-    strcpy (ctrl_sock.sun_path, control);
+    strlcpy (ctrl_sock.sun_path, control, sizeof(ctrl_sock.sun_path));
 
     res =
         connect (nvd->ctrl_fd, (struct sockaddr *) &ctrl_sock,
@@ -385,7 +387,7 @@ static int netio_vde_create (netio_vde_desc_t * nvd, char *control,
     }
 
     tst.sun_family = AF_UNIX;
-    strcpy (tst.sun_path, local);
+    strlcpy (tst.sun_path, local, sizeof(tst.sun_path));
 
     /* Create the data connection */
     nvd->data_fd = socket (AF_UNIX, SOCK_DGRAM, 0);
@@ -402,7 +404,7 @@ static int netio_vde_create (netio_vde_desc_t * nvd, char *control,
     /* Now, process to registration */
     memset (&req, 0, sizeof (req));
     req.sock.sun_family = AF_UNIX;
-    strcpy (req.sock.sun_path, local);
+    strlcpy (req.sock.sun_path, local, sizeof(req.sock.sun_path));
     req.magic = VDE_SWITCH_MAGIC;
     req.version = VDE_SWITCH_VERSION;
     req.type = VDE_REQ_NEW_CONTROL;
@@ -517,7 +519,7 @@ static int netio_tap_open (char *tap_devname)
         return err;
     }
 
-    strcpy (tap_devname, ifr.ifr_name);
+    strlcpy (tap_devname, ifr.ifr_name, NETIO_DEV_MAXLEN);
     return (fd);
 #else
     int i, fd = -1;
@@ -547,7 +549,7 @@ static int netio_tap_create (netio_tap_desc_t * ntd, char *tap_name)
     }
 
     memset (ntd, 0, sizeof (*ntd));
-    strcpy (ntd->filename, tap_name);
+    strlcpy (ntd->filename, tap_name, NETIO_DEV_MAXLEN);
     ntd->fd = netio_tap_open (ntd->filename);
 
     if (ntd->fd == -1) {
@@ -934,7 +936,7 @@ netio_desc_t *netio_desc_create_lnxeth (char *nio_name, char *dev_name)
         return NULL;
     }
 
-    strcpy (nled->dev_name, dev_name);
+    strlcpy (nled->dev_name, dev_name, NETIO_DEV_MAXLEN);
 
     nled->fd = lnx_eth_init_socket (dev_name);
     nled->dev_id = lnx_eth_get_dev_index (dev_name);
@@ -1011,7 +1013,7 @@ netio_desc_t *netio_desc_create_geneth (char *nio_name, char *dev_name)
         return NULL;
     }
 
-    strcpy (nged->dev_name, dev_name);
+    strlcpy (nged->dev_name, dev_name, NETIO_DEV_MAXLEN);
 
     if (!(nged->pcap_dev = gen_eth_init (dev_name))) {
         netio_free (nio, NULL);

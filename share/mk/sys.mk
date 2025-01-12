@@ -68,7 +68,10 @@ CFLAGS=	${COPTS}
 
 AFLAGS=	${ASFLAGS}
 
-LDFLAGS=-N -nostartfiles -fno-dwarf2-cfi-asm -T${TOPSRC}/lib/elf32-${MACHINE_ARCH}.ld ${TOPSRC}/lib/crt0.o -L${TOPSRC}/lib
+LDFLAGS=-N -nostartfiles -fno-dwarf2-cfi-asm \
+	-Wl,--no-warn-rwx-segments \
+	-T${TOPSRC}/lib/elf32-${MACHINE_ARCH}.ld \
+	${TOPSRC}/lib/crt0.o -L${TOPSRC}/lib
 
 LIBS=	-lc
 LDLIBS=	${LIBS}

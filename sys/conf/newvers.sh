@@ -20,10 +20,10 @@
 # For a release, move to S="" and keep same version number.
 
 OST="DiscoBSD"
-OSR="2.3"
+OSR="2.4"
 
-S="-current"
-#S="-beta"
+#S="-current"
+S="-beta"
 #S=""
 
 if [ ! -r .compileversion -o ! -s .compileversion ]

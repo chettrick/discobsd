@@ -154,7 +154,7 @@ next:
     if (wd == (char *)EOF) {
 eof:    (void) fclose(fp);
         if (first == 1) {
-            (void) sprintf(fname, "files.%s", raise(board));
+            (void)snprintf(fname, sizeof(fname), "files.%s", raise(board));
             first++;
             fp = fopen(fname, "r");
             if (fp != 0)
@@ -297,7 +297,7 @@ do_objs(FILE *fp)
         for (fl = conf_list; fl; fl = fl->f_next) {
             if (fl->f_type != SWAPSPEC)
                 continue;
-            (void) sprintf(swapname, "swap%s.c", fl->f_fn);
+            (void)snprintf(swapname, sizeof(swapname), "swap%s.c", fl->f_fn);
             if (eq(sp, swapname))
                 goto cont;
         }
@@ -341,7 +341,7 @@ do_cfiles(FILE *fp)
         }
     for (fl = conf_list; fl; fl = fl->f_next)
         if (fl->f_type == SYSTEMSPEC) {
-            (void) sprintf(swapname, "swap%s.c", fl->f_fn);
+            (void)snprintf(swapname, sizeof(swapname), "swap%s.c", fl->f_fn);
             if ((len = 3 + strlen(swapname)) + lpos > 72) {
                 lpos = 8;
                 fputs("\\\n\t", fp);
@@ -382,7 +382,8 @@ do_rules(FILE *f)
         special = ftp->f_special;
         if (special == 0) {
             static char cmd[128];
-            sprintf(cmd, "${COMPILE_%c}", toupper(och));
+
+            (void)snprintf(cmd, sizeof(cmd), "${COMPILE_%c}", toupper(och));
             special = cmd;
         }
         *cp = och;

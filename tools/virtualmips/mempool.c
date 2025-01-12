@@ -155,7 +155,7 @@ char *mp_strdup (mempool_t * pool, char *str)
     if ((new_str = mp_alloc (pool, strlen (str) + 1)) == NULL)
         return NULL;
 
-    strcpy (new_str, str);
+    strlcpy (new_str, str, sizeof(new_str));
     return new_str;
 }
 

@@ -65,7 +65,7 @@ static inline u_int mips_cp0_get_random_reg (cpu_mips_t * cpu)
 {
     int random_value;
     random_value =
-        (int) ((double) (cpu->cp0.tlb_entries) * rand () / (RAND_MAX + 1.0));
+        (int) ((double) (cpu->cp0.tlb_entries) * arc4random () / (RAND_MAX + 1.0));
     return random_value;
 }
 

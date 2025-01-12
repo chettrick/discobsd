@@ -79,7 +79,7 @@ static void sdl_refresh (DisplayState * ds)
 static void sdl_update_caption (void)
 {
     char buf[1024];
-    strcpy (buf, "VirtualMIPS");
+    strlcpy (buf, "VirtualMIPS", sizeof(buf));
     SDL_WM_SetCaption (buf, "");
 }
 

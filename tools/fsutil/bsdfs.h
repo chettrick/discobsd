@@ -27,6 +27,8 @@
 #define BSDFS_SWAP_INODE        4       /* swap file in inode 4 */
 #define BSDFS_INODES_PER_BLOCK  16      /* inodes per block */
 
+#define BSDFS_MAXNAMLEN         63      /* max length of a name in directory */
+
 #define NICINOD         32              /* number of superblock inodes */
 #define NICFREE         200             /* number of superblock free blocks */
 
@@ -136,7 +138,7 @@ typedef struct {
     unsigned        ino;
     unsigned        reclen;
     unsigned        namlen;
-    char            name [63+1];
+    char            name [BSDFS_MAXNAMLEN + 1];
 } fs_dirent_t;
 
 typedef void (*fs_directory_scanner_t) (fs_inode_t *dir,

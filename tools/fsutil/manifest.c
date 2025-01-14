@@ -42,7 +42,7 @@ struct _entry_t {
     int     major;
     int     minor;
     char    *link;              /* Target for link or symlink */
-    char    path[1];
+    char    path[BSDFS_MAXNAMLEN + 1];
 };
 
 /*
@@ -53,7 +53,7 @@ struct _link_info_t {
     link_info_t *next;
     dev_t       dev;
     ino_t       ino;
-    char        path[1];
+    char        path[BSDFS_MAXNAMLEN + 1];
 };
 
 static link_info_t *link_list;  /* List of hard links. */
@@ -64,15 +64,20 @@ static link_info_t *link_list;  /* List of hard links. */
 static void keep_link (dev_t dev, ino_t ino, char *path)
 {
     link_info_t *info;
+    size_t n;
 
-    info = (link_info_t*) malloc (strlen (path) + sizeof (link_info_t));
+    info = (link_info_t *) malloc (sizeof(link_info_t));
     if (! info) {
         fprintf (stderr, "%s: no memory for link info\n", path);
         return;
     }
     info->dev = dev;
     info->ino = ino;
-    strcpy (info->path, path);
+    n = strlcpy (info->path, path, sizeof(info->path));
+    if (n >= sizeof(info->path)) {
+        fprintf (stderr, "keep_link: truncation to %lu for file:\n  %s\n",
+            sizeof(info->path) - 1, path);
+    }
 
     /* Insert into the list. */
     info->next = link_list;
@@ -101,8 +106,9 @@ static void add_entry (manifest_t *m, int filetype, char *path, char *link,
     int mode, int owner, int group, int majr, int minr)
 {
     entry_t *e;
+    size_t n;
 
-    e = malloc (sizeof(entry_t) + strlen (path));
+    e = (entry_t *) malloc (sizeof(entry_t));
     if (! e) {
         fprintf (stderr, "%s: no memory for entry\n", path);
         return;
@@ -117,7 +123,11 @@ static void add_entry (manifest_t *m, int filetype, char *path, char *link,
     e->minor = minr;
     e->link = 0;
     e->link = link ? strdup (link) : 0;
-    strcpy (e->path, path);
+    n = strlcpy (e->path, path, sizeof(e->path));
+    if (n >= sizeof(e->path)) {
+        fprintf (stderr, "add_entry: truncation to %lu for file:\n  %s\n",
+            sizeof(e->path) - 1, path);
+    }
 
     /* Append to the tail of the list. */
     if (m->first == 0) {
@@ -133,15 +143,12 @@ static void add_entry (manifest_t *m, int filetype, char *path, char *link,
  */
 #ifdef __FreeBSD__
 static int ftsent_compare (const FTSENT * const *a, const FTSENT *const *b)
-{
-    return strcmp((*a)->fts_name, (*b)->fts_name);
-}
 #else
 static int ftsent_compare (const FTSENT **a, const FTSENT **b)
+#endif
 {
     return strcmp((*a)->fts_name, (*b)->fts_name);
 }
-#endif
 
 /*
  * Scan the directory and create a manifest from it's contents.

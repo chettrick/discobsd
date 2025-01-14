@@ -271,6 +271,7 @@ void extractor (fs_inode_t *dir, fs_inode_t *inode,
 {
     FILE *out = arg;
     char *path, *relpath;
+    size_t pathlen;
 
     if (verbose)
         print_inode (inode, dirname, filename, out);
@@ -280,10 +281,11 @@ void extractor (fs_inode_t *dir, fs_inode_t *inode,
         (inode->mode & INODE_MODE_FMT) != INODE_MODE_FLNK)
         return;
 
-    path = alloca (strlen (dirname) + strlen (filename) + 2);
-    strcpy (path, dirname);
-    strcat (path, "/");
-    strcat (path, filename);
+    pathlen = strlen (dirname) + strlen (filename) + 2;
+    path = alloca (pathlen);
+    strlcpy (path, dirname, pathlen);
+    strlcat (path, "/", pathlen);
+    strlcat (path, filename, pathlen);
     for (relpath=path; *relpath == '/'; relpath++)
         continue;
 
@@ -308,6 +310,7 @@ void scanner (fs_inode_t *dir, fs_inode_t *inode,
 {
     FILE *out = arg;
     char *path;
+    size_t pathlen;
 
     print_inode (inode, dirname, filename, out);
 
@@ -322,10 +325,11 @@ void scanner (fs_inode_t *dir, fs_inode_t *inode,
     if ((inode->mode & INODE_MODE_FMT) == INODE_MODE_FDIR &&
         inode->number != BSDFS_ROOT_INODE) {
         /* Scan subdirectory. */
-        path = alloca (strlen (dirname) + strlen (filename) + 2);
-        strcpy (path, dirname);
-        strcat (path, "/");
-        strcat (path, filename);
+        pathlen = strlen (dirname) + strlen (filename) + 2;
+        path = alloca (pathlen);
+        strlcpy (path, dirname, pathlen);
+        strlcat (path, "/", pathlen);
+        strlcat (path, filename, pathlen);
         fs_directory_scan (inode, path, scanner, arg);
     }
 }
@@ -339,7 +343,7 @@ void add_directory (fs_t *fs, char *name, int mode, int owner, int group)
     char buf [BSDFS_BSIZE], *p;
 
     /* Open parent directory. */
-    strcpy (buf, name);
+    strlcpy (buf, name, sizeof(buf));
     p = strrchr (buf, '/');
     if (p)
         *p = 0;
@@ -367,8 +371,8 @@ void add_directory (fs_t *fs, char *name, int mode, int owner, int group)
     fs_inode_save (&dir, 1);
 
     /* Make parent link '..' */
-    strcpy (buf, name);
-    strcat (buf, "/..");
+    strlcpy (buf, name, sizeof(buf));
+    strlcat (buf, "/..", sizeof(buf));
     if (! fs_inode_link (fs, &dir, buf, parent.number)) {
         fprintf (stderr, "%s: dotdot link failed\n", name);
         return;
@@ -418,14 +422,14 @@ void add_file (fs_t *fs, const char *path, const char *dirname,
 
     if (dirname && *dirname) {
         /* Concatenate directory name and file name. */
-        strcpy (accpath, dirname);
+        strlcpy (accpath, dirname, sizeof(accpath));
         len = strlen (accpath);
         if (accpath[len-1] != '/' && path[0] != '/')
-            strcat (accpath, "/");
-        strcat (accpath, path);
+            strlcat (accpath, "/", sizeof(accpath));
+        strlcat (accpath, path, sizeof(accpath));
     } else {
         /* Use filename relative to current directory. */
-        strcpy (accpath, path);
+        strlcpy (accpath, path, sizeof(accpath));
     }
     fd = fopen (accpath, "r");
     if (! fd) {

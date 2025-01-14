@@ -414,7 +414,7 @@ static int pass2 (fs_t *fs, fs_dirent_t *dirp)
 
     /* Copy file name from dirp to pathp */
     thisname = pathp;
-    strcpy (pathp, dirp->name);
+    strlcpy (pathp, dirp->name, sizeof(pathname));
     pathp += strlen (pathp);
 /*printf ("%s  %d\n", pathname, inum);*/
     if (inum > (fs->isize - 1) * BSDFS_INODES_PER_BLOCK ||
@@ -503,7 +503,7 @@ static int make_lost_entry (fs_t *fs, fs_dirent_t *dirp)
     if (dirp->ino)
         return KEEPON;
     dirp->ino = lost_inode;
-    sprintf (dirp->name, "#%05d", dirp->ino);
+    snprintf (dirp->name, sizeof(dirp->name), "#%05d", dirp->ino);
     return ALTERD | STOP;
 }
 

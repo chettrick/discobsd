@@ -380,7 +380,7 @@ int op_rmdir(const char *path)
     }
 
     /* Open parent directory. */
-    strcpy (buf, path);
+    strlcpy (buf, path, sizeof(buf));
     p = strrchr (buf, '/');
     if (p)
         *p = 0;
@@ -427,7 +427,7 @@ int op_mkdir(const char *path, mode_t mode)
     printlog("--- op_mkdir(path=\"%s\", mode=0%3o)\n", path, mode);
 
     /* Open parent directory. */
-    strcpy (buf, path);
+    strlcpy (buf, path, sizeof(buf));
     p = strrchr (buf, '/');
     if (p)
         *p = 0;
@@ -453,8 +453,8 @@ int op_mkdir(const char *path, mode_t mode)
     fs_inode_save (&dir, 0);
 
     /* Make parent link '..' */
-    strcpy (buf, path);
-    strcat (buf, "/..");
+    strlcpy (buf, path, sizeof(buf));
+    strlcat (buf, "/..", sizeof(buf));
     if (! fs_inode_link (fs, &dir, buf, parent.number)) {
         printlog("--- dotdot link failed\n");
         return -EIO;

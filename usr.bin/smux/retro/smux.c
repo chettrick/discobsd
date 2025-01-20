@@ -33,7 +33,7 @@ int allocate_pty()
     struct stat sb;
 
     for (i = 0; i < MAXPTY; i++) {
-        sprintf(dev, "/dev/ptyp%d", i);
+        snprintf(dev, sizeof(dev), "/dev/ptyp%d", i);
         if (stat(dev, &sb) == -1) {
             return -1;
         }

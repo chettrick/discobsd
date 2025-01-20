@@ -247,11 +247,11 @@ int main(int argc, char *argv[])
         if ((nr = fdgetline(pipe_fd, buffer, 255)) > 0) {
             printf("%s\n", buffer);
             if(string_contains(buffer, "ogin:", nr)) {
-                sprintf(buffer, "%s\r", username);
+                snprintf(buffer, sizeof(buffer), "%s\r", username);
                 rv = write(pipe_fd, buffer, strlen(buffer));
             }
             if(string_contains(buffer, "assword:", nr)) {
-                sprintf(buffer, "%s\r", password);
+                snprintf(buffer, sizeof(buffer), "%s\r", password);
                 rv = write(pipe_fd, buffer, strlen(buffer));
             }
             if(string_contains(buffer, "Welcome to RetroBSD", nr)) {
@@ -326,7 +326,9 @@ int main(int argc, char *argv[])
                                 close(infd);
                             } else {
                                 printf("New connection stream %d\n", i);
-                                sprintf(buffer, "%c%c%c%c%c%c", IAC, DO, TELOPT_LINEMODE, IAC, WILL, TELOPT_ECHO);
+                                snprintf(buffer, sizeof(buffer),
+                                    "%c%c%c%c%c%c", IAC, DO, TELOPT_LINEMODE,
+                                    IAC, WILL, TELOPT_ECHO);
                                 //printf("> IAC DO LINEMODE IAC WILL ECHO\n");
                                 rv = write(infd, buffer, 6);
                                 fsync(infd);
@@ -350,7 +352,7 @@ int main(int argc, char *argv[])
                                 tx.type = C_DATA;
                                 tx.len = 1;
                                 tx.stream = stream;
-                                sprintf(tx.data, "\r");
+                                snprintf(tx.data, sizeof(tx.data), "\r");
                                 send_tx();
                                 break;
                             case C_CONNECTFAIL:
@@ -387,7 +389,8 @@ int main(int argc, char *argv[])
                                     switch ((unsigned char)buffer[i]) {
                                     case WILL:
                                         i++;
-                                        sprintf(iac, "%c%c%c", IAC, DONT, buffer[i]);
+                                        snprintf(iac, sizeof(iac), "%c%c%c",
+                                            IAC, DONT, buffer[i]);
                                         rv = write(fds[stream], iac, 3);
                                         fsync(fds[stream]);
                                         break;
@@ -396,17 +399,21 @@ int main(int argc, char *argv[])
                                         i++;
                                         switch ((unsigned char)buffer[i]) {
                                         case TELOPT_SGA:
-                                            sprintf(iac, "%c%c%c", IAC, WILL, TELOPT_SGA);
+                                            snprintf(iac, sizeof(iac), "%c%c%c",
+                                                IAC, WILL, TELOPT_SGA);
                                             rv = write(fds[stream], iac, 3);
                                             break;
                                         case TELOPT_ECHO:
                                             break;
                                         case TELOPT_LINEMODE:
-                                            sprintf(iac, "%c%c%c%c%c%c%c", IAC, SB, 34, 1, 0, IAC, SE);
+                                            snprintf(iac, sizeof(iac),
+                                                "%c%c%c%c%c%c%c", IAC, SB,
+                                                34, 1, 0, IAC, SE);
                                             rv = write(fds[stream], iac, 7);
                                             break;
                                         default:
-                                            sprintf(iac, "%c%c%c", IAC, WONT, buffer[i]);
+                                            snprintf(iac, sizeof(iac), "%c%c%c",
+                                                IAC, WONT, buffer[i]);
                                             rv = write(fds[stream], iac, 3);
                                             break;
                                         }
@@ -417,7 +424,9 @@ int main(int argc, char *argv[])
                                     case SB:
                                         i++;
                                         if (buffer[i] == 34) {
-                                            sprintf(iac, "%c%c%c%c%c%c%c", IAC, SB, 34, 1, 4, IAC, SE);
+                                            snprintf(iac, sizeof(iac),
+                                                "%c%c%c%c%c%c%c", IAC, SB,
+                                                34, 1, 4, IAC, SE);
                                             rv = write(fds[stream], iac, 7);
                                         }
                                         while ((buffer[i] != (char)SE) && (buffer[i-1] != (char)SE)) {

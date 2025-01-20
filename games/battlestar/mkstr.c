@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/stat.h>
 
 #define	ungetchar(c)	ungetc(c, stdin)
@@ -46,7 +46,7 @@
 FILE	*mesgread, *mesgwrite;
 char	*progname;
 char	usagestr[] = "usage: %s [ - ] mesgfile prefix file ...\n";
-char	name[100], *np;
+char	name[PATH_MAX], *np;
 
 #define	NBUCKETS	511
 
@@ -243,6 +243,7 @@ inithash(void)
 int
 main(int argc, char *argv[])
 {
+	size_t n;
 	char addon = 0;
 
 	argc--, progname = *argv++;
@@ -258,11 +259,17 @@ main(int argc, char *argv[])
 		perror(argv[0]), exit(1);
 	inithash();
 	argc--, argv++;
-	strcpy(name, argv[0]);
-	np = name + strlen(name);
+	if ((n = strlcpy(name, argv[0], sizeof(name))) >= sizeof(name)) {
+		fprintf(stderr, "%s too long\n", argv[0]);
+		exit(1);
+	}
+	np = name + n;
 	argc--, argv++;
 	do {
-		strcpy(np, argv[0]);
+		if (strlcpy(np, argv[0], sizeof(name)-n) >= sizeof(name)-n) {
+			fprintf(stderr, "%s too long\n", argv[0]);
+			exit(1);
+		}
 		if (freopen(name, "w", stdout) == NULL)
 			perror(name), exit(1);
 		if (freopen(argv[0], "r", stdin) == NULL)

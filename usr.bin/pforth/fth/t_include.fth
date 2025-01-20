@@ -1,6 +1,6 @@
 \ Test INCLUDE errors.
 \
-\ Copyright 2001Phil Burk
+\ Copyright 2001 Phil Burk
 
 include? }T{  t_tools.fth
 

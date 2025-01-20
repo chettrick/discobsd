@@ -712,7 +712,7 @@ inzone(char **fields, int nfields)
 		return FALSE;
 	}
 	if (strcmp(fields[ZF_NAME], TZDEFAULT) == 0 && lcltime != NULL) {
-		(void) sprintf(buf,
+		(void)snprintf(buf, sizeof(buf),
 			"\"Zone %s\" line and -l option are mutually exclusive",
 			TZDEFAULT);
 		error(buf);
@@ -721,7 +721,7 @@ inzone(char **fields, int nfields)
 	for (i = 0; i < nzones; ++i)
 		if (zones[i].z_name != NULL &&
 			strcmp(zones[i].z_name, fields[ZF_NAME]) == 0) {
-				(void) sprintf(buf,
+				(void)snprintf(buf, sizeof(buf),
 "duplicate zone name %s (file \"%s\", line %d)",
 					fields[ZF_NAME],
 					zones[i].z_filename,
@@ -997,7 +997,7 @@ writezone(char *name)
 			directory, name);
 		exit(1);
 	}
-	(void) sprintf(fullname, "%s/%s", directory, name);
+	(void)snprintf(fullname, sizeof(fullname), "%s/%s", directory, name);
 	if ((fp = fopen(fullname, "w")) == NULL) {
 		if (mkdirs(fullname) != 0)
 			exit(1);
@@ -1140,7 +1140,8 @@ outzone(struct zone *zpfirst, int zonecount)
 						stdoff = rp->r_stdoff;
 						startoff = oadd(zp->z_gmtoff,
 							rp->r_stdoff);
-						(void) sprintf(startbuf,
+						(void)snprintf(startbuf,
+							sizeof(startbuf),
 							zp->z_format,
 							rp->r_abbrvar);
 						startisdst =
@@ -1154,7 +1155,7 @@ addtt(starttime, addtype(startoff, startbuf, startisdst));
 				}
 				eats(zp->z_filename, zp->z_linenum,
 					rp->r_filename, rp->r_linenum);
-				(void) sprintf(buf, zp->z_format,
+				(void)snprintf(buf, sizeof(buf), zp->z_format,
 					rp->r_abbrvar);
 				offset = oadd(zp->z_gmtoff, rp->r_stdoff);
 				type = addtype(offset, buf, rp->r_stdoff != 0);
@@ -1235,7 +1236,7 @@ yearistype(int year, char *type)
 		return (year % 4) == 0;
 	if (strcmp(type, "nonpres") == 0)
 		return (year % 4) != 0;
-	(void) sprintf(buf, "yearistype %d %s", year, type);
+	(void)snprintf(buf, sizeof(buf), "yearistype %d %s", year, type);
 	result = system(buf);
 	if (result == 0)
 		return TRUE;
@@ -1473,7 +1474,7 @@ newabbr(char *string)
 		error("too many, or too long, time zone abbreviations");
 		exit(1);
 	}
-	(void) strcpy(&chars[charcnt], string);
+	(void)strlcpy(&chars[charcnt], string, sizeof(chars) - charcnt);
 	charcnt += eitol(i);
 }
 

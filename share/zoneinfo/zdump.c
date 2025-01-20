@@ -112,7 +112,7 @@ main(int argc, char *argv[])
 				argv[0]);
 			exit(1);
 		}
-		(void) sprintf(tzequals, "TZ=%s", argv[i]);
+		(void)snprintf(tzequals, sizeof(tzequals), "TZ=%s", argv[i]);
 		fakeenv[0] = tzequals;
 		fakeenv[1] = NULL;
 		saveenv = environ;
@@ -132,7 +132,8 @@ main(int argc, char *argv[])
 					argv[0], TZDIR, argv[i]);
 				exit(1);
 			}
-			(void) sprintf(buf, "%s/%s", TZDIR, argv[i]);
+			(void)snprintf(buf, sizeof(buf), "%s/%s",
+			    TZDIR, argv[i]);
 			fp = fopen(buf, "r");
 		}
 		if (fp == NULL) {

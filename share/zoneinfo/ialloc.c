@@ -60,7 +60,7 @@ icatalloc(char *old, char *new)
 	newsize = NULLMAL(new) ? 0 : strlen(new);
 	if ((result = irealloc(old, oldsize + newsize + 1)) != NULL)
 		if (!NULLMAL(new))
-			(void) strcpy(result + oldsize, new);
+			(void)strlcpy(result + oldsize, new, newsize + 1);
 	return result;
 }
 

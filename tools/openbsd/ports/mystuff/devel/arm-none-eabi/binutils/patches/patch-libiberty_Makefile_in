@@ -1,8 +1,7 @@
-$OpenBSD: patch-libiberty_Makefile_in,v 1.2 2017/07/16 12:44:19 kettenis Exp $
 Index: libiberty/Makefile.in
 --- libiberty/Makefile.in.orig
 +++ libiberty/Makefile.in
-@@ -355,7 +355,7 @@ libiberty.html : $(srcdir)/libiberty.texi $(TEXISRC)
+@@ -376,7 +376,7 @@ libiberty.html : $(srcdir)/libiberty.texi $(TEXISRC)
  @MAINT@	echo stamp > stamp-functions
  
  INSTALL_DEST = @INSTALL_DEST@

@@ -5,16 +5,23 @@ lib/gcc/
 lib/gcc/${CONFIG}/
 lib/gcc/${CONFIG}/${VERSION}/
 lib/gcc/${CONFIG}/${VERSION}/arm/
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/crtbegin.o
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/crtend.o
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/crtfastmath.o
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/crti.o
-lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/crtn.o
-@static-lib lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/libgcc.a
-@static-lib lib/gcc/${CONFIG}/${VERSION}/arm/autofp/v5te/fpu/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/arm/v5te/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/arm/v5te/softfp/libgcov.a
 lib/gcc/${CONFIG}/${VERSION}/crtbegin.o
 lib/gcc/${CONFIG}/${VERSION}/crtend.o
 lib/gcc/${CONFIG}/${VERSION}/crtfastmath.o
@@ -530,20 +537,176 @@ lib/gcc/${CONFIG}/${VERSION}/plugin/include/wide-int.h
 lib/gcc/${CONFIG}/${VERSION}/plugin/include/xcoff.h
 lib/gcc/${CONFIG}/${VERSION}/plugin/include/xcoffout.h
 lib/gcc/${CONFIG}/${VERSION}/thumb/
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/crtbegin.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/crtend.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/crtfastmath.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/crti.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/crtn.o
-@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/libgcc.a
-@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/autofp/v7/fpu/libgcov.a
-lib/gcc/${CONFIG}/${VERSION}/thumb/crtbegin.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/crtend.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/crtfastmath.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/crti.o
-lib/gcc/${CONFIG}/${VERSION}/thumb/crtn.o
-@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/libgcc.a
-@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v6-m/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7+fp/softfp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7-m/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7-r+fp.sp/softfp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+dp/softfp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m+fp/softfp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v7e-m/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.base/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+dp/softfp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/hard/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main+fp/softfp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8-m.main/nofp/libgcov.a
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/crtbegin.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/crtend.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/crtfastmath.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/crti.o
+lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/crtn.o
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/libgcc.a
+@static-lib lib/gcc/${CONFIG}/${VERSION}/thumb/v8.1-m.main+mve/hard/libgcov.a

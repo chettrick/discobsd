@@ -6,7 +6,7 @@ COMMENT=	gcc for ${CONFIG} cross-development
 VERSION=	12.2.0
 DISTNAME=	gcc-${VERSION}
 PKGNAME=	${CONFIG}-gcc-${VERSION}
-REVISION=	1
+REVISION=	2
 
 USE_NOEXECONLY=	Yes
 
@@ -15,8 +15,10 @@ FLAVOR?=	arm
 
 .if "${FLAVOR}" == "aarch64"
 CONFIG=		aarch64-none-elf
+MULTILIB=	default
 .elif "${FLAVOR}" == "arm"
 CONFIG=		arm-none-eabi
+MULTILIB=	rmprofile
 .else
 ERRORS+=	"either aarch64 or arm FLAVOR should be set"
 .endif
@@ -52,6 +54,7 @@ LANGS=		c,c++
 
 CONFIGURE_ARGS+=--enable-languages=${LANGS}	\
 		--enable-multilib		\
+		--with-multilib-list=${MULTILIB}\
 		--enable-interwork		\
 		--with-gmp=${LOCALBASE}		\
 		--with-newlib			\

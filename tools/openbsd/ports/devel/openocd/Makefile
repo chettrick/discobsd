@@ -1,19 +1,17 @@
-# $OpenBSD: Makefile,v 1.16 2019/07/12 20:44:43 sthen Exp $
-
 COMMENT =	Open On-Chip Debugging
 
-DISTNAME =	openocd-0.10.0
-REVISION =	1
+DISTNAME =	openocd-0.11.0
 CATEGORIES =	devel
+REVISION =	0
 
-HOMEPAGE =	http://openocd.sourceforge.net/
+HOMEPAGE =	https://openocd.sourceforge.net/
 
 # GPLv2
 PERMIT_PACKAGE =	Yes
 
-WANTLIB += c ftdi hidapi-libusb iconv jim m pthread usb usb-1.0
+WANTLIB += c ftdi1 hidapi-libusb iconv jim m pthread usb usb-1.0 util
 
-MASTER_SITES =	${MASTER_SITE_SOURCEFORGE:=openocd/}
+SITES =		${SITE_SOURCEFORGE:=openocd/}
 EXTRACT_SUFX =	.tar.bz2
 
 CONFIGURE_STYLE = gnu
@@ -40,17 +38,15 @@ CONFIGURE_ARGS = --disable-werror \
 		--enable-presto \
 		--enable-aice \
 		--enable-buspirate \
-		--disable-internal-jimtcl
+		--disable-internal-jimtcl \
+		--without-capstone
 
 CONFIGURE_ENV =	CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/jim" \
 		LDFLAGS="-L${LOCALBASE}/lib -pthread"
 
-# don't pick up libftdi1 over libftdi
-CONFIGURE_ENV += LIBFTDI_CFLAGS="`pkg-config --cflags libftdi`" \
-		LIBFTDI_LIBS="`pkg-config --libs libftdi`"
-
 LIB_DEPENDS =	comms/libhidapi \
-		devel/libftdi>=0.20 \
+		devel/libftdi1 \
+		devel/libusb-compat \
 		lang/jimtcl>=0.75
 
 USE_GMAKE =	Yes

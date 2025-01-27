@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Fix build with newlib supplied syscalls enabled.
 acle-compat.h is libc/machine/arm.
 

@@ -1,24 +1,22 @@
-# $OpenBSD: Makefile,v 1.5 2017/06/02 23:17:08 schwarze Exp $
-
 COMMENT=	newlib for arm-none-eabi cross-development
 
 DISTNAME=	newlib-2.2.0-1
 VERSION=	2.2.0.1
 PKGNAME=	${CONFIG}-newlib-${VERSION}
-REVISION=	2
+REVISION=	3
 
 MAKE_ENV+=	${CONFIGURE_ENV}
 
 HOMEPAGE=	http://sourceware.org/newlib/
 
-MASTER_SITES=	ftp://sourceware.org/pub/newlib/
-#MASTER_SITES=	ftp://sources.redhat.com/pub/newlib/
+SITES=		ftp://sourceware.org/pub/newlib/
+#SITES=		ftp://sources.redhat.com/pub/newlib/
 
 EXTRACT_SUFX=	.tar.gz
 
-BUILD_DEPENDS=	devel/arm-none-eabi/binutils \
+BUILD_DEPENDS=	devel/arm-none-eabi/binutils,arm \
 		${RUN_DEPENDS}
-RUN_DEPENDS=	devel/arm-none-eabi/gcc-linaro
+RUN_DEPENDS=	devel/arm-none-eabi/gcc,arm
 
 # cope with user settings in /etc/mk.conf
 MAKE_FLAGS=	CFLAGS="-I${LOCALBASE}/include"

@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Include code in trap.S for APCS only.
 
 Index: newlib/libc/sys/arm/trap.S

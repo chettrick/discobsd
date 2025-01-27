@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Make macro checks ARMv8-M baseline proof.
 
 Use ACLE macros __ARM_ARCH_ISA_THUMB and __ARM_ARCH_ISA_ARM to check for

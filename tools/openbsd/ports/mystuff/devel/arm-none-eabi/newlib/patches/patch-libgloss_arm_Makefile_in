@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Make macro checks ARMv8-M baseline proof.
 Add newlib/libc/machine/arm to the include path if newlib is present.
 

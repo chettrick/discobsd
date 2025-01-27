@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Make macro checks ARMv8-M baseline proof.
 
 Index: libgloss/arm/swi.h

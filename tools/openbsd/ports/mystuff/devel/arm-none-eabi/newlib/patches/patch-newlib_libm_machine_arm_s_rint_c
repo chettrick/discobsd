@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Check for 64bit FP instructions availability in libm before using them.
 
 Index: newlib/libm/machine/arm/s_rint.c

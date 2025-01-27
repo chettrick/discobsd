@@ -1,5 +1,3 @@
-$OpenBSD$
-
 Make macro checks ARMv8-M baseline proof.
 
 Likewise for Thumb-1 and Thumb-2 only target and include acle-compat.h.

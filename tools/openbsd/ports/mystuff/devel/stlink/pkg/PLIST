@@ -1,4 +1,3 @@
-@comment $OpenBSD: PLIST,v$
 @bin bin/st-flash
 @bin bin/st-info
 @bin bin/st-term

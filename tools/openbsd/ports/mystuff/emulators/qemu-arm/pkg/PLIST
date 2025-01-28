@@ -1,4 +1,3 @@
-@comment $OpenBSD: PLIST,v 1.43 2019/08/18 06:56:07 ajacoutot Exp $
 @conflict kqemu-*
 @conflict qemu-*
 @pkgpath emulators/kqemu

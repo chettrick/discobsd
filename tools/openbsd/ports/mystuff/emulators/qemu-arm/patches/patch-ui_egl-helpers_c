@@ -1,0 +1,41 @@
+From fbd57c754f32804a63295f70f271d1ef128ee590 Mon Sep 17 00:00:00 2001
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 16 Jan 2019 12:37:51 +0100
+Subject: [PATCH] egl-helpers.h: do not depend on X11 Window type, use
+ EGLNativeWindowType
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+It was assumed that mesa provides the necessary X11 includes,
+but it is not always the case, as it can be configured without x11 support.
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190116113751.17177-1-alex.kanavin@gmail.com
+
+[ kraxel: codestyle fix (long line) ]
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Index: ui/egl-helpers.c
+--- ui/egl-helpers.c.orig
++++ ui/egl-helpers.c
+@@ -146,7 +146,7 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *st
+ 
+ /* ---------------------------------------------------------------------- */
+ 
+-EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, Window win)
++EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, EGLNativeWindowType win)
+ {
+     EGLSurface esurface;
+     EGLBoolean b;
+@@ -155,7 +155,7 @@ EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, 
+             (unsigned long) win);
+     esurface = eglCreateWindowSurface(qemu_egl_display,
+                                       qemu_egl_config,
+-                                      (EGLNativeWindowType)win, NULL);
++                                      win, NULL);
+     if (esurface == EGL_NO_SURFACE) {
+         error_report("egl: eglCreateWindowSurface failed");
+         return NULL;

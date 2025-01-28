@@ -1,5 +1,3 @@
-# $OpenBSD: Makefile,v 1.190 2019/08/18 06:56:07 ajacoutot Exp $
-
 ONLY_FOR_ARCHS=	amd64 i386 powerpc sparc64
 
 USE_WXNEEDED=	Yes
@@ -7,6 +5,8 @@ USE_WXNEEDED=	Yes
 COMMENT=	multi system emulator, Arm Cortex-M version
 
 DISTNAME=	qemu-arm-2.8.0.6.20190517
+REVISION=	0
+
 CATEGORIES=	emulators
 
 HOMEPAGE=	https://github.com/ilg-archived/qemu
@@ -18,24 +18,31 @@ GH_ACCOUNT=	ilg-archived
 GH_PROJECT=	qemu
 GH_TAGNAME=	v2.8.0-6-20190517
 
-WANTLIB=	SDL2 SDL2_image X11 c drm epoxy fdt>=4.1 \
+WANTLIB=	SDL2 SDL2_image X11 c drm epoxy fdt \
 		gbm glib-2.0 gthread-2.0 intl iscsi m \
+		atk-1.0 cairo cairo-gobject gdk-3 \
+		gdk_pixbuf-2.0 gio-2.0 gobject-2.0 gtk-3 \
+		harfbuzz pango-1.0 pangocairo-1.0 vte-2.91 \
 		pixman-1 util z ${COMPILER_LIBCXX}
 
 # Using TLS emulation layer
 COMPILER=	base-clang ports-gcc
 
 MODULES=	lang/python
+MODPY_VERSION=	${MODPY_DEFAULT_VERSION_2}
 
 BUILD_DEPENDS=	devel/gettext,-tools \
-		textproc/py-sphinx \
+		textproc/py-sphinx${MODPY_FLAVOR} \
 		textproc/texi2html
 
-LIB_DEPENDS=	devel/dtc>=1.5.0p0 \
+LIB_DEPENDS=	devel/dtc \
 		devel/glib2 \
 		devel/libiscsi \
+		devel/pango \
 		devel/sdl2 \
-		devel/sdl2-image
+		devel/sdl2-image \
+		devel/vte3 \
+		graphics/cairo
 
 MODPY_RUNDEP=	No
 
@@ -50,6 +57,8 @@ EXTRA_CFLAGS+=	-D_XOPEN_SOURCE_EXTENDED
 
 # until the system headers are fixed properly.
 EXTRA_CFLAGS+=	-Wno-redundant-decls
+
+SEPARATE_BUILD=	Yes
 
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=simple

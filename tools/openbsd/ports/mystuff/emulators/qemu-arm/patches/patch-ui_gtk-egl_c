@@ -1,0 +1,33 @@
+From fbd57c754f32804a63295f70f271d1ef128ee590 Mon Sep 17 00:00:00 2001
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 16 Jan 2019 12:37:51 +0100
+Subject: [PATCH] egl-helpers.h: do not depend on X11 Window type, use
+ EGLNativeWindowType
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+It was assumed that mesa provides the necessary X11 includes,
+but it is not always the case, as it can be configured without x11 support.
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190116113751.17177-1-alex.kanavin@gmail.com
+
+[ kraxel: codestyle fix (long line) ]
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Index: ui/gtk-egl.c
+--- ui/gtk-egl.c.orig
++++ ui/gtk-egl.c
+@@ -64,7 +64,8 @@ void gd_egl_init(VirtualConsole *vc)
+     }
+ 
+     vc->gfx.ectx = qemu_egl_init_ctx();
+-    vc->gfx.esurface = qemu_egl_init_surface_x11(vc->gfx.ectx, x11_window);
++    vc->gfx.esurface = qemu_egl_init_surface_x11
++        (vc->gfx.ectx, (EGLNativeWindowType)x11_window);
+ 
+     assert(vc->gfx.esurface);
+ }

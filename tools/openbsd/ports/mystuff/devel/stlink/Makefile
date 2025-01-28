@@ -1,5 +1,3 @@
-# $OpenBSD: Makefile.template,v 1.71 2014/07/10 12:33:17 sthen Exp $
-
 COMMENT=		programmer for ST Microelectronics ST-Link V1/V2
 
 V=			1.1.0
@@ -7,14 +5,14 @@ DISTNAME=		stlink-${V}
 
 CATEGORIES=		devel
 
-HOMEPAGE=		https://github.com/texane/stlink
+HOMEPAGE=		https://github.com/stlink-org/stlink
 
 # BSD
 PERMIT_PACKAGE=		Yes
 
 WANTLIB=		c pthread usb-1.0
 
-GH_ACCOUNT=		texane
+GH_ACCOUNT=		stlink-org
 GH_PROJECT=		stlink
 GH_TAGNAME=		v${V}
 

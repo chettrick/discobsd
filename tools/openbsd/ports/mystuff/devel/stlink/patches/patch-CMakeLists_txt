@@ -1,0 +1,11 @@
+Index: CMakeLists.txt
+--- CMakeLists.txt.orig
++++ CMakeLists.txt
+@@ -392,7 +392,6 @@ install(FILES ${CHIP_FILES} DESTINATION ${CMAKE_CHIPS_
+ option(STLINK_GENERATE_MANPAGES "Generate manpages with pandoc" OFF)
+ add_subdirectory(doc/man)         # contains subordinate CMakeLists to generate manpages
+ 
+-add_subdirectory(src/stlink-gui)  # contains subordinate CMakeLists to build GUI
+ add_subdirectory(tests)           # contains subordinate CMakeLists to build test executables
+ add_subdirectory(cmake/packaging) # contains subordinate CMakeLists to build packages
+ 

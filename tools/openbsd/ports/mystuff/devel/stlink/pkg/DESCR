@@ -1,4 +1,4 @@
-Programmer for ST Microelectronics ST-Link V1/V2
+Programming toolset for ST Microelectronics ST-Link V1/V2/V2-1/V3
 
 Example command to load firmware into target:
 

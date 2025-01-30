@@ -1,7 +1,102 @@
 @bin bin/st-flash
 @bin bin/st-info
-@bin bin/st-term
+@bin bin/st-trace
 @bin bin/st-util
-share/doc/stlink/
-share/doc/stlink/README
-share/doc/stlink/tutorial.pdf
+include/stlink/
+include/stlink/backend.h
+include/stlink/calculate.h
+include/stlink/chipid.h
+include/stlink/commands.h
+include/stlink/common_flash.h
+include/stlink/flash_loader.h
+include/stlink/helper.h
+include/stlink/lib_md5.h
+include/stlink/libusb_settings.h
+include/stlink/logging.h
+include/stlink/map_file.h
+include/stlink/md5.h
+include/stlink/option_bytes.h
+include/stlink/read_write.h
+include/stlink/register.h
+include/stlink/sg.h
+include/stlink/spdlog_wrapper.h
+include/stlink/stlink.h
+include/stlink/stm32.h
+include/stlink/stm32flash.h
+include/stlink/usb.h
+include/stlink/version.h
+@static-lib lib/libstlink.a
+@lib lib/libstlink.so.${LIBstlink_VERSION}
+@man man/man1/st-flash.1
+@man man/man1/st-info.1
+@man man/man1/st-util.1
+share/stlink/
+share/stlink/chips/
+share/stlink/chips/C011xx.chip
+share/stlink/chips/C031xx.chip
+share/stlink/chips/F03x.chip
+share/stlink/chips/F04x.chip
+share/stlink/chips/F05x.chip
+share/stlink/chips/F07x.chip
+share/stlink/chips/F09x.chip
+share/stlink/chips/F1xx_CL.chip
+share/stlink/chips/F1xx_HD.chip
+share/stlink/chips/F1xx_LD.chip
+share/stlink/chips/F1xx_MD.chip
+share/stlink/chips/F1xx_VL_HD.chip
+share/stlink/chips/F1xx_VL_MD_LD.chip
+share/stlink/chips/F1xx_XLD.chip
+share/stlink/chips/F2xx.chip
+share/stlink/chips/F301_F302_F318.chip
+share/stlink/chips/F302_F303_F358.chip
+share/stlink/chips/F302_F303_F398_HD.chip
+share/stlink/chips/F303_F328_F334.chip
+share/stlink/chips/F37x.chip
+share/stlink/chips/F401xB_xC.chip
+share/stlink/chips/F401xD_xE.chip
+share/stlink/chips/F410.chip
+share/stlink/chips/F411xC_xE.chip
+share/stlink/chips/F412.chip
+share/stlink/chips/F413_F423.chip
+share/stlink/chips/F42x_F43x.chip
+share/stlink/chips/F446.chip
+share/stlink/chips/F46x_F47x.chip
+share/stlink/chips/F4x5_F4x7.chip
+share/stlink/chips/F72x_F73x.chip
+share/stlink/chips/F74x_F75x.chip
+share/stlink/chips/F76x_F77x.chip
+share/stlink/chips/G03x_G04x.chip
+share/stlink/chips/G05x_G06x.chip
+share/stlink/chips/G07x_G08x.chip
+share/stlink/chips/G0Bx_G0Cx.chip
+share/stlink/chips/G43x_G44x.chip
+share/stlink/chips/G47x_G48x.chip
+share/stlink/chips/G49x_G4Ax.chip
+share/stlink/chips/H5xx.chip
+share/stlink/chips/H72x_H73x.chip
+share/stlink/chips/H74x_H75x.chip
+share/stlink/chips/H7Ax_H7Bx.chip
+share/stlink/chips/L0xxx_Cat_1.chip
+share/stlink/chips/L0xxx_Cat_2.chip
+share/stlink/chips/L0xxx_Cat_3.chip
+share/stlink/chips/L0xxx_Cat_5.chip
+share/stlink/chips/L1xx_Cat_1.chip
+share/stlink/chips/L1xx_Cat_2.chip
+share/stlink/chips/L1xx_Cat_3.chip
+share/stlink/chips/L1xx_Cat_4.chip
+share/stlink/chips/L1xx_Cat_5.chip
+share/stlink/chips/L41x_L42x.chip
+share/stlink/chips/L43x_L44x.chip
+share/stlink/chips/L45x_L46x.chip
+share/stlink/chips/L47x_L48x.chip
+share/stlink/chips/L496x_L4A6x.chip
+share/stlink/chips/L4Px_L4Qx.chip
+share/stlink/chips/L4Rx.chip
+share/stlink/chips/L5x5xx.chip
+share/stlink/chips/U535_U545.chip
+share/stlink/chips/U55Fx_U5Gx.chip
+share/stlink/chips/U575_U585.chip
+share/stlink/chips/U59x_U5Ax.chip
+share/stlink/chips/WBx0_WBx5.chip
+share/stlink/chips/WLEx.chip
+share/stlink/chips/unknown_device.chip

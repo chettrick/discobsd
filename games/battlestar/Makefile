@@ -6,6 +6,10 @@
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
+# libbsd-dev package on Linux in overlay mode.
+HOST_CFLAGS+=	${_LIBBSD_CFLAGS}
+HOST_LIBS+=	${_LIBBSD_LIBS}
+
 CFLAGS		+= -Os -DUNIX_BSD4_2 -DANSI -DEXT_MESSAGE_FILE -Wall
 
 OBJS            = battlestar.o cmd1.o cmd2.o cmd3.o cmd4.o cmd5.o cmd6.o cmd7.o \
@@ -28,7 +32,7 @@ battle_strings _globals.c _dayfile.c _nightfile.c: mkstr globals.c dayfile.c nig
 		./mkstr battle_strings _ globals.c dayfile.c nightfile.c
 
 mkstr:          mkstr.c
-		${HOST_CC} -O mkstr.c -o $@
+		${HOST_CC} -O ${HOST_CFLAGS} mkstr.c -o $@ ${HOST_LIBS}
 
 ${MAN}:         ${MANSRC}
 		${MANROFF} ${MANSRC} > $@

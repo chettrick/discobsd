@@ -8,6 +8,7 @@ OBJS=	xinstall.o
 # Use uninstalled copy of the install program.
 INSTALL=./xinstall
 
+# libbsd-dev package on Linux in overlay mode.
 CFLAGS+=${_LIBBSD_CFLAGS}
 LIBS+=	${_LIBBSD_LIBS}
 

@@ -25,6 +25,10 @@ LIBS		= -lpthread -lelf
 
 LIBS		+= -L/usr/local/lib/elftoolchain
 
+# libbsd-dev package on Linux in overlay mode.
+CFLAGS+=	${_LIBBSD_CFLAGS}
+LIBS+=		${_LIBBSD_LIBS}
+
 ADDLIBS!=if [ x"${_HOST_OSNAME}" = x"OpenBSD" ] ; then \
 		echo "-L/usr/local/lib -lintl" ; \
 	elif [ x"${_HOST_OSNAME}" = x"Darwin" ] ; then \

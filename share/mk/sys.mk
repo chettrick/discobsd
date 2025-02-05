@@ -77,12 +77,22 @@ COPTS!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "" ; \
 	fi
 
+LDWARN!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
+		if [ x"${_HOST_OSNAME}" = x"FreeBSD" ] ; then \
+			echo "" ; \
+		else \
+			echo "-Wl,--no-warn-rwx-segments" ; \
+		fi \
+	else \
+		echo "-Wl,--no-warn-rwx-segments" ; \
+	fi
+
 CFLAGS=	${COPTS}
 
 AFLAGS=	${ASFLAGS}
 
 LDFLAGS=-N -nostartfiles -fno-dwarf2-cfi-asm \
-	-Wl,--no-warn-rwx-segments \
+	${LDWARN} \
 	-T${TOPSRC}/lib/elf32-${MACHINE_ARCH}.ld \
 	${TOPSRC}/lib/crt0.o -L${TOPSRC}/lib
 

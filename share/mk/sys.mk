@@ -23,6 +23,19 @@ HOST_CC?=	cc
 
 _HOST_OSNAME!=	uname -s
 
+# libbsd-dev package on Linux in overlay mode.
+_LIBBSD_CFLAGS!=if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
+			pkg-config libbsd-overlay --cflags ; \
+		else \
+			echo "" ; \
+		fi
+
+_LIBBSD_LIBS!=	if [ x"${_HOST_OSNAME}" = x"Linux" ] ; then \
+			pkg-config libbsd-overlay --libs ; \
+		else \
+			echo "" ; \
+		fi
+
 GCCPREFIX!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		if [ x"${_HOST_OSNAME}" = x"OpenBSD" ] ; then \
 			echo "/usr/local/bin/arm-none-eabi" ; \

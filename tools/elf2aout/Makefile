@@ -4,6 +4,7 @@ TOPSRC!=cd ../..; pwd
 
 CFLAGS=		-O -Wall
 
+# libbsd-dev package on Linux in overlay mode.
 CFLAGS+=	${_LIBBSD_CFLAGS}
 LIBS+=		${_LIBBSD_LIBS}
 

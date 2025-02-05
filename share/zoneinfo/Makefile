@@ -23,6 +23,10 @@ LINTFLAGS=	-phbaxc
 CC=		${HOST_CC}
 CFLAGS+=	-Wall -idirafter ${TOPSRC}/include
 
+# libbsd-dev package on Linux in overlay mode.
+CFLAGS+=	${_LIBBSD_CFLAGS}
+LIBS+=		${_LIBBSD_LIBS}
+
 TZCSRCS=	zic.c scheck.c ialloc.c
 TZCOBJS=	zic.o scheck.o ialloc.o
 TZDSRCS=	zdump.c ialloc.c
@@ -54,10 +58,10 @@ zic.0:		$(ZICMANSRC)
 		${MANROFF} ${ZICMANSRC} > ${ZICMAN}
 
 zdump:		$(TZDOBJS)
-		$(CC) $(CFLAGS) $(LFLAGS) $(TZDOBJS) -o $@
+		${CC} ${CFLAGS} ${LFLAGS} ${TZDOBJS} -o $@ ${LIBS}
 
 zic:		$(TZCOBJS)
-		$(CC) $(CFLAGS) $(LFLAGS) $(TZCOBJS) -o $@
+		${CC} ${CFLAGS} ${LFLAGS} ${TZCOBJS} -o $@ ${LIBS}
 
 lint:		$(TZCSRCS) $(TZDSRCS)
 		lint $(LINTFLAGS) $(CFLAGS) $(TZCSRCS)

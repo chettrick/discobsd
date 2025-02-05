@@ -18,6 +18,10 @@ FUSE_PATH!=if [ x"${_HOST_OSNAME}" = x"Darwin" ] ; then \
 MOUNT_CFLAGS!=	PKG_CONFIG_PATH=${FUSE_PATH} pkg-config fuse --cflags
 LIBS!=		PKG_CONFIG_PATH=${FUSE_PATH} pkg-config fuse --libs
 
+# libbsd-dev package on Linux in overlay mode.
+CFLAGS+=	${_LIBBSD_CFLAGS}
+LIBS+=		${_LIBBSD_LIBS}
+
 all:		$(PROG)
 
 install:	all

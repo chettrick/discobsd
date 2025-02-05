@@ -7,6 +7,7 @@ CFLAGS=	-Os -Wall -std=gnu89 -fno-builtin -DCROSS \
 	-idirafter ${TOPSRC}/include \
 	-idirafter ../ar
 
+# libbsd-dev package on Linux in overlay mode.
 CFLAGS+=${_LIBBSD_CFLAGS}
 LIBS+=	${_LIBBSD_LIBS}
 

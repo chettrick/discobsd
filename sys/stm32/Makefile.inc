@@ -15,7 +15,7 @@ CONFSCRIPT!=if [ x"${BOARD}" = x"f405weactcore" ] ; then \
 	elif [ x"${BOARD}" = x"f412weactcore" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
 	elif [ x"${BOARD}" = x"f469idisco" ] ; then \
-		echo "board/stm32f469discovery.cfg" ; \
+		echo "board/stm32f469i-disco.cfg" ; \
 	elif [ x"${BOARD}" = x"f4discovery" ] ; then \
 		echo "board/stm32f4discovery.cfg" ; \
 	else \

@@ -112,7 +112,7 @@ main(int argc, char *argv[])
 				argv[0]);
 			exit(1);
 		}
-		(void)snprintf(tzequals, sizeof(tzequals), "TZ=%s", argv[i]);
+		(void)snprintf(tzequals, strlen(argv[i]) + 4, "TZ=%s", argv[i]);
 		fakeenv[0] = tzequals;
 		fakeenv[1] = NULL;
 		saveenv = environ;

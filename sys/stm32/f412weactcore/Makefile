@@ -101,7 +101,9 @@ SYSTEM_DEP=	Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD=	sh $S/conf/newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
 SYSTEM_LD=	-@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@ ${LDADD}; \
 		${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@ ${LDADD}
-SYSTEM_LD_TAIL=	${SIZE} $@; \
+SYSTEM_LD_TAIL=	${SIZE} $@; cp $@ $@.elf; \
+		${OBJCOPY} -O ihex $@ $@.hex; \
+		${OBJCOPY} -O binary $@ $@.bin; \
 		${OBJDUMP} -d -S $@ > $@.dis
 
 unix: ${SYSTEM_DEP} swapunix.o
@@ -115,10 +117,10 @@ swapunix.o: swapunix.c
 all: unix
 
 clean:
-	rm -rf .deps unix *.elf *.o *.map *.dis *.bin machine sys
+	rm -rf .deps unix *.elf *.o *.map *.dis *.bin *.hex machine sys
 
 clean-all: clean
-	rm -f *.h *.hex ioconf.c swap*.c vers.c
+	rm -f *.h ioconf.c swap*.c vers.c
 
 reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
 	../../../tools/kconfig/kconfig -g Config

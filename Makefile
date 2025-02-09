@@ -95,7 +95,6 @@ cleanfs:
 
 cleanall:	cleantools clean
 		$(MAKE) -C sys/$(MACHINE) -k clean
-		rm -f sys/$(MACHINE)/*/unix.hex
 
 symlinks:
 		rm -f include/machine

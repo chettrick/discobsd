@@ -1,33 +1,56 @@
 # DiscoBSD/pic32 - 2.11BSD-based OS for PIC32MX7 MIPS MCUs
 
+## Currently supported hardware
 
-## Supported hardware
+ * [Fubarino SD][1] board.
+ * [Olimex Duinomite][2], [Duinomite-Mini][3], [Duinomite-Mega][4] and
+   [Duinomite-eMega][5] boards.
+ * [Olimex Pinguino-Micro][6] board with PIC32MX795F512H microcontroller.
+ * [Maximite][7] and [Colour Maximite][8] computers.
+ * [Majenko SDXL][9] board.
+ * [4D Systems Picadillo-35T][10] board.
+ * [MikroElektronika MultiMedia Board][11] for PIC32MX7.
+ * [chipKIT Max32][12] board with SD card shield.
+ * [chipKIT WF32][13] board with 2.4" LCD TFT display shield.
+ * [Sparkfun UBW32][14] board with SD card slot.
+ * [Microchip Explorer 16][15] board,
+   with PIC32 CAN-USB plug-in module and SD & MMC pictail.
+ * [Microchip PIC32 USB][16] or [Ethernet Starter Kit][17],
+   with I/O Expansion board and SD & MMC pictail.
 
- * Fubarino SD board.
- * Olimex Duinomite, Duinomite-Mini, Duinomite-Mega and Duinomite-eMega boards.
- * Olimex Pinguino-Micro board with PIC32MX795F512H microcontroller.
- * Maximite and Colour Maximite computers.
- * Majenko SDXL board.
- * 4D Systems Picadillo-35T board.
- * MikroElektronika MultiMedia Board for PIC32MX7.
- * chipKIT Max32 board with SD card shield.
- * chipKIT WF32 board with 2.4" LCD TFT display shield.
- * Sparkfun UBW32 board with SD card slot.
- * Microchip Explorer 16 board, with PIC32 CAN-USB plug-in module and SD & MMC pictail.
- * Microchip PIC32 USB or Ethernet Starter Kit, with I/O Expansion board and SD & MMC pictail.
-
+[1]: https://www.fubarino.org/sd/
+[2]: https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE/
+[3]: https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE-MINI/
+[4]: https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE-MEGA/
+[5]: https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE-eMEGA/
+[6]: https://www.olimex.com/Products/Duino/PIC32/PIC32-RETROBSD/
+[7]: https://geoffg.net/MonoMaximite.html
+[8]: https://geoffg.net/OriginalColourMaximite.html
+[9]: https://wiki.kewl.org/boards:sdxl
+[10]: https://resources.4dsystems.com.au/datasheets/legacy/Picadillo-35T_datasheet_R_1_5.pdf
+[11]: https://web.archive.org/web/20160815090501/http://www.mikroe.com/multimedia/pic32mx7/
+[12]: https://chipkit.net/wiki/index.php?title=chipKIT_Max32
+[13]: https://chipkit.net/wiki/index.php?title=chipKIT_WF32
+[14]: https://www.schmalzhaus.com/UBW32/
+[15]: https://www.microchip.com/en-us/development-tool/dm240001
+[16]: https://www.microchip.com/en-us/development-tool/dm320003-2
+[17]: https://www.microchip.com/en-us/development-tool/dm320004
 
 ## Build
 
-To compile everything from sources, you'll need some packages installed, namely:
-GNU bison, Berkeley YACC, flex, groff, BSD library, ELF library, and FUSE library.
-Under Ubuntu, for example, you can do it by command:
+A few packages are required to compile everything from source.
+Under Ubuntu installation can be done by the commands:
 
-```shell
-$ sudo apt-get install bison byacc flex groff-base libbsd-dev libelf-dev libfuse-dev
+```sh
+$ apt install bison byacc flex git groff-base libbsd-dev
+$ apt install libelf-dev libfuse-dev sudo unzip zip
 ```
+If a mips-elf-gcc compiler package is not available from the host distribution,
+then the compiler toolchain must be built following [these instructions][18].
 
-You can change a desired filesystem size and swap area size, as required.
+[18]: https://web.archive.org/web/20200126100825/http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
+
+The desired filesystem size and swap area size can be changed, as required.
 Default is:
 ```Makefile
 FS_MBYTES   = 200
@@ -36,96 +59,101 @@ SWAP_MBYTES = 2
 ```
 To compile the kernel and build a filesystem image, run:
 
-```shell
+```sh
 $ make MACHINE=pic32 MACHINE_ARCH=mips distribution
 ```
 
-A resulting root filesystem image is in file `sdcard.img`.
-A kernel is in file `unix.hex` in your target board subdirectory.
-
+A resulting root filesystem image is in the file `sdcard.img`.
+Kernel files are named `unix.hex` and are in target board subdirectories.
 
 ### Filesystem image
 
-You need to put a filesystem image on a SD card.  On Windows, use
-Win32DiskImager utility (https://launchpad.net/win32-image-writer/+download).
-On Linux, run:
+The file system image `sdcard.img` needs to be imaged onto an SD card.
 
-```shell
-$ sudo dd if=sdcard.img of=/dev/XYZ
+On Windows host systems use a disk imaging utility such as [Rufus][19].
+
+On Unix-like host systems with `dd` run:
+```sh
+$ sudo dd if=sdcard.img of=/path/to/SD/card
 ```
 
-Here `XYZ` is a device name of SD card, as recognized by Linux (sdb in my case).
-
+[19]: https://github.com/pbatard/rufus
 
 ### Install kernel
 
-Kernel image should be written to PIC32 flash memory.  The procedure depends
-on a board used.
+The kernel image must be written to the PIC32 flash memory.
+The specific procedure depends on the target development board.
+
+#### PIC32-RETROBSD board:
+Use the [pic32prog][20] utility and a USB cable to install the kernel:
+
+```sh
+$ pic32prog sys/pic32/pinguino-micro/unix.hex
+```
 
 #### Max32 board:
-Use a pic32prog utility (http://code.google.com/p/pic32prog/)
-and a USB cable to install a kernel:
+Use the [pic32prog][20] utility and a USB cable to install the kernel:
 
-```shell
+```sh
 $ pic32prog -d /dev/ttyUSB0 sys/pic32/max32/unix.hex
 ```
 
-Here you need to change AVRTOOLS path and tty name according to your system.
-
 #### UBW32 board:
-Use a pic32prog utility (http://code.google.com/p/pic32prog/)
-and a USB cable to install a kernel:
+Use the [pic32prog][20] utility and a USB cable to install the kernel:
 
-```shell
+```sh
 $ pic32prog sys/pic32/ubw32/unix.hex
 ```
 
 #### Maximite:
-Use the bootload program for Windows, available for download by link:
-http://geoffg.net/Downloads/Maximite/Maximite_Update_V2.7B.zip
+Use the bootload program for Windows, download links are available here:
+https://geoffg.net/MonoMaximite.html#Downloads
 
 #### Explorer 16 board:
 There is an auxiliary PIC18 chip on the Explorer 16 board, which can be
-used as a built-in programmer device.  You will need a PICkit 2 adapter
-to install a needed firmware, as described in article:
-http://www.paintyourdragon.com/?p=51
-(section "Hack #2: Lose the PICkit 2, Save $35").
+used as a built-in programmer device.  A PICkit 2 adapter is needed to
+install the required firmware, as described in [this article][21] in the
+section "Hack #2: Lose the PICkit 2, Save $35".
 This should be done only once.
 
-Then, you can use a pic32prog utility (http://code.google.com/p/pic32prog/)
-and a USB cable to install a kernel:
+Then, use the [pic32prog][20] utility and a USB cable to install the kernel:
 
-``` shell
+``` sh
 $ pic32prog sys/pic32/explorer16/unix.hex
 ```
 
 #### PIC32 Starter Kit:
-Use PICkit 2 adapter and software to install a boot loader from
-file `sys/pic32/starter-kit/boot.hex`.  This should be done only once.
+Use the PICkit 2 adapter and software to install a boot loader from the file
+[starter-kit/bootloader.hex][22] in the [pic32-usb-bootloader][23] repository.
+This should be done only once.
 
-Then, you can use a pic32prog utility (http://code.google.com/p/pic32prog/)
-and a USB cable to install a kernel:
+Then, use the [pic32prog][20] utility and a USB cable to install the kernel:
 
-```shell
+```sh
 $ pic32prog sys/pic32/starter-kit/unix.hex
 ```
 
+[20]: https://github.com/majenkotech/pic32prog-autotools/archive/refs/tags/2.1.57.zip
+[21]: https://web.archive.org/web/20160506100841/http://www.paintyourdragon.com/?p=51
+[22]: https://github.com/sergev/pic32-usb-bootloader/blob/master/starter-kit/bootloader.hex
+[23]: https://github.com/sergev/pic32-usb-bootloader
 
 ## Simulator
 
-You can use a MIPS32 simulator to develop a debug a RetroBSD software,
-without a need for hardware board.  By default, a simulator is configured
-to imitate a Max32 board.  To build it:
+Use the VirtualMIPS MIPS32 simulator to develop and debug DiscoBSD/pic32
+without the need for a hardware development board.
+By default, the simulator is configured to imitate a Max32 board.
+To build it:
 
-```shell
+```sh
 $ cd tools/virtualmips
 $ make
 ```
 
 Run it:
 
-```shell
+```sh
 $ ./pic32
 ```
 
-Configuration of simulated board is stored in file `pic32_max32.conf`.
+Configuration of the simulated board is stored in the file `pic32_max32.conf`.

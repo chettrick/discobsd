@@ -1,5 +1,5 @@
-
-# Programs that live in subdirectories, and have makefiles of their own.
+#
+# Kernels live in subdirectories, and have Makefiles of their own.
 #
 SUBDIR=		f405weactcore f411renucleo f412gdisco f412weactcore \
 		f469idisco f4discovery

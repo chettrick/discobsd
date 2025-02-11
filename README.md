@@ -55,15 +55,29 @@ Installing and Running
 Installation consists of loading the kernel into the microcontroller's flash
 memory, and imaging the SD card with the file `sdcard.img`.
 
-The `make` target `installfs` uses the `dd` utility to image the SD card
-attached to the host operating system at `SDCARD`, such as `/dev/rsdXc` or
-`/dev/sdX` or `/dev/rdiskX`, replacing `X` with the actual drive number or
-letter, as the case may be.
+On Windows host systems use a disk imaging utility such as [Rufus][6].
 
-For example, imaging an SD card attached at `sd2` on an OpenBSD host
-operating system through the raw i/o device:
+On Unix-like host systems with `dd` run:
 
-    $ SDCARD=/dev/rsd2c make installfs
+    $ dd if=sdcard.img of=/path/to/SD/card
+
+The board-specific kernel `unix` must be loaded into the MCU's flash memory.
+Formats are ELF `unix.elf`, binary `unix.bin`, and Intel HEX `unix.hex`.
+
+Flashing a DiscoBSD/stm32 kernel firmware into target board's flash memory:
+
+On Windows host systems use [STM32CubeProgrammer][7] for flash programming.
+
+On Unix-like host systems use `st-flash` from the [stlink-org project][8] to
+load the binary-formatted kernel `unix.bin` into flash memory at 0x08000000.
+
+    $ st-flash --reset write unix.bin 0x08000000
+
+Flashing a DiscoBSD/pic32 kernel firmware into target board's flash memory:
+
+On all supported host systems use [pic32prog][9] for flash programming.
+
+    $ pic32prog unix.hex
 
 Communication with the DiscoBSD console requires a serial port. A USB to TTL
 device or the built-in VCP USB serial port on development boards can be used.
@@ -76,7 +90,12 @@ Depending on the host system, other serial port utilities such as `screen`,
 Log in to DiscoBSD with user `root` and a blank password.
 Shutdown DiscoBSD with the `halt`, `shutdown`, or `reboot` commands.
 
-Manual pages for commands are available through the `man` command.
+Manual pages on DiscoBSD are available through the `man` command.
+
+[6]: https://github.com/pbatard/rufus
+[7]: https://www.st.com/en/development-tools/stm32cubeprog.html
+[8]: https://github.com/stlink-org/stlink
+[9]: https://github.com/majenkotech/pic32prog-autotools
 
 Building
 --------
@@ -86,7 +105,7 @@ DiscoBSD is cross-built on UNIX-like host operating systems.
 Currently supported host operating systems: OpenBSD, Linux, FreeBSD.
 
 Instructions to configure an OpenBSD host development environment for
-Arm and MIPS targets is available [here][6].
+Arm and MIPS targets is [available here][10].
 
 The build system fully supports both BSD make and GNU make.
 
@@ -117,6 +136,18 @@ to generate a file system image in the file `distrib/pic32/sdcard.img`
 for imaging to an SD card, `sys/pic32/${BOARD}/unix` ELF-formatted
 kernels, and `sys/pic32/${BOARD}/unix.hex` Intel HEX-formatted kernels.
 
+Put the generated file system image `sdcard.img` onto an SD card.
+
+The `make` target `installfs` uses the `dd` utility to image the SD card
+attached to the host operating system at `SDCARD`, such as `/dev/rsdXc` or
+`/dev/sdX` or `/dev/rdiskX`, replacing `X` with the actual drive number or
+letter, as the case may be.
+
+For example, imaging an SD card attached at `sd2` on an OpenBSD host
+operating system through the raw i/o device:
+
+    $ SDCARD=/dev/rsd2c make installfs
+
 Note that using BSD make on a FreeBSD host requires the system makefile
 include directory to be specified on the command line or via the
 `MAKESYSPATH` environment variable. For example:
@@ -130,7 +161,7 @@ or
 
     $ make
 
-[6]: tools/openbsd/README.md
+[10]: tools/openbsd/README.md
 
 Building a DiscoBSD Release
 ---------------------------
@@ -162,10 +193,10 @@ A DiscoBSD/pic32 release is created by:
 A DiscoBSD release is created from an already-populated `DESTDIR`,
 and it is placed in `RELEASEDIR`, `distrib/obj/releasedir` by default.
 
-[Releases][7] are available, for each architecture, as a `.tar.gz`
+[Releases are available][11], for each architecture, as a `.tar.gz`
 gzip-compressed tar archive and as a `.zip` zip-compressed archive.
 
-[7]: https://github.com/chettrick/discobsd/releases
+[11]: https://github.com/chettrick/discobsd/releases
 
 Debugging
 ---------
@@ -187,10 +218,39 @@ Additional Information
 ----------------------
 
 Port-specific information can be found in `distrib/${MACHINE}/README.md`
-for [stm32][8] and [pic32][9].
+for [DiscoBSD/stm32][12] and [DiscoBSD/pic32][13].
 
-[8]: distrib/stm32/README.md
-[9]: distrib/pic32/README.md
+[12]: distrib/stm32/README.md
+[13]: distrib/pic32/README.md
+
+References and Resources
+------------------------
+
+* The [RetroBSD wiki][14] has a wealth of PIC32 architecture information.
+* [The Design and Implementation of the 4.3BSD UNIX Operating System][15].
+* [Lions' Commentary on UNIX 6th Edition][16] and [recreations of it][17].
+* [Advanced Programming in the UNIX Environment][18] 1st Edition.
+* [The Design of the UNIX Operating System][19].
+* [OpenBSD's curated list of books][20] relevant to BSD Operating Systems.
+* The paper [*Porting the Unix Kernel*][5] details DiscoBSD's inception.
+* The Unix Heritage Society's [Unix Archive][21] and [Source Tree][22].
+* STMicroelectronics [Reference Manual][23] and [Programming Manual][24].
+* [The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors][25].
+* [ARMv7-M Architecture Reference Manual][26].
+
+[14]: https://github.com/RetroBSD/retrobsd/wiki
+[15]: https://archive.org/details/designimplementa0000unse
+[16]: https://www.peerllc.com/peer-to-peer-books/lions-commentary-on-unix/
+[17]: http://www.lemis.com/grog/Documentation/Lions/
+[18]: http://www.kohala.com/start/apue.html
+[19]: https://archive.org/details/DesignUNIXOperatingSystem
+[20]: https://www.openbsd.org/books.html
+[21]: https://www.tuhs.org/Archive/Distributions/UCB/
+[22]: https://www.tuhs.org/cgi-bin/utree.pl
+[23]: https://www.st.com/resource/en/reference_manual/dm00031020-stm32f405-415-stm32f407-417-stm32f427-437-and-stm32f429-439-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+[24]: https://www.st.com/resource/en/programming_manual/pm0214-stm32-cortexm4-mcus-and-mpus-programming-manual-stmicroelectronics.pdf
+[25]: https://booksite.elsevier.com/9780124080829/
+[26]: https://developer.arm.com/documentation/ddi0403
 
 Source Tree Roadmap
 -------------------

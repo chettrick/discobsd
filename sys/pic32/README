@@ -1,4 +1,4 @@
-Build directories:
+Kernel build directories:
 
     32mxsdram/          - 32MXSDRAM custom board with external SDRAM
                           used as a volatile disk storage (swap).

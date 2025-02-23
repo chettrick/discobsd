@@ -22,9 +22,9 @@
 OST="DiscoBSD"
 OSR="2.4"
 
-#S="-current"
+S="-current"
 #S="-beta"
-S=""
+#S=""
 
 if [ ! -r .compileversion -o ! -s .compileversion ]
 then

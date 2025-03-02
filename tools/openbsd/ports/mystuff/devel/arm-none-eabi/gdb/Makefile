@@ -1,28 +1,44 @@
 COMMENT=	gdb for arm-none-eabi cross-development
 
-DISTNAME=	gdb-7.12.1
-EXTRACT_SUFX=	.tar.xz
-REVISION=	0
+DISTNAME=	gdb-12.1
 
 HOMEPAGE=	https://www.gnu.org/software/gdb/
 
-WANTLIB=	${COMPILER_LIBCXX} c expat m curses pthread z
+WANTLIB+=	${COMPILER_LIBCXX}
+WANTLIB+=	c curses expat m pthread
 
 SITES=		${SITE_GNU:=gdb/}
 DIST_SUBDIR=	gdb
 
 USE_GMAKE=	Yes
 
-CFLAGS+=	-Dunix
+MODGNU_CONFIG_GUESS_DIRS=	${WRKSRC} ${WRKSRC}/gdb
 
-CONFIGURE_ARGS+=	--enable-multilib \
-			--enable-thumb \
-			--enable-interwork \
-			--without-guile
+# C++11
+COMPILER=	base-clang ports-gcc
 
-MODULES=	lang/python
-MODPY_VERSION =	${MODPY_DEFAULT_VERSION_2}
+SEPARATE_BUILD=	Yes
 
-TEST_DEPENDS=devel/dejagnu
+CONFIGURE_ARGS+=				\
+		--disable-install-libbfd	\
+		--disable-sim			\
+		--enable-interwork		\
+		--enable-multilib		\
+		--enable-thumb			\
+		--with-system-zlib		\
+		--without-guile			\
+		--without-isl			\
+		--without-lzma			\
+		--without-mpc			\
+		--without-mpfr			\
+		--without-python
+
+MAKE_FLAGS=	V=1 LDFLAGS="-L${LOCALBASE}/lib ${LDFLAGS}"
+# Avoid using malloc replacement for no good reason
+MAKE_ENV=	gl_cv_malloc_ptrdiff=yes
+
+MODULES+=	lang/python
+
+TEST_DEPENDS=	devel/dejagnu
 
 .include <bsd.port.mk>

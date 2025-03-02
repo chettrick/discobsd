@@ -20,8 +20,8 @@ Packages need no setup.
 
 These required utilities can be installed as Packages.
   ```sh
-    $ pkg_add arm-none-eabi-{binutils,gdb} bison elftoolchain
-    $ pkg_add gettext-runtime git groff openocd sudo unzip zip
+    $ pkg_add bison elftoolchain gettext-runtime
+    $ pkg_add git groff openocd sudo unzip zip
   ```
 
 The remaining required utilities must be built as Ports.
@@ -78,9 +78,11 @@ https://www.openbsd.org/faq/ports/ports.html
   $ sudo make install
 ```
 
-#### Debugger, Package: GNU Debugger V7.12.1, Configured for arm-none-eabi
+#### Debugger, Port: GNU Debugger V12.1, Configured for arm-none-eabi
 ```sh
-  $ sudo pkg_add arm-none-eabi-gdb
+  $ cd /usr/ports/mystuff/devel/arm-none-eabi/gdb
+  $ sudo make
+  $ sudo make install
 ```
 
 ### On-Chip Debugger, Package: OpenOCD V0.11.0

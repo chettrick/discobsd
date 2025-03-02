@@ -1,13 +1,17 @@
 @bin bin/arm-none-eabi-gdb
-@bin bin/arm-none-eabi-run
+bin/arm-none-eabi-gdb-add-index
+@comment lib/charset.alias
 @comment include/gdb/
 @comment include/gdb/jit-reader.h
-@comment lib/charset.alias
-@static-lib lib/libarm-none-eabi-sim.a
+@comment @info info/annotate.info
+@comment @info info/bfd.info
+@comment @info info/ctf-spec.info
+@comment @info info/gdb.info
+@comment @info info/stabs.info
+@man man/man1/arm-none-eabi-gdb-add-index.1
 @man man/man1/arm-none-eabi-gdb.1
 @man man/man1/arm-none-eabi-gdbserver.1
 @man man/man5/arm-none-eabi-gdbinit.5
-share/gdb/
 @comment share/gdb/syscalls/
 @comment share/gdb/syscalls/aarch64-linux.xml
 @comment share/gdb/syscalls/amd64-linux.xml
@@ -18,6 +22,7 @@ share/gdb/
 @comment share/gdb/syscalls/mips-n32-linux.xml
 @comment share/gdb/syscalls/mips-n64-linux.xml
 @comment share/gdb/syscalls/mips-o32-linux.xml
+@comment share/gdb/syscalls/netbsd.xml
 @comment share/gdb/syscalls/ppc-linux.xml
 @comment share/gdb/syscalls/ppc64-linux.xml
 @comment share/gdb/syscalls/s390-linux.xml

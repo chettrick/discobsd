@@ -1,0 +1,23 @@
+Our libiberty does not have filename_cmp(), but since it would simply
+call strcmp(), use a macro when building gdb and most of all libbfd.
+
+Fixes linking against libbfd with our system libiberty.
+
+--- libiberty/filename_cmp.c.orig	Thu Feb 19 12:58:08 2015
++++ libiberty/filename_cmp.c	Fri Feb 20 22:12:26 2015
+@@ -52,6 +52,7 @@ and backward slashes are equal.
+ 
+ */
+ 
++#if 0
+ int
+ filename_cmp (const char *s1, const char *s2)
+ {
+@@ -146,6 +147,7 @@ filename_ncmp (const char *s1, const char *s2, size_t 
+   return 0;
+ #endif
+ }
++#endif
+ 
+ /*
+ 

@@ -1,0 +1,16 @@
+Index: gdbsupport/enum-flags.h
+--- gdbsupport/enum-flags.h.orig
++++ gdbsupport/enum-flags.h
+@@ -91,9 +91,12 @@ template<> struct integer_for_size<8, 1> { typedef int
+ template<typename T>
+ struct enum_underlying_type
+ {
++  DIAGNOSTIC_PUSH
++  DIAGNOSTIC_IGNORE_ENUM_CONSTEXPR_CONVERSION
+   typedef typename
+     integer_for_size<sizeof (T), static_cast<bool>(T (-1) < T (0))>::type
+     type;
++  DIAGNOSTIC_POP
+ };
+ 
+ namespace enum_flags_detail

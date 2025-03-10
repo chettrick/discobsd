@@ -4,6 +4,10 @@ TOPSRC!=cd ../..; pwd
 
 CFLAGS		= -O -Wall
 
+# libbsd-dev package on Linux in overlay mode.
+CFLAGS+=	${_LIBBSD_CFLAGS}
+LIBS+=		${_LIBBSD_LIBS}
+
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
 PROG		= kconfig
 MAN		= kconfig.0

@@ -4,7 +4,7 @@
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-CFLAGS		+= -Wall -I${TOPSRC}/sys/include
+CFLAGS		+= -Wall
 
 SRCS            = pwm.c
 OBJS            = pwm.o

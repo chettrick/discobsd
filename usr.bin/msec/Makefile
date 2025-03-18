@@ -4,8 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-CFLAGS		+= -I${TOPSRC}/sys/include
-
 BIN		= msec
 SRCS            = $(BIN).c
 OBJS            = $(BIN).o

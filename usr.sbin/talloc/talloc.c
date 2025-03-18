@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <ioctl.h>
+#include <sys/ioctl.h>
 #include <sys/swap.h>
 
 void usage()

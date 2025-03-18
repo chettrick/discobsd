@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <ioctl.h>
+#include <sys/ioctl.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/uio.h>
-#include <pwm.h>
+#include <sys/pwm.h>
 
 int pwm;
 

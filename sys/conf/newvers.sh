@@ -8,7 +8,7 @@
 # Things which need version number upgrades:
 #	sys/conf/newvers.sh:
 #		OSR
-#	sys/include/param.h:
+#	sys/sys/param.h:
 #		DiscoBSD
 #		DiscoBSD_X_X
 #	share/mk/sys.mk:

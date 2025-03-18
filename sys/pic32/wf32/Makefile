@@ -151,7 +151,7 @@ machine:
 	ln -s .. $@
 
 sys:
-	ln -s ../../include $@
+	ln -s $S/sys $@
 
 .deps:
 	mkdir .deps

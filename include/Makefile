@@ -115,7 +115,7 @@ copies:
 		rm -rf ${DESTDIR}/usr/include/sys; \
 		mkdir ${DESTDIR}/usr/include/sys; \
 		chmod 775 ${DESTDIR}/usr/include/sys; \
-		(cd ../sys/include; tar cf - *.h | \
+		(cd ../sys/sys; tar cf - *.h | \
 		    (cd ${DESTDIR}/usr/include/sys; tar xpf -)); \
 	fi
 

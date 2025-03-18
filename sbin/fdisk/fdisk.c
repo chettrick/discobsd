@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/disk.h>
-#include <ioctl.h>
+#include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <string.h>
 

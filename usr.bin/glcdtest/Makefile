@@ -4,8 +4,6 @@
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-CFLAGS		+= -I${TOPSRC}/sys/include
-
 SRCS            = glcdtest.c
 OBJS            = glcdtest.o
 

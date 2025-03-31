@@ -140,7 +140,7 @@ read_files(void)
     int nreqs, first = 1, isdup, std, filetype;
 
     ftab = 0;
-    (void)strlcpy(fname, "../files.kconf", sizeof(fname));
+    (void)snprintf(fname, sizeof(fname), "../../conf/files.%s", archname);
     fp = fopen(fname, "r");
     if (fp == 0) {
         perror(fname);
@@ -425,8 +425,7 @@ makefile(void)
     struct device *dp;
 
     read_files();
-    strlcpy(line, "../Makefile.kconf", sizeof(line));
-    /*strcat(line, archname);*/
+    (void)snprintf(line, sizeof(line), "../../conf/Makefile.%s", archname);
     ifp = fopen(line, "r");
     if (ifp == 0) {
         perror(line);

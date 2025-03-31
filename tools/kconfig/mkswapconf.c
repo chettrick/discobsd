@@ -130,7 +130,7 @@ initdevtable(void)
     register struct devdescription **dp = &devtable;
     FILE *fp;
 
-    (void)snprintf(buf, sizeof(buf), "../devices.kconf");
+    (void)snprintf(buf, sizeof(buf), "../../conf/devices.%s", archname);
     fp = fopen(buf, "r");
     if (fp == NULL) {
         fprintf(stderr, "config: can't open %s\n", buf);
@@ -143,7 +143,8 @@ initdevtable(void)
         if (*p == '#' || *p == '\n' || *p == '\r')
             continue;
         if (sscanf(p, "%s %d", name, &maj) != 2) {
-            fprintf(stderr, "../devices.kconf: unrecognized line %s\n", buf);
+            fprintf(stderr, "arch/%s/conf/devices.%s: unrecognized line %s\n",
+                archname, archname, buf);
             exit(1);
         }
         *dp = (struct devdescription *)malloc(sizeof (**dp));

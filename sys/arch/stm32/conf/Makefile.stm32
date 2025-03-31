@@ -3,12 +3,19 @@
 #
 # DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
 #
-include ../gcc-config.mk
 
 # sources are located via $S relative to the compilation directory
-S=		../..
+S=		../../../..
 
-INCLUDES=	-nostdlib -I.
+_mach?=		stm32
+_arch?=		arm
+_machdir?=	$S/arch/${_mach}
+_archdir?=	$S/arch/${_arch}
+_confdir?=	${_machdir}/conf
+
+include 	${_confdir}/compiler.mk
+
+INCLUDES=	-nostdlib -I. -I$S -I$S/arch -I${_archdir}/include
 DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
 DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
 CWARNFLAGS=	-Wall
@@ -22,7 +29,8 @@ CMACHFLAGS+=	${CMACHCPU}
 COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
-LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -Map=$@.map
+LDFLAGS=	-T ${_confdir}/${LDSCRIPT} -T ${_confdir}/kern.ldscript
+LDFLAGS+=	-Map=$@.map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}
@@ -58,12 +66,12 @@ clean:
 clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
-reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
-	../../../tools/kconfig/kconfig -g Config
+reconfig ioconf.c: Config $S/../tools/bin/kconfig
+	$S/../tools/bin/kconfig -g Config
 	${MAKE} clean
 
 machine:
-	ln -s .. $@
+	ln -s ${_machdir}/include $@
 
 sys:
 	ln -s $S/sys $@
@@ -71,10 +79,10 @@ sys:
 .deps:
 	mkdir .deps
 
-locore.o: ../locore.S
+locore.o: ${_machdir}/${_mach}/locore.S
 	${COMPILE_S}
 
-startup_stm32f407xx.o: ../startup_stm32f407xx.s
+startup_stm32f407xx.o: ${_machdir}/${_mach}/startup_stm32f407xx.s
 	${COMPILE_S}
 
 ioconf.o: ioconf.c

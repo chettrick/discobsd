@@ -25,7 +25,7 @@ default
 filemode 0775
 dir /usr/bin
 file /usr/bin/adb
-file /usr/bin/adc-demo
+# XXX file /usr/bin/adc-demo
 
 #
 # Files: /usr/include
@@ -34,32 +34,18 @@ default
 filemode 0664
 dir /usr/include
 dir /usr/include/machine
-file /usr/include/machine/adc.h
+file /usr/include/machine/_float.h
 file /usr/include/machine/cpu.h
 file /usr/include/machine/debug.h
 file /usr/include/machine/elf_machdep.h
-file /usr/include/machine/_float.h
 file /usr/include/machine/frame.h
 file /usr/include/machine/io.h
 file /usr/include/machine/limits.h
 file /usr/include/machine/machparam.h
-file /usr/include/machine/mrams.h
 file /usr/include/machine/pic32mx.h
-file /usr/include/machine/sdram.h
-file /usr/include/machine/sdramp.h
-file /usr/include/machine/sdramp_config.h
-file /usr/include/machine/sramc.h
-file /usr/include/machine/sd.h
 file /usr/include/machine/setjmp.h
 file /usr/include/machine/signal.h
 file /usr/include/machine/types.h
-file /usr/include/machine/uart.h
-file /usr/include/machine/usb_ch9.h
-file /usr/include/machine/usb_device.h
-file /usr/include/machine/usb_function_cdc.h
-file /usr/include/machine/usb_function_hid.h
-file /usr/include/machine/usb_hal_pic32.h
-file /usr/include/machine/usb_uart.h
 
 #
 # Files: /usr/libexec

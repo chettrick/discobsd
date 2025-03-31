@@ -9,7 +9,7 @@ include ${TOPSRC}/share/mk/sys.mk
 MDSUBDIR!=if [ x"${MACHINE_ARCH}" = x"arm" ] ; then \
 		echo "lex" ; \
 	elif [ x"${MACHINE_ARCH}" = x"mips" ] ; then \
-		echo "adb adc-demo smlrc" ; \
+		echo "adb smlrc" ; \
 	else \
 		echo "" ; \
 	fi
@@ -30,7 +30,7 @@ SUBDIR		= aout ar arch as awk basic calendar cc chflags \
                   bc egrep mail su vmstat wall write \
                   strip false nohup true
 
-# TODO: ccom lccom pforth sre unixbench
+# TODO: ccom lccom pforth sre unixbench adc-demo
 #       lorder mkdep
 
 all:		$(SUBDIR)

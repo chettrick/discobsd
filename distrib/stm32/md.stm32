@@ -33,22 +33,19 @@ default
 filemode 0664
 dir /usr/include
 dir /usr/include/machine
+file /usr/include/machine/_float.h
 file /usr/include/machine/cpu.h
 file /usr/include/machine/debug.h
 file /usr/include/machine/elf_machdep.h
-file /usr/include/machine/_float.h
+file /usr/include/machine/fault.h
 file /usr/include/machine/frame.h
-file /usr/include/machine/io.h
 file /usr/include/machine/intr.h
+file /usr/include/machine/io.h
 file /usr/include/machine/limits.h
 file /usr/include/machine/machparam.h
-file /usr/include/machine/sd.h
-file /usr/include/machine/sdio.h
-file /usr/include/machine/sdio_card.h
 file /usr/include/machine/setjmp.h
 file /usr/include/machine/signal.h
 file /usr/include/machine/types.h
-file /usr/include/machine/uart.h
 
 #
 # Files: /usr/share

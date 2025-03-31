@@ -10,8 +10,10 @@
 #include <sys/proc.h>
 #include <sys/vm.h>
 #include <sys/tty.h>
-#include <machine/uart.h>
-#include <machine/usb_uart.h>
+
+#include <pic32/dev/uart.h>
+#include <pic32/dev/usb_uart.h>
+
 #include <machine/frame.h>
 
 //#define TRACE_EXCEPTIONS

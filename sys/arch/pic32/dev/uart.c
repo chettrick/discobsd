@@ -12,7 +12,8 @@
 #include <sys/tty.h>
 #include <sys/systm.h>
 #include <sys/kconfig.h>
-#include <machine/uart.h>
+
+#include <pic32/dev/uart.h>
 
 #define CONCAT(x,y) x ## y
 #define BBAUD(x) CONCAT(B,x)

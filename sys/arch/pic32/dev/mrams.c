@@ -9,8 +9,10 @@
 #include <sys/disk.h>
 #include <sys/spi.h>
 #include <sys/kconfig.h>
+
 #include <machine/debug.h>
-#include <machine/mrams.h>
+
+#include <pic32/dev/mrams.h>
 
 #define MRAM_WREN       0x06
 #define MRAM_WRDI       0x04

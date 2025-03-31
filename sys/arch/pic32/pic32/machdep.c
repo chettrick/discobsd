@@ -21,11 +21,13 @@
 #include <sys/systm.h>
 #include <sys/kconfig.h>
 #include <sys/tty.h>
-#include <machine/uart.h>
-#include <machine/usb_uart.h>
+
+#include <pic32/dev/uart.h>
+#include <pic32/dev/usb_uart.h>
+
 #ifdef UARTUSB_ENABLED
-#   include <machine/usb_device.h>
-#   include <machine/usb_function_cdc.h>
+#   include <pic32/hal/usb_device.h>
+#   include <pic32/hal/usb_function_cdc.h>
 #endif
 
 #ifdef POWER_ENABLED

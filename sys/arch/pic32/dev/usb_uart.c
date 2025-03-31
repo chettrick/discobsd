@@ -28,9 +28,11 @@
 #include <sys/ioctl.h>
 #include <sys/tty.h>
 #include <sys/kconfig.h>
+
 #include <machine/pic32mx.h>
-#include <machine/usb_device.h>
-#include <machine/usb_function_cdc.h>
+
+#include <pic32/hal/usb_device.h>
+#include <pic32/hal/usb_function_cdc.h>
 
 #define CONCAT(x,y) x ## y
 #define BBAUD(x) CONCAT(B,x)

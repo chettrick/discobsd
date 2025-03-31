@@ -32,8 +32,9 @@
 #include <sys/systm.h>
 #include <sys/uio.h>
 #include <sys/pwm.h>
-#include <machine/debug.h>
 #include <sys/kconfig.h>
+
+#include <machine/debug.h>
 
 #define _BC(R,B) (R &= ~(1<<B))
 #define _BS(R,B) (R |= (1<<B))

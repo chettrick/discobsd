@@ -23,7 +23,8 @@
  */
 #include <sys/param.h>
 #include <sys/gpanel.h>
-#include <machine/ili9341.h>
+
+#include <pic32/dev/ili9341.h>
 
 /*
  * Write a 8-bit value to the ILI9341 Command register.

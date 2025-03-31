@@ -21,7 +21,7 @@
  * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
  */
 #include <machine/pic32mx.h>
-#include <machine/usb_device.h>
+#include <pic32/hal/usb_device.h>
 
 #if (USB_PING_PONG_MODE != USB_PING_PONG__FULL_PING_PONG)
     #error "PIC32 only supports full ping pong mode."

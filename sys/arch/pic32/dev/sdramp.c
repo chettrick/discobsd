@@ -12,14 +12,15 @@
 #include <sys/dk.h>
 #include <sys/ioctl.h>
 #include <sys/disk.h>
-#include <machine/sdram.h>
-#include <machine/sdramp.h>
 #include <sys/kconfig.h>
+
+#include <pic32/dev/sdram.h>
+#include <pic32/dev/sdramp.h>
 
 /*
  * See rd_sdramp_config.h for sdramp port/pin configuration
  */
-#include <machine/sdramp_config.h>
+#include <pic32/dev/sdramp_config.h>
 
 int sdramp_dkindex = -1;                /* Statistics slot number */
 

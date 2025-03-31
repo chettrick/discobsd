@@ -23,8 +23,8 @@
  * IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL OR
  * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
  */
-#include <machine/usb_device.h>
-#include <machine/usb_function_hid.h>
+#include <pic32/hal/usb_device.h>
+#include <pic32/hal/usb_function_hid.h>
 
 unsigned char hid_idle_rate;
 unsigned char hid_active_protocol;  // [0] Boot Protocol [1] Report Protocol

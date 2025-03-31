@@ -22,8 +22,8 @@
  * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
  */
 #include <machine/pic32mx.h>
-#include <machine/usb_device.h>
-#include <machine/usb_function_cdc.h>
+#include <pic32/hal/usb_device.h>
+#include <pic32/hal/usb_function_cdc.h>
 
 unsigned cdc_trf_state;         // States are defined cdc.h
 unsigned cdc_tx_len;            // total tx length

@@ -15,35 +15,36 @@
 #include <sys/tty.h>
 #include <sys/systm.h>
 #include <sys/errno.h>
-#include <machine/uart.h>
-#include <sys/gpanel.h>
-#include <sys/spi.h>
-#include <sys/gpio.h>
 
+#include <sys/gpanel.h>
+#include <sys/gpio.h>
+#include <sys/spi.h>
 #include <sys/swap.h>
+
+#include <pic32/dev/uart.h>
 
 extern int strcmp(char *s1, char *s2);
 
 #ifdef SD_ENABLED
-#   include <machine/sd.h>
+#   include <pic32/dev/sd.h>
 #endif
 #ifdef RC_ENABLED
-#   include <machine/sramc.h>
+#   include <pic32/dev/sramc.h>
 #endif
 #ifdef DR_ENABLED
-#   include <machine/sdramp.h>
+#   include <pic32/dev/sdramp.h>
 #endif
 #ifdef MR_ENABLED
-#   include <machine/mrams.h>
+#   include <pic32/dev/mrams.h>
 #endif
 #ifdef SR_ENABLED
-#   include <machine/spirams.h>
+#   include <pic32/dev/spirams.h>
 #endif
 #ifdef UARTUSB_ENABLED
-#   include <machine/usb_uart.h>
+#   include <pic32/dev/usb_uart.h>
 #endif
 #ifdef ADC_ENABLED
-#   include <machine/adc.h>
+#   include <pic32/dev/adc.h>
 #endif
 #ifdef GLCD_ENABLED
 #   include <sys/glcd.h>

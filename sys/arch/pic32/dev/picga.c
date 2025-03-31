@@ -29,7 +29,8 @@
 #include <sys/uio.h>
 #include <sys/picga.h>
 #include <sys/spi.h>
-#include <sys/debug.h>
+
+#include <machine/debug.h>
 
 extern int uwritec(struct uio *);
 

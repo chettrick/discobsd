@@ -21,9 +21,11 @@
  * This driver uses a 20uS timer, probably too fast
  */
 
-#include "sys/types.h"
-#include "machine/io.h"
-#include "kbd.h"
+#include <sys/types.h>
+
+#include <machine/io.h>
+
+#include <pic32/dev/kbd.h>
 
 //#define TRACE   printf
 #ifndef TRACE

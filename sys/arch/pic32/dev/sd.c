@@ -46,7 +46,8 @@
 #include <sys/disk.h>
 #include <sys/spi.h>
 #include <sys/kconfig.h>
-#include <machine/sd.h>
+
+#include <pic32/dev/sd.h>
 
 /*
  * Two SD/MMC disks on SPI.

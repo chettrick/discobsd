@@ -27,9 +27,11 @@
 #include <sys/ioctl.h>
 #include <sys/systm.h>
 #include <sys/uio.h>
-#include <machine/adc.h>
-#include <machine/debug.h>
 #include <sys/kconfig.h>
+
+#include <machine/debug.h>
+
+#include <pic32/dev/adc.h>
 
 extern int uwritec(struct uio *);
 

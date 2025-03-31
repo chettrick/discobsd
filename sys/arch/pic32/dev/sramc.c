@@ -24,8 +24,10 @@
 #include <sys/ioctl.h>
 #include <sys/disk.h>
 #include <sys/kconfig.h>
+
 #include <machine/debug.h>
-#include <machine/sramc.h>
+
+#include <pic32/dev/sramc.h>
 
 int sramc_dkindex = -1;                 /* Statistics slot number */
 

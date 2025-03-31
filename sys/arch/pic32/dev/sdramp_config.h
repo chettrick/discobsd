@@ -1,6 +1,6 @@
 #ifndef RD_SDRAMP_CONFIG_H_
 
-#include "pic32mx.h"
+#include <machine/pic32mx.h>
 
 /* TODO: better support for different sized sdram chips, 16 bit support */
 

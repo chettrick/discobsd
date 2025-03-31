@@ -2,8 +2,9 @@
 #include <sys/conf.h>
 #include <sys/user.h>
 #include <sys/systm.h>
-#include <sys/machparam.h>
 #include <sys/reboot.h>
+
+#include <machine/machparam.h>
 
 volatile unsigned int psCounter;
 int countdown;

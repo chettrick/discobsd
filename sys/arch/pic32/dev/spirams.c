@@ -9,8 +9,10 @@
 #include <sys/disk.h>
 #include <sys/spi.h>
 #include <sys/kconfig.h>
+
 #include <machine/debug.h>
-#include <machine/spirams.h>
+
+#include <pic32/dev/spirams.h>
 
 #define SPIRAM_WREN     0x06
 #define SPIRAM_WRDI     0x04

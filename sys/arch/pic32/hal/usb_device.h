@@ -27,8 +27,8 @@
 #ifndef USBDEVICE_H
 #define USBDEVICE_H
 
-#include <machine/usb_ch9.h>
-#include <machine/usb_hal_pic32.h>
+#include <pic32/hal/usb_ch9.h>
+#include <pic32/hal/usb_hal_pic32.h>
 
 /*
  * USB Endpoint Definitions

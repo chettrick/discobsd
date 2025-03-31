@@ -1,97 +1,105 @@
 #
 # Kernel sources, architecture-agnostic.
 #
-kern/exec_aout.c                standard
-kern/exec_conf.c                standard
-kern/exec_elf.c                 standard
-kern/exec_script.c              standard
-kern/exec_subr.c                standard
-kern/init_main.c                standard
-kern/init_sysent.c              standard
-kern/kern_clock.c               standard
-kern/kern_descrip.c             standard
-kern/kern_exec.c                standard
-kern/kern_exit.c                standard
-kern/kern_fork.c                standard
-kern/kern_mman.c                standard
-kern/kern_proc.c                standard
-kern/kern_prot.c                standard
-kern/kern_prot2.c               standard
-kern/kern_resource.c            standard
-kern/kern_sig.c                 standard
-kern/kern_sig2.c                standard
-kern/kern_subr.c                standard
-kern/kern_synch.c               standard
-kern/kern_sysctl.c              standard
-kern/kern_time.c                standard
-kern/subr_log.c                 optional log
-kern/subr_prf.c                 standard
-kern/subr_rmap.c                standard
-kern/sys_generic.c              standard
-kern/sys_inode.c                standard
-kern/sys_pipe.c                 standard
-kern/sys_process.c              standard
-kern/syscalls.c                 standard
-kern/tty.c                      standard
-kern/tty_pty.c                  optional pty
-kern/tty_subr.c                 standard
-kern/tty_tty.c                  standard
-kern/ufs_alloc.c                standard
-kern/ufs_bio.c                  standard
-kern/ufs_bmap.c                 standard
-kern/ufs_dsort.c                standard
-kern/ufs_fio.c                  standard
-kern/ufs_inode.c                standard
-kern/ufs_mount.c                standard
-kern/ufs_namei.c                standard
-kern/ufs_subr.c                 standard
-kern/ufs_syscalls.c             standard
-kern/ufs_syscalls2.c            standard
-kern/vfs_vnops.c                standard
-kern/vm_sched.c                 standard
-kern/vm_swap.c                  standard
-kern/vm_swp.c                   standard
+kern/exec_aout.c			standard
+kern/exec_conf.c			standard
+kern/exec_elf.c				standard
+kern/exec_script.c			standard
+kern/exec_subr.c			standard
+kern/init_main.c			standard
+kern/init_sysent.c			standard
+kern/kern_clock.c			standard
+kern/kern_descrip.c			standard
+kern/kern_exec.c			standard
+kern/kern_exit.c			standard
+kern/kern_fork.c			standard
+kern/kern_mman.c			standard
+kern/kern_proc.c			standard
+kern/kern_prot.c			standard
+kern/kern_prot2.c			standard
+kern/kern_resource.c			standard
+kern/kern_sig.c				standard
+kern/kern_sig2.c			standard
+kern/kern_subr.c			standard
+kern/kern_synch.c			standard
+kern/kern_sysctl.c			standard
+kern/kern_time.c			standard
+kern/subr_log.c				optional log
+kern/subr_prf.c				standard
+kern/subr_rmap.c			standard
+kern/sys_generic.c			standard
+kern/sys_inode.c			standard
+kern/sys_pipe.c				standard
+kern/sys_process.c			standard
+kern/syscalls.c				standard
+kern/tty.c				standard
+kern/tty_pty.c				optional pty
+kern/tty_subr.c				standard
+kern/tty_tty.c				standard
+kern/ufs_alloc.c			standard
+kern/ufs_bio.c				standard
+kern/ufs_bmap.c				standard
+kern/ufs_dsort.c			standard
+kern/ufs_fio.c				standard
+kern/ufs_inode.c			standard
+kern/ufs_mount.c			standard
+kern/ufs_namei.c			standard
+kern/ufs_subr.c				standard
+kern/ufs_syscalls.c			standard
+kern/ufs_syscalls2.c			standard
+kern/vfs_vnops.c			standard
+kern/vm_sched.c				standard
+kern/vm_swap.c				standard
+kern/vm_swp.c				standard
+
+#
+# Driver sources, architecture-agnostic.
+#
+dev/swap.c				standard
 
 #
 # PIC32 platform.
 #
-pic32/clock.c                   standard
-pic32/cons.c                    standard
-pic32/devsw.c                   standard
-pic32/exception.c               standard
-pic32/machdep.c                 standard
-pic32/mem.c                     standard
-pic32/signal.c                  standard
-pic32/swap.c                    standard
-pic32/sysctl.c                  standard
+arch/pic32/pic32/clock.c		standard
+arch/pic32/pic32/cons.c			standard
+arch/pic32/pic32/devsw.c		standard
+arch/pic32/pic32/exception.c		standard
+arch/pic32/pic32/machdep.c		standard
+arch/pic32/pic32/mem.c			standard
+arch/pic32/pic32/signal.c		standard
+arch/pic32/pic32/sysctl.c		standard
+
+#
+# PIC32 hardware abstraction layer.
+#
+arch/pic32/hal/usb_device.c		optional uartusb
+arch/pic32/hal/usb_function_cdc.c	optional uartusb
 
 #
 # PIC32 drivers.
 #
-pic32/adc.c                     optional adc
-pic32/glcd.c                    optional glcd
-pic32/gpanel.c                  optional gpanel
-pic32/gpanel-ili9341.c          optional gpanel
-pic32/gpanel-nt35702.c          optional gpanel
-#pic32/gpanel-s6d04h0.c          optional gpanel
-pic32/gpanel-st7781.c           optional gpanel
-pic32/gpanel-spi.c              optional sgpanel
-pic32/gpanel-spi-ili9341.c      optional sgpanel
-pic32/gpio.c                    optional gpio
-pic32/hx8357.c                  optional hxtft
-pic32/picga.c                   optional picga
-pic32/power_control.c           optional power
-pic32/pwm.c                     optional pwm
-pic32/mrams.c                   optional mr
-pic32/sd.c                      optional sd
-pic32/sdramp.c                  optional dr
-pic32/sdram.S                   optional dr
-pic32/spirams.c                 optional sr
-pic32/sramc.c                   optional rc
-pic32/skel.c                    optional skel
-pic32/spi.c                     optional spi
-pic32/spi_bus.c                 optional spi
-pic32/uart.c                    optional uart
-pic32/usb_device.c              optional uartusb
-pic32/usb_function_cdc.c        optional uartusb
-pic32/usb_uart.c                optional uartusb
+arch/pic32/dev/adc.c			optional adc
+arch/pic32/dev/glcd.c			optional glcd
+arch/pic32/dev/gpanel-ili9341.c		optional gpanel
+arch/pic32/dev/gpanel-nt35702.c		optional gpanel
+#arch/pic32/dev/gpanel-s6d04h0.c	optional gpanel
+arch/pic32/dev/gpanel-spi-ili9341.c	optional sgpanel
+arch/pic32/dev/gpanel-spi.c		optional sgpanel
+arch/pic32/dev/gpanel-st7781.c		optional gpanel
+arch/pic32/dev/gpanel.c			optional gpanel
+arch/pic32/dev/gpio.c			optional gpio
+arch/pic32/dev/hx8357.c			optional hxtft
+arch/pic32/dev/mrams.c			optional mr
+arch/pic32/dev/picga.c			optional picga
+arch/pic32/dev/power_control.c		optional power
+arch/pic32/dev/pwm.c			optional pwm
+arch/pic32/dev/sd.c			optional sd
+arch/pic32/dev/sdram.S			optional dr
+arch/pic32/dev/sdramp.c			optional dr
+arch/pic32/dev/skel.c			optional skel
+arch/pic32/dev/spi.c			optional spi
+arch/pic32/dev/spi_bus.c		optional spi
+arch/pic32/dev/spirams.c		optional sr
+arch/pic32/dev/sramc.c			optional rc
+arch/pic32/dev/uart.c			optional uart
+arch/pic32/dev/usb_uart.c		optional uartusb

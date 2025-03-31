@@ -41,7 +41,7 @@ and other system parameters for one kernel configuration.
 .Nm Kconfig
 should be run from the architecture and board specific
 subdirectory of the system source (like
-.Pa sys/pic32/max32 ) .
+.Pa sys/arch/pic32/compile/MAX32 ) .
 .Nm Kconfig
 places all output files in the current directory.
 The output of
@@ -77,12 +77,12 @@ should be run again.
 Attempts to compile a kernel that had configuration errors
 are likely to fail.
 .Sh FILES
-.Bl -tag -width ../Makefile.kconf -compact
-.It Pa ../Makefile.kconf
+.Bl -tag -width sys/arch/machine/conf/Makefile.machine -compact
+.It Pa sys/arch/machine/conf/Makefile.machine
 generic makefile for the platform
-.It Pa ../files.kconf
+.It Pa sys/arch/machine/conf/files.machine
 list of files kernel is built from
-.It Pa ../devices.kconf
+.It Pa sys/arch/machine/conf/devices.machine
 name to major device mapping file
 .El
 .Sh SEE ALSO

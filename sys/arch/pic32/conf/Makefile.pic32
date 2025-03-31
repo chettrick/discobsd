@@ -3,23 +3,31 @@
 #
 # DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
 #
-include ../gcc-config.mk
 
 AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
 CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -fcommon -Wall
 CPP             = ${MIPS_GCC_PREFIX}cpp
 LD              = ${MIPS_GCC_PREFIX}gcc -mips32r2 -EL
-LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$@.map
+LDFLAGS         = -nostdlib -T ${_confdir}/${LDSCRIPT} -Wl,-Map=$@.map
 SIZE            = ${MIPS_GCC_PREFIX}size
 OBJCOPY         = ${MIPS_GCC_PREFIX}objcopy
 OBJDUMP         = ${MIPS_GCC_PREFIX}objdump
 
 # sources are located via $S relative to the compilation directory
-S               = ../..
+S               = ../../../..
 
-DEPFLAGS	= -MT $@ -MP -MD -MF .deps/$*.dep
-DEFS            = -I. ${PARAM} -DKERNEL $(DEPFLAGS)
-CFLAGS          = -O ${DEFS}
+_mach?=		pic32
+_arch?=		mips
+_machdir?=	$S/arch/${_mach}
+_archdir?=	$S/arch/${_arch}
+_confdir?=	${_machdir}/conf
+
+include		${_confdir}/compiler.mk
+
+INCLUDES=	-I. -I$S -I$S/arch
+DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
+DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
+CFLAGS=		-O ${DEFS}
 
 # compile rules: rules are named COMPILE_${SUFFIX}
 # SUFFIX is the file suffix, capitalized (e.g. C for a .c file).
@@ -60,15 +68,15 @@ clean:
 clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
-reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
-	../../../tools/kconfig/kconfig Config
+reconfig ioconf.c: Config $S/../tools/bin/kconfig
+	$S/../tools/bin/kconfig Config
 	$(MAKE) clean
 
 load:   unix
 	pic32prog unix.hex
 
 machine:
-	ln -s .. $@
+	ln -s ${_machdir}/include $@
 
 sys:
 	ln -s $S/sys $@
@@ -76,7 +84,7 @@ sys:
 .deps:
 	mkdir .deps
 
-startup.o: ../startup.S
+startup.o: ${_machdir}/${_mach}/startup.S
 	${COMPILE_S}
 
 ioconf.o: ioconf.c

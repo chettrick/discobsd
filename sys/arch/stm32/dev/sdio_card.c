@@ -17,9 +17,9 @@
 #include <sys/param.h>
 #include <sys/systm.h>
 
-#include <machine/sd.h>
-#include <machine/sdio_card.h>
-#include <machine/stm32_bsp_sd.h>
+#include <stm32/dev/sd.h>
+#include <stm32/dev/sdio_card.h>
+#include <stm32/dev/stm32_bsp_sd.h>
 
 #include <machine/debug.h>
 

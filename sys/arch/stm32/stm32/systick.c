@@ -23,9 +23,8 @@
 #include <sys/tty.h>
 
 #include <machine/frame.h>
-#include <machine/uart.h>
 
-#include "stm32f4xx_hal.h"
+#include <stm32/hal/stm32f4xx_hal.h>
 
 void
 SysTick_Handler(void)

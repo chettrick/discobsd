@@ -39,9 +39,9 @@
 #ifndef __STM32F4XX_NUCLEO_SD_H
 #define __STM32F4XX_NUCLEO_SD_H
 
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_ll_bus.h"
-#include "stm32f4xx_ll_gpio.h"
+#include <stm32/hal/stm32f4xx_hal.h>
+#include <stm32/hal/stm32f4xx_ll_bus.h>
+#include <stm32/hal/stm32f4xx_ll_gpio.h>
 
 #ifdef HAL_SPI_MODULE_ENABLED
 

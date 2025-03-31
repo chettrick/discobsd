@@ -19,7 +19,7 @@
 
 #ifdef	KERNEL
 
-#include <machine/stm32f4xx.h>
+#include <stm32/hal/stm32f4xx.h>
 
 /*
  * Logical interrupt priority level: low prio (0) -> high prio (6)

@@ -46,8 +46,8 @@
 #include <sys/disk.h>
 #include <sys/kconfig.h>
 
-#include <machine/sd.h>
-#include <machine/sdio_card.h>
+#include <stm32/dev/sd.h>
+#include <stm32/dev/sdio_card.h>
 
 #define sdunit(dev)     ((minor(dev) & 8) >> 3)
 #define sdpart(dev)     ((minor(dev) & 7))

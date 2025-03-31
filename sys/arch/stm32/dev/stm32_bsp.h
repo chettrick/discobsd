@@ -19,7 +19,7 @@
 
 #ifdef	KERNEL
 
-#include "stm32f4xx_hal.h"
+#include <stm32/hal/stm32f4xx_hal.h>
 
 typedef enum {
 #ifdef LED1_GPIO_PORT

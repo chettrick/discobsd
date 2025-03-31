@@ -23,15 +23,17 @@
 #include <sys/tty.h>
 
 #include <machine/fault.h>
-#include <machine/uart.h>
-#include <machine/stm32f4xx_ll_bus.h>
-#include <machine/stm32f4xx_ll_gpio.h>
-#include <machine/stm32f4xx_ll_pwr.h>
-#include <machine/stm32f4xx_ll_rcc.h>
-#include <machine/stm32f4xx_ll_system.h>
-#include <machine/stm32f4xx_ll_utils.h>
-#include <machine/stm32f4xx_hal.h>
-#include <machine/stm32_bsp.h>
+
+#include <stm32/dev/uart.h>
+#include <stm32/dev/stm32_bsp.h>
+
+#include <stm32/hal/stm32f4xx_ll_bus.h>
+#include <stm32/hal/stm32f4xx_ll_gpio.h>
+#include <stm32/hal/stm32f4xx_ll_pwr.h>
+#include <stm32/hal/stm32f4xx_ll_rcc.h>
+#include <stm32/hal/stm32f4xx_ll_system.h>
+#include <stm32/hal/stm32f4xx_ll_utils.h>
+#include <stm32/hal/stm32f4xx_hal.h>
 
 /*
  * Kernel-specific uses of LEDs and buttons provided by the

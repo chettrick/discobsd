@@ -93,7 +93,7 @@
 #include <sys/param.h>
 #include <sys/systm.h>
 
-#include <machine/stm32_bsp_sd.h>
+#include <stm32/dev/stm32_bsp_sd.h>
 
 /* Private typedef -----------------------------------------------------------*/
 

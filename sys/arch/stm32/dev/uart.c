@@ -14,10 +14,11 @@
 #include <sys/systm.h>
 #include <sys/kconfig.h>
 
-#include <machine/uart.h>
-#include <machine/stm32f4xx_ll_bus.h>
-#include <machine/stm32f4xx_ll_gpio.h>
-#include <machine/stm32f4xx_ll_usart.h>
+#include <stm32/dev/uart.h>
+
+#include <stm32/hal/stm32f4xx_ll_bus.h>
+#include <stm32/hal/stm32f4xx_ll_gpio.h>
+#include <stm32/hal/stm32f4xx_ll_usart.h>
 
 #define CONCAT(x,y) x ## y
 #define BBAUD(x) CONCAT(B,x)

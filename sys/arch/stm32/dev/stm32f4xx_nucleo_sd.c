@@ -37,7 +37,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_nucleo_sd.h"
+#include <stm32/dev/stm32f4xx_nucleo_sd.h>
 
 /**
  * @brief BUS variables

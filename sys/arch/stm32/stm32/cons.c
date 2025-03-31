@@ -11,7 +11,8 @@
 #include <sys/ioctl.h>
 #include <sys/tty.h>
 #include <sys/systm.h>
-#include <machine/uart.h>
+
+#include <stm32/dev/uart.h>
 
 struct tty cnttys [1];
 

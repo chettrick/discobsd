@@ -15,21 +15,22 @@
 #include <sys/tty.h>
 #include <sys/systm.h>
 #include <sys/errno.h>
-#include <machine/spi.h>
-#include <machine/uart.h>
+
+#include <stm32/dev/spi.h>
+#include <stm32/dev/uart.h>
 
 #include <sys/swap.h>
 
 extern int strcmp(char *s1, char *s2);
 
 #ifdef SD_ENABLED
-#   include <machine/sd.h>
+#   include <stm32/dev/sd.h>
 #endif
 #ifdef PTY_ENABLED
 #   include <sys/pty.h>
 #endif
 #ifdef SDIO_ENABLED
-#   include <machine/sdio.h>
+#   include <stm32/dev/sdio.h>
 #endif
 
 /*

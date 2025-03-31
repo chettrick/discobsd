@@ -73,10 +73,10 @@
 #ifdef SDIO_ENABLED                     /* Kernel Config 'controller' definition. */
 
 /* Includes ------------------------------------------------------------------*/
-#include <machine/stm32_bsp_sd.h>
+#include <stm32/dev/stm32_bsp_sd.h>
 
-#include "stm32f4xx_ll_bus.h"
-#include "stm32f4xx_ll_gpio.h"
+#include <stm32/hal/stm32f4xx_ll_bus.h>
+#include <stm32/hal/stm32f4xx_ll_gpio.h>
 
 SD_HandleTypeDef uSdHandle;
 

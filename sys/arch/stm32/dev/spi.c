@@ -4,7 +4,8 @@
 #include <sys/param.h>
 #include <sys/uio.h>
 #include <sys/kconfig.h>
-#include <machine/spi.h>
+
+#include <stm32/dev/spi.h>
 
 int
 spi_open(dev_t dev, int flag, int mode)

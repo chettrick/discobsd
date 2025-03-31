@@ -27,7 +27,7 @@
 #ifndef	_MACHINE_STM32_BSP_SD_H_
 #define	_MACHINE_STM32_BSP_SD_H_
 
-#include "stm32f4xx_hal.h"
+#include <stm32/hal/stm32f4xx_hal.h>
 
 #define	SD_DATATIMEOUT	((uint32_t)100000000)
 

@@ -4,7 +4,8 @@
 #include <sys/param.h>
 #include <sys/uio.h>
 #include <sys/kconfig.h>
-#include <machine/sdio.h>
+
+#include <stm32/dev/sdio.h>
 
 int
 sdio_open(dev_t dev, int flag, int mode)

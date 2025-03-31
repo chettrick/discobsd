@@ -14,9 +14,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <machine/stm32_bsp.h>
+#include <stm32/dev/stm32_bsp.h>
 
-#include "stm32f4xx_ll_gpio.h"
+#include <stm32/hal/stm32f4xx_ll_gpio.h>
 
 struct bsp_gpio {
 	GPIO_TypeDef	*port;

@@ -49,9 +49,9 @@ $ apt install bison byacc flex git groff-base libbsd-dev
 $ apt install libelf-dev libfuse-dev sudo unzip zip
 ```
 If a mips-elf-gcc compiler package is not available from the host distribution,
-then the compiler toolchain must be built following [these instructions][18].
+then the compiler toolchain must be built following [these instructions][19].
 
-[18]: https://web.archive.org/web/20200126100825/http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
+[19]: https://web.archive.org/web/20200126100825/http://retrobsd.org/wiki/doku.php/doc/toolchain-mips
 
 The desired filesystem size and swap area size can be changed, as required.
 Default is:
@@ -73,14 +73,14 @@ Kernel files are named `unix.hex` and are in target board subdirectories.
 
 The file system image `sdcard.img` needs to be imaged onto an SD card.
 
-On Windows host systems use a disk imaging utility such as [Rufus][19].
+On Windows host systems use a disk imaging utility such as [Rufus][20].
 
 On Unix-like host systems with `dd` run:
 ```sh
 $ sudo dd if=sdcard.img of=/path/to/SD/card
 ```
 
-[19]: https://github.com/pbatard/rufus
+[20]: https://github.com/pbatard/rufus
 
 ### Install kernel
 
@@ -88,24 +88,24 @@ The kernel image must be written to the PIC32 flash memory.
 The specific procedure depends on the target development board.
 
 #### PIC32-RETROBSD board:
-Use the [pic32prog][20] utility and a USB cable to install the kernel:
+Use the [pic32prog][21] utility and a USB cable to install the kernel:
 
 ```sh
-$ pic32prog sys/pic32/pinguino-micro/unix.hex
+$ pic32prog sys/arch/pic32/compile/PINGUINO_MICRO/unix.hex
 ```
 
 #### Max32 board:
-Use the [pic32prog][20] utility and a USB cable to install the kernel:
+Use the [pic32prog][21] utility and a USB cable to install the kernel:
 
 ```sh
-$ pic32prog -d /dev/ttyUSB0 sys/pic32/max32/unix.hex
+$ pic32prog -d /dev/ttyUSB0 sys/arch/pic32/compile/MAX32/unix.hex
 ```
 
 #### UBW32 board:
-Use the [pic32prog][20] utility and a USB cable to install the kernel:
+Use the [pic32prog][21] utility and a USB cable to install the kernel:
 
 ```sh
-$ pic32prog sys/pic32/ubw32/unix.hex
+$ pic32prog sys/arch/pic32/compile/UBW32/unix.hex
 ```
 
 #### Maximite:
@@ -115,31 +115,31 @@ https://geoffg.net/MonoMaximite.html#Downloads
 #### Explorer 16 board:
 There is an auxiliary PIC18 chip on the Explorer 16 board, which can be
 used as a built-in programmer device.  A PICkit 2 adapter is needed to
-install the required firmware, as described in [this article][21] in the
+install the required firmware, as described in [this article][22] in the
 section "Hack #2: Lose the PICkit 2, Save $35".
 This should be done only once.
 
-Then, use the [pic32prog][20] utility and a USB cable to install the kernel:
+Then, use the [pic32prog][21] utility and a USB cable to install the kernel:
 
 ``` sh
-$ pic32prog sys/pic32/explorer16/unix.hex
+$ pic32prog sys/arch/pic32/compile/EXPLORER16/unix.hex
 ```
 
 #### PIC32 Starter Kit:
 Use the PICkit 2 adapter and software to install a boot loader from the file
-[starter-kit/bootloader.hex][22] in the [pic32-usb-bootloader][23] repository.
+[starter-kit/bootloader.hex][23] in the [pic32-usb-bootloader][24] repository.
 This should be done only once.
 
-Then, use the [pic32prog][20] utility and a USB cable to install the kernel:
+Then, use the [pic32prog][21] utility and a USB cable to install the kernel:
 
 ```sh
-$ pic32prog sys/pic32/starter-kit/unix.hex
+$ pic32prog sys/arch/pic32/compile/STARTER_KIT/unix.hex
 ```
 
-[20]: https://github.com/majenkotech/pic32prog-autotools/archive/refs/tags/2.1.57.zip
-[21]: https://web.archive.org/web/20160506100841/http://www.paintyourdragon.com/?p=51
-[22]: https://github.com/sergev/pic32-usb-bootloader/blob/master/starter-kit/bootloader.hex
-[23]: https://github.com/sergev/pic32-usb-bootloader
+[21]: https://github.com/majenkotech/pic32prog-autotools/archive/refs/tags/2.1.57.zip
+[22]: https://web.archive.org/web/20160506100841/http://www.paintyourdragon.com/?p=51
+[23]: https://github.com/sergev/pic32-usb-bootloader/blob/master/starter-kit/bootloader.hex
+[24]: https://github.com/sergev/pic32-usb-bootloader
 
 ## Simulator
 

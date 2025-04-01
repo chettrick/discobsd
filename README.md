@@ -119,7 +119,7 @@ or just:
 
     $ make
 
-which builds ELF-formatted kernels in the files `sys/stm32/${BOARD}/unix`
+which builds `sys/arch/stm32/compile/${BOARD}/unix` ELF-formatted kernels
 and builds and populates a whole file system userland in `DESTDIR`.
 
 Running:
@@ -135,8 +135,9 @@ DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
     $ make MACHINE=pic32 MACHINE_ARCH=mips distribution
 
 to generate a file system image in the file `distrib/pic32/sdcard.img`
-for imaging to an SD card, `sys/pic32/${BOARD}/unix` ELF-formatted
-kernels, and `sys/pic32/${BOARD}/unix.hex` Intel HEX-formatted kernels.
+for imaging to an SD card, `sys/arch/pic32/compile/${BOARD}/unix`
+ELF-formatted kernels, and `sys/arch/pic32/compile/${BOARD}/unix.hex`
+Intel HEX-formatted kernels.
 
 Put the generated file system image `sdcard.img` onto an SD card.
 
@@ -176,8 +177,8 @@ A DiscoBSD release consists of, for each supported architecture:
 * this README.md file
 
 Before making a release, first create a distribution in `DESTDIR`
-with kernels in `sys/${MACHINE}/${BOARD}` by following the steps
-in [Building](#building):
+with kernels in `sys/arch/${MACHINE}/compile/${BOARD}` by following
+the steps in [Building](#building):
 
     $ make distribution
 
@@ -208,11 +209,11 @@ debugging are `ocd` and `gdb-ocd`.
 
 Debug a particular development board via:
 
-    $ BOARD=f412gdisco make ocd
+    $ make BOARD=F412GDISCO ocd
 
 in one terminal, and:
 
-    $ BOARD=f412gdisco make gdb-ocd
+    $ make BOARD=F412GDISCO gdb-ocd
 
 in another terminal.
 

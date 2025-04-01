@@ -1,17 +1,17 @@
 #
 # STM32F411RENUCLEO board
-# =====================
+# =======================
 #
 # To build the kernel, use:
-#   cd sys/stm32/f411renucleo
-#   kconfig Config
+#   cd sys/arch/stm32/compile/F411RENUCLEO
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
 architecture    "stm32"
 cpu             "STM32F411xE"               # Processor variant
 board           "F411RENUCLEO"              # Board type
-ldscript        "f411renucleo/STM32F411RETX.ld" # Linker script
+ldscript        "STM32F411RETX.ld"          # Linker script
 
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core

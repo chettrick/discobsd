@@ -76,8 +76,8 @@ MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
 
 # XXX Keep in sync with SUBDIR in sys/arch/${MACHINE}/compile/Makefile
 DIRS_RELEASE!=if [ x"${MACHINE}" = x"stm32" ] ; then \
-		echo "f405weactcore f411renucleo f412gdisco f412weactcore \
-			f469idisco f4discovery" ; \
+		echo "F405WEACTCORE F411RENUCLEO F412GDISCO F412WEACTCORE \
+			F469IDISCO F4DISCOVERY" ; \
 	elif [ x"${MACHINE}" = x"pic32" ] ; then \
 		echo "BAREMETAL DUINOMITE DUINOMITE_EMEGA EXPLORER16 \
 			FUBARINO MAX32 MAXIMITE MAXIMITE_COLOR MMB_MX7 \

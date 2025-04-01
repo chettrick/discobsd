@@ -1,17 +1,17 @@
 #
 # STM32F412RET6 WeAct Studio Core board
-# =====================
+# =====================================
 #
 # To build the kernel, use:
-#   cd sys/stm32/f412weactcore
-#   kconfig Config
+#   cd sys/arch/stm32/compile/F412WEACTCORE
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
 architecture    "stm32"
 cpu             "STM32F412Rx"               # Processor variant
 board           "F412WEACTCORE"             # Board type
-ldscript        "f412weactcore/STM32F412RETX.ld" # Linker script
+ldscript        "STM32F412RETX.ld"          # Linker script
 
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core

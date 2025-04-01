@@ -21,29 +21,37 @@ PARAM += -DCONS_MAJOR=UARTUSB_MAJOR
 PARAM += -DBUS_DIV=1
 PARAM += -DBUS_KHZ=80000
 PARAM += -DCPU_KHZ=80000
-LDSCRIPT = "max32/bootloader.ld"
+LDSCRIPT = "MAX32.ld"
 #
 # Makefile for RetroBSD, pic32 target
 #
 # DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
 #
-include ../gcc-config.mk
 
 AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
 CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -fcommon -Wall
 CPP             = ${MIPS_GCC_PREFIX}cpp
 LD              = ${MIPS_GCC_PREFIX}gcc -mips32r2 -EL
-LDFLAGS         = -nostdlib -T ../${LDSCRIPT} -Wl,-Map=$@.map
+LDFLAGS         = -nostdlib -T ${_confdir}/${LDSCRIPT} -Wl,-Map=$@.map
 SIZE            = ${MIPS_GCC_PREFIX}size
 OBJCOPY         = ${MIPS_GCC_PREFIX}objcopy
 OBJDUMP         = ${MIPS_GCC_PREFIX}objdump
 
 # sources are located via $S relative to the compilation directory
-S               = ../..
+S               = ../../../..
 
-DEPFLAGS	= -MT $@ -MP -MD -MF .deps/$*.dep
-DEFS            = -I. ${PARAM} -DKERNEL $(DEPFLAGS)
-CFLAGS          = -O ${DEFS}
+_mach?=		pic32
+_arch?=		mips
+_machdir?=	$S/arch/${_mach}
+_archdir?=	$S/arch/${_arch}
+_confdir?=	${_machdir}/conf
+
+include		${_confdir}/compiler.mk
+
+INCLUDES=	-I. -I$S -I$S/arch
+DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
+DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
+CFLAGS=		-O ${DEFS}
 
 # compile rules: rules are named COMPILE_${SUFFIX}
 # SUFFIX is the file suffix, capitalized (e.g. C for a .c file).
@@ -60,10 +68,10 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	syscalls.o tty.o tty_subr.o tty_tty.o ufs_alloc.o ufs_bio.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
-	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
-	exception.o machdep.o mem.o signal.o swap.o sysctl.o adc.o \
-	gpio.o pwm.o sd.o spi.o spi_bus.o uart.o usb_device.o \
-	usb_function_cdc.o usb_uart.o 
+	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o swap.o clock.o cons.o \
+	devsw.o exception.o machdep.o mem.o signal.o sysctl.o \
+	usb_device.o usb_function_cdc.o adc.o gpio.o pwm.o sd.o spi.o \
+	spi_bus.o uart.o usb_uart.o 
 
 CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/exec_script.c $S/kern/exec_subr.c $S/kern/init_main.c \
@@ -81,13 +89,17 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/ufs_inode.c $S/kern/ufs_mount.c $S/kern/ufs_namei.c \
 	$S/kern/ufs_subr.c $S/kern/ufs_syscalls.c \
 	$S/kern/ufs_syscalls2.c $S/kern/vfs_vnops.c $S/kern/vm_sched.c \
-	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/pic32/clock.c \
-	$S/pic32/cons.c $S/pic32/devsw.c $S/pic32/exception.c \
-	$S/pic32/machdep.c $S/pic32/mem.c $S/pic32/signal.c \
-	$S/pic32/swap.c $S/pic32/sysctl.c $S/pic32/adc.c $S/pic32/gpio.c \
-	$S/pic32/pwm.c $S/pic32/sd.c $S/pic32/spi.c $S/pic32/spi_bus.c \
-	$S/pic32/uart.c $S/pic32/usb_device.c \
-	$S/pic32/usb_function_cdc.c $S/pic32/usb_uart.c swapunix.c 
+	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/swap.c \
+	$S/arch/pic32/pic32/clock.c $S/arch/pic32/pic32/cons.c \
+	$S/arch/pic32/pic32/devsw.c $S/arch/pic32/pic32/exception.c \
+	$S/arch/pic32/pic32/machdep.c $S/arch/pic32/pic32/mem.c \
+	$S/arch/pic32/pic32/signal.c $S/arch/pic32/pic32/sysctl.c \
+	$S/arch/pic32/hal/usb_device.c \
+	$S/arch/pic32/hal/usb_function_cdc.c $S/arch/pic32/dev/adc.c \
+	$S/arch/pic32/dev/gpio.c $S/arch/pic32/dev/pwm.c \
+	$S/arch/pic32/dev/sd.c $S/arch/pic32/dev/spi.c \
+	$S/arch/pic32/dev/spi_bus.c $S/arch/pic32/dev/uart.c \
+	$S/arch/pic32/dev/usb_uart.c swapunix.c 
 
 DEVCFG!=if [ -f devcfg.c ] ; then \
 		echo "devcfg.o" ; \
@@ -126,15 +138,15 @@ clean:
 clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
-reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
-	../../../tools/kconfig/kconfig Config
+reconfig ioconf.c: Config $S/../tools/bin/kconfig
+	$S/../tools/bin/kconfig Config
 	$(MAKE) clean
 
 load:   unix
 	pic32prog unix.hex
 
 machine:
-	ln -s .. $@
+	ln -s ${_machdir}/include $@
 
 sys:
 	ln -s $S/sys $@
@@ -142,7 +154,7 @@ sys:
 .deps:
 	mkdir .deps
 
-startup.o: ../startup.S
+startup.o: ${_machdir}/${_mach}/startup.S
 	${COMPILE_S}
 
 ioconf.o: ioconf.c
@@ -292,61 +304,61 @@ vm_swap.o: $S/kern/vm_swap.c
 vm_swp.o: $S/kern/vm_swp.c
 	${COMPILE_C}
 
-clock.o: $S/pic32/clock.c
+swap.o: $S/dev/swap.c
 	${COMPILE_C}
 
-cons.o: $S/pic32/cons.c
+clock.o: $S/arch/pic32/pic32/clock.c
 	${COMPILE_C}
 
-devsw.o: $S/pic32/devsw.c
+cons.o: $S/arch/pic32/pic32/cons.c
 	${COMPILE_C}
 
-exception.o: $S/pic32/exception.c
+devsw.o: $S/arch/pic32/pic32/devsw.c
 	${COMPILE_C}
 
-machdep.o: $S/pic32/machdep.c
+exception.o: $S/arch/pic32/pic32/exception.c
 	${COMPILE_C}
 
-mem.o: $S/pic32/mem.c
+machdep.o: $S/arch/pic32/pic32/machdep.c
 	${COMPILE_C}
 
-signal.o: $S/pic32/signal.c
+mem.o: $S/arch/pic32/pic32/mem.c
 	${COMPILE_C}
 
-swap.o: $S/pic32/swap.c
+signal.o: $S/arch/pic32/pic32/signal.c
 	${COMPILE_C}
 
-sysctl.o: $S/pic32/sysctl.c
+sysctl.o: $S/arch/pic32/pic32/sysctl.c
 	${COMPILE_C}
 
-adc.o: $S/pic32/adc.c
+usb_device.o: $S/arch/pic32/hal/usb_device.c
 	${COMPILE_C}
 
-gpio.o: $S/pic32/gpio.c
+usb_function_cdc.o: $S/arch/pic32/hal/usb_function_cdc.c
 	${COMPILE_C}
 
-pwm.o: $S/pic32/pwm.c
+adc.o: $S/arch/pic32/dev/adc.c
 	${COMPILE_C}
 
-sd.o: $S/pic32/sd.c
+gpio.o: $S/arch/pic32/dev/gpio.c
 	${COMPILE_C}
 
-spi.o: $S/pic32/spi.c
+pwm.o: $S/arch/pic32/dev/pwm.c
 	${COMPILE_C}
 
-spi_bus.o: $S/pic32/spi_bus.c
+sd.o: $S/arch/pic32/dev/sd.c
 	${COMPILE_C}
 
-uart.o: $S/pic32/uart.c
+spi.o: $S/arch/pic32/dev/spi.c
 	${COMPILE_C}
 
-usb_device.o: $S/pic32/usb_device.c
+spi_bus.o: $S/arch/pic32/dev/spi_bus.c
 	${COMPILE_C}
 
-usb_function_cdc.o: $S/pic32/usb_function_cdc.c
+uart.o: $S/arch/pic32/dev/uart.c
 	${COMPILE_C}
 
-usb_uart.o: $S/pic32/usb_uart.c
+usb_uart.o: $S/arch/pic32/dev/usb_uart.c
 	${COMPILE_C}
 
 

@@ -64,7 +64,7 @@ tools:
 		${MAKE} -C tools MACHINE=${MACHINE} install
 
 kernel:		tools
-		$(MAKE) -C sys/$(MACHINE) all
+		${MAKE} -C sys/arch/${MACHINE}/compile all
 
 fs:		$(FSIMG)
 
@@ -89,12 +89,14 @@ clean:
 cleantools:
 		${MAKE} -C tools clean
 
+cleankernel:
+		${MAKE} -C sys/arch/${MACHINE}/compile -k clean
+
 cleanfs:
 		rm -f distrib/$(MACHINE)/_manifest
 		rm -f $(FSIMG)
 
-cleanall:	cleantools clean
-		$(MAKE) -C sys/$(MACHINE) -k clean
+cleanall:	cleantools clean cleankernel
 
 symlinks:
 		rm -f include/machine
@@ -110,4 +112,4 @@ installfs:
 		clean cleantools cleanfs cleanall
 
 # Architecture-specific debugging and loading.
--include sys/${MACHINE}/Makefile.inc
+-include sys/arch/${MACHINE}/conf/Makefile.inc

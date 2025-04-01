@@ -4,8 +4,8 @@
 # Console on USB.
 #
 # To build the kernel, use:
-#   cd sys/pic32/maximite
-#   kconfig Config
+#   cd sys/arch/pic32/compile/MAXIMITE_COLOR
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -15,7 +15,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "MAXIMITE_COLOR"            # Board type
-ldscript        "maximite-color/bootloader.ld" # Linker script
+ldscript        "MAXIMITE_COLOR.ld"         # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

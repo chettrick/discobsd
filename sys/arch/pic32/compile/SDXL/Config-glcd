@@ -6,8 +6,8 @@
 # LED at pin E7 (label 23).
 #
 # To build the kernel, use:
-#   cd sys/pic32/sdxl
-#   kconfig Config
+#   cd sys/arch/pic32/compile/SDXL
+#   tools/bin/kconfig Config-glcd
 #   make clean
 #   make
 #
@@ -17,7 +17,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "SDXL"                      # Board type
-ldscript        "max32/bootloader.ld"       # Linker script
+ldscript        "MAX32.ld"                  # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

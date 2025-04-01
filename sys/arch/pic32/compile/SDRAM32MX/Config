@@ -1,11 +1,11 @@
 #
 # 32MXSDRAM board PCB v1.0 with UART console
-# ===========================================
+# ==========================================
 # Console on UART3.
 #
 # To build the kernel, use:
-#   cd sys/pic32/32mxsdram
-#   kconfig Config
+#   cd sys/arch/pic32/compile/SDRAM32MX
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -14,8 +14,8 @@
 #
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
-board           "CUSTOM_32MXSDRAM"          # Board type
-ldscript        "32mxsdram/bootloader.ld"   # Linker script
+board           "SDRAM32MX"                 # Board type
+ldscript        "SDRAM32MX.ld"              # Linker script
 
 # Standard system options
 options         "HZ=1000"                   # Rate of timer interrupt

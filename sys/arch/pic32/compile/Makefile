@@ -1,23 +1,23 @@
 #
 # Kernels live in subdirectories, and have Makefiles of their own.
 #
-SUBDIR=		baremetal duinomite duinomite-emega explorer16 \
-		fubarino max32 maximite maximite-color mmb-mx7 \
-		picadillo pinguino-micro sdxl snadpic starter-kit \
-		ubw32 wf32
+SUBDIR=		BAREMETAL DUINOMITE DUINOMITE_EMEGA EXPLORER16 \
+		FUBARINO MAX32 MAXIMITE MAXIMITE_COLOR MMB_MX7 \
+		PICADILLO PINGUINO_MICRO SDXL SNADPIC STARTER_KIT \
+		UBW32 WF32
 
 default:
 
 all:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i all; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i all; done
 
 install:
 
 clean:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i clean; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i clean; done
 
 clean-all:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i clean-all; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i clean-all; done
 
 reconfig:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i reconfig; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i reconfig; done

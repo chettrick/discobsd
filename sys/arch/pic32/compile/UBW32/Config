@@ -6,8 +6,8 @@
 # For Windows, use the driver: http://www.schmalzhaus.com/UBW32/FW/UBW32inf.zip
 #
 # To build the kernel, use:
-#   cd sys/pic32/ubw32
-#   kconfig Config
+#   cd sys/arch/pic32/compile/UBW32
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -17,7 +17,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "UBW32"                     # Board type
-ldscript        "ubw32/bootloader.ld"       # Linker script
+ldscript        "UBW32.ld"                  # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

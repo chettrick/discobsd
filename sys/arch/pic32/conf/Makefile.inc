@@ -1,9 +1,8 @@
-# TODO: make it relative to Target
+BOARD?=		PINGUINO_MICRO
+KERNDIR=	${TOPSRC}/sys/arch/pic32/compile/${BOARD}
+KERN=		unix
+
 installflash:
-	sudo pic32prog sys/pic32/fubarino/unix.hex
+	sudo pic32prog ${KERNDIR}/${KERN}.hex
 
-# TODO: make it relative to Target
-installboot:
-	sudo pic32prog sys/pic32/fubarino/bootloader.hex
-
-.PHONY: installflash installboot
+.PHONY: installflash

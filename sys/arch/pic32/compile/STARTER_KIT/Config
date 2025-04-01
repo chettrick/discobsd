@@ -5,8 +5,8 @@
 # Console on USB.
 #
 # To build the kernel, use:
-#   cd sys/pic32/explorer16
-#   kconfig Config
+#   cd sys/arch/pic32/compile/STARTER_KIT
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -15,8 +15,8 @@
 #
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
-board           "STARTERKIT"                # Board type
-ldscript        "baremetal/script.ld"       # Linker script
+board           "STARTER_KIT"               # Board type
+ldscript        "BAREMETAL.ld"              # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

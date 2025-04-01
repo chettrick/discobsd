@@ -5,8 +5,8 @@
 # Console on UART2.
 #
 # To build the kernel, use:
-#   cd sys/pic32/ubw32
-#   kconfig Config-uart
+#   cd sys/arch/pic32/compile/UBW32
+#   tools/bin/kconfig Config-uart
 #   make clean
 #   make
 #
@@ -16,7 +16,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "UBW32"                     # Board type
-ldscript        "ubw32/bootloader.ld"       # Linker script
+ldscript        "UBW32.ld"                  # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

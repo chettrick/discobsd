@@ -1,13 +1,13 @@
 #
 # Olimex PIC32-RetroBSD board, or
 # Pinguino-Micro board with PIC32MX795 processor
-# =====================================================
+# ==============================================
 # Console on USB.
 # For details, see https://github.com/RetroBSD/retrobsd/wiki/Board-Olimex-PIC32-RetroBSD
 #
 # To build the kernel, use:
-#   cd sys/pic32/pinguino-micro
-#   kconfig Config
+#   cd sys/arch/pic32/compile/PINGUINO_MICRO
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -17,7 +17,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "PINGUINO_MICRO"            # Board type
-ldscript        "maximite/bootloader.ld"    # Linker script
+ldscript        "MAXIMITE.ld"               # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

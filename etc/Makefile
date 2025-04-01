@@ -74,15 +74,15 @@ DIRS_DISTRIB=	bin sbin dev etc var/log var/run root usr usr/bin usr/sbin \
 		usr/include usr/lib usr/libexec usr/share usr/games/lib
 MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
 
-# XXX Keep release directories in sync with SUBDIR in sys/${MACHINE}/Makefile
+# XXX Keep in sync with SUBDIR in sys/arch/${MACHINE}/compile/Makefile
 DIRS_RELEASE!=if [ x"${MACHINE}" = x"stm32" ] ; then \
 		echo "f405weactcore f411renucleo f412gdisco f412weactcore \
 			f469idisco f4discovery" ; \
 	elif [ x"${MACHINE}" = x"pic32" ] ; then \
-		echo "baremetal duinomite duinomite-emega explorer16 \
-			fubarino max32 maximite maximite-color mmb-mx7 \
-			picadillo pinguino-micro sdxl snadpic starter-kit \
-			ubw32 wf32" ; \
+		echo "BAREMETAL DUINOMITE DUINOMITE_EMEGA EXPLORER16 \
+			FUBARINO MAX32 MAXIMITE MAXIMITE_COLOR MMB_MX7 \
+			PICADILLO PINGUINO_MICRO SDXL SNADPIC STARTER_KIT \
+			UBW32 WF32" ; \
 	else \
 		echo "FAIL" ; \
 	fi
@@ -108,7 +108,7 @@ release-dirs:
 	cd ${RELEASEDIR}/${MACHINE} && \
 	for dir in ${DIRS_RELEASE}; do \
 		mkdir -p $$dir; \
-		cp ${TOPSRC}/sys/${MACHINE}/$$dir/unix* $$dir; \
+		cp ${TOPSRC}/sys/arch/${MACHINE}/compile/$$dir/unix* $$dir; \
 		cp ${TOPSRC}/distrib/${MACHINE}/sdcard.img .; \
 		cp ${TOPSRC}/distrib/${MACHINE}/README.md .; \
 		cp -f ${TOPSRC}/README.md ${RELEASEDIR}; \

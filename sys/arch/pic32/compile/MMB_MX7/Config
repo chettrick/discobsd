@@ -1,11 +1,11 @@
 #
 # Board: MMB for PIC32MX7, by MikroElektronika
-# ==================================
+# ============================================
 # Console on USB.
 #
 # To build the kernel, use:
-#   cd sys/pic32/mmb-mx7
-#   kconfig Config
+#   cd sys/arch/pic32/compile/MMB_MX7
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -15,7 +15,7 @@
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
 board           "MMB_MX7"                   # Board type
-ldscript        "mmb-mx7/bootloader.ld"     # Linker script
+ldscript        "MMB_MX7.ld"                # Linker script
 
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

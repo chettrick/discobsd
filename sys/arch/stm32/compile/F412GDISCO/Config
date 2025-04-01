@@ -3,15 +3,15 @@
 # =====================
 #
 # To build the kernel, use:
-#   cd sys/stm32/f412gdisco
-#   kconfig Config
+#   cd sys/arch/stm32/compile/F412GDISCO
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
 architecture    "stm32"
 cpu             "STM32F412Zx"               # Processor variant
 board           "F412GDISCO"                # Board type
-ldscript        "f412gdisco/STM32F412ZGTX.ld" # Linker script
+ldscript        "STM32F412ZGTX.ld"          # Linker script
 
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core

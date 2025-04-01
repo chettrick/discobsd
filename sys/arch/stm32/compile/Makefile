@@ -1,21 +1,21 @@
 #
 # Kernels live in subdirectories, and have Makefiles of their own.
 #
-SUBDIR=		f405weactcore f411renucleo f412gdisco f412weactcore \
-		f469idisco f4discovery
+SUBDIR=		F405WEACTCORE F411RENUCLEO F412GDISCO F412WEACTCORE \
+		F469IDISCO F4DISCOVERY
 
 default:
 
 all:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i all; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i all; done
 
 install:
 
 clean:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i clean; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i clean; done
 
 clean-all:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i clean-all; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i clean-all; done
 
 reconfig:
-		-for i in $(SUBDIR); do ${MAKE} -C $$i reconfig; done
+		-for i in ${SUBDIR}; do ${MAKE} -C $$i reconfig; done

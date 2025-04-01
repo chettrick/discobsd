@@ -1,17 +1,17 @@
 #
 # STM32F405RGT6 WeAct Studio Core board
-# =====================
+# =====================================
 #
 # To build the kernel, use:
-#   cd sys/stm32/f405weactcore
-#   kconfig Config
+#   cd sys/arch/stm32/compile/F405WEACTCORE
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
 architecture    "stm32"
 cpu             "STM32F405xx"               # Processor variant
 board           "F405WEACTCORE"             # Board type
-ldscript        "f405weactcore/STM32F405RGTX.ld" # Linker script
+ldscript        "STM32F405RGTX.ld"          # Linker script
 
 # Standard system options
 options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core

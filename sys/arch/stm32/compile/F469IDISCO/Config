@@ -3,8 +3,8 @@
 # =====================
 #
 # To build the kernel, use:
-#   cd sys/stm32/f469idisco
-#   kconfig Config
+#   cd sys/arch/stm32/compile/F469IDISCO
+#   tools/bin/kconfig Config
 #   make clean
 #   make
 #
@@ -14,7 +14,7 @@
 architecture    "stm32"
 cpu             "STM32F469xx"               # Processor variant
 board           "F469IDISCO"                # Board type
-ldscript        "f469idisco/STM32F469NIHX.ld" # Linker script
+ldscript        "STM32F469NIHX.ld"          # Linker script
 
 # Standard system options
 options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core

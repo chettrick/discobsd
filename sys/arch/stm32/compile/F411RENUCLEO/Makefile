@@ -14,19 +14,26 @@ PARAM += -DBSP
 PARAM += -DHALTREBOOT
 PARAM += -DBUS_KHZ=50000
 PARAM += -DCPU_KHZ=100000
-LDSCRIPT = "f411renucleo/STM32F411RETX.ld"
+LDSCRIPT = "STM32F411RETX.ld"
 DEBUG = -g
 #
 # Makefile for DiscoBSD, stm32 target
 #
 # DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
 #
-include ../gcc-config.mk
 
 # sources are located via $S relative to the compilation directory
-S=		../..
+S=		../../../..
 
-INCLUDES=	-nostdlib -I.
+_mach?=		stm32
+_arch?=		arm
+_machdir?=	$S/arch/${_mach}
+_archdir?=	$S/arch/${_arch}
+_confdir?=	${_machdir}/conf
+
+include 	${_confdir}/compiler.mk
+
+INCLUDES=	-nostdlib -I. -I$S -I$S/arch -I${_archdir}/include
 DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
 DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
 CWARNFLAGS=	-Wall
@@ -40,7 +47,8 @@ CMACHFLAGS+=	${CMACHCPU}
 COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
-LDFLAGS=	-T ../${LDSCRIPT} -T ../ld.script -Map=$@.map
+LDFLAGS=	-T ${_confdir}/${LDSCRIPT} -T ${_confdir}/kern.ldscript
+LDFLAGS+=	-Map=$@.map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}
@@ -58,10 +66,10 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	syscalls.o tty.o tty_subr.o tty_tty.o ufs_alloc.o ufs_bio.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
-	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o clock.o cons.o devsw.o \
-	fault.o machdep.o mem.o signal.o swap.o syscall.o sysctl.o \
-	system_stm32f4xx.o systick.o stm32f4xx_hal.o \
-	stm32f4xx_ll_utils.o sd.o sdio_card.o spi.o stm32f4xx_hal_spi.o \
+	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o swap.o clock.o cons.o \
+	devsw.o fault.o machdep.o mem.o signal.o syscall.o sysctl.o \
+	systick.o stm32f4xx_hal.o stm32f4xx_hal_spi.o \
+	stm32f4xx_ll_utils.o system_stm32f4xx.o sd.o sdio_card.o spi.o \
 	uart.o stm32_bsp.o stm32_adafruit_sd.o stm32f4xx_nucleo_sd.o 
 
 CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
@@ -80,16 +88,20 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/ufs_inode.c $S/kern/ufs_mount.c $S/kern/ufs_namei.c \
 	$S/kern/ufs_subr.c $S/kern/ufs_syscalls.c \
 	$S/kern/ufs_syscalls2.c $S/kern/vfs_vnops.c $S/kern/vm_sched.c \
-	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/stm32/clock.c \
-	$S/stm32/cons.c $S/stm32/devsw.c $S/stm32/fault.c \
-	$S/stm32/machdep.c $S/stm32/mem.c $S/stm32/signal.c \
-	$S/stm32/swap.c $S/stm32/syscall.c $S/stm32/sysctl.c \
-	$S/stm32/system_stm32f4xx.c $S/stm32/systick.c \
-	$S/stm32/stm32f4xx_hal.c $S/stm32/stm32f4xx_ll_utils.c \
-	$S/stm32/sd.c $S/stm32/sdio_card.c $S/stm32/spi.c \
-	$S/stm32/stm32f4xx_hal_spi.c $S/stm32/uart.c \
-	$S/stm32/stm32_bsp.c $S/stm32/stm32_adafruit_sd.c \
-	$S/stm32/stm32f4xx_nucleo_sd.c swapunix.c 
+	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/swap.c \
+	$S/arch/stm32/stm32/clock.c $S/arch/stm32/stm32/cons.c \
+	$S/arch/stm32/stm32/devsw.c $S/arch/stm32/stm32/fault.c \
+	$S/arch/stm32/stm32/machdep.c $S/arch/stm32/stm32/mem.c \
+	$S/arch/stm32/stm32/signal.c $S/arch/stm32/stm32/syscall.c \
+	$S/arch/stm32/stm32/sysctl.c $S/arch/stm32/stm32/systick.c \
+	$S/arch/stm32/hal/stm32f4xx_hal.c \
+	$S/arch/stm32/hal/stm32f4xx_hal_spi.c \
+	$S/arch/stm32/hal/stm32f4xx_ll_utils.c \
+	$S/arch/stm32/hal/system_stm32f4xx.c $S/arch/stm32/dev/sd.c \
+	$S/arch/stm32/dev/sdio_card.c $S/arch/stm32/dev/spi.c \
+	$S/arch/stm32/dev/uart.c $S/arch/stm32/dev/stm32_bsp.c \
+	$S/arch/stm32/dev/stm32_adafruit_sd.c \
+	$S/arch/stm32/dev/stm32f4xx_nucleo_sd.c swapunix.c 
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -122,12 +134,12 @@ clean:
 clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
-reconfig ioconf.c: Config ../../../tools/kconfig/kconfig
-	../../../tools/kconfig/kconfig -g Config
+reconfig ioconf.c: Config $S/../tools/bin/kconfig
+	$S/../tools/bin/kconfig -g Config
 	${MAKE} clean
 
 machine:
-	ln -s .. $@
+	ln -s ${_machdir}/include $@
 
 sys:
 	ln -s $S/sys $@
@@ -135,10 +147,10 @@ sys:
 .deps:
 	mkdir .deps
 
-locore.o: ../locore.S
+locore.o: ${_machdir}/${_mach}/locore.S
 	${COMPILE_S}
 
-startup_stm32f407xx.o: ../startup_stm32f407xx.s
+startup_stm32f407xx.o: ${_machdir}/${_mach}/startup_stm32f407xx.s
 	${COMPILE_S}
 
 ioconf.o: ioconf.c
@@ -288,70 +300,70 @@ vm_swap.o: $S/kern/vm_swap.c
 vm_swp.o: $S/kern/vm_swp.c
 	${COMPILE_C}
 
-clock.o: $S/stm32/clock.c
+swap.o: $S/dev/swap.c
 	${COMPILE_C}
 
-cons.o: $S/stm32/cons.c
+clock.o: $S/arch/stm32/stm32/clock.c
 	${COMPILE_C}
 
-devsw.o: $S/stm32/devsw.c
+cons.o: $S/arch/stm32/stm32/cons.c
 	${COMPILE_C}
 
-fault.o: $S/stm32/fault.c
+devsw.o: $S/arch/stm32/stm32/devsw.c
 	${COMPILE_C}
 
-machdep.o: $S/stm32/machdep.c
+fault.o: $S/arch/stm32/stm32/fault.c
 	${COMPILE_C}
 
-mem.o: $S/stm32/mem.c
+machdep.o: $S/arch/stm32/stm32/machdep.c
 	${COMPILE_C}
 
-signal.o: $S/stm32/signal.c
+mem.o: $S/arch/stm32/stm32/mem.c
 	${COMPILE_C}
 
-swap.o: $S/stm32/swap.c
+signal.o: $S/arch/stm32/stm32/signal.c
 	${COMPILE_C}
 
-syscall.o: $S/stm32/syscall.c
+syscall.o: $S/arch/stm32/stm32/syscall.c
 	${COMPILE_C}
 
-sysctl.o: $S/stm32/sysctl.c
+sysctl.o: $S/arch/stm32/stm32/sysctl.c
 	${COMPILE_C}
 
-system_stm32f4xx.o: $S/stm32/system_stm32f4xx.c
+systick.o: $S/arch/stm32/stm32/systick.c
 	${COMPILE_C}
 
-systick.o: $S/stm32/systick.c
+stm32f4xx_hal.o: $S/arch/stm32/hal/stm32f4xx_hal.c
 	${COMPILE_C}
 
-stm32f4xx_hal.o: $S/stm32/stm32f4xx_hal.c
+stm32f4xx_hal_spi.o: $S/arch/stm32/hal/stm32f4xx_hal_spi.c
 	${COMPILE_C}
 
-stm32f4xx_ll_utils.o: $S/stm32/stm32f4xx_ll_utils.c
+stm32f4xx_ll_utils.o: $S/arch/stm32/hal/stm32f4xx_ll_utils.c
 	${COMPILE_C}
 
-sd.o: $S/stm32/sd.c
+system_stm32f4xx.o: $S/arch/stm32/hal/system_stm32f4xx.c
 	${COMPILE_C}
 
-sdio_card.o: $S/stm32/sdio_card.c
+sd.o: $S/arch/stm32/dev/sd.c
 	${COMPILE_C}
 
-spi.o: $S/stm32/spi.c
+sdio_card.o: $S/arch/stm32/dev/sdio_card.c
 	${COMPILE_C}
 
-stm32f4xx_hal_spi.o: $S/stm32/stm32f4xx_hal_spi.c
+spi.o: $S/arch/stm32/dev/spi.c
 	${COMPILE_C}
 
-uart.o: $S/stm32/uart.c
+uart.o: $S/arch/stm32/dev/uart.c
 	${COMPILE_C}
 
-stm32_bsp.o: $S/stm32/stm32_bsp.c
+stm32_bsp.o: $S/arch/stm32/dev/stm32_bsp.c
 	${COMPILE_C}
 
-stm32_adafruit_sd.o: $S/stm32/stm32_adafruit_sd.c
+stm32_adafruit_sd.o: $S/arch/stm32/dev/stm32_adafruit_sd.c
 	${COMPILE_C}
 
-stm32f4xx_nucleo_sd.o: $S/stm32/stm32f4xx_nucleo_sd.c
+stm32f4xx_nucleo_sd.o: $S/arch/stm32/dev/stm32f4xx_nucleo_sd.c
 	${COMPILE_C}
 
 

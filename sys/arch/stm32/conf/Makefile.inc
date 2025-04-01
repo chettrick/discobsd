@@ -1,22 +1,23 @@
-#BOARD?=		f411renucleo
-BOARD?=		f412gdisco
-#BOARD?=		f412weactcore
-#BOARD?=		f469idisco
-#BOARD?=		f4discovery
-KERNDIR=	${TOPSRC}/sys/stm32/${BOARD}
+#BOARD?=		F405WEACTCORE
+#BOARD?=		F411RENUCLEO
+BOARD?=		F412GDISCO
+#BOARD?=		F412WEACTCORE
+#BOARD?=		F469IDISCO
+#BOARD?=		F4DISCOVERY
+KERNDIR=	${TOPSRC}/sys/arch/stm32/compile/${BOARD}
 KERN=		unix
 
-CONFSCRIPT!=if [ x"${BOARD}" = x"f405weactcore" ] ; then \
+CONFSCRIPT!=if [ x"${BOARD}" = x"F405WEACTCORE" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
-	elif [ x"${BOARD}" = x"f411renucleo" ] ; then \
+	elif [ x"${BOARD}" = x"F411RENUCLEO" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
-	elif [ x"${BOARD}" = x"f412gdisco" ] ; then \
+	elif [ x"${BOARD}" = x"F412GDISCO" ] ; then \
 		echo "board/stm32f412g-disco.cfg" ; \
-	elif [ x"${BOARD}" = x"f412weactcore" ] ; then \
+	elif [ x"${BOARD}" = x"F412WEACTCORE" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
-	elif [ x"${BOARD}" = x"f469idisco" ] ; then \
+	elif [ x"${BOARD}" = x"F469IDISCO" ] ; then \
 		echo "board/stm32f469i-disco.cfg" ; \
-	elif [ x"${BOARD}" = x"f4discovery" ] ; then \
+	elif [ x"${BOARD}" = x"F4DISCOVERY" ] ; then \
 		echo "board/stm32f4discovery.cfg" ; \
 	else \
 		echo "does/not/exist" ; \

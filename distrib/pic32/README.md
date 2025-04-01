@@ -17,6 +17,8 @@
    with PIC32 CAN-USB plug-in module and SD & MMC pictail.
  * [Microchip PIC32 USB][16] or [Ethernet Starter Kit][17],
    with I/O Expansion board and SD & MMC pictail.
+ * [Pontech Quick240][18] Quick Universal Industrial Control Kard
+   system based on the chipKIT platform.
 
 [1]: https://www.fubarino.org/sd/
 [2]: https://www.olimex.com/Products/Duino/Duinomite/DUINOMITE/
@@ -35,6 +37,7 @@
 [15]: https://www.microchip.com/en-us/development-tool/dm240001
 [16]: https://www.microchip.com/en-us/development-tool/dm320003-2
 [17]: https://www.microchip.com/en-us/development-tool/dm320004
+[18]: https://quick240.com
 
 ## Build
 

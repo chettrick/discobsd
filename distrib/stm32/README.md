@@ -70,21 +70,21 @@ Shutdown DiscoBSD with:
     $ make distribution
   ```
 
-The kernel (for the f412gdisco board) can be built independently by:
+The kernel (for the F412GDISCO board) can be built independently by:
   ```sh
-    $ cd sys/stm32/f412gdisco
+    $ cd sys/arch/stm32/compile/F412GDISCO
     $ make
   ```
 Note: Building the kernel requires the `tools/kconfig/kconfig` config utility.
 
 ## Debugging DiscoBSD/stm32 on a development board via OpenOCD and GDB
   ```sh
-    $ BOARD=f412gdisco make ocd
+    $ make BOARD=F412GDISCO ocd
   ```
 
 In a separate terminal, run `gdb` with:
   ```sh
-    $ BOARD=f412gdisco make gdb-ocd
+    $ make BOARD=F412GDISCO gdb-ocd
   ```
 
 Running `make help` lists targets to debug DiscoBSD/stm32 with OpenOCD and GDB.

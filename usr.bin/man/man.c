@@ -56,7 +56,7 @@ static MANDIR	list1[] = {		/* section one list */
 static MANDIR	list2[] = {		/* rest of the list */
 	"cat2", "2nd",		"cat3", "3rd",		"cat4", "4th",
 	"cat5", "5th", 		"cat7", "7th",		"cat3f", "3rd (F)",
-	NULL, NULL,
+	"cat9", "9th",		NULL, NULL,
 };
 
 static MANDIR	list3[2];		/* single section */
@@ -228,6 +228,13 @@ getsect(s)
 			list3[0] = list1[1];
 			return(list3);
 		}
+		break;
+	case '9':
+		if (!*s) {
+			list3[0] = list2[6];
+			return(list3);
+		}
+		break;
 	}
 	return((MANDIR *)NULL);
 }
@@ -278,6 +285,7 @@ man(argv)
 			break;
 		case '1': case '2': case '3': case '4':
 		case '5': case '6': case '7': case '8':
+		case '9':
 			if (section = getsect(*argv))
 				++argv;
 		}

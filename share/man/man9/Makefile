@@ -20,8 +20,8 @@ TOPSRC!=cd ../../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	/usr/share/man/cat9
-SRCS=	intro.9
-OBJS=	intro.0
+SRCS=	intro.9 style.9
+OBJS=	intro.0 style.0
 
 .SUFFIXES: .9 .0
 

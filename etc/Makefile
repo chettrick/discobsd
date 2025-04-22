@@ -72,7 +72,7 @@ distribution-etc-root-var: distrib-dirs
 
 DIRS_DISTRIB=	bin sbin dev etc var/log var/run root usr usr/bin usr/sbin \
 		usr/include usr/lib usr/libexec usr/share usr/games/lib
-MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8
+MDIRS_DISTRIB=	cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8 cat9
 
 # XXX Keep in sync with SUBDIR in sys/arch/${MACHINE}/compile/Makefile
 DIRS_RELEASE!=if [ x"${MACHINE}" = x"stm32" ] ; then \

@@ -1252,6 +1252,7 @@ dir /usr/share/man/cat5
 dir /usr/share/man/cat6
 dir /usr/share/man/cat7
 dir /usr/share/man/cat8
+dir /usr/share/man/cat9
 
 #
 # Single pages
@@ -1788,6 +1789,7 @@ file /usr/share/man/cat8/uusnap.0
 file /usr/share/man/cat8/uuxqt.0
 file /usr/share/man/cat8/vipw.0
 file /usr/share/man/cat8/XNSrouted.0
+file /usr/share/man/cat9/intro.0
 
 #
 # Linked pages

@@ -34,10 +34,10 @@ help:
 	@echo "Enter 'mon reset halt' in gdb to reset the cpu" 1>&2
 	@echo "Enter 'load' in gdb to upload the elf file" 1>&2
 
-ocd: kernel
+ocd:
 	sudo openocd -f "${CONFSCRIPT}"
 
-gdb-ocd: kernel
+gdb-ocd:
 	arm-none-eabi-gdb -q \
 		-ex 'cd ${KERNDIR}' \
 		-ex 'target extended-remote :3333' \

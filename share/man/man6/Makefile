@@ -20,8 +20,8 @@ TOPSRC!=cd ../../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
 MDIR=	/usr/share/man/cat6
-SRCS=
-OBJS=
+SRCS=	intro.6
+OBJS=	intro.0
 
 .SUFFIXES: .6 .0
 
@@ -36,5 +36,6 @@ clean: FRC
 	rm -f ${OBJS}
 
 install: _make_01
-#	cp ${OBJS} ${DESTDIR}${MDIR}
+	cp ${OBJS} ${DESTDIR}${MDIR}
+
 FRC:

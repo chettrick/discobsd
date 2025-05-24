@@ -28,3 +28,4 @@ clean:
 install:	all
 		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
 		${INSTALL} -m 444 ${MAN} ${DESTDIR}${MANDIR}/${MAN}
+		ln -f ${DESTDIR}${MANDIR}/${MAN} ${DESTDIR}${MANDIR}/ppt.0

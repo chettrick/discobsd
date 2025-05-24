@@ -23,7 +23,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd $Mdocdate: September 30 2018 $
+.Dd May 24, 2025
 .Dt INTRO 6
 .Os
 .Sh NAME
@@ -37,6 +37,8 @@ various games and diversions optionally installed in
 .Pa /usr/games .
 Currently available games are:
 .Bl -ohang -offset indent
+.It aclock
+ASCII clock for UNIX console.
 .It Xr adventure 6
 An exploration game.
 .It Xr arithmetic 6
@@ -53,8 +55,6 @@ A tropical adventure game.
 Reformat input as punch cards.
 .It Xr boggle 6
 Word search game.
-.It Xr bs 6
-Battleships game.
 .It Xr caesar 6
 Decrypt caesar cyphers.
 .It Xr canfield 6
@@ -65,36 +65,23 @@ Print out the current status of a
 account.
 .It Xr cribbage 6
 The card game cribbage.
-.It Xr factor 6
+.It factor
 Factor a number.
 .It Xr fish 6
 Play
 .Dq Go Fish! .
 .It Xr fortune 6
 Print a random adage.
-.It Xr gomoku 6
-Game of 5 in a row.
-.It Xr grdc 6
-Grand Digital Clock.
-.It Xr hack 6
-Explore the Dungeons of Doom.
 .It Xr hangman 6
 Play hangman.
-.It Xr hunt 6
-A multi-player, multi-terminal game.
-.It Xr huntd 6
-.Xr hunt 6
-daemon.
 .It Xr mille 6
 Play Mille Bornes.
 .It Xr monop 6
 Play monopoly.
-.It Xr morse 6
+.It morse
 Reformat input as morse code.
 .It Xr number 6
 Convert Arabic numerals to English.
-.It Xr phantasia 6
-An interterminal fantasy game.
 .It Xr pig 6
 .\" Do not fix the following gibberish and broken link.
 .\" According to jmc@, both are intentional exactly as they are.
@@ -105,32 +92,29 @@ Eesay
 Display the phase of the moon.
 .It Xr ppt 6
 Reformat input as paper tape.
-.It Xr primes 6
+.It primes
 Generate primes.
 .It Xr quiz 6
 Random knowledge tests.
 .It Xr rain 6
 Animated raindrops display.
-.It Xr random 6
-Display random lines from a file or random numbers.
 .It Xr robots 6
 Fight off villainous robots.
-.It Xr rot13 6
-Decrypt caesar cyphers, rotated by 13 characters.
+.It Xr rogue 6
+Explore the Dungeons of Doom.
 .It Xr sail 6
 Multi-user wooden ships and iron men.
 .It Xr snake 6
 Display chase game.
+.It Xr snscore 6
+See who wastes time playing
+.Xr snake 6 .
 .It teachgammon
 Backgammon rules and tutorial.
 See
 .Xr backgammon 6 .
-.It Xr tetris 6
-Play tetris.
 .It Xr trek 6
 Trekkie game.
-.It wargames
-Would you like to play a game?
 .It Xr worm 6
 Play the growing worm game.
 .It Xr worms 6
@@ -139,10 +123,10 @@ Animate worms on a display terminal.
 Hunt the wumpus in an underground cave.
 .El
 .Sh FILES
-.Bl -tag -width "/usr/share/gamesXXX" -compact
+.Bl -tag -width "/usr/games/libXXX" -compact
 .It Pa /usr/games
-Location of games, if installed.
-.It Pa /usr/share/games
+Location of games.
+.It Pa /usr/games/lib
 Data files for games.
 .El
 .Sh SEE ALSO
@@ -154,37 +138,27 @@ Data files for games.
 .Xr battlestar 6 ,
 .Xr bcd 6 ,
 .Xr boggle 6 ,
-.Xr bs 6 ,
 .Xr caesar 6 ,
 .Xr canfield 6 ,
 .Xr cfscores 6 ,
 .Xr cribbage 6 ,
-.Xr factor 6 ,
 .Xr fish 6 ,
 .Xr fortune 6 ,
-.Xr gomoku 6 ,
-.Xr grdc 6 ,
-.Xr hack 6 ,
 .Xr hangman 6 ,
-.Xr hunt 6 ,
-.Xr huntd 6 ,
 .Xr mille 6 ,
 .Xr monop 6 ,
-.Xr morse 6 ,
 .Xr number 6 ,
-.Xr phantasia 6 ,
 .Xr pig 6 ,
 .Xr pom 6 ,
 .Xr ppt 6 ,
 .Xr primes 6 ,
 .Xr quiz 6 ,
 .Xr rain 6 ,
-.Xr random 6 ,
 .Xr robots 6 ,
-.Xr rot13 6 ,
+.Xr rogue 6 ,
 .Xr sail 6 ,
 .Xr snake 6 ,
-.Xr tetris 6 ,
+.Xr snscore 6 ,
 .Xr trek 6 ,
 .Xr worm 6 ,
 .Xr worms 6 ,
@@ -193,4 +167,5 @@ Data files for games.
 An
 .Nm intro
 manual for section 6 appeared in
-.Ox 2.5 .
+.Bx Disco
+2.5.

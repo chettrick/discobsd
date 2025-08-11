@@ -20,7 +20,7 @@ OWN=		root
 GRP=		wheel
 
 TZDIR=		/usr/share/zoneinfo
-LOCALTIME=	US/Pacific
+LOCALTIME=	Canada/Mountain
 
 FILES=		fstab gettytab group motd passwd rc rc.local shells ttys
 

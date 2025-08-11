@@ -8,7 +8,7 @@ include ${TOPSRC}/share/mk/sys.mk
 # Alternately, if you discover you've got the wrong time zone, you can just
 #	install -c -m 444 /usr/share/zoneinfo/right_zone /etc/localtime
 
-LOCALTIME=	US/Pacific
+LOCALTIME=	Canada/Mountain
 
 # If you want code inspired by certain emerging standards, add
 #	-DSTD_INSPIRED

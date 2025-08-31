@@ -122,12 +122,15 @@ main(int argc, char *argv[])
 	 * Fix it, if necessary.
 	*/
 	if (*argv[1] != '-') {
-		if (!(p = malloc((unsigned)(strlen(argv[1]) + 2)))) {
+		size_t len;
+
+		len = (u_int)(strlen(argv[1]) + 2);
+		if (!(p = malloc(len))) {
 			(void)fprintf(stderr, "ar: %s.\n", strerror(errno));
 			exit(1);
 		}
 		*p = '-';
-		(void)strlcpy(p + 1, argv[1], sizeof(p - 1));
+		(void)strlcpy(p + 1, argv[1], len - 1);
 		argv[1] = p;
 	}
 

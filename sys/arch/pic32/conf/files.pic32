@@ -55,13 +55,13 @@ kern/vm_swp.c				standard
 #
 # Driver sources, architecture-agnostic.
 #
+dev/cons.c				standard
 dev/swap.c				standard
 
 #
 # PIC32 platform.
 #
 arch/pic32/pic32/clock.c		standard
-arch/pic32/pic32/cons.c			standard
 arch/pic32/pic32/devsw.c		standard
 arch/pic32/pic32/exception.c		standard
 arch/pic32/pic32/machdep.c		standard

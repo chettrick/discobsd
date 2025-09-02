@@ -1,18 +1,21 @@
 /*
- * UART driver for STM32.
- *
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
+ *
+ *	@(#)cons.c	1.3 (2.11BSD GTE) 1997/4/25
  */
+
+/*
+ * Console driver.
+ */
+
 #include <sys/param.h>
 #include <sys/conf.h>
 #include <sys/user.h>
 #include <sys/ioctl.h>
 #include <sys/tty.h>
 #include <sys/systm.h>
-
-#include <stm32/dev/uart.h>
 
 struct tty cnttys [1];
 

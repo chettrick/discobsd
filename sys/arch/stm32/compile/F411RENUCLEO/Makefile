@@ -66,7 +66,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	syscalls.o tty.o tty_subr.o tty_tty.o ufs_alloc.o ufs_bio.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
-	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o swap.o clock.o cons.o \
+	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o cons.o swap.o clock.o \
 	devsw.o fault.o machdep.o mem.o signal.o syscall.o sysctl.o \
 	systick.o stm32f4xx_hal.o stm32f4xx_hal_spi.o \
 	stm32f4xx_ll_utils.o system_stm32f4xx.o sd.o sdio_card.o spi.o \
@@ -88,13 +88,12 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/ufs_inode.c $S/kern/ufs_mount.c $S/kern/ufs_namei.c \
 	$S/kern/ufs_subr.c $S/kern/ufs_syscalls.c \
 	$S/kern/ufs_syscalls2.c $S/kern/vfs_vnops.c $S/kern/vm_sched.c \
-	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/swap.c \
-	$S/arch/stm32/stm32/clock.c $S/arch/stm32/stm32/cons.c \
-	$S/arch/stm32/stm32/devsw.c $S/arch/stm32/stm32/fault.c \
-	$S/arch/stm32/stm32/machdep.c $S/arch/stm32/stm32/mem.c \
-	$S/arch/stm32/stm32/signal.c $S/arch/stm32/stm32/syscall.c \
-	$S/arch/stm32/stm32/sysctl.c $S/arch/stm32/stm32/systick.c \
-	$S/arch/stm32/hal/stm32f4xx_hal.c \
+	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/cons.c $S/dev/swap.c \
+	$S/arch/stm32/stm32/clock.c $S/arch/stm32/stm32/devsw.c \
+	$S/arch/stm32/stm32/fault.c $S/arch/stm32/stm32/machdep.c \
+	$S/arch/stm32/stm32/mem.c $S/arch/stm32/stm32/signal.c \
+	$S/arch/stm32/stm32/syscall.c $S/arch/stm32/stm32/sysctl.c \
+	$S/arch/stm32/stm32/systick.c $S/arch/stm32/hal/stm32f4xx_hal.c \
 	$S/arch/stm32/hal/stm32f4xx_hal_spi.c \
 	$S/arch/stm32/hal/stm32f4xx_ll_utils.c \
 	$S/arch/stm32/hal/system_stm32f4xx.c $S/arch/stm32/dev/sd.c \
@@ -300,13 +299,13 @@ vm_swap.o: $S/kern/vm_swap.c
 vm_swp.o: $S/kern/vm_swp.c
 	${COMPILE_C}
 
+cons.o: $S/dev/cons.c
+	${COMPILE_C}
+
 swap.o: $S/dev/swap.c
 	${COMPILE_C}
 
 clock.o: $S/arch/stm32/stm32/clock.c
-	${COMPILE_C}
-
-cons.o: $S/arch/stm32/stm32/cons.c
 	${COMPILE_C}
 
 devsw.o: $S/arch/stm32/stm32/devsw.c

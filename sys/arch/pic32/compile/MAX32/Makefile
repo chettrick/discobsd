@@ -68,7 +68,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	syscalls.o tty.o tty_subr.o tty_tty.o ufs_alloc.o ufs_bio.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
-	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o swap.o clock.o cons.o \
+	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o cons.o swap.o clock.o \
 	devsw.o exception.o machdep.o mem.o signal.o sysctl.o adc.o \
 	gpio.o pwm.o sd.o spi.o spi_bus.o uart.o 
 
@@ -88,15 +88,15 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/ufs_inode.c $S/kern/ufs_mount.c $S/kern/ufs_namei.c \
 	$S/kern/ufs_subr.c $S/kern/ufs_syscalls.c \
 	$S/kern/ufs_syscalls2.c $S/kern/vfs_vnops.c $S/kern/vm_sched.c \
-	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/swap.c \
-	$S/arch/pic32/pic32/clock.c $S/arch/pic32/pic32/cons.c \
-	$S/arch/pic32/pic32/devsw.c $S/arch/pic32/pic32/exception.c \
-	$S/arch/pic32/pic32/machdep.c $S/arch/pic32/pic32/mem.c \
-	$S/arch/pic32/pic32/signal.c $S/arch/pic32/pic32/sysctl.c \
-	$S/arch/pic32/dev/adc.c $S/arch/pic32/dev/gpio.c \
-	$S/arch/pic32/dev/pwm.c $S/arch/pic32/dev/sd.c \
-	$S/arch/pic32/dev/spi.c $S/arch/pic32/dev/spi_bus.c \
-	$S/arch/pic32/dev/uart.c swapunix.c 
+	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/cons.c $S/dev/swap.c \
+	$S/arch/pic32/pic32/clock.c $S/arch/pic32/pic32/devsw.c \
+	$S/arch/pic32/pic32/exception.c $S/arch/pic32/pic32/machdep.c \
+	$S/arch/pic32/pic32/mem.c $S/arch/pic32/pic32/signal.c \
+	$S/arch/pic32/pic32/sysctl.c $S/arch/pic32/dev/adc.c \
+	$S/arch/pic32/dev/gpio.c $S/arch/pic32/dev/pwm.c \
+	$S/arch/pic32/dev/sd.c $S/arch/pic32/dev/spi.c \
+	$S/arch/pic32/dev/spi_bus.c $S/arch/pic32/dev/uart.c \
+	swapunix.c 
 
 DEVCFG!=if [ -f devcfg.c ] ; then \
 		echo "devcfg.o" ; \
@@ -301,13 +301,13 @@ vm_swap.o: $S/kern/vm_swap.c
 vm_swp.o: $S/kern/vm_swp.c
 	${COMPILE_C}
 
+cons.o: $S/dev/cons.c
+	${COMPILE_C}
+
 swap.o: $S/dev/swap.c
 	${COMPILE_C}
 
 clock.o: $S/arch/pic32/pic32/clock.c
-	${COMPILE_C}
-
-cons.o: $S/arch/pic32/pic32/cons.c
 	${COMPILE_C}
 
 devsw.o: $S/arch/pic32/pic32/devsw.c

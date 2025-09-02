@@ -9,6 +9,6 @@
  * Setup core timer for `hz' timer interrupts per second.
  */
 void
-clkstart()
+clkstart(void)
 {
 }

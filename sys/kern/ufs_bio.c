@@ -219,7 +219,7 @@ incore (dev, blkno)
  * Preference is to AGE list, then LRU list.
  */
 struct buf *
-getnewbuf()
+getnewbuf(void)
 {
     register struct buf *bp, *dp;
     int s;

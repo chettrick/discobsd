@@ -25,68 +25,13 @@
 #include <sys/stat.h>
 #include <sys/kconfig.h>
 
-u_int	swapstart, nswap;	/* start and size of swap space */
-size_t	physmem;		/* total amount of physical memory */
-int	boothowto;		/* reboot flags, from boot */
+static void	bhinit(void);
+static void	binit(void);
+static void	cinit(void);
 
-/*
- * Initialize hash links for buffers.
- */
-static void
-bhinit(void)
-{
-	int i;
-	struct bufhd *bp;
-
-	for (bp = bufhash, i = 0; i < BUFHSZ; i++, bp++)
-		bp->b_forw = bp->b_back = (struct buf *)bp;
-}
-
-/*
- * Initialize the buffer I/O system by freeing
- * all buffers and setting all device buffer lists to empty.
- */
-static void
-binit(void)
-{
-	struct buf *bp;
-	int i;
-	caddr_t paddr;
-
-	for (bp = bfreelist; bp < &bfreelist[BQUEUES]; bp++)
-		bp->b_forw = bp->b_back = bp->av_forw = bp->av_back = bp;
-
-	paddr = bufdata;
-
-	for (i = 0; i < NBUF; i++, paddr += MAXBSIZE) {
-		bp = &buf[i];
-		bp->b_dev = NODEV;
-		bp->b_bcount = 0;
-		bp->b_addr = paddr;
-		binshash(bp, &bfreelist[BQ_AGE]);
-		bp->b_flags = B_BUSY|B_INVAL;
-		brelse(bp);
-	}
-}
-
-/*
- * Initialize clist by freeing all character blocks, then count
- * number of character devices. (Once-only routine)
- */
-static void
-cinit(void)
-{
-	int ccp;
-	struct cblock *cp;
-
-	ccp = (int)cfree;
-	ccp = (ccp + CROUND) & ~CROUND;
-	for (cp = (struct cblock *)ccp; cp <= &cfree[NCLIST - 1]; cp++) {
-		cp->c_next = cfreelist;
-		cfreelist = cp;
-		cfreecount += CBSIZE;
-	}
-}
+u_int		swapstart, nswap;	/* start and size of swap space */
+size_t		physmem;		/* total amount of physical memory */
+int		boothowto;		/* reboot flags, from boot */
 
 /*
  * Initialization code.
@@ -222,4 +167,63 @@ main(void)
 	 * just copied out.
 	 */
 	return 0;
+}
+
+/*
+ * Initialize hash links for buffers.
+ */
+static void
+bhinit(void)
+{
+	int i;
+	struct bufhd *bp;
+
+	for (bp = bufhash, i = 0; i < BUFHSZ; i++, bp++)
+		bp->b_forw = bp->b_back = (struct buf *)bp;
+}
+
+/*
+ * Initialize the buffer I/O system by freeing
+ * all buffers and setting all device buffer lists to empty.
+ */
+static void
+binit(void)
+{
+	struct buf *bp;
+	int i;
+	caddr_t paddr;
+
+	for (bp = bfreelist; bp < &bfreelist[BQUEUES]; bp++)
+		bp->b_forw = bp->b_back = bp->av_forw = bp->av_back = bp;
+
+	paddr = bufdata;
+
+	for (i = 0; i < NBUF; i++, paddr += MAXBSIZE) {
+		bp = &buf[i];
+		bp->b_dev = NODEV;
+		bp->b_bcount = 0;
+		bp->b_addr = paddr;
+		binshash(bp, &bfreelist[BQ_AGE]);
+		bp->b_flags = B_BUSY|B_INVAL;
+		brelse(bp);
+	}
+}
+
+/*
+ * Initialize clist by freeing all character blocks, then count
+ * number of character devices. (Once-only routine)
+ */
+static void
+cinit(void)
+{
+	int ccp;
+	struct cblock *cp;
+
+	ccp = (int)cfree;
+	ccp = (ccp + CROUND) & ~CROUND;
+	for (cp = (struct cblock *)ccp; cp <= &cfree[NCLIST - 1]; cp++) {
+		cp->c_next = cfreelist;
+		cfreelist = cp;
+		cfreecount += CBSIZE;
+	}
 }

@@ -93,6 +93,6 @@ $(PROG):	$(OBJS)
 install:	all
 
 clean:
-			rm -rf *.o *~ *_log.txt .deps pavo m4k pic32 pic32-log.txt
+		rm -rf *.o *~ *_log.txt .deps pavo m4k pic32 pic32-log.txt *.core
 
 -include .deps/*.dep

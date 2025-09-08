@@ -56,6 +56,7 @@ kern/vm_swp.c				standard
 # Driver sources, architecture-agnostic.
 #
 dev/cons.c				standard
+dev/mem.c				standard
 dev/swap.c				standard
 
 #
@@ -65,7 +66,6 @@ arch/pic32/pic32/clock.c		standard
 arch/pic32/pic32/devsw.c		standard
 arch/pic32/pic32/exception.c		standard
 arch/pic32/pic32/machdep.c		standard
-arch/pic32/pic32/mem.c			standard
 arch/pic32/pic32/signal.c		standard
 arch/pic32/pic32/sysctl.c		standard
 

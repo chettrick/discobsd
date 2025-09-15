@@ -63,10 +63,10 @@ dev/swap.c				standard
 # STM32 platform.
 #
 arch/stm32/stm32/clock.c		standard
-arch/stm32/stm32/devsw.c		standard
+arch/stm32/stm32/conf.c			standard
 arch/stm32/stm32/fault.c		standard
 arch/stm32/stm32/machdep.c		standard
-arch/stm32/stm32/signal.c		standard
+arch/stm32/stm32/sig_machdep.c		standard
 arch/stm32/stm32/syscall.c		standard
 arch/stm32/stm32/sysctl.c		standard
 arch/stm32/stm32/systick.c		standard

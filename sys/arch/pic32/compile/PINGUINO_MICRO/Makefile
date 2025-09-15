@@ -68,7 +68,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o cons.o mem.o swap.o \
-	clock.o devsw.o exception.o machdep.o signal.o sysctl.o \
+	clock.o conf.o exception.o machdep.o sig_machdep.o sysctl.o \
 	usb_device.o usb_function_cdc.o adc.o gpio.o pwm.o sd.o spi.o \
 	spi_bus.o uart.o usb_uart.o 
 
@@ -90,8 +90,8 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/ufs_syscalls2.c $S/kern/vfs_vnops.c $S/kern/vm_sched.c \
 	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/cons.c $S/dev/mem.c \
 	$S/dev/swap.c $S/arch/pic32/pic32/clock.c \
-	$S/arch/pic32/pic32/devsw.c $S/arch/pic32/pic32/exception.c \
-	$S/arch/pic32/pic32/machdep.c $S/arch/pic32/pic32/signal.c \
+	$S/arch/pic32/pic32/conf.c $S/arch/pic32/pic32/exception.c \
+	$S/arch/pic32/pic32/machdep.c $S/arch/pic32/pic32/sig_machdep.c \
 	$S/arch/pic32/pic32/sysctl.c $S/arch/pic32/hal/usb_device.c \
 	$S/arch/pic32/hal/usb_function_cdc.c $S/arch/pic32/dev/adc.c \
 	$S/arch/pic32/dev/gpio.c $S/arch/pic32/dev/pwm.c \
@@ -314,7 +314,7 @@ swap.o: $S/dev/swap.c
 clock.o: $S/arch/pic32/pic32/clock.c
 	${COMPILE_C}
 
-devsw.o: $S/arch/pic32/pic32/devsw.c
+conf.o: $S/arch/pic32/pic32/conf.c
 	${COMPILE_C}
 
 exception.o: $S/arch/pic32/pic32/exception.c
@@ -323,7 +323,7 @@ exception.o: $S/arch/pic32/pic32/exception.c
 machdep.o: $S/arch/pic32/pic32/machdep.c
 	${COMPILE_C}
 
-signal.o: $S/arch/pic32/pic32/signal.c
+sig_machdep.o: $S/arch/pic32/pic32/sig_machdep.c
 	${COMPILE_C}
 
 sysctl.o: $S/arch/pic32/pic32/sysctl.c

@@ -138,14 +138,14 @@ __asm volatile (
 void
 syscall(struct trapframe *frame)
 {
-	register int psig;
+	int psig;
 	time_t syst;
 	int code;
 	u_int sp;
 
 	syst = u.u_ru.ru_stime;
 
-	if ((unsigned) frame < (unsigned) &u + sizeof(u)) {
+	if ((u_int)frame < (u_int)&u + sizeof(u)) {
 		panic("stack overflow");
 		/* NOTREACHED */
 	}
@@ -202,12 +202,12 @@ syscall(struct trapframe *frame)
 		/* Remaining args are from the stack, after the trapframe. */
 		if (callp->sy_narg > 4) {
 			u_int addr = (u.u_frame->tf_sp + 32 + stkalign) & ~3;
-			if (! baduaddr((caddr_t)addr))
+			if (!baduaddr((caddr_t)addr))
 				u.u_arg[4] = *(u_int *)addr;
 		}
 		if (callp->sy_narg > 5) {
 			u_int addr = (u.u_frame->tf_sp + 36 + stkalign) & ~3;
-			if (! baduaddr((caddr_t)addr))
+			if (!baduaddr((caddr_t)addr))
 				u.u_arg[5] = *(u_int *)addr;
 		}
 	}

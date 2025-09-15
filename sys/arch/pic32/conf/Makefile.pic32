@@ -50,7 +50,7 @@ DEVCFG!=if [ -f devcfg.c ] ; then \
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = startup.o ${OBJS} ioconf.o ${DEVCFG}
+SYSTEM_OBJ      = locore.o ${OBJS} ioconf.o ${DEVCFG}
 SYSTEM_DEP      = Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD  = sh $S/conf/newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
 SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \
@@ -84,7 +84,7 @@ sys:
 .deps:
 	mkdir .deps
 
-startup.o: ${_machdir}/${_mach}/startup.S
+locore.o: ${_machdir}/${_mach}/locore.S
 	${COMPILE_S}
 
 ioconf.o: ioconf.c

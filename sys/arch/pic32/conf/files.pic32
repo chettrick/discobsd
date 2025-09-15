@@ -63,10 +63,10 @@ dev/swap.c				standard
 # PIC32 platform.
 #
 arch/pic32/pic32/clock.c		standard
-arch/pic32/pic32/devsw.c		standard
+arch/pic32/pic32/conf.c			standard
 arch/pic32/pic32/exception.c		standard
 arch/pic32/pic32/machdep.c		standard
-arch/pic32/pic32/signal.c		standard
+arch/pic32/pic32/sig_machdep.c		standard
 arch/pic32/pic32/sysctl.c		standard
 
 #

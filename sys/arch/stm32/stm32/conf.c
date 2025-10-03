@@ -76,7 +76,7 @@ nosize(dev_t dev)
 
 #define NOBDEV \
 	noopen,		noopen,		nostrategy, \
-	nosize,		noioctl,
+	nosize,		noioctl,	0
 
 /*
  * The RetroDisks require the same master number as the disk entry in the
@@ -87,7 +87,7 @@ const struct bdevsw bdevsw[] = {
 	{	/* 0 - sd */
 #ifdef SD_ENABLED
 		sdopen,		sdclose,	sdstrategy,
-		sdsize,		sdioctl,
+		sdsize,		sdioctl,	0
 #else
 		NOBDEV
 #endif
@@ -103,7 +103,7 @@ const struct bdevsw bdevsw[] = {
 	},
 	{	/* 4 - swap */
 		swopen,		swclose,	swstrategy,
-		swsize,		swcioctl,
+		swsize,		swcioctl,	0
 	},
 	{	/* 5 - spirams */
 		NOBDEV

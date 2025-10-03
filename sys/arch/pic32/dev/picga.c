@@ -36,125 +36,134 @@ extern int uwritec(struct uio *);
 
 struct spiio picga_io;
 
-void blockdelay(unsigned int v)
+void
+blockdelay(u_int v)
 {
-    for(; v>0; v--)
-        asm volatile ("nop");
+	for (; v > 0; v--)
+		asm volatile("nop");
 }
 
-void picga_command(unsigned char cmd, unsigned char len, void *data)
+void
+picga_command(u_char cmd, u_char len, void *data)
 {
-    struct spiio *io = &picga_io;
+	struct spiio *io = &picga_io;
 
-    char *p = (char *)data;
-    spi_select(io);
-    blockdelay(3000);
-    spi_transfer(io, cmd);
-    blockdelay(3000);
-    spi_transfer(io, len);
-    blockdelay(3000);
-    spi_transfer(io, 0);
-    blockdelay(3000);
-    while (len > 0) {
-        spi_transfer(io, *p++);
-        blockdelay(3000);
-        len--;
-    }
-    blockdelay(3000);
-    spi_deselect(io);
-    blockdelay(3000);
+	char *p = (char *)data;
+
+	spi_select(io);
+	blockdelay(3000);
+	spi_transfer(io, cmd);
+	blockdelay(3000);
+	spi_transfer(io, len);
+	blockdelay(3000);
+	spi_transfer(io, 0);
+	blockdelay(3000);
+
+	while (len > 0) {
+		spi_transfer(io, *p++);
+		blockdelay(3000);
+		len--;
+	}
+
+	blockdelay(3000);
+	spi_deselect(io);
+	blockdelay(3000);
 }
 
-int picga_open(dev_t dev, int flag, int mode)
+int
+picga_open(dev_t dev, int flag, int mode)
 {
-    int channel;
-    struct spiio *io = &picga_io;
-    struct intval i;
-    struct coord2 j;
+	int channel;
+	struct spiio *io = &picga_io;
+	struct intval i;
+	struct coord2 j;
 
-    channel = minor(dev);
-    if (channel > 0)
-        return ENODEV;
+	channel = minor(dev);
+	if (channel > 0)
+		return ENODEV;
 
-    if (spi_setup(io, PICGA_BUS,(unsigned int *)&PICGA_CS_PORT, PICGA_CS_PIN) != 0)
-        return ENODEV;
+	if (spi_setup(io, PICGA_BUS, (u_int *)&PICGA_CS_PORT, PICGA_CS_PIN) != 0)
+		return ENODEV;
 
-    spi_brg(io, 500);
+	spi_brg(io, 500);
 
-    i.value = 0x01;
-    picga_command(SPI_FGCOLOR, sizeof(struct intval), &i);
-    i.value = 0x00;
-    picga_command(SPI_BGCOLOR, sizeof(struct intval), &i);
-    i.value = FONT_TOPAZ;
-    picga_command(SPI_FONT, sizeof(struct intval), &i);
-    j.x = 0;
-    j.y = 0;
-    picga_command(SPI_CLUT, sizeof(struct coord2), &j);
-    j.x = 1;
-    j.y = 0xFFFF;
-    picga_command(SPI_CLUT, sizeof(struct coord2), &j);
+	i.value = 0x01;
+	picga_command(SPI_FGCOLOR, sizeof(struct intval), &i);
+	i.value = 0x00;
+	picga_command(SPI_BGCOLOR, sizeof(struct intval), &i);
+	i.value = FONT_TOPAZ;
+	picga_command(SPI_FONT, sizeof(struct intval), &i);
+	j.x = 0;
+	j.y = 0;
+	picga_command(SPI_CLUT, sizeof(struct coord2), &j);
+	j.x = 1;
+	j.y = 0xFFFF;
+	picga_command(SPI_CLUT, sizeof(struct coord2), &j);
 
-    return 0;
+	return 0;
 }
 
-int picga_close(dev_t dev, int flag, int mode)
+int
+picga_close(dev_t dev, int flag, int mode)
 {
-    int channel;
+	int channel;
 
-    channel = minor(dev);
-    if (channel > 0)
-        return ENODEV;
+	channel = minor(dev);
+	if (channel > 0)
+		return ENODEV;
 
-    return 0;
+	return 0;
 }
 
-// Return the most recent ADC value
-int picga_read(dev_t dev, struct uio *uio, int flag)
+/* Return the most recent ADC value. */
+int
+picga_read(dev_t dev, struct uio *uio, int flag)
 {
-    return EPERM;
+	return EPERM;
 }
 
-// Trigger an ADC conversion
-int picga_write(dev_t dev, struct uio *uio, int flag)
+/* Trigger an ADC conversion. */
+int
+picga_write(dev_t dev, struct uio *uio, int flag)
 {
-    int channel;
-    char t[100];
-    int p = 0;
-    char c;
+	int channel;
+	char t[100];
+	int p = 0;
+	char c;
 
-    channel = minor(dev);
-    if (channel > 0)
-        return ENODEV;
+	channel = minor(dev);
+	if (channel > 0)
+		return ENODEV;
 
-    while (uio->uio_iov->iov_len > 0)
-    {
-        p = 0;
-        while (p < 90 && uio->uio_iov->iov_len > 0)
-        {
-            c = uwritec(uio);
-            t[p++] = c;
-            t[p] = 0;
-            if (c == '\n')
-                break;
-        }
-        picga_command(SPI_PRINT, p, t);
-        blockdelay(50000);
-    }
-    return 0;
+	while (uio->uio_iov->iov_len > 0) {
+		p = 0;
+		while (p < 90 && uio->uio_iov->iov_len > 0) {
+			c = uwritec(uio);
+			t[p++] = c;
+			t[p] = 0;
+			if (c == '\n')
+				break;
+		}
+		picga_command(SPI_PRINT, p, t);
+		blockdelay(50000);
+	}
+
+	return 0;
 }
 
-int picga_ioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
+int
+picga_ioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
 {
-    printf("IOCTL %08X\n", cmd);
+	printf("IOCTL %08X\n", cmd);
 
-    switch (cmd) {
-    case PICGA_CLS:
-        printf("CLS command\n");
-        picga_command(SPI_CLS, 0, NULL);
-        break;
+	switch (cmd) {
+	case PICGA_CLS:
+		printf("CLS command\n");
+		picga_command(SPI_CLS, 0, NULL);
+		break;
+	default:
+		return EINVAL;
+	}
 
-    default:
-        return EINVAL;
-    }
-    return 0;
+	return 0;
 }

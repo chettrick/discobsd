@@ -37,45 +37,62 @@ extern int strcmp(char *s1, char *s2);
 #include <stm32/dev/sdio.h>
 #endif
 
-/*
- * Null routine; placed in insignificant entries
- * in the bdevsw and cdevsw tables.
- */
+#define __unused	__attribute__((__unused__))	/* XXX */
+
 int
-nulldev()	/* XXX */
+nullopen(dev_t dev __unused, int flag __unused, int mode __unused)
 {
 	return 0;
 }
 
 int
-noopen(dev_t dev, int flag, int mode)
+nullclose(dev_t dev __unused, int flag __unused, int mode __unused)
+{
+	return 0;
+}
+
+int
+noopen(dev_t dev __unused, int flag __unused, int mode __unused)
 {
 	return ENXIO;
 }
 
 int
-norw(dev_t dev, struct uio *uio, int flag)
+noclose(dev_t dev __unused, int flag __unused, int mode __unused)
+{
+	return ENXIO;
+}
+
+int
+norw(dev_t dev __unused, struct uio *uio __unused, int flag __unused)
 {
 	return 0;
 }
 
 int
-noioctl(dev_t dev, u_int cmd, caddr_t data, int flag)
+noioctl(dev_t dev __unused, u_int cmd __unused, caddr_t data __unused,
+    int flag __unused)
 {
 	return EIO;
+}
+
+int
+nullstop(struct tty *tp __unused, int flag __unused)
+{
+	return 0;
 }
 
 /*
  * root attach routine.
  */
 daddr_t
-nosize(dev_t dev)
+nosize(dev_t dev __unused)
 {
 	return 0;
 }
 
 #define NOBDEV \
-	noopen,		noopen,		nostrategy, \
+	noopen,		noclose,	nostrategy, \
 	nosize,		noioctl,	0
 
 /*
@@ -118,8 +135,8 @@ const struct bdevsw bdevsw[] = {
 const int nblkdev = sizeof(bdevsw) / sizeof(bdevsw[0]) - 1;
 
 #define NOCDEV \
-	noopen,		noopen,		norw,		norw, \
-	noioctl,	nulldev,	0,		seltrue, \
+	noopen,		noclose,	norw,		norw, \
+	noioctl,	nullstop,	0,		seltrue, \
 	nostrategy,	0,		0,
 
 const struct cdevsw cdevsw[] = {
@@ -128,30 +145,30 @@ const struct cdevsw cdevsw[] = {
 	 */
 	{	/* 0 - console */
 		cnopen,		cnclose,	cnread,		cnwrite,
-		cnioctl,	nulldev,	cnttys,		cnselect,
+		cnioctl,	nullstop,	cnttys,		cnselect,
 		nostrategy,	0,		0,
 	},
 	{	/* 1 - mem, kmem, null, zero */
 #if MEM_MAJOR != 1
 #error Wrong MEM_MAJOR value!
 #endif
-		nulldev,	nulldev,	mmrw,		mmrw,
-		noioctl,	nulldev,	0,		seltrue,
+		nullopen,	nullclose,	mmrw,		mmrw,
+		noioctl,	nullstop,	0,		seltrue,
 		nostrategy,	0,		0,
 	},
 	{	/* 2 - tty */
-		syopen,		nulldev,	syread,		sywrite,
-		syioctl,	nulldev,	0,		syselect,
+		syopen,		nullclose,	syread,		sywrite,
+		syioctl,	nullstop,	0,		syselect,
 		nostrategy,	0,		0,
 	},
 	{	/* 3 - fd */
-		fdopen,		nulldev,	norw,		norw,
-		noioctl,	nulldev,	0,		seltrue,
+		fdopen,		nullclose,	norw,		norw,
+		noioctl,	nullstop,	0,		seltrue,
 		nostrategy,	0,		0,
 	},
 	{	/* 4 - temp (temporary allocation in swap space) */
 		swcopen,	swcclose,	swcread,	swcwrite,
-		swcioctl,	nulldev,	0,		seltrue,
+		swcioctl,	nullstop,	0,		seltrue,
 		nostrategy,	0,		0,
 	},
 
@@ -161,7 +178,7 @@ const struct cdevsw cdevsw[] = {
 	{	/* 5 - log */
 #ifdef LOG_ENABLED
 		logopen,	logclose,	logread,	norw,
-		logioctl,	nulldev,	0,		logselect,
+		logioctl,	nullstop,	0,		logselect,
 		nostrategy,	0,		0,
 #else
 		NOCDEV
@@ -175,7 +192,7 @@ const struct cdevsw cdevsw[] = {
     defined(UART3_ENABLED) || defined(UART4_ENABLED) || \
     defined(UART5_ENABLED) || defined(UART6_ENABLED)
 		uartopen,	uartclose,	uartread,	uartwrite,
-		uartioctl,	nulldev,	uartttys,	uartselect,
+		uartioctl,	nullstop,	uartttys,	uartselect,
 		nostrategy,	uartgetc,	uartputc,
 #else
 		NOCDEV
@@ -187,12 +204,12 @@ const struct cdevsw cdevsw[] = {
 	{	/* 8, 9 - pty */
 #ifdef PTY_ENABLED
 		ptsopen,	ptsclose,	ptsread,	ptswrite,
-		ptyioctl,	nulldev,	pt_tty,		ptcselect,
+		ptyioctl,	nullstop,	pt_tty,		ptcselect,
 		nostrategy,	0,		0,
 	},
 	{
 		ptcopen,	ptcclose,	ptcread,	ptcwrite,
-		ptyioctl,	nulldev,	pt_tty,		ptcselect,
+		ptyioctl,	nullstop,	pt_tty,		ptcselect,
 		nostrategy,	0,		0,
 #else
 		NOCDEV
@@ -213,7 +230,7 @@ const struct cdevsw cdevsw[] = {
     defined(SPI5_ENABLED) || defined(SPI6_ENABLED) || \
     defined(SPI7_ENABLED) || defined(SPI8_ENABLED)
 		spi_open,	spi_close,	spi_read,	spi_write,
-		spi_ioctl,	nulldev,	0,		seltrue,
+		spi_ioctl,	nullstop,	0,		seltrue,
 		nostrategy,	0,		0,
 #else
 		NOCDEV
@@ -237,7 +254,7 @@ const struct cdevsw cdevsw[] = {
 	{	/* 18 - sdio */
 #ifdef SDIO_ENABLED
 		sdio_open,	sdio_close,	sdio_read,	sdio_write,
-		sdio_ioctl,	nulldev,	0,		seltrue,
+		sdio_ioctl,	nullstop,	0,		seltrue,
 		nostrategy,	0,		0,
 #else
 		NOCDEV
@@ -295,7 +312,7 @@ isdisk(dev_t dev, int type)
  * A minimal stub routine can always return NODEV.
  */
 int
-chrtoblk(dev_t dev)
+chrtoblk(dev_t dev __unused)
 {
 	return NODEV;
 }

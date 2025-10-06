@@ -5,6 +5,7 @@
  *
  *	@(#)conf.c	3.2 (2.11BSD GTE) 1997/11/12
  */
+
 #include <sys/param.h>
 #include <sys/conf.h>
 #include <sys/buf.h>
@@ -18,12 +19,10 @@
 #include <sys/systm.h>
 #include <sys/errno.h>
 
-#include <stm32/dev/spi.h>
-#include <stm32/dev/uart.h>
-
 #include <sys/swap.h>
 
-extern int strcmp(char *s1, char *s2);
+#include <stm32/dev/spi.h>
+#include <stm32/dev/uart.h>
 
 #ifdef SD_ENABLED
 #include <stm32/dev/sd.h>
@@ -92,8 +91,8 @@ nosize(dev_t dev __unused)
 }
 
 #define NOBDEV \
-	noopen,		noclose,	nostrategy, \
-	nosize,		noioctl,	0
+		noopen,		noclose,	nostrategy, \
+		nosize,		noioctl,	0
 
 /*
  * The RetroDisks require the same master number as the disk entry in the
@@ -135,9 +134,9 @@ const struct bdevsw bdevsw[] = {
 const int nblkdev = sizeof(bdevsw) / sizeof(bdevsw[0]) - 1;
 
 #define NOCDEV \
-	noopen,		noclose,	norw,		norw, \
-	noioctl,	nullstop,	0,		seltrue, \
-	nostrategy,	0,		0,
+		noopen,		noclose,	norw,		norw, \
+		noioctl,	nullstop,	0,		seltrue, \
+		nostrategy,	0,		0,
 
 const struct cdevsw cdevsw[] = {
 	/*
@@ -245,7 +244,7 @@ const struct cdevsw cdevsw[] = {
 	{	/* 15 - picga */	/* Ignore this for now - it's WIP. */
 		NOCDEV
 	},
-	{	/* 16 - hxtft */
+	{	/* 16 - hxtft, gpanel, sgpanel */
 		NOCDEV
 	},
 	{	/* 17 - skel */

@@ -115,7 +115,7 @@ nosize(dev_t dev)
 
 #define NOBDEV \
 		noopen,		noopen,		nostrategy, \
-		nosize,		noioctl,
+		nosize,		noioctl,	0
 
 /*
  * The RetroDisks require the same master number as the disk entry in the
@@ -126,7 +126,7 @@ const struct bdevsw bdevsw[] = {
 	{	/* 0 - sd */
 #ifdef SD_ENABLED
 		sdopen,		sdclose,	sdstrategy,
-		sdsize,		sdioctl,
+		sdsize,		sdioctl,	0
 #else
 		NOBDEV
 #endif
@@ -134,7 +134,7 @@ const struct bdevsw bdevsw[] = {
 	{	/* 1 - sramc */
 #ifdef RC_ENABLED
 		sramc_open,	sramc_close,	sramc_strategy,
-		sramc_size,	sramc_ioctl,
+		sramc_size,	sramc_ioctl,	0
 #else
 		NOBDEV
 #endif
@@ -142,7 +142,7 @@ const struct bdevsw bdevsw[] = {
 	{	/* 2 - sdramp */
 #ifdef DR_ENABLED
 		sdramp_open,	sdramp_close,	sdramp_strategy,
-		sdramp_size,	sdramp_ioctl,
+		sdramp_size,	sdramp_ioctl,	0
 #else
 		NOBDEV
 #endif
@@ -150,19 +150,19 @@ const struct bdevsw bdevsw[] = {
 	{	/* 3 - mrams */
 #ifdef MR_ENABLED
 		mrams_open,	mrams_close,	mrams_strategy,
-		mrams_size,	mrams_ioctl,
+		mrams_size,	mrams_ioctl,	0
 #else
 		NOBDEV
 #endif
 	},
 	{	/* 4 - swap */
 		swopen,		swclose,	swstrategy,
-		swsize,		swcioctl,
+		swsize,		swcioctl,	0
 	},
 	{	/* 5 - spirams */
 #ifdef SR_ENABLED
 		spirams_open,	spirams_close,	spirams_strategy,
-		spirams_size,	spirams_ioctl,
+		spirams_size,	spirams_ioctl,	0
 #else
 		NOBDEV
 #endif

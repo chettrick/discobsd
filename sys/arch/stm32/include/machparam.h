@@ -140,19 +140,6 @@ void clkstart(void);
 
 void led_control(int mask, int on);
 
-/*
- * SD timeouts, for sysctl.
- */
-extern int sd_timo_cmd;
-extern int sd_timo_send_op;
-extern int sd_timo_send_csd;
-extern int sd_timo_read;
-extern int sd_timo_wait_cmd;
-extern int sd_timo_wait_wdata;
-extern int sd_timo_wait_wdone;
-extern int sd_timo_wait_wstop;
-extern int sd_timo_wait_widle;
-
 void LL_GPIO_EnableClock(GPIO_TypeDef *GPIOx);
 
 #endif /* KERNEL */

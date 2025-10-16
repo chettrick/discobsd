@@ -105,7 +105,7 @@ symlinks:
 installfs:
 		@[ -n "${SDCARD}" ] || (echo "SDCARD not defined." && exit 1)
 		@[ -f $(FSIMG) ] || $(MAKE) $(FSIMG)
-		sudo dd bs=32k if=$(FSIMG) of=$(SDCARD)
+		sudo dd bs=1M if=${FSIMG} of=${SDCARD}
 
 .PHONY:		all build distribution release tools kernel symlinks \
 		${FSIMG} fs installfs \

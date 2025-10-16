@@ -59,7 +59,7 @@ On Windows host systems use a disk imaging utility such as [Rufus][6].
 
 On Unix-like host systems with `dd` run:
 
-    $ dd if=sdcard.img of=/path/to/SD/card
+    $ dd bs=1M if=sdcard.img of=/path/to/SD/card
 
 The board-specific kernel `unix` must be loaded into the MCU's flash memory.
 Formats are ELF `unix.elf`, binary `unix.bin`, and Intel HEX `unix.hex`.
@@ -147,7 +147,7 @@ letter, as the case may be.
 For example, imaging an SD card attached at `sd2` on an OpenBSD host
 operating system through the raw i/o device:
 
-    $ SDCARD=/dev/rsd2c make installfs
+    $ make SDCARD=/dev/rsd2c installfs
 
 Note that using BSD make on a FreeBSD host requires the system makefile
 include directory to be specified on the command line or via the

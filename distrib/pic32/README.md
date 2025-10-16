@@ -77,7 +77,13 @@ On Windows host systems use a disk imaging utility such as [Rufus][20].
 
 On Unix-like host systems with `dd` run:
 ```sh
-$ sudo dd if=sdcard.img of=/path/to/SD/card
+$ dd bs=1M if=sdcard.img of=/path/to/SD/card
+```
+
+The target `installfs` can be used to image the SD card on Unix-like systems.
+Provide the path to the SD card via the command line:
+```sh
+$ make MACHINE=pic32 SDCARD=/path/to/SD/card installfs
 ```
 
 [20]: https://github.com/pbatard/rufus

@@ -23,13 +23,13 @@ On Windows host systems use a disk imaging utility such as [Rufus][6].
 
 On Unix-like host systems with `dd` run:
   ```sh
-    $ dd bs=32k if=sdcard.img of=/path/to/SD/card
+    $ dd bs=1M if=sdcard.img of=/path/to/SD/card
   ```
 
 The target `installfs` can be used to image the SD card on Unix-like systems.
 Provide the path to the SD card via the command line:
   ```sh
-    $ SDCARD=/path/to/SD/card make installfs
+    $ make SDCARD=/path/to/SD/card installfs
   ```
 
 The board-specific kernel `unix` must be loaded into the MCU's flash memory.

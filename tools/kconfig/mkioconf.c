@@ -55,7 +55,7 @@ ctlr_ioconf(FILE *fp)
         fprintf(fp, "extern struct driver %sdriver;\n", dp->d_name);
     }
     fprintf(fp, "\nstruct conf_ctlr conf_ctlr_init[] = {\n");
-    fprintf(fp, "   /* driver,\t\tunit,\taddr,\t\tpri,\tflags */\n");
+    fprintf(fp, "\t/* driver,\tunit,\taddr,\t\tpri,\tflags,\talive */\n");
     for (dp = dtab; dp != 0; dp = dp->d_next) {
         if (dp->d_type != CONTROLLER)
             continue;
@@ -66,12 +66,10 @@ ctlr_ioconf(FILE *fp)
         }
         if (dp->d_unit == UNKNOWN || dp->d_unit == QUES)
             dp->d_unit = 0;
-        fprintf(fp,
-               "    { &%sdriver,\t%d,\tC 0x%08x,\t%d,\t0x%x },\n",
-            dp->d_name, dp->d_unit, dp->d_addr, dp->d_pri,
-            dp->d_flags);
+        fprintf(fp, "\t{ &%sdriver,\t%d,\tC 0x%08x,\t%d,\t0x%x,\t%d },\n",
+            dp->d_name, dp->d_unit, dp->d_addr, dp->d_pri, dp->d_flags, 0);
     }
-    fprintf(fp, "    { 0 }\n};\n");
+    fprintf(fp, "\t{ 0 }\n};\n");
 }
 
 /*
@@ -91,9 +89,9 @@ service_ioconf(FILE *fp)
     fprintf(fp, "\nstruct conf_service conf_service_init[] = {\n");
     for (dp = dtab; dp != NULL; dp = dp->d_next) {
         if (dp->d_type == SERVICE)
-            fprintf(fp, "    { %sattach },\n", dp->d_name);
+            fprintf(fp, "\t{ %sattach },\n", dp->d_name);
     }
-    fprintf(fp, "    { 0 }\n};\n");
+    fprintf(fp, "\t{ 0 }\n};\n");
 }
 
 static char *
@@ -127,13 +125,13 @@ pic32_ioconf(void)
     /* print devices connected to other controllers */
     fprintf(fp, "\nstruct conf_device conf_device_init[] = {\n");
     fprintf(fp,
-       "   /* driver,\t\tctlr driver,\tunit,\tctlr,\tdrive,\tflags,\tpins */\n");
+        "\t/* driver,\tctlr driver,\tunit,\tctlr,\tdrive,\tflags,\tpins,\talive */\n");
     for (dp = dtab; dp != 0; dp = dp->d_next) {
         if (dp->d_type == CONTROLLER || dp->d_type == SERVICE)
             continue;
 
         mp = dp->d_conn;
-        fprintf(fp, "    { &%sdriver,\t", dp->d_name);
+        fprintf(fp, "\t{ &%sdriver,\t", dp->d_name);
         if (mp) {
             fprintf(fp, "&%sdriver,\t%d,\t%d,\t",
                 mp->d_name, dp->d_unit, mp->d_unit);
@@ -154,12 +152,12 @@ pic32_ioconf(void)
                 if (i > 0)
                     fprintf(fp, ",");
             }
-            fprintf(fp, "}");
+            fprintf(fp, "},\t");
         } else
-            fprintf(fp, "{0}");
-        fprintf(fp, " },\n");
+            fprintf(fp, "{0},\t");
+        fprintf(fp, "0 },\n");
     }
-    fprintf(fp, "    { 0 }\n};\n");
+    fprintf(fp, "\t{ 0 }\n};\n");
 
     /* print service initialization structures */
     service_ioconf(fp);
@@ -189,13 +187,13 @@ stm32_ioconf(void)
     /* print devices connected to other controllers */
     fprintf(fp, "\nstruct conf_device conf_device_init[] = {\n");
     fprintf(fp,
-       "   /* driver,\t\tctlr driver,\tunit,\tctlr,\tdrive,\tflags,\tpins */\n");
+        "\t/* driver,\tctlr driver,\tunit,\tctlr,\tdrive,\tflags,\tpins,\talive */\n");
     for (dp = dtab; dp != 0; dp = dp->d_next) {
         if (dp->d_type == CONTROLLER || dp->d_type == SERVICE)
             continue;
 
         mp = dp->d_conn;
-        fprintf(fp, "    { &%sdriver,\t", dp->d_name);
+        fprintf(fp, "\t{ &%sdriver,\t", dp->d_name);
         if (mp) {
             fprintf(fp, "&%sdriver,\t%d,\t%d,\t",
                 mp->d_name, dp->d_unit, mp->d_unit);
@@ -216,12 +214,12 @@ stm32_ioconf(void)
                 if (i > 0)
                     fprintf(fp, ",");
             }
-            fprintf(fp, "}");
+            fprintf(fp, "},\t");
         } else
-            fprintf(fp, "{0}");
-        fprintf(fp, " },\n");
+            fprintf(fp, "{0},\t");
+        fprintf(fp, "0 },\n");
     }
-    fprintf(fp, "    { 0 }\n};\n");
+    fprintf(fp, "\t{ 0 }\n};\n");
 
     /* print service initialization structures */
     service_ioconf(fp);

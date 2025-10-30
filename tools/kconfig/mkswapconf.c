@@ -72,8 +72,8 @@ do_swap(struct file_list *fl)
         perror(swapname);
         exit(1);
     }
-    fprintf(fp, "#include \"sys/param.h\"\n");
-    fprintf(fp, "#include \"sys/conf.h\"\n");
+    fprintf(fp, "#include <sys/param.h>\n");
+    fprintf(fp, "#include <sys/conf.h>\n");
     fprintf(fp, "\n");
     /*
      * If there aren't any swap devices

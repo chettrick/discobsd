@@ -116,7 +116,7 @@ pic32_ioconf(void)
         exit(1);
     }
     fprintf(fp, "#include <sys/types.h>\n");
-    fprintf(fp, "#include <sys/kconfig.h>\n\n");
+    fprintf(fp, "#include <sys/config.h>\n\n");
     fprintf(fp, "#define C (char *)\n\n");
 
     /* print controller initialization structures */
@@ -178,7 +178,7 @@ stm32_ioconf(void)
         exit(1);
     }
     fprintf(fp, "#include <sys/types.h>\n");
-    fprintf(fp, "#include <sys/kconfig.h>\n\n");
+    fprintf(fp, "#include <sys/config.h>\n\n");
     fprintf(fp, "#define C (char *)\n\n");
 
     /* print controller initialization structures */

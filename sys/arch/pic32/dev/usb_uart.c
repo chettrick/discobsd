@@ -27,7 +27,7 @@
 #include <sys/user.h>
 #include <sys/ioctl.h>
 #include <sys/tty.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 
 #include <machine/pic32mx.h>
 

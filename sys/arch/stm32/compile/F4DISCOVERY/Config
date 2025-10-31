@@ -4,12 +4,9 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/stm32/compile/F4DISCOVERY
-#   tools/bin/kconfig Config
+#   tools/bin/config Config
 #   make clean
 #   make
-#
-# Format of this file is described on page:
-# http://retrobsd.org/wiki/doku.php/doc/kconfig
 #
 architecture    "stm32"
 cpu             "STM32F407xx"               # Processor variant

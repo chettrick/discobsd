@@ -8,7 +8,7 @@
 #include <sys/dk.h>
 #include <sys/disk.h>
 #include <sys/spi.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 
 #include <machine/debug.h>
 

@@ -23,7 +23,7 @@
 #include <sys/dk.h>
 #include <sys/ioctl.h>
 #include <sys/disk.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 
 #include <machine/debug.h>
 

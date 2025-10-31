@@ -12,7 +12,7 @@
 #include <sys/ioctl.h>
 #include <sys/tty.h>
 #include <sys/systm.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 
 #include <stm32/dev/uart.h>
 

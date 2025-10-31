@@ -6,7 +6,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/pic32/compile/UBW32
-#   tools/bin/kconfig Config-uart
+#   tools/bin/config Config-uart
 #   make clean
 #   make
 #

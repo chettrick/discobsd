@@ -1,21 +1,21 @@
-.Dd June 1, 2015
+.Dd October 30, 2025
 .Dt CONFIG 8
 .Os RetroBSD
 .Sh NAME
-.Nm kconfig
+.Nm config
 .Nd build kernel configuration files
 .Sh SYNOPSIS
-.Nm kconfig
+.Nm
 .Op Fl g
 .Ar system_name
 .Sh DESCRIPTION
 .Pp
-.Nm Kconfig
+.Nm
 builds a set of kernel configuration files from the file
 .Ar SYSTEM_NAME
 which describes the kernel to configure.
 A second file tells
-.Nm kconfig
+.Nm
 what files are needed to generate a kernel and
 can be augmented by configuration specific set of files
 that give alternate files for a specific architecture.
@@ -30,7 +30,7 @@ Available option and operand:
 If the
 .Fl p
 option is supplied,
-.Nm kconfig
+.Nm
 will configure a kernel for debugging.
 .It Ar SYSTEM_NAME
 specifies the name of the kernel configuration file
@@ -38,14 +38,14 @@ containing device specifications, configuration options
 and other system parameters for one kernel configuration.
 .El
 .Pp
-.Nm Kconfig
+.Nm
 should be run from the architecture and board specific
 subdirectory of the system source (like
 .Pa sys/arch/pic32/compile/MAX32 ) .
-.Nm Kconfig
+.Nm
 places all output files in the current directory.
 The output of
-.Nm kconfig
+.Nm
 consists of a number of files:
 .Pa ioconf.c ,
 a description
@@ -61,18 +61,18 @@ the disk areas to be used for swapping, the root file system,
 argument processing, and kernel dumps.
 .Pp
 After running
-.Nm kconfig ,
+.Nm ,
 it is necessary to run
 .Dq Li make depend
 in the directory where the new makefile
 was created (current directory).
-.Nm Kconfig
+.Nm
 prints a reminder of this when it completes.
 .Pp
 If any other error messages are produced by
-.Nm kconfig ,
+.Nm ,
 the problems in the configuration file should be corrected and
-.Nm kconfig
+.Nm
 should be run again.
 Attempts to compile a kernel that had configuration errors
 are likely to fail.
@@ -86,9 +86,10 @@ list of files kernel is built from
 name to major device mapping file
 .El
 .Sh SEE ALSO
-The SYNOPSIS portion of each device in section 4.
+The SYNOPSIS portion of each device in section 4 of the manual.
+.\" http://web.archive.org/web/20200226014444/http://retrobsd.org/wiki/doku.php/doc/kconfig
 .Rs
-.%T "Building RetroBSD Kernel with kconfig"
+.%T "Building RetroBSD Kernels with kconfig"
 .Re
 .Sh BUGS
 The line numbers reported in error messages are usually off by one.

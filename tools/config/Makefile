@@ -9,9 +9,9 @@ CFLAGS+=	${_LIBBSD_CFLAGS}
 LIBS+=		${_LIBBSD_LIBS}
 
 OBJS            = config.o main.o lang.o mkioconf.o mkmakefile.o mkswapconf.o
-PROG		= kconfig
-MAN		= kconfig.0
-MANSRC		= kconfig.8
+PROG		= config
+MAN		= config.0
+MANSRC		= config.8
 
 all:		${PROG} ${MAN}
 

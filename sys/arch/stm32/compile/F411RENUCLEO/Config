@@ -4,7 +4,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/stm32/compile/F411RENUCLEO
-#   tools/bin/kconfig Config
+#   tools/bin/config Config
 #   make clean
 #   make
 #

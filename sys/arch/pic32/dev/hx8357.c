@@ -29,7 +29,7 @@
 #include <sys/systm.h>
 #include <sys/uio.h>
 #include <sys/tty.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 #include <sys/gpanel.h>
 
 #define HX8357_EXIT_SLEEP_MODE              0x11

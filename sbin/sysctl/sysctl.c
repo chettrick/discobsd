@@ -235,8 +235,10 @@ parse(string, flags)
 	case CTL_KERN:
 		switch (mib[1]) {
 		case KERN_PROF:
+			if (flags == 0)
+				return;
 			fprintf(stderr,
-			    "kern.prof = not supported in 2.11BSD\n");
+			    "%s is not supported in DiscoBSD\n", string);
 			return;
 		case KERN_INODE:
 		case KERN_FILE:

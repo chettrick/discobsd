@@ -5,7 +5,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/pic32/compile/MMB_MX7
-#   tools/bin/kconfig Config
+#   tools/bin/config Config
 #   make clean
 #   make
 #

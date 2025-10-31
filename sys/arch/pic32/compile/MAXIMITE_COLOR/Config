@@ -5,7 +5,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/pic32/compile/MAXIMITE_COLOR
-#   tools/bin/kconfig Config
+#   tools/bin/config Config
 #   make clean
 #   make
 #

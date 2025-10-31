@@ -7,7 +7,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/pic32/compile/SDXL
-#   tools/bin/kconfig Config-glcd
+#   tools/bin/config Config-glcd
 #   make clean
 #   make
 #

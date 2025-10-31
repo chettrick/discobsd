@@ -6,7 +6,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/pic32/compile/FUBARINO
-#   tools/bin/kconfig Config-spirams
+#   tools/bin/config Config-spirams
 #   make clean
 #   make
 #

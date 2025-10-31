@@ -83,7 +83,7 @@ main(int argc, char *argv[])
     argv += optind;
 
     if (argc != 1) {
-usage:  fputs("usage: kconfig [-gp] sysname\n", stderr);
+usage:  fputs("usage: config [-gp] sysname\n", stderr);
         exit(1);
     }
 

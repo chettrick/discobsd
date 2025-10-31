@@ -7,7 +7,7 @@
 #
 # To build the kernel, use:
 #   cd sys/arch/pic32/compile/FUBARINO
-#   tools/bin/kconfig Config-uart-sramc
+#   tools/bin/config Config-uart-sramc
 #   make clean
 #   make
 #

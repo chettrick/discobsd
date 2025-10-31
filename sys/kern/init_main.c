@@ -23,7 +23,7 @@
 #include <sys/kernel.h>
 #include <sys/namei.h>
 #include <sys/stat.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 
 static void	bhinit(void);
 static void	binit(void);
@@ -56,7 +56,7 @@ main(void)
 
 	startup();
 	printf("\n%s", version);
-	kconfig();
+	config();
 
 	/*
 	 * Set up system process 0 (swapper).

@@ -75,7 +75,7 @@ The kernel (for the F412GDISCO board) can be built independently by:
     $ cd sys/arch/stm32/compile/F412GDISCO
     $ make
   ```
-Note: Building the kernel requires the `tools/kconfig/kconfig` config utility.
+Note: Building the kernel requires the `tools/config` config utility.
 
 ## Debugging DiscoBSD/stm32 on a development board via OpenOCD and GDB
   ```sh

@@ -19,7 +19,7 @@
 #include <sys/namei.h>
 #include <sys/mount.h>
 #include <sys/systm.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 #include <sys/tty.h>
 
 #include <pic32/dev/uart.h>
@@ -511,7 +511,8 @@ is_controller_alive(driver, unit)
  * Configure all controllers and devices as specified
  * in the kernel configuration file.
  */
-void kconfig()
+void
+config(void)
 {
     struct conf_ctlr *ctlr;
     struct conf_device *dev;

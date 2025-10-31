@@ -44,7 +44,7 @@
 #include <sys/errno.h>
 #include <sys/dk.h>
 #include <sys/disk.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 
 #include <stm32/dev/sd.h>
 #include <stm32/dev/sdio_card.h>

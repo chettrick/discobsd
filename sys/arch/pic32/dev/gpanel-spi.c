@@ -29,7 +29,7 @@
 #include <sys/systm.h>
 #include <sys/uio.h>
 #include <sys/tty.h>
-#include <sys/kconfig.h>
+#include <sys/config.h>
 #include <sys/spi.h>
 #include <sys/gpanel.h>
 

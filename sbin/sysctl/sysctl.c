@@ -236,7 +236,7 @@ parse(string, flags)
 		switch (mib[1]) {
 		case KERN_PROF:
 			fprintf(stderr,
-				"kern.prof =  not supported in 2.11BSD\n");
+			    "kern.prof = not supported in 2.11BSD\n");
 			return;
 		case KERN_INODE:
 		case KERN_FILE:
@@ -270,7 +270,7 @@ parse(string, flags)
 
 			getloadavg(loads, 3);
 			if (!nflag)
-				fprintf(stdout, "%s: ", string);
+				fprintf(stdout, "%s = ", string);
 			fprintf(stdout, "%u.%02u %u.%02u %u.02u\n",
                                 loads[0] / 100, loads[0] % 100,
                                 loads[1] / 100, loads[1] % 100,
@@ -361,7 +361,7 @@ doit:
 		struct clockinfo *clkp = (struct clockinfo *)buf;
 
 		if (!nflag)
-			fprintf(stdout, "%s: ", string);
+			fprintf(stdout, "%s = ", string);
 		fprintf(stdout,
 		    "hz = %d, tick = %d, profhz = %d, stathz = %d\n",
 		    clkp->hz, clkp->tick, clkp->profhz, clkp->stathz);

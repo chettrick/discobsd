@@ -25,7 +25,7 @@ LDSCRIPT = "MAXIMITE.ld"
 #
 # Makefile for RetroBSD, pic32 target
 #
-# DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
+# DEBUG is set to -g by config if debugging is requested (config -g).
 #
 
 AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
@@ -137,8 +137,8 @@ clean:
 clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
-reconfig ioconf.c: Config $S/../tools/bin/kconfig
-	$S/../tools/bin/kconfig Config
+reconfig ioconf.c: Config $S/../tools/bin/config
+	$S/../tools/bin/config Config
 	$(MAKE) clean
 
 load:   unix

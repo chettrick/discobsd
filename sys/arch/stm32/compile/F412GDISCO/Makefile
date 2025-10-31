@@ -26,7 +26,7 @@ DEBUG = -g
 #
 # Makefile for DiscoBSD, stm32 target
 #
-# DEBUG is set to -g by kconfig if debugging is requested (kconfig -g).
+# DEBUG is set to -g by config if debugging is requested (config -g).
 #
 
 # sources are located via $S relative to the compilation directory
@@ -140,8 +140,8 @@ clean:
 clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
-reconfig ioconf.c: Config $S/../tools/bin/kconfig
-	$S/../tools/bin/kconfig -g Config
+reconfig ioconf.c: Config $S/../tools/bin/config
+	$S/../tools/bin/config -g Config
 	${MAKE} clean
 
 machine:

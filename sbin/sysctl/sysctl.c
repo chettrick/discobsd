@@ -364,8 +364,8 @@ parse(char *string, int flags)
 		if (!nflag)
 			fprintf(stdout, "%s%s", string, equ);
 		fprintf(stdout,
-		    "hz = %d, tick = %d, profhz = %d, stathz = %d\n",
-		    clkp->hz, clkp->tick, clkp->profhz, clkp->stathz);
+		    "tick = %d, hz = %d, profhz = %d, stathz = %d\n",
+		    clkp->tick, clkp->hz, clkp->profhz, clkp->stathz);
 		return;
 	}
 	if (special & BOOTTIME) {

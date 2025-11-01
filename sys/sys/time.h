@@ -101,11 +101,11 @@ char *tztab (int zone, int dst);
 #endif
 
 /*
- * Getkerninfo clock information structure
+ * KERN_CLOCKRATE clock information structure
  */
 struct clockinfo {
-    int     hz;         /* clock frequency */
     int     tick;       /* micro-seconds per hz tick */
+    int     hz;         /* clock frequency */
     int     stathz;     /* statistics clock frequency */
     int     profhz;     /* profiling clock frequency */
 };

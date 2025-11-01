@@ -1,40 +1,30 @@
-#
-# Public Domain.  1/15/1995 - Steven Schultz
-#
 TOPSRC!=cd ../..; pwd
 include ${TOPSRC}/share/mk/sys.mk
 
-SRCS		= sysctl.c
-OBJS		= sysctl.o
-MAN             = sysctl.0
-MANSRC          = sysctl.8
+BINDIR=		/sbin
+MANDIR=		/usr/share/man/cat8
 
-all:            sysctl $(MAN)
+PROG=		sysctl
 
-sysctl:      	${OBJS}
-		${CC} ${CFLAGS} ${LDFLAGS} -o sysctl.elf ${OBJS} ${LIBS}
-		${OBJDUMP} -S sysctl.elf > sysctl.dis
-		${SIZE} sysctl.elf
-		${ELF2AOUT} sysctl.elf $@ && rm sysctl.elf
+OBJS=		${PROG}.o
 
-$(MAN):         ${MANSRC}
+MAN=		${PROG}.0
+MANSRC=		${PROG}.8
+
+all:		${PROG} ${MAN}
+
+${PROG}:	${OBJS}
+		${CC} ${CFLAGS} ${LDFLAGS} -o $@.elf ${OBJS} ${LIBS}
+		${OBJDUMP} -S $@.elf > $@.dis
+		${SIZE} $@.elf
+		${ELF2AOUT} $@.elf $@ && rm $@.elf
+
+${MAN}:		${MANSRC}
 		${MANROFF} ${MANSRC} > $@
 
 clean:
-		rm -f *.o *.elf ${MAN} sysctl *.elf *.dis tags *~
+		rm -f *.o *.elf ${MAN} ${PROG} *.dis tags *~
 
-depend:         ${SRCS}
-		mkdep ${CFLAGS} ${SRCS}
-
-install:        all
-		${INSTALL} sysctl ${DESTDIR}/sbin/sysctl
-		cp ${MAN} $(DESTDIR)/usr/share/man/cat8/
-
-lint:           ${SRCS}
-		lint -hax ${SRCS}
-
-tags:           ${SRCS}
-		ctags ${SRCS}
-
-# DO NOT DELETE THIS LINE -- mkdep uses it.
-# DO NOT PUT ANYTHING AFTER THIS LINE, IT WILL GO AWAY.
+install:	all
+		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		${INSTALL} -m 444 ${MAN} ${DESTDIR}${MANDIR}/${MAN}

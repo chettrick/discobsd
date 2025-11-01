@@ -112,6 +112,8 @@ extern int optind, errno;
 #define	BOOTTIME	0x0002
 #define	CONSDEV		0x0004
 
+char *equ = "=";
+
 int
 main(int argc, char *argv[])
 {
@@ -269,7 +271,7 @@ parse(char *string, int flags)
 
 			getloadavg(loads, 3);
 			if (!nflag)
-				fprintf(stdout, "%s = ", string);
+				fprintf(stdout, "%s%s", string, equ);
 			fprintf(stdout, "%u.%02u %u.%02u %u.02u\n",
 			    loads[0] / 100, loads[0] % 100,
 			    loads[1] / 100, loads[1] % 100,
@@ -311,7 +313,7 @@ parse(char *string, int flags)
 		break;
 
 	default:
-		fprintf(stderr, "Illegal top level value: %d\n", mib[0]);
+		fprintf(stderr, "illegal top level value: %d\n", mib[0]);
 		return;
 	}
 
@@ -360,7 +362,7 @@ parse(char *string, int flags)
 		struct clockinfo *clkp = (struct clockinfo *)buf;
 
 		if (!nflag)
-			fprintf(stdout, "%s = ", string);
+			fprintf(stdout, "%s%s", string, equ);
 		fprintf(stdout,
 		    "hz = %d, tick = %d, profhz = %d, stathz = %d\n",
 		    clkp->hz, clkp->tick, clkp->profhz, clkp->stathz);
@@ -370,7 +372,7 @@ parse(char *string, int flags)
 		struct timeval *btp = (struct timeval *)buf;
 
 		if (!nflag)
-			fprintf(stdout, "%s = %s", string,
+			fprintf(stdout, "%s%s%s", string, equ,
 			    ctime(&btp->tv_sec));
 		else
 			fprintf(stdout, "%d\n", btp->tv_sec);
@@ -380,7 +382,7 @@ parse(char *string, int flags)
 		dev_t dev = *(dev_t *)buf;
 
 		if (!nflag)
-			fprintf(stdout, "%s = %s\n", string,
+			fprintf(stdout, "%s%s%s\n", string, equ,
 			    devname(dev, S_IFCHR));
 		else
 			fprintf(stdout, "0x%x\n", dev);
@@ -390,7 +392,7 @@ parse(char *string, int flags)
 	case CTLTYPE_INT:
 		if (newsize == 0) {
 			if (!nflag)
-				fprintf(stdout, "%s = ", string);
+				fprintf(stdout, "%s%s", string, equ);
 			fprintf(stdout, "%d\n", *(int *)buf);
 		} else {
 			if (!nflag)
@@ -403,7 +405,7 @@ parse(char *string, int flags)
 	case CTLTYPE_STRING:
 		if (newsize == 0) {
 			if (!nflag)
-				fprintf(stdout, "%s = ", string);
+				fprintf(stdout, "%s%s", string, equ);
 			fprintf(stdout, "%s\n", buf);
 		} else {
 			if (!nflag)
@@ -415,7 +417,7 @@ parse(char *string, int flags)
 	case CTLTYPE_LONG:
 		if (newsize == 0) {
 			if (!nflag)
-				fprintf(stdout, "%s = ", string);
+				fprintf(stdout, "%s%s", string, equ);
 			fprintf(stdout, "%ld\n", *(long *)buf);
 		} else {
 			if (!nflag)

@@ -29,11 +29,13 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
+ *	@(#)sysctl.c	8.1.4 (2.11BSD GTE) 1998/4/3
  */
+
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/sysctl.h>
-#include <machine/cpu.h>
 
 #include <netinet/in.h>
 #if 0 /* XXX */
@@ -46,12 +48,15 @@
 #include <netinet/udp.h>
 #include <netinet/udp_var.h>
 #endif
+
+#include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <unistd.h>
+
+#include <machine/cpu.h>
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -74,7 +79,7 @@ struct list secondlevel[] = {
 	{ 0, 0 },			/* CTL_UNSPEC */
 	{ kernname, KERN_MAXID },	/* CTL_KERN */
 	{ vmname, VM_MAXID },		/* CTL_VM */
-	{ 0, 0 },			/* CTL_FS */
+	{ 0, 0 },			/* was CTL_FS */
 #ifdef CTL_NET_NAMES
 	{ netname, NET_MAXID },		/* CTL_NET */
 #else
@@ -88,12 +93,12 @@ struct list secondlevel[] = {
 
 void	listall(char *, struct list *);
 void	parse(char *, int);
-void	debuginit();
+void	debuginit(void);
 #ifdef PF_INET
 int	sysctl_inet(char *, char **, int *, int, int *);
 #endif /* PF_INET */
 int	findname(char *, char *, char **, struct list *);
-void	usage();
+void	usage(void);
 
 int	Aflag, aflag, nflag, wflag;
 
@@ -108,15 +113,12 @@ extern int optind, errno;
 #define	CONSDEV		0x0004
 
 int
-main(argc, argv)
-	int argc;
-	char *argv[];
+main(int argc, char *argv[])
 {
 	int ch, lvl1;
 
 	while ((ch = getopt(argc, argv, "Aanw")) != EOF) {
 		switch (ch) {
-
 		case 'A':
 			Aflag = 1;
 			break;
@@ -144,22 +146,20 @@ main(argc, argv)
 		debuginit();
 		for (lvl1 = 1; lvl1 < CTL_MAXID; lvl1++)
 			listall(topname[lvl1].ctl_name, &secondlevel[lvl1]);
-		exit(0);
+		return (0);
 	}
 	if (argc == 0)
 		usage();
 	while (argc-- > 0)
 		parse(*argv, 1);
-	exit(0);
+	return (0);
 }
 
 /*
  * List all variables known to the system.
  */
 void
-listall(prefix, lp)
-	char *prefix;
-	struct list *lp;
+listall(char *prefix, struct list *lp)
 {
 	int lvl2;
 	char *cp, name[BUFSIZ];
@@ -183,9 +183,7 @@ listall(prefix, lp)
  * Set a new value if requested.
  */
 void
-parse(string, flags)
-	char *string;
-	int flags;
+parse(char *string, int flags)
 {
 	int indx, type, state, size, len;
 	int special = 0;
@@ -231,7 +229,6 @@ parse(string, flags)
 	type = lp->list[indx].ctl_type;
 	len = 2;
 	switch (mib[0]) {
-
 	case CTL_KERN:
 		switch (mib[1]) {
 		case KERN_PROF:
@@ -268,15 +265,15 @@ parse(string, flags)
 
 	case CTL_VM:
 		if (mib[1] == VM_LOADAVG) {
-			unsigned loads[3];
+			u_int loads[3];
 
 			getloadavg(loads, 3);
 			if (!nflag)
 				fprintf(stdout, "%s = ", string);
 			fprintf(stdout, "%u.%02u %u.%02u %u.02u\n",
-                                loads[0] / 100, loads[0] % 100,
-                                loads[1] / 100, loads[1] % 100,
-                                loads[2] / 100, loads[2] % 100);
+			    loads[0] / 100, loads[0] % 100,
+			    loads[1] / 100, loads[1] % 100,
+			    loads[2] / 100, loads[2] % 100);
 			return;
 		}
 		if (flags == 0)
@@ -316,9 +313,8 @@ parse(string, flags)
 	default:
 		fprintf(stderr, "Illegal top level value: %d\n", mib[0]);
 		return;
-
 	}
-doit:
+
 	if (bufp) {
 		fprintf(stderr, "name %s in %s is unknown\n", *bufp, string);
 		return;
@@ -339,7 +335,8 @@ doit:
 		}
 	}
 	size = BUFSIZ;
-	if (sysctl(mib, len, buf, &size, newsize ? newval : (void *)0, newsize) == -1) {
+	if (sysctl(mib, len, buf, &size, newsize ? newval : (void *)0,
+	    newsize) == -1) {
 		if (flags == 0)
 			return;
 		switch (errno) {
@@ -442,10 +439,10 @@ doit:
 }
 
 /*
- * Initialize the set of debugging names
+ * Initialize the set of debugging names.
  */
 void
-debuginit()
+debuginit(void)
 {
 	int mib[3], size, loc, i;
 
@@ -493,15 +490,10 @@ struct list inetvars[] = {
 };
 
 /*
- * handle internet requests
+ * Handle internet requests.
  */
 int
-sysctl_inet(string, bufpp, mib, flags, typep)
-	char *string;
-	char **bufpp;
-	int mib[];
-	int flags;
-	int *typep;
+sysctl_inet(char *string, char **bufpp, int mib[], int flags, int *typep)
 {
 	struct list *lp;
 	int indx;
@@ -538,11 +530,7 @@ sysctl_inet(string, bufpp, mib, flags, typep)
  * Scan a list of names searching for a particular name.
  */
 int
-findname(string, level, bufp, namelist)
-	char *string;
-	char *level;
-	char **bufp;
-	struct list *namelist;
+findname(char *string, char *level, char **bufp, struct list *namelist)
 {
 	char *name;
 	int i;
@@ -564,7 +552,7 @@ findname(string, level, bufp, namelist)
 }
 
 void
-usage()
+usage(void)
 {
 
 	(void)fprintf(stderr, "usage:\t%s\n\t%s\n\t%s\n\t%s\n",

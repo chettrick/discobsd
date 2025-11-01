@@ -664,8 +664,9 @@ sysctl_clockrate (where, sizep)
     /*
      * Construct clockinfo structure.
     */
-    clkinfo.hz = hz;
+    bzero(&clkinfo, sizeof clkinfo);
     clkinfo.tick = usechz;
+    clkinfo.hz = hz;
     clkinfo.profhz = 0;
     clkinfo.stathz = hz;
     return(sysctl_rdstruct(where, sizep, NULL, &clkinfo, sizeof (clkinfo)));

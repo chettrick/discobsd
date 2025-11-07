@@ -385,6 +385,13 @@ int sysctl_rdstring (void *oldp, size_t *oldlenp, void *newp, const char *str);
 int sysctl_rdstruct (void *oldp, size_t *oldlenp,
     void *newp, void *sp, int len);
 
+int	sysctl_file(char *, size_t *);
+int	sysctl_clockrate(char *, size_t *);
+int	sysctl_inode(char *, size_t *);
+int	sysctl_doproc(int *, u_int, char *, size_t *);
+void	fill_eproc(struct proc *p, struct eproc *ep);
+void	fill_from_u(struct proc *, uid_t *, struct tty **, dev_t *);
+
 #else   /* !KERNEL */
 
 int sysctl (int *name, u_int namelen, void *oldp, size_t *oldlenp,

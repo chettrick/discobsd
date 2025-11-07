@@ -77,11 +77,6 @@ struct sysctl_args {
 	size_t	 newlen;
 };
 
-int sysctl_clockrate(char *, size_t *);
-int sysctl_inode(char *, size_t *);
-int sysctl_file(char *, size_t *);
-int sysctl_doproc(int *, u_int, char *, size_t *);
-
 void
 __sysctl()
 {
@@ -666,90 +661,6 @@ sysctl_inode(char *where, size_t *sizep)
 }
 
 /*
- * Three pieces of information we need about a process are not kept in
- * the proc table: real uid, controlling terminal device, and controlling
- * terminal tty struct pointer.  For these we must look in either the u
- * area or the swap area.  If the process is still in memory this is
- * easy but if the process has been swapped out we have to read in the
- * u area.
- *
- * XXX - We rely on the fact that u_ttyp, u_ttyd, and u_ruid are all within
- * XXX - the first 1kb of the u area.  If this ever changes the logic below
- * XXX - will break (and badly).  At the present time (97/9/2) the u area
- * XXX - is 856 bytes long.
- */
-void
-fill_from_u(struct proc *p, uid_t *rup, struct tty **ttp, dev_t *tdp)
-{
-	struct buf *bp;
-	dev_t ttyd;
-	uid_t ruid;
-	struct tty *ttyp;
-	struct user *up;
-
-	if (p->p_stat == SZOMB) {
-		ruid = (uid_t)-2;
-		ttyp = NULL;
-		ttyd = NODEV;
-		goto out;
-	}
-	if (p->p_flag & SLOAD) {
-		ttyd = ((struct user *)p->p_addr)->u_ttyd;
-		ttyp = ((struct user *)p->p_addr)->u_ttyp;
-		ruid = ((struct user *)p->p_addr)->u_ruid;
-	} else {
-		bp = geteblk();
-		bp->b_dev = swapdev;
-		bp->b_blkno = (daddr_t)p->p_addr;
-		bp->b_bcount = DEV_BSIZE;	/* XXX */
-		bp->b_flags = B_READ;
-
-		(*bdevsw[major(swapdev)].d_strategy)(bp);
-		biowait(bp);
-
-		if (u.u_error) {
-			ttyd = NODEV;
-			ttyp = NULL;
-			ruid = (uid_t)-2;
-		} else {
-			up = (struct user *)bp->b_addr;
-			ruid = up->u_ruid;	/* u_ruid = offset 164 */
-			ttyd = up->u_ttyd;	/* u_ttyd = offset 654 */
-			ttyp = up->u_ttyp;	/* u_ttyp = offset 652 */
-		}
-		bp->b_flags |= B_AGE;
-		brelse(bp);
-		u.u_error = 0;			/* XXX */
-	}
-out:
-	if (rup)
-		*rup = ruid;
-	if (ttp)
-		*ttp = ttyp;
-	if (tdp)
-		*tdp = ttyd;
-}
-
-/*
- * Fill in an eproc structure for the specified process.  Slightly
- * inefficient because we have to access the u area again for the
- * information not kept in the proc structure itself.  Can't afford
- * to expand the proc struct so we take a slight speed hit here.
- */
-static void
-fill_eproc(struct proc *p, struct eproc *ep)
-{
-	struct tty *ttyp;
-
-	ep->e_paddr = p;
-	fill_from_u(p, &ep->e_ruid, &ttyp, &ep->e_tdev);
-	if (ttyp)
-		ep->e_tpgid = ttyp->t_pgrp;
-	else
-		ep->e_tpgid = 0;
-}
-
-/*
  * Try overestimating by 5 procs.
  */
 #define KERN_PROCSLOP	(5 * sizeof(struct kinfo_proc))
@@ -846,4 +757,88 @@ again:
 		*sizep = needed;
 	}
 	return (0);
+}
+
+/*
+ * Fill in an eproc structure for the specified process.  Slightly
+ * inefficient because we have to access the u area again for the
+ * information not kept in the proc structure itself.  Can't afford
+ * to expand the proc struct so we take a slight speed hit here.
+ */
+void
+fill_eproc(struct proc *p, struct eproc *ep)
+{
+	struct tty *ttyp;
+
+	ep->e_paddr = p;
+	fill_from_u(p, &ep->e_ruid, &ttyp, &ep->e_tdev);
+	if (ttyp)
+		ep->e_tpgid = ttyp->t_pgrp;
+	else
+		ep->e_tpgid = 0;
+}
+
+/*
+ * Three pieces of information we need about a process are not kept in
+ * the proc table: real uid, controlling terminal device, and controlling
+ * terminal tty struct pointer.  For these we must look in either the u
+ * area or the swap area.  If the process is still in memory this is
+ * easy but if the process has been swapped out we have to read in the
+ * u area.
+ *
+ * XXX - We rely on the fact that u_ttyp, u_ttyd, and u_ruid are all within
+ * XXX - the first 1kb of the u area.  If this ever changes the logic below
+ * XXX - will break (and badly).  At the present time (97/9/2) the u area
+ * XXX - is 856 bytes long.
+ */
+void
+fill_from_u(struct proc *p, uid_t *rup, struct tty **ttp, dev_t *tdp)
+{
+	struct buf *bp;
+	dev_t ttyd;
+	uid_t ruid;
+	struct tty *ttyp;
+	struct user *up;
+
+	if (p->p_stat == SZOMB) {
+		ruid = (uid_t)-2;
+		ttyp = NULL;
+		ttyd = NODEV;
+		goto out;
+	}
+	if (p->p_flag & SLOAD) {
+		ttyd = ((struct user *)p->p_addr)->u_ttyd;
+		ttyp = ((struct user *)p->p_addr)->u_ttyp;
+		ruid = ((struct user *)p->p_addr)->u_ruid;
+	} else {
+		bp = geteblk();
+		bp->b_dev = swapdev;
+		bp->b_blkno = (daddr_t)p->p_addr;
+		bp->b_bcount = DEV_BSIZE;	/* XXX */
+		bp->b_flags = B_READ;
+
+		(*bdevsw[major(swapdev)].d_strategy)(bp);
+		biowait(bp);
+
+		if (u.u_error) {
+			ttyd = NODEV;
+			ttyp = NULL;
+			ruid = (uid_t)-2;
+		} else {
+			up = (struct user *)bp->b_addr;
+			ruid = up->u_ruid;	/* u_ruid = offset 164 */
+			ttyd = up->u_ttyd;	/* u_ttyd = offset 654 */
+			ttyp = up->u_ttyp;	/* u_ttyp = offset 652 */
+		}
+		bp->b_flags |= B_AGE;
+		brelse(bp);
+		u.u_error = 0;			/* XXX */
+	}
+out:
+	if (rup)
+		*rup = ruid;
+	if (ttp)
+		*ttp = ttyp;
+	if (tdp)
+		*tdp = ttyd;
 }

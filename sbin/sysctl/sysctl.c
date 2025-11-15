@@ -97,6 +97,9 @@ void	debuginit(void);
 #ifdef PF_INET
 int	sysctl_inet(char *, char **, int *, int, int *);
 #endif /* PF_INET */
+#ifdef CPU_MPU
+int	sysctl_mpu(char *, char **, int *, int, int *);
+#endif /* CPU_MPU */
 int	findname(char *, char *, char **, struct list *);
 void	usage(void);
 
@@ -306,6 +309,14 @@ parse(char *string, int flags)
 	case CTL_MACHDEP:
 		if (mib[1] == CPU_CONSDEV)
 			special |= CONSDEV;
+#ifdef CPU_MPU
+		if (mib[1] == CPU_MPU) {
+			len = sysctl_mpu(string, &bufp, mib, flags, &type);
+			if (len >= 0)
+				break;
+			return;
+		}
+#endif /* CPU_MPU */
 		break;
 
 	case CTL_FS:
@@ -527,6 +538,30 @@ sysctl_inet(char *string, char **bufpp, int mib[], int flags, int *typep)
 	return (4);
 }
 #endif /* PF_INET */
+
+#ifdef CPU_MPU
+struct ctlname mpuname[] = CTL_MPU_NAMES;
+struct list mpulist = { mpuname, CPU_MPU_MAXID };
+
+/*
+ * Handle machdep.mpu requests.
+ */
+int
+sysctl_mpu(char *string, char **bufpp, int mib[], int flags, int *typep)
+{
+	int indx;
+
+	if (*bufpp == NULL) {
+		listall(string, &mpulist);
+		return (-1);
+	}
+	if ((indx = findname(string, "third", bufpp, &mpulist)) == -1)
+		return (-1);
+	mib[2] = indx;
+	*typep = mpuname[indx].ctl_type;
+	return (3);
+}
+#endif /* CPU_MPU */
 
 /*
  * Scan a list of names searching for a particular name.

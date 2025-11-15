@@ -643,6 +643,53 @@ __STATIC_INLINE void LL_MPU_DisableRegion(uint32_t Region)
 }
 
 /**
+  * @brief  Read the MPU Control Register.
+  * @note   This function is an extension to the LL_CORTEX library.
+  * @retval Values of MPU Enable, Hard Fault NMI Enable, and Background Region Enable.
+  */
+__STATIC_INLINE uint32_t LL_MPU_GetCtrl(void)
+{
+  return (uint32_t)(READ_REG(MPU->CTRL));
+}
+
+/**
+  * @brief  Set the MPU Control Register with Options.
+  * @note   This function is an extension to the LL_CORTEX library.
+  * @retval None
+  */
+__STATIC_INLINE void LL_MPU_SetCtrl(uint32_t Options)
+{
+  /* Configure MPU Control Register. */
+  WRITE_REG(MPU->CTRL, ((MPU_CTRL_PRIVDEFENA_Msk | MPU_CTRL_HFNMIENA_Msk | MPU_CTRL_ENABLE_Msk) & Options));
+
+  /* Ensure MPU settings take effect. */
+  __DSB();
+
+  /* Sequence instruction fetches using updated settings. */
+  __ISB();
+}
+
+/**
+  * @brief  Read the number of regions the MPU supports.
+  * @note   This function is an extension to the LL_CORTEX library.
+  * @retval Value should be equal to 0x8 for Cortex-M4 devices; 0x0 if no MPU implemented.
+  */
+__STATIC_INLINE uint32_t LL_MPU_GetNumRegions(void)
+{
+  return (uint32_t)(READ_BIT(MPU->TYPE, MPU_TYPE_DREGION_Msk) >> MPU_TYPE_DREGION_Pos);
+}
+
+/**
+  * @brief  Check if the MPU supports separate instruction and data address maps.
+  * @note   This function is an extension to the LL_CORTEX library.
+  * @retval Value should be equal to 0x0 for Cortex-M4 devices; ARMv7-M only supports a unified MPU.
+  */
+__STATIC_INLINE uint32_t LL_MPU_GetSeparate(void)
+{
+  return (uint32_t)(READ_BIT(MPU->TYPE, MPU_TYPE_SEPARATE_Msk) >> MPU_TYPE_SEPARATE_Pos);
+}
+
+/**
   * @}
   */
 

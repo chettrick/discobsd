@@ -14,7 +14,8 @@
 #define	CPU_NLIST		3	/* get name address */
 #define	CPU_FREQ_KHZ		4	/* processor clock in kHz */
 #define	CPU_BUS_KHZ		5	/* i/o bus clock in kHz */
-#define	CPU_MAXID		6	/* number of valid machdep ids */
+#define	CPU_MPU			6	/* node: memory protection unit */
+#define	CPU_MAXID		7	/* number of valid machdep ids */
 
 #ifndef	KERNEL
 #define	CTL_MACHDEP_NAMES { \
@@ -24,5 +25,22 @@
 	{ 0, 0 }, \
 	{ "cpu_khz", CTLTYPE_INT }, \
 	{ "bus_khz", CTLTYPE_INT }, \
+	{ "mpu", CTLTYPE_NODE }, \
+}
+#endif	/* !KERNEL */
+
+#define	CPU_MPU_ENABLE		1
+#define	CPU_MPU_CTRL		2
+#define	CPU_MPU_NREGIONS	3
+#define	CPU_MPU_SEPARATE	4
+#define	CPU_MPU_MAXID		5
+
+#ifndef	KERNEL
+#define	CTL_MPU_NAMES { \
+	{ 0, 0 }, \
+	{ "enable", CTLTYPE_INT }, \
+	{ "ctrl", CTLTYPE_INT }, \
+	{ "nregions", CTLTYPE_INT }, \
+	{ "separate", CTLTYPE_INT }, \
 }
 #endif	/* !KERNEL */

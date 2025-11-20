@@ -276,7 +276,7 @@ parse(char *string, int flags)
 			getloadavg(loads, 3);
 			if (!nflag)
 				fprintf(stdout, "%s%s", string, equ);
-			fprintf(stdout, "%u.%02u %u.%02u %u.02u\n",
+			fprintf(stdout, "%u.%02u %u.%02u %u.%02u\n",
 			    loads[0] / 100, loads[0] % 100,
 			    loads[1] / 100, loads[1] % 100,
 			    loads[2] / 100, loads[2] % 100);

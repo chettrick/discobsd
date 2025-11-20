@@ -114,6 +114,7 @@ extern int optind, errno;
 #define	CLOCK		0x0001
 #define	BOOTTIME	0x0002
 #define	CONSDEV		0x0004
+#define	HEX		0x0008
 
 char *equ = "=";
 
@@ -291,9 +292,9 @@ parse(char *string, int flags)
 #ifdef PF_INET
 		if (mib[1] == PF_INET) {
 			len = sysctl_inet(string, &bufp, mib, flags, &type);
-			if (len >= 0)
-				break;
-			return;
+			if (len < 0)
+				return;
+			break;
 		}
 #endif /* PF_INET */
 		if (flags == 0)
@@ -312,9 +313,11 @@ parse(char *string, int flags)
 #ifdef CPU_MPU
 		if (mib[1] == CPU_MPU) {
 			len = sysctl_mpu(string, &bufp, mib, flags, &type);
-			if (len >= 0)
-				break;
-			return;
+			if (len < 0)
+				return;
+			if (mib[2] == CPU_MPU_CTRL)
+				special |= HEX;
+			break;
 		}
 #endif /* CPU_MPU */
 		break;
@@ -404,12 +407,18 @@ parse(char *string, int flags)
 		if (newsize == 0) {
 			if (!nflag)
 				fprintf(stdout, "%s%s", string, equ);
-			fprintf(stdout, "%d\n", *(int *)buf);
+			if (special & HEX)
+				fprintf(stdout, "0x%x\n", *(int *)buf);
+			else
+				fprintf(stdout, "%d\n", *(int *)buf);
 		} else {
 			if (!nflag)
 				fprintf(stdout, "%s: %d -> ", string,
 				    *(int *)buf);
-			fprintf(stdout, "%d\n", *(int *)newval);
+			if (special & HEX)
+				fprintf(stdout, "0x%x\n", *(int *)newval);
+			else
+				fprintf(stdout, "%d\n", *(int *)newval);
 		}
 		return;
 

@@ -329,7 +329,7 @@ parse(char *string, int flags)
 	}
 
 	if (bufp) {
-		fprintf(stderr, "name %s in %s is unknown\n", *bufp, string);
+		fprintf(stderr, "name %s in %s is unknown\n", bufp, string);
 		return;
 	}
 	if (newsize > 0) {

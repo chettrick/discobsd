@@ -190,14 +190,14 @@ listall(char *prefix, struct list *lp)
 void
 parse(char *string, int flags)
 {
-	int indx, type, state, size, len;
+	int indx, type, size, len;
 	int special = 0;
 	void *newval = (void *)0;
 	int intval, newsize = 0;
 	long longval;
 	struct list *lp;
 	int mib[CTL_MAXNAME];
-	char *cp, *bufp, buf[BUFSIZ], strval[BUFSIZ];
+	char *cp, *bufp, buf[BUFSIZ];
 
 	bufp = buf;
 	strcpy(buf, string);

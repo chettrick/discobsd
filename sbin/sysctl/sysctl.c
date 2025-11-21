@@ -191,10 +191,10 @@ listall(char *prefix, struct list *lp)
 void
 parse(char *string, int flags)
 {
-	int indx, type, size, len;
+	int indx, type, intval, len;
+	size_t size, newsize = 0;
 	int special = 0;
 	void *newval = (void *)0;
-	int intval, newsize = 0;
 	long longval;
 	struct list *lp;
 	int mib[CTL_MAXNAME];
@@ -389,7 +389,7 @@ parse(char *string, int flags)
 			fprintf(stdout, "%s%s%s", string, equ,
 			    ctime(&btp->tv_sec));
 		else
-			fprintf(stdout, "%d\n", btp->tv_sec);
+			fprintf(stdout, "%ld\n", btp->tv_sec);
 		return;
 	}
 	if (special & CONSDEV) {
@@ -430,7 +430,7 @@ parse(char *string, int flags)
 		} else {
 			if (!nflag)
 				fprintf(stdout, "%s: %s -> ", string, buf);
-			fprintf(stdout, "%s\n", newval);
+			fprintf(stdout, "%s\n", (char *)newval);
 		}
 		return;
 
@@ -466,7 +466,8 @@ parse(char *string, int flags)
 void
 debuginit(void)
 {
-	int mib[3], size, loc, i;
+	int mib[3], loc, i;
+	size_t size;
 
 	if (secondlevel[CTL_DEBUG].list != 0)
 		return;

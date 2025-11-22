@@ -85,7 +85,7 @@ main(argc, argv)
 		stdf[i] = log(stdf[i]) + log(26.0 / 100.0);
 
 	/* zero out observation table */
-	bzero(obs, 26 * sizeof(int));
+	memset(obs, 0, 26 * sizeof(int));
 
 	if ((nread = read(STDIN_FILENO, inbuf, LINELENGTH)) < 0) {
 		(void)fprintf(stderr, "caesar: %s\n", strerror(errno));
@@ -103,6 +103,7 @@ main(argc, argv)
 	 * now "dot" the freqs with the observed letter freqs
 	 * and keep track of best fit
 	 */
+	winnerdot = 0;
 	for (try = winner = 0; try < 26; ++try) { /* += 13) { */
 		dot = 0;
 		for (i = 0; i < 26; i++)

@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #include "../common/packet.h"
 

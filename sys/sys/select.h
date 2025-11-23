@@ -58,12 +58,13 @@ typedef struct fd_set {
 #define	FD_SET(n, p)	((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
 #define	FD_CLR(n, p)	((p)->fds_bits[(n)/NFDBITS] &= ~(1L << ((n) % NFDBITS)))
 #define	FD_ISSET(n, p)	((p)->fds_bits[(n)/NFDBITS] & (1L << ((n) % NFDBITS)))
+#ifdef	KERNEL
 #define	FD_ZERO(p)	bzero((char *)(p), sizeof(*(p)))
+#else
+#define	FD_ZERO(p)	memset((char *)(p), 0, sizeof(*(p)))
+#endif
 
 #ifndef	KERNEL
-#ifndef	CROSS
-void	bzero(void *, unsigned long);
-#endif
 
 /* According to POSIX.1-2001 */
 struct timeval;

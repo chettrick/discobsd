@@ -4,7 +4,7 @@
 .\"
 .\"	@(#)bstring.3	6.1 (Berkeley) 5/15/85
 .\"
-.TH BSTRING 3  "May 15, 1985"
+.TH BSTRING 3  "November 24, 2025"
 .UC 5
 .SH NAME
 bcopy, bcmp, bzero, ffs \- bit and byte string operations
@@ -19,8 +19,8 @@ bcopy, bcmp, bzero, ffs \- bit and byte string operations
 .B int length;
 .PP
 .B bzero(b, length)
-.B char *b;
-.B int length;
+.B void *b;
+.B size_t length;
 .PP
 .B ffs(i)
 .B long i;
@@ -37,7 +37,7 @@ They do not check for null bytes as the routines in
 do.
 .PP
 .I Bcopy
-copies 
+copies
 .I length
 bytes from string
 .I src
@@ -59,7 +59,7 @@ bytes long.
 places
 .I length
 0 bytes in the string
-.IR b1 .
+.IR b .
 .PP
 .I Ffs
 find the first bit set in the argument passed it and

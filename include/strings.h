@@ -40,7 +40,7 @@ typedef	unsigned int	size_t;
 
 int	 bcmp(const void *, const void *, size_t);
 void	 bcopy(const void *, void *, size_t);
-void	 bzero(void *, unsigned long);
+void	 bzero(void *, size_t);
 int	 ffs(int);
 char	*index(const char *, int);
 char	*rindex(const char *, int);

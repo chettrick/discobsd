@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 1990, 1993
- *      The Regents of the University of California.  All rights reserved.
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -12,8 +12,8 @@
  *    documentation and/or other materials provided with the distribution.
  * 3. All advertising materials mentioning features or use of this software
  *    must display the following acknowledgement:
- *      This product includes software developed by the University of
- *      California, Berkeley and its contributors.
+ *	This product includes software developed by the University of
+ *	California, Berkeley and its contributors.
  * 4. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
@@ -29,17 +29,20 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
+ *	@(#)strings.h	8.1 (Berkeley) 6/2/93
  */
-#ifndef _SIZE_T
-#define _SIZE_T
-typedef unsigned size_t;
+
+#ifndef	_SIZE_T
+#define	_SIZE_T
+typedef	unsigned int	size_t;
 #endif
 
-int      bcmp(const void *, const void *, size_t);
-void     bcopy(const void *, void *, size_t);
-void     bzero(void *, unsigned long);
-int      ffs(int);
-char    *index(const char *, int);
-char    *rindex(const char *, int);
-int      strcasecmp(const char *, const char *);
-int      strncasecmp(const char *, const char *, size_t);
+int	 bcmp(const void *, const void *, size_t);
+void	 bcopy(const void *, void *, size_t);
+void	 bzero(void *, unsigned long);
+int	 ffs(int);
+char	*index(const char *, int);
+char	*rindex(const char *, int);
+int	 strcasecmp(const char *, const char *);
+int	 strncasecmp(const char *, const char *, size_t);

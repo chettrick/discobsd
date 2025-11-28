@@ -307,7 +307,7 @@ startup()
     power_init();
 #endif
 
-    //SETVAL(0);
+    /* SETVAL(0); */
 
     /* Initialize .data + .bss segments by zeroes. */
     bzero(&__data_start, KERNEL_DATA_SIZE - 96);
@@ -344,7 +344,7 @@ startup()
     unsigned *dest = &__data_start;
     unsigned *limit = &_edata;
     while (dest < limit) {
-        /*printf("copy %08x from (%08x) to (%08x)\n", *src, src, dest);*/
+        /* printf("copy %08x from (%08x) to (%08x)\n", *src, src, dest); */
         *dest++ = *src++;
     }
 
@@ -360,7 +360,7 @@ startup()
     unsigned *src1 = (unsigned*) &_ramfunc_image_begin;
     unsigned *dest1 = (unsigned*)&_ramfunc_begin;
     unsigned *limit1 = (unsigned*)&_ramfunc_end;
-    /*printf("copy from (%08x) to (%08x)\n", src1, dest1);*/
+    /* printf("copy from (%08x) to (%08x)\n", src1, dest1); */
     while (dest1 < limit1) {
         *dest1++ = *src1++;
     }
@@ -898,7 +898,7 @@ bcopy(const void *src0, void *dst0, size_t nbytes)
     unsigned *aligned_dst;
     const unsigned *aligned_src;
 
-//printf("bcopy (%08x, %08x, %d)\n", src0, dst0, nbytes);
+    /* printf("bcopy(%08x, %08x, %d)\n", src0, dst0, nbytes); */
     /* If the size is small, or either SRC or DST is unaligned,
      * then punt into the byte copy loop.  This should be rare.  */
     if (nbytes >= 4*sizeof(unsigned) &&
@@ -1024,7 +1024,7 @@ bcmp(const void *m1, const void *m2, size_t nbytes)
 int
 copyout(caddr_t from, caddr_t to, u_int nbytes)
 {
-    //printf("copyout (from=%p, to=%p, nbytes=%u)\n", from, to, nbytes);
+    /* printf("copyout(from=%p, to=%p, nbytes=%u)\n", from, to, nbytes); */
     if (baduaddr(to) || baduaddr(to + nbytes - 1))
         return EFAULT;
     bcopy(from, to, nbytes);

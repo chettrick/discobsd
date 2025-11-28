@@ -13,7 +13,9 @@
 #include <sys/syslog.h>
 #include <machine/frame.h>
 
-//#define DIAGNOSTIC
+#if 0
+#define DIAGNOSTIC
+#endif
 
 /*
  * Send an interrupt to process.

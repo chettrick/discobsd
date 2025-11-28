@@ -87,9 +87,9 @@
 #define R_ARM_ALU_PCREL_23_15	34
 #define R_ARM_ALU_SBREL_11_0	35
 #define R_ARM_ALU_SBREL_19_12	36
-#define R_ARM_ALU_SBREL_27_20	37	// depcreated
+#define R_ARM_ALU_SBREL_27_20	37	/* deprecated */
 #define R_ARM_TARGET1		38
-#define R_ARM_SBREL31		39	// deprecated
+#define R_ARM_SBREL31		39	/* deprecated */
 #define R_ARM_V4BX		40
 #define R_ARM_TARGET2		41
 #define R_ARM_PREL31		42

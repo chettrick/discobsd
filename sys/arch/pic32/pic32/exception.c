@@ -16,7 +16,9 @@
 
 #include <machine/frame.h>
 
-//#define TRACE_EXCEPTIONS
+#if 0
+#define TRACE_EXCEPTIONS
+#endif
 
 #ifdef POWER_ENABLED
 extern void power_switch_check();
@@ -250,7 +252,7 @@ exception(frame)
     if (c0_debug & DB_DM) {
         cause = CA_Bp;
         c0_debug = 0;
-        // TODO: save DBD bit
+        /* TODO: save DBD bit */
     } else {
         cause = mips_read_c0_register(C0_CAUSE, 0);
         cause &= CA_EXC_CODE;
@@ -317,7 +319,7 @@ exception(frame)
         /* Get the current irq number */
         c = INTSTAT;
         if ((c & PIC32_INTSTAT_SRIPL_MASK) == 0) {
-            //printf("*** unexpected interrupt: INTSTAT %08x\n", c);
+            /* printf("*** unexpected interrupt: INTSTAT %08x\n", c); */
             goto ret;
         }
         irq = PIC32_INTSTAT_VEC(c);
@@ -397,8 +399,8 @@ exception(frame)
         if ((cause & USER) && runrun) {
             /* Need to switch processes: in user mode only.
              * Enable interrupts first. */
-// MADSCIFI start new code
-            //u.u_error = 0;
+/* MADSCIFI start new code */
+            /* u.u_error = 0; */
             u.u_frame = frame;
             u.u_code = frame->tf_pc;            /* For signal handler */
 
@@ -417,7 +419,7 @@ exception(frame)
                 u.u_procp->p_saddr = sp;
                 u.u_ssize = u.u_procp->p_ssize;
             }
-// MADSCIFI end new code
+/* MADSCIFI end new code */
 
             mips_intr_enable();
             goto out;

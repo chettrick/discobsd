@@ -507,7 +507,7 @@ __STATIC_INLINE uint32_t LL_CPUID_GetRevision(void)
   */
 
 /**
-  * @brief  Enable MPU with input options
+  * @brief  Enable MPU with input Options
   * @rmtoll MPU_CTRL     ENABLE        LL_MPU_Enable
   * @param  Options This parameter can be one of the following values:
   *         @arg @ref LL_MPU_CTRL_HFNMI_PRIVDEF_NONE
@@ -518,11 +518,13 @@ __STATIC_INLINE uint32_t LL_CPUID_GetRevision(void)
   */
 __STATIC_INLINE void LL_MPU_Enable(uint32_t Options)
 {
-  /* Enable the MPU*/
+  /* Enable MPU. */
   WRITE_REG(MPU->CTRL, (MPU_CTRL_ENABLE_Msk | Options));
-  /* Ensure MPU settings take effects */
+
+  /* Ensure MPU settings take effect. */
   __DSB();
-  /* Sequence instruction fetches using update settings */
+
+  /* Sequence instruction fetches using updated settings. */
   __ISB();
 }
 
@@ -533,9 +535,10 @@ __STATIC_INLINE void LL_MPU_Enable(uint32_t Options)
   */
 __STATIC_INLINE void LL_MPU_Disable(void)
 {
-  /* Make sure outstanding transfers are done */
+  /* Make sure outstanding transfers are done. */
   __DMB();
-  /* Disable MPU*/
+
+  /* Disable MPU. */
   WRITE_REG(MPU->CTRL, 0U);
 }
 
@@ -550,7 +553,7 @@ __STATIC_INLINE uint32_t LL_MPU_IsEnabled(void)
 }
 
 /**
-  * @brief  Enable a MPU region
+  * @brief  Enable MPU Region
   * @rmtoll MPU_RASR     ENABLE        LL_MPU_EnableRegion
   * @param  Region This parameter can be one of the following values:
   *         @arg @ref LL_MPU_REGION_NUMBER0
@@ -565,14 +568,15 @@ __STATIC_INLINE uint32_t LL_MPU_IsEnabled(void)
   */
 __STATIC_INLINE void LL_MPU_EnableRegion(uint32_t Region)
 {
-  /* Set Region number */
+  /* Set Region number. */
   WRITE_REG(MPU->RNR, Region);
-  /* Enable the MPU region */
+
+  /* Enable MPU Region. */
   SET_BIT(MPU->RASR, MPU_RASR_ENABLE_Msk);
 }
 
 /**
-  * @brief  Configure and enable a region
+  * @brief  Configure and enable Region
   * @rmtoll MPU_RNR      REGION        LL_MPU_ConfigRegion\n
   *         MPU_RBAR     REGION        LL_MPU_ConfigRegion\n
   *         MPU_RBAR     ADDR          LL_MPU_ConfigRegion\n
@@ -591,8 +595,8 @@ __STATIC_INLINE void LL_MPU_EnableRegion(uint32_t Region)
   *         @arg @ref LL_MPU_REGION_NUMBER5
   *         @arg @ref LL_MPU_REGION_NUMBER6
   *         @arg @ref LL_MPU_REGION_NUMBER7
-  * @param  Address Value of region base address
-  * @param  SubRegionDisable Sub-region disable value between Min_Data = 0x00 and Max_Data = 0xFF
+  * @param  Address Value of Region Base Address
+  * @param  SubRegionDisable Sub-Region disable value between Min_Data = 0x00 and Max_Data = 0xFF
   * @param  Attributes This parameter can be a combination of the following values:
   *         @arg @ref LL_MPU_REGION_SIZE_32B or @ref LL_MPU_REGION_SIZE_64B or @ref LL_MPU_REGION_SIZE_128B or @ref LL_MPU_REGION_SIZE_256B or @ref LL_MPU_REGION_SIZE_512B
   *           or @ref LL_MPU_REGION_SIZE_1KB or @ref LL_MPU_REGION_SIZE_2KB or @ref LL_MPU_REGION_SIZE_4KB or @ref LL_MPU_REGION_SIZE_8KB or @ref LL_MPU_REGION_SIZE_16KB
@@ -611,16 +615,18 @@ __STATIC_INLINE void LL_MPU_EnableRegion(uint32_t Region)
   */
 __STATIC_INLINE void LL_MPU_ConfigRegion(uint32_t Region, uint32_t SubRegionDisable, uint32_t Address, uint32_t Attributes)
 {
-  /* Set Region number */
+  /* Set Region number. */
   WRITE_REG(MPU->RNR, Region);
-  /* Set base address */
+
+  /* Set Base Address. */
   WRITE_REG(MPU->RBAR, (Address & 0xFFFFFFE0U));
-  /* Configure MPU */
+
+  /* Configure MPU. */
   WRITE_REG(MPU->RASR, (MPU_RASR_ENABLE_Msk | Attributes | (SubRegionDisable << MPU_RASR_SRD_Pos)));
 }
 
 /**
-  * @brief  Disable a region
+  * @brief  Disable Region
   * @rmtoll MPU_RNR      REGION        LL_MPU_DisableRegion\n
   *         MPU_RASR     ENABLE        LL_MPU_DisableRegion
   * @param  Region This parameter can be one of the following values:
@@ -636,14 +642,15 @@ __STATIC_INLINE void LL_MPU_ConfigRegion(uint32_t Region, uint32_t SubRegionDisa
   */
 __STATIC_INLINE void LL_MPU_DisableRegion(uint32_t Region)
 {
-  /* Set Region number */
+  /* Set Region number. */
   WRITE_REG(MPU->RNR, Region);
-  /* Disable the MPU region */
+
+  /* Disable MPU Region. */
   CLEAR_BIT(MPU->RASR, MPU_RASR_ENABLE_Msk);
 }
 
 /**
-  * @brief  Read the MPU Control Register.
+  * @brief  Get MPU Control Register.
   * @note   This function is an extension to the LL_CORTEX library.
   * @retval Values of MPU Enable, Hard Fault NMI Enable, and Background Region Enable.
   */
@@ -653,7 +660,7 @@ __STATIC_INLINE uint32_t LL_MPU_GetCtrl(void)
 }
 
 /**
-  * @brief  Set the MPU Control Register with Options.
+  * @brief  Set MPU Control Register with Options.
   * @note   This function is an extension to the LL_CORTEX library.
   * @retval None
   */
@@ -670,7 +677,7 @@ __STATIC_INLINE void LL_MPU_SetCtrl(uint32_t Options)
 }
 
 /**
-  * @brief  Read the number of regions the MPU supports.
+  * @brief  Get number of Regions the MPU supports.
   * @note   This function is an extension to the LL_CORTEX library.
   * @retval Value should be equal to 0x8 for Cortex-M4 devices; 0x0 if no MPU implemented.
   */
@@ -687,6 +694,52 @@ __STATIC_INLINE uint32_t LL_MPU_GetNumRegions(void)
 __STATIC_INLINE uint32_t LL_MPU_GetSeparate(void)
 {
   return (uint32_t)(READ_BIT(MPU->TYPE, MPU_TYPE_SEPARATE_Msk) >> MPU_TYPE_SEPARATE_Pos);
+}
+
+/**
+  * @brief  Get MPU Region's Region Base Address.
+  * @rmtoll MPU_RNR      REGION        LL_MPU_GetRegionBaseAddress
+  * @param  Region This parameter can be one of the following values:
+  *         @arg @ref LL_MPU_REGION_NUMBER0
+  *         @arg @ref LL_MPU_REGION_NUMBER1
+  *         @arg @ref LL_MPU_REGION_NUMBER2
+  *         @arg @ref LL_MPU_REGION_NUMBER3
+  *         @arg @ref LL_MPU_REGION_NUMBER4
+  *         @arg @ref LL_MPU_REGION_NUMBER5
+  *         @arg @ref LL_MPU_REGION_NUMBER6
+  *         @arg @ref LL_MPU_REGION_NUMBER7
+  * @note   This function is an extension to the LL_CORTEX library.
+  * @retval Value of the Region Base Address Register for the supplied Region parameter.
+  */
+__STATIC_INLINE uint32_t LL_MPU_GetRegionBaseAddress(uint32_t Region)
+{
+  /* Set Region number. */
+  WRITE_REG(MPU->RNR, Region);
+
+  return (uint32_t)(READ_REG(MPU->RBAR & MPU_RBAR_ADDR_Msk));
+}
+
+/**
+  * @brief  Get MPU Region's Region Attribute and Size Register.
+  * @rmtoll MPU_RNR      REGION        LL_MPU_GetRegionAttrSize
+  * @param  Region This parameter can be one of the following values:
+  *         @arg @ref LL_MPU_REGION_NUMBER0
+  *         @arg @ref LL_MPU_REGION_NUMBER1
+  *         @arg @ref LL_MPU_REGION_NUMBER2
+  *         @arg @ref LL_MPU_REGION_NUMBER3
+  *         @arg @ref LL_MPU_REGION_NUMBER4
+  *         @arg @ref LL_MPU_REGION_NUMBER5
+  *         @arg @ref LL_MPU_REGION_NUMBER6
+  *         @arg @ref LL_MPU_REGION_NUMBER7
+  * @note   This function is an extension to the LL_CORTEX library.
+  * @retval Value of the Region Attribute and Size Register for the supplied Region parameter.
+  */
+__STATIC_INLINE uint32_t LL_MPU_GetRegionAttrSize(uint32_t Region)
+{
+  /* Set Region number. */
+  WRITE_REG(MPU->RNR, Region);
+
+  return (uint32_t)(READ_REG(MPU->RASR));
 }
 
 /**

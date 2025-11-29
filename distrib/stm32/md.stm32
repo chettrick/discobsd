@@ -43,6 +43,7 @@ file /usr/include/machine/intr.h
 file /usr/include/machine/io.h
 file /usr/include/machine/limits.h
 file /usr/include/machine/machparam.h
+file /usr/include/machine/mpuvar.h
 file /usr/include/machine/setjmp.h
 file /usr/include/machine/signal.h
 file /usr/include/machine/types.h

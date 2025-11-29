@@ -75,7 +75,7 @@ OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	ufs_bmap.o ufs_dsort.o ufs_fio.o ufs_inode.o ufs_mount.o \
 	ufs_namei.o ufs_subr.o ufs_syscalls.o ufs_syscalls2.o \
 	vfs_vnops.o vm_sched.o vm_swap.o vm_swp.o cons.o mem.o swap.o \
-	clock.o conf.o fault.o machdep.o sig_machdep.o syscall.o \
+	clock.o conf.o fault.o machdep.o mpu.o sig_machdep.o syscall.o \
 	sysctl.o systick.o stm32f4xx_hal.o stm32f4xx_hal_spi.o \
 	stm32f4xx_ll_utils.o system_stm32f4xx.o sd.o sdio_card.o spi.o \
 	uart.o stm32_bsp.o stm32_adafruit_sd.o stm32f4xx_nucleo_sd.o 
@@ -99,9 +99,10 @@ CFILES = $S/kern/exec_aout.c $S/kern/exec_conf.c $S/kern/exec_elf.c \
 	$S/kern/vm_swap.c $S/kern/vm_swp.c $S/dev/cons.c $S/dev/mem.c \
 	$S/dev/swap.c $S/arch/stm32/stm32/clock.c \
 	$S/arch/stm32/stm32/conf.c $S/arch/stm32/stm32/fault.c \
-	$S/arch/stm32/stm32/machdep.c $S/arch/stm32/stm32/sig_machdep.c \
-	$S/arch/stm32/stm32/syscall.c $S/arch/stm32/stm32/sysctl.c \
-	$S/arch/stm32/stm32/systick.c $S/arch/stm32/hal/stm32f4xx_hal.c \
+	$S/arch/stm32/stm32/machdep.c $S/arch/stm32/stm32/mpu.c \
+	$S/arch/stm32/stm32/sig_machdep.c $S/arch/stm32/stm32/syscall.c \
+	$S/arch/stm32/stm32/sysctl.c $S/arch/stm32/stm32/systick.c \
+	$S/arch/stm32/hal/stm32f4xx_hal.c \
 	$S/arch/stm32/hal/stm32f4xx_hal_spi.c \
 	$S/arch/stm32/hal/stm32f4xx_ll_utils.c \
 	$S/arch/stm32/hal/system_stm32f4xx.c $S/arch/stm32/dev/sd.c \
@@ -326,6 +327,9 @@ fault.o: $S/arch/stm32/stm32/fault.c
 	${COMPILE_C}
 
 machdep.o: $S/arch/stm32/stm32/machdep.c
+	${COMPILE_C}
+
+mpu.o: $S/arch/stm32/stm32/mpu.c
 	${COMPILE_C}
 
 sig_machdep.o: $S/arch/stm32/stm32/sig_machdep.c

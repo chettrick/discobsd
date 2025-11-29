@@ -28,19 +28,3 @@
 	{ "mpu", CTLTYPE_NODE }, \
 }
 #endif	/* !KERNEL */
-
-#define	CPU_MPU_ENABLE		1
-#define	CPU_MPU_CTRL		2
-#define	CPU_MPU_NREGIONS	3
-#define	CPU_MPU_SEPARATE	4
-#define	CPU_MPU_MAXID		5
-
-#ifndef	KERNEL
-#define	CTL_MPU_NAMES { \
-	{ 0, 0 }, \
-	{ "enable", CTLTYPE_INT }, \
-	{ "ctrl", CTLTYPE_INT }, \
-	{ "nregions", CTLTYPE_INT }, \
-	{ "separate", CTLTYPE_INT }, \
-}
-#endif	/* !KERNEL */

@@ -20,3 +20,5 @@ clean:
 
 install:	all
 		${INSTALL} ${PROG} ${DESTDIR}${BINDIR}/${PROG}
+		rm -f ${DESTDIR}${BINDIR}/uptime
+		ln ${DESTDIR}${BINDIR}/${PROG} ${DESTDIR}${BINDIR}/uptime

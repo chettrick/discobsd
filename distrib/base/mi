@@ -636,6 +636,9 @@ target /usr/bin/sz
 link /usr/bin/machine
 target /usr/bin/arch
 
+link /usr/bin/uptime
+target /usr/bin/w
+
 #
 # Files: /sbin
 #

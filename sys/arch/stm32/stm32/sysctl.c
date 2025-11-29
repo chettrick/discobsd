@@ -28,10 +28,7 @@
 #endif
 
 #include <machine/cpu.h>
-
-#include <stm32/hal/stm32f4xx_ll_cortex.h>
-
-static int	mpu_sysctl(int *, u_int, void *, size_t *, void *, size_t);
+#include <machine/mpuvar.h>
 
 /*
  * Errno messages.
@@ -337,31 +334,4 @@ cpu_sysctl(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
 		return EOPNOTSUPP;
 	}
 	/* NOTREACHED */
-}
-
-int
-mpu_sysctl(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
-    size_t newlen)
-{
-
-	/* All sysctl names at this level are terminal. */
-	if (namelen != 1)
-		return ENOTDIR;
-
-	switch (name[0]) {
-	case CPU_MPU_ENABLE:
-		return sysctl_rdint(oldp, oldlenp, newp,
-		    LL_MPU_IsEnabled());
-	case CPU_MPU_CTRL:
-		return sysctl_rdint(oldp, oldlenp, newp,
-		    LL_MPU_GetCtrl());
-	case CPU_MPU_NREGIONS:
-		return sysctl_rdint(oldp, oldlenp, newp,
-		    LL_MPU_GetNumRegions());
-	case CPU_MPU_SEPARATE:
-		return sysctl_rdint(oldp, oldlenp, newp,
-		    LL_MPU_GetSeparate());
-	default:
-		return EOPNOTSUPP;
-	}
 }

@@ -58,6 +58,10 @@
 
 #include <machine/cpu.h>
 
+#ifdef CPU_MPU
+#include <machine/mpuvar.h>
+#endif
+
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
 struct ctlname vmname[] = CTL_VM_NAMES;

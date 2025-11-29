@@ -66,6 +66,7 @@ arch/stm32/stm32/clock.c		standard
 arch/stm32/stm32/conf.c			standard
 arch/stm32/stm32/fault.c		standard
 arch/stm32/stm32/machdep.c		standard
+arch/stm32/stm32/mpu.c			standard
 arch/stm32/stm32/sig_machdep.c		standard
 arch/stm32/stm32/syscall.c		standard
 arch/stm32/stm32/sysctl.c		standard

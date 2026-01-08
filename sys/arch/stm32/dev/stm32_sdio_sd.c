@@ -230,6 +230,46 @@ BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo)
   return status;
 }
 
+struct gpio_pin {
+	GPIO_TypeDef	*port;
+	char		 port_name;
+	uint32_t	 pin;
+	uint32_t	 mode;
+	uint32_t	 speed;
+	uint32_t	 pull;
+	uint32_t	 af;
+	uint32_t	 out_type;
+};
+
+struct sdio_inst {
+#define	NUM_PINS	6
+	struct gpio_pin	pins[NUM_PINS];
+	int		prio;
+	int		irq;
+};
+
+static const struct sdio_inst sdio = {
+#define	PIN2		LL_GPIO_PIN_2
+#define	PIN8		LL_GPIO_PIN_8
+#define	PIN9		LL_GPIO_PIN_9
+#define	PIN10		LL_GPIO_PIN_10
+#define	PIN11		LL_GPIO_PIN_11
+#define	PIN12		LL_GPIO_PIN_12
+#define	AF12		LL_GPIO_AF_12
+#define	ALT		LL_GPIO_MODE_ALTERNATE
+#define	VH		LL_GPIO_SPEED_FREQ_VERY_HIGH
+#define	PUP		LL_GPIO_PULL_UP
+#define	OPP		LL_GPIO_OUTPUT_PUSHPULL
+	{
+		{ GPIOC, 'C', PIN8,  ALT, VH, PUP, AF12, OPP },	/* D0 */
+		{ GPIOC, 'C', PIN9,  ALT, VH, PUP, AF12, OPP },	/* D1 */
+		{ GPIOC, 'C', PIN10, ALT, VH, PUP, AF12, OPP },	/* D2 */
+		{ GPIOC, 'C', PIN11, ALT, VH, PUP, AF12, OPP },	/* D3 */
+		{ GPIOC, 'C', PIN12, ALT, VH, PUP, AF12, OPP },	/* CLK */
+		{ GPIOD, 'D', PIN2,  ALT, VH, PUP, AF12, OPP },	/* CMD */
+	}, IPL_BIO, SDIO_IRQn
+};
+
 /**
   * @brief  Initializes the SD MSP.
   * @param  hsd: SD handle
@@ -238,39 +278,28 @@ BSP_SD_GetCardInfo(BSP_SD_CardInfo *pCardInfo)
 __weak void
 BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
 {
-#define NUM_C_PINS 5
+	int i;
+	int num_pins = sizeof(sdio.pins) / sizeof(sdio.pins[0]);
 
-  uint32_t port_c_pins[NUM_C_PINS] = { LL_GPIO_PIN_8, LL_GPIO_PIN_9, LL_GPIO_PIN_10,
-                                       LL_GPIO_PIN_11, LL_GPIO_PIN_12 };
-  uint32_t port_d_pin = LL_GPIO_PIN_2;
-  uint32_t i;
+	/* Enable SDIO clock. */
+	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SDIO);
 
-  /* Enable SDIO clock */
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SDIO);
+	/* Enable GPIO clocks and configure GPIO pins. */
+	for (i = 0; i < num_pins; ++i) {
+		GPIO_TypeDef	*port = sdio.pins[i].port;
+		uint32_t	 pin = sdio.pins[i].pin;
 
-  /* Enable GPIO clocks */
-  LL_GPIO_EnableClock(GPIOC);
-  LL_GPIO_EnableClock(GPIOD);
+		LL_GPIO_EnableClock(port);
+		LL_GPIO_SetPinMode(port, pin, sdio.pins[i].mode);
+		LL_GPIO_SetPinSpeed(port, pin, sdio.pins[i].speed);
+		LL_GPIO_SetPinPull(port, pin, sdio.pins[i].pull);
+		LL_GPIO_SetAFPin(port, pin, sdio.pins[i].af);
+		LL_GPIO_SetPinOutputType(port, pin, sdio.pins[i].out_type);
+	}
 
-  /* GPIOC configuration */
-  for (i = 0; i < NUM_C_PINS; ++i) {
-    LL_GPIO_SetPinMode(GPIOC, port_c_pins[i], LL_GPIO_MODE_ALTERNATE);
-    LL_GPIO_SetPinSpeed(GPIOC, port_c_pins[i], LL_GPIO_SPEED_FREQ_VERY_HIGH);
-    LL_GPIO_SetPinPull(GPIOC, port_c_pins[i], LL_GPIO_PULL_UP);
-    LL_GPIO_SetAFPin(GPIOC, port_c_pins[i], LL_GPIO_AF_12);
-    LL_GPIO_SetPinOutputType(GPIOC, port_c_pins[i], LL_GPIO_OUTPUT_PUSHPULL);
-  }
-
-  /* GPIOD configuration */
-  LL_GPIO_SetPinMode(GPIOD, port_d_pin, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetPinSpeed(GPIOD, port_d_pin, LL_GPIO_SPEED_FREQ_VERY_HIGH);
-  LL_GPIO_SetPinPull(GPIOD, port_d_pin, LL_GPIO_PULL_UP);
-  LL_GPIO_SetAFPin(GPIOD, port_d_pin, LL_GPIO_AF_12);
-  LL_GPIO_SetPinOutputType(GPIOD, port_d_pin, LL_GPIO_OUTPUT_PUSHPULL);
-
-  /* NVIC configuration for SDIO interrupts */
-  arm_intr_set_priority(SDIO_IRQn, IPL_BIO);
-  arm_intr_enable_irq(SDIO_IRQn);
+	/* NVIC configuration for SDIO interrupts. */
+	arm_intr_set_priority(sdio.irq, sdio.prio);
+	arm_intr_enable_irq(sdio.irq);
 }
 
 /**
@@ -281,11 +310,11 @@ BSP_SD_MspInit(SD_HandleTypeDef *hsd, void *Params)
 __weak void
 BSP_SD_MspDeInit(SD_HandleTypeDef *hsd, void *Params)
 {
-  /* Disable NVIC for SDIO interrupts */
-  arm_intr_disable_irq(SDIO_IRQn);
+	/* Disable NVIC for SDIO interrupts. */
+	arm_intr_disable_irq(sdio.irq);
 
-  /* Disable SDIO clock */
-  LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_SDIO);
+	/* Disable SDIO clock. */
+	LL_APB2_GRP1_DisableClock(LL_APB2_GRP1_PERIPH_SDIO);
 }
 
 #endif /* SDIO_ENABLED */

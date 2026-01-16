@@ -2,7 +2,7 @@
 # Kernels live in subdirectories, and have Makefiles of their own.
 #
 SUBDIR=		F405WEACTCORE F411RENUCLEO F412GDISCO F412WEACTCORE \
-		F469IDISCO F4DISCOVERY
+		F413HDISCO F469IDISCO F4DISCOVERY
 
 default:
 

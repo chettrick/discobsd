@@ -2,6 +2,7 @@
 #BOARD?=		F411RENUCLEO
 BOARD?=		F412GDISCO
 #BOARD?=		F412WEACTCORE
+#BOARD?=		F413HDISCO
 #BOARD?=		F469IDISCO
 #BOARD?=		F4DISCOVERY
 KERNDIR=	${TOPSRC}/sys/arch/stm32/compile/${BOARD}
@@ -15,6 +16,8 @@ CONFSCRIPT!=if [ x"${BOARD}" = x"F405WEACTCORE" ] ; then \
 		echo "board/stm32f412g-disco.cfg" ; \
 	elif [ x"${BOARD}" = x"F412WEACTCORE" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
+	elif [ x"${BOARD}" = x"F413HDISCO" ] ; then \
+		echo "board/stm32f413h-disco.cfg" ; \
 	elif [ x"${BOARD}" = x"F469IDISCO" ] ; then \
 		echo "board/stm32f469i-disco.cfg" ; \
 	elif [ x"${BOARD}" = x"F4DISCOVERY" ] ; then \

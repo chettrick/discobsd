@@ -250,6 +250,7 @@ struct sdio_inst {
 
 static const struct sdio_inst sdio = {
 #define	PIN2		LL_GPIO_PIN_2
+#define	PIN6		LL_GPIO_PIN_6
 #define	PIN8		LL_GPIO_PIN_8
 #define	PIN9		LL_GPIO_PIN_9
 #define	PIN10		LL_GPIO_PIN_10
@@ -266,7 +267,11 @@ static const struct sdio_inst sdio = {
 		{ GPIOC, 'C', PIN10, ALT, VH, PUP, AF12, OPP },	/* D2 */
 		{ GPIOC, 'C', PIN11, ALT, VH, PUP, AF12, OPP },	/* D3 */
 		{ GPIOC, 'C', PIN12, ALT, VH, PUP, AF12, OPP },	/* CLK */
+#ifdef STM32F413xx
+		{ GPIOA, 'A', PIN6,  ALT, VH, PUP, AF12, OPP },	/* CMD */
+#else
 		{ GPIOD, 'D', PIN2,  ALT, VH, PUP, AF12, OPP },	/* CMD */
+#endif
 	}, IPL_BIO, SDIO_IRQn
 };
 

@@ -59,6 +59,7 @@ static const struct uart_inst uart[NUART] = {
 #define PIN9             LL_GPIO_PIN_9
 #define PIN10            LL_GPIO_PIN_10
 #define PIN11            LL_GPIO_PIN_11
+#define PIN14            LL_GPIO_PIN_14
 #define AF7              LL_GPIO_AF_7
 #define AF8              LL_GPIO_AF_8
 #ifdef STM32F405xx
@@ -100,6 +101,14 @@ static const struct uart_inst uart[NUART] = {
     { /* none */ },
     { /* none */ },
     { /* USART6 */ },
+#endif
+#ifdef STM32F413xx
+    { /* USART1 */ },
+    { /* USART2 */ },
+    { /* USART3 */ },
+    { /* UART4 */ },
+    { /* UART5 */ },
+    { USART6, { GPIOG, 'G', PIN14 }, { GPIOG, 'G', PIN9 }, 1, AF8 },
 #endif
 #ifdef STM32F469xx
     { /* USART1 */ },
@@ -271,6 +280,11 @@ uartinit(int unit)
         arm_intr_set_priority(USART6_IRQn, IPL_TTY);
         arm_intr_enable_irq(USART6_IRQn);
 
+#ifdef STM32F413xx
+        /* USART6: AHB1/APB2, 100 MHz, AF8, TX on PG.14, RX on PG.09 */
+        LL_GPIO_EnableClock(GPIOG);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART6);
+#endif
 #ifdef STM32F469xx
         /* USART6: AHB1/APB2, 90 MHz, AF8, TX on PC.06, RX on PC.07 */
         /* USART6: CN12 Ext: 3V3 Pin 1, GND Pin 2, TX Pin 6, RX Pin 8 */

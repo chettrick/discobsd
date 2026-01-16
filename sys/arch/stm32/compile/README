@@ -8,6 +8,8 @@ Kernel build directories:
 
     F412WEACTCORE/      - WeAct Studio STM32F412RET6 Core board.
 
+    F413HDISCO/         - STMicroelectronics STM32F413H-DISCO board.
+
     F469IDISCO/         - STMicroelectronics STM32F469I-DISCO board.
 
     F4DISCOVERY/        - STMicroelectronics STM32F4DISCOVERY board.

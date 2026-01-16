@@ -1,0 +1,53 @@
+#
+# STM32F413HDISCO board
+# =====================
+#
+# To build the kernel, use:
+#   cd sys/arch/stm32/compile/F413HDISCO
+#   tools/bin/config Config
+#   make clean
+#   make
+#
+architecture    "stm32"
+cpu             "STM32F413xx"               # Processor variant
+board           "F413HDISCO"                # Board type
+ldscript        "STM32F413ZHTX.ld"          # Linker script
+
+# Standard system options
+options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=50000"             # Frequency of peripheral bus
+options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP"                       # Board support package
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+device          uart6                       # USART6 as console
+options         "UART_BAUD=115200"          # default speed
+
+# Use USART6 Virtual Com Port as serial console
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=5"              # uart6 is /dev/tty5
+
+# SDIO port
+controller      sdio0                       # SDIO port
+
+# MicroSD card
+device          sd0     at sdio0            # SD card uses SDIO port
+options         "NSD=1"                     # One disk on SDIO.
+
+# Two User LEDs are connected to MCU on PC5, PE3, Active-high
+# One User LED is connected to MCU on PB12. Conflicts with SPI3_SCK on D13.
+signal          "LED3" pin PC5              # Active-high Green
+signal          "LED4" pin PE3              # Active-high Red
+#signal          "LED5" pin PB12             # Active-high Green
+#options         "BSP_LED_TTY=LED1"          # Terminal i/o
+#options         "BSP_LED_SWAP=LED2"         # Auxiliary swap
+options         "BSP_LED_DISK=LED3"         # Disk i/o
+options         "BSP_LED_KERNEL=LED4"       # Kernel activity
+
+# User Button is connected to MCU on PA0, Active-high
+signal          "BUTTON_USER" pin PA0       # Active-high B_USER button
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

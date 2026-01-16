@@ -424,8 +424,10 @@ file /etc/shadow
 file /etc/shells
 file /etc/termcap
 mode 0444
-file /etc/localtime
 file /etc/ttys
+
+symlink /etc/localtime
+target /usr/share/zoneinfo/Canada/Mountain
 
 #
 # Files: /bin

@@ -24,22 +24,13 @@ PARAM += -DBUS_KHZ=80000
 PARAM += -DCPU_KHZ=80000
 LDSCRIPT = "BAREMETAL.ld"
 #
-# Makefile for RetroBSD, pic32 target
+# Makefile for DiscoBSD/pic32
 #
 # DEBUG is set to -g by config if debugging is requested (config -g).
 #
 
-AS              = ${MIPS_GCC_PREFIX}as ${DEBUG} -mips32r2 -EL
-CC              = ${MIPS_GCC_PREFIX}gcc ${DEBUG} -mips32r2 -EL -nostdinc -fno-builtin -fcommon -Wall
-CPP             = ${MIPS_GCC_PREFIX}cpp
-LD              = ${MIPS_GCC_PREFIX}gcc -mips32r2 -EL
-LDFLAGS         = -nostdlib -T ${_confdir}/${LDSCRIPT} -Wl,-Map=$@.map
-SIZE            = ${MIPS_GCC_PREFIX}size
-OBJCOPY         = ${MIPS_GCC_PREFIX}objcopy
-OBJDUMP         = ${MIPS_GCC_PREFIX}objdump
-
 # sources are located via $S relative to the compilation directory
-S               = ../../../..
+S=		../../../..
 
 _mach?=		pic32
 _arch?=		mips
@@ -49,16 +40,27 @@ _confdir?=	${_machdir}/conf
 
 include		${_confdir}/compiler.mk
 
-INCLUDES=	-I. -I$S -I$S/arch
+INCLUDES=	-nostdinc -I. -I$S -I$S/arch
 DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
 DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
-CFLAGS=		-O ${DEFS}
+CWARNFLAGS=	-Wall
+
+CMACHCPU=	-march=mips32r2 -EL
+CMACHFLAGS=	-ffreestanding -fno-builtin -fcommon
+CMACHFLAGS+=	${CMACHCPU}
+
+COPTS?=		-O
+CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
+AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
+LDFLAGS=	-T ${_confdir}/${LDSCRIPT}
+LDFLAGS+=	-nostdlib -Map=$@.map
+LDADD=
 
 # compile rules: rules are named COMPILE_${SUFFIX}
 # SUFFIX is the file suffix, capitalized (e.g. C for a .c file).
 
-COMPILE_C       = ${CC} -c ${CFLAGS} $<
-COMPILE_S       = ${CC} -c ${DEFS} $<
+COMPILE_C=	${CC} ${CFLAGS} ${DEFS} -c $<
+COMPILE_S=	${AS} ${AFLAGS} ${DEFS} -c $<
 
 OBJS = exec_aout.o exec_conf.o exec_elf.o exec_script.o exec_subr.o \
 	init_main.o init_sysent.o kern_clock.o kern_descrip.o \
@@ -110,15 +112,15 @@ DEVCFG!=if [ -f devcfg.c ] ; then \
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ      = locore.o ${OBJS} ioconf.o ${DEVCFG}
-SYSTEM_DEP      = Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
-SYSTEM_LD_HEAD  = sh $S/conf/newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
-SYSTEM_LD       = -@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@; \
-                  ${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@
-SYSTEM_LD_TAIL  = ${SIZE} $@; cp $@ $@.elf; \
-                  $(OBJCOPY) -O ihex --change-addresses=0x80000000 $@ $@.hex; \
-                  $(OBJCOPY) -O binary -R .boot -R .config $@ $@.bin; \
-                  $(OBJDUMP) -d -S $@ > $@.dis
+SYSTEM_OBJ=	locore.o ${OBJS} ioconf.o ${DEVCFG}
+SYSTEM_DEP=	Makefile ioconf.c machine sys .deps ${SYSTEM_OBJ}
+SYSTEM_LD_HEAD=	sh $S/conf/newvers.sh > vers.c; ${CC} ${CFLAGS} -c vers.c; rm -f $@
+SYSTEM_LD=	-@echo ${LD} ${LDFLAGS} '$${SYSTEM_OBJ}' vers.o -o $@ ${LDADD}; \
+		${LD} ${LDFLAGS} ${SYSTEM_OBJ} vers.o -o $@ ${LDADD}
+SYSTEM_LD_TAIL=	${SIZE} $@; cp $@ $@.elf; \
+		${OBJCOPY} -O ihex --change-addresses=0x80000000 $@ $@.hex; \
+		${OBJCOPY} -O binary -R .boot -R .config $@ $@.bin; \
+		${OBJDUMP} -d -S $@ > $@.dis
 
 unix: ${SYSTEM_DEP} swapunix.o
 	${SYSTEM_LD_HEAD}
@@ -138,10 +140,7 @@ clean-all: clean
 
 reconfig ioconf.c: Config $S/../tools/bin/config
 	$S/../tools/bin/config Config
-	$(MAKE) clean
-
-load:   unix
-	pic32prog unix.hex
+	${MAKE} clean
 
 machine:
 	ln -s ${_machdir}/include $@

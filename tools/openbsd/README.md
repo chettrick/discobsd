@@ -3,8 +3,19 @@
 Note: These instructions are current as of OpenBSD 7.6.
 
 This is the directory that maintains the development environment on OpenBSD.
-It consists of a binary flash downloader, a circuit board emulator, and
-a compiler, an assembler, a source-level debugger, and an on-chip debugger.
+
+Required programs to build a complete DiscoBSD distribution are:
+  - Version control:        git
+  - Native compiler:        clang or gcc
+  - Utilities:              awk, bison, bmake, byacc, flex, gettext, groff
+  - Utilities:              mandoc, pkg-config, sed, sudo, unzip, zip
+  - Libraries:              libbsd, libelf, libfuse
+  - Cross compiler (ARM):   binutils and gcc arm-none-eabi rmprofile
+  - Cross debugger (ARM):   gdb arm-none-eabi or gdb multiarch
+  - Firmware loader (ARM):  dfu-util, openocd, stlink
+  - Cross compiler (MIPS):  binutils and gcc mips-elf
+  - Cross debugger (MIPS):  gdb mips-elf or gdb multiarch
+  - Firmware loader (MIPS): pic32prog
 
 ## Setting up the Development Environment for Arm target
 
@@ -19,7 +30,7 @@ Packages need no setup.
 
 These required utilities can be installed as Packages:
   ```sh
-    $ pkg_add bison elftoolchain gettext-runtime
+    $ pkg_add bison dfu-util elftoolchain gettext-runtime
     $ pkg_add git groff openocd sudo unzip zip
   ```
 
@@ -56,13 +67,13 @@ https://www.openbsd.org/faq/ports/ports.html
   $ sudo make install
 ```
 
-### Meta-package Toolchain: arm-none-eabi-{binutils,gcc,newlib,gdb}
+### Meta-package Toolchain: arm-none-eabi-{binutils,gcc,gdb}
 
 #### Assembler, Package: Binutils V2.40, Configured for arm-none-eabi
 ```sh
   $ sudo pkg_add arm-none-eabi-binutils
 ```
-Note: __Do NOT__ install the default OpenBSD `arm-none-eabi-gcc` Package.
+Note: __DO NOT__ install the default OpenBSD `arm-none-eabi-gcc` Package.
   It does not enable the `rmprofile` multilib, missing critical library files.
   Instead, compile the custom-configured GCC port as outlined below.
 

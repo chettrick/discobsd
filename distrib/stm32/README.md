@@ -9,6 +9,7 @@
  * [STMicroelectronics STM32F413H-DISCO][4]
  * [STMicroelectronics STM32F469I-DISCO][5]
  * [STMicroelectronics STM32F4DISCOVERY][6]
+ * [DevEBox STM32F407VET6 STM32F4VE][7]
 
 [1]: https://github.com/WeActStudio/WeActStudio.STM32F4_64Pin_CoreBoard
 [2]: https://www.st.com/en/evaluation-tools/nucleo-f411re.html
@@ -16,12 +17,13 @@
 [4]: https://www.st.com/en/evaluation-tools/32f413hdiscovery.html
 [5]: https://www.st.com/en/evaluation-tools/32f469idiscovery.html
 [6]: https://www.st.com/en/evaluation-tools/stm32f4discovery.html
+[7]: https://stm32-base.org/boards/STM32F407VET6-STM32-F4VE-V2.0.html
 
 ## DiscoBSD/stm32 Up and Running
 
 The file system image `sdcard.img` needs to be imaged onto an SD card.
 
-On Windows host systems use a disk imaging utility such as [Rufus][7].
+On Windows host systems use a disk imaging utility such as [Rufus][8].
 
 On Unix-like host systems with `dd` run:
   ```sh
@@ -37,17 +39,17 @@ Provide the path to the SD card via the command line:
 The board-specific kernel `unix` must be loaded into the MCU's flash memory.
 Formats are ELF `unix.elf`, binary `unix.bin`, and Intel HEX `unix.hex`.
 
-On Windows host systems use [STM32CubeProgrammer][8] for flash programming.
+On Windows host systems use [STM32CubeProgrammer][9] for flash programming.
 
-On Unix-like host systems use `st-flash` from the [stlink-org project][9] to
+On Unix-like host systems use `st-flash` from the [stlink-org project][10] to
 load the binary-formatted kernel `unix.bin` into flash memory at 0x08000000.
   ```sh
     $ st-flash --reset write unix.bin 0x08000000
   ```
 
-[7]: https://github.com/pbatard/rufus
-[8]: https://www.st.com/en/development-tools/stm32cubeprog.html
-[9]: https://github.com/stlink-org/stlink
+[8]: https://github.com/pbatard/rufus
+[9]: https://www.st.com/en/development-tools/stm32cubeprog.html
+[10]: https://github.com/stlink-org/stlink
 
 ## Logging in to DiscoBSD
 

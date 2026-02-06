@@ -4,8 +4,7 @@ Note: These instructions are current as of OpenBSD 7.6.
 
 This is the directory that maintains the development environment on OpenBSD.
 It consists of a binary flash downloader, a circuit board emulator, and
-a compiler, an assembler, a C library, and a source-level debugger,
-as well as an on-chip debugger.
+a compiler, an assembler, a source-level debugger, and an on-chip debugger.
 
 ## Setting up the Development Environment for Arm target
 
@@ -18,7 +17,7 @@ https://www.openbsd.org/faq/faq15.html
 
 Packages need no setup.
 
-These required utilities can be installed as Packages.
+These required utilities can be installed as Packages:
   ```sh
     $ pkg_add bison elftoolchain gettext-runtime
     $ pkg_add git groff openocd sudo unzip zip
@@ -29,7 +28,7 @@ The remaining required utilities must be built as Ports.
 Information about the OpenBSD Ports System can be found at:
 https://www.openbsd.org/faq/ports/ports.html
 
-1. Fetch and Install the Ports Collection.
+1. Fetch and Install the Ports Collection:
   ```sh
     $ cd /tmp
     $ ftp https://cdn.openbsd.org/pub/OpenBSD/$(uname -r)/ports.tar.gz
@@ -37,9 +36,9 @@ https://www.openbsd.org/faq/ports/ports.html
     $ tar xzvf /tmp/ports.tar.gz
   ```
 
-2. Add the Ports from this repo to the `/usr/ports/mystuff` directory.
+2. Add the Ports from this repo to the `/usr/ports/mystuff` directory:
   ```sh
-    $ cd {where you cloned this repo}/tools/openbsd/ports
+    $ cd {where this repo is cloned}/tools/openbsd/ports
     $ cp -R mystuff /usr/ports/
   ```
 
@@ -63,17 +62,13 @@ https://www.openbsd.org/faq/ports/ports.html
 ```sh
   $ sudo pkg_add arm-none-eabi-binutils
 ```
+Note: __Do NOT__ install the default OpenBSD `arm-none-eabi-gcc` Package.
+  It does not enable the `rmprofile` multilib, missing critical library files.
+  Instead, compile the custom-configured GCC port as outlined below.
 
 #### Compiler, Port: GCC, V12.2.0, Configured for arm-none-eabi rmprofile
 ```sh
   $ cd /usr/ports/mystuff/devel/arm-none-eabi/gcc
-  $ sudo make
-  $ sudo make install
-```
-
-#### C Library, Port: Newlib V2.2.0-1, Configured for arm-none-eabi (Optional)
-```sh
-  $ cd /usr/ports/mystuff/devel/arm-none-eabi/newlib
   $ sudo make
   $ sudo make install
 ```
@@ -83,11 +78,6 @@ https://www.openbsd.org/faq/ports/ports.html
   $ cd /usr/ports/mystuff/devel/arm-none-eabi/gdb
   $ sudo make
   $ sudo make install
-```
-
-### On-Chip Debugger, Package: OpenOCD V0.11.0
-```sh
-  $ sudo pkg_add openocd
 ```
 
 Note: The whole meta-package can be compiled and installed by one command:
@@ -122,14 +112,4 @@ Note: The whole meta-package can be compiled and installed by one command:
   $ cd /usr/ports/mystuff/devel/mips-elf
   $ sudo make
   $ sudo make install
-```
-
-### ELF Compilation Tools, Package: ELF Toolchain V0.7.1
-```sh
-  $ sudo pkg_add elftoolchain
-```
-
-### Internationalization Library, Package: GetText V0.22.5
-```sh
-  $ sudo pkg_add gettext-runtime
 ```

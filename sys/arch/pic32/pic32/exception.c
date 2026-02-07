@@ -25,7 +25,7 @@ extern void power_switch_check();
 #endif
 
 /*
- * Copy of COP0 Debug register, saved by exception handler (in startup.S).
+ * Copy of COP0 Debug register, saved by exception handler (in locore.S).
  */
 int c0_debug;
 
@@ -226,7 +226,7 @@ dumpregs(frame)
 #define USER        1
 
 /*
- * Called from startup.S when a processor exception occurs.
+ * Called from locore.S when a processor exception occurs.
  * The argument is the array of registers saved on the system stack
  * by the hardware and software during the exception processing.
  */

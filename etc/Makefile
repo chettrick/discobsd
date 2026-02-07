@@ -109,10 +109,10 @@ release-dirs:
 	for dir in ${DIRS_RELEASE}; do \
 		mkdir -p $$dir; \
 		cp ${TOPSRC}/sys/arch/${MACHINE}/compile/$$dir/unix* $$dir; \
-		cp ${TOPSRC}/distrib/${MACHINE}/sdcard.img .; \
-		cp ${TOPSRC}/distrib/${MACHINE}/README.md .; \
-		cp -f ${TOPSRC}/README.md ${RELEASEDIR}; \
 	done
+	cp -f ${TOPSRC}/distrib/${MACHINE}/sdcard.img ${RELEASEDIR}/${MACHINE}
+	cp -f ${TOPSRC}/distrib/${MACHINE}/README.md ${RELEASEDIR}/${MACHINE}
+	cp -f ${TOPSRC}/README.md ${RELEASEDIR}
 
 release: release-dirs
 	cd ${RELEASEDIR} && \

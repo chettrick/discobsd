@@ -112,6 +112,7 @@ release-dirs:
 	done
 	cp -f ${TOPSRC}/distrib/${MACHINE}/sdcard.img ${RELEASEDIR}/${MACHINE}
 	cp -f ${TOPSRC}/distrib/${MACHINE}/README.md ${RELEASEDIR}/${MACHINE}
+	cp -f ${TOPSRC}/distrib/notes/ANNOUNCEMENT.md ${RELEASEDIR}
 	cp -f ${TOPSRC}/README.md ${RELEASEDIR}
 
 release: release-dirs

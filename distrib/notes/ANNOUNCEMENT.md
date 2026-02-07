@@ -1,17 +1,15 @@
---- DiscoBSD 2.4 RELEASED ---
+--- DiscoBSD 2.5 RELEASED ---
 
-# DiscoBSD 2.4 Released
+# DiscoBSD 2.5 Released
 
-February 11, 2025
+August 11, 2025
 
-DiscoBSD 2.4 is released.
+DiscoBSD 2.5 is released.
 
-This is the fifth official release of DiscoBSD, the multi-platform
+This is the sixth official release of DiscoBSD, the multi-platform
 2.11BSD-based Unix-like operating system for microcontrollers.
 
-The release of DiscoBSD 2.4 marks the 33rd anniversary of 2.11BSD.
-
-DiscoBSD 2.4 offers ports to two different microcontroller platforms:
+DiscoBSD 2.5 offers ports to two different microcontroller platforms:
 * DiscoBSD/stm32 - STM32F4 family of 32-bit Arm Cortex-M4
   microcontrollers from STMicroelectronics
 * DiscoBSD/pic32 - PIC32MX7 family of 32-bit MIPS32 M4K
@@ -43,53 +41,46 @@ Install, build, and debug instructions can be found in the README files.
 
 ### New Features in this Release
 
-* Update host cross compilers to GCC 12.2.0 for stm32 and pic32.
-* Updated single-precision floating-point library to 7.0.1 from LLVM.
-* Imported double-precision floating-point library 7.0.1 from LLVM.
-* Handle mips-elf-gcc dropping -fshort-double throughout tree.
-* Imported, updated, and enabled 2.11BSD install(1).
-* K&R to ANSI updates.
-* Major overhaul to OpenBSD host tools and custom ports.
+* Kernel source tree follows 4.4BSD hierarchy, to facilitate future ports.
+* Separate out machine-dependent and machine-independent code.
+* Refresh of kernel compile Configs and Makefiles for pic32 and stm32.
+* Updated host cross debugger to GDB 12.1 with DWARF 5 for stm32.
+* Added Section 9 to the manual pages system, with update to man(1).
+* Added intro manual pages to Sections 5, 6, and 9; added style(9).
+* More work on OpenBSD host tools and custom ports.
+* Default timezone is updated from `US/Pacific` to `Canada/Mountain`.
 * Clarity and improvements in documentation.
-* Windows instructions for installing releases and firmware.
 
 ### Filesystem
 
-* Cleanup of C include headers.
-* Addition of int64_t, uint64_t, and min-width macros to stdint.h.
-* Added stdbool.h C include header from OpenBSD.
-* Machine dependent _float.h headers.
+* 4.4BSD-style locations of C include headers.
 
 ### Build System
 
-Continuing the overhaul of the  build system.
-* Updated to OpenBSD 7.6 as main host development environment.
-* K&R to ANSI updates for all host-built utilities.
-* Length-bound string functions for all host-built utilities.
+Continuing the overhaul of the build system.
+* Kernels are now built in `sys/arch/${MACHINE}/compile/${BOARD}`.
+* Linker scripts and common configs in `sys/arch/${MACHINE}/conf`.
+* Updated host cross debugger to GDB 12.1 with DWARF 5 for stm32.
+* More length-bound string functions for kconfig(8).
 * Both BSD make and GNU make are fully supported.
-* FreeBSD's version of BSD make requires MAKESYSPATH set.
-* Linux uses libbsd-dev via pkg-config throughout source tree.
-* Handle linker warning --no-warn-rwx-segments for all hosts.
+* FreeBSD's version of BSD make requires `MAKESYSPATH` set.
+* Linux uses `libbsd-dev` via `pkg-config` throughout source tree.
 * Fixed all OpenBSD-specific linker warnings for unsafe functions.
 
 ### DiscoBSD/stm32 Specific Improvements
 
-* Kernels available in Intel HEX .hex and binary .bin formats.
-* MD _float.h header properly handles doubles and long doubles.
+* Separate out arm-specific and stm32-specific code, to facilitate
+   future ports of other arm-based microcontrollers.
 
 ### DiscoBSD/pic32 Specific Improvements
 
-* Migrated from 32-bit short-doubles to 64-bit doubles.
-* Imported and updated LLVM floating-point library,
-  which enabled the removal of -fshort-double in GCC.
-* Double floats enabled migration to GCC 12.2.0 from 4.8.1.
-* MD _float.h header properly handles doubles and long doubles.
+* Enabled kernel builds for the Pontech QUICK240 system.
+* Unified on common linker scripts across many boards.
 
 ### Bugfixes and Corrections
 
-* Use host system's strmode(3) in tools ar(1); fixes type conflict.
+* Update to GDB 12.1 corrected stm32 DWARF 5 debugging.
 * Steady improvements and corrections in documentation.
-* Steady improvements and corrections in libraries.
 * Manual page fixes and improvements.
 
 
@@ -107,8 +98,13 @@ These host development environments have been tested:
 * BSD make and GNU make
 * DiscoBSD/stm32
   * Custom port of arm-none-eabi-gcc 12.2.0 (rmprofile)
+  * OpenBSD package of arm-none-eabi-binutils 2.40
+  * Custom port of arm-none-eabi-gdb 12.1
+  * OpenBSD package of OpenOCD 0.11.0
+  * Custom port of ST-Link 1.8.0
 * DiscoBSD/pic32
   * Custom port of mips-elf-gcc 12.2.0
+  * Custom port of mips-elf-binutils 2.40
 
 ### Ubuntu 23.04
 * Host compiler GCC 12.3.0
@@ -131,6 +127,7 @@ These host development environments have been tested:
 ## Release Build Environment
 
 DiscoBSD distribution releases are cross-built on OpenBSD.
+
 The release build environment is configured as below:
 
 ### OpenBSD 7.6
@@ -138,25 +135,14 @@ The release build environment is configured as below:
 * BSD make
 * DiscoBSD/stm32
   * Custom port of arm-none-eabi-gcc 12.2.0 (rmprofile)
+  * OpenBSD package of arm-none-eabi-binutils 2.40
 * DiscoBSD/pic32
   * Custom port of mips-elf-gcc 12.2.0
+  * Custom port of mips-elf-binutils 2.40
 
 
 ## Developers and Contributors this Release
 * @chettrick
 
 ## Full Changelog
-https://github.com/chettrick/discobsd/compare/DISCOBSD_2_3...DISCOBSD_2_4
-
-## Release Correction - February 24, 2025
-The DiscoBSD/stm32 release in `DiscoBSD_2_4_stm32.tar.gz`
-and `DiscoBSD_2_4_stm32.zip` was __incorrectly__ built with
-arm-none-eabi-gcc 12.2.0 __without__ multilib support.
-
-The updated DiscoBSD/stm32 release in `DiscoBSD_2_4_stm32p0.tar.gz`
-and `DiscoBSD_2_4_stm32p0.zip` was __correctly__ built with
-arm-none-eabi-gcc 12.2.0 __with__ multilib support.
-
-It is recommended to use the __updated__ DiscoBSD/stm32 release.
-
-The DiscoBSD/pic32 release is unaffected.
+https://github.com/chettrick/discobsd/compare/DISCOBSD_2_4...DISCOBSD_2_5

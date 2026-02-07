@@ -4,6 +4,8 @@
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
+ *
+ *	@(#)cons.c	1.3 (2.11BSD GTE) 1997/4/25
  */
 
 #include <sys/param.h>

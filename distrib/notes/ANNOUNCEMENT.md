@@ -147,3 +147,16 @@ The release build environment is configured as below:
 
 ## Full Changelog
 https://github.com/chettrick/discobsd/compare/DISCOBSD_2_3...DISCOBSD_2_4
+
+## Release Correction - February 24, 2025
+The DiscoBSD/stm32 release in `DiscoBSD_2_4_stm32.tar.gz`
+and `DiscoBSD_2_4_stm32.zip` was __incorrectly__ built with
+arm-none-eabi-gcc 12.2.0 __without__ multilib support.
+
+The updated DiscoBSD/stm32 release in `DiscoBSD_2_4_stm32p0.tar.gz`
+and `DiscoBSD_2_4_stm32p0.zip` was __correctly__ built with
+arm-none-eabi-gcc 12.2.0 __with__ multilib support.
+
+It is recommended to use the __updated__ DiscoBSD/stm32 release.
+
+The DiscoBSD/pic32 release is unaffected.

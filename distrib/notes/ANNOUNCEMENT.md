@@ -1,15 +1,15 @@
---- DiscoBSD 2.1 RELEASED ---
+--- DiscoBSD 2.2 RELEASED ---
 
-# DiscoBSD 2.1 Released
+# DiscoBSD 2.2 Released
 
-August 31, 2023
+February 29, 2024
 
-DiscoBSD 2.1 is released.
+DiscoBSD 2.2 is released.
 
-This is the second official release of DiscoBSD, the multi-platform
+This is the third official release of DiscoBSD, the multi-platform
 2.11BSD-based operating system for microcontrollers.
 
-DiscoBSD 2.1 offers ports to two different microcontroller platforms:
+DiscoBSD 2.2 offers ports to two different microcontroller platforms:
 * DiscoBSD/stm32 - STM32F4 family of 32-bit Arm Cortex-M4
   microcontrollers from STMicroelectronics
 * DiscoBSD/pic32 - PIC32MX7 family of 32-bit MIPS32 M4K
@@ -25,14 +25,14 @@ as well as full use with the included VirtualMIPS PIC32 simulator.
 A nearly-complete development environment is included in DiscoBSD.
 
 There are: various text editors and compilers, a MIPS assembler and
-MIPS linker, as well as many more programming languages in addition
-to C and asm, such as Scheme, BASIC, Forth, RetroForth, yacc, and TCL.
+MIPS linker, and many more programming languages in addition to C
+and asm, such as Scheme, BASIC, Forth, RetroForth, lex, yacc, and TCL.
 Examples are provided in the file system at /usr/share/examples.
 
-As a descendant of 2.11BSD, DiscoBSD inherits its strong BSD heritage.
+As a descendant of 2.11BSD, DiscoBSD inherits the strong BSD heritage.
 The userland is powerful, full-featured, and comfortable to competent
-UNIX users, as it is derived from the rich 4.3BSD-Tahoe userland and
-steady improvements along the way.
+UNIX users, as it is derived from the rich 4.3BSD-Tahoe userland, modern
+implementations of classic utilities, and improvements along the way.
 
 Install, build, and debug instructions can be found in the README files.
 
@@ -41,62 +41,56 @@ Install, build, and debug instructions can be found in the README files.
 
 ### New Features
 
-* libtcl 6.7 available through build system, mainly for tclsh(1).
+* Unprivileged builds, with our own version of install(1) in /tools.
+* Imported and ported the Plan 9 versions of dc(1), bc(1), and lex(1).
+* as(1) can assemble files that include the MIPS .module directive.
 
 ### Filesystem
 
-Major overhaul of DiscoBSD's root filesystem.
-The root filesystem is now more in line with a 4.4BSD system
-than the 2.9BSD-style system inherited from RetroBSD.
-
-Notable changes are:
-* The return of the /usr directory.
-* Separation of executables into /bin, /sbin, /usr/bin, /usr/sbin,
-  /usr/libexec, and /usr/games, based on single user mode needs.
-* The creation of a user /home directory, on its own filesystem.
-* Both the root filesystem and user filesystem are 200 MB each.
+* More general cleanup from the file system reorganization.
 
 ### Build System
 
-Major overhaul of DiscoBSD's source tree and build system.
+Continuing the overhaul of the source tree and build system.
 * Both BSD make and GNU make are fully supported.
-* Non-portable features of GNU make and BSD make are
-  replaced with portable alternatives.
-* The source tree follows a more 4.4BSD layout, with each
-  executable having its own directory in the right hierarchy.
-* Build objects are now universally installed into ${DESTDIR},
-  default location is /distrib/obj/destdir.${MACHINE}.
-* /etc/Makefile target distrib-dirs builds the skeleton
-  filesystem hierarchy in ${DESTDIR}.
-* Build tools install into ${TOOLBINDIR}, default location
-  is the persistent /tools/bin directory.
-* Build outputs in ${DESTDIR} from different architectures
-  can co-exist simultaneously.
-* Added ${HOST_CC} make variable for host compiler.
-* tools/aoututils for building a.out system libraries.
-* Kernels are now called unix, not unix.elf.
-* Consistent CFLAGS, AFLAGS, ASFLAGS, LIBS, LDLIBS.
-* Build system with -fcommon in ${CFLAGS}.
-* FreeBSD is now a host development environment.
+* FreeBSD's version of make requires MAKESYSPATH set.
+* Added machine-specific Makefile.inc files for debugging.
+* Manual pages specify DiscoBSD as operating system name.
+* Use ${INSTALL} throughout the source tree.
+* tools/binstall is OpenBSD install(1), with an implementation of
+  the -U unprivileged option inspired from NetBSD install(1) .
+* Use the new tools/binstall for unprivileged builds and installs.
+* System build Makefile from target.mk to share/mk/sys.mk.
+* OpenBSD-style OSMAJOR, OSMINOR in share/mk/sys.mk.
+
+### Kernel
+* Proper BSD-style kernel version string, for each architecture.
+* KERN_OSTYPE, KERN_OSRELEASE, and KERN_OSVERSION
+  sysctls updated. E.g., DiscoBSD, 2.2, and F412GDISCO#5.
+* Kernel versioning unified; driven by /sys/conf/newvers.sh.
+* Clean up some ifdefs between architectures for ELF.
+* Clean up uname(3) and struct field lengths to 256.
 
 ### DiscoBSD/stm32 Specific Improvements
 
-* Implemented ARMv7-M fault trap handling.
-* Dumps fault stack frame upon fault.
-* Add MCU and revision IDs for STM32F407xx.
-* Portable Makefiles for kernel builds.
+* Enable new Plan 9 /usr/bin/lex for DiscoBSD/stm32.
+* Add lex examples in /usr/share/examples/lex.
+* Use the common /sys/conf/newvers.sh kernel shell script.
+* Update to latest NetBSD Arm version of elf_machdep.h.
 
 ### DiscoBSD/pic32 Specific Improvements
 
-* Portable Makefiles for kernel builds.
+* Use the common /sys/conf/newvers.sh kernel shell script.
+* Update to latest NetBSD MIPS version of elf_machdep.h.
+* Fix many implicit int warnings.
+* Enable -fcommon for MIPS kernel builds.
 
 ### Bugfixes and Corrections
 
 * Numerous K&R -> ANSI fixes.
 * Newer compilers exposed many unsafe structures,
   and they were promptly remedied.
-* Many updates concerning the hierarchy changes.
-* Perform ranlib -t to touch libraries after installation.
+* Many updates concerning hierarchy changes.
 * Steady improvements and corrections in games.
 * Steady improvements and corrections in libraries.
 * Manual page fixes and improvements.
@@ -147,6 +141,7 @@ These host development environments have been tested:
 
 ### FreeBSD 13.2
 * Host compiler Clang 14.0.5
+* BSD make (with MAKESYSPATH set) and GNU make
 * DiscoBSD/stm32
   * arm-none-eabi-gcc 10.3.1
 * DiscoBSD/pic32
@@ -155,7 +150,7 @@ These host development environments have been tested:
 
 ## Developers and Contributors
 * @chettrick 
-* @lhondareyte 
-* @saper 
-* @omarandlorraine
 * @amarkee 
+
+## Full Changelog
+https://github.com/chettrick/discobsd/compare/DISCOBSD_2_1...DISCOBSD_2_2

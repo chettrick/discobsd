@@ -2,7 +2,10 @@
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
+ *
+ *	@(#)kern_pdp.c	1.4 (2.11BSD) 1998/5/12
  */
+
 #include <sys/param.h>
 #include <sys/user.h>
 #include <sys/ioctl.h>

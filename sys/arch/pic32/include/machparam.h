@@ -4,7 +4,10 @@
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
+ *
+ *	@(#)machparam.h	1.4 (2.11BSD GTE) 1998/9/15
  */
+
 #ifndef ENDIAN
 
 #define MACHINE         "pic32"

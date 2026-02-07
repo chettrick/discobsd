@@ -2,7 +2,10 @@
  * Copyright (c) 1986 Regents of the University of California.
  * All rights reserved.  The Berkeley software License Agreement
  * specifies the terms and conditions for redistribution.
+ *
+ *	@(#)trap.c	1.6 (2.11BSD) 1999/9/13
  */
+
 #include <sys/param.h>
 #include <sys/signalvar.h>
 #include <sys/systm.h>

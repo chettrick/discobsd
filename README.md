@@ -27,7 +27,7 @@ portability in the hosting environment and target architectures and platforms.
 The paper [*Porting the Unix Kernel*][5] details this initial porting effort.
 
 Work on DiscoBSD has progressed in earnest since the completion of the
-Directed Study, with the DiscoBSD/stm32 port booting multi-user in
+Directed Study, with the `DiscoBSD/stm32` port booting multi-user in
 August 2022. The system is quite usable on supported development boards.
 
 And work continues...
@@ -64,7 +64,7 @@ On Unix-like host systems with `dd` run:
 The board-specific kernel `unix` must be loaded into the MCU's flash memory.
 Formats are ELF `unix.elf`, binary `unix.bin`, and Intel HEX `unix.hex`.
 
-Flashing a DiscoBSD/stm32 kernel firmware into target board's flash memory:
+#### Loading a `DiscoBSD/stm32` kernel firmware into board's flash memory:
 
 On Windows host systems use [STM32CubeProgrammer][7] for flash programming.
 
@@ -73,7 +73,7 @@ load the binary-formatted kernel `unix.bin` into flash memory at 0x08000000.
 
     $ st-flash --reset write unix.bin 0x08000000
 
-Flashing a DiscoBSD/pic32 kernel firmware into target board's flash memory:
+#### Loading a `DiscoBSD/pic32` kernel firmware into board's flash memory:
 
 On all supported host systems use [pic32prog][9] for flash programming.
 
@@ -104,8 +104,9 @@ DiscoBSD is cross-built on UNIX-like host operating systems.
 
 Currently supported host operating systems: OpenBSD, Linux, FreeBSD.
 
-Instructions to configure an OpenBSD host development environment for
-Arm and MIPS targets is [available here][10].
+### Instructions to configure a supported host development environment:
+* [OpenBSD][10]
+* [Debian-based Linux][27]
 
 The build system fully supports both BSD make and GNU make.
 
@@ -127,7 +128,7 @@ Running:
 will build everything from a `make build`, plus generate a file system
 image in the file `distrib/stm32/sdcard.img` for imaging to an SD card.
 
-DiscoBSD/stm32 is the default port, but DiscoBSD/pic32 may be built via:
+`DiscoBSD/stm32` is the default port, but `DiscoBSD/pic32` may be built via:
 
     $ make clean
     $ make MACHINE=pic32 MACHINE_ARCH=mips distribution
@@ -139,10 +140,10 @@ Intel HEX-formatted kernels.
 
 Put the generated file system image `sdcard.img` onto an SD card.
 
-The `make` target `installfs` uses the `dd` utility to image the SD card
-attached to the host operating system at `SDCARD`, such as `/dev/rsdXc` or
-`/dev/sdX` or `/dev/rdiskX`, replacing `X` with the actual drive number or
-letter, as the case may be.
+The `make` target `installfs` uses the `dd` utility to image `sdcard.img`
+to the SD card attached to the host operating system at `SDCARD`, such as
+`/dev/rsdXc`, `/dev/daX`, `/dev/mmcblkX`, `/dev/sdX`, or `/dev/rdiskX`,
+replacing `X` with the actual drive number or letter, as the case may be.
 
 For example, imaging an SD card attached at `sd2` on an OpenBSD host
 operating system through the raw i/o device:
@@ -163,6 +164,7 @@ or
     $ make
 
 [10]: tools/openbsd/README.md
+[27]: tools/linux/README.md
 
 Building a DiscoBSD Release
 ---------------------------
@@ -171,6 +173,7 @@ A DiscoBSD release consists of, for each supported architecture:
 
 * a file system image that contains the full base system
 * kernels, in various file formats, for each supported development board
+* the ANNOUNCEMENT.md file
 * the README.md file for the architecture
 * this README.md file
 
@@ -183,11 +186,11 @@ the steps in [Building](#building):
 Once all the distribution source objects exist then a release can
 be created; one release for each architecture.
 
-A DiscoBSD/stm32 release, as the default architecture, is created by:
+A `DiscoBSD/stm32` release, as the default architecture, is created by:
 
     $ make release
 
-A DiscoBSD/pic32 release is created by:
+A `DiscoBSD/pic32` release is created by:
 
     $ make MACHINE=pic32 MACHINE_ARCH=mips release
 
@@ -202,7 +205,7 @@ gzip-compressed tar archive and as a `.zip` zip-compressed archive.
 Debugging
 ---------
 
-DiscoBSD/stm32 is debugged through OpenOCD and GDB. The `make` targets for
+`DiscoBSD/stm32` is debugged through OpenOCD and GDB. The `make` targets for
 debugging are `ocd` and `gdb-ocd`.
 
 Debug a particular development board via:
@@ -271,7 +274,7 @@ Source Tree Roadmap
     usr.bin     User utilities in multi-user environments.
     usr.sbin    System administration utilities in multi-user environments.
 
-DiscoBSD/stm32 dmesg
+`DiscoBSD/stm32` dmesg
 --------------------
 
 ```
@@ -311,7 +314,7 @@ erase ^?, kill ^U, intr ^C
 # 
 ```
 
-DiscoBSD/pic32 dmesg
+`DiscoBSD/pic32` dmesg
 --------------------
 
 ```

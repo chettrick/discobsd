@@ -34,6 +34,7 @@
  * SUCH DAMAGE.
  */
 #ifdef CROSS
+#   include <sys/types.h>
 #   include <stdint.h>
 #   include <stdio.h>
 #   include <string.h>

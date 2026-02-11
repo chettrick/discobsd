@@ -1,15 +1,15 @@
---- DiscoBSD 2.5 RELEASED ---
+--- DiscoBSD 2.6 RELEASED ---
 
-# DiscoBSD 2.5 Released
+# DiscoBSD 2.6 Released
 
-August 11, 2025
+February 11, 2026
 
-DiscoBSD 2.5 is released.
+DiscoBSD 2.6 is released.
 
-This is the sixth official release of DiscoBSD, the multi-platform
+This is the seventh official release of DiscoBSD, the multi-platform
 2.11BSD-based Unix-like operating system for microcontrollers.
 
-DiscoBSD 2.5 offers ports to two different microcontroller platforms:
+DiscoBSD 2.6 offers ports to two different microcontroller platforms:
 * DiscoBSD/stm32 - STM32F4 family of 32-bit Arm Cortex-M4
   microcontrollers from STMicroelectronics
 * DiscoBSD/pic32 - PIC32MX7 family of 32-bit MIPS32 M4K
@@ -42,44 +42,51 @@ Install, build, and debug instructions can be found in the README files.
 ### New Features in this Release
 
 * Kernel source tree follows 4.4BSD hierarchy, to facilitate future ports.
-* Separate out machine-dependent and machine-independent code.
+* Separate out console and {,k}mem drivers to be machine-independent.
 * Refresh of kernel compile Configs and Makefiles for pic32 and stm32.
-* Updated host cross debugger to GDB 12.1 with DWARF 5 for stm32.
-* Added Section 9 to the manual pages system, with update to man(1).
-* Added intro manual pages to Sections 5, 6, and 9; added style(9).
-* More work on OpenBSD host tools and custom ports.
-* Default timezone is updated from `US/Pacific` to `Canada/Mountain`.
-* Clarity and improvements in documentation.
+* Many improvements and cleanup of sysctl(8) and kernel-side sysctl code.
+* KNF style(9) and ANSI cleanup in kernel, ports, and userland.
+* Clarity, bugfixes, and improvements in documentation.
 
 ### Filesystem
 
-* 4.4BSD-style locations of C include headers.
+* Hard link uptime(1) to w(1); uptime(1) now enabled.
+* Properly symlink /etc/localtime with DiscoBSD zone files.
+* Update libc bzero(3) to take a size_t, not unsigned int or long.
+* FD_ZERO(2) in libc now uses memset(3) instead of bzero(3).
+* Many instances in tree of replacing bzero(3) with memset(3).
 
 ### Build System
 
 Continuing the overhaul of the build system.
-* Kernels are now built in `sys/arch/${MACHINE}/compile/${BOARD}`.
-* Linker scripts and common configs in `sys/arch/${MACHINE}/conf`.
-* Updated host cross debugger to GDB 12.1 with DWARF 5 for stm32.
-* More length-bound string functions for kconfig(8).
+* Rename kconfig(8) back to config(8), in line with all BSDs.
+* 4.4BSD names for kernel files locore.S, conf.c, and sig_machdep.c.
 * Both BSD make and GNU make are fully supported.
 * FreeBSD's version of BSD make requires `MAKESYSPATH` set.
-* Linux uses `libbsd-dev` via `pkg-config` throughout source tree.
-* Fixed all OpenBSD-specific linker warnings for unsafe functions.
+* Speed up in imaging SD card with DiscoBSD file system.
+* Speed up in `make release`, up to 5x faster.
+* Releases now include ANNOUNCEMENT.md, maintained in tree.
+* Add back many SCCS version tags from 2.11BSD.
 
 ### DiscoBSD/stm32 Specific Improvements
 
-* Separate out arm-specific and stm32-specific code, to facilitate
-   future ports of other arm-based microcontrollers.
+* Support for STM32F413H-DISCO development board.
+* Extensions to HAL library for the Memory Protection Unit (MPU).
+* MPU sysctls for Enabled, num of Regions, and CTRL register.
+* Add sysctl(8) support to read and display MPU information.
+* Clean structure for SDIO GPIO pins; extensible to new boards.
+* Separate nulldev() into nullopen(), nullclose(), and nullstop().
 
 ### DiscoBSD/pic32 Specific Improvements
 
-* Enabled kernel builds for the Pontech QUICK240 system.
-* Unified on common linker scripts across many boards.
+* Refactor and normalize kernel compile options with stm32.
+* Consolidate compiler tools and paths under pic32/conf/compiler.mk.
+* Separate nulldev() into nullopen(), nullclose(), and nullstop().
 
-### Bugfixes and Corrections
+### Documentation, Bugfixes, and Corrections
 
-* Update to GDB 12.1 corrected stm32 DWARF 5 debugging.
+* Documentation to set up a Linux host development environment.
+* Releases are documented in ANNOUNCEMENT.md, maintained in tree.
 * Steady improvements and corrections in documentation.
 * Manual page fixes and improvements.
 
@@ -106,20 +113,33 @@ These host development environments have been tested:
   * Custom port of mips-elf-gcc 12.2.0
   * Custom port of mips-elf-binutils 2.40
 
+### Ubuntu 24.04 (Zorin OS 18 Core)
+* Host compiler GCC 13.2.0
+* Host compiler Clang 18.1.3
+* BSD make and GNU make
+* DiscoBSD/stm32
+  * arm-none-eabi-gcc 13.2.1
+  * arm-none-eabi-binutils 2.42
+* DiscoBSD/pic32
+  * Untested
+
 ### Ubuntu 23.04
 * Host compiler GCC 12.3.0
 * Host compiler Clang 15.0.7
 * BSD make and GNU make
 * DiscoBSD/stm32
   * arm-none-eabi-gcc 12.2.1
+  * arm-none-eabi-binutils 2.39
 * DiscoBSD/pic32
   * Untested
 
 ### FreeBSD 13.2
+* Host compiler GCC 12.2.0
 * Host compiler Clang 14.0.5
 * BSD make (with MAKESYSPATH set) and GNU make
 * DiscoBSD/stm32
   * arm-none-eabi-gcc 10.3.1 (gcc-arm-embedded)
+  * arm-none-eabi-binutils 2.40
 * DiscoBSD/pic32
   * Untested
 
@@ -145,4 +165,4 @@ The release build environment is configured as below:
 * @chettrick
 
 ## Full Changelog
-https://github.com/chettrick/discobsd/compare/DISCOBSD_2_4...DISCOBSD_2_5
+https://github.com/chettrick/discobsd/compare/DISCOBSD_2_5...DISCOBSD_2_6

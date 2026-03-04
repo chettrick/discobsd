@@ -11,7 +11,7 @@
 architecture    "stm32"
 cpu             "STM32F413xx"               # Processor variant
 board           "F413HDISCO"                # Board type
-ldscript        "STM32F413ZHTX.ld"          # Linker script
+ldscript        "STM32F413XH.ld"            # Kernel memory linker script
 
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core

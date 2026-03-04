@@ -13,6 +13,8 @@ cpu             "STM32F469xx"               # Processor variant
 board           "F469IDISCO"                # Board type
 ldscript        "STM32F469XI.ld"            # Kernel memory linker script
 
+makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=90000"             # Frequency of peripheral bus

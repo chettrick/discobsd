@@ -11,7 +11,7 @@
 architecture    "stm32"
 cpu             "STM32F411xE"               # Processor variant
 board           "F411RENUCLEO"              # Board type
-ldscript        "STM32F411RETX.ld"          # Linker script
+ldscript        "STM32F411XE.ld"            # Kernel memory linker script
 
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core

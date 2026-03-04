@@ -11,7 +11,7 @@
 architecture    "stm32"
 cpu             "STM32F407xx"               # Processor variant
 board           "F4DISCOVERY"               # Board type
-ldscript        "STM32F407XG.ld"            # Linker script
+ldscript        "STM32F407XG.ld"            # Kernel memory linker script
 
 # Standard system options
 options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core

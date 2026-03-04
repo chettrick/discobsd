@@ -11,7 +11,7 @@
 architecture    "stm32"
 cpu             "STM32F469xx"               # Processor variant
 board           "F469IDISCO"                # Board type
-ldscript        "STM32F469NIHX.ld"          # Linker script
+ldscript        "STM32F469XI.ld"            # Kernel memory linker script
 
 # Standard system options
 options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core

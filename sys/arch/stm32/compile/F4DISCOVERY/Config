@@ -13,6 +13,8 @@ cpu             "STM32F407xx"               # Processor variant
 board           "F4DISCOVERY"               # Board type
 ldscript        "STM32F407XG.ld"            # Kernel memory linker script
 
+makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=48000"             # Frequency of peripheral bus

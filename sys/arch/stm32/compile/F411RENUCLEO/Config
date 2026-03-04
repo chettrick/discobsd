@@ -13,6 +13,8 @@ cpu             "STM32F411xE"               # Processor variant
 board           "F411RENUCLEO"              # Board type
 ldscript        "STM32F411XE.ld"            # Kernel memory linker script
 
+makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=50000"             # Frequency of peripheral bus

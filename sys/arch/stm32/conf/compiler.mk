@@ -1,5 +1,5 @@
-# GCC arm-none-eabi toolchain on OpenBSD and Linux
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# GCC arm-none-eabi toolchain on OpenBSD, FreeBSD, and Linux
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 _HOST_OSNAME!=	uname -s
 

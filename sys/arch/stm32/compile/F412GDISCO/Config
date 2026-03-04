@@ -13,6 +13,8 @@ cpu             "STM32F412Zx"               # Processor variant
 board           "F412GDISCO"                # Board type
 ldscript        "STM32F412XG.ld"            # Kernel memory linker script
 
+makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "CPU_KHZ=100000"            # Oscillator frequency of CPU core
 options         "BUS_KHZ=50000"             # Frequency of peripheral bus

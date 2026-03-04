@@ -25,7 +25,7 @@ PARAM += -DCPU_KHZ=168000
 LDSCRIPT = "STM32F407XG.ld"
 DEBUG = -g
 #
-# Makefile for DiscoBSD, stm32 target
+# Makefile for DiscoBSD/stm32
 #
 # DEBUG is set to -g by config if debugging is requested (config -g).
 #
@@ -39,9 +39,9 @@ _machdir?=	$S/arch/${_mach}
 _archdir?=	$S/arch/${_arch}
 _confdir?=	${_machdir}/conf
 
-include 	${_confdir}/compiler.mk
+include		${_confdir}/compiler.mk
 
-INCLUDES=	-nostdlib -I. -I$S -I$S/arch -I${_archdir}/include
+INCLUDES=	-I. -I$S -I$S/arch -I${_archdir}/include
 DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
 DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
 CWARNFLAGS=	-Wall
@@ -56,7 +56,7 @@ COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
 LDFLAGS=	-T ${_confdir}/${LDSCRIPT} -T ${_confdir}/kern.ldscript
-LDFLAGS+=	-Map=$@.map
+LDFLAGS+=	-nostdlib -Map=$@.map
 LDADD=		${LIBGCC}
 
 # compile rules: rules are named COMPILE_${SUFFIX}
@@ -143,7 +143,7 @@ clean-all: clean
 	rm -f *.h ioconf.c swap*.c vers.c
 
 reconfig ioconf.c: Config $S/../tools/bin/config
-	$S/../tools/bin/config -g Config
+	$S/../tools/bin/config Config
 	${MAKE} clean
 
 machine:

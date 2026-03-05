@@ -1,0 +1,50 @@
+#
+# DevEBox STM32F4VE STM32F407VET6 board
+# =====================================
+#
+# To build the kernel, use:
+#   cd sys/arch/stm32/compile/F4VEDEVEBOX
+#   tools/bin/config Config
+#   make clean
+#   make
+#
+architecture    "stm32"
+cpu             "STM32F407xx"               # Processor variant
+board           "F4VEDEVEBOX"               # Board type
+ldscript        "STM32F407XE.ld"            # Linker script
+
+# Standard system options
+options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=42000"             # Frequency of peripheral bus
+options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP"                       # Board support package
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+device          uart1                       # USART1 as console
+options         "UART_BAUD=115200"          # default speed
+
+# Use USART1 as serial console
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=0"              # uart1 is /dev/tty0
+
+# SDIO port
+controller      sdio0                       # SDIO port
+options         "SDIO_XFER_CLK_DIV=32"      # APB2 84MHz / (DIV + 2) < 25MHz
+
+# MicroSD card
+device          sd0     at sdio0            # SD card uses SDIO port
+options         "NSD=1"                     # One disk on SDIO.
+
+# Two User LEDs are connected to MCU on PA6, PA7, Active-high
+signal          "LED2" pin PA6 invert       # Active-high Green
+signal          "LED3" pin PA7 invert       # Active-high Green
+options         "BSP_LED_DISK=LED2"         # Disk i/o
+options         "BSP_LED_KERNEL=LED3"       # Kernel activity
+
+# User Button is connected to MCU on PE4, Active-high
+signal          "BUTTON_USER" pin PE4       # Active-high B_USER button
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

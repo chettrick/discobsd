@@ -73,7 +73,7 @@ static const struct uart_inst uart[NUART] = {
     { /* USART6 */ },
 #endif
 #ifdef STM32F407xx
-    { /* USART1 */ },
+    { USART1, { GPIOA, 'A', PIN9 }, { GPIOA, 'A', PIN10 }, 2, AF7 },
     { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 4, AF7 },
     { /* USART3 */ },
     { /* UART4 */ },
@@ -207,6 +207,11 @@ uartinit(int unit)
         arm_intr_enable_irq(USART1_IRQn);
 
 #ifdef STM32F405xx
+        /* USART1: APB2 84 MHz AF7: TX on PA.09, RX on PA.10 */
+        LL_GPIO_EnableClock(GPIOA);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+#endif
+#ifdef STM32F407xx
         /* USART1: APB2 84 MHz AF7: TX on PA.09, RX on PA.10 */
         LL_GPIO_EnableClock(GPIOA);
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);

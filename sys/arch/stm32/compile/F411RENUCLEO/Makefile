@@ -33,7 +33,7 @@ _confdir?=	${_machdir}/conf
 
 include		${_confdir}/compiler.mk
 
-INCLUDES=	-I. -I$S -I$S/arch -I${_archdir}/include
+INCLUDES=	-nostdinc -I. -I$S -I$S/arch -I${_archdir}/include
 DEPFLAGS=	-MT $@ -MP -MD -MF .deps/$*.dep
 DEFS=		${INCLUDES} ${PARAM} -DKERNEL ${DEPFLAGS}
 CWARNFLAGS=	-Wall

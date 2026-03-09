@@ -32,7 +32,7 @@ STD=	a.out.h alloca.h ar.h assert.h \
 	term.h time.h ttyent.h tzfile.h \
 	unistd.h utmp.h vmf.h
 
-LINKS=	errno.h signal.h syslog.h
+LINKS=	errno.h signal.h stdint.h syslog.h
 
 SUBDIRS=arpa
 

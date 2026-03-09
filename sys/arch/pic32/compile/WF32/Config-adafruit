@@ -16,6 +16,8 @@ cpu             "PIC32MX7"                  # Processor variant
 board           "WF32"                      # Board type
 ldscript        "MAX32.ld"                  # Linker script
 
+#makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
 options         "BUS_KHZ=80000"             # Frequency of peripheral bus

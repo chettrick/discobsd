@@ -11,10 +11,10 @@
 #
 architecture    "pic32"
 cpu             "PIC32MX7"                  # Processor variant
-board           "CHIPKIT_MAX32"             # Board type
+board           "MAX32"                     # Board type
+ldscript        "MAX32.ld"                  # Linker script
 
-# Linker script
-ldscript        "max32/bootloader.ld"
+makeoptions     DEBUG="-g"                  # Debug symbols
 
 # Need to set locally
 timezone        8 dst
@@ -25,9 +25,6 @@ options         "HZ=100"                    # Rate of clock interrupt
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
 options         "BUS_KHZ=80000"             # Frequency of peripheral bus
 options         "BUS_DIV=1"                 # Bus clock divisor 1/2/4/8
-options         "EXEC_AOUT"                 # Run a.out binaries
-options         "EXEC_ELF"                  # Run ELF binaries
-options         "EXEC_SCRIPT"               # Run shell scripts
 options         "UCB_METER"                 # Collect kernel statistics
 options         "NPROC=10"                  # Number of processes, default 25
 options         "NBUF=10"                   # Number of i/o buffers, default 10

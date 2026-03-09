@@ -19,6 +19,8 @@ cpu             "PIC32MX7"                  # Processor variant
 board           "DUINOMITE_EMEGA"           # Board type
 ldscript        "MAXIMITE.ld"               # Linker script
 
+#makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core
 options         "BUS_KHZ=40000"             # Frequency of peripheral bus

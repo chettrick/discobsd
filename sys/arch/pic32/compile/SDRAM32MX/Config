@@ -17,6 +17,8 @@ cpu             "PIC32MX7"                  # Processor variant
 board           "SDRAM32MX"                 # Board type
 ldscript        "SDRAM32MX.ld"              # Linker script
 
+#makeoptions     DEBUG="-g"                  # Debug symbols
+
 # Standard system options
 options         "HZ=1000"                   # Rate of timer interrupt
 options         "CPU_KHZ=80000"             # Oscillator frequency of CPU core

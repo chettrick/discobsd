@@ -13,3 +13,5 @@ Kernel build directories:
     F469IDISCO/         - STMicroelectronics STM32F469I-DISCO board.
 
     F4DISCOVERY/        - STMicroelectronics STM32F4DISCOVERY board.
+
+    F4VEDEVEBOX/        - DevEBox STM32F407VET6 STM32F4VE development board.

@@ -833,7 +833,6 @@ file /usr/include/smallc/wiznet.h
 file /usr/include/stdarg.h
 file /usr/include/stdbool.h
 file /usr/include/stddef.h
-file /usr/include/stdint.h
 file /usr/include/stdio.h
 file /usr/include/stdlib.h
 file /usr/include/string.h
@@ -881,6 +880,7 @@ file /usr/include/sys/signal.h
 file /usr/include/sys/signalvar.h
 file /usr/include/sys/spi.h
 file /usr/include/sys/stat.h
+file /usr/include/sys/stdint.h
 file /usr/include/sys/swap.h
 file /usr/include/sys/sysctl.h
 file /usr/include/sys/syslimits.h
@@ -914,6 +914,9 @@ target sys/errno.h
 
 symlink /usr/include/signal.h
 target sys/signal.h
+
+symlink /usr/include/stdint.h
+target sys/stdint.h
 
 symlink /usr/include/syslog.h
 target sys/syslog.h

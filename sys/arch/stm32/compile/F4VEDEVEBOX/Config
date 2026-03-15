@@ -11,7 +11,9 @@
 architecture    "stm32"
 cpu             "STM32F407xx"               # Processor variant
 board           "F4VEDEVEBOX"               # Board type
-ldscript        "STM32F407XE.ld"            # Linker script
+ldscript        "STM32F407XE.ld"            # Kernel memory linker script
+
+makeoptions     DEBUG="-g"                  # Debug symbols
 
 # Standard system options
 options         "CPU_KHZ=168000"            # Oscillator frequency of CPU core

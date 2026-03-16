@@ -35,7 +35,7 @@ options         "CONS_MINOR=0"              # uart1 is /dev/tty0
 
 # SDIO port
 controller      sdio0                       # SDIO port
-options         "SDIO_XFER_CLK_DIV=32"      # APB2 84MHz / (DIV + 2) < 25MHz
+options         "SDIO_XFER_CLK_DIV=12"      # APB2 84MHz / (DIV + 2) < 25MHz
 
 # MicroSD card
 device          sd0     at sdio0            # SD card uses SDIO port

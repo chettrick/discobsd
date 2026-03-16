@@ -89,8 +89,6 @@ exec_script_check(struct exec_params *epp)
      * Everything set up, do the recursive exec()
      */
     DEBUG("\texec_script_check(): do recursive exec\n");
-    if (epp->ip)
-        iput(epp->ip);
     epp->ip = ip;
     error = exec_check(epp);
 done:

@@ -30,8 +30,8 @@ COPTS?=		-O
 CFLAGS=		${DEBUG} ${CWARNFLAGS} ${CMACHFLAGS} ${COPTS}
 AFLAGS=		-x assembler-with-cpp ${CWARNFLAGS} ${CMACHFLAGS}
 LDFLAGS=	-T ${_confdir}/${LDSCRIPT} -T ${_confdir}/kern.ldscript
-LDFLAGS+=	-nostdlib -Map=$@.map
-LDADD=		${LIBGCC}
+LDFLAGS+=	-nostdlib -Map=$@.map -z noexecstack
+LDADD=
 
 # compile rules: rules are named COMPILE_${SUFFIX}
 # SUFFIX is the file suffix, capitalized (e.g. C for a .c file).

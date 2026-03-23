@@ -26,15 +26,15 @@ config          unix    root on sd0a
                         swap on sd0b
 
 # Serial UART ports
-#device          uart1                       # USART1
-device          uart2                       # USART2 as console
-#device          uart3                       # USART3
-#device          uart6                       # USART6
+#device          uart1                       # USART1 as /dev/tty0
+device          uart2                       # USART2 as /dev/tty1
+#device          uart3                       # USART3 as /dev/tty2
+device          uart6                       # USART6 as /dev/tty5
 options         "UART_BAUD=115200"          # default speed
 
 # Use USART2 Virtual Com Port as serial console
 options         "CONS_MAJOR=UART_MAJOR"     # UART device
-options         "CONS_MINOR=1"              # uart2 is /dev/tty1
+options         "CONS_MINOR=1"              # uart2 is /dev/console
 
 # SDIO port
 controller      sdio0                       # SDIO port

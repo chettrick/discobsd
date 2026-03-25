@@ -3,6 +3,7 @@
 BOARD?=		F412GDISCO
 #BOARD?=		F412WEACTCORE
 #BOARD?=		F413HDISCO
+#BOARD?=		F446RENUCLEO
 #BOARD?=		F446WEACTCORE
 #BOARD?=		F469IDISCO
 #BOARD?=		F4DISCOVERY
@@ -20,6 +21,8 @@ CONFSCRIPT!=if [ x"${BOARD}" = x"F405WEACTCORE" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
 	elif [ x"${BOARD}" = x"F413HDISCO" ] ; then \
 		echo "board/stm32f413h-disco.cfg" ; \
+	elif [ x"${BOARD}" = x"F446RENUCLEO" ] ; then \
+		echo "board/st_nucleo_f4.cfg" ; \
 	elif [ x"${BOARD}" = x"F446WEACTCORE" ] ; then \
 		echo "board/st_nucleo_f4.cfg" ; \
 	elif [ x"${BOARD}" = x"F469IDISCO" ] ; then \

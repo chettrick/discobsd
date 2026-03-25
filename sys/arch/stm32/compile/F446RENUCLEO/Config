@@ -1,0 +1,54 @@
+#
+# STM32F446RENUCLEO board
+# =======================
+#
+# To build the kernel, use:
+#   cd sys/arch/stm32/compile/F446RENUCLEO
+#   tools/bin/config Config
+#   make clean
+#   make
+#
+architecture    "stm32"
+cpu             "STM32F446xx"               # Processor variant
+board           "F446RENUCLEO"              # Board type
+ldscript        "STM32F446XE.ld"            # Kernel memory linker script
+
+makeoptions     DEBUG="-g"                  # Debug symbols
+
+# Standard system options
+options         "CPU_KHZ=180000"            # Oscillator frequency of CPU core
+options         "BUS_KHZ=90000"             # Frequency of peripheral bus
+options         "HALTREBOOT"                # If halted, press key to reboot
+options         "BSP"                       # Board support package
+
+#options         "GLOBAL_DEBUG"              # Enable debugging
+#options         "DIAGNOSTIC"                # Enable diagnostics
+
+# Root filesystem at /dev/sd0a, swap at /dev/sd0b
+config          unix    root on sd0a
+                        swap on sd0b
+
+# Serial UART ports
+device          uart1                       # USART1 as /dev/tty0
+device          uart2                       # USART2 as /dev/tty1
+options         "UART_BAUD=115200"          # default speed
+
+# Use USART2 Virtual Com Port as serial console
+options         "CONS_MAJOR=UART_MAJOR"     # UART device
+options         "CONS_MINOR=1"              # uart2 is /dev/console
+
+# SPI port
+controller      spi1                        # SPI1 port
+
+# MicroSD card
+device          sd0     at spi1             # SD card uses SPI1 port
+options         "SPI_SD_ENABLED"            # Enable SPI-based SD card
+options         "NSD=1"                     # One disk on SPI.
+
+# User LED is connected to MCU on PA5. Conflicts with SPI SCK on D13.
+#signal          "LED2" pin PA5              # Active-high Green
+#options         "BSP_LED_TTY=LED2"          # Terminal i/o
+
+# User Button is connected to MCU on PC13, Active-low
+signal          "BUTTON_USER" pin PC13 invert
+options         "BSP_BUTTON_USER=BUTTON_USER" # Boot single user if pressed

@@ -87,7 +87,7 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
 
 #endif /* F4DISCOVERY */
 
-#ifdef F411RENUCLEO                     /* Kernel Config 'board' definition. */
+#if defined(F411RENUCLEO) || defined(F446RENUCLEO)      /* Kernel Config 'board' definition. */
 
 #define NUCLEO_SPIx                                     SPI1
 #define NUCLEO_SPIx_CLK_ENABLE()                        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1)
@@ -107,7 +107,7 @@ uint8_t           SD_IO_WriteByte(uint8_t Data);
 #define SD_CS_LOW()                                     LL_GPIO_ResetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 #define SD_CS_HIGH()                                    LL_GPIO_SetOutputPin(SD_CS_GPIO_PORT, SD_CS_PIN)
 
-#endif /* F411RENUCLEO */
+#endif /* F411RENUCLEO || F446RENUCLEO */
 
 #ifdef F469IDISCO                       /* Kernel Config 'board' definition. */
 

@@ -112,6 +112,14 @@ static const struct uart_inst uart[NUART] = {
     { /* UART5 */ },
     { USART6, { GPIOG, 'G', PIN14 }, { GPIOG, 'G', PIN9 }, 1, AF8 },
 #endif
+#ifdef STM32F446xx
+    { USART1, { GPIOA, 'A', PIN9 }, { GPIOA, 'A', PIN10 }, 2, AF7 },
+    { USART2, { GPIOA, 'A', PIN2 }, { GPIOA, 'A', PIN3 }, 2, AF7 },
+    { /* USART3 */ },
+    { /* UART4 */ },
+    { /* UART5 */ },
+    { /* USART6 */ },
+#endif
 #ifdef STM32F469xx
     { /* USART1 */ },
     { /* USART2 */ },
@@ -221,6 +229,11 @@ uartinit(int unit)
         LL_GPIO_EnableClock(GPIOA);
         LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
 #endif
+#ifdef STM32F446xx
+        /* USART1: APB2 90 MHz AF7: TX on PA.09, RX on PA.10 */
+        LL_GPIO_EnableClock(GPIOA);
+        LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+#endif
 
 #endif /* USART1 */
         break;
@@ -247,6 +260,11 @@ uartinit(int unit)
 #endif
 #ifdef STM32F412Zx
         /* USART2: APB1 50 MHz AF7: TX on PA.02, RX on PA.03 */
+        LL_GPIO_EnableClock(GPIOA);
+        LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
+#endif
+#ifdef STM32F446xx
+        /* USART2: APB1 45 MHz AF7: TX on PA.02, RX on PA.03 */
         LL_GPIO_EnableClock(GPIOA);
         LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2);
 #endif

@@ -7,6 +7,7 @@
  * [STMicroelectronics STM32F412G-DISCO][3]
  * [WeAct Studio STM32F412RET6 Core board][1]
  * [STMicroelectronics STM32F413H-DISCO][4]
+ * [WeAct Studio STM32F446RET6 Core board][1]
  * [STMicroelectronics STM32F469I-DISCO][5]
  * [STMicroelectronics STM32F4DISCOVERY][6]
  * [DevEBox STM32F407VET6 STM32F4VE][7]

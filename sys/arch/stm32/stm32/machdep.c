@@ -5,6 +5,7 @@
  *
  *	@(#)machdep.c	2.4 (2.11BSD) 1999/9/13
  */
+
 #include <sys/param.h>
 #include <sys/dir.h>
 #include <sys/inode.h>
@@ -165,7 +166,8 @@ SystemClock_Config(void)
 		;
 
 	/* Set FLASH latency. */
-#if defined(STM32F405xx) || defined(STM32F407xx) || defined(STM32F469xx)
+#if defined(STM32F405xx) || defined(STM32F407xx) || defined(STM32F446xx) || \
+    defined(STM32F469xx)
 	LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
 #endif
 #if defined(STM32F411xE) || defined(STM32F412Rx) || defined(STM32F412Zx) || \
@@ -178,7 +180,7 @@ SystemClock_Config(void)
 
 	LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
 
-#if defined(STM32F469xx)
+#if defined(STM32F446xx) || defined(STM32F469xx)
 	/* Activation OverDrive Mode. */
 	LL_PWR_EnableOverDriveMode();
 	while (LL_PWR_IsActiveFlag_OD() != 1)
@@ -214,6 +216,10 @@ SystemClock_Config(void)
 #ifdef STM32F413xx	/* 100 MHz */
 	LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE,
 	    LL_RCC_PLLM_DIV_8, 200, LL_RCC_PLLP_DIV_2);
+#endif
+#ifdef STM32F446xx	/* 180 MHz */
+	LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE,
+	    LL_RCC_PLLM_DIV_8, 360, LL_RCC_PLLP_DIV_2);
 #endif
 #ifdef STM32F469xx	/* 180 MHz */
 	LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE,
@@ -254,6 +260,10 @@ SystemClock_Config(void)
 #ifdef STM32F413xx	/* 100 MHz */
 	LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
 	LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+#endif
+#ifdef STM32F446xx	/* 180 MHz */
+	LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+	LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 #endif
 #ifdef STM32F469xx	/* 180 MHz */
 	LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
@@ -387,6 +397,21 @@ cpuidentify(void)
 		case 0x101f:
 			/* Device marking revisions 5 and 6. */
 			printf("5/6");
+			break;
+		default:
+			printf("unknown 0x%04x", revid);
+			break;
+		}
+		break;
+	case 0x0421:
+		physmem = 128 * 1024;		/* Total 128kb RAM size. */
+		copystr("STM32F446xx", cpu_model, sizeof(cpu_model), NULL);
+		printf("STM32F446xx");
+		printf(" rev ");
+		switch (revid) {
+		case 0x1000:
+			/* Device marking revisions 1 and A. */
+			printf("1/A");
 			break;
 		default:
 			printf("unknown 0x%04x", revid);

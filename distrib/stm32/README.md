@@ -12,7 +12,8 @@
  * [STMicroelectronics STM32F469I-DISCO][6]
  * [STMicroelectronics STM32F4DISCOVERY][7]
  * [DevEBox STM32F407VET6 STM32F4VE][8]
-
+ * [DevEBox STM32F407VET6 STM32F4XX-M][9]
+ 
 [1]: https://github.com/WeActStudio/WeActStudio.STM32F4_64Pin_CoreBoard
 [2]: https://www.st.com/en/evaluation-tools/nucleo-f411re.html
 [3]: https://www.st.com/en/evaluation-tools/32f412gdiscovery.html
@@ -21,6 +22,7 @@
 [6]: https://www.st.com/en/evaluation-tools/32f469idiscovery.html
 [7]: https://www.st.com/en/evaluation-tools/stm32f4discovery.html
 [8]: https://stm32-base.org/boards/STM32F407VET6-STM32-F4VE-V2.0.html
+[9]: https://stm32-base.org/boards/STM32F407VET6-STM32F4XX-M.html
 
 ## DiscoBSD/stm32 Up and Running
 

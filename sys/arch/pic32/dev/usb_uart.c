@@ -21,6 +21,7 @@
  * arising out of or in connection with the use or performance of
  * this software.
  */
+
 #include <sys/param.h>
 #include <sys/conf.h>
 #include <sys/systm.h>
@@ -41,18 +42,17 @@
 #define UARTUSB_BAUD 115200
 #endif
 
-static unsigned speed_bps [NSPEEDS] = {
-    0,      50,     75,     150,    200,    300,    600,    1200,
-    1800,   2400,   4800,   9600,   19200,  38400,  57600,  115200,
-    230400, 460800, 500000, 576000, 921600, 1000000, 1152000, 1500000,
-    2000000, 2500000, 3000000, 3500000, 4000000
+static u_int speed_bps[NSPEEDS] = {
+	0,       50,      75,      150,     200,    300,     600,     1200,
+	1800,    2400,    4800,    9600,    19200,  38400,   57600,   115200,
+	230400,  460800,  500000,  576000,  921600, 1000000, 1152000, 1500000,
+	2000000, 2500000, 3000000, 3500000, 4000000
 };
 
+struct tty usbttys[1];
 
-struct tty usbttys [1];
-
-void usbstart (struct tty *tp);
-int usbopen (dev_t dev, int flag, int mode);
+void	usbstart(struct tty *tp);
+int	usbopen(dev_t dev, int flag, int mode);
 
 /*
  * Initialize USB module SFRs and firmware variables to known state.
@@ -61,14 +61,14 @@ int usbopen (dev_t dev, int flag, int mode);
 void
 usbinit(void)
 {
-    usb_device_init();
-    IECSET(1) = 1 << (PIC32_IRQ_USB - 32);
+	usb_device_init();
+	IECSET(1) = 1 << (PIC32_IRQ_USB - 32);
 
 #if !defined(USB_AUTOBOOT)
-    /* Wait for any user input. */
-    while (! cdc_consume(0))
+	/* Wait for any user input. */
+	while (!cdc_consume(0))
 #endif
-        usb_device_tasks();
+		usb_device_tasks();
 }
 
 int
@@ -76,24 +76,26 @@ usbopen(dev_t dev, int flag, int mode)
 {
 	struct tty *tp = &usbttys[0];
 
-    tp->t_oproc = usbstart;
+	tp->t_oproc = usbstart;
 
-    if ((tp->t_state & TS_ISOPEN) == 0) {
-        tp->t_ispeed = BBAUD(UARTUSB_BAUD);
-        tp->t_ospeed = BBAUD(UARTUSB_BAUD);
-        ttychars(tp);
-        tp->t_state = TS_ISOPEN | TS_CARR_ON;
-        tp->t_flags = ECHO | XTABS | CRMOD | CRTBS | CRTERA | CTLECH | CRTKIL;
-    }
-    if ((tp->t_state & TS_XCLUDE) && u.u_uid != 0)
-        return (EBUSY);
+	if ((tp->t_state & TS_ISOPEN) == 0) {
+		tp->t_ispeed = BBAUD(UARTUSB_BAUD);
+		tp->t_ospeed = BBAUD(UARTUSB_BAUD);
+		ttychars(tp);
+		tp->t_state = TS_ISOPEN | TS_CARR_ON;
+		tp->t_flags = ECHO | XTABS | CRMOD | CRTBS | CRTERA |
+		    CTLECH | CRTKIL;
+	}
+	if ((tp->t_state & TS_XCLUDE) && u.u_uid != 0)
+		return (EBUSY);
 
-    if (tp->t_ispeed == 0) {
-        tp->t_ispeed = BBAUD(UARTUSB_BAUD);
-        tp->t_ospeed = BBAUD(UARTUSB_BAUD);
-    }
-    cdc_set_line_coding(speed_bps[tp->t_ospeed], NUM_STOP_BITS_1, PARITY_NONE, 8);
-    return ttyopen (dev, tp);
+	if (tp->t_ispeed == 0) {
+		tp->t_ispeed = BBAUD(UARTUSB_BAUD);
+		tp->t_ospeed = BBAUD(UARTUSB_BAUD);
+	}
+	cdc_set_line_coding(speed_bps[tp->t_ospeed], NUM_STOP_BITS_1,
+	    PARITY_NONE, 8);
+	return ttyopen(dev, tp);
 }
 
 int
@@ -101,9 +103,9 @@ usbclose(dev_t dev, int flag, int mode)
 {
 	struct tty *tp = &usbttys[0];
 
-    ttywflush(tp);
-    ttyclose (tp);
-    return 0;
+	ttywflush(tp);
+	ttyclose(tp);
+	return 0;
 }
 
 int
@@ -111,7 +113,7 @@ usbread(dev_t dev, struct uio *uio, int flag)
 {
 	struct tty *tp = &usbttys[0];
 
-    return ttread (tp, uio, flag);
+	return ttread(tp, uio, flag);
 }
 
 int
@@ -119,7 +121,7 @@ usbwrite(dev_t dev, struct uio *uio, int flag)
 {
 	struct tty *tp = &usbttys[0];
 
-    return ttwrite (tp, uio, flag);
+	return ttwrite(tp, uio, flag);
 }
 
 int
@@ -128,10 +130,10 @@ usbioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
 	struct tty *tp = &usbttys[0];
 	int error;
 
-    error = ttioctl (tp, cmd, addr, flag);
-    if (error < 0)
-            error = ENOTTY;
-    return error;
+	error = ttioctl(tp, cmd, addr, flag);
+	if (error < 0)
+		error = ENOTTY;
+	return error;
 }
 
 int
@@ -139,7 +141,7 @@ usbselect(dev_t dev, int rw)
 {
 	struct tty *tp = &usbttys[0];
 
-    return ttyselect (tp, rw);
+	return ttyselect(tp, rw);
 }
 
 void
@@ -147,27 +149,27 @@ usbstart(struct tty *tp)
 {
 	int s;
 
-    s = spltty();
-    if (tp->t_state & (TS_TIMEOUT | TS_BUSY | TS_TTSTOP)) {
-out:    /* Disable transmit_interrupt. */
-        led_control (LED_TTY, 0);
-        splx (s);
-        return;
-    }
-    ttyowake(tp);
-    if (tp->t_outq.c_cc == 0)
-        goto out;
-    if (cdc_is_tx_ready()) {
-        while (tp->t_outq.c_cc != 0) {
-            int c = getc (&tp->t_outq);
-            if (cdc_putc (c) == 0)
-                break;
-        }
-        cdc_tx_service();
-        tp->t_state |= TS_BUSY;
-    }
-    led_control (LED_TTY, 1);
-    splx (s);
+	s = spltty();
+	if (tp->t_state & (TS_TIMEOUT | TS_BUSY | TS_TTSTOP)) {
+out:		/* Disable transmit_interrupt. */
+		led_control(LED_TTY, 0);
+		splx(s);
+		return;
+	}
+	ttyowake(tp);
+	if (tp->t_outq.c_cc == 0)
+		goto out;
+	if (cdc_is_tx_ready()) {
+		while (tp->t_outq.c_cc != 0) {
+			int c = getc(&tp->t_outq);
+			if (cdc_putc(c) == 0)
+				break;
+		}
+		cdc_tx_service();
+		tp->t_state |= TS_BUSY;
+	}
+	led_control(LED_TTY, 1);
+	splx(s);
 }
 
 /*
@@ -178,22 +180,22 @@ usbputc(dev_t dev, char c)
 {
 	int s;
 
-    s = spltty();
-    while (! cdc_is_tx_ready()) {
-        usb_device_tasks();
-        cdc_tx_service();
-    }
-    led_control (LED_TTY, 1);
-    cdc_putc (c);
-    cdc_tx_service();
+	s = spltty();
+	while (!cdc_is_tx_ready()) {
+		usb_device_tasks();
+		cdc_tx_service();
+	}
+	led_control(LED_TTY, 1);
+	cdc_putc(c);
+	cdc_tx_service();
 
-    while (! cdc_is_tx_ready()) {
-        cdc_tx_service();
-        usb_device_tasks();
-    }
+	while (!cdc_is_tx_ready()) {
+		cdc_tx_service();
+		usb_device_tasks();
+	}
 
-    led_control (LED_TTY, 0);
-    splx (s);
+	led_control(LED_TTY, 0);
+	splx(s);
 }
 
 static int getc_data;
@@ -204,7 +206,7 @@ static int getc_data;
 static void
 store_char(int c)
 {
-    getc_data = (unsigned char) c;
+	getc_data = (u_char)c;
 }
 
 /*
@@ -215,14 +217,14 @@ usbgetc(dev_t dev)
 {
 	int s;
 
-    s = spltty();
-    for (getc_data = -1; getc_data < 0; ) {
-        usb_device_tasks();
-        cdc_consume (store_char);
-        cdc_tx_service();
-    }
-    splx (s);
-    return getc_data;
+	s = spltty();
+	for (getc_data = -1; getc_data < 0;) {
+		usb_device_tasks();
+		cdc_consume(store_char);
+		cdc_tx_service();
+	}
+	splx(s);
+	return getc_data;
 }
 
 /*
@@ -233,9 +235,9 @@ usb_rx(int c)
 {
 	struct tty *tp = &usbttys[0];
 
-    if ((tp->t_state & TS_ISOPEN) == 0)
-        return;
-    ttyinput (c, tp);
+	if ((tp->t_state & TS_ISOPEN) == 0)
+		return;
+	ttyinput(c, tp);
 }
 
 /*
@@ -246,29 +248,29 @@ usbintr(int chan)
 {
 	struct tty *tp = &usbttys[0];
 
-    // Must call this function from interrupt or periodically.
-    usb_device_tasks();
+	/* Must call this function from interrupt or periodically. */
+	usb_device_tasks();
 
-    // Check that USB connection is established.
-    if (usb_device_state < CONFIGURED_STATE ||
-        (U1PWRC & PIC32_U1PWRC_USUSPEND))
-        return;
+	/* Check that USB connection is established. */
+	if (usb_device_state < CONFIGURED_STATE ||
+	    (U1PWRC & PIC32_U1PWRC_USUSPEND))
+		return;
 
-    // Receive data from user.
-    cdc_consume (usb_rx);
+	/* Receive data from user. */
+	cdc_consume(usb_rx);
 
-    if (cdc_is_tx_ready()) {
-        // Transmitter empty.
-        led_control (LED_TTY, 0);
+	if (cdc_is_tx_ready()) {
+		/* Transmitter empty. */
+		led_control(LED_TTY, 0);
 
-        if (tp->t_state & TS_BUSY) {
-            tp->t_state &= ~TS_BUSY;
-            ttstart (tp);
-        }
-    }
+		if (tp->t_state & TS_BUSY) {
+			tp->t_state &= ~TS_BUSY;
+			ttstart(tp);
+		}
+	}
 
-    // Transmit data to user.
-    cdc_tx_service();
+	/* Transmit data to user. */
+	cdc_tx_service();
 }
 
 /*
@@ -278,17 +280,17 @@ usbintr(int chan)
 static int
 usbprobe(struct conf_device *config)
 {
-    int is_console = (CONS_MAJOR == UARTUSB_MAJOR);
+	int is_console = (CONS_MAJOR == UARTUSB_MAJOR);
 
-    printf("uartusb: port USB, interrupt %u", PIC32_VECT_USB);
-    if (is_console)
-        printf(", console");
-    printf("\n");
-    return 1;
+	printf("uartusb: port USB, interrupt %u", PIC32_VECT_USB);
+	if (is_console)
+		printf(", console");
+	printf("\n");
+	return 1;
 }
 
 struct driver uartusbdriver = {
-    "uartusb", usbprobe,
+	"uartusb", usbprobe,
 };
 
 /*
@@ -303,7 +305,7 @@ struct driver uartusbdriver = {
 void
 usbcb_init_ep(void)
 {
-    cdc_init_ep();
+	cdc_init_ep();
 }
 
 /*
@@ -312,7 +314,7 @@ usbcb_init_ep(void)
 void
 usbcb_check_other_req(void)
 {
-    cdc_check_request();
+	cdc_check_request();
 }
 
 #if 0
@@ -322,171 +324,169 @@ usbcb_check_other_req(void)
 void
 usb_send_resume(void)
 {
-    /* Start RESUME signaling. */
-    U1CON |= PIC32_U1CON_RESUME;
+	/* Start RESUME signaling. */
+	U1CON |= PIC32_U1CON_RESUME;
 
-    /* Set RESUME line for 1-13 ms. */
-    udelay (5000);
+	/* Set RESUME line for 1-13 ms. */
+	udelay(5000);
 
-    U1CON &= ~PIC32_U1CON_RESUME;
+	U1CON &= ~PIC32_U1CON_RESUME;
 }
 #endif
 
 #ifndef CONSOLE_VID
-#   define CONSOLE_VID 0x04D8   // Vendor ID: Microchip
+#define CONSOLE_VID 0x04D8	/* Vendor ID: Microchip */
 #endif
 #ifndef CONSOLE_PID
-#   define CONSOLE_PID 0x000A   // Product ID: CDC RS-232 Emulation Demo
+#define CONSOLE_PID 0x000A	/* Product ID: CDC RS-232 Emulation Demo */
 #endif
 
 /*
  * Device Descriptor
  */
 const USB_DEVICE_DESCRIPTOR usb_device = {
-    sizeof(usb_device),     // Size of this descriptor in bytes
-    USB_DESCRIPTOR_DEVICE,  // DEVICE descriptor type
-    0x0200,                 // USB Spec Release Number in BCD format
-    CDC_DEVICE,             // Class Code
-    0x00,                   // Subclass code
-    0x00,                   // Protocol code
-    USB_EP0_BUFF_SIZE,      // Max packet size for EP0, see usb_config.h
-    CONSOLE_VID,            // Vendor ID
-    CONSOLE_PID,            // Product ID
-    0x0100,                 // Device release number in BCD format
-    0x01,                   // Manufacturer string index
-    0x02,                   // Product string index
-    0x00,                   // Device serial number string index
-    0x01                    // Number of possible configurations
+	sizeof(usb_device),	/* Size of this descriptor in bytes */
+	USB_DESCRIPTOR_DEVICE,	/* DEVICE descriptor type */
+	0x0200,			/* USB Spec Release Number in BCD format */
+	CDC_DEVICE,		/* Class Code */
+	0x00,			/* Subclass code */
+	0x00,			/* Protocol code */
+	USB_EP0_BUFF_SIZE,	/* Max packet size for EP0, see usb_config.h */
+	CONSOLE_VID,		/* Vendor ID */
+	CONSOLE_PID,		/* Product ID */
+	0x0100,			/* Device release number in BCD format */
+	0x01,			/* Manufacturer string index */
+	0x02,			/* Product string index */
+	0x00,			/* Device serial number string index */
+	0x01,			/* Number of possible configurations */
 };
 
 /*
  * Configuration 1 Descriptor
  */
-const unsigned char usb_config1_descriptor[] =
-{
-    /* Configuration Descriptor */
-    9,                                  // sizeof(USB_CFG_DSC)
-    USB_DESCRIPTOR_CONFIGURATION,       // CONFIGURATION descriptor type
-    67, 0,                              // Total length of data for this cfg
-    2,                                  // Number of interfaces in this cfg
-    1,                                  // Index value of this configuration
-    0,                                  // Configuration string index
-    _DEFAULT | _SELF,                   // Attributes, see usb_device.h
-    150,                                // Max power consumption (2X mA)
+const u_char usb_config1_descriptor[] = {
+	/* Configuration Descriptor */
+	9,				/* sizeof(USB_CFG_DSC) */
+	USB_DESCRIPTOR_CONFIGURATION,	/* CONFIGURATION descriptor type */
+	67, 0,				/* Total length of data for this cfg */
+	2,				/* Number of interfaces in this cfg */
+	1,				/* Index value of this configuration */
+	0,				/* Configuration string index */
+	_DEFAULT | _SELF,		/* Attributes, see usb_device.h */
+	150,				/* Max power consumption (2X mA) */
 
-    /* Interface Descriptor */
-    9,                                  // sizeof(USB_INTF_DSC)
-    USB_DESCRIPTOR_INTERFACE,           // INTERFACE descriptor type
-    0,                                  // Interface Number
-    0,                                  // Alternate Setting Number
-    1,                                  // Number of endpoints in this intf
-    COMM_INTF,                          // Class code
-    ABSTRACT_CONTROL_MODEL,             // Subclass code
-    V25TER,                             // Protocol code
-    0,                                  // Interface string index
+	/* Interface Descriptor */
+	9,				/* sizeof(USB_INTF_DSC) */
+	USB_DESCRIPTOR_INTERFACE,	/* INTERFACE descriptor type */
+	0,				/* Interface Number */
+	0,				/* Alternate Setting Number */
+	1,				/* Number of endpoints in this intf */
+	COMM_INTF,			/* Class code */
+	ABSTRACT_CONTROL_MODEL,		/* Subclass code */
+	V25TER,				/* Protocol code */
+	0,				/* Interface string index */
 
-    /* CDC Class-Specific Descriptors */
-    sizeof(USB_CDC_HEADER_FN_DSC),
-    CS_INTERFACE,
-    DSC_FN_HEADER,
-    0x10,0x01,
+	/* CDC Class-Specific Descriptors */
+	sizeof(USB_CDC_HEADER_FN_DSC),
+	CS_INTERFACE,
+	DSC_FN_HEADER,
+	0x10, 0x01,
 
-    sizeof(USB_CDC_ACM_FN_DSC),
-    CS_INTERFACE,
-    DSC_FN_ACM,
-    USB_CDC_ACM_FN_DSC_VAL,
+	sizeof(USB_CDC_ACM_FN_DSC),
+	CS_INTERFACE,
+	DSC_FN_ACM,
+	USB_CDC_ACM_FN_DSC_VAL,
 
-    sizeof(USB_CDC_UNION_FN_DSC),
-    CS_INTERFACE,
-    DSC_FN_UNION,
-    CDC_COMM_INTF_ID,
-    CDC_DATA_INTF_ID,
+	sizeof(USB_CDC_UNION_FN_DSC),
+	CS_INTERFACE,
+	DSC_FN_UNION,
+	CDC_COMM_INTF_ID,
+	CDC_DATA_INTF_ID,
 
-    sizeof(USB_CDC_CALL_MGT_FN_DSC),
-    CS_INTERFACE,
-    DSC_FN_CALL_MGT,
-    0x00,
-    CDC_DATA_INTF_ID,
+	sizeof(USB_CDC_CALL_MGT_FN_DSC),
+	CS_INTERFACE,
+	DSC_FN_CALL_MGT,
+	0x00,
+	CDC_DATA_INTF_ID,
 
-    /* Endpoint Descriptor */
-    7,                                  // sizeof(USB_EP_DSC)
-    USB_DESCRIPTOR_ENDPOINT,            // Endpoint Descriptor
-    _EP02_IN,                           // EndpointAddress
-    _INTERRUPT,                         // Attributes
-    0x08, 0x00,                         // size
-    0x02,                               // Interval
+	/* Endpoint Descriptor */
+	7,				/* sizeof(USB_EP_DSC) */
+	USB_DESCRIPTOR_ENDPOINT,	/* Endpoint Descriptor */
+	_EP02_IN,			/* Endpoint Address */
+	_INTERRUPT,			/* Attributes */
+	0x08, 0x00,			/* size */
+	0x02,				/* Interval */
 
-    /* Interface Descriptor */
-    9,                                  // sizeof(USB_INTF_DSC)
-    USB_DESCRIPTOR_INTERFACE,           // INTERFACE descriptor type
-    1,                                  // Interface Number
-    0,                                  // Alternate Setting Number
-    2,                                  // Number of endpoints in this intf
-    DATA_INTF,                          // Class code
-    0,                                  // Subclass code
-    NO_PROTOCOL,                        // Protocol code
-    0,                                  // Interface string index
+	/* Interface Descriptor */
+	9,				/* sizeof(USB_INTF_DSC) */
+	USB_DESCRIPTOR_INTERFACE,	/* INTERFACE descriptor type */
+	1,				/* Interface Number */
+	0,				/* Alternate Setting Number */
+	2,				/* Number of endpoints in this intf */
+	DATA_INTF,			/* Class code */
+	0,				/* Subclass code */
+	NO_PROTOCOL,			/* Protocol code */
+	0,				/* Interface string index */
 
-    /* Endpoint Descriptor */
-    7,                                  // sizeof(USB_EP_DSC)
-    USB_DESCRIPTOR_ENDPOINT,            // Endpoint Descriptor
-    _EP03_OUT,                          // EndpointAddress
-    _BULK,                              // Attributes
-    0x40, 0x00,                         // size
-    0x00,                               // Interval
+	/* Endpoint Descriptor */
+	7,				/* sizeof(USB_EP_DSC) */
+	USB_DESCRIPTOR_ENDPOINT,	/* Endpoint Descriptor */
+	_EP03_OUT,			/* Endpoint Address */
+	_BULK,				/* Attributes */
+	0x40, 0x00,			/* size */
+	0x00,				/* Interval */
 
-    /* Endpoint Descriptor */
-    7,                                  // sizeof(USB_EP_DSC)
-    USB_DESCRIPTOR_ENDPOINT,            // Endpoint Descriptor
-    _EP03_IN,                           // EndpointAddress
-    _BULK,                              // Attributes
-    0x40, 0x00,                         // size
-    0x00,                               // Interval
+	/* Endpoint Descriptor */
+	7,				/* sizeof(USB_EP_DSC) */
+	USB_DESCRIPTOR_ENDPOINT,	/* Endpoint Descriptor */
+	_EP03_IN,			/* Endpoint Address */
+	_BULK,				/* Attributes */
+	0x40, 0x00,			/* size */
+	0x00,				/* Interval */
 };
-
 
 /*
  * Language code string descriptor.
  */
 static const USB_STRING_INIT(1) string0_descriptor = {
-    sizeof(string0_descriptor),
-    USB_DESCRIPTOR_STRING,
-    { 0x0409 }                          /* US English */
+	sizeof(string0_descriptor),
+	USB_DESCRIPTOR_STRING,
+	{ 0x0409 },			/* US English */
 };
 
 /*
  * Manufacturer string descriptor
  */
 static const USB_STRING_INIT(25) string1_descriptor = {
-    sizeof(string1_descriptor),
-    USB_DESCRIPTOR_STRING,
-    { 'M','i','c','r','o','c','h','i','p',' ',
-      'T','e','c','h','n','o','l','o','g','y',
-      ' ','I','n','c','.', },
+	sizeof(string1_descriptor),
+	USB_DESCRIPTOR_STRING,
+	{ 'M', 'i', 'c', 'r', 'o', 'c', 'h', 'i', 'p', ' ',
+	  'T', 'e', 'c', 'h', 'n', 'o', 'l', 'o', 'g', 'y',
+	  ' ', 'I', 'n', 'c', '.', },
 };
 
 /*
  * Product string descriptor
  */
 static const USB_STRING_INIT(16) string2_descriptor = {
-    sizeof(string2_descriptor),
-    USB_DESCRIPTOR_STRING,
-    { 'R','e','t','r','o','B','S','D',' ','C',
-      'o','n','s','o','l','e', },
+	sizeof(string2_descriptor),
+	USB_DESCRIPTOR_STRING,
+	{ 'R', 'e', 't', 'r', 'o', 'B', 'S', 'D', ' ', 'C',
+	  'o', 'n', 's', 'o', 'l', 'e', },
 };
 
 /*
  * Array of configuration descriptors
  */
-const unsigned char *const usb_config[] = {
-    (const unsigned char *const) &usb_config1_descriptor,
+const u_char *const usb_config[] = {
+	(const u_char *const)&usb_config1_descriptor,
 };
 
 /*
  * Array of string descriptors
  */
-const unsigned char *const usb_string[USB_NUM_STRING_DESCRIPTORS] = {
-    (const unsigned char *const) &string0_descriptor,
-    (const unsigned char *const) &string1_descriptor,
-    (const unsigned char *const) &string2_descriptor,
+const u_char *const usb_string[USB_NUM_STRING_DESCRIPTORS] = {
+	(const u_char *const)&string0_descriptor,
+	(const u_char *const)&string1_descriptor,
+	(const u_char *const)&string2_descriptor,
 };

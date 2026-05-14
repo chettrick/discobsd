@@ -58,7 +58,8 @@ int usbopen (dev_t dev, int flag, int mode);
  * Initialize USB module SFRs and firmware variables to known state.
  * Enable interrupts.
  */
-void usbinit()
+void
+usbinit(void)
 {
     usb_device_init();
     IECSET(1) = 1 << (PIC32_IRQ_USB - 32);
@@ -70,9 +71,10 @@ void usbinit()
         usb_device_tasks();
 }
 
-int usbopen (dev_t dev, int flag, int mode)
+int
+usbopen(dev_t dev, int flag, int mode)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     tp->t_oproc = usbstart;
 
@@ -94,46 +96,37 @@ int usbopen (dev_t dev, int flag, int mode)
     return ttyopen (dev, tp);
 }
 
-int usbclose (dev, flag, mode)
-    dev_t dev;
-    int flag;
-    int mode;
+int
+usbclose(dev_t dev, int flag, int mode)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     ttywflush(tp);
     ttyclose (tp);
     return 0;
 }
 
-int usbread (dev, uio, flag)
-    dev_t dev;
-    struct uio *uio;
-    int flag;
+int
+usbread(dev_t dev, struct uio *uio, int flag)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     return ttread (tp, uio, flag);
 }
 
-int usbwrite (dev, uio, flag)
-    dev_t dev;
-    struct uio *uio;
-    int flag;
+int
+usbwrite(dev_t dev, struct uio *uio, int flag)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     return ttwrite (tp, uio, flag);
 }
 
-int usbioctl (dev, cmd, addr, flag)
-    dev_t dev;
-    register u_int cmd;
-    caddr_t addr;
-    int flag;
+int
+usbioctl(dev_t dev, u_int cmd, caddr_t addr, int flag)
 {
-    register struct tty *tp = &usbttys[0];
-    register int error;
+	struct tty *tp = &usbttys[0];
+	int error;
 
     error = ttioctl (tp, cmd, addr, flag);
     if (error < 0)
@@ -141,19 +134,18 @@ int usbioctl (dev, cmd, addr, flag)
     return error;
 }
 
-int usbselect (dev, rw)
-    register dev_t dev;
-    int rw;
+int
+usbselect(dev_t dev, int rw)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     return ttyselect (tp, rw);
 }
 
-void usbstart (tp)
-    register struct tty *tp;
+void
+usbstart(struct tty *tp)
 {
-    register int s;
+	int s;
 
     s = spltty();
     if (tp->t_state & (TS_TIMEOUT | TS_BUSY | TS_TTSTOP)) {
@@ -181,9 +173,10 @@ out:    /* Disable transmit_interrupt. */
 /*
  * Put a symbol on console terminal.
  */
-void usbputc(dev_t dev, char c)
+void
+usbputc(dev_t dev, char c)
 {
-    register int s;
+	int s;
 
     s = spltty();
     while (! cdc_is_tx_ready()) {
@@ -208,7 +201,8 @@ static int getc_data;
 /*
  * Receive a character for getc.
  */
-static void store_char (int c)
+static void
+store_char(int c)
 {
     getc_data = (unsigned char) c;
 }
@@ -216,9 +210,10 @@ static void store_char (int c)
 /*
  * Receive a symbol from console terminal.
  */
-char usbgetc(dev_t dev)
+char
+usbgetc(dev_t dev)
 {
-    register int s;
+	int s;
 
     s = spltty();
     for (getc_data = -1; getc_data < 0; ) {
@@ -233,9 +228,10 @@ char usbgetc(dev_t dev)
 /*
  * Receive a character from CDC.
  */
-static void usb_rx (int c)
+static void
+usb_rx(int c)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     if ((tp->t_state & TS_ISOPEN) == 0)
         return;
@@ -245,9 +241,10 @@ static void usb_rx (int c)
 /*
  * Check bus status and service USB interrupts.
  */
-void usbintr (int chan)
+void
+usbintr(int chan)
 {
-    register struct tty *tp = &usbttys[0];
+	struct tty *tp = &usbttys[0];
 
     // Must call this function from interrupt or periodically.
     usb_device_tasks();
@@ -279,8 +276,7 @@ void usbintr (int chan)
  * Return true if found and initialized ok.
  */
 static int
-usbprobe(config)
-    struct conf_device *config;
+usbprobe(struct conf_device *config)
 {
     int is_console = (CONS_MAJOR == UARTUSB_MAJOR);
 
@@ -304,7 +300,8 @@ struct driver uartusbdriver = {
  * It should initialize the endpoints for the device's usage
  * according to the current configuration.
  */
-void usbcb_init_ep()
+void
+usbcb_init_ep(void)
 {
     cdc_init_ep();
 }
@@ -312,7 +309,8 @@ void usbcb_init_ep()
 /*
  * Process device-specific SETUP requests.
  */
-void usbcb_check_other_req()
+void
+usbcb_check_other_req(void)
 {
     cdc_check_request();
 }
@@ -321,7 +319,8 @@ void usbcb_check_other_req()
 /*
  * Wake up a host PC.
  */
-void usb_send_resume (void)
+void
+usb_send_resume(void)
 {
     /* Start RESUME signaling. */
     U1CON |= PIC32_U1CON_RESUME;

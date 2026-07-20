@@ -73,7 +73,7 @@
 #define	USEFSYNC	0x04		/* Tell install to use fsync(2). */
 #define BACKUP_SUFFIX	".old"
 
-int dobackup, docompare, dodir, dopreserve, dostrip, safecopy;
+int dobackup, docompare, dodir, dopreserve, dostrip, dounpriv;
 int mode = S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH;
 char pathbuf[PATH_MAX], tempfile[PATH_MAX];
 char *suffix = BACKUP_SUFFIX;
@@ -106,7 +106,7 @@ main(int argc, char *argv[])
 	const char *errstr;
 
 	iflags = 0;
-	while ((ch = getopt(argc, argv, "B:bCcdf:g:m:o:pSs")) != -1)
+	while ((ch = getopt(argc, argv, "B:bCcdFf:g:m:o:pSsU")) != -1)
 		switch(ch) {
 		case 'C':
 			docompare = 1;

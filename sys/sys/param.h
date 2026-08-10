@@ -5,8 +5,8 @@
  */
 #define BSD		211	/* 2.11 * 100, as cpp doesn't do floats */
 
-#define DiscoBSD	202602	/* DiscoBSD version (year & month). */
-#define DiscoBSD_2_6	1	/* DiscoBSD 2.6 */
+#define DiscoBSD	202608	/* DiscoBSD version (year & month). */
+#define DiscoBSD_2_7	1	/* DiscoBSD 2.7 */
 
 #if !defined(offsetof) && defined(KERNEL)
 #define offsetof(type, member)  ((size_t)(&((type *)0)->member))

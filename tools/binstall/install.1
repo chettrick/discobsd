@@ -38,7 +38,7 @@
 .Nd install binaries
 .Sh SYNOPSIS
 .Nm install
-.Op Fl bCcDdFpSsU
+.Op Fl bCcdFpSsU
 .Op Fl B Ar suffix
 .Op Fl f Ar flags
 .Op Fl g Ar group
@@ -94,8 +94,6 @@ This is actually the default.
 The
 .Fl c
 option is only included for backwards compatibility.
-.It Fl D
-Create all leading components of the target before installing into it.
 .It Fl d
 Create directories.
 Missing parent directories are created as required.
@@ -211,7 +209,6 @@ utility appeared in
 .Sh CAVEATS
 The
 .Fl C ,
-.Fl D ,
 .Fl F ,
 .Fl p ,
 .Fl S ,

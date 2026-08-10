@@ -47,7 +47,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
-#include <libgen.h>
 
 #include "pathnames.h"
 
@@ -74,7 +73,7 @@
 #define	USEFSYNC	0x04		/* Tell install to use fsync(2). */
 #define BACKUP_SUFFIX	".old"
 
-int dobackup, docompare, dodest, dodir, dopreserve, dostrip, dounpriv;
+int dobackup, docompare, dodir, dopreserve, dostrip, dounpriv;
 int mode = S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH;
 char pathbuf[PATH_MAX], tempfile[PATH_MAX];
 char *suffix = BACKUP_SUFFIX;
@@ -107,7 +106,7 @@ main(int argc, char *argv[])
 	const char *errstr;
 
 	iflags = 0;
-	while ((ch = getopt(argc, argv, "B:bCcDdFf:g:m:o:pSsU")) != -1)
+	while ((ch = getopt(argc, argv, "B:bCcdFf:g:m:o:pSsU")) != -1)
 		switch(ch) {
 		case 'C':
 			docompare = 1;
@@ -153,9 +152,6 @@ main(int argc, char *argv[])
 		case 's':
 			dostrip = 1;
 			break;
-		case 'D':
-			dodest = 1;
-			break;
 		case 'd':
 			dodir = 1;
 			break;
@@ -193,18 +189,6 @@ main(int argc, char *argv[])
 			install_dir(*argv, mode);
 		exit(0);
 		/* NOTREACHED */
-	}
-
-	if (dodest) {
-		char *dest = dirname(argv[argc - 1]);
-		if (dest == NULL)
-			errx(1, "cannot determine dirname");
-		/*
-		 * When -D is passed, do not chmod the directory with the mode set for
-		 * the target file. If more restrictive permissions are required then
-		 * '-d -m' ought to be used instead.
-		 */
-		install_dir(dest, 0755);
 	}
 
 	no_target = stat(to_name = argv[argc - 1], &to_sb);
@@ -640,7 +624,7 @@ install_dir(char *path, int mode)
 void
 usage(void)
 {
-	(void)fprintf(stderr, "usage: install [-bCcDdFpSsU] [-B suffix] ");
+	(void)fprintf(stderr, "usage: install [-bCcdFpSsU] [-B suffix] ");
 	(void)fprintf(stderr, "[-f flags] [-g group] [-m mode]\n");
 	(void)fprintf(stderr, "\t       [-o owner] source ... target ...\n");
 	exit(1);

@@ -1,15 +1,15 @@
---- DiscoBSD 2.6 RELEASED ---
+--- DiscoBSD 2.7 RELEASED ---
 
-# DiscoBSD 2.6 Released
+# DiscoBSD 2.7 Released
 
-February 11, 2026
+August 11, 2026
 
-DiscoBSD 2.6 is released.
+DiscoBSD 2.7 is released.
 
-This is the seventh official release of DiscoBSD, the multi-platform
+This is the eighth official release of DiscoBSD, the multi-platform
 2.11BSD-based Unix-like operating system for microcontrollers.
 
-DiscoBSD 2.6 offers ports to two different microcontroller platforms:
+DiscoBSD 2.7 offers ports to two different microcontroller platforms:
 * DiscoBSD/stm32 - STM32F4 family of 32-bit Arm Cortex-M4
   microcontrollers from STMicroelectronics
 * DiscoBSD/pic32 - PIC32MX7 family of 32-bit MIPS32 M4K
@@ -42,46 +42,45 @@ Install, build, and debug instructions can be found in the README files.
 ### New Features in this Release
 
 * Kernel source tree follows 4.4BSD hierarchy, to facilitate future ports.
-* Separate out console and {,k}mem drivers to be machine-independent.
+* Import TinyUSB V0.20.0, Device CDC, DWC2; currently unused.
 * Refresh of kernel compile Configs and Makefiles for pic32 and stm32.
-* Many improvements and cleanup of sysctl(8) and kernel-side sysctl code.
 * KNF style(9) and ANSI cleanup in kernel, ports, and userland.
 * Clarity, bugfixes, and improvements in documentation.
 
 ### Filesystem
 
-* Hard link uptime(1) to w(1); uptime(1) now enabled.
-* Properly symlink /etc/localtime with DiscoBSD zone files.
-* Update libc bzero(3) to take a size_t, not unsigned int or long.
-* FD_ZERO(2) in libc now uses memset(3) instead of bzero(3).
-* Many instances in tree of replacing bzero(3) with memset(3).
+* Add pointer types and max constants to sys/stdint.h.
+* Symlink sys/sys/std{int,bool}.h headers to /usr/include.
 
 ### Build System
 
 Continuing the overhaul of the build system.
-* Rename kconfig(8) back to config(8), in line with all BSDs.
-* 4.4BSD names for kernel files locore.S, conf.c, and sig_machdep.c.
 * Both BSD make and GNU make are fully supported.
 * FreeBSD's version of BSD make requires `MAKESYSPATH` set.
-* Speed up in imaging SD card with DiscoBSD file system.
-* Speed up in `make release`, up to 5x faster.
+* Remove '-D' option from /tools install(1) and manual page.
 * Releases now include ANNOUNCEMENT.md, maintained in tree.
 * Add back many SCCS version tags from 2.11BSD.
 
+### Kernel Specific Improvements
+
+* Fixed double free of script inode bug when exec an interpreter.
+
 ### DiscoBSD/stm32 Specific Improvements
 
-* Support for STM32F413H-DISCO development board.
-* Extensions to HAL library for the Memory Protection Unit (MPU).
-* MPU sysctls for Enabled, num of Regions, and CTRL register.
-* Add sysctl(8) support to read and display MPU information.
-* Clean structure for SDIO GPIO pins; extensible to new boards.
-* Separate nulldev() into nullopen(), nullclose(), and nullstop().
+* Support for DevEBox STM32F4VE development board.
+* Support for WeAct Studio STM32F446RET6 Core development board.
+* Support for STMicroelectronics NUCLEO-F446RE development board.
+* Enable uart6 on STM32F412G-DISCO board; true multi-user.
+* Added sys/stdint.h for kernel; now compiles with -nostdinc.
+* Remove libgcc.a from ${LDADD}; it is now not needed nor used.
+* Added -z noexecstack to ${LDFLAGS} for no executable stack.
+* Rename linker files based on microcontroller and its flash size.
+* Added makeoptions to set DEBUG in Config.
 
 ### DiscoBSD/pic32 Specific Improvements
 
-* Refactor and normalize kernel compile options with stm32.
-* Consolidate compiler tools and paths under pic32/conf/compiler.mk.
-* Separate nulldev() into nullopen(), nullclose(), and nullstop().
+* Added makeoptions to set DEBUG in Config.
+* KNF and ANSI in dev/usb_uart.[ch] to prepare for TinyUSB CDC.
 
 ### Documentation, Bugfixes, and Corrections
 
@@ -123,16 +122,6 @@ These host development environments have been tested:
 * DiscoBSD/pic32
   * Untested
 
-### Ubuntu 23.04
-* Host compiler GCC 12.3.0
-* Host compiler Clang 15.0.7
-* BSD make and GNU make
-* DiscoBSD/stm32
-  * arm-none-eabi-gcc 12.2.1
-  * arm-none-eabi-binutils 2.39
-* DiscoBSD/pic32
-  * Untested
-
 ### FreeBSD 13.2
 * Host compiler GCC 12.2.0
 * Host compiler Clang 14.0.5
@@ -163,6 +152,8 @@ The release build environment is configured as below:
 
 ## Developers and Contributors this Release
 * @chettrick
+* @ramangopalan
+* @Sch-LikA
 
 ## Full Changelog
-https://github.com/chettrick/discobsd/compare/DISCOBSD_2_5...DISCOBSD_2_6
+https://github.com/chettrick/discobsd/compare/DISCOBSD_2_6...DISCOBSD_2_7

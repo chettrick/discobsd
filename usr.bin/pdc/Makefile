@@ -24,6 +24,7 @@ clean:
 install:        all
 		${INSTALL} pdc ${DESTDIR}/usr/bin/
 
-pdc.o:          pdc.y
+y.tab.c:	pdc.y
 		$(YACC) $(YFLAGS) pdc.y
+pdc.o:          y.tab.c
 		$(CC) $(DEFS) $(CPPFLAGS) $(CFLAGS) -c -o pdc.o y.tab.c

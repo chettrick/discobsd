@@ -15,10 +15,17 @@ awk:            $(FILES) awk.g.o
 		${SIZE} awk.elf
 		${ELF2AOUT} awk.elf $@ && rm awk.elf
 
-y.tab.h:	awk.g.o
-
-awk.h:          y.tab.h
+# awk.g.y is the yacc grammar. The parser awk.g.c is generated from it by
+# make's built-in .y.c rule, which runs yacc WITHOUT -d and so never emits
+# the token header y.tab.h that awk.lx.l #includes as awk.h. On a clean
+# build ("make clean" removes awk.h and y.tab.*), awk.lx.o then failed with
+# no awk.h to include. Generate the header straight from the grammar here.
+# The parser and this header come from the same yacc on the same awk.g.y,
+# so their token numbers agree.
+awk.h:          awk.g.y
+		${YACC} -d awk.g.y
 		-cmp -s y.tab.h awk.h || cp y.tab.h awk.h
+		rm -f y.tab.c y.tab.h
 
 $(FILES):	awk.h awk.def.h
 

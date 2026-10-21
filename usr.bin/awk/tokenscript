@@ -1,4 +1,4 @@
-e y.tab.h
+e awk.h
 1,$g!/#define /d
 1,$s/# *define *//
 1,$s/^/{"/

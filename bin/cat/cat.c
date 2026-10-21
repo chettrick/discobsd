@@ -87,6 +87,7 @@ char **argv;
             fi = stdin;
         else {
             if ((fi = fopen(*argv, "r")) == NULL) {
+                fprintf(stderr, "cat: ");
                 perror(*argv);
                 retval = 1;
                 continue;

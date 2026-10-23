@@ -325,6 +325,12 @@ static int create_swap_file (fs_t *fs)
     return 1;
 }
 
+/*
+ * --inodes: make room for at least this many inodes (0: the default of
+ * one per 16 blocks).
+ */
+unsigned fs_min_inodes;
+
 int fs_create (fs_t *fs, const char *filename, int kbytes,
     unsigned swap_kbytes)
 {
@@ -358,6 +364,10 @@ int fs_create (fs_t *fs, const char *filename, int kbytes,
     fs->fsize = bytes / BSDFS_BSIZE;
     fs->isize = 1 + (fs->fsize / 16 + BSDFS_INODES_PER_BLOCK - 1) /
         BSDFS_INODES_PER_BLOCK;
+    n = 1 + (fs_min_inodes + BSDFS_INODES_PER_BLOCK - 1) /
+        BSDFS_INODES_PER_BLOCK;
+    if (fs->isize < n)
+        fs->isize = n;
     if (fs->isize < 2)
         return 0;
 

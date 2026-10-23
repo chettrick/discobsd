@@ -23,6 +23,9 @@
 #include <sys/gpio.h>
 #include <sys/spi.h>
 #include <sys/swap.h>
+#ifdef MD_ENABLED
+#include <sys/md.h>
+#endif
 
 #include <pic32/dev/uart.h>
 
@@ -178,6 +181,14 @@ const struct bdevsw bdevsw[] = {
 #ifdef SR_ENABLED
 		spirams_open,	spirams_close,	spirams_strategy,
 		spirams_size,	spirams_ioctl,	0
+#else
+		NOBDEV
+#endif
+	},
+	{	/* 6 - md: memory disk (root image in ROM, swap in RAM) */
+#ifdef MD_ENABLED
+		mdopen,		mdclose,	mdstrategy,
+		mdsize,		mdioctl,	0
 #else
 		NOBDEV
 #endif
@@ -408,6 +419,7 @@ isdisk(dev_t dev, int type)
 	case 2:				/* rd2 */
 	case 3:				/* rd3 */
 	case 4:				/* sw */
+	case 6:				/* md */
 		return 1;
 	default:
 		return 0;

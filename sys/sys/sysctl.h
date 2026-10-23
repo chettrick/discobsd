@@ -136,7 +136,8 @@ struct ctlname {
 #define	KERN_TEXT		23	/* struct: text entries */
 #define	KERN_ACCTTHRESH		24	/* int: accounting daemon threshold */
 #define	KERN_OSVERSION		25	/* string: kernel build version */
-#define	KERN_MAXID		26	/* number of valid kern ids */
+#define	KERN_ROMROOT		26	/* int: root fs is on read-only ROM */
+#define	KERN_MAXID		27	/* number of valid kern ids */
 
 #ifndef	KERNEL
 #define	CTL_KERN_NAMES { \
@@ -166,6 +167,7 @@ struct ctlname {
 	{ "text", CTLTYPE_STRUCT }, \
 	{ "acctthresh", CTLTYPE_INT }, \
 	{ "osversion", CTLTYPE_STRING }, \
+	{ "romroot", CTLTYPE_INT }, \
 }
 #endif
 

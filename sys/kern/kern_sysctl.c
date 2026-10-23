@@ -56,6 +56,13 @@
 #include <machine/cpu.h>
 #include <sys/conf.h>
 
+#ifdef MD_ENABLED
+#include <sys/md.h>
+#define ROOT_IS_ROM()	md_rootrom(rootdev)	/* read-only md0a root */
+#else
+#define ROOT_IS_ROM()	0
+#endif
+
 sysctlfn kern_sysctl;
 sysctlfn hw_sysctl;
 #ifdef DEBUG
@@ -249,6 +256,13 @@ kern_sysctl(int *name, u_int namelen, void *oldp, size_t *oldlenp,
 	case KERN_POSIX1:
 	case KERN_SAVED_IDS:
 		return (sysctl_rdint(oldp, oldlenp, newp, 0));
+	case KERN_ROMROOT:
+		/*
+		 * True when root is a read-only memory disk (md0a, a
+		 * filesystem image in ROM - see dev/md.c), for /etc/rc:
+		 * such a root can neither become dirty nor be repaired.
+		 */
+		return (sysctl_rdint(oldp, oldlenp, newp, ROOT_IS_ROM()));
 	default:
 		return (EOPNOTSUPP);
 	}

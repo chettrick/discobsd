@@ -58,6 +58,7 @@ kern/vm_swp.c				standard
 dev/cons.c				standard
 dev/mem.c				standard
 dev/swap.c				standard
+dev/md.c				optional md
 
 #
 # PIC32 platform.

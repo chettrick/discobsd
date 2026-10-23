@@ -22,6 +22,14 @@ fi
 # checked alone in a pass by itself -- be careful!  This can
 # *seriously* mess you up.
 #
+# A root filesystem image in ROM (kern.romroot, see dev/md.c) can neither
+# become dirty nor be repaired, nor written: skip the checks, the mounts,
+# the motd update and the daemons.
+#
+romroot=`sysctl -n kern.romroot`
+if [ "$romroot" = 1 ]; then
+    echo "Root filesystem is in ROM; skipping file system checks."
+else
 echo "Automatic boot in progress: starting file system checks."
 
 fsck -p
@@ -46,9 +54,11 @@ case $? in
     echo "--- Unknown error in fsck"
     exit 1 ;;
 esac
+fi
 
 hostname "name.my.domain"
 
+if [ "$romroot" != 1 ]; then
 #
 # First umount everything in case the system is going back into multiuser
 # mode.  If the system is being booted for the first time nothing is mounted
@@ -61,9 +71,11 @@ umount -a
 # 'na' (noauto) option.
 #
 mount -a
+fi
 
 rm -f /etc/nologin
 
+if [ "$romroot" != 1 ]; then
 # Patch /etc/motd.
 echo -n "Updating motd..."
 if [ ! -f /etc/motd ]; then
@@ -80,6 +92,7 @@ echo -n "Starting daemons:"
 update && echo -n "update"
 cron && echo -n "cron"
 echo
+fi
 
 #/etc/rc.local
 

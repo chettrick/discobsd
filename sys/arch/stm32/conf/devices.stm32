@@ -2,3 +2,4 @@
 # List of block devices and majors
 #
 sd      0
+md      6       # md      - memory disk (root image in ROM, swap in RAM)

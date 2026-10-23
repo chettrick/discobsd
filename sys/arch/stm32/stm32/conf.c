@@ -20,6 +20,9 @@
 #include <sys/errno.h>
 
 #include <sys/swap.h>
+#ifdef MD_ENABLED
+#include <sys/md.h>
+#endif
 
 #include <stm32/dev/spi.h>
 #include <stm32/dev/uart.h>
@@ -123,6 +126,14 @@ const struct bdevsw bdevsw[] = {
 	},
 	{	/* 5 - spirams */
 		NOBDEV
+	},
+	{	/* 6 - md: memory disk (root image in ROM, swap in RAM) */
+#ifdef MD_ENABLED
+		mdopen,		mdclose,	mdstrategy,
+		mdsize,		mdioctl,	0
+#else
+		NOBDEV
+#endif
 	},
 
 	/*
@@ -299,6 +310,7 @@ isdisk(dev_t dev, int type)
 	case 2:				/* rd2 */
 	case 3:				/* rd3 */
 	case 4:				/* sw */
+	case 6:				/* md */
 		return 1;
 	default:
 		return 0;

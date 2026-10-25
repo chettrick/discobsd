@@ -13,6 +13,7 @@ int	incr;
 {
 	register char *a = sbrk(incr);
 
-	brkend = a + incr;
+	if (a != (char *)-1)		/* only if the break really moved */
+		brkend = a + incr;
 	return(a);
 }

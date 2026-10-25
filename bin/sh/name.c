@@ -425,6 +425,7 @@ register struct namnod *n;
 {
 	register char	*p;
 
+	growstak(staktop + length(n->namid) + length(n->namval));
 	p = movstr(n->namid, staktop);
 	p = movstr("=", p);
 	p = movstr(n->namval, p);

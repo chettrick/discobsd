@@ -16,8 +16,26 @@ int	asize;
 
 	size = round(asize, BYTESPERWORD);
 	oldstak = stakbot;
+	growstak(stakbot + size);
 	staktop = stakbot += size;
 	return(oldstak);
+}
+
+/*
+ * Grow the break until it covers p (see GROWSTAK in stak.h).
+ */
+int
+growstak(p)
+char	*p;
+{
+	while (p >= brkend)
+	{
+		if (setbrk(brkincr) == -1)
+			error(nostack);
+		if (brkincr < BRKMAX)
+			brkincr += 256;
+	}
+	return(0);
 }
 
 /*
@@ -50,6 +68,7 @@ register char	*argp;
 {
 	register char	*oldstak;
 
+	GROWSTAK(argp);
 	*argp++ = 0;
 	oldstak = stakbot;
 	stakbot = staktop = (char *)round(argp, BYTESPERWORD);
@@ -78,5 +97,9 @@ char *
 cpystak(x)
 char	*x;
 {
-	return(endstak(movstr(x, locstak())));
+	register char	*argp = locstak();
+
+	while (GROWSTAK(argp), *argp++ = *x++)
+		;
+	return(endstak(argp - 1));
 }

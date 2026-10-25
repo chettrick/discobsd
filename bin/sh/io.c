@@ -212,6 +212,7 @@ struct ionod    *ioparg;
 
 				while (!eolchar(c))
 				{
+					GROWSTAK(clinep);
 					*clinep++ = c;
 					c = readc();
 				}
@@ -225,11 +226,13 @@ struct ionod    *ioparg;
 
 				while (!eolchar(c))
 				{
+					GROWSTAK(clinep);
 					*clinep++ = c;
 					c = nextc(*ends);
 				}
 			}
 
+			GROWSTAK(clinep + 1);
 			*clinep = 0;
 			if (eof || eq(cline, ends))
 			{

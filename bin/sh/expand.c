@@ -27,6 +27,7 @@ char    *as1, *as2, *as3;
 	s1 = as1;
 	while (c = /* @@@ *s1++ */ cii(*s1++))
 	{
+		GROWSTAK(s2);
 		if (/* @@@ (c &= STRIP)*/ (c=smask(c)) == 0)
 		{
 			*s2++ = '/';
@@ -35,12 +36,12 @@ char    *as1, *as2, *as3;
 		*s2++ = c;
 	}
 	s1 = as2;
-	while (*s2 = *s1++)
+	while (GROWSTAK(s2), *s2 = *s1++)
 		s2++;
 	if (s1 = as3)
 	{
 		*s2++ = '/';
-		while (*s2++ = *++s1);
+		while (GROWSTAK(s2), *s2++ = *++s1);
 	}
 	makearg(endstak(s2));
 }

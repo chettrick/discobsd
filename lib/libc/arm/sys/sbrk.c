@@ -17,10 +17,10 @@ sbrk (incr)
 	if (incr != 0) {
 		/* calculate and pass break address */
 		const void *addr = _curbrk + incr;
-		if (_brk (addr) != -1) {
-			/* add increment to curbrk */
-			_curbrk = addr;
-		}
+		if (_brk (addr) == -1)
+			return (void *)-1;	/* errno set by _brk() */
+		/* add increment to curbrk */
+		_curbrk = addr;
 	}
 	/* return old break address */
 	return oldbrk;

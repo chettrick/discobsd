@@ -143,14 +143,20 @@ char    *name;
 	register char   *argp = locstak();
 
 	while (*scanp && *scanp != COLON)
+	{
+		GROWSTAK(argp);
 		*argp++ = *scanp++;
+	}
 	if (scanp != path)
+	{
+		GROWSTAK(argp);
 		*argp++ = '/';
+	}
 	if (*scanp == COLON)
 		scanp++;
 	path = (*scanp ? scanp : NIL);
 	scanp = name;
-	while ((*argp++ = *scanp++))
+	while (GROWSTAK(argp), (*argp++ = *scanp++))
 		;
 	return(path);
 }
@@ -528,7 +534,10 @@ register char   *s;
 		sigchk();
 		argp = locstak() + BYTESPERWORD;
 		while ((c = *s++, !any(c, ifsnod.namval) && c))
+		{
+			GROWSTAK(argp);
 			*argp++ = c;
+		}
 		if (argp == staktop + BYTESPERWORD)
 		{
 			if (c)

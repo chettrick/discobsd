@@ -39,19 +39,23 @@ word()
 		{
 			if (c == LITERAL)
 			{
+				GROWSTAK(argp);
 				*argp++ = (DQUOTE);
 				while ((c = readc()) && c != LITERAL)
 				{
 					/* @@@ *argp++ = (c | QUOTE); */
+					GROWSTAK(argp);
 					*argp++ = qmask(c);
 
 					if (c == NL)
 						chkpr();
 				}
+				GROWSTAK(argp);
 				*argp++ = (DQUOTE);
 			}
 			else
 			{
+				GROWSTAK(argp);
 				*argp++ = (c);
 				if (c == '=')
 					wdset |= alpha;
@@ -60,7 +64,8 @@ word()
 				if (qotchar(c))
 				{
 					d = c;
-					while ((*argp++ = (c = nextc(d))) && c != d)
+					while (GROWSTAK(argp),
+					    (*argp++ = (c = nextc(d))) && c != d)
 					{
 						if (c == NL)
 							chkpr();

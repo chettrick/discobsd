@@ -14,8 +14,16 @@
 #define relstak()	(staktop-stakbot)
 #define absstak(x)	(stakbot+Rcheat(x))
 #define setstak(x)	(staktop=absstak(x))
-#define pushstak(c)	(*staktop++=(c))
-#define zerostak()	(*staktop=0)
+#define pushstak(c)	(GROWSTAK(staktop), *staktop++=(c))
+#define zerostak()	(GROWSTAK(staktop), *staktop=0)
+
+/* Before storing at p in the stack: make sure the break covers it.
+ * Writing past the break used to be caught as SIGSEGV (fault()) and
+ * the break grown then; without an MMU nothing faults, and the next
+ * brk() zero-fills what was written.
+ */
+#define GROWSTAK(p)	((p) >= brkend ? growstak(p) : 0)
+extern int		growstak();
 
 /* Used to address an item left on the top of
  * the stack (very temporary)

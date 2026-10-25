@@ -1532,6 +1532,18 @@ scanc (size, str)
 }
 
 /*
+ * All ttys share NCLIST clist blocks - on small machines fewer characters
+ * than one fast tty's high-water mark - and input that finds the pool
+ * empty is dropped (ttyinput): e.g. one telnet session's typing while
+ * another streams output.  So a writer also waits, as above its
+ * high-water mark, once the pool is down to its last quarter, as long as
+ * it has output queued (draining that is what wakes it).
+ */
+extern int cfreecount;		/* free characters in the pool (tty_subr.c) */
+#define CLIST_LOW(tp) \
+    ((tp)->t_outq.c_cc > 0 && cfreecount < NCLIST * CBSIZE / 4)
+
+/*
  * Called from the device's write routine after it has
  * calculated the tty-structure given as argument.
  */
@@ -1593,7 +1605,7 @@ loop:
             uio->uio_resid = 0;
             return(0);
         }
-        if (tp->t_outq.c_cc > hiwat)
+        if (tp->t_outq.c_cc > hiwat || CLIST_LOW(tp))
             goto ovhiwat;
         /*
          * Grab a hunk of data from the user, unless we have some
@@ -1690,7 +1702,7 @@ ovhiwat:
      * This can only occur if FLUSHO is also set in t_flags,
      * or if ttstart/oproc is synchronous (or very fast).
      */
-    if (tp->t_outq.c_cc <= hiwat) {
+    if (tp->t_outq.c_cc <= hiwat && ! CLIST_LOW(tp)) {
         splx(s);
         goto loop;
     }

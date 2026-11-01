@@ -83,6 +83,21 @@ int exec_aout_check(struct exec_params *epp)
     epp->stack.vaddr = (caddr_t)__user_data_end - epp->stack.len;
 
     /*
+     * Check the image before giving up the old one: without an MMU,
+     * an entry point outside the loaded image (bit 0 is the ARM Thumb
+     * flag) or data and bss running into the stack would only show up
+     * as a jump into, or writes over, memory that is not the process's.
+     */
+    if ((epp->hdr.aout.a_entry & ~1) < (u_int)epp->data.vaddr ||
+        (epp->hdr.aout.a_entry & ~1) >=
+        (u_int)epp->data.vaddr + epp->data.len) {
+        printf("exec: entry %x outside the image\n", epp->hdr.aout.a_entry);
+        return ENOEXEC;
+    }
+    if (epp->heap.vaddr > epp->stack.vaddr)
+        return ENOMEM;
+
+    /*
      * Allocate core at this point, committed to the new image.
      * TODO: What to do for errors?
      */

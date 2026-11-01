@@ -85,7 +85,14 @@ int exec_check(struct exec_params *epp)
         if (execsw[i].es_check == NULL)
             continue;
         error = (*execsw[i].es_check)(epp);
-        if (error == 0)
+        /*
+         * ENOEXEC means "not my format": try the next.  Any other error
+         * comes from the handler that took the file (an a.out too big
+         * for memory, say), and must not be replaced by a later
+         * handler's ENOEXEC, which would make the shell run the binary
+         * as a script.
+         */
+        if (error != ENOEXEC)
             break;
     }
 
